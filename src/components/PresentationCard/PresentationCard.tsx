@@ -96,7 +96,7 @@ export default function PresentationCard({ imageUrl, name, subtitle, links }: Pr
           </div>
         </a>
 
-        <a className="mt-5 flex flex-row gap-x-5 p-2 px-5 pb-4 items-center border-2 border-teal-700 hover:bg-teal-800 transition duration-150 rounded-xl" href="/cv.pdf">
+        <a className="mt-5 flex flex-row gap-x-5 p-2 px-5 pb-4 items-center border-2 border-teal-700 hover:bg-teal-800 transition duration-150 rounded-xl" href="mailto:junior@carrillo.app">
           <FontAwesomeIcon icon={faEnvelope} size="xl" />
           <div className="text-start">
             <div className="text-sm md:text-lg font-bold text-white">Aquí puedes contactarme</div>
