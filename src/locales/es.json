@@ -5,6 +5,11 @@
       "portfolio": "Portafolio",
       "viewLess": "Ver menos",
       "loadMore": "Ver más",
+      "newsletter": {
+        "title": "Suscríbete al boletín",
+        "subtitle": "Resumen de Noticias",
+        "description": "El resumen del mejor contenido de la semana"
+      },
       "playStore": {
         "title": "Play Store",
         "description": "Página de desarrollador en Google Play"
@@ -32,6 +37,18 @@
       },
       "skills": "Skills & Features",
       "contributions": "Colaboro con",
+      "golangVE": {
+        "title": "Golang Venezuela",
+        "description": "Miembro fundado de la comunidad"
+      },
+      "reactjdAndNative": {
+        "title": "React.js & React Native",
+        "description": "Comunidad en español para LATAM"
+      },
+      "nodeES": {
+        "title": "Node.js en Español",
+        "description": "Comunidad hispana de Node.js"
+      },
       "header": {
         "subtitle": "Un programador crea",
         "texts": [

@@ -3,6 +3,52 @@
     "global": {
       "website": "carrillo.app",
       "portfolio": "Portfolio",
+      "viewLess": "View Less",
+      "loadMore": "View More",
+      "newsletter": {
+        "title": "Subscribe to the Newsletter",
+        "subtitle": "News Summary",
+        "description": "Summary of the best content from the week"
+      },
+      "playStore": {
+        "title": "Play Store",
+        "description": "Developer page on Google Play"
+      },
+      "appStore": {
+        "title": "App Store",
+        "description": "Developer page on App Store"
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Profile with README and GitHub repos"
+      },
+      "community": "Community",
+      "youtube": {
+        "title": "YouTube Channel",
+        "description": "New content every week and live streams"
+      },
+      "blog": {
+        "title": "Blog Articles",
+        "description": "Resources, guides, tutorials, and daily content"
+      },
+      "twitch": {
+        "title": "Twitch Channel",
+        "description": "Weekly hackathons, learn live"
+      },
+      "skills": "Skills & Features",
+      "contributions": "I collaborate with",
+      "golangVE": {
+        "title": "Golang Venezuela",
+        "description": "Founding member of the community"
+      },
+      "reactjdAndNative": {
+        "title": "React.js & React Native",
+        "description": "Spanish-speaking community for LATAM"
+      },
+      "nodeES": {
+        "title": "Node.js in Spanish",
+        "description": "Hispanic community of Node.js"
+      },
       "header": {
         "subtitle": "A programmer creates",
         "texts": [
@@ -44,7 +90,7 @@
         "cta": "Next live stream",
         "date": "Saturday, November 2, 2024, at 1:00 PM Colombia time"
       },
-      "aboutMeDescription": "I am a software engineer and currently work as a <strong>Freelancer Full-Stack Developer</strong> for iOS and Android with <strong>React Native</strong>. Additionally, <em>I create educational content about programming</em> on social media and do streams on my YouTube channel every week.",
+      "aboutMeDescription": "I am a software engineer currently working as a <strong>Freelance Full-Stack Developer</strong> for iOS and Android using <strong>React Native</strong>. Additionally, <em>I create educational content about programming</em> on social media and do streams on my YouTube channel every week.",
       "buttons": {
         "downloadCV": {
           "cta": "Download CV",

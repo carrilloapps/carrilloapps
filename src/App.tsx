@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import Portfolio from './components/segments/Portfolio';
 import Community from './components/segments/Community';
@@ -12,8 +11,6 @@ import ProfileCard from './components/segments/ProfileCard';
 import './i18n';
 
 export default function App() {
-  const { t, i18n: {changeLanguage, language} } = useTranslation();
-
   return (
     <div className="min-h-screen">
       <Header />

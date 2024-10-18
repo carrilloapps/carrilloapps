@@ -3,18 +3,64 @@
     "global": {
       "website": "carrillo.app",
       "portfolio": "Portfólio",
+      "viewLess": "Ver Menos",
+      "loadMore": "Ver Mais",
+      "newsletter": {
+        "title": "Inscreva-se na Newsletter",
+        "subtitle": "Resumo de Notícias",
+        "description": "Resumo do melhor conteúdo da semana"
+      },
+      "playStore": {
+        "title": "Play Store",
+        "description": "Página do desenvolvedor no Google Play"
+      },
+      "appStore": {
+        "title": "App Store",
+        "description": "Página do desenvolvedor na App Store"
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Perfil com README e repositórios do GitHub"
+      },
+      "community": "Comunidade",
+      "youtube": {
+        "title": "Canal do YouTube",
+        "description": "Conteúdo novo toda semana e transmissões ao vivo"
+      },
+      "blog": {
+        "title": "Artigos do Blog",
+        "description": "Recursos, guias, tutoriais e conteúdos diários"
+      },
+      "twitch": {
+        "title": "Canal do Twitch",
+        "description": "Hackathons semanais, aprenda ao vivo"
+      },
+      "skills": "Habilidades e Recursos",
+      "contributions": "Eu colaboro com",
+      "golangVE": {
+        "title": "Golang Venezuela",
+        "description": "Membro fundador da comunidade"
+      },
+      "reactjdAndNative": {
+        "title": "React.js e React Native",
+        "description": "Comunidade em espanhol para a LATAM"
+      },
+      "nodeES": {
+        "title": "Node.js em Espanhol",
+        "description": "Comunidade hispânica de Node.js"
+      },
       "header": {
         "subtitle": "Um programador cria",
         "texts": [
-          "Aplicações Móveis",
+          "Aplicativos Móveis",
           "Plataformas Web",
-          "Arquitetura em Nuvem",
+          "Arquitetura de Nuvem",
           "Microserviços",
-          "APIs & Backend",
+          "APIs e Backend",
           "Arquitetura de Dados",
-          "Teste de Unidade",
-          "Teste de Performance",
-          "Teste de Segurança"
+          "Testes de Unidade",
+          "Testes de Performance",
+          "Testes de Segurança"
         ],
         "menu": [
           "Início",
@@ -42,9 +88,9 @@
       "followers": "seguidores totais",
       "liveStream": {
         "cta": "Próxima transmissão ao vivo",
-        "date": "Sábado, 2 de novembro de 2024, às 13:00 horário da Colômbia"
+        "date": "Sábado, 2 de novembro de 2024, às 13:00, horário da Colômbia"
       },
-      "aboutMeDescription": "Sou engenheiro de software e atualmente trabalho como <strong>Desenvolvedor Full-Stack Freelancer</strong> para iOS e Android com <strong>React Native</strong>. Além disso, <em>crio conteúdo educativo sobre programação</em> nas redes sociais e faço transmissões no meu canal do YouTube toda semana.",
+      "aboutMeDescription": "Sou engenheiro de software e atualmente trabalho como <strong>Freelancer Full-Stack Developer</strong> para iOS e Android usando <strong>React Native</strong>. Além disso, <em>crio conteúdo educacional sobre programação</em> nas redes sociais e faço transmissões ao vivo no meu canal do YouTube toda semana.",
       "buttons": {
         "downloadCV": {
           "cta": "Baixar CV",
