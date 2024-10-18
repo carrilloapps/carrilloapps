@@ -3,6 +3,35 @@
     "global": {
       "website": "carrillo.app",
       "portfolio": "Portafolio",
+      "viewLess": "Ver menos",
+      "loadMore": "Ver más",
+      "playStore": {
+        "title": "Play Store",
+        "description": "Página de desarrollador en Google Play"
+      },
+      "appStore": {
+        "title": "App Store",
+        "description": "Página de desarrollador en App Store"
+      },
+      "github": {
+        "title": "GitHub",
+        "description": "Perfil con README y repos de GitHub"
+      },
+      "community": "Comunidad",
+      "youtube": {
+        "title": "Canal de YouTube",
+        "description": "Contenido nuevo cada semana y directos"
+      },
+      "blog": {
+        "title": "Artículos de Blog",
+        "description": "Recursos, guias, tutoriales y contenidos diarios"
+      },
+      "twitch": {
+        "title": "Canal de Twitch",
+        "description": "Hackatones semanales, aprende en vivo"
+      },
+      "skills": "Skills & Features",
+      "contributions": "Colaboro con",
       "header": {
         "subtitle": "Un programador crea",
         "texts": [

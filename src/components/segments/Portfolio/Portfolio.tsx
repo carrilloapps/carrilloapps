@@ -15,24 +15,24 @@ export default function Portfolio() {
         <a className="flex flex-col p-5 items-center bg-neutral-800 hover:bg-neutral-700 transition duration-150 rounded-xl" href="https://play.google.com/store/apps/dev?id=8943017062797876162">
           <FontAwesomeIcon icon={faGooglePlay} className="text-white h-10 w-auto" />
           <div className="mt-4 text-center">
-            <div className="text-sm md:text-lg font-bold text-white">Play Store</div>
-            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">Página de desarrollador en Google Play</div>
+            <div className="text-sm md:text-lg font-bold text-white">{t('global.playStore.title')}</div>
+            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">{t('global.playStore.description')}</div>
           </div>
         </a>
 
         <a className="flex flex-col p-5 items-center bg-neutral-800 hover:bg-neutral-700 transition duration-150 rounded-xl" href="https://play.google.com/store/apps/dev?id=8943017062797876162">
           <FontAwesomeIcon icon={faAppStore} className="text-white h-10 w-auto" />
           <div className="mt-4 text-center">
-            <div className="text-sm md:text-lg font-bold text-white">App Store</div>
-            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">Página de desarrollador en App Store</div>
+            <div className="text-sm md:text-lg font-bold text-white">{t('global.appStore.title')}</div>
+            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">{t('global.appStore.description')}</div>
           </div>
         </a>
 
         <a className="flex flex-col p-5 items-center bg-neutral-800 hover:bg-neutral-700 transition duration-150 rounded-xl" href="https://github.com/carrilloapps">
           <FontAwesomeIcon icon={faGithub} className="text-white h-10 w-auto" />
           <div className="mt-4 text-center">
-            <div className="text-sm md:text-lg font-bold text-white">GitHub</div>
-            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">Perfil con README y repos de GitHub</div>
+            <div className="text-sm md:text-lg font-bold text-white">{t('global.github.title')}</div>
+            <div className="hidden md:flex text-xs text-gray-400 text-ellipsis">{t('global.github.description')}</div>
           </div>
         </a>
       </div>

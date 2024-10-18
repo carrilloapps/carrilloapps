@@ -1,8 +1,11 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGolang, faReact, faNodeJs } from '@fortawesome/free-brands-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function Contributions() {
+  const { t } = useTranslation();
+  
   return (
     <div className="mb-5 flex flex-col gap-4 align-center min-w-[100%]">
       <h1 className="text-2xl font-bold text-white text-start">
