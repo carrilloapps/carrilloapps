@@ -1,0 +1,60 @@
+{
+  "translation": {
+    "global": {
+      "website": "carrillo.app",
+      "portfolio": "Portfólio",
+      "header": {
+        "subtitle": "Um programador cria",
+        "texts": [
+          "Aplicações Móveis",
+          "Plataformas Web",
+          "Arquitetura em Nuvem",
+          "Microserviços",
+          "APIs & Backend",
+          "Arquitetura de Dados",
+          "Teste de Unidade",
+          "Teste de Performance",
+          "Teste de Segurança"
+        ],
+        "menu": [
+          "Início",
+          "Serviços",
+          "Sobre Mim",
+          "Blog",
+          "Contato"
+        ]
+      }
+    },
+    "profile": {
+      "name": "José Carrillo",
+      "subtitle": "Engenheiro de Software Sênior",
+      "photoUrl": "https://avatars.githubusercontent.com/u/16759783?v=4",
+      "socialNetworks": {
+        "github": "https://github.com/carrilloapps",
+        "xTwitter": "https://x.com/carrilloapps",
+        "instagram": "https://instagram.com/carrillo.apps",
+        "facebook": "https://facebook.com/carrillo.apps",
+        "tiktok": "https://tiktok.com/@carrillo.apps",
+        "linkedin": "https://www.linkedin.com/in/carrilloapps"
+      },
+      "yearsOfExperience": "anos de experiência",
+      "projects": "projetos realizados",
+      "followers": "seguidores totais",
+      "liveStream": {
+        "cta": "Próxima transmissão ao vivo",
+        "date": "Sábado, 2 de novembro de 2024, às 13:00 horário da Colômbia"
+      },
+      "aboutMeDescription": "Sou engenheiro de software e atualmente trabalho como <strong>Desenvolvedor Full-Stack Freelancer</strong> para iOS e Android com <strong>React Native</strong>. Além disso, <em>crio conteúdo educativo sobre programação</em> nas redes sociais e faço transmissões no meu canal do YouTube toda semana.",
+      "buttons": {
+        "downloadCV": {
+          "cta": "Baixar CV",
+          "description": "Currículo Vitae atualizado"
+        },
+        "contact": {
+          "cta": "Aqui você pode me contatar",
+          "description": "Clique aqui ou escreva para mim em junior@carrillo.app"
+        }
+      }
+    }
+  }
+}

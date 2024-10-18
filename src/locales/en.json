@@ -1,0 +1,60 @@
+{
+  "translation": {
+    "global": {
+      "website": "carrillo.app",
+      "portfolio": "Portfolio",
+      "header": {
+        "subtitle": "A programmer creates",
+        "texts": [
+          "Mobile Applications",
+          "Web Platforms",
+          "Cloud Architecture",
+          "Microservices",
+          "APIs & Backend",
+          "Data Architecture",
+          "Unit Testing",
+          "Performance Testing",
+          "Security Testing"
+        ],
+        "menu": [
+          "Home",
+          "Services",
+          "About Me",
+          "Blog",
+          "Contact"
+        ]
+      }
+    },
+    "profile": {
+      "name": "José Carrillo",
+      "subtitle": "Senior Software Engineer",
+      "photoUrl": "https://avatars.githubusercontent.com/u/16759783?v=4",
+      "socialNetworks": {
+        "github": "https://github.com/carrilloapps",
+        "xTwitter": "https://x.com/carrilloapps",
+        "instagram": "https://instagram.com/carrillo.apps",
+        "facebook": "https://facebook.com/carrillo.apps",
+        "tiktok": "https://tiktok.com/@carrillo.apps",
+        "linkedin": "https://www.linkedin.com/in/carrilloapps"
+      },
+      "yearsOfExperience": "years of experience",
+      "projects": "completed projects",
+      "followers": "total followers",
+      "liveStream": {
+        "cta": "Next live stream",
+        "date": "Saturday, November 2, 2024, at 1:00 PM Colombia time"
+      },
+      "aboutMeDescription": "I am a software engineer and currently work as a <strong>Freelancer Full-Stack Developer</strong> for iOS and Android with <strong>React Native</strong>. Additionally, <em>I create educational content about programming</em> on social media and do streams on my YouTube channel every week.",
+      "buttons": {
+        "downloadCV": {
+          "cta": "Download CV",
+          "description": "Updated Curriculum Vitae"
+        },
+        "contact": {
+          "cta": "Here you can contact me",
+          "description": "Click here or write to me at junior@carrillo.app"
+        }
+      }
+    }
+  }
+}
