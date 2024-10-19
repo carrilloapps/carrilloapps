@@ -19,7 +19,7 @@ export default function SkillsAndFeatures() {
       <div className="mt-2 grid grid-cols-6 sm:grid-cols-4 md:grid-cols-8 gap-4 transition-opacity duration-500">
         {technologies.slice(0, visibleRows * 4).map((it, i) => (
           <div key={i} className="flex justify-center items-center bg-white p-2 rounded-xl transform transition-transform duration-300 hover:scale-105">
-            <img src={it.imageUrl} alt={it.alt} className="h-auto w-full transition duration-300" />
+            <img src={it.imageUrl} alt={it.alt} width={20} height={20} className="h-auto w-full transition duration-300" />
           </div>
         ))}
       </div>

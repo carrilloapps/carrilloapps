@@ -26,6 +26,7 @@ export default function Header({ simple }: Props) {
   const handleLanguageChange = (lang: string) => {
     changeLanguage(lang);
     setLanguageMenuOpen(false);
+    setMenuOpen(false);
   };
 
   const flags: { [key: string]: string } = {
@@ -35,7 +36,7 @@ export default function Header({ simple }: Props) {
   };
 
   return (
-    <div>
+    <header>
       <div className="min-w-full text-center sticky top-0 backdrop-filter backdrop-blur-lg bg-opacity-30 bg-black">
         <p className="text-white p-2 font-light text-ellipsis">
           {subtitle}{' '}
@@ -48,10 +49,10 @@ export default function Header({ simple }: Props) {
         <div className="container mx-auto flex justify-between items-center pt-4 pb-6 px-2">
           <Logo />
           {simple ? null : (
-            <React.Fragment>
+            <>
               <nav className="hidden md:flex space-x-6">
                 {menu.map((item: string, idx: number) => (
-                  <a key={idx} href="#" className="mt-2.5 text-gray-300 hover:text-white">
+                  <a key={idx} href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} className="mt-2.5 text-gray-300 hover:text-white">
                     {item}
                   </a>
                 ))}
@@ -60,11 +61,12 @@ export default function Header({ simple }: Props) {
                     <button
                       type="button"
                       onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                      className="mt-1 inline-flex justify-center w-full rounded-md border border-orange-200 shadow-sm px-4 py-2 bg-[#252525] text-sm font-medium text-gray-300 hover:bg-stone-600 focus:outline-none"
+                      className="mt-1 inline-flex justify-center w-full rounded-md border border-orange-200 shadow-sm px-4 py-2 bg-[#252525] text-sm font-medium text-gray-300 hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                       aria-haspopup="true"
-                      aria-expanded="true"
+                      aria-expanded={languageMenuOpen}
+                      aria-label="Language selection"
                     >
-                      <img src={flags[language]} alt={language} className="h-5 w-5 mr-2" />
+                      <img src={flags[language]} alt={`${language} flag`} className="h-5 w-5 mr-2" />
                       <svg className="-mr-1 ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
@@ -74,15 +76,15 @@ export default function Header({ simple }: Props) {
                     <div className="absolute right-0 z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                       <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <button onClick={() => handleLanguageChange('es')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          <img src={FlagES} alt="Español" className="h-5 w-5 mr-2" />
+                          <img src={FlagES} alt="Español flag" className="h-5 w-5 mr-2" />
                           Español
                         </button>
                         <button onClick={() => handleLanguageChange('en')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          <img src={FlagUS} alt="English" className="h-5 w-5 mr-2" />
+                          <img src={FlagUS} alt="English flag" className="h-5 w-5 mr-2" />
                           English
                         </button>
                         <button onClick={() => handleLanguageChange('pt')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          <img src={FlagBR} alt="Português" className="h-5 w-5 mr-2" />
+                          <img src={FlagBR} alt="Português flag" className="h-5 w-5 mr-2" />
                           Português
                         </button>
                       </div>
@@ -91,8 +93,9 @@ export default function Header({ simple }: Props) {
                 </div>
               </nav>
               <button
-                className="md:hidden text-gray-300 hover:text-white transition duration-150"
+                className="md:hidden text-gray-300 hover:text-white transition duration-150 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Toggle menu"
               >
                 {menuOpen ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,11 +107,11 @@ export default function Header({ simple }: Props) {
                   </svg>
                 )}
               </button>
-            </React.Fragment>
+            </>
           )}
         </div>
         {simple ? null : (
-          <React.Fragment>
+          <>
             {menuOpen && (
               <nav className="md:hidden bg-[#252525] text-white transition duration-150">
                 <div className="flex justify-center gap-4 p-2">
@@ -117,33 +120,33 @@ export default function Header({ simple }: Props) {
                     className={`flex items-center ${language === 'es' ? 'grayscale-0' : 'grayscale'}`}
                     aria-label="Español"
                   >
-                    <img src={FlagES} alt="Español" className="h-8 w-8" />
+                    <img src={FlagES} alt="Español flag" className="h-8 w-8" />
                   </button>
                   <button
                     onClick={() => handleLanguageChange('en')}
                     className={`flex items-center ${language === 'en' ? 'grayscale-0' : 'grayscale'}`}
                     aria-label="English"
                   >
-                    <img src={FlagUS} alt="English" className="h-8 w-8" />
+                    <img src={FlagUS} alt="English flag" className="h-8 w-8" />
                   </button>
                   <button
                     onClick={() => handleLanguageChange('pt')}
                     className={`flex items-center ${language === 'pt' ? 'grayscale-0' : 'grayscale'}`}
                     aria-label="Português"
                   >
-                    <img src={FlagBR} alt="Português" className="h-8 w-8" />
+                    <img src={FlagBR} alt="Português flag" className="h-8 w-8" />
                   </button>
                 </div>
                 {menu.map((item: string, idx: number) => (
-                  <a key={idx} href="#" className="block px-4 py-2 text-sm hover:bg-gray-600">
+                  <a key={idx} href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} className="block px-4 py-2 text-sm hover:bg-gray-600">
                     {item}
                   </a>
                 ))}
               </nav>
             )}
-          </React.Fragment>
+          </>
         )}
       </div>
-    </div>
+    </header>
   );
 }
