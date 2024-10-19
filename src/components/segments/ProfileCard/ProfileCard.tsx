@@ -8,7 +8,7 @@ export default function ProfileCard() {
   const { t } = useTranslation();
 
   return (
-    <div className="rounded-lg mb-10 w-120 text-center flex flex-col items-center text-gray-100 max-w-[520px]">
+    <div className="rounded-lg mb-10 w-120 text-center flex flex-col items-center text-gray-100 max-w-[500px]">
       <div className="mb-5 flex flex-row gap-4 align-center min-w-[100%]">
         <img src={t('profile.photoUrl')} alt="Avatar" className="border-4 border-orange-200 rounded-full w-24 h-24 bg-indigo-50" />
         <div className="flex flex-col items-start">
@@ -36,7 +36,7 @@ export default function ProfileCard() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row gap-5 text-sm justify-between items-stretch">
+      <div className="flex flex-row gap-5 text-xs justify-between items-stretch min-w-[100%]">
         <div className="flex flex-col md:flex-row md:gap-1">
           <strong className="text-orange-200">9+</strong> {t('profile.yearsOfExperience')}
         </div>

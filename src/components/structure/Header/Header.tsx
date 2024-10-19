@@ -26,6 +26,7 @@ export default function Header({ simple }: Props) {
   const handleLanguageChange = (lang: string) => {
     changeLanguage(lang);
     setLanguageMenuOpen(false);
+    setMenuOpen(false);
   };
 
   const flags: { [key: string]: string } = {

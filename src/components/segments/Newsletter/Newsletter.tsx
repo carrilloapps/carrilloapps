@@ -7,7 +7,7 @@ export default function Newsletter() {
   const { t } = useTranslation();
 
   return (
-    <div className="mb-5 flex flex-col gap-4 align-center min-w-[100%]">
+    <div className="flex flex-col gap-4 align-center min-w-[100%]">
       <h1 className="text-2xl font-bold text-white text-start">
         {t('global.newsletter.title')}
       </h1>
