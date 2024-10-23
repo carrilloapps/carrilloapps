@@ -1,14 +1,15 @@
 import React from 'react';
 
-import Portfolio from './components/segments/Portfolio';
-import Community from './components/segments/Community';
-import SkillsAndFeatures from './components/segments/SkillsAndFeatures';
-import Contributions from './components/segments/Contributions';
-import Newsletter from './components/segments/Newsletter';
-import Footer from './components/structure/Footer';
-import Header from './components/structure/Header';
-import ProfileCard from './components/segments/ProfileCard';
 import './i18n';
+
+const Portfolio = React.lazy(() => import('./components/segments/Portfolio'));
+const Community = React.lazy(() => import('./components/segments/Community'));
+const SkillsAndFeatures = React.lazy(() => import('./components/segments/SkillsAndFeatures'));
+const Contributions = React.lazy(() => import('./components/segments/Contributions'));
+const Newsletter = React.lazy(() => import('./components/segments/Newsletter'));
+const Footer = React.lazy(() => import('./components/structure/Footer'));
+const Header = React.lazy(() => import('./components/structure/Header'));
+const ProfileCard = React.lazy(() => import('./components/segments/ProfileCard'));
 
 export default function App() {
   return (
