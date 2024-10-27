@@ -1,15 +1,21 @@
-import React from 'react';
+import React from "react";
 
-import './i18n';
+import "./i18n";
 
-const Portfolio = React.lazy(() => import('./components/segments/Portfolio'));
-const Community = React.lazy(() => import('./components/segments/Community'));
-const SkillsAndFeatures = React.lazy(() => import('./components/segments/SkillsAndFeatures'));
-const Contributions = React.lazy(() => import('./components/segments/Contributions'));
-const Newsletter = React.lazy(() => import('./components/segments/Newsletter'));
-const Footer = React.lazy(() => import('./components/structure/Footer'));
-const Header = React.lazy(() => import('./components/structure/Header'));
-const ProfileCard = React.lazy(() => import('./components/segments/ProfileCard'));
+const Portfolio = React.lazy(() => import("./components/segments/Portfolio"));
+const Community = React.lazy(() => import("./components/segments/Community"));
+const SkillsAndFeatures = React.lazy(
+  () => import("./components/segments/SkillsAndFeatures"),
+);
+const Contributions = React.lazy(
+  () => import("./components/segments/Contributions"),
+);
+const Newsletter = React.lazy(() => import("./components/segments/Newsletter"));
+const Footer = React.lazy(() => import("./components/structure/Footer"));
+const Header = React.lazy(() => import("./components/structure/Header"));
+const ProfileCard = React.lazy(
+  () => import("./components/segments/ProfileCard"),
+);
 
 export default function App() {
   return (
@@ -26,6 +32,6 @@ export default function App() {
         </div>
         <Footer />
       </div>
-    </div >
+    </div>
   );
 }

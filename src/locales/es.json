@@ -62,13 +62,7 @@
           "Pruebas de Performance",
           "Pruebas de Seguridad"
         ],
-        "menu": [
-          "Inicio",
-          "Servicios",
-          "Sobre mi",
-          "Blog",
-          "Contacto"
-        ]
+        "menu": ["Inicio", "Servicios", "Sobre mi", "Blog", "Contacto"]
       }
     },
     "profile": {
@@ -87,8 +81,11 @@
       "projects": "proyectos realizados",
       "followers": "seguidores totales",
       "liveStream": {
-        "cta": "Próxima transmisión en vivo",
-        "date": "Sábado 2 de noviembre del 2024, a las 13:00 hora de Colombia"
+        "cta": "Próximo stream en directo",
+        "date": "Fecha",
+        "inactive": "No hay streams programados",
+        "lastStream": "Último stream",
+        "noStreamHistory": "No hay historial de streams"
       },
       "aboutMeDescription": "Soy ingeniero de software y actualmente trabajo como <strong>Freelancer Full-Stack Developer</strong> para iOS y Android con <strong>React Native</strong>. Además, <em>creo contenido formativo sobre programación</em> en redes sociales y hago Streams en mi canal de YouTube cada semana.",
       "buttons": {
