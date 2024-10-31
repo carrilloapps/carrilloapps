@@ -1,4 +1,4 @@
-<h1 align="center">Hi 👋, I'm José Carrillo</h1>
+<h1 align="center">Hi 👋, I'm Junior (José) Carrillo</h1>
 <h3 align="center">A passionate senior fullstack developer (Go/React)</h3>
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=carrilloapps&label=Visits%20to%20this%20profile&color=0e75b6&style=flat" alt="José Carrillo" /> </p>
