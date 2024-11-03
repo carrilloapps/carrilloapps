@@ -66,7 +66,7 @@
       }
     },
     "profile": {
-      "name": "José Carrillo",
+      "name": "Junior Carrillo",
       "subtitle": "Senior Software Engineering",
       "photoUrl": "https://graph.facebook.com/carrillo.apps/picture?width=96&height=96",
       "socialNetworks": {
@@ -77,6 +77,13 @@
         "tiktok": "https://tiktok.com/@carrillo.apps",
         "linkedin": "https://www.linkedin.com/in/carrilloapps"
       },
+      "visitMe": "Visita mi sitio Web",
+      "website": {
+        "url": "https://www.juniorcarrillo.com",
+        "cta": "Visita mi sitio web aquí",
+        "description": "Encuentra más información sobre mí"
+      },
+      "youtubeChannel": "Canal de YouTube de Junior Carrillo",
       "yearsOfExperience": "años de experiencia",
       "projects": "proyectos realizados",
       "followers": "seguidores totales",

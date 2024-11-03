@@ -40,7 +40,7 @@ export default function Header({ simple }: Props) {
       <div className="min-w-full text-center sticky top-0 backdrop-filter backdrop-blur-lg bg-opacity-30 bg-black">
         <p className="text-white p-2 font-light text-ellipsis">
           {subtitle}{' '}
-          <TextTransition className="text-orange-200 font-bold" inline springConfig={presets.slow}>
+          <TextTransition className="text-blue-400 font-bold" inline springConfig={presets.slow}>
             {texts[index % texts.length]}
           </TextTransition>
         </p>
@@ -61,7 +61,7 @@ export default function Header({ simple }: Props) {
                     <button
                       type="button"
                       onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                      className="mt-1 inline-flex justify-center w-full rounded-md border border-orange-200 shadow-sm px-4 py-2 bg-[#252525] text-sm font-medium text-gray-300 hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                      className="mt-1 inline-flex justify-center w-full rounded-md border border-stone-700 shadow-sm px-4 py-2 bg-[#252525] text-sm font-medium text-gray-300 hover:bg-stone-600 focus:outline-none"
                       aria-haspopup="true"
                       aria-expanded={languageMenuOpen}
                       aria-label="Language selection"
@@ -73,17 +73,17 @@ export default function Header({ simple }: Props) {
                     </button>
                   </div>
                   {languageMenuOpen && (
-                    <div className="absolute right-0 z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div className="absolute right-0 z-10 mt-2 w-48 rounded-md shadow-lg bg-stone-800 ring-1 ring-black ring-opacity-5 text-white">
                       <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <button onClick={() => handleLanguageChange('es')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <button onClick={() => handleLanguageChange('es')} className="flex items-center w-full px-4 py-2 text-sm hover:bg-stone-900">
                           <img src={FlagES} alt="Español flag" className="h-5 w-5 mr-2" />
                           Español
                         </button>
-                        <button onClick={() => handleLanguageChange('en')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <button onClick={() => handleLanguageChange('en')} className="flex items-center w-full px-4 py-2 text-sm hover:bg-stone-900">
                           <img src={FlagUS} alt="English flag" className="h-5 w-5 mr-2" />
                           English
                         </button>
-                        <button onClick={() => handleLanguageChange('pt')} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <button onClick={() => handleLanguageChange('pt')} className="flex items-center w-full px-4 py-2 text-sm hover:bg-stone-900">
                           <img src={FlagBR} alt="Português flag" className="h-5 w-5 mr-2" />
                           Português
                         </button>
@@ -93,7 +93,7 @@ export default function Header({ simple }: Props) {
                 </div>
               </nav>
               <button
-                className="md:hidden text-gray-300 hover:text-white transition duration-150 focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="md:hidden text-gray-300 hover:text-white transition duration-150"
                 onClick={() => setMenuOpen(!menuOpen)}
                 aria-label="Toggle menu"
               >
