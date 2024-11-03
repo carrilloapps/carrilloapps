@@ -3,12 +3,12 @@
     "global": {
       "website": "carrillo.app",
       "portfolio": "Portfólio",
-      "viewLess": "Ver Menos",
-      "loadMore": "Ver Mais",
+      "viewLess": "Ver menos",
+      "loadMore": "Ver mais",
       "newsletter": {
-        "title": "Inscreva-se na Newsletter",
+        "title": "Inscreva-se na newsletter",
         "subtitle": "Resumo de Notícias",
-        "description": "Resumo do melhor conteúdo da semana"
+        "description": "O melhor conteúdo resumido da semana"
       },
       "playStore": {
         "title": "Play Store",
@@ -20,30 +20,30 @@
       },
       "github": {
         "title": "GitHub",
-        "description": "Perfil com README e repositórios do GitHub"
+        "description": "Perfil com README e repositórios no GitHub"
       },
       "community": "Comunidade",
       "youtube": {
-        "title": "Canal do YouTube",
-        "description": "Conteúdo novo toda semana e transmissões ao vivo"
+        "title": "Canal no YouTube",
+        "description": "Novo conteúdo toda semana e transmissões ao vivo"
       },
       "blog": {
         "title": "Artigos do Blog",
         "description": "Recursos, guias, tutoriais e conteúdos diários"
       },
       "twitch": {
-        "title": "Canal do Twitch",
+        "title": "Canal no Twitch",
         "description": "Hackathons semanais, aprenda ao vivo"
       },
       "skills": "Habilidades e Recursos",
-      "contributions": "Eu colaboro com",
+      "contributions": "Colaboro com",
       "golangVE": {
         "title": "Golang Venezuela",
         "description": "Membro fundador da comunidade"
       },
       "reactjdAndNative": {
-        "title": "React.js e React Native",
-        "description": "Comunidade em espanhol para a LATAM"
+        "title": "React.js & React Native",
+        "description": "Comunidade em espanhol para a América Latina"
       },
       "nodeES": {
         "title": "Node.js em Espanhol",
@@ -54,25 +54,19 @@
         "texts": [
           "Aplicativos Móveis",
           "Plataformas Web",
-          "Arquitetura de Nuvem",
+          "Arquitetura Cloud",
           "Microserviços",
-          "APIs e Backend",
+          "APIs & Backend",
           "Arquitetura de Dados",
-          "Testes de Unidade",
+          "Testes Unitários",
           "Testes de Performance",
           "Testes de Segurança"
         ],
-        "menu": [
-          "Início",
-          "Serviços",
-          "Sobre Mim",
-          "Blog",
-          "Contato"
-        ]
+        "menu": ["Início", "Serviços", "Sobre Mim", "Blog", "Contato"]
       }
     },
     "profile": {
-      "name": "José Carrillo",
+      "name": "Junior Carrillo",
       "subtitle": "Engenheiro de Software Sênior",
       "photoUrl": "https://graph.facebook.com/carrillo.apps/picture?width=96&height=96",
       "socialNetworks": {
@@ -83,22 +77,32 @@
         "tiktok": "https://tiktok.com/@carrillo.apps",
         "linkedin": "https://www.linkedin.com/in/carrilloapps"
       },
+      "visitMe": "Visite meu site",
+      "website": {
+        "url": "https://www.juniorcarrillo.com",
+        "cta": "Visite meu site aqui",
+        "description": "Encontre mais informações sobre mim"
+      },
+      "youtubeChannel": "Canal no YouTube de Junior Carrillo",
       "yearsOfExperience": "anos de experiência",
-      "projects": "projetos realizados",
+      "projects": "projetos concluídos",
       "followers": "seguidores totais",
       "liveStream": {
         "cta": "Próxima transmissão ao vivo",
-        "date": "Sábado, 2 de novembro de 2024, às 13:00, horário da Colômbia"
+        "date": "Data",
+        "inactive": "Nenhuma transmissão programada",
+        "lastStream": "Última transmissão",
+        "noStreamHistory": "Sem histórico de transmissões"
       },
-      "aboutMeDescription": "Sou engenheiro de software e atualmente trabalho como <strong>Freelancer Full-Stack Developer</strong> para iOS e Android usando <strong>React Native</strong>. Além disso, <em>crio conteúdo educacional sobre programação</em> nas redes sociais e faço transmissões ao vivo no meu canal do YouTube toda semana.",
+      "aboutMeDescription": "Sou engenheiro de software e atualmente trabalho como <strong>Freelancer Full-Stack Developer</strong> para iOS e Android com <strong>React Native</strong>. Além disso, <em>crio conteúdo educacional sobre programação</em> nas redes sociais e faço transmissões ao vivo no meu canal do YouTube toda semana.",
       "buttons": {
         "downloadCV": {
           "cta": "Baixar CV",
-          "description": "Currículo Vitae atualizado"
+          "description": "Currículo atualizado"
         },
         "contact": {
-          "cta": "Aqui você pode me contatar",
-          "description": "Clique aqui ou escreva para mim em junior@carrillo.app"
+          "cta": "Você pode me contatar aqui",
+          "description": "Clique aqui ou envie um e-mail para junior@carrillo.app"
         }
       }
     }

@@ -3,12 +3,12 @@
     "global": {
       "website": "carrillo.app",
       "portfolio": "Portfolio",
-      "viewLess": "View Less",
-      "loadMore": "View More",
+      "viewLess": "View less",
+      "loadMore": "Load more",
       "newsletter": {
-        "title": "Subscribe to the Newsletter",
+        "title": "Subscribe to the newsletter",
         "subtitle": "News Summary",
-        "description": "Summary of the best content from the week"
+        "description": "The best content summary of the week"
       },
       "playStore": {
         "title": "Play Store",
@@ -47,7 +47,7 @@
       },
       "nodeES": {
         "title": "Node.js in Spanish",
-        "description": "Hispanic community of Node.js"
+        "description": "Hispanic Node.js community"
       },
       "header": {
         "subtitle": "A programmer creates",
@@ -62,17 +62,11 @@
           "Performance Testing",
           "Security Testing"
         ],
-        "menu": [
-          "Home",
-          "Services",
-          "About Me",
-          "Blog",
-          "Contact"
-        ]
+        "menu": ["Home", "Services", "About Me", "Blog", "Contact"]
       }
     },
     "profile": {
-      "name": "José Carrillo",
+      "name": "Junior Carrillo",
       "subtitle": "Senior Software Engineering",
       "photoUrl": "https://graph.facebook.com/carrillo.apps/picture?width=96&height=96",
       "socialNetworks": {
@@ -83,22 +77,32 @@
         "tiktok": "https://tiktok.com/@carrillo.apps",
         "linkedin": "https://www.linkedin.com/in/carrilloapps"
       },
+      "visitMe": "Visit my website",
+      "website": {
+        "url": "https://www.juniorcarrillo.com",
+        "cta": "Visit my website here",
+        "description": "Find more information about me"
+      },
+      "youtubeChannel": "Junior Carrillo YouTube Channel",
       "yearsOfExperience": "years of experience",
-      "projects": "completed projects",
+      "projects": "projects completed",
       "followers": "total followers",
       "liveStream": {
         "cta": "Next live stream",
-        "date": "Saturday, November 2, 2024, at 1:00 PM Colombia time"
+        "date": "Date",
+        "inactive": "No streams scheduled",
+        "lastStream": "Last stream",
+        "noStreamHistory": "No stream history"
       },
-      "aboutMeDescription": "I am a software engineer currently working as a <strong>Freelance Full-Stack Developer</strong> for iOS and Android using <strong>React Native</strong>. Additionally, <em>I create educational content about programming</em> on social media and do streams on my YouTube channel every week.",
+      "aboutMeDescription": "I am a software engineer currently working as a <strong>Freelancer Full-Stack Developer</strong> for iOS and Android with <strong>React Native</strong>. Additionally, I <em>create educational content about programming</em> on social media and stream on my YouTube channel every week.",
       "buttons": {
         "downloadCV": {
           "cta": "Download CV",
           "description": "Updated Curriculum Vitae"
         },
         "contact": {
-          "cta": "Here you can contact me",
-          "description": "Click here or write to me at junior@carrillo.app"
+          "cta": "You can contact me here",
+          "description": "Click here or email me at junior@carrillo.app"
         }
       }
     }
