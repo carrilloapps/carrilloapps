@@ -7,7 +7,7 @@
     "location": "Medellín, CO",
     "url": {
       "label": "",
-      "href": "https://www.juniorcarrillo.com"
+      "href": "https://carrillo.app"
     },
     "customFields": [
       {
@@ -42,7 +42,7 @@
       "separateLinks": true,
       "visible": true,
       "id": "summary",
-      "content": "<p>Hola, me conocen como <strong>Junior Carrillo</strong>, actualmente soy <em>Senior Software Engineering III</em>. Hoy, con el cargo de<strong> Dev Lead </strong>en una <em>consultora chilena</em> con la cual <em>tengo un contrato indefinido por prestación de servicios</em> en proyectos como developer y líder Full Stack &amp; Mobile.</p>"
+      "content": "<p>Hola, me conocen como <strong>Junior Carrillo</strong>, actualmente soy <em>Senior Software Engineering III</em>. Hoy, con el cargo de<strong> Tech Lead </strong>en <em>Yummy Inc.</em> una startup norteamericana de origen venezolana con la cual me desempeñó como <em>contractor</em> del equipo de Payments &amp; Financial Backoffice.</p>"
     },
     "awards": {
       "name": "Awards",
@@ -128,12 +128,25 @@
       "id": "experience",
       "items": [
         {
+          "id": "nngpvkgpxts2n8r2lze1i6oo",
+          "visible": true,
+          "company": "Yummy Inc.",
+          "position": "Tech Lead",
+          "location": "Remoto",
+          "date": "Octubre de 2024 - Actualmente",
+          "summary": "<p><em>Tech Lead de Payments &amp; Financial Backoffice</em> equipo horizontal de todas las verticales o Business Unit en Yummy Inc., desarrollando en <strong>Go</strong>,<strong> C#</strong>,<strong> Python</strong> y <strong>TypeScript</strong>. <strong>React</strong> como Front End y nubes como <strong>AWS</strong>,<strong> GCP</strong> y <strong>Azure</strong>, con <strong>Docker </strong>y <strong>Kubernets </strong>haciendo uso de <strong>GitHub Actions</strong> y, <strong>Postgresql</strong>,<strong> SQL Server</strong> y <strong>MongoDB </strong>como persistencia. Liderando un equipo de 12 integrantes entre <strong>Dev</strong>, <strong>QA</strong>, <strong>UI/UX</strong> y <strong>DevOps</strong>.</p>",
+          "url": {
+            "label": "",
+            "href": "https://www.yummysuperapp.com"
+          }
+        },
+        {
           "id": "ici70xvi14nacd8s8k52zvg5",
           "visible": true,
           "company": "Acid Labs S.p.A.",
           "position": "Senior Software Engineering III",
           "location": "Remoto",
-          "date": "Agosto de 2021 - Febrero de 2023 | Marzo de 2023 - Presente",
+          "date": "Agosto de 2021 - Febrero de 2023 | Marzo de 2023 - Octubre de 2024",
           "summary": "<p><em>Desarrollador Senior Full Stack</em> como asesor especializado en el uso de <strong>SCRUM</strong>, <strong>Go</strong>, <strong>SOAP</strong>, <strong>Java</strong>, <strong>Kotlin</strong>, <strong>Swift</strong>, <strong>TypeScript</strong>, <strong>Azure</strong>, <strong>AWS</strong>, <strong>Google Cloud, Google Play Store, App Store</strong>, <strong>GitLab</strong>, <strong>GitHub</strong>, <strong>Kubernetes</strong>, <strong>Docker</strong>, <strong>GraphQL</strong>, <strong>RabbitMQ</strong>, <strong>Apache Kafka</strong>, <strong>React Native</strong>, <strong>React</strong>, <strong>Redis</strong>, <strong>Terraform</strong>, <strong>Firebase </strong>y <strong>Nestjs </strong>en varios proyectos destacando los de <strong>eCommerce</strong>, <strong>Fintech </strong>y <strong>Banking </strong>en Chile, Argentina, Uruguay y Perú</p>",
           "url": {
             "label": "",
@@ -151,19 +164,6 @@
           "url": {
             "label": "",
             "href": "https://wompi.com"
-          }
-        },
-        {
-          "id": "nngpvkgpxts2n8r2lze1i6oo",
-          "visible": true,
-          "company": "iCOMM Solutions S.A.S.",
-          "position": "Full Stack (Go/React)",
-          "location": "Remoto",
-          "date": "Enero de 2020 - Agosto de 2021",
-          "summary": "<p><em>Desarrollador Semi-Senior Full Stack</em> en la célula de operaciones, desarrollando en <strong>Go </strong>y <strong>React</strong> varios proyectos de asistencia de telemedicina usando <strong>Socket.IO</strong> y <strong>OpenVidu </strong>en <strong>AWS</strong>, con <strong>Docker </strong>y <strong>Kubernets </strong>haciendo uso de <strong>GitHub Actions</strong> y <strong>Postgresql </strong>como persistencia.</p>",
-          "url": {
-            "label": "",
-            "href": "https://i-comm.co/"
           }
         }
       ]
@@ -240,33 +240,33 @@
           "id": "nztcpronpxyy7oajmfguyc4x",
           "visible": true,
           "network": "LinkedIn",
-          "username": "SoyJrCarrillo",
+          "username": "CarrilloApps",
           "icon": "linkedin",
           "url": {
             "label": "",
-            "href": "https://www.linkedin.com/in/soyjrcarrillo/"
+            "href": "https://www.linkedin.com/in/carrilloapps/"
           }
         },
         {
           "id": "eeh8k5bbaw0knbmi33hvcxoh",
           "visible": true,
           "network": "GitHub",
-          "username": "JuniorCarrillo",
+          "username": "CarrilloApps",
           "icon": "github",
           "url": {
             "label": "",
-            "href": "https://github.com/JuniorCarrillo"
+            "href": "https://github.com/carrilloapps"
           }
         },
         {
           "id": "ml1wi3sca5bglxn8ia7bimwq",
           "visible": true,
           "network": "Facebook",
-          "username": "SoyJrCarrillo",
+          "username": "Carrillo.Apps",
           "icon": "facebook",
           "url": {
             "label": "",
-            "href": "https://www.facebook.com/SoyJrCarrillo/"
+            "href": "https://www.facebook.com/carrillo.apps/"
           }
         }
       ]
