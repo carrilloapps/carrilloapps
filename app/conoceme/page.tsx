@@ -31,41 +31,77 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
+  const metrics = [
+    {
+      icon: '/placeholder.svg',
+      value: '+10',
+      description: 'Años de experiencia',
+    },
+    {
+      icon: '/placeholder.svg',
+      value: '~3.000',
+      description: "Commit's al año",
+    },
+    {
+      icon: '/placeholder.svg',
+      value: '+450',
+      description: "Repo's soportados",
+    },
+  ];
+
+
   return (
     <div className="container py-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center">Conoce más de mí</h1>
 
-        <div className="mb-12">
-          <Image
-            src="/placeholder.svg"
-            alt="DevPlatform Team"
-            width={800}
-            height={400}
-            className="rounded-lg object-cover w-full"
-          />
+        <div
+          className="flex flex-col md:flex-row items-center rounded-2xl shadow-lg">
+          <div className="flex-shrink-0">
+            <Image
+              src="/placeholder.svg"
+              alt="José Carrillo"
+              className="rounded-full w-32 h-32 md:w-40 md:h-40 object-cover"
+              width={800}
+              height={400}
+            />
+          </div>
+
+          <div className="md:ml-8 text-center md:text-left mt-6 md:mt-0">
+            <h1 className="text-2xl md:text-3xl font-bold">Hola, soy Junior Carrillo</h1>
+            <p className="mt-4">
+              Tengo 28 años y desde muy temprana edad entendí lo fácil que me resultaba el
+              entendimiento de los sistemas, telecomunicaciones y electrónica. Vivo en Medellín
+              (Colombia) desde 2019 y en los últimos años he trabajado desde Developer hasta
+              mi actual cargo de Developer Lead.
+            </p>
+            <button
+              className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Descargar CV
+            </button>
+          </div>
         </div>
 
-        <div className="prose dark:prose-invert max-w-none mb-12">
-          <p>
-            DevPlatform was founded in 2024 with a simple mission: to make software development more efficient, collaborative, and enjoyable for developers around the world.
-          </p>
-          <p>
-            Our team of passionate developers and designers work tirelessly to create tools and services that streamline the development process, foster collaboration, and help teams deliver high-quality software faster.
-          </p>
-          <p>
-            We believe in the power of open source and community-driven development. That's why we actively contribute to open source projects and provide resources for developers to learn and grow.
-          </p>
-        </div>
-
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Join Our Team</h2>
-          <p className="text-muted-foreground mb-6">
-            We're always looking for talented individuals to join our mission. Check out our open positions and become part of the DevPlatform family.
-          </p>
-          <Button asChild>
-            <a href="/careers">View Open Positions</a>
-          </Button>
+        <div className="pt-12 pb-24">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+              {metrics.map((metric, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <div className="w-16 h-16 mb-4">
+                    <Image
+                      src={metric.icon}
+                      alt={metric.description}
+                      width={64}
+                      height={64}
+                      className="object-contain"
+                    />
+                  </div>
+                  <h3 className="text-2xl font-bold text-blue-600">{metric.value}</h3>
+                  <p className="text-gray-600">{metric.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
