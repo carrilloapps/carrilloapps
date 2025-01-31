@@ -5,7 +5,7 @@
 
 - 🔭 I'm also on my [Website](https://carrillo.app)
 
-- 📚 Visit my [Papers]([https://carrillo.app](https://github.com/carrilloapps/papers))
+- 📚 Visit my [Papers](https://github.com/carrilloapps/papers)
 
 - 🌱 I’m currently learning **artificial intelligence**
 
