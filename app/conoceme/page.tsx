@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import {SharedMetadata} from "@/app/shared-metadata";
 import { Metadata } from "next";
+import { LibraryBig, HandHelping, GitGraphIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   ...SharedMetadata,
@@ -33,17 +34,17 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const metrics = [
     {
-      icon: '/placeholder.svg',
+      icon: <HandHelping size={48} />,
       value: '+10',
       description: 'Años de experiencia',
     },
     {
-      icon: '/placeholder.svg',
+      icon: <GitGraphIcon size={48} />,
       value: '~3.000',
       description: "Commit's al año",
     },
     {
-      icon: '/placeholder.svg',
+      icon: <LibraryBig size={48} />,
       value: '+450',
       description: "Repo's soportados",
     },
@@ -53,16 +54,14 @@ export default function AboutPage() {
   return (
     <div className="container py-12">
       <div className="max-w-4xl mx-auto">
-
-        <div
-          className="flex flex-col md:flex-row items-center rounded-2xl shadow-lg">
+        <div className="flex flex-col md:flex-row items-center rounded-2xl">
           <div className="flex-shrink-0">
             <Image
-              src="/placeholder.svg"
+              src="https://avatars.githubusercontent.com/u/16759783?v=4"
               alt="José Carrillo"
-              className="rounded-full w-32 h-32 md:w-40 md:h-40 object-cover"
-              width={800}
-              height={400}
+              className="rounded-full object-cover"
+              width={300}
+              height={300}
             />
           </div>
 
@@ -87,14 +86,8 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
               {metrics.map((metric, index) => (
                 <div key={index} className="flex flex-col items-center">
-                  <div className="w-16 h-16 mb-4">
-                    <Image
-                      src={metric.icon}
-                      alt={metric.description}
-                      width={64}
-                      height={64}
-                      className="object-contain"
-                    />
+                  <div className="text-blue-600 mb-6">
+                    {metric.icon}
                   </div>
                   <h3 className="text-2xl font-bold text-blue-600">{metric.value}</h3>
                   <p className="text-gray-600">{metric.description}</p>
