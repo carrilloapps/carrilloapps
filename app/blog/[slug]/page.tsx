@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { blogPosts } from '../blogData'
+import { getBlogPost } from '../blogData'
 import BlogPostContent from './BlogPostContent'
 import {SharedMetadata} from "@/app/shared-metadata";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = blogPosts.find(post => post.slug === params.slug)
+  const post = await getBlogPost(params.slug)
   if (!post) {
     return {
       title: 'Artículo no disponible'
@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   return {
     ...SharedMetadata,
-    title: `${post.title} - José Carrillo`,
-    description: post.excerpt,
-    keywords: ['José Carrillo', 'blog', `${post.category}`, ...post.tags],
+    title: `${post.title.rendered} - José Carrillo`,
+    description: post.yoast_head_json.description,
+    keywords: ['José Carrillo', 'blog', `${post.categories}`],
     alternates: {
       ...SharedMetadata.alternates,
       canonical: `/blog/${post.slug}`,
@@ -30,21 +30,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       type: 'article',
       publishedTime: post.date,
       url: `/blog/${post.slug}`,
-      images: [{ url: post.image }],
-      authors: [post.author],
-      title: post.title,
-      description: post.excerpt,
+      images: [{ url: post.yoast_head_json.og_image[0].url }],
+      authors: [post.author_meta.display_name],
+      title: post.title.rendered,
+      description: post.yoast_head_json.description,
     },
     twitter: {
       ...SharedMetadata.twitter,
-      title: post.title,
-      description: post.excerpt,
+      title: post.title.rendered,
+      description: post.yoast_head_json.description,
     }
   }
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find(post => post.slug === params.slug)
+export default async function BlogPost({ params }: { params: { slug: string } }) {
+  const post = await getBlogPost(params.slug)
 
   if (!post) {
     notFound()
