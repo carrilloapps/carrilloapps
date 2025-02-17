@@ -1,4 +1,4 @@
-import {blogPosts} from "@/app/blog/blogData";
+import { getBlogPosts } from "@/app/blog/blogData";
 
 const DOMAIN = "https://carrillo.com";
 
@@ -18,18 +18,23 @@ const feed = {
 	categories: ['Web Development', 'JavaScript', 'React', 'Next.js'],
 	ttl: 60,
 	hub: 'https://pubsubhubbub.appspot.com/',
-	item: blogPosts.map((post) => ({
-		title: post.title,
-		guid: `${DOMAIN}/blog/${post.slug}`,
-		url: `${DOMAIN}/blog/${post.slug}`,
-		date: new Date(post.date),
-		description: post.excerpt,
-		author: post.author,
-		categories: [`${post.category}`],
-	})),
 };
 
 export async function GET() {
+	const blogPosts = await getBlogPosts();
+
+	blogPosts.map((post) => {
+		feed.item.push({
+			title: post.title.rendered,
+			guid: `${DOMAIN}/blog/${post.slug}`,
+			url: `${DOMAIN}/blog/${post.slug}`,
+			date: new Date(post.date),
+			description: post.excerpt,
+			author: post.author,
+			categories: post.categories,
+		});
+	});
+
 	return new Response(JSON.stringify(feed), {
 		headers: {
 			'Content-Type': 'application/json; charset=utf-8',

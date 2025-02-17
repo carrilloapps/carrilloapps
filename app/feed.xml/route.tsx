@@ -1,5 +1,5 @@
 import RSS from "rss"
-import {blogPosts} from "@/app/blog/blogData";
+import { getBlogPosts } from "@/app/blog/blogData";
 
 const DOMAIN = "https://carrillo.com";
 
@@ -21,19 +21,21 @@ const feed = new RSS({
 	hub: 'https://pubsubhubbub.appspot.com/',
 });
 
-blogPosts.map((post) => {
-	feed.item({
-		title: post.title,
-		guid: `${DOMAIN}/blog/${post.slug}`,
-		url: `${DOMAIN}/blog/${post.slug}`,
-		date: new Date(post.date),
-		description: post.excerpt,
-		author: post.author,
-		categories: [`${post.category}`],
-	});
-});
-
 export async function GET() {
+	const blogPosts = await getBlogPosts();
+
+	blogPosts.map((post) => {
+		feed.item({
+			title: post.title.rendered,
+			guid: `${DOMAIN}/blog/${post.slug}`,
+			url: `${DOMAIN}/blog/${post.slug}`,
+			date: new Date(post.date),
+			description: post.yoast_head_json.description,
+			author: post.author_meta.display_name,
+			categories: post.categories as unknown as Array<string>,
+		});
+	});
+
 	return new Response(feed.xml(), {
 		headers: {
 			'Content-Type': 'application/atom+xml; charset=utf-8',
