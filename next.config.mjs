@@ -15,6 +15,15 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mi.carrillo.app',
+        port: '',
+        pathname: '/wp-content/uploads/**',
+        search: '',
+      },
+    ],
   },
   experimental: {
     webpackBuildWorker: true,
