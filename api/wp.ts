@@ -23,17 +23,20 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor for adding auth token
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+//// Request interceptor for adding auth token
+//apiClient.interceptors.request.use(
+//  (config) => {
+//    if (typeof window !== "undefined") {
+//      return config;
+//    }
+//    const token = localStorage.getItem(TOKEN_KEY);
+//    if (token) {
+//      config.headers.Authorization = `Bearer ${token}`;
+//    }
+//    return config;
+//  },
+//  (error) => Promise.reject(error)
+//);
 
 // Response interceptor for handling common errors
 apiClient.interceptors.response.use(
