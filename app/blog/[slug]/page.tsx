@@ -1,55 +1,66 @@
-import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { getBlogPost } from '../blogData'
-import BlogPostContent from './BlogPostContent'
-import {SharedMetadata} from "@/app/shared-metadata";
+import { Suspense } from "react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import type { Metadata } from "next"
+
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+import { Button } from "@/components/ui/button"
+import { BlogRelated } from "@/components/blog-related"
+import { BlogLoading } from "@/components/blog-loading"
+import { BlogArticle } from "@/components/blog-article"
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await getBlogPost(params.slug)
-  if (!post) {
-    return {
-      title: 'Artículo no disponible'
-    }
-  }
+  const slug = params.slug
 
+  // En un caso real, aquí obtendrías los datos del artículo para generar los metadatos
+  // Por ahora, usamos valores genéricos
   return {
-    ...SharedMetadata,
-    title: `${post.title.rendered} - José Carrillo`,
-    description: post.yoast_head_json.description,
-    keywords: ['José Carrillo', 'blog', `${post.categories}`],
+    title: `Artículo | José Carrillo Blog`,
+    description: "Artículo detallado sobre desarrollo de software, sistemas financieros o liderazgo técnico.",
     alternates: {
-      ...SharedMetadata.alternates,
-      canonical: `/blog/${post.slug}`,
-      languages: {
-        'es-CO': `/blog/${post.slug}`,
-        'en-US': `/en/blog/${post.slug}`,
-      },
+      canonical: `/blog/${slug}`,
     },
     openGraph: {
-      ...SharedMetadata.openGraph,
-      type: 'article',
-      publishedTime: post.date,
-      url: `/blog/${post.slug}`,
-      images: [{ url: post.yoast_head_json.og_image[0].url }],
-      authors: [post.author_meta.display_name],
-      title: post.title.rendered,
-      description: post.yoast_head_json.description,
+      title: `Artículo | José Carrillo Blog`,
+      description: "Artículo detallado sobre desarrollo de software, sistemas financieros o liderazgo técnico.",
+      url: `https://carrillo.app/blog/${slug}`,
+      type: "article",
+      publishedTime: new Date().toISOString(),
     },
-    twitter: {
-      ...SharedMetadata.twitter,
-      title: post.title.rendered,
-      description: post.yoast_head_json.description,
-    }
   }
 }
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await getBlogPost(params.slug)
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  const { slug } = params
 
-  if (!post) {
-    notFound()
-  }
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <SiteHeader />
 
-  return <BlogPostContent post={post} />
+      <main className="container py-12 space-y-12" id="main-content">
+        <div className="flex items-center mb-8">
+          <Button variant="ghost" className="text-zinc-400 hover:text-white" asChild>
+            <Link href="/blog">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Volver al Blog
+            </Link>
+          </Button>
+        </div>
+
+        <Suspense fallback={<BlogLoading type="article" />}>
+          <BlogArticle slug={slug} />
+        </Suspense>
+
+        <section className="py-12 space-y-8 border-t border-zinc-800">
+          <h2 className="text-2xl font-bold">Artículos Relacionados</h2>
+          <Suspense fallback={<BlogLoading type="related" />}>
+            <BlogRelated currentSlug={slug} />
+          </Suspense>
+        </section>
+      </main>
+
+      <SiteFooter />
+    </div>
+  )
 }
-

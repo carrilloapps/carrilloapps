@@ -1,50 +1,79 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
+import { X } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import Link from 'next/link'
-import { X } from 'lucide-react'
 
 export function CookieConsent() {
-  const [showBanner, setShowBanner] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookieConsent')
-    if (!consent) {
-      setShowBanner(true)
+    // Check if user has already accepted cookies
+    const hasAccepted = localStorage.getItem("cookieConsent")
+    if (!hasAccepted) {
+      // Show the banner after a short delay
+      const timer = setTimeout(() => {
+        setIsVisible(true)
+      }, 1500)
+      return () => clearTimeout(timer)
     }
   }, [])
 
-  const handleAccept = () => {
-    localStorage.setItem('cookieConsent', 'accepted')
-    setShowBanner(false)
+  const acceptCookies = () => {
+    localStorage.setItem("cookieConsent", "true")
+    setIsVisible(false)
   }
-
-  const handleReject = () => {
-    localStorage.setItem('cookieConsent', 'rejected')
-    setShowBanner(false)
-  }
-
-  if (!showBanner) return null
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 bg-background border rounded-lg p-6 shadow-lg max-w-4xl mx-auto" role="alert" aria-live="polite">
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-        <div className="flex-grow">
-          <h3 className="text-lg font-semibold mb-2">Valoro tu privacidad</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Utilizamos cookies para mejorar su experiencia de navegación, analizar nuestro tráfico y personalizar el contenido. Al hacer clic en "Aceptar", acepta nuestro uso de cookies como se describe en nuestra <Link className="underline" href="/cookies" passHref>política de cookies</Link>, o tambien puedes consultar las <Link className="underline" href="/privacy" passHref>política de privacidad</Link> y <Link className="underline" href="/terms" passHref>Términos de servicio</Link>.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <Button size="sm" onClick={handleAccept}>Aceptar</Button>
-            <Button variant="outline" size="sm" onClick={handleReject}>Rechazar</Button>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-zinc-900 border-t border-zinc-800 shadow-lg"
+          role="alert"
+          aria-labelledby="cookie-consent-title"
+        >
+          <div className="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex-1 pr-8">
+              <h3 className="text-lg font-semibold mb-2" id="cookie-consent-title">
+                Este sitio utiliza cookies
+              </h3>
+              <p className="text-zinc-400 text-sm">
+                Utilizamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar el contenido. Al
+                hacer clic en "Aceptar", consientes el uso de cookies según nuestra{" "}
+                <Link href="/cookie-policy" className="text-blue-500 hover:underline">
+                  política de cookies
+                </Link>
+                .
+              </p>
+            </div>
+            <div className="flex gap-3 mt-2 md:mt-0 w-full md:w-auto">
+              <Button
+                variant="outline"
+                className="border-zinc-700 hover:bg-zinc-800 flex-1 md:flex-auto"
+                onClick={() => setIsVisible(false)}
+              >
+                Rechazar
+              </Button>
+              <Button className="bg-blue-600 hover:bg-blue-700 flex-1 md:flex-auto" onClick={acceptCookies}>
+                Aceptar
+              </Button>
+              <button
+                onClick={() => setIsVisible(false)}
+                className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-zinc-400 hover:text-white"
+                aria-label="Cerrar aviso de cookies"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-        </div>
-        <Button variant="ghost" size="icon" onClick={() => setShowBanner(false)} className="self-start" aria-label="Close cookie consent banner">
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
-

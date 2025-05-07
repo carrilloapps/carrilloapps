@@ -2,51 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 262.1 83.3% 57.8%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
-    --radius: 0.5rem;
-  }
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+}
 
-  .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 263.4 70% 50.4%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
-  }
+.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 217.2 91.2% 59.8%;
 }
 
 @layer base {
@@ -58,47 +56,87 @@
   }
 }
 
-/* VS Code-like styling for code blocks */
-pre {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
+html {
+  scroll-behavior: smooth;
 }
 
-code {
-  font-family: inherit;
-}
-
-/* Syntax highlighting */
-.hljs-keyword { color: #569cd6; }
-.hljs-literal { color: #569cd6; }
-.hljs-symbol { color: #569cd6; }
-.hljs-name { color: #569cd6; }
-.hljs-tag { color: #569cd6; }
-.hljs-attr { color: #9cdcfe; }
-.hljs-string { color: #ce9178; }
-.hljs-char { color: #ce9178; }
-.hljs-built_in { color: #4ec9b0; }
-.hljs-builtin-name { color: #4ec9b0; }
-.hljs-number { color: #b5cea8; }
-.hljs-class { color: #4ec9b0; }
-.hljs-function { color: #dcdcaa; }
-.hljs-title { color: #dcdcaa; }
-.hljs-params { color: #d4d4d4; }
-.hljs-comment { color: #6a9955; }
-.hljs-doctag { color: #608b4e; }
-.hljs-meta { color: #9cdcfe; }
-.hljs-meta-keyword { color: #9cdcfe; }
-.hljs-meta-string { color: #ce9178; }
-
-@layer utilities {
+/* Mejoras para dispositivos móviles */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-3xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
   .container {
-    @apply px-4 sm:px-6 lg:px-8;
+    @apply px-4;
   }
 }
 
+/* Mejoras para tablets */
+@media (min-width: 641px) and (max-width: 1023px) {
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+}
+
+/* Mejoras para la accesibilidad */
+:focus-visible {
+  @apply outline-2 outline-blue-500 outline-offset-2;
+}
+
+/* Mejoras para el scroll */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-600;
+}
+
+/* Mejoras para la navegación por teclado */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-black;
+}
+
+/* Mejoras para el contraste */
+.text-zinc-400 {
+  @apply text-zinc-300;
+}
+
+/* Mejoras para el espaciado en móviles */
+@media (max-width: 640px) {
+  .space-y-24 > :not([hidden]) ~ :not([hidden]) {
+    @apply mt-16;
+  }
+  .space-y-12 > :not([hidden]) ~ :not([hidden]) {
+    @apply mt-8;
+  }
+  .py-12 {
+    @apply py-8;
+  }
+  .py-24 {
+    @apply py-12;
+  }
+}
