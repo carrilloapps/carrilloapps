@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
@@ -149,7 +149,17 @@ const services = [
   },
 ]
 
+// Componente principal que envuelve con Suspense
 export default function ServicesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black"></div>}>
+      <ServicesPageContent />
+    </Suspense>
+  )
+}
+
+// Componente interno que usa useSearchParams
+function ServicesPageContent() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState("technical-leadership")
   const isMobile = useIsMobile()

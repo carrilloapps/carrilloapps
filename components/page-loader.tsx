@@ -1,10 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 
+// Componente principal que envuelve con Suspense
 export function PageLoader() {
+  return (
+    <Suspense fallback={<div className="hidden"></div>}>
+      <PageLoaderContent />
+    </Suspense>
+  )
+}
+
+function PageLoaderContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
