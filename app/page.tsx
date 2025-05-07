@@ -703,11 +703,11 @@ export default function Home() {
         <AnimatedSection id="contact" className="py-8 md:py-12 space-y-8" delay={0.4}>
           <div className="space-y-4 text-center">
             <Badge variant="outline" className="border-blue-500 text-blue-500">
-              Get In Touch
+              Contáctame
             </Badge>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Let's Work Together</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Convirtamos tu idea en realidad</h2>
             <p className="text-zinc-400 max-w-2xl mx-auto">
-              Interested in working together? Let's discuss how I can help your organization.
+              ¿Tienes alguna idea en mente? Comunicate conmigo y conversemos sobre tu idea.
             </p>
           </div>
 
@@ -717,48 +717,48 @@ export default function Home() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium">
-                      Name
+                      Nombre
                     </label>
                     <input
                       id="name"
-                      placeholder="Your name"
+                      placeholder="Su nombre completo"
                       className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
                     />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium">
-                      Email
+                      Correo electrónico
                     </label>
                     <input
                       id="email"
                       type="email"
-                      placeholder="Your email"
+                      placeholder="Si dirección de correo electrónico"
                       className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="subject" className="text-sm font-medium">
-                    Subject
+                    Asunto
                   </label>
                   <input
                     id="subject"
-                    placeholder="How can I help you?"
+                    placeholder="¿Cómo puedo ayudarte?"
                     className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
                   />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium">
-                    Message
+                    Mensaje
                   </label>
                   <textarea
                     id="message"
-                    placeholder="Your message"
+                    placeholder="Dame un poco más de contexto para entender tu idea"
                     rows={5}
                     className="flex w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
                   ></textarea>
                 </div>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">Send Message</Button>
+                <Button className="w-full bg-blue-600 hover:bg-blue-700">Enviar mensaje</Button>
               </form>
             </CardContent>
           </Card>
@@ -773,10 +773,10 @@ export default function Home() {
               <Card className="bg-zinc-900 border-zinc-800 h-full">
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                   <Mail className="h-10 w-10 text-blue-500" />
-                  <h3 className="text-lg font-bold">Email</h3>
-                  <p className="text-zinc-400">contact@carrillo.app</p>
+                  <h3 className="text-lg font-bold">Correo electrónico</h3>
+                  <p className="text-zinc-400">m@carrillo.app</p>
                   <Button variant="link" className="text-blue-500">
-                    Send an email
+                    Enviame un mensaje
                   </Button>
                 </CardContent>
               </Card>
@@ -792,9 +792,9 @@ export default function Home() {
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                   <Linkedin className="h-10 w-10 text-blue-500" />
                   <h3 className="text-lg font-bold">LinkedIn</h3>
-                  <p className="text-zinc-400">Connect professionally</p>
+                  <p className="text-zinc-400">Conéctate profesionalmente</p>
                   <Button variant="link" className="text-blue-500">
-                    View profile
+                    Ver perfil
                   </Button>
                 </CardContent>
               </Card>
@@ -811,10 +811,10 @@ export default function Home() {
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
                   <Github className="h-10 w-10 text-blue-500" />
                   <h3 className="text-lg font-bold">GitHub</h3>
-                  <p className="text-zinc-400">Check out my code</p>
+                  <p className="text-zinc-400">Conoce mis proyectos</p>
                   <Button variant="link" className="text-blue-500" asChild>
                     <Link href="https://github.com/carrilloapps" target="_blank">
-                      View repositories
+                      Ver repositorios
                     </Link>
                   </Button>
                 </CardContent>

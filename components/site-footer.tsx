@@ -13,7 +13,7 @@ export function SiteFooter() {
           <div className="space-y-4">
             <Logo />
             <p className="text-zinc-400">
-              Senior Software Developer & Tech Leader specializing in financial and backoffice solutions.
+              Desarrollador de Software Senior y Líder Técnico especializado en soluciones de pago y financieras.
             </p>
             <div className="flex gap-4">
               <Link
@@ -51,59 +51,59 @@ export function SiteFooter() {
 
           <div className="space-y-4">
             <h3 className="font-bold" id="footer-quick-links">
-              Quick Links
+              Enlaces Rápidos
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-quick-links">
               <Link href="/" className="text-zinc-400 hover:text-white">
-                Home
+                Inicio
               </Link>
               <Link href="/about" className="text-zinc-400 hover:text-white">
-                About
+                Sobre mí
               </Link>
               <Link href="/resources" className="text-zinc-400 hover:text-white">
-                Resources
+                Recursos
               </Link>
               <Link href="/contact" className="text-zinc-400 hover:text-white">
-                Contact
+                Contacto
               </Link>
             </nav>
           </div>
 
           <div className="space-y-4">
             <h3 className="font-bold" id="footer-services">
-              Services
+              Servicios
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-services">
               <Link href="/services#technical-leadership" className="text-zinc-400 hover:text-white">
-                Technical Leadership
+                Liderazgo Técnico
               </Link>
               <Link href="/services#financial-systems" className="text-zinc-400 hover:text-white">
-                Financial Systems
+                Sistemas Financieros
               </Link>
               <Link href="/services#backoffice-solutions" className="text-zinc-400 hover:text-white">
-                Backoffice Solutions
+                Soluciones de Backoffice
               </Link>
               <Link href="/services#architecture-design" className="text-zinc-400 hover:text-white">
-                Architecture Design
+                Diseño de Arquitectura
               </Link>
             </nav>
           </div>
 
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <h3 className="font-bold" id="footer-newsletter">
-              Newsletter
+              Boletín Informativo
             </h3>
-            <p className="text-zinc-400">Subscribe to receive updates on my latest projects and tech insights.</p>
+            <p className="text-zinc-400">Suscríbete para recibir actualizaciones sobre mis últimos proyectos y conocimientos tecnológicos.</p>
             <form className="flex flex-col sm:flex-row gap-2" aria-labelledby="footer-newsletter">
               <Input
                 type="email"
-                placeholder="Your email"
+                placeholder="Su correo electrónico"
                 className="bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 flex-1"
-                aria-label="Your email address"
+                aria-label="Su correo electrónico"
                 required
               />
               <Button type="submit" className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                Subscribe
+                Suscribirse
               </Button>
             </form>
           </div>
@@ -111,17 +111,17 @@ export function SiteFooter() {
 
         <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center">
           <p className="text-zinc-400 text-sm text-center md:text-left">
-            &copy; {new Date().getFullYear()} José Carrillo. All rights reserved.
+            &copy; {new Date().getFullYear()} José Carrillo. Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
             <Link href="/privacy-policy" className="text-zinc-400 hover:text-white text-sm">
-              Privacy Policy
+              Política de Privacidad
             </Link>
             <Link href="/terms-conditions" className="text-zinc-400 hover:text-white text-sm">
-              Terms of Service
+              Términos del Servicio
             </Link>
             <Link href="/cookie-policy" className="text-zinc-400 hover:text-white text-sm">
-              Cookie Policy
+              Política de Cookies
             </Link>
           </div>
         </div>
