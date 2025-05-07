@@ -1,12 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { fetchMediumCategories } from "@/lib/medium"
 
+// Componente principal que envuelve con Suspense
 export function BlogCategories() {
+  return (
+    <Suspense fallback={<div className="w-full md:w-64 h-10 bg-zinc-800 rounded animate-pulse"></div>}>
+      <BlogCategoriesContent />
+    </Suspense>
+  )
+}
+
+// Componente interno que usa useSearchParams
+function BlogCategoriesContent() {
   const [categories, setCategories] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
