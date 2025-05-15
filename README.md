@@ -74,23 +74,10 @@ I'm self-taught and I am open to learning new technologies and tools for the dev
 <p align="left">
   <img src="https://skillicons.dev/icons?i=grafana,jenkins,jest,docker,cypress,figma,xd,gradle,graphql,kafka,kubernetes,rabbitmq,terraform" />
 </p>
-
-<h3 align="left">Project Documentation</h3>
-<p align="left">For comprehensive documentation about this project, please check the <code>/docs</code> directory:</p>
+<h3 align="left">Projects:</h3>
+<p align="left">For comprehensive documentation about my projects, please check the <code>/docs</code> directory:</p>
 <ul>
-  <li><a href="./docs/PROJECT.md">Project Overview</a></li>
-  <li><a href="./docs/API.md">API Documentation</a></li>
-  <li><a href="./docs/DEVELOPMENT.md">Development Guide</a></li>
-  <li><a href="./docs/TRANSLATION.md">Translation Guide</a></li>
-</ul>
-
-<p align="left">Additionally, see:</p>
-<ul>
-  <li><a href="./CONTRIBUTING.md">Contributing Guidelines</a></li>
-  <li><a href="./CODE_OF_CONDUCT.md">Code of Conduct</a></li>
-  <li><a href="./CHANGELOG.md">Changelog</a></li>
-  <li><a href="./LICENSE.md">License</a></li>
-  <li><a href="./SECURITY.md">Security Policy</a></li>
+  <li><a href="./docs/PROJECT.md">carrillo.app</a>: Personal professional portfolio website built with modern web technologies</li>
 </ul>
 
 <h3 align="left">Support:</h3>
