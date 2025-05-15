@@ -19,9 +19,9 @@ export function SiteHeader() {
 
   const navItems = [
     { href: "/", label: "Inicio" },
-    { href: "/about", label: "Sobre mí" },
+    { href: "/sobre-mi", label: "Sobre mí" },
     { href: "/blog", label: "Blog" },
-    { href: "/resources", label: "Recursos" },
+    { href: "/recursos", label: "Recursos" },
     { href: "/services", label: "Servicios" },
     { href: "/contact", label: "Contacto" },
   ]
@@ -173,7 +173,7 @@ export function SiteHeader() {
       >
         <div className="container flex h-16 items-center justify-between">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <Logo animationLevel="medium" />
+            <Logo animationLevel="none" />
           </motion.div>
 
           <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">

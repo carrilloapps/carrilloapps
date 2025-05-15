@@ -56,7 +56,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
           )
 
           if (!response.ok) {
-            throw new Error("Failed to fetch GitHub repositories")
+            throw new Error("Error al obtener los repositorios de GitHub")
           }
 
           const result = await response.json()
@@ -69,7 +69,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
           )
 
           if (!response.ok) {
-            throw new Error("Failed to fetch GitLab repositories")
+            throw new Error("Error al obtener los repositorios de GitLab")
           }
 
           const result = await response.json()
@@ -89,7 +89,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
         setRepositories(data)
         setPinnedRepos(pinnedData)
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred")
+        setError(err instanceof Error ? err.message : "Ocurrió un error al cargar los repositorios")
         setRepositories([])
         setPinnedRepos([])
       } finally {
@@ -134,7 +134,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("es-ES", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -147,7 +147,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
         <CardContent className="p-6 text-center">
           <p className="text-red-500">Error: {error}</p>
           <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
-            Try Again
+            Intentar de nuevo
           </Button>
         </CardContent>
       </Card>
@@ -174,13 +174,13 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
               {repo.name}
             </a>
             {isPinned && (
-              <Badge className="bg-blue-600 ml-2">
+                <Badge className="bg-blue-600 ml-2">
                 <Pin className="h-3 w-3 mr-1" />
-                Pinned
-              </Badge>
+                Destacado
+                </Badge>
             )}
           </CardTitle>
-          <CardDescription>{repo.description || "No description provided."}</CardDescription>
+            <CardDescription>{repo.description || "Sin descripción disponible."}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -191,7 +191,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
             <div className="flex items-center gap-4 text-sm text-zinc-500">
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                Updated on {formatDate(repo.updated_at)}
+                Actualizado el {formatDate(repo.updated_at)}
               </div>
             </div>
           </div>
@@ -210,7 +210,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
           <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
               <Code className="h-4 w-4" />
-              View Code
+              Ver proyecto
             </Button>
           </a>
         </CardFooter>
@@ -224,7 +224,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
         <div className="relative w-full md:w-80">
           <Input
             type="search"
-            placeholder="Search repositories..."
+            placeholder="Buscar repositorio..."
             className="pl-8 bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 w-full"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -234,7 +234,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
             className="absolute right-0 top-0 h-full px-3 bg-transparent hover:bg-zinc-800"
             onClick={handleSearch}
           >
-            Search
+            Buscar
           </Button>
         </div>
         <div className="flex gap-2">
@@ -243,7 +243,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent className="bg-zinc-950 border-zinc-800">
-              <SelectItem value="all">All Languages</SelectItem>
+              <SelectItem value="all">Todos los lenguajes</SelectItem>
               {languages.map((lang) => (
                 <SelectItem key={lang} value={lang}>
                   {lang}
@@ -257,17 +257,17 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       {pinnedRepos.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
-            <Pin className="h-4 w-4 text-blue-500" />
-            Pinned Repositories
+        <Pin className="h-4 w-4 text-blue-500" />
+        Repositorios destacados
           </h3>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {pinnedRepos.map((repo) => renderRepository(repo, true))}
+        {pinnedRepos.map((repo) => renderRepository(repo, true))}
           </div>
         </div>
       )}
 
       <div className="space-y-4">
-        <h3 className="text-xl font-bold">All Repositories</h3>
+        <h3 className="text-xl font-bold">Todos los repositorios</h3>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {repositories.map((repo) => renderRepository(repo))}
         </div>
@@ -278,7 +278,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
           <PaginationContent>
             {currentPage > 1 && (
               <PaginationItem>
-                <PaginationLink onClick={() => handlePageChange(currentPage - 1)}>Previous</PaginationLink>
+                <PaginationLink onClick={() => handlePageChange(currentPage - 1)}>Ant.</PaginationLink>
               </PaginationItem>
             )}
 
@@ -299,7 +299,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
             {currentPage < totalPages && (
               <PaginationItem>
-                <PaginationLink onClick={() => handlePageChange(currentPage + 1)}>Next</PaginationLink>
+                <PaginationLink onClick={() => handlePageChange(currentPage + 1)}>Sig.</PaginationLink>
               </PaginationItem>
             )}
           </PaginationContent>
