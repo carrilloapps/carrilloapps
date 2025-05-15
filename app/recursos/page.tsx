@@ -1,21 +1,45 @@
-import { Suspense } from "react"
-import { Code, Filter, Search } from "lucide-react"
+import { Suspense } from "react";
+import { Code, Filter, Search } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { RepositoriesList } from "@/components/repositories-list"
-import { RepositoriesLoading } from "@/components/repositories-loading"
-import type { Metadata } from "next"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { RepositoriesList } from "@/components/repositories-list";
+import { RepositoriesLoading } from "@/components/repositories-loading";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resources | GitHub & GitLab Repositories",
-  description: "Browse my public repositories from GitHub and GitLab with filtering and pagination options.",
-}
+  title:
+    "Recursos | Repositorios de GitHub y GitLab de CarrilloApps | José Carrillo",
+  description:
+    "Explora mis repositorios públicos en GitHub y GitLab. Proyectos de desarrollo web, aplicaciones móviles y soluciones empresariales con código abierto.",
+  keywords:
+    "repositorios, GitHub, GitLab, código abierto, desarrollo web, React, TypeScript, CarrilloApps",
+  openGraph: {
+    title: "Recursos y Repositorios | CarrilloApps",
+    description:
+      "Descubre todos mis proyectos de código abierto disponibles para colaboración y uso libre.",
+    url: "https://carrilloapps.com/recursos",
+    type: "website",
+  },
+};
 
 export default function ResourcesPage() {
   return (
@@ -25,21 +49,29 @@ export default function ResourcesPage() {
       <main className="container py-12 space-y-12">
         <section className="py-12 md:py-24 space-y-8">
           <div className="space-y-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Open Source Resources</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Recursos de Código Abierto
+            </h1>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-              Browse my public repositories from GitHub and GitLab. Feel free to use, fork, or contribute to any
-              project.
+              Explora mis repositorios públicos en GitHub y GitLab. Puedes usar,
+              hacer fork o contribuir a cualquiera de ellos.
             </p>
           </div>
 
           <Tabs defaultValue="github" className="w-full">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
               <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2 h-auto bg-zinc-900 p-1">
-                <TabsTrigger value="github" className="data-[state=active]:bg-zinc-800 gap-2">
+                <TabsTrigger
+                  value="github"
+                  className="data-[state=active]:bg-zinc-800 gap-2"
+                >
                   <Code className="h-4 w-4" />
                   GitHub
                 </TabsTrigger>
-                <TabsTrigger value="gitlab" className="data-[state=active]:bg-zinc-800 gap-2">
+                <TabsTrigger
+                  value="gitlab"
+                  className="data-[state=active]:bg-zinc-800 gap-2"
+                >
                   <Code className="h-4 w-4" />
                   GitLab
                 </TabsTrigger>
@@ -50,7 +82,7 @@ export default function ResourcesPage() {
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
                   <Input
                     type="search"
-                    placeholder="Search repositories..."
+                    placeholder="Buscar repositorio..."
                     className="pl-8 bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 w-full"
                   />
                 </div>
@@ -60,7 +92,7 @@ export default function ResourcesPage() {
                       <SelectValue placeholder="Language" />
                     </SelectTrigger>
                     <SelectContent className="bg-zinc-950 border-zinc-800">
-                      <SelectItem value="all">All Languages</SelectItem>
+                      <SelectItem value="all">Todos los lenguajes</SelectItem>
                       <SelectItem value="javascript">JavaScript</SelectItem>
                       <SelectItem value="typescript">TypeScript</SelectItem>
                       <SelectItem value="python">Python</SelectItem>
@@ -69,7 +101,7 @@ export default function ResourcesPage() {
                   </Select>
                   <Button variant="outline" className="border-zinc-800 gap-2">
                     <Filter className="h-4 w-4" />
-                    Filters
+                    Filtros
                   </Button>
                 </div>
               </div>
@@ -91,9 +123,10 @@ export default function ResourcesPage() {
 
         <section className="py-12 space-y-8">
           <div className="space-y-4 text-center">
-            <h2 className="text-3xl font-bold">Featured Projects</h2>
+            <h2 className="text-3xl font-bold">Mis proyectos destacados</h2>
             <p className="text-zinc-400 max-w-2xl mx-auto">
-              Here are some of my most significant open source contributions and personal projects
+              Mis proyectos personales y contribuciones de código abierto más
+              significativas
             </p>
           </div>
 
@@ -105,7 +138,8 @@ export default function ResourcesPage() {
                   Financial Dashboard
                 </CardTitle>
                 <CardDescription>
-                  An open-source financial analytics dashboard with real-time data visualization
+                  An open-source financial analytics dashboard with real-time
+                  data visualization
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -115,8 +149,9 @@ export default function ResourcesPage() {
                     TypeScript
                   </div>
                   <p className="text-zinc-400">
-                    Built with React, D3.js, and Node.js. Features include portfolio tracking, market analysis, and
-                    customizable widgets.
+                    Built with React, D3.js, and Node.js. Features include
+                    portfolio tracking, market analysis, and customizable
+                    widgets.
                   </p>
                 </div>
               </CardContent>
@@ -131,9 +166,12 @@ export default function ResourcesPage() {
                     42
                   </div>
                 </div>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
+                <Button
+                  variant="outline"
+                  className="border-zinc-700 hover:bg-zinc-800 gap-2"
+                >
                   <Code className="h-4 w-4" />
-                  View Project
+                  Ver proyecto
                 </Button>
               </CardFooter>
             </Card>
@@ -144,7 +182,9 @@ export default function ResourcesPage() {
                   <Code className="h-5 w-5 text-blue-500" />
                   Backoffice Toolkit
                 </CardTitle>
-                <CardDescription>A collection of tools for automating backoffice operations</CardDescription>
+                <CardDescription>
+                  A collection of tools for automating backoffice operations
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -153,8 +193,8 @@ export default function ResourcesPage() {
                     JavaScript
                   </div>
                   <p className="text-zinc-400">
-                    Includes modules for data processing, report generation, and workflow automation. Used by several
-                    financial institutions.
+                    Includes modules for data processing, report generation, and
+                    workflow automation. Used by several financial institutions.
                   </p>
                 </div>
               </CardContent>
@@ -169,9 +209,12 @@ export default function ResourcesPage() {
                     31
                   </div>
                 </div>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
+                <Button
+                  variant="outline"
+                  className="border-zinc-700 hover:bg-zinc-800 gap-2"
+                >
                   <Code className="h-4 w-4" />
-                  View Project
+                  Ver proyecto
                 </Button>
               </CardFooter>
             </Card>
@@ -182,7 +225,9 @@ export default function ResourcesPage() {
                   <Code className="h-5 w-5 text-blue-500" />
                   Secure Payment Gateway
                 </CardTitle>
-                <CardDescription>An open-source payment processing system with fraud detection</CardDescription>
+                <CardDescription>
+                  An open-source payment processing system with fraud detection
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -191,8 +236,9 @@ export default function ResourcesPage() {
                     Python
                   </div>
                   <p className="text-zinc-400">
-                    Implements industry-standard security protocols and machine learning for fraud detection. Supports
-                    multiple payment methods.
+                    Implements industry-standard security protocols and machine
+                    learning for fraud detection. Supports multiple payment
+                    methods.
                   </p>
                 </div>
               </CardContent>
@@ -207,9 +253,12 @@ export default function ResourcesPage() {
                     78
                   </div>
                 </div>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
+                <Button
+                  variant="outline"
+                  className="border-zinc-700 hover:bg-zinc-800 gap-2"
+                >
                   <Code className="h-4 w-4" />
-                  View Project
+                  Ver proyecto
                 </Button>
               </CardFooter>
             </Card>
@@ -220,16 +269,23 @@ export default function ResourcesPage() {
           <Card className="bg-zinc-900 border-zinc-800">
             <CardContent className="p-8 md:p-12 space-y-6">
               <div className="space-y-4">
-                <h2 className="text-3xl font-bold">Want to Collaborate?</h2>
+                <h2 className="text-3xl font-bold">¿Quieres colaborar?</h2>
                 <p className="text-zinc-400 max-w-3xl">
-                  I'm always open to collaborating on interesting projects, especially in the financial technology
-                  space. If you have an idea or project you'd like to discuss, feel free to reach out.
+                  Siempre estoy abierto a colaborar en proyectos interesantes,
+                  especialmente en desarrollo web y aplicaciones móviles. Si
+                  tienes una idea o proyecto que te gustaría discutir, no dudes
+                  en contactarme.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-blue-600 hover:bg-blue-700">Contact Me</Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800">
-                  View More Projects
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  Contáctame
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-zinc-700 hover:bg-zinc-800"
+                >
+                  Ver proyectos
                 </Button>
               </div>
             </CardContent>
@@ -239,5 +295,5 @@ export default function ResourcesPage() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
