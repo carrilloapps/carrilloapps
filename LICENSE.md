@@ -1,4 +1,4 @@
-# CarrilloApps License
+# José Carrillo License
 
 Copyright (c) 2025 José Carrillo
 
