@@ -1,12 +1,6 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import type { Metadata } from "next"
 import { Card } from "@/components/ui/card"
-
-export const metadata: Metadata = {
-  title: "Cookie Policy | Senior Software Developer & Tech Leader",
-  description: "Cookie policy explaining how cookies are used on the DevLeader portfolio website.",
-}
 
 export default function CookiePolicyPage() {
   return (
@@ -15,110 +9,127 @@ export default function CookiePolicyPage() {
 
       <main className="container py-12 space-y-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Cookie Policy</h1>
+          <h1 className="text-4xl font-bold mb-8">Política de Cookies</h1>
 
           <Card className="bg-zinc-900 border-zinc-800 p-6 md:p-8 space-y-6">
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Introduction</h2>
+              <h2 className="text-2xl font-bold">Introducción</h2>
               <p className="text-zinc-400">
-                Last Updated:{" "}
-                {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                Última actualización:{" "}
+                {new Date(1747346137458).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" })}
               </p>
               <p className="text-zinc-400">
-                This Cookie Policy explains how DevLeader ("I", "me", or "my") uses cookies and similar technologies to
-                recognize you when you visit my website at devleader.com. It explains what these technologies are and
-                why I use them, as well as your rights to control my use of them.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold">What Are Cookies?</h2>
-              <p className="text-zinc-400">
-                Cookies are small data files that are placed on your computer or mobile device when you visit a website.
-                Cookies are widely used by website owners in order to make their websites work, or to work more
-                efficiently, as well as to provide reporting information.
-              </p>
-              <p className="text-zinc-400">
-                Cookies set by the website owner (in this case, DevLeader) are called "first-party cookies". Cookies set
-                by parties other than the website owner are called "third-party cookies". Third-party cookies enable
-                third-party features or functionality to be provided on or through the website (e.g., advertising,
-                interactive content, and analytics). The parties that set these third-party cookies can recognize your
-                computer both when it visits the website in question and also when it visits certain other websites.
+                Esta Política de Cookies explica cómo José Carrillo ("yo", "mi", o "mío") utiliza cookies y tecnologías similares 
+                para reconocerte cuando visitas mi sitio web en carrillo.app. En ella se explica qué son estas tecnologías, 
+                por qué las utilizo, así como tus derechos para controlar mi uso de ellas en conformidad con la legislación 
+                colombiana y las mejores prácticas internacionales de privacidad digital.
               </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Why Do I Use Cookies?</h2>
+              <h2 className="text-2xl font-bold">¿Qué Son las Cookies?</h2>
               <p className="text-zinc-400">
-                I use first-party and third-party cookies for several reasons. Some cookies are required for technical
-                reasons in order for my website to operate, and I refer to these as "essential" or "strictly necessary"
-                cookies. Other cookies also enable me to track and target the interests of my users to enhance the
-                experience on my online properties. Third parties serve cookies through my website for analytics and
-                other purposes.
+                Las cookies son pequeños archivos de datos que se colocan en tu computadora o dispositivo móvil cuando visitas un sitio web.
+                Las cookies son ampliamente utilizadas por los propietarios de sitios web para hacer que sus sitios funcionen, o funcionen
+                de manera más eficiente, así como para proporcionar información de reportes.
               </p>
               <p className="text-zinc-400">
-                The specific types of first- and third-party cookies served through my website and the purposes they
-                perform are described below:
+                Las cookies establecidas por el propietario del sitio web (en este caso, José Carrillo) se denominan "cookies de primera parte".
+                Las cookies establecidas por terceros se denominan "cookies de terceros". Las cookies de terceros permiten que funciones
+                o características de terceros se proporcionen en o a través del sitio web (por ejemplo, análisis de uso, contenido interactivo
+                y referencias a redes sociales). Las partes que establecen estas cookies de terceros pueden reconocer tu dispositivo
+                tanto cuando visita nuestro sitio web como cuando visita ciertos otros sitios web.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">¿Por Qué Utilizo Cookies?</h2>
+              <p className="text-zinc-400">
+                Utilizo cookies propias y de terceros por varias razones. Algunas cookies son necesarias por razones técnicas
+                para que mi sitio web funcione correctamente, y las denomino cookies "esenciales" o "estrictamente necesarias".
+                Otras cookies me permiten rastrear y segmentar los intereses de los usuarios para mejorar la experiencia
+                en mi propiedad online. Terceros proporcionan cookies a través de mi sitio web para análisis y otros fines.
+              </p>
+              <p className="text-zinc-400">
+                Los tipos específicos de cookies propias y de terceros que se utilizan en mi sitio web y los fines que
+                cumplen se describen a continuación:
               </p>
               <ul className="list-disc pl-6 text-zinc-400 space-y-2">
                 <li>
-                  <strong>Essential website cookies:</strong> These cookies are strictly necessary to provide you with
-                  services available through my website and to use some of its features, such as access to secure areas.
+                  <strong>Cookies esenciales del sitio web:</strong> Estas cookies son estrictamente necesarias para proporcionarte
+                  los servicios disponibles a través de mi sitio web y para utilizar algunas de sus características, como el acceso
+                  a áreas seguras o la funcionalidad del formulario de contacto.
                 </li>
                 <li>
-                  <strong>Performance and functionality cookies:</strong> These cookies are used to enhance the
-                  performance and functionality of my website but are non-essential to their use. However, without these
-                  cookies, certain functionality may become unavailable.
+                  <strong>Cookies de rendimiento y funcionalidad:</strong> Estas cookies se utilizan para mejorar el rendimiento
+                  y la funcionalidad de mi sitio web, pero no son esenciales para su uso. Sin embargo, sin estas cookies,
+                  ciertas funcionalidades pueden no estar disponibles.
                 </li>
                 <li>
-                  <strong>Analytics and customization cookies:</strong> These cookies collect information that is used
-                  either in aggregate form to help me understand how my website is being used or how effective my
-                  marketing campaigns are, or to help me customize my website for you.
+                  <strong>Cookies de análisis y personalización:</strong> Estas cookies recopilan información que se utiliza
+                  en forma agregada para ayudarme a entender cómo se utiliza mi sitio web o qué tan efectivas son mis
+                  publicaciones en blogs técnicos y repositorios de código, o para ayudarme a personalizar mi sitio web para ti.
                 </li>
               </ul>
+              <p className="text-zinc-400">
+                Conforme a las disposiciones de la Ley 1581 de 2012 y demás normativa colombiana aplicable, solicito tu
+                consentimiento expreso antes de utilizar cookies no esenciales. Puedes modificar o retirar este consentimiento
+                en cualquier momento utilizando nuestro gestor de consentimiento de cookies.
+              </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">How Can You Control Cookies?</h2>
+              <h2 className="text-2xl font-bold">¿Cómo Puedes Controlar las Cookies?</h2>
               <p className="text-zinc-400">
-                You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights by
-                setting your preferences in the Cookie Consent Manager. The Cookie Consent Manager allows you to select
-                which categories of cookies you accept or reject. Essential cookies cannot be rejected as they are
-                strictly necessary to provide you with services.
+                Tienes derecho a decidir si aceptas o rechazas las cookies. Puedes ejercer tus derechos relacionados con las cookies
+                configurando tus preferencias en el Gestor de Consentimiento de Cookies que aparece cuando visitas mi sitio por primera vez.
+                El Gestor de Consentimiento de Cookies te permite seleccionar qué categorías de cookies aceptas o rechazas.
+                Las cookies esenciales no pueden ser rechazadas, ya que son estrictamente necesarias para proporcionarte los servicios básicos.
               </p>
               <p className="text-zinc-400">
-                If you choose to reject cookies, you may still use my website though your access to some functionality
-                and areas of my website may be restricted. You may also set or amend your web browser controls to accept
-                or refuse cookies.
+                Si eliges rechazar las cookies, aún podrás usar mi sitio web, aunque tu acceso a algunas funcionalidades
+                y áreas puede estar restringido. También puedes configurar o modificar los controles de tu navegador web
+                para aceptar o rechazar cookies. La forma de hacerlo depende de tu navegador:
               </p>
+              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+                <li>Chrome: Configuración > Privacidad y seguridad > Cookies y otros datos de sitios</li>
+                <li>Firefox: Menú > Opciones > Privacidad y Seguridad > Cookies y datos del sitio</li>
+                <li>Safari: Preferencias > Privacidad > Cookies y datos del sitio web</li>
+                <li>Edge: Configuración > Cookies y permisos del sitio > Cookies</li>
+              </ul>
               <p className="text-zinc-400">
-                The specific types of first- and third-party cookies served through my website and the purposes they
-                perform are described in the table below:
+                Los tipos específicos de cookies propias y de terceros que se utilizan en mi sitio web y los fines
+                que cumplen se describen en la tabla siguiente:
               </p>
               <div className="mt-4 overflow-x-auto">
                 <table className="min-w-full border border-zinc-800">
                   <thead className="bg-zinc-800">
                     <tr>
-                      <th className="px-4 py-2 text-left">Cookie Name</th>
-                      <th className="px-4 py-2 text-left">Purpose</th>
-                      <th className="px-4 py-2 text-left">Expiry</th>
+                      <th className="px-4 py-2 text-left">Nombre de Cookie</th>
+                      <th className="px-4 py-2 text-left">Propósito</th>
+                      <th className="px-4 py-2 text-left">Caducidad</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
                     <tr>
                       <td className="px-4 py-2 text-zinc-400">_ga</td>
-                      <td className="px-4 py-2 text-zinc-400">Google Analytics cookie used to distinguish users</td>
-                      <td className="px-4 py-2 text-zinc-400">2 years</td>
+                      <td className="px-4 py-2 text-zinc-400">Cookie de Google Analytics utilizada para distinguir usuarios</td>
+                      <td className="px-4 py-2 text-zinc-400">2 años</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 text-zinc-400">_gid</td>
-                      <td className="px-4 py-2 text-zinc-400">Google Analytics cookie used to distinguish users</td>
-                      <td className="px-4 py-2 text-zinc-400">24 hours</td>
+                      <td className="px-4 py-2 text-zinc-400">Cookie de Google Analytics utilizada para distinguir usuarios</td>
+                      <td className="px-4 py-2 text-zinc-400">24 horas</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-2 text-zinc-400">_gat</td>
-                      <td className="px-4 py-2 text-zinc-400">Google Analytics cookie used to throttle request rate</td>
-                      <td className="px-4 py-2 text-zinc-400">1 minute</td>
+                      <td className="px-4 py-2 text-zinc-400">Cookie de Google Analytics utilizada para limitar la frecuencia de solicitudes</td>
+                      <td className="px-4 py-2 text-zinc-400">1 minuto</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-400">cookie_consent</td>
+                      <td className="px-4 py-2 text-zinc-400">Almacena tus preferencias de consentimiento de cookies</td>
+                      <td className="px-4 py-2 text-zinc-400">6 meses</td>
                     </tr>
                   </tbody>
                 </table>
@@ -126,23 +137,41 @@ export default function CookiePolicyPage() {
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Changes to This Cookie Policy</h2>
+              <h2 className="text-2xl font-bold">Cambios en esta Política de Cookies</h2>
               <p className="text-zinc-400">
-                I may update this Cookie Policy from time to time in order to reflect, for example, changes to the
-                cookies I use or for other operational, legal, or regulatory reasons. Please therefore re-visit this
-                Cookie Policy regularly to stay informed about my use of cookies and related technologies.
+                Puedo actualizar esta Política de Cookies periódicamente para reflejar, por ejemplo, cambios en las
+                cookies que utilizo o por otras razones operativas, legales o regulatorias. Te recomiendo visitar
+                regularmente esta Política de Cookies para mantenerte informado sobre mi uso de cookies y tecnologías relacionadas.
               </p>
               <p className="text-zinc-400">
-                The date at the top of this Cookie Policy indicates when it was last updated.
+                La fecha en la parte superior de esta Política de Cookies indica cuándo fue actualizada por última vez.
+                Cualquier cambio en la forma en que utilizo las cookies será reflejado en este documento y comunicado mediante
+                el gestor de consentimiento.
               </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Contact Information</h2>
+              <h2 className="text-2xl font-bold">Marco Legal</h2>
               <p className="text-zinc-400">
-                If you have any questions about my use of cookies or other technologies, please contact me at:
+                Esta Política de Cookies ha sido elaborada en cumplimiento de la normativa colombiana aplicable, 
+                incluida la Ley 1581 de 2012 (Ley de Protección de Datos Personales), el Decreto 1377 de 2013, 
+                y las directrices proporcionadas por la Superintendencia de Industria y Comercio de Colombia 
+                en materia de protección de datos personales y privacidad en línea.
               </p>
-              <p className="text-zinc-400">Email: privacy@devleader.com</p>
+              <p className="text-zinc-400">
+                Para los visitantes de países de la Unión Europea, esta política también se alinea con los requisitos 
+                del Reglamento General de Protección de Datos (GDPR) en lo que respecta al uso de cookies e información 
+                de rastreo similar.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">Información de Contacto</h2>
+              <p className="text-zinc-400">
+                Si tienes alguna pregunta sobre mi uso de cookies u otras tecnologías, o sobre cómo ejercer tus derechos 
+                relacionados con la privacidad de tus datos, por favor contáctame en:
+              </p>
+              <p className="text-zinc-400">Correo electrónico: legal@carrillo.app</p>
             </section>
           </Card>
         </div>
