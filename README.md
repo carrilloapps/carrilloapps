@@ -77,3 +77,20 @@ I'm self-taught and I am open to learning new technologies and tools for the dev
 
 <h3 align="left">Support:</h3>
 <p><a href="https://www.buymeacoffee.com/carrillo.apps"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="Junior Carrillo" /></a></p><br><br>
+
+---
+
+## Project Documentation
+
+For comprehensive documentation about this project, please check the `/docs` directory:
+- [Project Overview](./docs/PROJECT.md)
+- [API Documentation](./docs/API.md)
+- [Development Guide](./docs/DEVELOPMENT.md)
+- [Translation Guide](./docs/TRANSLATION.md)
+
+Additionally, see:
+- [Contributing Guidelines](./CONTRIBUTING.md)
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+- [Changelog](./CHANGELOG.md)
+- [License](./LICENSE.md)
+- [Security Policy](./SECURITY.md)
