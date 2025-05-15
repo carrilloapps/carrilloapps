@@ -7,48 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Sobre mí | Desarrollador Senior & Tech Leader | José Carrillo",
-  description:
-    "Más de 10 años de experiencia liderando equipos de desarrollo y construyendo soluciones financieras. Especialista en arquitectura de software y sistemas empresariales.",
-  keywords: [
-    "tech leader",
-    "desarrollador senior",
-    "arquitectura de software",
-    "sistemas financieros",
-    "liderazgo técnico",
-    "desarrollo de software",
-    "microservicios",
-    "mentor de programación",
-    "Juan Carrillo",
-    "fintech",
-  ],
-  authors: [{ name: "José Carrillo" }],
-  creator: "José Carrillo",
-  publisher: "José Carrillo",
-  openGraph: {
-    type: "profile",
-    title: "José Carrillo | Tech Leader & Desarrollador Senior",
-    description:
-      "Especialista en arquitectura de software con más de una década de experiencia en sistemas financieros y liderazgo técnico.",
-    locale: "es_ES",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "José Carrillo | Tech Leader & Desarrollador Senior",
-    description:
-      "Especialista en arquitectura de software con más de una década de experiencia en sistemas financieros y liderazgo técnico.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://carrilloapps.com/sobre-mi",
-  },
-};
 
 export default function AboutPage() {
   return (

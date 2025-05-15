@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description:
       "Senior Software Developer and Tech Leader specializing in financial and backoffice solutions with over 10 years of experience building enterprise systems.",
     url: "https://carrillo.app",
-    siteName: "José Carrillo Portfolio",
+    siteName: "José Carrillo",
     images: [
       {
         url: "https://carrillo.app/home-og-image.jpg",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
         alt: "José Carrillo - Senior Software Developer & Tech Leader",
       },
     ],
-    locale: "en_US",
+    locale: "es_CO",
     type: "website",
   },
 }

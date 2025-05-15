@@ -3,7 +3,8 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Recursos | GitHub & GitLab Repositories",
+  title:
+    "Recursos | Repositorios de GitHub y GitLab de CarrilloApps | José Carrillo",
   description:
     "Explora mis repositorios públicos de GitHub y GitLab. Proyectos de código abierto en sistemas financieros, backoffice y más.",
   keywords: [
@@ -16,13 +17,13 @@ export const metadata: Metadata = {
     "josé carrillo proyectos",
   ],
   alternates: {
-    canonical: "/resources",
+    canonical: "/recursos",
   },
   openGraph: {
     title: "Recursos y Proyectos | José Carrillo",
     description:
       "Explora mis repositorios públicos de GitHub y GitLab. Proyectos de código abierto en sistemas financieros, backoffice y más.",
-    url: "https://carrillo.app/resources",
+    url: "https://carrillo.app/recursos",
     images: [
       {
         url: "https://carrillo.app/resources-og-image.jpg",
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     description:
       "Explora mis repositorios públicos de GitHub y GitLab. Proyectos de código abierto en sistemas financieros, backoffice y más.",
   },
-}
+};
 
 export default function ResourcesLayout({
   children,

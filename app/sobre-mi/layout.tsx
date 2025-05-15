@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Sobre Mí | Senior Software Developer & Tech Leader",
+  title: "Sobre Mí | Senior Software Developer & Tech Leader | José Carrillo",
   description:
     "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
   keywords: [
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "desarrollo software",
   ],
   alternates: {
-    canonical: "/about",
+    canonical: "/sobre-mi",
   },
   openGraph: {
     title: "Sobre Mí | José Carrillo",
     description:
       "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
-    url: "https://carrillo.app/about",
+    url: "https://carrillo.app/sobre-mi",
     images: [
       {
         url: "https://carrillo.app/about-og-image.jpg",
