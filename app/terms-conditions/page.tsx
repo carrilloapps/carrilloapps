@@ -1,12 +1,6 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import type { Metadata } from "next"
 import { Card } from "@/components/ui/card"
-
-export const metadata: Metadata = {
-  title: "Terms & Conditions | Senior Software Developer & Tech Leader",
-  description: "Terms and conditions for using the DevLeader portfolio website.",
-}
 
 export default function TermsConditionsPage() {
   return (
@@ -15,109 +9,233 @@ export default function TermsConditionsPage() {
 
       <main className="container py-12 space-y-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Terms and Conditions</h1>
+          <h1 className="text-4xl font-bold mb-8">Términos y Condiciones</h1>
 
           <Card className="bg-zinc-900 border-zinc-800 p-6 md:p-8 space-y-6">
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Introduction</h2>
+              <h2 className="text-2xl font-bold">Introducción</h2>
               <p className="text-zinc-400">
-                Last Updated:{" "}
-                {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                Última actualización:{" "}
+                {new Date(1747346137458).toLocaleDateString("es-CO", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
               </p>
               <p className="text-zinc-400">
-                Welcome to DevLeader. These terms and conditions outline the rules and regulations for the use of my
-                website, located at devleader.com.
+                Bienvenido al sitio web profesional de José Carrillo. Estos
+                términos y condiciones establecen las reglas y normativas para
+                el uso de mi sitio web, ubicado en carrillo.app, y aplican a
+                todos los usuarios y visitantes.
               </p>
               <p className="text-zinc-400">
-                By accessing this website, I assume you accept these terms and conditions in full. Do not continue to
-                use DevLeader if you do not agree to all the terms and conditions stated on this page.
+                El presente documento constituye un acuerdo legalmente
+                vinculante entre el usuario y José Carrillo. Al acceder a este
+                sitio web, se asume que aceptas estos términos y condiciones en
+                su totalidad. Si no estás de acuerdo con alguna parte de estos
+                términos y condiciones, no debes utilizar este sitio web.
               </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Intellectual Property Rights</h2>
               <p className="text-zinc-400">
-                Unless otherwise stated, I own the intellectual property rights for all material on DevLeader. All
-                intellectual property rights are reserved. You may access this from DevLeader for your own personal use
-                subjected to restrictions set in these terms and conditions.
-              </p>
-              <p className="text-zinc-400">You must not:</p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
-                <li>Republish material from DevLeader</li>
-                <li>Sell, rent or sub-license material from DevLeader</li>
-                <li>Reproduce, duplicate or copy material from DevLeader</li>
-                <li>Redistribute content from DevLeader</li>
-              </ul>
-              <p className="text-zinc-400">
-                Parts of this website offer an opportunity for users to share their projects or ideas. I do not filter,
-                edit, publish or review comments prior to their presence on the website. Comments do not reflect my
-                views and opinions.
+                Este sitio web se rige por las leyes de la República de
+                Colombia. Cualquier disputa relacionada con este sitio web
+                estará sujeta a la jurisdicción de los tribunales colombianos.
               </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Content Liability</h2>
+              <h2 className="text-2xl font-bold">
+                Derechos de Propiedad Intelectual
+              </h2>
               <p className="text-zinc-400">
-                I shall not be held responsible for any content that appears on your website. You agree to protect and
-                defend me against all claims that arise on your website. No link(s) should appear on any website that
-                may be interpreted as libelous, obscene, or criminal, or which infringes, otherwise violates, or
-                advocates the infringement or other violation of, any third party rights.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Reservation of Rights</h2>
-              <p className="text-zinc-400">
-                I reserve the right to request that you remove all links or any particular link to my website. You
-                approve to immediately remove all links to my website upon request. I also reserve the right to amend
-                these terms and conditions and its linking policy at any time. By continuously linking to my website,
-                you agree to be bound to and follow these linking terms and conditions.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Removal of Links from My Website</h2>
-              <p className="text-zinc-400">
-                If you find any link on my website that is offensive for any reason, you are free to contact and inform
-                me any moment. I will consider requests to remove links but I am not obligated to do so or to respond to
-                you directly.
+                Salvo que se indique lo contrario, José Carrillo posee los
+                derechos de propiedad intelectual de todo el material en
+                carrillo.app, protegido bajo las leyes colombianas de derechos
+                de autor (Ley 23 de 1982, Ley 44 de 1993, Decisión Andina 351 de
+                1993, y demás normas complementarias). Todos los derechos de
+                propiedad intelectual están reservados. Puedes acceder a este
+                sitio web para tu uso personal, sujeto a las restricciones
+                establecidas en estos términos y condiciones.
               </p>
               <p className="text-zinc-400">
-                I do not ensure that the information on this website is correct, I do not warrant its completeness or
-                accuracy; nor do I promise to ensure that the website remains available or that the material on the
-                website is kept up to date.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Disclaimer</h2>
-              <p className="text-zinc-400">
-                To the maximum extent permitted by applicable law, I exclude all representations, warranties, and
-                conditions relating to my website and the use of this website. Nothing in this disclaimer will:
+                No debes, sin mi autorización expresa por escrito:
               </p>
               <ul className="list-disc pl-6 text-zinc-400 space-y-2">
-                <li>Limit or exclude my or your liability for death or personal injury;</li>
-                <li>Limit or exclude my or your liability for fraud or fraudulent misrepresentation;</li>
-                <li>Limit any of my or your liabilities in any way that is not permitted under applicable law; or</li>
-                <li>Exclude any of my or your liabilities that may not be excluded under applicable law.</li>
+                <li>Republicar material de carrillo.app</li>
+                <li>
+                  Vender, alquilar o sublicenciar material de carrillo.app
+                </li>
+                <li>Reproducir, duplicar o copiar material de carrillo.app</li>
+                <li>Redistribuir contenido de carrillo.app</li>
+                <li>
+                  Utilizar el contenido para fines comerciales sin autorización
+                  previa
+                </li>
               </ul>
               <p className="text-zinc-400">
-                The limitations and prohibitions of liability set in this section and elsewhere in this disclaimer: (a)
-                are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer,
-                including liabilities arising in contract, in tort and for breach of statutory duty.
-              </p>
-              <p className="text-zinc-400">
-                As long as the website and the information and services on the website are provided free of charge, I
-                will not be liable for any loss or damage of any nature.
+                Algunas secciones de este sitio web ofrecen la oportunidad a los
+                usuarios de compartir comentarios sobre artículos técnicos o
+                proyectos de código. No filtro, edito, publico ni reviso
+                comentarios antes de su aparición en el sitio web. Los
+                comentarios no reflejan mis puntos de vista u opiniones. Me
+                reservo el derecho de eliminar comentarios que considere
+                inapropiados, ofensivos o que violen estos términos y
+                condiciones.
               </p>
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-bold">Contact Information</h2>
+              <h2 className="text-2xl font-bold">
+                Responsabilidad del Contenido
+              </h2>
               <p className="text-zinc-400">
-                If you have any questions about these Terms and Conditions, please contact me at:
+                No seré responsable por ningún contenido que aparezca en tu
+                sitio web como resultado de enlazar el mío. Aceptas protegerme y
+                defenderme contra todas las reclamaciones que surjan en tu sitio
+                web. No debe(n) aparecer ningún enlace en cualquier sitio web
+                que pueda ser interpretado como difamatorio, obsceno o
+                delictivo, o que infrinja, viole o promueva la infracción o
+                cualquier otra violación de los derechos de terceros.
               </p>
-              <p className="text-zinc-400">Email: legal@devleader.com</p>
+              <p className="text-zinc-400">
+                Todo el contenido publicado en este sitio web, incluyendo pero
+                no limitado a artículos técnicos, código fuente de ejemplos, y
+                material educativo, se proporciona únicamente con fines
+                informativos y educativos. No garantizo la exactitud, integridad
+                o actualidad del contenido. El uso de cualquier información o
+                código proporcionado es bajo tu propia responsabilidad y riesgo.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">Reserva de Derechos</h2>
+              <p className="text-zinc-400">
+                Me reservo el derecho de solicitar que elimines todos los
+                enlaces o cualquier enlace particular a mi sitio web. Aceptas
+                eliminar inmediatamente todos los enlaces a mi sitio web cuando
+                te lo solicite. También me reservo el derecho de modificar estos
+                términos y condiciones y su política de enlaces en cualquier
+                momento, de acuerdo con las disposiciones establecidas en el
+                Código Civil colombiano y la legislación aplicable. Al continuar
+                enlazando a mi sitio web, aceptas estar vinculado y seguir estos
+                términos y condiciones de enlace.
+              </p>
+              <p className="text-zinc-400">
+                Me reservo el derecho de modificar o discontinuar, temporal o
+                permanentemente, el sitio web o cualquier parte del mismo con o
+                sin previo aviso. No seré responsable ante ti ni ante terceros
+                por cualquier modificación, suspensión o interrupción del sitio
+                web.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">
+                Eliminación de Enlaces de Mi Sitio Web
+              </h2>
+              <p className="text-zinc-400">
+                Si encuentras algún enlace en mi sitio web que sea ofensivo por
+                cualquier motivo, tienes libertad para contactarme e informarme
+                en cualquier momento. Consideraré las solicitudes para eliminar
+                enlaces, pero no estoy obligado a hacerlo ni a responderte
+                directamente. Sin embargo, me esforzaré por atender todas las
+                comunicaciones en un plazo razonable.
+              </p>
+              <p className="text-zinc-400">
+                No garantizo que la información en este sitio web sea correcta,
+                no garantizo su integridad o exactitud; ni prometo asegurar que
+                el sitio web permanezca disponible o que el material en el sitio
+                web se mantenga actualizado. El contenido técnico puede quedar
+                obsoleto con el tiempo debido a los rápidos cambios en las
+                tecnologías de desarrollo de software.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">
+                Exención de Responsabilidad
+              </h2>
+              <p className="text-zinc-400">
+                En la máxima medida permitida por la ley aplicable colombiana,
+                excluyo todas las representaciones, garantías y condiciones
+                relacionadas con mi sitio web y el uso de este sitio web, en
+                conformidad con los artículos 1604 a 1615 del Código Civil
+                colombiano y demás normas aplicables. Nada en esta exención de
+                responsabilidad:
+              </p>
+              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+                <li>
+                  Limitará o excluirá mi responsabilidad o la tuya por muerte o
+                  lesiones personales;
+                </li>
+                <li>
+                  Limitará o excluirá mi responsabilidad o la tuya por fraude o
+                  tergiversación fraudulenta;
+                </li>
+                <li>
+                  Limitará cualquiera de mis responsabilidades o las tuyas de
+                  manera no permitida por la legislación aplicable; o
+                </li>
+                <li>
+                  Excluirá cualquiera de mis responsabilidades o las tuyas que
+                  no puedan ser excluidas según la legislación aplicable.
+                </li>
+              </ul>
+              <p className="text-zinc-400">
+                Las limitaciones y prohibiciones de responsabilidad establecidas
+                en esta sección y en otras partes de esta exención de
+                responsabilidad: (a) están sujetas al párrafo anterior; y (b)
+                rigen todas las responsabilidades que surjan en virtud de la
+                exención de responsabilidad, incluidas las responsabilidades que
+                surjan por contrato, por acto ilícito y por incumplimiento del
+                deber legal.
+              </p>
+              <p className="text-zinc-400">
+                En la medida en que el sitio web y la información y los
+                servicios en el sitio web se proporcionen de forma gratuita, no
+                seré responsable de ninguna pérdida o daño de ninguna
+                naturaleza, excepto en los casos previstos por la legislación
+                colombiana sobre protección al consumidor (Ley 1480 de 2011).
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">Solución de Disputas</h2>
+              <p className="text-zinc-400">
+                Cualquier disputa que surja de o en conexión con estos Términos
+                y Condiciones, incluyendo cualquier cuestión relacionada con su
+                existencia, validez o terminación, será resuelta a través de un
+                proceso de conciliación de acuerdo con la legislación
+                colombiana. Si no se llegara a un acuerdo mediante conciliación,
+                la disputa será sometida a la jurisdicción de los tribunales
+                colombianos.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">Protección de Datos</h2>
+              <p className="text-zinc-400">
+                El tratamiento de datos personales relacionados con este sitio
+                web se rige por nuestra
+                <a
+                  href="/privacy-policy"
+                  className="text-blue-500 hover:text-blue-400"
+                >
+                  {" "}
+                  Política de Privacidad
+                </a>
+                , que cumple con la Ley Estatutaria 1581 de 2012 y el Decreto
+                1377 de 2013 sobre la protección de datos personales en
+                Colombia.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-bold">Información de Contacto</h2>
+              <p className="text-zinc-400">
+                Si tienes alguna pregunta sobre estos Términos y Condiciones o
+                necesitas aclaraciones adicionales, por favor contáctame en:
+              </p>
+              <p className="text-zinc-400">Correo electrónico: legal@carrillo.app</p>
             </section>
           </Card>
         </div>
@@ -125,5 +243,5 @@ export default function TermsConditionsPage() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
