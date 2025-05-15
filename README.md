@@ -74,9 +74,7 @@ I'm self-taught and I am open to learning new technologies and tools for the dev
 <p align="left">
   <img src="https://skillicons.dev/icons?i=grafana,jenkins,jest,docker,cypress,figma,xd,gradle,graphql,kafka,kubernetes,rabbitmq,terraform" />
 </p>
-<h3 align="left">Projects:</h3>
-<p align="left">For comprehensive documentation about my projects, please check the <code>/docs</code> directory:</p>
-<ul>
+<h3 align="left">Last projects:</h3>
   <li><a href="./docs/PROJECT.md">carrillo.app</a>: Personal professional portfolio website built with modern web technologies</li>
 </ul>
 
