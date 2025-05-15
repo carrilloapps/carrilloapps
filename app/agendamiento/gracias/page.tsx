@@ -48,7 +48,7 @@ export default function ThankYouPage() {
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}>
             <Card className="bg-zinc-900 border-zinc-800">
               <CardContent className="p-6 space-y-4">
-                <h2 className="text-xl font-bold">Próximos Pasos</h2>
+                <h2 className="text-xl font-bold">Próximos pasos</h2>
                 <ul className="space-y-3 text-zinc-400">
                   <li className="flex items-start">
                     <span className="text-blue-500 mr-2 mt-1">1.</span>
@@ -56,11 +56,11 @@ export default function ThankYouPage() {
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue-500 mr-2 mt-1">2.</span>
-                    Te contactaré para proponer una fecha y hora específica para nuestra consulta.
+                    Te contactaré para proponer una fecha y hora específica.
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue-500 mr-2 mt-1">3.</span>
-                    Una vez confirmada, recibirás los detalles de la reunión (enlace de Zoom o información de contacto).
+                    Una vez confirmada, recibirás los detalles de la reunión (enlace de contacto).
                   </li>
                   <li className="flex items-start">
                     <span className="text-blue-500 mr-2 mt-1">4.</span>
@@ -80,13 +80,13 @@ export default function ThankYouPage() {
             <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800" asChild>
               <Link href="/">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver al Inicio
+                Volver al inicio
               </Link>
             </Button>
             <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-              <Link href="/resources">
+              <Link href="/recursos">
                 <Calendar className="mr-2 h-4 w-4" />
-                Explorar Recursos
+                Explorar recursos
               </Link>
             </Button>
           </motion.div>

@@ -23,23 +23,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RepositoriesList } from "@/components/repositories-list";
 import { RepositoriesLoading } from "@/components/repositories-loading";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title:
-    "Recursos | Repositorios de GitHub y GitLab de CarrilloApps | José Carrillo",
-  description:
-    "Explora mis repositorios públicos en GitHub y GitLab. Proyectos de desarrollo web, aplicaciones móviles y soluciones empresariales con código abierto.",
-  keywords:
-    "repositorios, GitHub, GitLab, código abierto, desarrollo web, React, TypeScript, CarrilloApps",
-  openGraph: {
-    title: "Recursos y Repositorios | CarrilloApps",
-    description:
-      "Descubre todos mis proyectos de código abierto disponibles para colaboración y uso libre.",
-    url: "https://carrilloapps.com/recursos",
-    type: "website",
-  },
-};
 
 export default function ResourcesPage() {
   return (

@@ -1,51 +1,11 @@
 import { Suspense } from "react"
-import type { Metadata } from "next"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { BlogPosts } from "@/components/blog-posts"
 import { BlogFeatured } from "@/components/blog-featured"
 import { BlogLoading } from "@/components/blog-loading"
-import { BlogSearch } from "@/components/blog-search"
 import { Badge } from "@/components/ui/badge"
-import { NewsletterForm } from "@/components/newsletter-form"
-
-export const metadata: Metadata = {
-  title: "Blog | Insights sobre Tecnología Financiera y Desarrollo",
-  description:
-    "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
-  keywords: [
-    "blog tecnología",
-    "desarrollo software",
-    "sistemas financieros",
-    "liderazgo técnico",
-    "backoffice",
-    "tutoriales programación",
-    "josé carrillo blog",
-  ],
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    title: "Blog | José Carrillo",
-    description:
-      "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
-    url: "https://carrillo.app/blog",
-    images: [
-      {
-        url: "https://carrillo.app/blog-og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Blog - José Carrillo",
-      },
-    ],
-  },
-  twitter: {
-    title: "Blog | José Carrillo",
-    description:
-      "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
-  },
-}
 
 export default function BlogPage({ searchParams }: { searchParams: { category?: string; search?: string } }) {
   const { category, search } = searchParams

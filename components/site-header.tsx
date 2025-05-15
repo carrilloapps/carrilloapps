@@ -22,8 +22,8 @@ export function SiteHeader() {
     { href: "/sobre-mi", label: "Sobre mí" },
     { href: "/blog", label: "Blog" },
     { href: "/recursos", label: "Recursos" },
-    { href: "/services", label: "Servicios" },
-    { href: "/contact", label: "Contacto" },
+    { href: "/servicios", label: "Servicios" },
+    { href: "/contacto", label: "Contacto" },
   ]
 
   // Handle scroll effect
@@ -211,7 +211,7 @@ export function SiteHeader() {
                 className="border-zinc-700 text-white hover:bg-blue-600/20 hover:border-blue-500 hover:text-white transition-all duration-300"
                 asChild
               >
-                <Link href="/schedule">
+                <Link href="/agendamiento">
                   <motion.div
                     initial={{ rotate: 0 }}
                     whileHover={{ rotate: 15 }}

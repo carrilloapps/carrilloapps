@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Agenda una Consulta | Servicios de Consultoría",
+  title: "Agenda una Consulta | Servicios de Consultoría | José Carrillo",
   description:
     "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
   keywords: [
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "backoffice",
   ],
   alternates: {
-    canonical: "/schedule",
+    canonical: "/agendamiento",
   },
   openGraph: {
     title: "Agenda una Consulta | José Carrillo",
     description:
       "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
-    url: "https://carrillo.app/schedule",
+    url: "https://carrillo.app/agendamiento",
     images: [
       {
         url: "https://carrillo.app/schedule-og-image.jpg",
@@ -50,7 +50,7 @@ export default function ScheduleLayout({
       <BreadcrumbJsonLd
         items={[
           { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Agenda una Consulta", url: "https://carrillo.app/schedule" },
+          { name: "Agenda una Consulta", url: "https://carrillo.app/agendamiento" },
         ]}
       />
     </>

@@ -94,7 +94,7 @@ export default function SchedulePage() {
     setShowDialog(false)
     // Aquí normalmente enviarías los datos al servidor
     // Por ahora, solo redirigimos a la página de agradecimiento
-    router.push("/schedule/thank-you")
+    router.push("/agendamiento/gracias")
   }
 
   const containerVariants = {
@@ -135,27 +135,41 @@ export default function SchedulePage() {
           <div className="grid gap-12 md:grid-cols-2 items-center">
             <motion.div className="space-y-6" variants={itemVariants}>
               <div className="space-y-2">
-                <Badge variant="outline" className="border-blue-500 text-blue-500">
+                <Badge
+                  variant="outline"
+                  className="border-blue-500 text-blue-500"
+                >
                   Consultoría Personalizada
                 </Badge>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Agenda una Sesión con José Carrillo</h1>
-                <p className="text-xl text-zinc-400">Experto en Soluciones Financieras y Backoffice</p>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                  Agenda una sesión
+                </h1>
+                <p className="text-xl text-zinc-400">
+                  Experto en soluciones bancarias, pagos y finanzas
+                </p>
               </div>
               <p className="text-zinc-400 leading-relaxed">
-                Reserva una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar
-                oportunidades de colaboración. Con más de 10 años de experiencia en el desarrollo de sistemas
-                financieros y liderazgo técnico, puedo ayudarte a encontrar la solución adecuada para tu negocio.
+                Reserva una consulta personalizada para discutir tu proyecto,
+                resolver dudas técnicas o explorar oportunidades de
+                colaboración. Con más de 10 años de experiencia en el desarrollo
+                de sistemas financieros y liderazgo técnico, puedo ayudarte a
+                encontrar la solución adecuada para tu negocio.
               </p>
               <div className="flex gap-4">
                 <Button
                   className="bg-blue-600 hover:bg-blue-700"
-                  onClick={() => window.scrollTo({ top: 800, behavior: "smooth" })}
+                  onClick={() =>
+                    window.scrollTo({ top: 800, behavior: "smooth" })
+                  }
                 >
-                  Agendar Ahora
+                  Agendar ahora
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-900">
-                  Ver Servicios
+                <Button
+                  variant="outline"
+                  className="border-zinc-700 hover:bg-zinc-900"
+                >
+                  Ver servicios
                 </Button>
               </div>
             </motion.div>
@@ -183,9 +197,12 @@ export default function SchedulePage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Agenda una Consulta</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              Agenda una consulta
+            </h2>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-              Completa el formulario para agendar una consulta inicial y discutir cómo puedo ayudarte con tu proyecto.
+              Completa el formulario para agendar una consulta inicial y
+              discutir cómo puedo ayudarte con tu proyecto.
             </p>
           </motion.div>
 
@@ -193,9 +210,10 @@ export default function SchedulePage() {
             <motion.div variants={itemVariants}>
               <Card className="bg-zinc-900 border-zinc-800">
                 <CardHeader>
-                  <CardTitle>Solicitar Agendamiento</CardTitle>
+                  <CardTitle>Solicitar agendamiento</CardTitle>
                   <CardDescription>
-                    Completa el formulario y me pondré en contacto contigo para confirmar la cita.
+                    Completa el formulario y me pondré en contacto contigo para
+                    confirmar la cita.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -212,7 +230,11 @@ export default function SchedulePage() {
                           formErrors.name ? "border-red-500" : ""
                         }`}
                       />
-                      {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
+                      {formErrors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.name}
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2">
@@ -229,7 +251,11 @@ export default function SchedulePage() {
                             formErrors.email ? "border-red-500" : ""
                           }`}
                         />
-                        {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
+                        {formErrors.email && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {formErrors.email}
+                          </p>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Teléfono</Label>
@@ -243,7 +269,11 @@ export default function SchedulePage() {
                             formErrors.phone ? "border-red-500" : ""
                           }`}
                         />
-                        {formErrors.phone && <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>}
+                        {formErrors.phone && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {formErrors.phone}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -262,7 +292,9 @@ export default function SchedulePage() {
                     <div className="space-y-2">
                       <Label htmlFor="projectType">Tipo de proyecto</Label>
                       <Select
-                        onValueChange={(value) => handleSelectChange("projectType", value)}
+                        onValueChange={(value) =>
+                          handleSelectChange("projectType", value)
+                        }
                         defaultValue={formData.projectType}
                       >
                         <SelectTrigger
@@ -274,23 +306,39 @@ export default function SchedulePage() {
                           <SelectValue placeholder="Selecciona el tipo de proyecto" />
                         </SelectTrigger>
                         <SelectContent className="bg-zinc-950 border-zinc-800">
-                          <SelectItem value="financial-system">Sistema Financiero</SelectItem>
-                          <SelectItem value="backoffice-solution">Solución de Backoffice</SelectItem>
-                          <SelectItem value="technical-leadership">Liderazgo Técnico</SelectItem>
-                          <SelectItem value="architecture-design">Diseño de Arquitectura</SelectItem>
+                          <SelectItem value="financial-system">
+                            Sistema Financiero
+                          </SelectItem>
+                          <SelectItem value="backoffice-solution">
+                            Solución de Backoffice
+                          </SelectItem>
+                          <SelectItem value="technical-leadership">
+                            Liderazgo Técnico
+                          </SelectItem>
+                          <SelectItem value="architecture-design">
+                            Diseño de Arquitectura
+                          </SelectItem>
                           <SelectItem value="other">Otro</SelectItem>
                         </SelectContent>
                       </Select>
-                      {formErrors.projectType && <p className="text-red-500 text-sm mt-1">{formErrors.projectType}</p>}
+                      {formErrors.projectType && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.projectType}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
                       <Label>Horario preferido para la consulta</Label>
                       <RadioGroup
                         defaultValue={formData.preferredTime}
-                        onValueChange={(value) => handleSelectChange("preferredTime", value)}
+                        onValueChange={(value) =>
+                          handleSelectChange("preferredTime", value)
+                        }
                         className={`grid grid-cols-1 md:grid-cols-2 gap-2 ${
-                          formErrors.preferredTime ? "border border-red-500 rounded-md p-2" : ""
+                          formErrors.preferredTime
+                            ? "border border-red-500 rounded-md p-2"
+                            : ""
                         }`}
                       >
                         <div className="flex items-center space-x-2">
@@ -319,7 +367,9 @@ export default function SchedulePage() {
                         </div>
                       </RadioGroup>
                       {formErrors.preferredTime && (
-                        <p className="text-red-500 text-sm mt-1">{formErrors.preferredTime}</p>
+                        <p className="text-red-500 text-sm mt-1">
+                          {formErrors.preferredTime}
+                        </p>
                       )}
                     </div>
 
@@ -336,7 +386,10 @@ export default function SchedulePage() {
                       />
                     </div>
 
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700"
+                    >
                       Solicitar Agendamiento
                     </Button>
                   </form>
@@ -351,7 +404,9 @@ export default function SchedulePage() {
                     <Calendar className="h-5 w-5 text-blue-500" />
                     Disponibilidad
                   </CardTitle>
-                  <CardDescription>Horarios en los que estoy disponible para consultas</CardDescription>
+                  <CardDescription>
+                    Horarios en los que estoy disponible para consultas
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -371,7 +426,8 @@ export default function SchedulePage() {
                       </div>
                     </div>
                     <p className="text-zinc-500 text-sm mt-2">
-                      También disponible en horarios nocturnos (6PM - 8PM) con cita previa.
+                      También disponible en horarios nocturnos (6PM - 8PM) con
+                      cita previa.
                     </p>
                   </div>
                   <div className="space-y-2">
@@ -393,8 +449,9 @@ export default function SchedulePage() {
                     <CheckCircle className="h-4 w-4 text-blue-500" />
                     <AlertTitle>Cómo funciona</AlertTitle>
                     <AlertDescription className="text-zinc-400">
-                      Una vez que envíes tu solicitud, revisaré los detalles y te contactaré dentro de 24-48 horas para
-                      confirmar la fecha y hora exacta de nuestra consulta.
+                      Una vez que envíes tu solicitud, revisaré los detalles y
+                      te contactaré dentro de 24-48 horas para confirmar la
+                      fecha y hora exacta de nuestra consulta.
                     </AlertDescription>
                   </Alert>
 
@@ -424,7 +481,8 @@ export default function SchedulePage() {
                     <AlertCircle className="h-4 w-4 text-yellow-500" />
                     <AlertTitle>Importante</AlertTitle>
                     <AlertDescription className="text-zinc-400">
-                      Para cancelaciones o reprogramaciones, por favor notifícame con al menos 24 horas de anticipación.
+                      Para cancelaciones o reprogramaciones, por favor
+                      notifícame con al menos 24 horas de anticipación.
                     </AlertDescription>
                   </Alert>
                 </CardContent>
@@ -441,9 +499,12 @@ export default function SchedulePage() {
           transition={{ delay: 0.3 }}
         >
           <div className="space-y-4 text-center">
-            <h2 className="text-2xl font-bold">He trabajado con empresas líderes en la industria</h2>
+            <h2 className="text-2xl font-bold">
+              He trabajado con empresas líderes en la industria
+            </h2>
             <p className="text-zinc-400 max-w-2xl mx-auto">
-              Ayudando a transformar sus operaciones financieras y de backoffice con soluciones tecnológicas innovadoras
+              Ayudando a transformar sus operaciones financieras y de backoffice
+              con soluciones tecnológicas innovadoras
             </p>
           </div>
 
@@ -495,11 +556,14 @@ export default function SchedulePage() {
                     <Briefcase className="h-12 w-12 text-blue-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Experiencia en Múltiples Industrias</h3>
+                    <h3 className="text-xl font-bold mb-2">
+                      Experiencia en Múltiples Industrias
+                    </h3>
                     <p className="text-zinc-400">
-                      He colaborado con empresas de diversos sectores, desde fintech y banca hasta retail y
-                      telecomunicaciones, implementando soluciones tecnológicas que han mejorado su eficiencia operativa
-                      y rentabilidad.
+                      He colaborado con empresas de diversos sectores, desde
+                      fintech y banca hasta retail y telecomunicaciones,
+                      implementando soluciones tecnológicas que han mejorado su
+                      eficiencia operativa y rentabilidad.
                     </p>
                   </div>
                 </div>
@@ -512,43 +576,56 @@ export default function SchedulePage() {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="bg-zinc-900 border-zinc-800">
           <DialogHeader>
-            <DialogTitle>Confirmar Solicitud</DialogTitle>
-            <DialogDescription>¿Estás seguro de que deseas enviar esta solicitud de agendamiento?</DialogDescription>
+            <DialogTitle>Confirmar solicitud</DialogTitle>
+            <DialogDescription>
+              ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm font-medium text-zinc-400">Nombre:</p>
-                <p>{formData.name}</p>
+                <p className="truncate">{formData.name}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-400">Email:</p>
-                <p>{formData.email}</p>
+                <p className="text-sm font-medium text-zinc-400">
+                  Correo electrónico:
+                </p>
+                <p className="truncate">{formData.email}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-zinc-400">Teléfono:</p>
-                <p>{formData.phone}</p>
+                <p className="truncate">{formData.phone}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-400">Horario preferido:</p>
+                <p className="text-sm font-medium text-zinc-400">
+                  Horario preferido:
+                </p>
                 <p>
                   {formData.preferredTime === "morning"
                     ? "Mañana (9AM - 12PM)"
                     : formData.preferredTime === "afternoon"
-                      ? "Tarde (1PM - 5PM)"
-                      : formData.preferredTime === "evening"
-                        ? "Noche (6PM - 8PM)"
-                        : "Flexible"}
+                    ? "Tarde (1PM - 5PM)"
+                    : formData.preferredTime === "evening"
+                    ? "Noche (6PM - 8PM)"
+                    : "Flexible"}
                 </p>
               </div>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" className="border-zinc-700" onClick={() => setShowDialog(false)}>
+            <Button
+              variant="outline"
+              className="border-zinc-700"
+              onClick={() => setShowDialog(false)}
+            >
               Cancelar
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700" onClick={confirmSubmission}>
-              Confirmar y Enviar
+            <Button
+              className="bg-blue-600 hover:bg-blue-700"
+              onClick={confirmSubmission}
+            >
+              Confirmar y enviar
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -556,5 +633,5 @@ export default function SchedulePage() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }

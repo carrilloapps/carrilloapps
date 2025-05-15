@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Servicios Profesionales | Consultoría Tecnológica",
+  title: "Servicios Profesionales | Consultoría Tecnológica | José Carrillo",
   description:
     "Servicios especializados en liderazgo técnico, sistemas financieros, soluciones de backoffice, diseño de arquitectura y más.",
   keywords: [

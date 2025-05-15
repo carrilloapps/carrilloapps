@@ -16,7 +16,7 @@ function NotFoundContent() {
 
       <main className="container py-16 md:py-24 flex flex-col items-center justify-center text-center space-y-8">
         <div className="space-y-4 max-w-2xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">404 - Página no encontrada</h1>
+          <h1 className="text-4xl md:text-3xl font-bold tracking-tight">404 - Página no encontrada</h1>
           <p className="text-xl text-zinc-400">
             Lo sentimos, la página que estás buscando no existe o ha sido movida.
           </p>
@@ -30,7 +30,7 @@ function NotFoundContent() {
             </Link>
           </Button>
           <Button variant="outline" className="border-zinc-700 hover:bg-zinc-900" asChild>
-            <Link href="/contact">Contactar soporte</Link>
+            <Link href="/contacto">Solicitar soporte</Link>
           </Button>
         </div>
       </main>

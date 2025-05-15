@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Blog | Insights sobre Tecnología Financiera y Desarrollo",
+  title: "Blog | Insights sobre Tecnología Financiera y Desarrollo | José Carrillo",
   description:
     "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
   keywords: [
