@@ -166,9 +166,16 @@ export function SiteHeader() {
         initial="visible"
         animate={visible || mobileMenuOpen ? "visible" : "hidden"}
         variants={headerVariants}
-        className={`sticky top-0 z-40 w-full border-b border-zinc-800 backdrop-blur-md transition-all duration-300 ${
-          scrolled ? "bg-black/90 shadow-lg shadow-blue-900/10" : "bg-black/75"
+        className={`sticky top-0 z-40 w-full transition-all duration-500 ${
+          scrolled 
+            ? "bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5" 
+            : "bg-black/10 backdrop-blur-lg border-b border-white/5"
         }`}
+        style={{
+          background: scrolled 
+            ? 'linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(15,23,42,0.4) 50%, rgba(0,0,0,0.3) 100%)'
+            : 'linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(15,23,42,0.2) 50%, rgba(0,0,0,0.1) 100%)'
+        }}
         role="banner"
       >
         <div className="container flex h-16 items-center justify-between">
@@ -176,7 +183,7 @@ export function SiteHeader() {
             <Logo animationLevel="none" />
           </motion.div>
 
-          <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
+          <nav className="hidden md:flex items-center gap-2" aria-label="Navegación principal">
             {navItems.map((item, i) => {
               const isActive = pathname === item.href
 
@@ -184,12 +191,22 @@ export function SiteHeader() {
                 <motion.div key={item.href} custom={i} initial="initial" animate="animate" variants={navItemVariants}>
                   <Link
                     href={item.href}
-                    className={`relative text-sm font-medium transition-colors ${
-                      isActive ? "text-white font-semibold" : "text-zinc-500 hover:text-zinc-200"
+                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl group ${
+                      isActive 
+                        ? "text-white font-semibold bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg shadow-blue-500/10" 
+                        : "text-zinc-400 hover:text-white hover:bg-white/5 hover:backdrop-blur-sm hover:border hover:border-white/10"
                     }`}
                     aria-current={isActive ? "page" : undefined}
                   >
-                    {item.label}
+                    <span className="relative z-10">{item.label}</span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
                   </Link>
                 </motion.div>
               )
@@ -208,7 +225,7 @@ export function SiteHeader() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-zinc-700 text-white hover:bg-blue-600/20 hover:border-blue-500 hover:text-white transition-all duration-300"
+                className="relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-white/20 text-white hover:from-blue-500/20 hover:to-purple-500/20 hover:border-white/30 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group"
                 asChild
               >
                 <Link href="/agendamiento">
@@ -216,11 +233,12 @@ export function SiteHeader() {
                     initial={{ rotate: 0 }}
                     whileHover={{ rotate: 15 }}
                     transition={{ duration: 0.2 }}
-                    className="mr-2"
+                    className="mr-2 relative z-10"
                   >
                     <Calendar className="h-4 w-4" aria-hidden="true" />
                   </motion.div>
-                  <span>Agéndame</span>
+                  <span className="relative z-10 font-medium">Agéndame</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/20 group-hover:to-blue-500/10 transition-all duration-500" />
                 </Link>
               </Button>
             </motion.div>
@@ -238,14 +256,20 @@ export function SiteHeader() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-zinc-700 text-white hover:bg-blue-600/20 hover:border-blue-500 hover:text-white transition-all duration-300"
+                    className="relative overflow-hidden bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-white/20 text-white hover:from-blue-500/20 hover:to-purple-500/20 hover:border-white/30 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 group"
                     asChild
                   >
-                    <Link href="/schedule">
-                      <motion.div initial={{ rotate: 0 }} whileHover={{ rotate: 15 }} transition={{ duration: 0.2 }}>
+                    <Link href="/agendamiento">
+                      <motion.div 
+                        initial={{ rotate: 0 }} 
+                        whileHover={{ rotate: 15 }} 
+                        transition={{ duration: 0.2 }}
+                        className="relative z-10"
+                      >
                         <Calendar className="h-4 w-4" aria-hidden="true" />
                       </motion.div>
                       <span className="sr-only">Agéndame</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/20 group-hover:to-blue-500/10 transition-all duration-500" />
                     </Link>
                   </Button>
                 </motion.div>
@@ -325,8 +349,16 @@ export function SiteHeader() {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="fixed inset-0 bg-zinc-900 z-[10000] flex flex-col overflow-hidden"
-                style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
+                className="fixed inset-0 z-[10000] flex flex-col overflow-hidden"
+                style={{ 
+                  position: "fixed", 
+                  top: 0, 
+                  left: 0, 
+                  right: 0, 
+                  bottom: 0,
+                  background: 'linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(15,23,42,0.98) 50%, rgba(0,0,0,0.95) 100%)',
+                  backdropFilter: 'blur(20px)'
+                }}
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Header */}
@@ -370,15 +402,24 @@ export function SiteHeader() {
                         >
                           <Link
                             href={item.href}
-                            className={`flex items-center justify-between py-4 px-5 rounded-xl transition-all ${
+                            className={`flex items-center justify-between py-4 px-5 rounded-xl transition-all duration-300 group ${
                               isActive
-                                ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                                : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white"
+                                ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-white/20 backdrop-blur-sm shadow-lg shadow-blue-500/10"
+                                : "text-zinc-300 hover:bg-white/5 hover:text-white hover:backdrop-blur-sm hover:border hover:border-white/10"
                             }`}
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            <span className="font-medium text-lg">{item.label}</span>
-                            {isActive && <span className="h-3 w-3 rounded-full bg-blue-500"></span>}
+                            <span className="font-medium text-lg relative z-10">{item.label}</span>
+                            {isActive ? (
+                              <motion.span 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="h-3 w-3 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg shadow-blue-500/50"
+                              />
+                            ) : (
+                              <div className="h-3 w-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-all duration-300" />
+                            )}
+                            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-300" />
                           </Link>
                         </motion.div>
                       )
@@ -387,16 +428,30 @@ export function SiteHeader() {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-zinc-800/50 bg-black/30">
-                  <Button
-                    className="w-full bg-blue-600 hover:bg-blue-700 py-6 text-lg shadow-lg shadow-blue-900/20"
-                    asChild
+                <div className="p-6 border-t border-white/10 bg-gradient-to-r from-black/20 to-slate-900/30 backdrop-blur-sm">
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <Link href="/schedule" onClick={() => setMobileMenuOpen(false)}>
-                      <Calendar className="mr-3 h-5 w-5" />
-                      <span className="font-medium">Agéndame</span>
-                    </Link>
-                  </Button>
+                    <Button
+                      className="w-full relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-6 text-lg shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-sm group"
+                      asChild
+                    >
+                      <Link href="/agendamiento" onClick={() => setMobileMenuOpen(false)}>
+                        <motion.div
+                          initial={{ rotate: 0 }}
+                          whileHover={{ rotate: 15 }}
+                          transition={{ duration: 0.2 }}
+                          className="mr-3 relative z-10"
+                        >
+                          <Calendar className="h-5 w-5" />
+                        </motion.div>
+                        <span className="font-medium relative z-10">Agéndame</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover:via-white/20 transition-all duration-500 transform -skew-x-12 translate-x-full group-hover:translate-x-[-200%]" />
+                      </Link>
+                    </Button>
+                  </motion.div>
                 </div>
               </motion.div>
             </motion.div>
