@@ -814,14 +814,16 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
               whileHover={{ y: -5 }}
+              role="listitem"
             >
-              <Card className="bg-zinc-900 border-zinc-800 h-full">
+              <Card className="bg-zinc-900 border-zinc-800 h-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900" role="article" aria-labelledby="linkedin-heading">
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                  <Linkedin className="h-10 w-10 text-blue-500" />
-                  <h3 className="text-lg font-bold">LinkedIn</h3>
-                  <p className="text-zinc-400">Conéctate profesionalmente</p>
-                  <Button variant="link" className="text-blue-500">
+                  <Linkedin className="h-10 w-10 text-blue-500" role="img" aria-label="Icono de LinkedIn" />
+                  <h3 id="linkedin-heading" className="text-lg font-bold">LinkedIn</h3>
+                  <p className="text-zinc-400" role="text">Conéctate profesionalmente</p>
+                  <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900" aria-label="Ver perfil de LinkedIn">
                     Ver perfil
+                    <span className="sr-only">Se abrirá LinkedIn en una nueva pestaña</span>
                   </Button>
                 </CardContent>
               </Card>
@@ -833,15 +835,17 @@ export default function Home() {
               transition={{ delay: 0.7 }}
               whileHover={{ y: -5 }}
               className="sm:col-span-2 lg:col-span-1"
+              role="listitem"
             >
-              <Card className="bg-zinc-900 border-zinc-800 h-full">
+              <Card className="bg-zinc-900 border-zinc-800 h-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900" role="article" aria-labelledby="github-heading">
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                  <Github className="h-10 w-10 text-blue-500" />
-                  <h3 className="text-lg font-bold">GitHub</h3>
-                  <p className="text-zinc-400">Conoce mis proyectos</p>
-                  <Button variant="link" className="text-blue-500" asChild>
-                    <Link href="https://github.com/carrilloapps" target="_blank">
+                  <Github className="h-10 w-10 text-blue-500" role="img" aria-label="Icono de GitHub" />
+                  <h3 id="github-heading" className="text-lg font-bold">GitHub</h3>
+                  <p className="text-zinc-400" role="text">Conoce mis proyectos</p>
+                  <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus-ring-offset-zinc-900" asChild>
+                    <Link href="https://github.com/carrilloapps" target="_blank" aria-label="Ver repositorios en GitHub">
                       Ver repositorios
+                      <span className="sr-only">Se abrirá GitHub en una nueva pestaña</span>
                     </Link>
                   </Button>
                 </CardContent>
