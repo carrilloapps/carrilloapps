@@ -80,6 +80,7 @@ export function DisqusComments({
 
   useEffect(() => {
     if (!shortname) {
+      console.warn("Disqus shortname not provided")
       setHasError(true)
       setIsLoading(false)
       return
@@ -87,8 +88,17 @@ export function DisqusComments({
 
     const loadDisqus = () => {
       try {
+        console.log("Loading Disqus with config:", {
+          shortname,
+          identifier,
+          url: fullUrl,
+          title,
+          environment: process.env.NODE_ENV
+        })
+
         // Reset Disqus if it's already loaded
         if (window.DISQUS) {
+          console.log("Resetting existing Disqus instance")
           window.DISQUS.reset({
             reload: true,
             config: function () {
@@ -106,6 +116,13 @@ export function DisqusComments({
           this.page.identifier = identifier
           this.page.url = fullUrl
           this.page.title = title
+          
+          // Additional debugging
+          console.log("Disqus config applied:", {
+            identifier: this.page.identifier,
+            url: this.page.url,
+            title: this.page.title
+          })
         }
 
         // Load Disqus script
@@ -115,11 +132,14 @@ export function DisqusComments({
         script.async = true
         
         script.onload = () => {
+          console.log("Disqus script loaded successfully")
           setIsLoading(false)
           setHasError(false)
         }
         
-        script.onerror = () => {
+        script.onerror = (error) => {
+          console.error("Failed to load Disqus script:", error)
+          console.error("Script URL:", script.src)
           setHasError(true)
           setIsLoading(false)
         }
@@ -134,6 +154,7 @@ export function DisqusComments({
         }
       } catch (error) {
         console.error("Error loading Disqus:", error)
+        console.error("Configuration:", { shortname, identifier, fullUrl, title })
         setHasError(true)
         setIsLoading(false)
       }

@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
+import { DisqusDiagnostic } from "@/components/disqus-diagnostic"
 import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium"
@@ -434,6 +435,9 @@ export function BlogArticle({ slug }: { slug: string }) {
 
       <div className="mt-8 pt-8">
       </div>
+
+      {/* Disqus Diagnostic - Temporary for debugging */}
+      <DisqusDiagnostic />
 
       {/* Disqus Comments */}
       <DisqusComments
