@@ -161,7 +161,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/5 via-blue-900/5 to-purple-900/5 pointer-events-none"></div>
           
           <div className="container mx-auto px-4 relative z-10">
-          <div className="space-y-6 text-center">
+          <div className="space-y-6 text-center pb-8">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-blue-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10" role="text">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -188,7 +188,7 @@ export default function Home() {
               transition={{ delay: 0.4, duration: 0.7 }}
               className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
             >
-              Una década de experiencia construyendo <span className="text-blue-300 font-semibold">soluciones tecnológicas</span> de alto impacto.
+              Más de una década de experiencia construyendo <span className="text-blue-300 font-semibold">soluciones tecnológicas</span> de alto impacto al más alto nivel para la banca, pagos y fintech.
             </motion.p>
           </div>
 
@@ -299,7 +299,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="text-center">
+          <div className="text-center mt-8">
             <Button variant="link" className="text-blue-500">
               <Link href="/about" className="flex items-center focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg px-3 py-2" aria-label="Ver toda mi experiencia laboral">
                 Ver más experiencia
@@ -317,7 +317,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-purple-900/5 via-blue-900/5 to-slate-900/5 pointer-events-none"></div>
           
           <div className="container mx-auto px-4 relative z-10">
-          <div className="space-y-6 text-center">
+          <div className="space-y-6 text-center pb-8">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-600/30 text-purple-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-purple-600/10" role="text">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -720,7 +720,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-blue-900/5 via-cyan-900/5 to-slate-900/5 pointer-events-none"></div>
           
           <div className="container mx-auto px-4 relative z-10">
-          <div className="space-y-6 text-center">
+          <div className="space-y-6 text-center pb-8">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-600/30 text-blue-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10" role="text">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -818,7 +818,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center">
+          <div className="text-center mt-8">
             <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500" asChild>
               <Link href="/resources" aria-label="Ver todos los proyectos en la página de recursos">
                 Ver otros proyectos
@@ -836,7 +836,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-green-900/5 via-emerald-900/5 to-slate-900/5 pointer-events-none"></div>
           
           <div className="container mx-auto px-4 relative z-10">
-          <div className="space-y-6 text-center">
+          <div className="space-y-6 text-center pb-8">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-600/30 text-green-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-green-600/10" role="text">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -864,11 +864,11 @@ export default function Home() {
               className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed" 
               role="text"
             >
-              ¿Tienes alguna <span className="text-green-300 font-semibold">idea en mente?</span> Comunicate conmigo y conversemos sobre tu idea.
+              ¿Tienes alguna <span className="text-green-300 font-semibold">idea en mente?</span> Comunicate conmigo y conversemos de ella.
             </motion.p>
           </div>
 
-          <Card className="bg-zinc-900 border-zinc-800 max-w-2xl mx-auto" role="form" aria-labelledby="contact-form-heading">
+          <Card className="bg-zinc-900 border-zinc-800 max-w-2xl mx-auto mb-8" role="form" aria-labelledby="contact-form-heading">
             <CardContent className="p-6 space-y-4">
               <h3 className="sr-only" id="contact-form-heading">Formulario de contacto</h3>
               <form className="space-y-4" role="form" aria-label="Enviar mensaje de contacto">
