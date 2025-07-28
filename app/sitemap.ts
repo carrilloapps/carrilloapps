@@ -1,38 +1,5 @@
 import { MetadataRoute } from 'next'
-
-// Función para obtener posts de Medium
-async function getMediumPosts() {
-  try {
-    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@carrilloapps`, {
-      next: { revalidate: 3600 } // Revalidar cada hora
-    })
-    
-    if (!response.ok) {
-      return []
-    }
-    
-    const data = await response.json()
-    
-    if (data.status !== "ok") {
-      return []
-    }
-    
-    return data.items.map((item: any) => ({
-      slug: item.title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim(),
-      lastModified: new Date(item.pubDate),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8
-    }))
-  } catch (error) {
-    console.error('Error fetching Medium posts for sitemap:', error)
-    return []
-  }
-}
+import { getCachedSitemapData } from '@/lib/rss-service'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://carrillo.app'
@@ -102,14 +69,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
   
-  // URLs dinámicas de blog
-  const blogPosts = await getMediumPosts()
-  const blogUrls: MetadataRoute.Sitemap = blogPosts.map(post => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.lastModified,
-    changeFrequency: post.changeFrequency,
-    priority: post.priority,
-  }))
-  
-  return [...staticUrls, ...blogUrls]
+  // URLs dinámicas de blog usando el servicio centralizado con caché
+  try {
+    const blogPosts = await getCachedSitemapData()
+    const blogUrls: MetadataRoute.Sitemap = blogPosts.map(post => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: post.lastModified,
+      changeFrequency: post.changeFrequency,
+      priority: post.priority,
+    }))
+    
+    return [...staticUrls, ...blogUrls]
+  } catch (error) {
+    console.error('Error generating sitemap:', error)
+    return staticUrls
+  }
 }

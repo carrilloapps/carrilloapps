@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { DisqusComments } from "@/components/disqus-comments"
-import { fetchMediumPostBySlug } from "@/lib/medium"
+import { getCachedMediumPostBySlug } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium"
 
 export function BlogArticle({ slug }: { slug: string }) {
@@ -21,7 +21,7 @@ export function BlogArticle({ slug }: { slug: string }) {
     async function loadPost() {
       try {
         setLoading(true)
-        const postData = await fetchMediumPostBySlug("@carrilloapps", slug)
+        const postData = await getCachedMediumPostBySlug(slug)
         setPost(postData)
       } catch (err) {
         console.error("Error fetching Medium post:", err)
