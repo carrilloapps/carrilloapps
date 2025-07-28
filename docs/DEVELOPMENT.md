@@ -36,11 +36,61 @@ This guide provides an overview of development practices and standards for the C
 3. Set up environment variables:
    - Copy `.env.example` to `.env.local`
    - Fill in the required variables
+   - For Vercel deployment, configure variables in Project Settings
+   - Use the environment utility (`@/lib/env`) for type-safe access
 
 4. Start the development server:
    ```bash
    pnpm dev
    ```
+
+## Environment Variables
+
+### Configuration
+
+The project uses a centralized environment configuration in `@/lib/env.ts` that provides:
+
+- Type-safe access to environment variables
+- Automatic fallbacks for development
+- Environment detection utilities
+- Validation of required variables
+
+### Usage
+
+```typescript
+import { env, getSiteUrl, isProduction } from '@/lib/env'
+
+// Get site URL (handles different environments)
+const siteUrl = getSiteUrl()
+
+// Check environment
+if (isProduction()) {
+  // Production-specific logic
+}
+
+// Access variables with type safety
+const disqusShortname = env.DISQUS_SHORTNAME
+```
+
+### Required Variables
+
+- `NEXT_PUBLIC_SITE_URL`: Base URL of the site
+- `NEXT_PUBLIC_DISQUS_SHORTNAME`: Disqus shortname for comments
+
+### Optional Variables
+
+- `DISQUS_API_KEY`: For advanced Disqus features
+- `DISQUS_API_SECRET`: For Disqus API authentication
+- `DISQUS_ACCESS_TOKEN`: For authenticated Disqus requests
+
+### Vercel Deployment
+
+For Vercel deployment:
+1. Configure variables in Project Settings
+2. Use different values for Development/Preview/Production
+3. Leverage automatic Vercel variables (`VERCEL_URL`, `VERCEL_ENV`)
+
+See `docs/VERCEL.md` for detailed deployment instructions.
 
 ## Coding Standards
 

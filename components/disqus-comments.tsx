@@ -7,6 +7,7 @@ import { MessageSquare, Users, Clock, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { publicEnv, getSiteUrl } from "@/lib/env"
 
 interface DisqusCommentsProps {
   shortname?: string
@@ -36,7 +37,7 @@ declare global {
 }
 
 export function DisqusComments({ 
-  shortname = process.env.NEXT_PUBLIC_DISQUS_SHORTNAME || "carrilloapps", 
+  shortname = publicEnv.DISQUS_SHORTNAME, 
   identifier, 
   title, 
   url 
@@ -46,7 +47,7 @@ export function DisqusComments({
   const [hasError, setHasError] = useState(false)
   const [commentCount, setCommentCount] = useState<number | null>(null)
   
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://carrillo.app"
+  const siteUrl = getSiteUrl()
   const fullUrl = url || `${siteUrl}${pathname}`
 
   // Fetch comment count

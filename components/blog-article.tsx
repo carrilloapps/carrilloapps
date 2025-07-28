@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
+import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium"
 
@@ -438,7 +439,7 @@ export function BlogArticle({ slug }: { slug: string }) {
       <DisqusComments
         identifier={post.slug}
         title={post.title}
-        url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://carrillo.app'}/blog/${post.slug}`}
+        url={`${getSiteUrl()}/blog/${post.slug}`}
       />
     </motion.article>
   </motion.div>
