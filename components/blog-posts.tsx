@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/pagination";
 import { fetchMediumPosts } from "@/lib/medium";
 import type { MediumPost } from "@/types/medium";
+import { usePageLoading } from "@/components/page-loading-context";
 
 export function BlogPosts({
   category = "",
@@ -27,6 +28,7 @@ export function BlogPosts({
   category?: string;
   search?: string;
 }) {
+  const { setLoading } = usePageLoading();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(category || "");
 
@@ -55,8 +57,12 @@ export function BlogPosts({
     });
   };
 
+  const handleLinkClick = () => {
+    setLoading(true);
+  };
+
   const [posts, setPosts] = useState<MediumPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLocalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -65,7 +71,7 @@ export function BlogPosts({
   useEffect(() => {
     async function loadPosts() {
       try {
-        setLoading(true);
+        setLocalLoading(true);
         const allPosts = await fetchMediumPosts("@carrilloapps");
 
         // Filtrar por categoría y búsqueda si es necesario
@@ -96,7 +102,7 @@ export function BlogPosts({
           "No pudimos cargar los artículos. Por favor, intenta de nuevo más tarde."
         );
       } finally {
-        setLoading(false);
+        setLocalLoading(false);
       }
     }
 
@@ -218,7 +224,7 @@ export function BlogPosts({
             transition={{ duration: 0.3, delay: index * 0.1 }}
             whileHover={{ y: -5 }}
           >
-            <Link href={`/blog/${post.slug}`} className="block h-full">
+            <Link href={`/blog/${post.slug}`} className="block h-full" onClick={handleLinkClick}>
               <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm overflow-hidden h-full flex flex-col hover:border-blue-500/50 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/20 group">
                 {/* Glassmorphism overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

@@ -11,16 +11,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { fetchMediumPosts } from "@/lib/medium";
 import type { MediumPost } from "@/types/medium";
+import { usePageLoading } from "@/components/page-loading-context";
 
-export function BlogFeatured() {
+export default function BlogFeatured() {
+  const { setLoading } = usePageLoading();
   const [featuredPost, setFeaturedPost] = useState<MediumPost | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLocalLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleLinkClick = () => {
+    setLoading(true);
+  };
 
   useEffect(() => {
     async function loadFeaturedPost() {
       try {
-        setLoading(true);
+        setLocalLoading(true);
         const posts = await fetchMediumPosts("@carrilloapps");
 
         // Seleccionar el post más reciente como destacado
@@ -33,7 +39,7 @@ export function BlogFeatured() {
           "No pudimos cargar el artículo destacado. Por favor, intenta de nuevo más tarde."
         );
       } finally {
-        setLoading(false);
+        setLocalLoading(false);
       }
     }
 
@@ -122,7 +128,7 @@ export function BlogFeatured() {
                   </Badge>
                 ))}
               </div>
-              <Link href={`/blog/${featuredPost.slug}`}>
+              <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
                 <h2 className="text-3xl font-bold mb-1 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent group-hover:from-blue-200 group-hover:via-purple-200 group-hover:to-blue-200 transition-all duration-500">
                   {featuredPost.title}
                 </h2>
@@ -152,7 +158,7 @@ export function BlogFeatured() {
               </div>
               <div className="mt-auto pt-4">
                 <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 group-hover:scale-105" asChild>
-                  <Link href={`/blog/${featuredPost.slug}`}>
+                  <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
                     Leer artículo
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -161,7 +167,7 @@ export function BlogFeatured() {
             </div>
           </div>
           <div className="p-2 flex flex-col">
-            <Link href={`/blog/${featuredPost.slug}`}>
+            <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
               <div className="relative overflow-hidden rounded-lg group-hover:shadow-xl group-hover:shadow-blue-500/20 transition-all duration-500">
                 <Image
                   width={500}
