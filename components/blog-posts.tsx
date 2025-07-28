@@ -357,7 +357,7 @@ export function BlogPosts({
                       <Badge
                         key={i}
                         variant="outline"
-                        className="border-zinc-700/50 text-zinc-400 bg-zinc-800/30 hover:border-blue-500/30 hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-300"
+                        className="capitalize border-zinc-700/50 text-zinc-400 bg-zinc-800/30 hover:border-blue-500/30 hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-300"
                       >
                         {category}
                       </Badge>
@@ -365,7 +365,7 @@ export function BlogPosts({
                   </div>
                 </CardContent>
                 
-                <CardFooter className="px-6 pb-6 pt-0 flex justify-between border-t border-zinc-800/50 mt-auto">
+                <CardFooter className="px-6 pb-6 pt-3 flex justify-between border-t border-zinc-800/50 mt-auto">
                   <motion.div 
                     className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
                     whileHover={{ scale: 1.05 }}

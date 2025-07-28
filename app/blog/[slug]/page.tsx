@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       }
     },
     "datePublished": post.pubDate,
-    "dateModified": new Date().toISOString(),
+    "dateModified": new Date(post.pubDate).toISOString(),
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": `https://carrillo.app/blog/${slug}`
@@ -120,36 +120,42 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       
       <SiteHeader />
 
-      <main className="container py-12 space-y-12 relative z-10" id="main-content">
-        {/* Componente cliente para la UI interactiva */}
-        {post && <BlogPostClient post={post} slug={slug} />}
+      <main className="py-12 space-y-12 relative z-10 w-full" id="main-content">
+        {/* Componente cliente para la UI interactiva - ancho completo */}
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          {post && <BlogPostClient post={post} slug={slug} />}
+        </div>
 
-        {/* Contenido del artículo */}
-        <Suspense fallback={<BlogLoading variant="article" />}>
-          <BlogArticle slug={slug} />
-        </Suspense>
-
-        {/* Sección de artículos relacionados */}
-        <section 
-          className="py-12 space-y-8 border-t border-gradient-to-r from-transparent via-zinc-700/50 to-transparent" 
-          aria-labelledby="related-articles"
-        >
-          <div className="text-center space-y-4">
-            <h2 
-              id="related-articles" 
-              className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
-            >
-              Artículos Relacionados
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Descubre más contenido que podría interesarte sobre desarrollo, tecnología y liderazgo técnico
-            </p>
-          </div>
-          
-          <Suspense fallback={<BlogLoading variant="related" />}>
-            <BlogRelated currentSlug={slug} />
+        {/* Contenido del artículo - contenedor normal */}
+        <div className="container">
+          <Suspense fallback={<BlogLoading variant="article" />}>
+            <BlogArticle slug={slug} />
           </Suspense>
-        </section>
+        </div>
+
+        {/* Sección de artículos relacionados - contenedor normal */}
+        <div className="container">
+          <section 
+            className="py-12 space-y-8 border-t border-gradient-to-r from-transparent via-zinc-700/50 to-transparent" 
+            aria-labelledby="related-articles"
+          >
+            <div className="text-center space-y-4">
+              <h2 
+                id="related-articles" 
+                className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
+              >
+                Artículos Relacionados
+              </h2>
+              <p className="text-zinc-400 max-w-2xl mx-auto">
+                Descubre más contenido que podría interesarte sobre desarrollo, tecnología y liderazgo técnico
+              </p>
+            </div>
+            
+            <Suspense fallback={<BlogLoading variant="related" />}>
+              <BlogRelated currentSlug={slug} />
+            </Suspense>
+          </section>
+        </div>
       </main>
 
       <SiteFooter />

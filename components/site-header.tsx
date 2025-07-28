@@ -198,7 +198,7 @@ export function SiteHeader() {
                     }`}
                     aria-current={isActive ? "page" : undefined}
                   >
-                    <span className="relative z-10">{item.label}</span>
+                    <span className="relative z-10 flex-1 w-full">{item.label}</span>
                     {isActive && (
                       <motion.div
                         layoutId="activeTab"
@@ -237,7 +237,7 @@ export function SiteHeader() {
                   >
                     <Calendar className="h-4 w-4" aria-hidden="true" />
                   </motion.div>
-                  <span className="relative z-10 font-medium">Agéndame</span>
+                  <span className="relative z-10 font-medium flex-1 w-full">Agéndame</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/20 group-hover:to-blue-500/10 transition-all duration-500" />
                 </Link>
               </Button>
@@ -409,7 +409,7 @@ export function SiteHeader() {
                             }`}
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            <span className="font-medium text-lg relative z-10">{item.label}</span>
+                            <span className="font-medium text-lg relative z-10 flex-1 w-full">{item.label}</span>
                             {isActive ? (
                               <motion.span 
                                 initial={{ scale: 0 }}
@@ -447,7 +447,7 @@ export function SiteHeader() {
                         >
                           <Calendar className="h-5 w-5" />
                         </motion.div>
-                        <span className="font-medium relative z-10">Agéndame</span>
+                        <span className="font-medium relative z-10 flex-1 w-full">Agéndame</span>
                         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover:via-white/20 transition-all duration-500 transform -skew-x-12 translate-x-full group-hover:translate-x-[-200%]" />
                       </Link>
                     </Button>
