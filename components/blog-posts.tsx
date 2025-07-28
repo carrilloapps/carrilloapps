@@ -17,7 +17,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import { fetchMediumPosts } from "@/lib/medium";
+import { getCachedMediumPosts } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
 
@@ -95,7 +95,7 @@ export function BlogPosts({
     async function loadPosts() {
       try {
         setLocalLoading(true);
-        const allPosts = await fetchMediumPosts("@carrilloapps");
+        const allPosts = await getCachedMediumPosts();
 
         // Filtrar por categoría y búsqueda si es necesario
         let filteredPosts = allPosts;

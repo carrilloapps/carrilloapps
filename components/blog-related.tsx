@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { fetchRelatedMediumPosts } from "@/lib/medium"
+import { getCachedRelatedMediumPosts } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium"
 
 const containerVariants = {
@@ -43,7 +43,7 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
     async function loadRelatedPosts() {
       try {
         setLoading(true)
-        const posts = await fetchRelatedMediumPosts("@carrilloapps", currentSlug)
+        const posts = await getCachedRelatedMediumPosts(currentSlug);
         setRelatedPosts(posts.slice(0, 3)) // Limitamos a 3 posts relacionados
       } catch (err) {
         console.error("Error fetching related Medium posts:", err)

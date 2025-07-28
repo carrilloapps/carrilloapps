@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { Filter, Sparkles } from "lucide-react"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { fetchMediumCategories } from "@/lib/medium"
+import { getCachedMediumCategories } from "@/lib/rss-client";
 
 // Componente principal que envuelve con Suspense
 export function BlogCategories() {
@@ -37,7 +37,7 @@ function BlogCategoriesContent() {
     async function loadCategories() {
       try {
         setLoading(true)
-        const allCategories = await fetchMediumCategories("@carrilloapps")
+        const allCategories = await getCachedMediumCategories()
         setCategories(allCategories)
       } catch (err) {
         console.error("Error fetching Medium categories:", err)

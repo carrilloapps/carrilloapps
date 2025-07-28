@@ -1,183 +1,62 @@
-"use client"
 import type { MediumPost } from "@/types/medium"
+import { 
+  getCachedMediumPosts, 
+  getCachedMediumPostBySlug, 
+  getCachedRelatedMediumPosts, 
+  getCachedMediumCategories,
+  getCachedFeaturedPost
+} from "./rss-service"
 
-// Función para obtener el tiempo de lectura estimado
-function getReadingTime(content: string): number {
-  const wordsPerMinute = 200
-  const wordCount = content.trim().split(/\s+/).length
-  return Math.ceil(wordCount / wordsPerMinute)
-}
-
-// Función para generar un slug a partir del título
-function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim()
-}
-
-// Función para extraer la imagen destacada del contenido
-function extractThumbnail(content: string): string | null {
-  const imgRegex = /<img[^>]+src="([^">]+)"/
-  const match = content.match(imgRegex)
-  return match ? match[1] : null
-}
-
-function validThumbnail(content: string): string {
-  return /\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i.test(content) ? content : ''
-}
-
-
-// Función para extraer la descripción del contenido
-function extractDescription(content: string): string {
-  // Eliminar todas las etiquetas HTML excepto las básicas para formato
-  const strippedContent = content
-    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, "") // Eliminar scripts y estilos
-    .replace(/<\/?(?!p|br|b|i|strong|em)\w+[^>]*>/gi, "") // Mantener solo etiquetas básicas
-
-  // Tomar los primeros 160 caracteres como descripción
-  const firstParagraph = strippedContent.match(/<p[^>]*>(.*?)<\/p>/i)
-
-  if (firstParagraph && firstParagraph[1]) {
-    // Si encontramos un párrafo, usamos su contenido
-    return firstParagraph[1].length > 160 ? firstParagraph[1].substring(0, 160) + "..." : firstParagraph[1]
-  }
-
-  // Si no hay párrafos, usamos el texto plano
-  return strippedContent.substring(0, 160) + "..."
-}
-
-// Función para extraer metadatos adicionales de Medium
-function extractMediumMetadata(item: any): Partial<MediumPost> {
-  // Estos campos son hipotéticos ya que la API de RSS no proporciona todos estos datos
-  // En una implementación real, podrías usar la API oficial de Medium o web scraping
-  return {
-    claps: Math.floor(Math.random() * 500), // Simulado
-    responses: Math.floor(Math.random() * 20), // Simulado
-    wordCount: item.content.split(/\s+/).length,
-    mediumUrl: item.link,
-    canonicalUrl: item.link,
-    subtitle: item.description ? item.description.substring(0, 100) : "",
-    lastModified: item.pubDate,
-    firstPublished: item.pubDate,
-    language: "es",
-    license: "All Rights Reserved",
-    tags: item.categories || [],
-    estimatedReadingTime: getReadingTime(item.content),
-  }
-}
-
-// Función principal para obtener los posts de Medium
-export async function fetchMediumPosts(username: string): Promise<MediumPost[]> {
+// Función principal para obtener los posts de Medium (ahora usa caché)
+export async function fetchMediumPosts(username?: string): Promise<MediumPost[]> {
   try {
-    // En un entorno real, deberías usar una API proxy para evitar problemas de CORS
-    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/${username}`)
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch Medium posts: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-
-    if (data.status !== "ok") {
-      throw new Error(`Failed to fetch Medium posts: ${data.message}`)
-    }
-
-    // Transformar los datos al formato que necesitamos
-    const posts: MediumPost[] = data.items.map((item: any) => {
-      const readingTime = getReadingTime(item.content)
-      const slug = generateSlug(item.title)
-      const thumbnail = item.thumbnail || extractThumbnail(item.content)
-      const description = item.description || extractDescription(item.content)
-      const mediumMetadata = extractMediumMetadata(item)
-
-      return {
-        title: item.title,
-        author: item.author,
-        content: item.content,
-        description: description,
-        link: item.link,
-        guid: item.guid,
-        thumbnail: validThumbnail(thumbnail),
-        pubDate: item.pubDate,
-        categories: item.categories,
-        readingTime: readingTime,
-        slug: slug,
-        ...mediumMetadata,
-      }
-    })
-
-    return posts
+    return await getCachedMediumPosts()
   } catch (error) {
     console.error("Error fetching Medium posts:", error)
-
-    // Para fines de demostración, devolvemos datos de ejemplo
     return getMockPosts()
   }
 }
 
-// Función para obtener un post específico por su slug
+// Función para obtener un post específico por su slug (ahora usa caché)
 export async function fetchMediumPostBySlug(username: string, slug: string): Promise<MediumPost | null> {
   try {
-    const posts = await fetchMediumPosts(username)
-    return posts.find((post) => post.slug === slug) || null
+    return await getCachedMediumPostBySlug(slug)
   } catch (error) {
     console.error("Error fetching Medium post by slug:", error)
-
-    // Para fines de demostración, devolvemos un post de ejemplo
     const mockPosts = getMockPosts()
     return mockPosts.find((post) => post.slug === slug) || mockPosts[0]
   }
 }
 
-// Función para obtener posts relacionados
+// Función para obtener posts relacionados (ahora usa caché)
 export async function fetchRelatedMediumPosts(username: string, currentSlug: string): Promise<MediumPost[]> {
   try {
-    const allPosts = await fetchMediumPosts(username)
-    const currentPost = allPosts.find((post) => post.slug === currentSlug)
-
-    if (!currentPost) {
-      return allPosts.slice(0, 3)
-    }
-
-    // Encontrar posts con categorías similares
-    const relatedPosts = allPosts
-      .filter((post) => post.slug !== currentSlug)
-      .sort((a, b) => {
-        const aCommonCategories = a.categories.filter((cat) => currentPost.categories.includes(cat)).length
-
-        const bCommonCategories = b.categories.filter((cat) => currentPost.categories.includes(cat)).length
-
-        return bCommonCategories - aCommonCategories
-      })
-
-    return relatedPosts.slice(0, 3)
+    return await getCachedRelatedMediumPosts(currentSlug)
   } catch (error) {
     console.error("Error fetching related Medium posts:", error)
-
-    // Para fines de demostración, devolvemos posts de ejemplo
     const mockPosts = getMockPosts()
     return mockPosts.filter((post) => post.slug !== currentSlug).slice(0, 3)
   }
 }
 
-// Función para obtener todas las categorías únicas
-export async function fetchMediumCategories(username: string): Promise<string[]> {
+// Función para obtener todas las categorías únicas (ahora usa caché)
+export async function fetchMediumCategories(username?: string): Promise<string[]> {
   try {
-    const posts = await fetchMediumPosts(username)
-
-    // Extraer todas las categorías y eliminar duplicados
-    const allCategories = posts.flatMap((post) => post.categories)
-    const uniqueCategories = [...new Set(allCategories)]
-
-    return uniqueCategories
+    return await getCachedMediumCategories()
   } catch (error) {
     console.error("Error fetching Medium categories:", error)
-
-    // Para fines de demostración, devolvemos categorías de ejemplo
     return ["Desarrollo", "Finanzas", "Tecnología", "Liderazgo", "Arquitectura"]
+  }
+}
+
+// Función para obtener el post destacado
+export async function fetchFeaturedPost(): Promise<MediumPost | null> {
+  try {
+    return await getCachedFeaturedPost()
+  } catch (error) {
+    console.error("Error fetching featured post:", error)
+    const mockPosts = getMockPosts()
+    return mockPosts[0] || null
   }
 }
 

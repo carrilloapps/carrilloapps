@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { fetchMediumPosts } from "@/lib/medium";
+import { getCachedFeaturedPost } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
 
@@ -27,12 +27,8 @@ export default function BlogFeatured() {
     async function loadFeaturedPost() {
       try {
         setLocalLoading(true);
-        const posts = await fetchMediumPosts("@carrilloapps");
-
-        // Seleccionar el post más reciente como destacado
-        if (posts.length > 0) {
-          setFeaturedPost(posts[0]);
-        }
+        const post = await getCachedFeaturedPost();
+        setFeaturedPost(post);
       } catch (err) {
         console.error("Error fetching featured Medium post:", err);
         setError(

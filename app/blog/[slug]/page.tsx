@@ -9,100 +9,25 @@ import { BlogArticle } from "@/components/blog-article"
 import { JsonLd } from "@/components/json-ld"
 import { ParticleHeroBackground } from "@/components/particle-hero-background"
 import { BlogPostClient } from "./blog-post-client"
+import { getCachedMediumPostBySlug, getCachedSitemapData } from "@/lib/rss-client"
 
-// Función para obtener datos del post en el servidor
-async function getPostData(slug: string) {
-  try {
-    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@carrilloapps`, {
-      next: { revalidate: 3600 } // Revalidar cada hora
-    })
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch post data')
-    }
-    
-    const data = await response.json()
-    
-    if (data.status !== "ok") {
-      throw new Error('Invalid RSS response')
-    }
-    
-    const post = data.items.find((item: any) => {
-      const postSlug = item.title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim()
-      return postSlug === slug
-    })
-    
-    if (!post) {
-      return null
-    }
-    
-    const description = post.description || 
-      post.content
-        .replace(/<[^>]*>/g, "")
-        .substring(0, 160) + "..."
-    
-    const thumbnail = post.thumbnail || 
-      post.content.match(/<img[^>]+src="([^">]+)"/)?.[1] || 
-      null
-    
-    return {
-      title: post.title,
-      description,
-      author: post.author,
-      pubDate: post.pubDate,
-      categories: post.categories || [],
-      thumbnail,
-      link: post.link,
-      guid: post.guid,
-      content: post.content,
-      readingTime: Math.ceil(post.content.split(" ").length / 200)
-    }
-  } catch (error) {
-    console.error('Error fetching post data:', error)
-    return null
-  }
-}
-
-// Función para pre-generar páginas estáticas
+// Función para pre-generar páginas estáticas usando el servicio centralizado
 export async function generateStaticParams() {
   try {
-    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@carrilloapps`)
-    
-    if (!response.ok) {
-      return []
-    }
-    
-    const data = await response.json()
-    
-    if (data.status !== "ok") {
-      return []
-    }
-    
-    // Generar slugs para todos los posts
-    const slugs = data.items.map((item: any) => ({
-      slug: item.title
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim()
+    const blogPosts = await getCachedSitemapData()
+    return blogPosts.map(post => ({
+      slug: post.slug
     }))
-    
-    return slugs
   } catch (error) {
     console.error('Error generating static params:', error)
     return []
   }
 }
 
-// Generar metadata dinámicamente
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await getPostData(params.slug)
+// Generar metadata dinámicamente usando el servicio centralizado
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getCachedMediumPostBySlug(slug)
   
   if (!post) {
     return {
@@ -131,8 +56,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getPostData(params.slug)
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = await getCachedMediumPostBySlug(slug)
   
   // Datos estructurados para JSON-LD
   const jsonLdData = post ? {
@@ -163,9 +89,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     "dateModified": new Date().toISOString(),
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://carrillo.app/blog/${params.slug}`
+      "@id": `https://carrillo.app/blog/${slug}`
     },
-    "url": `https://carrillo.app/blog/${params.slug}`,
+    "url": `https://carrillo.app/blog/${slug}`,
     "wordCount": post.content.split(" ").length,
     "timeRequired": `PT${post.readingTime}M`,
     "keywords": post.categories.join(", "),
@@ -196,11 +122,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
       <main className="container py-12 space-y-12 relative z-10" id="main-content">
         {/* Componente cliente para la UI interactiva */}
-        {post && <BlogPostClient post={post} slug={params.slug} />}
+        {post && <BlogPostClient post={post} slug={slug} />}
 
         {/* Contenido del artículo */}
         <Suspense fallback={<BlogLoading variant="article" />}>
-          <BlogArticle slug={params.slug} />
+          <BlogArticle slug={slug} />
         </Suspense>
 
         {/* Sección de artículos relacionados */}
@@ -221,7 +147,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </div>
           
           <Suspense fallback={<BlogLoading variant="related" />}>
-            <BlogRelated currentSlug={params.slug} />
+            <BlogRelated currentSlug={slug} />
           </Suspense>
         </section>
       </main>
