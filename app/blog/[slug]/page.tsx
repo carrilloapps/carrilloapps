@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       canonical: `/blog/${slug}`,
     },
     openGraph: {
-      title: `Artículo | José Carrillo Blog`,
+      title: `Artículo | José Carrillo`,
       description: "Artículo detallado sobre desarrollo de software, sistemas financieros o liderazgo técnico.",
       url: `https://carrillo.app/blog/${slug}`,
       type: "article",
