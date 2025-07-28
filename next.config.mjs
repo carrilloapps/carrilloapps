@@ -10,6 +10,11 @@ const nextConfig = {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],
   },
+  // Configuración para framer-motion con Next.js 15
+  experimental: {
+    optimizePackageImports: ['framer-motion'],
+  },
+  transpilePackages: ['framer-motion'],
   // Optimizaciones para SEO
   compress: true,
   poweredByHeader: false,
