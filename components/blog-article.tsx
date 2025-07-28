@@ -436,10 +436,9 @@ export function BlogArticle({ slug }: { slug: string }) {
 
       {/* Disqus Comments */}
       <DisqusComments
-        shortname="carrilloapps"
         identifier={post.slug}
         title={post.title}
-        url={`https://carrillo.app/blog/${post.slug}`}
+        url={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://carrillo.app'}/blog/${post.slug}`}
       />
     </motion.article>
   </motion.div>
