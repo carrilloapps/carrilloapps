@@ -1,3 +1,14 @@
+export function JsonLd({ data }: { data: any }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data),
+      }}
+    />
+  )
+}
+
 export function OrganizationJsonLd() {
   return (
     <script
@@ -11,14 +22,14 @@ export function OrganizationJsonLd() {
           logo: "https://carrillo.app/logo.png",
           sameAs: [
             "https://github.com/carrilloapps",
-            "https://linkedin.com/in/josecarrillo",
-            "https://twitter.com/josecarrillo",
+            "https://linkedin.com/in/carrilloapps",
+            "https://twitter.com/carrilloapps",
           ],
           contactPoint: {
             "@type": "ContactPoint",
-            telephone: "+1-555-123-4567",
+            telephone: "+57-300-332-8389",
             contactType: "customer service",
-            email: "contact@carrillo.app",
+            email: "m@carrillo.app",
             availableLanguage: ["English", "Spanish"],
           },
         }),
@@ -40,8 +51,8 @@ export function PersonJsonLd() {
           url: "https://carrillo.app",
           sameAs: [
             "https://github.com/carrilloapps",
-            "https://linkedin.com/in/josecarrillo",
-            "https://twitter.com/josecarrillo",
+            "https://linkedin.com/in/carrilloapps",
+            "https://twitter.com/carrilloapps",
           ],
           worksFor: {
             "@type": "Organization",
