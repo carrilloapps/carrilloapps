@@ -97,22 +97,22 @@ export function BlogFeatured() {
     >
       <Card className="bg-zinc-900 border-zinc-800 overflow-hidden transition-all hover:shadow-md hover:shadow-blue-900/20">
         <div className="grid md:grid-cols-2 gap-6 p-2">
-          <div className="bg-zinc-800 p-6 flex flex-col justify-between">
+          <div className="p-6 flex flex-col justify-between">
             <div>
               <div className="mb-4 capitalize gap-2 flex items-center">
-                <Badge className="bg-blue-600">Destacado</Badge>
+                <Badge className="inline-flex items-center gap-2 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10">Destacado</Badge>
                 {featuredPost.categories.slice(0, 2).map((category, i) => (
                   <Badge
                     key={i}
                     variant="outline"
-                    className="border-zinc-700 text-zinc-400"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
                   >
                     {category}
                   </Badge>
                 ))}
               </div>
               <Link href={`/blog/${featuredPost.slug}`}>
-                <h2 className="text-2xl font-bold text-zinc-200 mb-1">
+                <h2 className="text-3xl font-bold text-zinc-200 mb-1">
                   {featuredPost.title}
                 </h2>
               </Link>
@@ -131,7 +131,7 @@ export function BlogFeatured() {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="text-lg font-medium line-clamp-25 text-zinc-300">
+                <div className="font-medium line-clamp-25 text-zinc-300">
                   {featuredPost.content
                     .replace(/<[^>]*>/g, " ")
                     .substring(0, 580)
@@ -140,9 +140,9 @@ export function BlogFeatured() {
                 </div>
               </div>
               <div className="mt-auto pt-4">
-                <Button className="bg-blue-600 hover:bg-blue-700" asChild>
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25" asChild>
                   <Link href={`/blog/${featuredPost.slug}`}>
-                    Leer Artículo
+                    Leer artículo
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
