@@ -215,7 +215,7 @@ export function BlogArticle({ slug }: { slug: string }) {
               Blog
             </Link>
             <span>/</span>
-            <span className="text-zinc-300 truncate max-w-xs">{post.title}</span>
+            <span className="text-zinc-300 truncate max-w-[800px]">{post.title}</span>
           </motion.nav>
 
           <motion.article
