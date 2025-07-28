@@ -108,9 +108,9 @@ function BlogCategoriesContent() {
               value="all" 
               className="text-zinc-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 hover:text-blue-100 transition-all duration-300 cursor-pointer focus:bg-gradient-to-r focus:from-blue-600/20 focus:to-purple-600/20 focus:text-blue-100"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 w-full">
                 <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-                <span>Todas las categorías</span>
+                <span className="flex-1 w-full">Todas las categorías</span>
               </div>
             </SelectItem>
             
@@ -125,9 +125,9 @@ function BlogCategoriesContent() {
                   value={category}
                   className="text-zinc-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 hover:text-blue-100 transition-all duration-300 cursor-pointer focus:bg-gradient-to-r focus:from-blue-600/20 focus:to-purple-600/20 focus:text-blue-100"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 w-full">
                     <div className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500" />
-                    <span className="capitalize">{category}</span>
+                    <span className="capitalize flex-1 w-full">{category}</span>
                     <Sparkles className="h-3 w-3 text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </SelectItem>

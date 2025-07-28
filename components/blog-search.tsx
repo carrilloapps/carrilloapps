@@ -85,7 +85,7 @@ export function BlogSearch() {
         >
           <div className="flex items-center gap-2 text-sm text-zinc-400">
             <Search className="h-4 w-4 text-blue-400" />
-            <span>Presiona Enter para buscar</span>
+            <span className="flex-1 w-full">Presiona Enter para buscar</span>
           </div>
         </motion.div>
       )}
