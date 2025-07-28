@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Github, Linkedin, Mail, Twitter, Download, Eye } from "lucide-react"
+import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 

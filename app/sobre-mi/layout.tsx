@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Sobre Mí | Senior Software Developer & Tech Leader | José Carrillo",
+  title: "Sobre mí | Senior Software Developer & Tech Leader",
   description:
     "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
   keywords: [
