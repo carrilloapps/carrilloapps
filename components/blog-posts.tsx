@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Search, Filter, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -20,6 +20,29 @@ import {
 import { fetchMediumPosts } from "@/lib/medium";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+}
 
 export function BlogPosts({
   category = "",
@@ -130,215 +153,312 @@ export function BlogPosts({
 
   if (loading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {Array(6)
-          .fill(0)
-          .map((_, i) => (
-            <Card key={i} className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm overflow-hidden">
-              <div className="aspect-video bg-gradient-to-br from-zinc-800/80 to-zinc-700/60 animate-pulse"></div>
+      <motion.div 
+        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {Array(6).fill(0).map((_, i) => (
+          <motion.div key={i} variants={itemVariants}>
+            <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden">
+              <div className="aspect-video bg-gradient-to-br from-zinc-700/50 to-zinc-800/50 animate-pulse"></div>
               <CardContent className="p-6 space-y-4">
-                <div className="h-6 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-3/4"></div>
-                <div className="h-4 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-full"></div>
-                <div className="h-4 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-full"></div>
+                <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-3/4"></div>
+                <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-full"></div>
+                <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-5/6"></div>
                 <div className="flex gap-2 pt-2">
-                  <div className="h-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded animate-pulse w-20"></div>
-                  <div className="h-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded animate-pulse w-20"></div>
+                  <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-20"></div>
+                  <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-16"></div>
                 </div>
               </CardContent>
+              <CardFooter className="px-6 pb-6 pt-0 flex justify-between border-t border-zinc-800/50">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded-full animate-pulse"></div>
+                  <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-20"></div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded-full animate-pulse"></div>
+                  <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-12"></div>
+                </div>
+              </CardFooter>
             </Card>
-          ))}
-      </div>
+          </motion.div>
+        ))}
+      </motion.div>
     );
   }
 
   if (error) {
     return (
-      <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-red-500/30 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-red-500/5" />
-        <CardContent className="relative z-10 p-6 text-center">
-          <p className="text-red-400">{error}</p>
-          <Button
-            onClick={() => window.location.reload()}
-            className="mt-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 border-0 shadow-lg shadow-red-500/25"
-          >
-            Intentar de nuevo
-          </Button>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Card className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-red-500/30">
+          <CardContent className="p-12 text-center space-y-4">
+            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-red-600/20 to-red-700/20 flex items-center justify-center border border-red-600/30">
+              <Sparkles className="h-8 w-8 text-red-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-zinc-300">Error al cargar artículos</h3>
+            <p className="text-red-400 max-w-md mx-auto">{error}</p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="mt-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 border-0 shadow-lg shadow-red-500/25"
+            >
+              <ArrowRight className="mr-2 h-4 w-4" />
+              Intentar de nuevo
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   if (posts.length === 0) {
     return (
-      <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
-        <CardContent className="relative z-10 p-6 text-center">
-          <p className="text-zinc-300">
-            No hay artículos disponibles en esta categoría.
-          </p>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Card className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30">
+          <CardContent className="p-12 text-center space-y-4">
+            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30">
+              <Sparkles className="h-8 w-8 text-blue-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-zinc-300">No hay artículos disponibles</h3>
+            <p className="text-zinc-400 max-w-md mx-auto">
+              No hay artículos disponibles en esta categoría, pero pronto habrá más contenido interesante.
+            </p>
+            <Button variant="outline" className="mt-4 border-zinc-700 hover:border-blue-500/50 hover:bg-blue-500/10" asChild>
+              <Link href="/blog">
+                <ArrowRight className="mr-2 h-4 w-4" />
+                Ver todos los artículos
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   return (
     <>
-      <div className="mb-8 space-y-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="relative flex-1">
+      {/* Filtros mejorados */}
+      <motion.div 
+        className="mb-8 space-y-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          {/* Búsqueda */}
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-zinc-400 group-focus-within:text-blue-400 transition-colors duration-300" />
+            </div>
             <input
               type="search"
               placeholder="Buscar artículos..."
-              className="w-full px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-3 bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-zinc-400 transition-all duration-300"
               value={searchQuery}
               onChange={handleSearch}
             />
           </div>
-          <select
-            className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={selectedCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-          >
-            <option value="">Todas las categorías</option>
-            {Array.from(new Set(posts.flatMap((post) => post.categories))).map(
-              (cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              )
-            )}
-          </select>
+
+          {/* Filtro de categorías */}
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Filter className="h-5 w-5 text-zinc-400 group-focus-within:text-blue-400 transition-colors duration-300" />
+            </div>
+            <select
+              className="w-full pl-10 pr-4 py-3 bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white transition-all duration-300 appearance-none cursor-pointer"
+              value={selectedCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+            >
+              <option value="">Todas las categorías</option>
+              {Array.from(new Set(posts.flatMap((post) => post.categories))).map(
+                (cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
         </div>
+
         {filterPosts(posts).length === 0 && (
-          <p className="text-center text-zinc-400">
-            No se encontraron artículos que coincidan con tu búsqueda.
-          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="text-center"
+          >
+            <Card className="bg-gradient-to-br from-zinc-800/30 to-zinc-900/30 backdrop-blur-sm border border-zinc-700/30">
+              <CardContent className="p-6">
+                <p className="text-zinc-400">
+                  No se encontraron artículos que coincidan con tu búsqueda.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         )}
-      </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      </motion.div>
+
+      {/* Grid de artículos */}
+      <motion.div 
+        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {getCurrentPagePosts().map((post, index) => (
           <motion.div
             key={post.guid}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            whileHover={{ y: -5 }}
+            variants={itemVariants}
+            whileHover={{ y: -8 }}
+            transition={{ duration: 0.3 }}
           >
-            <Link href={`/blog/${post.slug}`} className="block h-full" onClick={handleLinkClick}>
-              <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm overflow-hidden h-full flex flex-col hover:border-blue-500/50 transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/20 group">
-                {/* Glassmorphism overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10">
-                  <div className="overflow-hidden">
-                    <Image
-                      width={300}
-                      height={300}
-                      className="rounded-t-lg object-cover w-full max-h-[200px] transition-all duration-500 group-hover:scale-110"
-                      placeholder="blur"
-                      blurDataURL={post.thumbnail || "/placeholder.svg"}
-                      src={post.thumbnail || "/placeholder.svg"}
-                      alt={post.title || "Thumbnail"}
-                    />
+            <Link href={`/blog/${post.slug}`} className="block h-full group" onClick={handleLinkClick}>
+              <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group-hover:scale-[1.02]">
+                <div className="aspect-video bg-zinc-800 relative overflow-hidden">
+                  <Image
+                    src={post.thumbnail || "/placeholder.svg"}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                    <div className="w-8 h-8 rounded-full bg-blue-600/20 backdrop-blur-sm border border-blue-500/30 flex items-center justify-center">
+                      <ArrowRight className="h-4 w-4 text-blue-400" />
+                    </div>
                   </div>
-                  
-                  <CardContent className="p-6 space-y-4 flex-grow">
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-bold line-clamp-2 bg-gradient-to-r from-white via-zinc-100 to-zinc-300 bg-clip-text text-transparent group-hover:from-blue-200 group-hover:to-purple-200 transition-all duration-500">
-                        {post.title}
-                      </h3>
-                    </div>
-
-                    <div className="text-sm line-clamp-3 text-zinc-300 mb-3 group-hover:text-zinc-200 transition-colors duration-300">
-                      {post.content
-                        .replace(/<[^>]*>/g, " ")
-                        .substring(0, 220)
-                        .trim()}
-                      ...
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {post.categories.slice(0, 2).map((category, i) => (
-                        <Badge
-                          key={i}
-                          variant="outline"
-                          className="capitalize bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-blue-200 backdrop-blur-sm hover:from-blue-600/30 hover:to-purple-600/30 transition-all duration-300"
-                        >
-                          {category}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                  
-                  <CardFooter className="px-6 pb-6 pt-4 flex justify-between border-t border-zinc-700/50 mt-auto backdrop-blur-sm">
-                    <div className="flex items-center gap-2 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
-                      <Calendar className="h-4 w-4" />
-                      {new Date(post.pubDate).toLocaleDateString("es-ES", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
-                      <Clock className="h-4 w-4" />
-                      {post.readingTime} min
-                    </div>
-                  </CardFooter>
                 </div>
+                
+                <CardContent className="p-6 space-y-4 flex-grow">
+                  <h3 className="text-lg font-bold line-clamp-2 group-hover:text-blue-100 transition-colors duration-300">
+                    {post.title}
+                  </h3>
+
+                  <p className="text-sm line-clamp-3 text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
+                    {post.content
+                      .replace(/<[^>]*>/g, " ")
+                      .substring(0, 150)
+                      .trim()}
+                    ...
+                  </p>
+
+                  <div className="flex flex-wrap gap-2">
+                    {post.categories.slice(0, 2).map((category, i) => (
+                      <Badge
+                        key={i}
+                        variant="outline"
+                        className="border-zinc-700/50 text-zinc-400 bg-zinc-800/30 hover:border-blue-500/30 hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-300"
+                      >
+                        {category}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+                
+                <CardFooter className="px-6 pb-6 pt-0 flex justify-between border-t border-zinc-800/50 mt-auto">
+                  <motion.div 
+                    className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30">
+                      <Calendar className="h-3 w-3 text-purple-400" />
+                    </div>
+                    {new Date(post.pubDate).toLocaleDateString("es-ES", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30">
+                      <Clock className="h-3 w-3 text-green-400" />
+                    </div>
+                    {post.readingTime} min
+                  </motion.div>
+                </CardFooter>
               </Card>
             </Link>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
+      {/* Paginación mejorada */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
-          <Pagination>
-            <PaginationContent>
-              {currentPage > 1 && (
-                <PaginationItem>
-                  <PaginationLink
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    Anterior
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                const pageNumber =
-                  currentPage <= 3
-                    ? i + 1
-                    : currentPage >= totalPages - 2
-                    ? totalPages - 4 + i
-                    : currentPage - 2 + i;
-
-                if (pageNumber <= 0 || pageNumber > totalPages) return null;
-
-                return (
-                  <PaginationItem key={pageNumber}>
+        <motion.div 
+          className="flex justify-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <div className="bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 rounded-lg p-2">
+            <Pagination>
+              <PaginationContent>
+                {currentPage > 1 && (
+                  <PaginationItem>
                     <PaginationLink
-                      onClick={() => handlePageChange(pageNumber)}
-                      isActive={currentPage === pageNumber}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      className="hover:bg-blue-500/10 hover:border-blue-500/30 transition-all duration-300"
                     >
-                      {pageNumber}
+                      Anterior
                     </PaginationLink>
                   </PaginationItem>
-                );
-              })}
+                )}
 
-              {currentPage < totalPages && (
-                <PaginationItem>
-                  <PaginationLink
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Siguiente
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-            </PaginationContent>
-          </Pagination>
-        </div>
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  const pageNumber =
+                    currentPage <= 3
+                      ? i + 1
+                      : currentPage >= totalPages - 2
+                      ? totalPages - 4 + i
+                      : currentPage - 2 + i;
+
+                  if (pageNumber <= 0 || pageNumber > totalPages) return null;
+
+                  return (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(pageNumber)}
+                        isActive={currentPage === pageNumber}
+                        className={`transition-all duration-300 ${
+                          currentPage === pageNumber
+                            ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white border-blue-500"
+                            : "hover:bg-blue-500/10 hover:border-blue-500/30"
+                        }`}
+                      >
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+
+                {currentPage < totalPages && (
+                  <PaginationItem>
+                    <PaginationLink
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      className="hover:bg-blue-500/10 hover:border-blue-500/30 transition-all duration-300"
+                    >
+                      Siguiente
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
+        </motion.div>
       )}
     </>
   );
