@@ -144,7 +144,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 id="related-articles" 
                 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
               >
-                Artículos Relacionados
+                Artículos relacionados
               </h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
                 Descubre más contenido que podría interesarte sobre desarrollo, tecnología y liderazgo técnico
