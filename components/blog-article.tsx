@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
 import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
+import { useDisqusComments } from "@/hooks/use-disqus-comments"
 import type { MediumPost } from "@/types/medium"
 
 export function BlogArticle({ slug }: { slug: string }) {
@@ -21,6 +22,9 @@ export function BlogArticle({ slug }: { slug: string }) {
   const [categories, setCategories] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Get comment count using the custom hook
+  const { count: commentCount, isLoading: commentLoading } = useDisqusComments(slug)
 
   useEffect(() => {
     async function loadData() {
@@ -414,7 +418,16 @@ export function BlogArticle({ slug }: { slug: string }) {
                       transition={{ duration: 0.2 }}
                     >
                       <MessageSquare className="h-4 w-4 text-zinc-400" />
-                      <span className="flex-1 w-full">0 comentarios</span>
+                      <span className="flex-1 w-full">
+                        {commentLoading ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
+                            comentarios
+                          </span>
+                        ) : (
+                          `${commentCount} ${commentCount === 1 ? 'comentario' : 'comentarios'}`
+                        )}
+                      </span>
                     </motion.div>
                     <motion.div 
                       className="flex items-center gap-1"
@@ -566,7 +579,7 @@ export function BlogArticle({ slug }: { slug: string }) {
                         <Badge 
                           key={i}
                           variant="outline" 
-                          className="text-xs border-zinc-700/50 text-zinc-400 bg-zinc-800/30"
+                          className="capitalize text-xs border-zinc-700/50 text-zinc-400 bg-zinc-800/30"
                         >
                           {cat}
                         </Badge>
