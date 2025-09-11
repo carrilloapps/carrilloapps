@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { Calendar, Clock, Info, CheckCircle, AlertCircle, ArrowRight, Briefcase } from "lucide-react"
+import { Calendar, Clock, Info, CheckCircle, AlertCircle, ArrowRight, Briefcase, Download } from "lucide-react"
 import Image from "next/image"
 
 import { SiteHeader } from "@/components/site-header"
@@ -126,7 +126,7 @@ export default function SchedulePage() {
       <div className="fixed inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 -z-50 pointer-events-none" />
       <div className="fixed top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/5 to-purple-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
       <div className="fixed bottom-0 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-600/5 to-cyan-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
-      
+
       <SiteHeader />
 
       <main className="container py-12 space-y-12">
@@ -161,23 +161,32 @@ export default function SchedulePage() {
                 de sistemas financieros y liderazgo técnico, puedo ayudarte a
                 encontrar la solución adecuada para tu negocio.
               </p>
-              <div className="flex gap-4">
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700"
-                  onClick={() =>
-                    window.scrollTo({ top: 800, behavior: "smooth" })
-                  }
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+                role="group"
+                aria-label="Acciones principales"
+              >
+                <Button 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" 
+                  onClick={() => window.scrollTo({ top: 800, behavior: "smooth" })}
+                  aria-describedby="agendar-servicio-desc"
                 >
-                  Agendar ahora
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  Agendar servicio
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                  <span id="agendar-servicio-desc" className="sr-only">Agendar servicio profesional especializado</span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-zinc-700 hover:bg-zinc-900"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                  aria-describedby="services-desc"
                 >
                   Ver servicios
+                  <span id="services-desc" className="sr-only">Ver mis servicios</span>
                 </Button>
-              </div>
+              </motion.div>
             </motion.div>
             <motion.div
               variants={itemVariants}
@@ -205,7 +214,7 @@ export default function SchedulePage() {
           {/* Section Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 to-zinc-900/30 -z-10 pointer-events-none" />
           <div className="absolute top-20 left-1/3 w-72 h-72 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-          
+
           <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent select-text">
               Agenda una consulta
@@ -217,7 +226,7 @@ export default function SchedulePage() {
           </motion.div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
@@ -243,9 +252,8 @@ export default function SchedulePage() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Tu nombre completo"
-                        className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${
-                          formErrors.name ? "border-red-500" : ""
-                        }`}
+                        className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.name ? "border-red-500" : ""
+                          }`}
                       />
                       {formErrors.name && (
                         <p className="text-red-500 text-sm mt-1">
@@ -264,9 +272,8 @@ export default function SchedulePage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="tu@email.com"
-                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${
-                            formErrors.email ? "border-red-500" : ""
-                          }`}
+                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.email ? "border-red-500" : ""
+                            }`}
                         />
                         {formErrors.email && (
                           <p className="text-red-500 text-sm mt-1">
@@ -282,9 +289,8 @@ export default function SchedulePage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="+1 (555) 123-4567"
-                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${
-                            formErrors.phone ? "border-red-500" : ""
-                          }`}
+                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.phone ? "border-red-500" : ""
+                            }`}
                         />
                         {formErrors.phone && (
                           <p className="text-red-500 text-sm mt-1">
@@ -316,9 +322,8 @@ export default function SchedulePage() {
                       >
                         <SelectTrigger
                           id="projectType"
-                          className={`bg-zinc-950 border-zinc-800 focus:ring-blue-500 ${
-                            formErrors.projectType ? "border-red-500" : ""
-                          }`}
+                          className={`bg-zinc-950 border-zinc-800 focus:ring-blue-500 ${formErrors.projectType ? "border-red-500" : ""
+                            }`}
                         >
                           <SelectValue placeholder="Selecciona el tipo de proyecto" />
                         </SelectTrigger>
@@ -352,11 +357,10 @@ export default function SchedulePage() {
                         onValueChange={(value) =>
                           handleSelectChange("preferredTime", value)
                         }
-                        className={`grid grid-cols-1 md:grid-cols-2 gap-2 ${
-                          formErrors.preferredTime
+                        className={`grid grid-cols-1 md:grid-cols-2 gap-2 ${formErrors.preferredTime
                             ? "border border-red-500 rounded-md p-2"
                             : ""
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="morning" id="morning" />
@@ -414,8 +418,8 @@ export default function SchedulePage() {
               </Card>
             </motion.div>
 
-            <motion.div 
-              className="space-y-6" 
+            <motion.div
+              className="space-y-6"
               variants={itemVariants}
             >
               <motion.div
@@ -611,7 +615,7 @@ export default function SchedulePage() {
         <DialogContent className="bg-zinc-900/95 backdrop-blur-xl border-zinc-800/50 shadow-2xl shadow-blue-500/10 relative overflow-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full max-h-[90vh] overflow-y-auto z-50">
           {/* Modal Background Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
-          
+
           <DialogHeader className="relative z-10">
             <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               Confirmar solicitud
@@ -620,7 +624,7 @@ export default function SchedulePage() {
               ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4 py-4 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
@@ -645,14 +649,14 @@ export default function SchedulePage() {
                   {formData.preferredTime === "morning"
                     ? "Mañana (9AM - 12PM)"
                     : formData.preferredTime === "afternoon"
-                    ? "Tarde (1PM - 5PM)"
-                    : formData.preferredTime === "evening"
-                    ? "Noche (6PM - 8PM)"
-                    : "Flexible"}
+                      ? "Tarde (1PM - 5PM)"
+                      : formData.preferredTime === "evening"
+                        ? "Noche (6PM - 8PM)"
+                        : "Flexible"}
                 </p>
               </div>
             </div>
-            
+
             {formData.message && (
               <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
                 <p className="text-sm font-medium text-zinc-400 mb-2">Detalles del proyecto:</p>
@@ -660,7 +664,7 @@ export default function SchedulePage() {
               </div>
             )}
           </div>
-          
+
           <DialogFooter className="relative z-10 gap-2">
             <motion.div
               whileHover={{ scale: 1.02 }}
