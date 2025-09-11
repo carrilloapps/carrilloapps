@@ -4,7 +4,7 @@ import { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { BlogRelated } from "@/components/blog-related"
-import { BlogLoading } from "@/components/blog-loading"
+import { BlogGridLoading } from "@/components/unified-loading"
 import { BlogArticle } from "@/components/blog-article"
 import { JsonLd } from "@/components/json-ld"
 import { ParticleHeroBackground } from "@/components/particle-hero-background"
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {/* Contenido del artículo - contenedor normal */}
         <div className="container">
-          <Suspense fallback={<BlogLoading variant="article" />}>
+          <Suspense fallback={<BlogGridLoading />}>
             <BlogArticle slug={slug} />
           </Suspense>
         </div>
@@ -151,7 +151,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </p>
             </div>
             
-            <Suspense fallback={<BlogLoading variant="related" />}>
+            <Suspense fallback={<BlogGridLoading count={3} />}>
               <BlogRelated currentSlug={slug} />
             </Suspense>
           </section>

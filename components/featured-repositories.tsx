@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { SpinnerLoading } from "@/components/unified-loading"
 
 type Repository = {
   id: number
@@ -96,21 +97,8 @@ export function FeaturedRepositories() {
 
   if (loading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[1, 2, 3].map((i) => (
-          <Card key={i} className="bg-zinc-900 border-zinc-800">
-            <div className="aspect-video bg-zinc-800 animate-pulse" />
-            <CardContent className="p-6 space-y-4">
-              <div className="h-6 bg-zinc-800 rounded animate-pulse w-3/4" />
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-full" />
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-full" />
-              <div className="flex gap-2 pt-2">
-                <div className="h-6 bg-zinc-800 rounded animate-pulse w-20" />
-                <div className="h-6 bg-zinc-800 rounded animate-pulse w-20" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex items-center justify-center py-12">
+        <SpinnerLoading />
       </div>
     )
   }

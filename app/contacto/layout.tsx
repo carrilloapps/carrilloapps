@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Contacto | Consultoría Tecnológica | José Carrillo",
+  title: "Contacto | Consultoría Tecnológica",
   description:
     "Ponte en contacto conmigo para discutir tu proyecto o posibles oportunidades de colaboración en desarrollo de software y liderazgo técnico.",
   keywords: [

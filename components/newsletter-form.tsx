@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Mail } from "lucide-react"
+import { SpinnerLoading } from "@/components/unified-loading"
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("")
@@ -48,10 +49,17 @@ export function NewsletterForm() {
           />
           <Button 
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
             disabled={status === "loading"}
           >
-            {status === "loading" ? "Suscribiendo..." : "Suscribirse"}
+            {status === "loading" ? (
+              <>
+                <SpinnerLoading className="w-4 h-4" />
+                Suscribiendo...
+              </>
+            ) : (
+              "Suscribirse"
+            )}
           </Button>
         </div>
         

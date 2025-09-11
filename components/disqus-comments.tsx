@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { publicEnv, getSiteUrl } from "@/lib/env"
+import { SpinnerLoading } from "@/components/unified-loading"
 
 interface DisqusCommentsProps {
   shortname?: string
@@ -213,27 +214,9 @@ export function DisqusComments({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-6 space-y-4"
+              className="p-6 flex items-center justify-center"
             >
-              <div className="flex items-center justify-center gap-3 text-zinc-400">
-                <Clock className="h-5 w-5 animate-spin" />
-                <span>Cargando comentarios...</span>
-              </div>
-              <div className="space-y-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-zinc-800 rounded-full animate-pulse" />
-                      <div className="h-4 bg-zinc-800 rounded w-24 animate-pulse" />
-                      <div className="h-3 bg-zinc-800 rounded w-16 animate-pulse" />
-                    </div>
-                    <div className="ml-11 space-y-2">
-                      <div className="h-3 bg-zinc-800 rounded w-full animate-pulse" />
-                      <div className="h-3 bg-zinc-800 rounded w-3/4 animate-pulse" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <SpinnerLoading />
             </motion.div>
           )}
 

@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Card, CardContent } from "@/components/ui/card"
+import { HeroLoading } from "@/components/unified-loading"
 
 export default function ServicesLoading() {
   return (
@@ -9,23 +10,7 @@ export default function ServicesLoading() {
 
       <main className="container py-12 space-y-24" id="main-content">
         {/* Hero Section Skeleton */}
-        <section className="py-12 md:py-24 space-y-8">
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <div className="w-32 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded-full animate-pulse"></div>
-                <div className="w-full h-12 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg animate-pulse"></div>
-                <div className="w-3/4 h-8 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg animate-pulse"></div>
-              </div>
-              <div className="w-full h-24 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg animate-pulse"></div>
-              <div className="flex gap-4">
-                <div className="w-40 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded-lg animate-pulse"></div>
-                <div className="w-40 h-10 bg-zinc-800/50 border border-zinc-700 rounded-lg animate-pulse"></div>
-              </div>
-            </div>
-            <div className="relative aspect-square rounded-2xl bg-gradient-to-br from-blue-800/20 to-purple-800/20 border border-zinc-800/50 animate-pulse"></div>
-          </div>
-        </section>
+        <HeroLoading />
 
         {/* Services Navigation Skeleton */}
         <section className="py-12 space-y-8">
