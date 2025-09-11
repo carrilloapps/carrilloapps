@@ -121,30 +121,36 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Global Background Elements */}
+      <div className="fixed inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 -z-50 pointer-events-none" />
+      <div className="fixed top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/5 to-purple-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
+      <div className="fixed bottom-0 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-600/5 to-cyan-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
+      
       <SiteHeader />
 
       <main className="container py-12 space-y-12">
         {/* Hero Section */}
         <motion.section
-          className="py-12 md:py-24 space-y-8"
+          className="py-12 md:py-24 space-y-8 relative"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
           <div className="grid gap-12 md:grid-cols-2 items-center">
-            <motion.div className="space-y-6" variants={itemVariants}>
+            <motion.div className="space-y-6 relative" variants={itemVariants}>
               <div className="space-y-2">
                 <Badge
-                  variant="outline"
-                  className="border-blue-500 text-blue-500"
+                  variant="secondary"
+                  className="bg-blue-600/20 text-blue-400 border-blue-500/30 px-4 py-2 hover:bg-blue-600/30 transition-colors"
                 >
+                  <Briefcase className="w-4 h-4 mr-2" />
                   Consultoría Personalizada
                 </Badge>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent select-text">
                   Agenda una sesión
                 </h1>
-                <p className="text-xl text-zinc-400">
+                <p className="text-xl md:text-2xl text-zinc-400 select-text">
                   Experto en soluciones bancarias, pagos y finanzas
                 </p>
               </div>
@@ -191,33 +197,44 @@ export default function SchedulePage() {
         </motion.section>
 
         <motion.section
-          className="py-12 md:py-24 space-y-8"
+          className="py-12 md:py-24 space-y-8 relative"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
-          <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          {/* Section Background Elements */}
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 to-zinc-900/30 -z-10 pointer-events-none" />
+          <div className="absolute top-20 left-1/3 w-72 h-72 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+          
+          <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent select-text">
               Agenda una consulta
             </h2>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto leading-relaxed select-text">
               Completa el formulario para agendar una consulta inicial y
               discutir cómo puedo ayudarte con tu proyecto.
             </p>
           </motion.div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <motion.div variants={itemVariants}>
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
+            <motion.div 
+              variants={itemVariants}
+              whileHover={{ y: -8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative z-10"
+            >
+              <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
+                {/* Card Background Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <CardHeader className="relative z-10">
                   <CardTitle>Solicitar agendamiento</CardTitle>
                   <CardDescription>
                     Completa el formulario y me pondré en contacto contigo para
                     confirmar la cita.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                <CardContent className="relative z-10">
+                  <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
                     <div className="space-y-2">
                       <Label htmlFor="name">Nombre completo</Label>
                       <Input
@@ -397,96 +414,113 @@ export default function SchedulePage() {
               </Card>
             </motion.div>
 
-            <motion.div className="space-y-6" variants={itemVariants}>
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-blue-500" />
-                    Disponibilidad
-                  </CardTitle>
-                  <CardDescription>
-                    Horarios en los que estoy disponible para consultas
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">Días Laborables</h3>
-                    <p className="text-zinc-400">Lunes a Viernes</p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">Horario de Trabajo</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center gap-2 text-zinc-400">
-                        <Clock className="h-4 w-4 text-blue-500" />
-                        9:00 AM - 12:00 PM
-                      </div>
-                      <div className="flex items-center gap-2 text-zinc-400">
-                        <Clock className="h-4 w-4 text-blue-500" />
-                        1:00 PM - 5:00 PM
-                      </div>
+            <motion.div 
+              className="space-y-6" 
+              variants={itemVariants}
+            >
+              <motion.div
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10 relative overflow-hidden group">
+                  {/* Card Background Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardHeader className="relative">
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5 text-emerald-500" />
+                      Disponibilidad
+                    </CardTitle>
+                    <CardDescription>
+                      Horarios en los que estoy disponible para consultas
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 relative">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Días Laborables</h3>
+                      <p className="text-zinc-400">Lunes a Viernes</p>
                     </div>
-                    <p className="text-zinc-500 text-sm mt-2">
-                      También disponible en horarios nocturnos (6PM - 8PM) con
-                      cita previa.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">Zona Horaria</h3>
-                    <p className="text-zinc-400">Hora del Este (EST/EDT)</p>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="space-y-2">
+                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Horario de Trabajo</h3>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="flex items-center gap-2 text-zinc-400">
+                          <Clock className="h-4 w-4 text-emerald-500" />
+                          9:00 AM - 12:00 PM
+                        </div>
+                        <div className="flex items-center gap-2 text-zinc-400">
+                          <Clock className="h-4 w-4 text-emerald-500" />
+                          1:00 PM - 5:00 PM
+                        </div>
+                      </div>
+                      <p className="text-zinc-500 text-sm mt-2">
+                        También disponible en horarios nocturnos (6PM - 8PM) con
+                        cita previa.
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Zona Horaria</h3>
+                      <p className="text-zinc-400">Hora del Este (EST/EDT)</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
 
-              <Card className="bg-zinc-900 border-zinc-800">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Info className="h-5 w-5 text-blue-500" />
-                    Proceso de Agendamiento
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Alert className="bg-zinc-800 border-blue-800">
-                    <CheckCircle className="h-4 w-4 text-blue-500" />
-                    <AlertTitle>Cómo funciona</AlertTitle>
-                    <AlertDescription className="text-zinc-400">
-                      Una vez que envíes tu solicitud, revisaré los detalles y
-                      te contactaré dentro de 24-48 horas para confirmar la
-                      fecha y hora exacta de nuestra consulta.
-                    </AlertDescription>
-                  </Alert>
+              <motion.div
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 relative overflow-hidden group">
+                  {/* Card Background Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <CardHeader className="relative">
+                    <CardTitle className="flex items-center gap-2">
+                      <Info className="h-5 w-5 text-purple-500" />
+                      Proceso de Agendamiento
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4 relative">
+                    <Alert className="bg-zinc-800/50 border-purple-800/50 backdrop-blur-sm">
+                      <CheckCircle className="h-4 w-4 text-purple-500" />
+                      <AlertTitle>Cómo funciona</AlertTitle>
+                      <AlertDescription className="text-zinc-400">
+                        Una vez que envíes tu solicitud, revisaré los detalles y
+                        te contactaré dentro de 24-48 horas para confirmar la
+                        fecha y hora exacta de nuestra consulta.
+                      </AlertDescription>
+                    </Alert>
 
-                  <div className="space-y-2 mt-4">
-                    <h3 className="font-semibold">Tipos de Consultas</h3>
-                    <ul className="space-y-2 text-zinc-400">
-                      <li className="flex items-start">
-                        <span className="text-blue-500 mr-2">•</span>
-                        Consulta inicial (30 minutos) - Gratuita
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-500 mr-2">•</span>
-                        Asesoría técnica (1 hora)
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-500 mr-2">•</span>
-                        Revisión de arquitectura (1-2 horas)
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-blue-500 mr-2">•</span>
-                        Planificación de proyecto (2+ horas)
-                      </li>
-                    </ul>
-                  </div>
+                    <div className="space-y-2 mt-4">
+                      <h3 className="font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent select-text">Tipos de Consultas</h3>
+                      <ul className="space-y-2 text-zinc-400">
+                        <li className="flex items-start">
+                          <span className="text-purple-500 mr-2">•</span>
+                          Consulta inicial (30 minutos) - Gratuita
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-purple-500 mr-2">•</span>
+                          Asesoría técnica (1 hora)
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-purple-500 mr-2">•</span>
+                          Revisión de arquitectura (1-2 horas)
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-purple-500 mr-2">•</span>
+                          Planificación de proyecto (2+ horas)
+                        </li>
+                      </ul>
+                    </div>
 
-                  <Alert className="bg-zinc-800 border-yellow-800 mt-4">
-                    <AlertCircle className="h-4 w-4 text-yellow-500" />
-                    <AlertTitle>Importante</AlertTitle>
-                    <AlertDescription className="text-zinc-400">
-                      Para cancelaciones o reprogramaciones, por favor
-                      notifícame con al menos 24 horas de anticipación.
-                    </AlertDescription>
-                  </Alert>
-                </CardContent>
-              </Card>
+                    <Alert className="bg-zinc-800/50 border-yellow-800/50 backdrop-blur-sm mt-4">
+                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertTitle>Importante</AlertTitle>
+                      <AlertDescription className="text-zinc-400">
+                        Para cancelaciones o reprogramaciones, por favor
+                        notifícame con al menos 24 horas de anticipación.
+                      </AlertDescription>
+                    </Alert>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </motion.div>
           </div>
         </motion.section>
@@ -574,34 +608,40 @@ export default function SchedulePage() {
       </main>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="bg-zinc-900 border-zinc-800">
-          <DialogHeader>
-            <DialogTitle>Confirmar solicitud</DialogTitle>
-            <DialogDescription>
+        <DialogContent className="bg-zinc-900/95 backdrop-blur-xl border-zinc-800/50 shadow-2xl shadow-blue-500/10 relative overflow-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full max-h-[90vh] overflow-y-auto z-50">
+          {/* Modal Background Effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
+          
+          <DialogHeader className="relative z-10">
+            <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+              Confirmar solicitud
+            </DialogTitle>
+            <DialogDescription className="text-zinc-400">
               ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm font-medium text-zinc-400">Nombre:</p>
-                <p className="truncate">{formData.name}</p>
+          
+          <div className="space-y-4 py-4 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-400 mb-1">Nombre:</p>
+                <p className="truncate text-white font-medium">{formData.name}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-zinc-400">
+              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-400 mb-1">
                   Correo electrónico:
                 </p>
-                <p className="truncate">{formData.email}</p>
+                <p className="truncate text-white font-medium">{formData.email}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-zinc-400">Teléfono:</p>
-                <p className="truncate">{formData.phone}</p>
+              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-400 mb-1">Teléfono:</p>
+                <p className="truncate text-white font-medium">{formData.phone}</p>
               </div>
-              <div>
-                <p className="text-sm font-medium text-zinc-400">
+              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-400 mb-1">
                   Horario preferido:
                 </p>
-                <p>
+                <p className="text-white font-medium">
                   {formData.preferredTime === "morning"
                     ? "Mañana (9AM - 12PM)"
                     : formData.preferredTime === "afternoon"
@@ -612,21 +652,39 @@ export default function SchedulePage() {
                 </p>
               </div>
             </div>
+            
+            {formData.message && (
+              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+                <p className="text-sm font-medium text-zinc-400 mb-2">Detalles del proyecto:</p>
+                <p className="text-white text-sm leading-relaxed">{formData.message}</p>
+              </div>
+            )}
           </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              className="border-zinc-700"
-              onClick={() => setShowDialog(false)}
+          
+          <DialogFooter className="relative z-10 gap-2">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Cancelar
-            </Button>
-            <Button
-              className="bg-blue-600 hover:bg-blue-700"
-              onClick={confirmSubmission}
+              <Button
+                variant="outline"
+                className="bg-zinc-800/50 backdrop-blur-sm border-zinc-700/50 hover:bg-zinc-700/50 hover:border-zinc-600/50 text-zinc-300 hover:text-white transition-all duration-300"
+                onClick={() => setShowDialog(false)}
+              >
+                Cancelar
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Confirmar y enviar
-            </Button>
+              <Button
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 border border-blue-500/30 backdrop-blur-sm transition-all duration-300"
+                onClick={confirmSubmission}
+              >
+                Confirmar y enviar
+              </Button>
+            </motion.div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
