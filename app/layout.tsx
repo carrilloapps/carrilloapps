@@ -6,9 +6,10 @@ import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { CookieConsent } from "@/components/cookie-consent"
 import { WebsiteJsonLd, OrganizationJsonLd, PersonJsonLd } from "@/components/json-ld"
-import { PageLoader } from "@/components/page-loader"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { SkipLink } from "@/components/skip-link"
+import { PageLoadingProvider } from "@/components/page-loading-context"
+import { GlobalPageLoader } from "@/components/global-page-loader"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -101,11 +102,13 @@ export default function RootLayout({
       <head />
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <SkipLink />
-          <PageLoader />
-          <ScrollToTop />
-          {children}
-          <CookieConsent />
+          <PageLoadingProvider>
+            <SkipLink />
+            <GlobalPageLoader />
+            <ScrollToTop />
+            {children}
+            <CookieConsent />
+          </PageLoadingProvider>
         </ThemeProvider>
         <WebsiteJsonLd />
         <OrganizationJsonLd />

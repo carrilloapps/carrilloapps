@@ -20,6 +20,7 @@ import {
 import { getCachedMediumPosts } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
+import { SpinnerLoading } from "@/components/unified-loading";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -153,39 +154,9 @@ export function BlogPosts({
 
   if (loading) {
     return (
-      <motion.div 
-        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {Array(6).fill(0).map((_, i) => (
-          <motion.div key={i} variants={itemVariants}>
-            <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden">
-              <div className="aspect-video bg-gradient-to-br from-zinc-700/50 to-zinc-800/50 animate-pulse"></div>
-              <CardContent className="p-6 space-y-4">
-                <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-3/4"></div>
-                <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-full"></div>
-                <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-5/6"></div>
-                <div className="flex gap-2 pt-2">
-                  <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-20"></div>
-                  <div className="h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-16"></div>
-                </div>
-              </CardContent>
-              <CardFooter className="px-6 pb-6 pt-0 flex justify-between border-t border-zinc-800/50">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded-full animate-pulse"></div>
-                  <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-20"></div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded-full animate-pulse"></div>
-                  <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse w-12"></div>
-                </div>
-              </CardFooter>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
+      <div className="flex items-center justify-center py-24">
+        <SpinnerLoading />
+      </div>
     );
   }
 

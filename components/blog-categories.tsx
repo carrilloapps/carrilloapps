@@ -7,17 +7,15 @@ import { Filter, Sparkles } from "lucide-react"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getCachedMediumCategories } from "@/lib/rss-client";
+import { SpinnerLoading } from "@/components/unified-loading";
 
 // Componente principal que envuelve con Suspense
 export function BlogCategories() {
   return (
     <Suspense fallback={
-      <motion.div 
-        className="w-full md:w-64 h-12 bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 rounded-lg animate-pulse"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      />
+      <div className="flex items-center justify-center py-4">
+        <SpinnerLoading />
+      </div>
     }>
       <BlogCategoriesContent />
     </Suspense>

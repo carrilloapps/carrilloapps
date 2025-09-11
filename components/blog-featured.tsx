@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { getCachedFeaturedPost } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
+import { SpinnerLoading } from "@/components/unified-loading";
 
 export default function BlogFeatured() {
   const { setLoading } = usePageLoading();
@@ -46,19 +47,8 @@ export default function BlogFeatured() {
     return (
       <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
-        <div className="relative z-10 grid md:grid-cols-2 gap-6">
-          <div className="aspect-video bg-gradient-to-br from-zinc-800/80 to-zinc-700/60 animate-pulse"></div>
-          <div className="p-6 space-y-4">
-            <div className="h-6 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-3/4"></div>
-            <div className="h-4 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-full"></div>
-            <div className="h-4 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-full"></div>
-            <div className="h-4 bg-gradient-to-r from-zinc-800/80 to-zinc-700/60 rounded animate-pulse w-3/4"></div>
-            <div className="flex gap-2 pt-2">
-              <div className="h-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded animate-pulse w-20"></div>
-              <div className="h-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded animate-pulse w-20"></div>
-            </div>
-            <div className="h-10 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded animate-pulse w-40 mt-4"></div>
-          </div>
+        <div className="relative z-10 flex items-center justify-center py-24">
+          <SpinnerLoading />
         </div>
       </Card>
     );

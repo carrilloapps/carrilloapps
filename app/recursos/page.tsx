@@ -26,7 +26,7 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RepositoriesList } from "@/components/repositories-list";
-import { RepositoriesLoading } from "@/components/repositories-loading";
+import { RepositoriesLoading } from "@/components/unified-loading";
 import {
   Breadcrumb,
   BreadcrumbList,

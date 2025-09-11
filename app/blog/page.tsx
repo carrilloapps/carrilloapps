@@ -4,13 +4,12 @@ import { Suspense, use } from "react";
 import { motion, Variants } from "framer-motion";
 import { BlogPosts } from "@/components/blog-posts";
 import BlogFeatured from "@/components/blog-featured";
-import { BlogLoading } from "@/components/blog-loading";
+import { BlogFeaturedLoading, BlogGridLoading, OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Badge } from "@/components/ui/badge"
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
-import { PageLoadingOverlay } from "@/components/page-loading-overlay";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -87,7 +86,7 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
             <motion.div className="h-8" variants={itemVariants} />
 
             <motion.div variants={itemVariants}>
-              <Suspense fallback={<BlogLoading type="featured" />}>
+              <Suspense fallback={<BlogFeaturedLoading />}>
                 <BlogFeatured />
               </Suspense>
             </motion.div>
@@ -111,7 +110,7 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Suspense fallback={<BlogLoading type="grid" />}>
+              <Suspense fallback={<BlogGridLoading />}>
                 <BlogPosts category={category} search={search} />
               </Suspense>
             </motion.div>
