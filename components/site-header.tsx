@@ -331,36 +331,25 @@ export function SiteHeader() {
         </div>
       </motion.header>
 
-      {/* Mobile Menu (Simplified) */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="md:hidden">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999]"
-              style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 h-full w-full max-w-sm bg-gradient-to-b from-black/95 via-slate-900/98 to-black/95 backdrop-blur-xl border-l border-white/10 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
             >
-              <motion.div
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="fixed inset-0 z-[10000] flex flex-col overflow-hidden"
-                style={{ 
-                  position: "fixed", 
-                  top: 0, 
-                  left: 0, 
-                  right: 0, 
-                  bottom: 0,
-                  background: 'linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(15,23,42,0.98) 50%, rgba(0,0,0,0.95) 100%)',
-                  backdropFilter: 'blur(20px)'
-                }}
-                onClick={(e) => e.stopPropagation()}
-              >
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-zinc-800/50">
                   <Logo animationLevel="playful" />
@@ -389,37 +378,43 @@ export function SiteHeader() {
                 </div>
 
                 {/* Navigation */}
-                <div className="flex-1 overflow-y-auto py-10 px-4">
-                  <nav className="space-y-3 max-w-md mx-auto">
+                <div className="flex-1 overflow-y-auto py-8 px-4">
+                  <nav className="space-y-2">
                     {navItems.map((item, index) => {
                       const isActive = pathname === item.href
                       return (
                         <motion.div
                           key={item.href}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
+                          initial={{ opacity: 0, x: 50 }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1, duration: 0.3 }}
                         >
                           <Link
                             href={item.href}
-                            className={`flex items-center justify-between py-4 px-5 rounded-xl transition-all duration-300 group ${
+                            className={`flex items-center justify-between py-4 px-6 rounded-xl transition-all duration-300 group relative ${
                               isActive
                                 ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-white/20 backdrop-blur-sm shadow-lg shadow-blue-500/10"
                                 : "text-zinc-300 hover:bg-white/5 hover:text-white hover:backdrop-blur-sm hover:border hover:border-white/10"
                             }`}
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            <span className="font-medium text-lg relative z-10 flex-1 w-full">{item.label}</span>
+                            <span className="font-medium text-lg relative z-10">{item.label}</span>
                             {isActive ? (
                               <motion.span 
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="h-3 w-3 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg shadow-blue-500/50"
+                                className="h-2 w-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg shadow-blue-500/50"
                               />
                             ) : (
-                              <div className="h-3 w-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-all duration-300" />
+                              <div className="h-2 w-2 rounded-full bg-white/10 group-hover:bg-white/20 transition-all duration-300" />
                             )}
-                            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-300" />
+                            {isActive && (
+                              <motion.div
+                                layoutId="activeMobileTab"
+                                className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                              />
+                            )}
                           </Link>
                         </motion.div>
                       )
@@ -428,14 +423,16 @@ export function SiteHeader() {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-white/10 bg-gradient-to-r from-black/20 to-slate-900/30 backdrop-blur-sm">
+                <div className="p-4 border-t border-white/10 bg-gradient-to-r from-black/20 to-slate-900/30 backdrop-blur-sm">
                   <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.3 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
                   >
                     <Button
-                      className="w-full relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-6 text-lg shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-sm group"
+                      className="w-full relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-4 text-base font-medium shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-sm group"
                       asChild
                     >
                       <Link href="/agendamiento" onClick={() => setMobileMenuOpen(false)}>
@@ -443,11 +440,11 @@ export function SiteHeader() {
                           initial={{ rotate: 0 }}
                           whileHover={{ rotate: 15 }}
                           transition={{ duration: 0.2 }}
-                          className="mr-3 relative z-10"
+                          className="mr-2 relative z-10"
                         >
-                          <Calendar className="h-5 w-5" />
+                          <Calendar className="h-4 w-4" aria-hidden="true" />
                         </motion.div>
-                        <span className="font-medium relative z-10 flex-1 w-full">Agéndame</span>
+                        <span className="relative z-10">Agéndame</span>
                         <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover:via-white/20 transition-all duration-500 transform -skew-x-12 translate-x-full group-hover:translate-x-[-200%]" />
                       </Link>
                     </Button>
@@ -455,9 +452,8 @@ export function SiteHeader() {
                 </div>
               </motion.div>
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
     </>
   )
 }
