@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
 import { ArrowRight, Code, Database, LineChart, Users, Layers, Shield, Server, Cpu, CheckCircle } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
@@ -17,12 +17,55 @@ import { AnimatedSection } from "@/components/animated-section"
 import { ServicesSeo } from "@/components/services-seo"
 import { useIsMobile } from "@/hooks/use-media-query"
 
-// Definimos los servicios y sus IDs para la navegación
+// Variantes de animación
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+}
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+  hover: {
+    y: -8,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+}
+
+// Datos de servicios
 const services = [
   {
     id: "technical-leadership",
-    title: "Liderazgo Técnico",
-    icon: <Users className="h-10 w-10 text-blue-500" aria-hidden="true" />,
+    title: "Liderazgo",
+    icon: Users,
     description: "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos.",
     benefits: [
       "Mentorización de equipos de desarrollo",
@@ -39,8 +82,8 @@ const services = [
   },
   {
     id: "financial-systems",
-    title: "Sistemas Financieros",
-    icon: <LineChart className="h-10 w-10 text-blue-500" />,
+    title: "Fintech & Banking",
+    icon: LineChart,
     description: "Desarrollo e implementación de soluciones tecnológicas para el sector financiero y bancario.",
     benefits: [
       "Procesamiento de pagos seguro",
@@ -57,8 +100,8 @@ const services = [
   },
   {
     id: "backoffice-solutions",
-    title: "Soluciones de Backoffice",
-    icon: <Database className="h-10 w-10 text-blue-500" />,
+    title: "Backoffice",
+    icon: Database,
     description: "Automatización y optimización de procesos internos y operaciones de backoffice empresarial.",
     benefits: [
       "Automatización de flujos de trabajo",
@@ -75,8 +118,8 @@ const services = [
   },
   {
     id: "architecture-design",
-    title: "Diseño de Arquitectura",
-    icon: <Layers className="h-10 w-10 text-blue-500" />,
+    title: "Arquitectura",
+    icon: Layers,
     description:
       "Diseño de arquitecturas de software escalables, resilientes y mantenibles para sistemas empresariales.",
     benefits: [
@@ -94,8 +137,8 @@ const services = [
   },
   {
     id: "security-compliance",
-    title: "Seguridad y Cumplimiento",
-    icon: <Shield className="h-10 w-10 text-blue-500" />,
+    title: "Seguridad & compliance",
+    icon: Shield,
     description: "Implementación de soluciones de seguridad y cumplimiento normativo para sistemas financieros.",
     benefits: [
       "Cumplimiento PCI DSS",
@@ -112,8 +155,8 @@ const services = [
   },
   {
     id: "cloud-infrastructure",
-    title: "Infraestructura Cloud",
-    icon: <Server className="h-10 w-10 text-blue-500" />,
+    title: "Cloud",
+    icon: Server,
     description: "Diseño e implementación de infraestructuras cloud escalables, seguras y optimizadas en costos.",
     benefits: [
       "Arquitecturas multi-cloud",
@@ -130,8 +173,8 @@ const services = [
   },
   {
     id: "ai-integration",
-    title: "Integración de IA",
-    icon: <Cpu className="h-10 w-10 text-blue-500" />,
+    title: "Inteligencia artificial",
+    icon: Cpu,
     description:
       "Incorporación de soluciones de inteligencia artificial y machine learning en sistemas financieros y de backoffice.",
     benefits: [
@@ -170,18 +213,28 @@ function ServicesPageContent() {
     if (hash && services.some((service) => service.id === hash)) {
       setActiveTab(hash)
 
-      // Scroll suave a la sección
-      const element = document.getElementById(hash)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
-      }
+      // Scroll suave a la sección con un pequeño delay para asegurar que el DOM esté listo
+      setTimeout(() => {
+        const element = document.getElementById(hash)
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" })
+        }
+      }, 100)
     }
-  }, [searchParams])
+  }, [])
 
   // Función para cambiar la URL cuando cambia la pestaña
   const handleTabChange = (value: string) => {
     setActiveTab(value)
-    window.history.pushState({}, "", `/services#${value}`)
+    window.history.pushState({}, "", `/servicios#${value}`)
+
+    // Scroll suave al elemento correspondiente
+    setTimeout(() => {
+      const element = document.getElementById(value)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }, 100)
   }
 
   return (
@@ -189,356 +242,519 @@ function ServicesPageContent() {
       <SiteHeader />
       <ServicesSeo />
 
-      <main className="container py-8 md:py-12 space-y-16 md:space-y-24" id="main-content">
+      <main className="container py-12 md:py-16 space-y-20 md:space-y-32" id="main-content">
         {/* Hero Section */}
-        <AnimatedSection className="py-8 md:py-24 space-y-8">
-          <div className="grid gap-8 md:gap-12 md:grid-cols-2 items-center">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-                  <Badge variant="outline" className="border-blue-500 text-blue-500">
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="py-16 md:py-32 space-y-12"
+        >
+          <div className="grid gap-12 md:gap-16 md:grid-cols-2 items-center">
+            <motion.div variants={itemVariants} className="space-y-8">
+              <div className="space-y-4">
+                <motion.div variants={itemVariants}>
+                  <Badge
+                    variant="outline"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
+                  >
                     Servicios Profesionales
                   </Badge>
                 </motion.div>
                 <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+                  variants={itemVariants}
+                  className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
                 >
-                  Soluciones Tecnológicas Especializadas
+                  Soluciones Tecnológicas{" "}
+                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    de Alto Impacto
+                  </span>
                 </motion.h1>
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                  className="text-lg md:text-xl text-zinc-400"
+                  variants={itemVariants}
+                  className="text-xl text-zinc-400 leading-relaxed max-w-2xl"
                 >
-                  Servicios de consultoría y desarrollo para el sector financiero y empresarial
+                  Transformo ideas en soluciones tecnológicas robustas y escalables.
+                  Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.
                 </motion.p>
               </div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-zinc-400 leading-relaxed"
-              >
-                Con más de una década de experiencia en el desarrollo de sistemas financieros y liderazgo técnico,
-                ofrezco soluciones tecnológicas a medida que transforman la operativa de tu negocio, mejoran la
-                eficiencia y potencian el crecimiento.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <Button className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                  Explorar Servicios
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                </Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-900 w-full sm:w-auto" asChild>
-                  <Link href="/contact">Contactar</Link>
+              <motion.div variants={itemVariants}>
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
+                  asChild
+                >
+                  <Link href="#technical-leadership">
+                    Explorar Servicios
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
                 </Button>
               </motion.div>
-            </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.6, type: "spring" }}
-              className="relative aspect-square rounded-2xl overflow-hidden border-2 border-zinc-800 max-w-md mx-auto md:mx-0 w-full"
-            >
-              <div
-                className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20"
-                aria-hidden="true"
-              ></div>
-              <Image
-                src="/placeholder.svg?height=600&width=600"
-                alt="Servicios de consultoría tecnológica"
-                width={600}
-                height={600}
-                className="object-cover"
-                priority
-              />
+            </motion.div>
+            <motion.div variants={itemVariants} className="relative">
+              <div className="aspect-square bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl border border-zinc-800/50 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="relative z-10 text-center space-y-4">
+                  <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                    <Code className="w-12 h-12 text-white" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold text-white">15+ Años</h3>
+                    <p className="text-zinc-400">de Experiencia</p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </div>
-        </AnimatedSection>
+        </motion.section>
 
         {/* Services Navigation */}
-        <AnimatedSection className="py-8 md:py-12 space-y-8" delay={0.1}>
-          <div className="space-y-4 text-center">
-            <Badge variant="outline" className="border-blue-500 text-blue-500">
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-12 space-y-12"
+        >
+          <motion.div variants={itemVariants} className="space-y-6 text-center">
+            <Badge
+              variant="outline"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
+            >
               Áreas de Especialización
             </Badge>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Servicios Profesionales</h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Soluciones tecnológicas especializadas para potenciar tu negocio y optimizar tus operaciones
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+              Servicios Especializados
+            </h2>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+              Cada servicio está diseñado para generar valor real y resultados medibles en tu organización.
             </p>
-          </div>
+          </motion.div>
 
-          <Tabs
-            defaultValue={activeTab}
-            value={activeTab}
-            onValueChange={handleTabChange}
-            className="w-full"
-            aria-label="Servicios profesionales"
-          >
-            <div className="overflow-x-auto pb-2">
-              <TabsList
-                className={`grid ${
-                  isMobile ? "grid-cols-2" : "md:grid-cols-4 lg:flex lg:flex-wrap"
-                } h-auto bg-zinc-900 p-1 mb-8 min-w-max`}
-                aria-label="Categorías de servicios"
-              >
-                {services.map((service) => (
-                  <TabsTrigger
-                    key={service.id}
-                    value={service.id}
-                    className="data-[state=active]:bg-zinc-800 py-3 whitespace-nowrap"
-                    id={service.id}
-                  >
-                    {service.title}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-
-            {services.map((service) => (
-              <TabsContent key={service.id} value={service.id} className="mt-6 space-y-8">
-                <div className="grid gap-8 md:grid-cols-2">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-                    <div className="flex items-start flex-col sm:flex-row sm:items-center gap-4">
-                      <div
-                        className="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center mb-2 sm:mb-0"
-                        aria-hidden="true"
+          <motion.div variants={itemVariants}>
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+              <div className="overflow-x-auto pb-2">
+                <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex lg:flex-wrap gap-2 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-2 mb-8 rounded-xl">
+                  {services.map((service) => {
+                    const IconComponent = service.icon
+                    return (
+                      <TabsTrigger
+                        key={service.id}
+                        value={service.id}
+                        className="flex items-center gap-2 px-4 py-3 rounded-lg bg-transparent border-0 text-zinc-400 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 whitespace-nowrap"
                       >
-                        {service.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-xl md:text-2xl font-bold">{service.title}</h3>
-                        <p className="text-zinc-400">{service.description}</p>
-                      </div>
-                    </div>
+                        <IconComponent className="w-4 h-4" />
+                        <span className="hidden sm:inline">{service.title}</span>
+                      </TabsTrigger>
+                    )
+                  })}
+                </TabsList>
+              </div>
 
-                    <div className="space-y-4">
-                      <h4 className="text-lg md:text-xl font-semibold">Beneficios</h4>
-                      <ul className="space-y-2">
-                        {service.benefits.map((benefit, index) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
-                            <span className="text-zinc-300">{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-4">
-                      <Button className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto" asChild>
-                        <Link href={`/contact?service=${service.id}`}>
-                          Solicitar este Servicio
-                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    <Card className="bg-zinc-900 border-zinc-800 h-full">
-                      <CardContent className="p-6 space-y-6">
-                        <div className="space-y-2">
-                          <Badge className="bg-blue-600">Caso de Éxito</Badge>
-                          <h4 className="text-xl font-bold">{service.caseStudy.title}</h4>
-                        </div>
-                        <p className="text-zinc-400">{service.caseStudy.description}</p>
-
-                        <div className="pt-4">
-                          <Button
-                            variant="outline"
-                            className="border-zinc-700 hover:bg-zinc-800 w-full sm:w-auto"
-                            asChild
-                          >
-                            <Link href="/resources">Ver Proyectos Relacionados</Link>
+              {services.map((service) => {
+                const IconComponent = service.icon
+                return (
+                  <TabsContent key={service.id} value={service.id} className="mt-12" id={service.id}>
+                    <motion.div
+                      variants={containerVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="space-y-16"
+                    >
+                      <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-12 items-center">
+                        <div className="space-y-8">
+                          <div className="flex items-center gap-4">
+                            <div className="p-4 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl border border-blue-500/30">
+                              <IconComponent className="w-8 h-8 text-blue-400" />
+                            </div>
+                            <h3 className="text-3xl md:text-4xl font-bold text-white">{service.title}</h3>
+                          </div>
+                          <p className="text-zinc-400 text-xl leading-relaxed">
+                            {service.description}
+                          </p>
+                          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg">
+                            <Link href={`/contact?service=${service.id}`} className="flex items-center gap-2">
+                              Solicitar Consulta
+                              <ArrowRight className="w-5 h-5" />
+                            </Link>
                           </Button>
+                        </div>
+                        <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                          <div className="text-center space-y-4">
+                            <IconComponent className="w-16 h-16 text-blue-400 mx-auto" />
+                            <div className="space-y-2">
+                              <h4 className="text-xl font-semibold text-white">{service.title}</h4>
+                              <p className="text-zinc-400">Solución Especializada</p>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      <motion.div variants={itemVariants} className="space-y-8">
+                        <div className="space-y-6">
+                          <h4 className="text-2xl font-bold text-white">Beneficios Clave</h4>
+                          <div className="grid gap-4 sm:grid-cols-2">
+                            {service.benefits.map((benefit, index) => (
+                              <motion.div
+                                key={index}
+                                variants={itemVariants}
+                                className="flex items-center gap-3 p-4 bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 rounded-lg border border-zinc-700/50 backdrop-blur-sm"
+                              >
+                                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                                <span className="text-zinc-300">{benefit}</span>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <motion.div variants={cardVariants} whileHover="hover">
+                          <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm">
+                            <CardContent className="p-8 space-y-6">
+                              <div className="space-y-3">
+                                <h5 className="text-xl font-semibold text-white">Caso de éxito</h5>
+                                <h6 className="text-lg font-medium text-blue-400">{service.caseStudy.title}</h6>
+                                <p className="text-zinc-400 leading-relaxed">{service.caseStudy.description}</p>
+                              </div>
+                              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                                <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-600/20">
+                                  Más información
+                                </Button>
+                                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                                  <Link href={`/contact?service=${service.id}`}>
+                                    Contactar
+                                  </Link>
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      </motion.div>
+                    </motion.div>
+                  </TabsContent>
+                )
+              })}
+            </Tabs>
+          </motion.div>
+        </motion.section>
+
+        {/* Enhanced Methodology Section */}
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-20 space-y-16 relative overflow-hidden"
+        >
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+          
+          {/* Section Header */}
+          <motion.div variants={itemVariants} className="text-center space-y-6 relative z-10">
+            <Badge 
+              variant="outline" 
+              className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/50 text-blue-400 backdrop-blur-sm px-4 py-2"
+            >
+              Metodología Probada
+            </Badge>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+              Proceso de Desarrollo
+            </h2>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+              Un enfoque sistemático y probado que garantiza resultados excepcionales en cada proyecto.
+            </p>
+          </motion.div>
+
+          {/* Enhanced Methodology Cards */}
+          <motion.div variants={itemVariants} className="relative z-10">
+            <div className="grid gap-8 grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto">
+              {[
+                {
+                  step: "01",
+                  title: "Análisis Estratégico",
+                  description: "Evaluación profunda de necesidades, objetivos y arquitectura actual del proyecto.",
+                  icon: Database,
+                  features: ["Auditoría técnica", "Análisis de requisitos", "Evaluación de riesgos"],
+                  color: "from-blue-500 to-cyan-500",
+                  bgColor: "from-blue-600/20 to-cyan-600/20",
+                  borderColor: "border-blue-500/30",
+                },
+                {
+                  step: "02",
+                  title: "Diseño Arquitectónico",
+                  description: "Arquitectura escalable y planificación detallada de la solución tecnológica.",
+                  icon: Layers,
+                  features: ["Diseño de sistemas", "Prototipado", "Documentación técnica"],
+                  color: "from-purple-500 to-pink-500",
+                  bgColor: "from-purple-600/20 to-pink-600/20",
+                  borderColor: "border-purple-500/30",
+                },
+                {
+                  step: "03",
+                  title: "Implementación Ágil",
+                  description: "Desarrollo iterativo y despliegue con las mejores prácticas de la industria.",
+                  icon: Code,
+                  features: ["Desarrollo iterativo", "Testing continuo", "Despliegue automatizado"],
+                  color: "from-emerald-500 to-teal-500",
+                  bgColor: "from-emerald-600/20 to-teal-600/20",
+                  borderColor: "border-emerald-500/30",
+                },
+              ].map((item, index) => {
+                const IconComponent = item.icon
+                return (
+                  <motion.div 
+                    key={index} 
+                    variants={{
+                      hidden: { opacity: 0, y: 50, scale: 0.9 },
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        transition: {
+                          duration: 0.8,
+                          delay: index * 0.2,
+                          ease: [0.25, 0.46, 0.45, 0.94],
+                        },
+                      },
+                    }}
+                    whileHover={{
+                      y: -12,
+                      scale: 1.02,
+                      transition: { duration: 0.3, ease: "easeOut" },
+                    }}
+                    className="group relative"
+                  >
+                    {/* Connection Line */}
+                    {index < 2 && (
+                      <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-zinc-600 to-transparent z-0" />
+                    )}
+                    
+                    <Card className={`bg-zinc-900/90 ${item.borderColor} backdrop-blur-sm h-full relative overflow-hidden transition-all duration-500 group-hover:bg-zinc-800/90 group-hover:shadow-2xl group-hover:shadow-${item.color.split(' ')[1].split('-')[0]}-500/20`}>
+                      {/* Card Background Gradient */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${item.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                      
+                      <CardContent className="p-8 space-y-6 relative z-10">
+                        {/* Header with Icon and Step */}
+                        <div className="flex items-center justify-between">
+                          <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.bgColor} flex items-center justify-center ${item.borderColor} border-2 group-hover:scale-110 transition-transform duration-300`}>
+                            <IconComponent className={`w-8 h-8 text-transparent bg-gradient-to-r ${item.color} bg-clip-text`} />
+                          </div>
+                          <span className={`text-4xl font-black bg-gradient-to-r ${item.color} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-300`}>
+                            {item.step}
+                          </span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="space-y-4">
+                          <h4 className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-zinc-300 transition-all duration-300">
+                            {item.title}
+                          </h4>
+                          <p className="text-zinc-400 leading-relaxed text-base group-hover:text-zinc-300 transition-colors duration-300">
+                            {item.description}
+                          </p>
+                        </div>
+
+                        {/* Features List */}
+                        <div className="space-y-3 pt-4 border-t border-zinc-800/50 group-hover:border-zinc-700/50 transition-colors duration-300">
+                          {item.features.map((feature, featureIndex) => (
+                            <motion.div
+                              key={featureIndex}
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.2 + featureIndex * 0.1 }}
+                              className="flex items-center gap-3 text-sm"
+                            >
+                              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${item.color} flex-shrink-0`} />
+                              <span className="text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300">
+                                {feature}
+                              </span>
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        {/* Progress Indicator */}
+                        <div className="pt-4">
+                          <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                            <motion.div
+                              className={`h-full bg-gradient-to-r ${item.color} rounded-full`}
+                              initial={{ width: "0%" }}
+                              whileInView={{ width: "100%" }}
+                              transition={{ duration: 1.5, delay: index * 0.3 }}
+                            />
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
                   </motion.div>
-                </div>
+                )
+              })}
+            </div>
+          </motion.div>
 
-                {/* Related Services */}
-                <div className="pt-8">
-                  <h4 className="text-xl font-semibold mb-6">Servicios Relacionados</h4>
-                  <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                    {services
-                      .filter((s) => s.id !== service.id)
-                      .slice(0, 3)
-                      .map((relatedService) => (
-                        <motion.div
-                          key={relatedService.id}
-                          whileHover={{ y: -5 }}
-                          className="cursor-pointer"
-                          onClick={() => handleTabChange(relatedService.id)}
-                        >
-                          <Card className="bg-zinc-900 border-zinc-800">
-                            <CardContent className="p-6 space-y-4">
-                              <div className="flex items-center gap-3">
-                                <div
-                                  className="w-10 h-10 rounded-full bg-blue-600/20 flex items-center justify-center"
-                                  aria-hidden="true"
-                                >
-                                  {relatedService.icon}
-                                </div>
-                                <h5 className="font-bold">{relatedService.title}</h5>
-                              </div>
-                              <p className="text-zinc-400 text-sm line-clamp-2">{relatedService.description}</p>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      ))}
-                  </div>
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </AnimatedSection>
+          {/* Bottom CTA */}
+          <motion.div 
+            variants={itemVariants}
+            className="text-center relative z-10"
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-purple-500/25 transition-all duration-300"
+              >
+                <Link href="/contacto" className="flex items-center gap-3">
+                  ¿Alguna duda? Contactame
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.section>
 
-        {/* Process Section */}
-        <AnimatedSection className="py-8 md:py-12 space-y-8" delay={0.2}>
-          <div className="space-y-4 text-center">
-            <Badge variant="outline" className="border-blue-500 text-blue-500">
-              Metodología
+        {/* Stats Section */}
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-16 space-y-12"
+        >
+          <motion.div variants={itemVariants} className="text-center space-y-6">
+            <Badge
+              variant="outline"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
+            >
+              Resultados
             </Badge>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Proceso de Trabajo</h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Un enfoque estructurado para garantizar resultados excepcionales en cada proyecto
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+              Impacto Medible
+            </h2>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+              Cada proyecto está diseñado para generar resultados tangibles y valor real para tu organización.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
-                step: "01",
-                title: "Consulta Inicial",
-                description: "Evaluación detallada de tus necesidades, objetivos y desafíos tecnológicos actuales.",
-                icon: <Users className="h-6 w-6 text-blue-500" aria-hidden="true" />,
+                number: "15+",
+                label: "Años de Experiencia",
+                description: "En desarrollo y liderazgo técnico",
+                icon: Users,
               },
               {
-                step: "02",
-                title: "Propuesta Personalizada",
-                description: "Desarrollo de una estrategia y plan de acción adaptado a tus requerimientos específicos.",
-                icon: <Code className="h-6 w-6 text-blue-500" aria-hidden="true" />,
+                number: "50+",
+                label: "Proyectos Completados",
+                description: "Soluciones entregadas exitosamente",
+                icon: CheckCircle,
               },
               {
-                step: "03",
-                title: "Implementación",
-                description: "Ejecución metódica del plan con comunicación constante y adaptación según sea necesario.",
-                icon: <Layers className="h-6 w-6 text-blue-500" aria-hidden="true" />,
+                number: "2M+",
+                label: "Transacciones Diarias",
+                description: "Procesadas por sistemas desarrollados",
+                icon: LineChart,
               },
               {
-                step: "04",
-                title: "Seguimiento y Optimización",
-                description: "Monitoreo continuo, evaluación de resultados y mejoras incrementales.",
-                icon: <LineChart className="h-6 w-6 text-blue-500" aria-hidden="true" />,
+                number: "99.9%",
+                label: "Disponibilidad",
+                description: "En sistemas críticos implementados",
+                icon: Shield,
               },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <Card className="bg-zinc-900 border-zinc-800 h-full">
-                  <CardContent className="p-6 space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div
-                        className="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center"
-                        aria-hidden="true"
-                      >
-                        {item.icon}
+            ].map((stat, index) => {
+              const IconComponent = stat.icon
+              return (
+                <motion.div key={index} variants={cardVariants} whileHover="hover">
+                  <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm relative overflow-hidden h-full">
+                    <CardContent className="p-8 space-y-6">
+                      <div className="flex items-center justify-between">
+                        <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                          {stat.number}
+                        </span>
+                        <div className="p-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-500/30">
+                          <IconComponent className="w-6 h-6 text-purple-400" />
+                        </div>
                       </div>
-                      <span className="text-3xl font-bold text-blue-500">{item.step}</span>
-                    </div>
-                    <h3 className="text-xl font-bold">{item.title}</h3>
-                    <p className="text-zinc-400">{item.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                      <div className="space-y-3">
+                        <h4 className="text-xl font-semibold text-white">{stat.label}</h4>
+                        <p className="text-zinc-400 leading-relaxed">{stat.description}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )
+            })}
           </div>
-        </AnimatedSection>
+        </motion.section>
 
-        {/* Testimonials */}
-        <AnimatedSection className="py-8 md:py-12 space-y-8" delay={0.3}>
-          <div className="space-y-4 text-center">
-            <Badge variant="outline" className="border-blue-500 text-blue-500">
+        {/* Testimonials Section */}
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-16 space-y-12"
+        >
+          <motion.div variants={itemVariants} className="text-center space-y-6">
+            <Badge
+              variant="outline"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
+            >
               Testimonios
             </Badge>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Lo que Dicen mis Clientes</h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Experiencias de clientes que han transformado sus negocios con mis servicios
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+              Lo Que Dicen Mis Clientes
+            </h2>
+            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+              La confianza de mis clientes es el mejor indicador del valor que aporto a cada proyecto.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 quote:
-                  "José transformó completamente nuestro sistema de backoffice, reduciendo los tiempos de procesamiento en un 70% y mejorando la satisfacción de nuestros empleados.",
-                author: "María Rodríguez",
-                position: "CTO, FinTech Solutions",
-                image: "/placeholder.svg?height=100&width=100",
+                  "José transformó completamente nuestra arquitectura de pagos. Su liderazgo técnico y visión estratégica fueron fundamentales para el éxito del proyecto.",
+                author: "María González",
+                role: "CTO, FinTech Solutions",
+                avatar: "/images/testimonials/maria.jpg",
               },
               {
                 quote:
-                  "Su liderazgo técnico fue clave para el éxito de nuestro proyecto. Implementó estándares y prácticas que siguen beneficiando a nuestro equipo hasta hoy.",
-                author: "Carlos Méndez",
-                position: "Director de Tecnología, Banco Internacional",
-                image: "/placeholder.svg?height=100&width=100",
+                  "La implementación de nuestro sistema de backoffice superó todas las expectativas. José no solo entregó una solución técnica excelente, sino que también mentorizó a nuestro equipo.",
+                author: "Carlos Rodríguez",
+                role: "Director de Tecnología, Banco Nacional",
+                avatar: "/images/testimonials/carlos.jpg",
               },
               {
                 quote:
-                  "La arquitectura de microservicios que José diseñó para nosotros ha sido fundamental para nuestro crecimiento, permitiéndonos escalar sin problemas durante los últimos tres años.",
+                  "Su experiencia en sistemas financieros y cumplimiento regulatorio fue invaluable. Logramos la certificación PCI DSS en tiempo récord.",
                 author: "Ana Martínez",
-                position: "CEO, Payments Pro",
-                image: "/placeholder.svg?height=100&width=100",
+                role: "VP de Operaciones, PaymentCorp",
+                avatar: "/images/testimonials/ana.jpg",
               },
             ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <Card className="bg-zinc-900 border-zinc-800 h-full">
-                  <CardContent className="p-6 space-y-4">
-                    <div className="text-2xl text-blue-500" aria-hidden="true">
+              <motion.div key={index} variants={cardVariants} whileHover="hover">
+                <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm h-full relative overflow-hidden">
+                  <CardContent className="p-8 space-y-6">
+                    <div className="text-4xl text-green-400 font-serif" aria-hidden="true">
                       "
                     </div>
-                    <p className="text-zinc-300 italic">{testimonial.quote}</p>
+                    <p className="text-zinc-300 italic text-lg leading-relaxed">{testimonial.quote}</p>
                     <div className="flex items-center gap-4 pt-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-500/30">
                         <Image
-                          src={testimonial.image || "/placeholder.svg"}
+                          src={testimonial.avatar || "/placeholder.svg"}
                           alt={`Foto de ${testimonial.author}`}
-                          width={48}
-                          height={48}
+                          width={56}
+                          height={56}
                           className="object-cover"
                         />
                       </div>
                       <div>
-                        <p className="font-semibold">{testimonial.author}</p>
-                        <p className="text-zinc-400 text-sm">{testimonial.position}</p>
+                        <p className="font-bold text-lg text-white">{testimonial.author}</p>
+                        <p className="text-zinc-400">{testimonial.role}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -546,35 +762,55 @@ function ServicesPageContent() {
               </motion.div>
             ))}
           </div>
-        </AnimatedSection>
+        </motion.section>
 
         {/* CTA Section */}
-        <AnimatedSection className="py-8 md:py-12" delay={0.4}>
-          <Card className="bg-gradient-to-br from-blue-600 to-purple-600 border-0">
-            <CardContent className="p-6 md:p-8 lg:p-12 text-center space-y-6">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
-                ¿Listo para Transformar tu Negocio?
-              </h2>
-              <p className="text-white/90 max-w-2xl mx-auto text-base md:text-lg">
-                Agenda una consulta gratuita para discutir cómo puedo ayudarte a alcanzar tus objetivos tecnológicos y
-                empresariales.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-white/90 w-full sm:w-auto" asChild>
-                  <Link href="/schedule">Agendar Consulta</Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10 w-full sm:w-auto"
-                  asChild
-                >
-                  <Link href="/contact">Contactar</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </AnimatedSection>
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="py-20 md:py-32 text-center space-y-12"
+        >
+          <motion.div variants={itemVariants} className="space-y-6">
+            <Badge
+              variant="outline"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
+            >
+              ¿Listo para Comenzar?
+            </Badge>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+              Transformemos Tu Visión en Realidad
+            </h2>
+            <p className="text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed">
+              Cada gran proyecto comienza con una conversación. Hablemos sobre cómo puedo ayudarte a
+              alcanzar tus objetivos tecnológicos y de negocio.
+            </p>
+          </motion.div>
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl"
+              asChild
+            >
+              <Link href="/contact">
+                Iniciar Conversación
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 px-12 py-6 text-xl"
+              asChild
+            >
+              <Link href="/portfolio">
+                Ver Portfolio
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+            </Button>
+          </motion.div>
+        </motion.section>
       </main>
 
       <SiteFooter />
