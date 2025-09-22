@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Star, Eye, ExternalLink, GitCommit, Tag, Calendar, Code } from "lucide-react"
+import { Star, Eye, ExternalLink, GitCommit, Tag, Calendar, Code, Hash, Layers } from "lucide-react"
 import { featuredProjects, type FeaturedProject } from "@/data/featured-projects"
 
 interface RepositoryDetails {
@@ -176,6 +176,10 @@ export function FeaturedProjects() {
               
               {/* Tags Section - Improved spacing */}
               <div className="flex flex-wrap gap-1.5">
+                <div className="flex items-center gap-2 w-full mb-1">
+                  <Layers className="h-3 w-3 text-zinc-500" />
+                  <span className="text-xs text-zinc-500 font-medium">Tecnologías</span>
+                </div>
                 {project.tags.map((tag) => (
                   <span key={tag} className="px-2.5 py-1 bg-zinc-800/80 text-zinc-300 text-xs rounded-full border border-zinc-700/50">
                     {tag}
@@ -194,9 +198,12 @@ export function FeaturedProjects() {
                   </div>
                   
                   {project.repositoryData.latest_commit && (
-                    <div className="text-xs text-zinc-600 mt-1 truncate">
-                      <span className="font-mono text-zinc-500">{project.repositoryData.latest_commit.sha.substring(0, 7)}</span>
-                      <span className="ml-2">{project.repositoryData.latest_commit.message}</span>
+                    <div className="flex items-start gap-2 text-xs text-zinc-600 mt-1">
+                      <Hash className="h-3 w-3 text-zinc-500 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <span className="font-mono text-zinc-500">{project.repositoryData.latest_commit.sha.substring(0, 7)}</span>
+                        <span className="ml-2 truncate block">{project.repositoryData.latest_commit.message}</span>
+                      </div>
                     </div>
                   )}
                 </div>
