@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Linkedin, Twitter } from "lucide-react"
+import { Github, Linkedin } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -41,17 +41,19 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white"
-                aria-label="Twitter de José Carrillo"
+                aria-label="X (Twitter) de José Carrillo"
               >
-                <Twitter className="h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">Twitter</span>
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                <span className="sr-only">X (Twitter)</span>
               </Link>
             </div>
           </div>
 
           <div className="space-y-4">
             <h3 className="font-bold" id="footer-quick-links">
-              Enlaces Rápidos
+              Enlaces rápidos
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-quick-links">
               <Link href="/" className="text-zinc-400 hover:text-white">
@@ -60,10 +62,10 @@ export function SiteFooter() {
               <Link href="/about" className="text-zinc-400 hover:text-white">
                 Sobre mí
               </Link>
-              <Link href="/resources" className="text-zinc-400 hover:text-white">
+              <Link href="/sobre-mi" className="text-zinc-400 hover:text-white">
                 Recursos
               </Link>
-              <Link href="/contact" className="text-zinc-400 hover:text-white">
+              <Link href="/contacto" className="text-zinc-400 hover:text-white">
                 Contacto
               </Link>
             </nav>
@@ -74,17 +76,17 @@ export function SiteFooter() {
               Servicios
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-services">
-              <Link href="/services#technical-leadership" className="text-zinc-400 hover:text-white">
-                Liderazgo Técnico
+              <Link href="/servicios#technical-leadership" className="text-zinc-400 hover:text-white">
+                Liderazgo técnico
               </Link>
-              <Link href="/services#financial-systems" className="text-zinc-400 hover:text-white">
-                Sistemas Financieros
+              <Link href="/servicios#financial-systems" className="text-zinc-400 hover:text-white">
+                Sistemas financieros
               </Link>
-              <Link href="/services#backoffice-solutions" className="text-zinc-400 hover:text-white">
-                Soluciones de Backoffice
+              <Link href="/servicios#backoffice-solutions" className="text-zinc-400 hover:text-white">
+                Soluciones de backoffice
               </Link>
-              <Link href="/services#architecture-design" className="text-zinc-400 hover:text-white">
-                Diseño de Arquitectura
+              <Link href="/servicios#architecture-design" className="text-zinc-400 hover:text-white">
+                Diseño de arquitectura
               </Link>
             </nav>
           </div>
@@ -114,13 +116,13 @@ export function SiteFooter() {
             &copy; {new Date().getFullYear()} José Carrillo. Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
-            <Link href="/privacy-policy" className="text-zinc-400 hover:text-white text-sm">
+            <Link href="/privacidad" className="text-zinc-400 hover:text-white text-sm">
               Política de Privacidad
             </Link>
-            <Link href="/terms-conditions" className="text-zinc-400 hover:text-white text-sm">
+            <Link href="/terminos" className="text-zinc-400 hover:text-white text-sm">
               Términos del Servicio
             </Link>
-            <Link href="/cookie-policy" className="text-zinc-400 hover:text-white text-sm">
+            <Link href="/cookies" className="text-zinc-400 hover:text-white text-sm">
               Política de Cookies
             </Link>
           </div>
