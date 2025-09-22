@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Servicios Profesionales | Consultoría Tecnológica | José Carrillo",
+  title: "Servicios profesionales | Consultoría tecnológica",
   description:
     "Servicios especializados en liderazgo técnico, sistemas financieros, soluciones de backoffice, diseño de arquitectura y más.",
   keywords: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     canonical: "/services",
   },
   openGraph: {
-    title: "Servicios Profesionales | José Carrillo",
+    title: "Servicios profesionales",
     description:
       "Servicios especializados en liderazgo técnico, sistemas financieros, soluciones de backoffice, diseño de arquitectura y más.",
     url: "https://carrillo.app/services",
@@ -28,12 +28,12 @@ export const metadata: Metadata = {
         url: "https://carrillo.app/services-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Servicios Profesionales - José Carrillo",
+        alt: "Servicios profesionales",
       },
     ],
   },
   twitter: {
-    title: "Servicios Profesionales | José Carrillo",
+    title: "Servicios profesionales",
     description:
       "Servicios especializados en liderazgo técnico, sistemas financieros, soluciones de backoffice, diseño de arquitectura y más.",
   },

@@ -258,16 +258,16 @@ function ServicesPageContent() {
                     variant="outline"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
                   >
-                    Servicios Profesionales
+                    Servicios profesionales
                   </Badge>
                 </motion.div>
                 <motion.h1
                   variants={itemVariants}
                   className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
                 >
-                  Soluciones Tecnológicas{" "}
+                  Soluciones tecnológicas{" "}
                   <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    de Alto Impacto
+                    de alto impacto
                   </span>
                 </motion.h1>
                 <motion.p
@@ -285,7 +285,7 @@ function ServicesPageContent() {
                   asChild
                 >
                   <Link href="#technical-leadership">
-                    Explorar Servicios
+                    Explorar servicios
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Link>
                 </Button>
@@ -321,13 +321,13 @@ function ServicesPageContent() {
               variant="outline"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
             >
-              Áreas de Especialización
+              Áreas de especialización
             </Badge>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-              Servicios Especializados
+              Servicios especializados
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Cada servicio está diseñado para generar valor real y resultados medibles en tu organización.
+              Cada servicio está diseñado para generar valor real y resultados medibles en tu organización de la forma más ágil y eficiente posible.
             </p>
           </motion.div>
 
@@ -392,7 +392,7 @@ function ServicesPageContent() {
 
                       <motion.div variants={itemVariants} className="space-y-8">
                         <div className="space-y-6">
-                          <h4 className="text-2xl font-bold text-white">Beneficios Clave</h4>
+                          <h4 className="text-2xl font-bold text-white">Beneficios clave</h4>
                           <div className="grid gap-4 sm:grid-cols-2">
                             {service.benefits.map((benefit, index) => (
                               <motion.div
@@ -455,13 +455,13 @@ function ServicesPageContent() {
               variant="outline" 
               className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/50 text-blue-400 backdrop-blur-sm px-4 py-2"
             >
-              Metodología Probada
+              Metodología probada
             </Badge>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
-              Proceso de Desarrollo
+              Proceso de desarrollo
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Un enfoque sistemático y probado que garantiza resultados excepcionales en cada proyecto.
+              Un enfoque sistemático y probado que garantiza resultados excepcionales en cada proyecto, de forma clara, medible y escalable.
             </p>
           </motion.div>
 
@@ -629,10 +629,10 @@ function ServicesPageContent() {
               Resultados
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-              Impacto Medible
+              Impacto medible
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Cada proyecto está diseñado para generar resultados tangibles y valor real para tu organización.
+              Cada proyecto está diseñado para generar resultados tangibles y valor real.
             </p>
           </motion.div>
 
@@ -704,10 +704,10 @@ function ServicesPageContent() {
               Testimonios
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-              Lo Que Dicen Mis Clientes
+              Lo que dicen mis clientes
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              La confianza de mis clientes es el mejor indicador del valor que aporto a cada proyecto.
+              La confianza es el mejor indicador del valor que aporto a cada proyecto.
             </p>
           </motion.div>
 
@@ -718,21 +718,21 @@ function ServicesPageContent() {
                   "José transformó completamente nuestra arquitectura de pagos. Su liderazgo técnico y visión estratégica fueron fundamentales para el éxito del proyecto.",
                 author: "María González",
                 role: "CTO, FinTech Solutions",
-                avatar: "/images/testimonials/maria.jpg",
+                avatar: "/placeholder.svg",
               },
               {
                 quote:
                   "La implementación de nuestro sistema de backoffice superó todas las expectativas. José no solo entregó una solución técnica excelente, sino que también mentorizó a nuestro equipo.",
                 author: "Carlos Rodríguez",
                 role: "Director de Tecnología, Banco Nacional",
-                avatar: "/images/testimonials/carlos.jpg",
+                avatar: "/placeholder.svg",
               },
               {
                 quote:
                   "Su experiencia en sistemas financieros y cumplimiento regulatorio fue invaluable. Logramos la certificación PCI DSS en tiempo récord.",
                 author: "Ana Martínez",
                 role: "VP de Operaciones, PaymentCorp",
-                avatar: "/images/testimonials/ana.jpg",
+                avatar: "/placeholder.svg",
               },
             ].map((testimonial, index) => (
               <motion.div key={index} variants={cardVariants} whileHover="hover">
@@ -777,10 +777,10 @@ function ServicesPageContent() {
               variant="outline"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
             >
-              ¿Listo para Comenzar?
+              ¿Listo para comenzar?
             </Badge>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-              Transformemos Tu Visión en Realidad
+              Transformemos tu visión en realidad
             </h2>
             <p className="text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed">
               Cada gran proyecto comienza con una conversación. Hablemos sobre cómo puedo ayudarte a
@@ -793,8 +793,8 @@ function ServicesPageContent() {
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl"
               asChild
             >
-              <Link href="/contact">
-                Iniciar Conversación
+              <Link href="/contacto">
+                Iniciar conversación
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
@@ -804,8 +804,8 @@ function ServicesPageContent() {
               className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 px-12 py-6 text-xl"
               asChild
             >
-              <Link href="/portfolio">
-                Ver Portfolio
+              <Link href="/recursos">
+                Ver otros proyectos
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
