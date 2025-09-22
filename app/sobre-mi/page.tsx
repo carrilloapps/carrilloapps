@@ -117,7 +117,7 @@ export default function AboutPage() {
                   <Link href="/contacto" aria-describedby="explore-projects-desc">
                     Contactarme
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                    <span id="explore-projects-desc" className="sr-only">Conversemos más a fundo sobre lo que deseé</span>
+                    <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
                   </Link>
                 </Button>
                 <Button
@@ -365,13 +365,13 @@ export default function AboutPage() {
                   </h3>
                 </div>
                 <p className="text-zinc-400">
-                  Como desarrollador senior en Wompi, participe en el desarrollo
+                  Como desarrollador senior en Wompi, participé en el desarrollo
                   de la plataforma de pagos, implementando integraciones con
-                  múltiples entitdades bancarias y financieras, mejorando la
+                  múltiples entidades bancarias y financieras, mejorando la
                   experiencia de usuario en el checkout, dashboard e incluso un
-                  flujo completo de su panel administrativo. Ayude en el
+                  flujo completo de su panel administrativo. Ayudé en el
                   rediseño de la arquitectura del backend para soportar
-                  transacciones de de Open Banking como iniciadores de pago,
+                  transacciones de Open Banking como iniciadores de pago,
                   logrando una disponibilidad del 99.9% y reduciendo el tiempo
                   de procesamiento en un 35%. Colaboré estrechamente con equipos
                   de producto y UX para crear soluciones de pago intuitivas que
@@ -615,6 +615,8 @@ export default function AboutPage() {
                 <motion.div
                   className="grid gap-6 md:grid-cols-2"
                   variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
                 >
                   <motion.div variants={itemVariants}>
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
@@ -670,7 +672,11 @@ export default function AboutPage() {
               </TabsContent>
 
               <TabsContent value="reading" className="mt-6">
-                <motion.div variants={itemVariants}>
+                <motion.div
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
@@ -685,16 +691,16 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Lecturas Técnicas</h4>
+                          <h4 className="font-bold">Lecturas técnicas</h4>
                           <ul className="mt-2 space-y-2 text-zinc-400">
-                            <li>• "Código Limpio" por Robert C. Martin</li>
+                            <li>• "Clean Code" por Robert C. Martin</li>
                             <li>
-                              • "Diseñando Aplicaciones Data-Intensivas" por Martin
+                              • "Designing Data-Intensive Applications" por Martin
                               Kleppmann
                             </li>
-                            <li>• "El Proyecto Phoenix" por Gene Kim</li>
+                            <li>• "The Phoenix Project" por Gene Kim</li>
                             <li>
-                              • "Acelerar" por Nicole Forsgren, Jez Humble y
+                              • "Accelerate" por Nicole Forsgren, Jez Humble y
                               Gene Kim
                             </li>
                           </ul>
@@ -704,15 +710,15 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Liderazgo y Negocios</h4>
+                          <h4 className="font-bold">Liderazgo y negocios</h4>
                           <ul className="mt-2 space-y-2 text-zinc-400">
                             <li>
-                              • "Las cinco disfunciones de un equipo" por Patrick
+                              • "The Five Dysfunctions of a Team" por Patrick
                               Lencioni
                             </li>
-                            <li>• "Crítica Radical" por Kim Scott</li>
-                            <li>• "El método Lean Startup" por Eric Ries</li>
-                            <li>• "Gestión de Alto Rendimiento" por Andrew Grove</li>
+                            <li>• "Radical Candor" por Kim Scott</li>
+                            <li>• "The Lean Startup" por Eric Ries</li>
+                            <li>• "High Output Management" por Andrew Grove</li>
                           </ul>
                         </motion.div>
 
@@ -720,12 +726,12 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Filosofía y Pensamiento</h4>
+                          <h4 className="font-bold">Filosofía y pensamiento</h4>
                           <ul className="mt-2 space-y-2 text-zinc-400">
-                            <li>• "Pensar rápido, pensar despacio" por Daniel Kahneman</li>
-                            <li>• "Antifrágil" por Nassim Nicholas Taleb</li>
-                            <li>• "Mindset: La actitud del éxito" por Carol Dweck</li>
-                            <li>• "Trabajo Profundo" por Cal Newport</li>
+                            <li>• "Thinking, Fast and Slow" por Daniel Kahneman</li>
+                            <li>• "Antifragile: Things That Gain from Disorder" por Nassim Nicholas Taleb</li>
+                            <li>• "Mindset: The New Psychology of Success" por Carol S. Dweck</li>
+                            <li>• "Deep Work: Rules for Focused Success in a Distracted World" por Cal Newport</li>
                           </ul>
                         </motion.div>
                       </div>
@@ -735,7 +741,11 @@ export default function AboutPage() {
               </TabsContent>
 
               <TabsContent value="community" className="mt-6">
-                <motion.div variants={itemVariants}>
+                <motion.div
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Participación en la comunidad</h3>
@@ -750,7 +760,7 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Programa de Mentorías</h4>
+                          <h4 className="font-bold">Programa de mentorías</h4>
                           <p className="mt-2 text-zinc-400">
                             Regularmente mentoreo a desarrolladores junior a través de programas
                             estructurados y relaciones informales, ayudándoles a navegar sus
@@ -765,9 +775,9 @@ export default function AboutPage() {
                           <h4 className="font-bold">Contribuciones Open Source</h4>
                           <p className="mt-2 text-zinc-400">
                             Contribuyo activamente a proyectos de código abierto en el
-                            ámbito de la tecnología financiera, ayudando a construir
+                            ámbito de la tecnología, ayudando a construir
                             herramientas que benefician a la comunidad de desarrolladores
-                            y democratizan el acceso a soluciones financieras.
+                            y democratizan el acceso a soluciones de todo tipo pero haciendo enfasis en medios de pago y finanzas.
                           </p>
                         </motion.div>
 
@@ -775,7 +785,7 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Charlas Técnicas & Talleres</h4>
+                          <h4 className="font-bold">Charlas técnicas & talleres</h4>
                           <p className="mt-2 text-zinc-400">
                             Participo como ponente en meetups y conferencias locales
                             sobre arquitectura de software financiero, liderazgo y
@@ -787,7 +797,7 @@ export default function AboutPage() {
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                          <h4 className="font-bold">Educación Tecnológica</h4>
+                          <h4 className="font-bold">Educación tecnológica</h4>
                           <p className="mt-2 text-zinc-400">
                             Colaboro con programas que introducen conceptos de
                             programación y tecnología a grupos subrepresentados
