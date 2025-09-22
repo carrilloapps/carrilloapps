@@ -119,7 +119,7 @@ export default function ResourcesPage() {
               </Badge>
             </motion.div>
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg pb-2"
               variants={itemVariants}
             >
               Gratuitos &amp; código abierto
@@ -128,7 +128,7 @@ export default function ResourcesPage() {
               className="text-xl text-zinc-400 max-w-2xl mx-auto"
               variants={itemVariants}
             >
-              Artículos sobre desarrollo de software, sistemas financieros y de pago, liderazgo técnico y recursos para desarrolladores.
+              Proyectos de software, sistemas enfocados en finanzas y medios de pago, todos recursos para desarrolladores.
             </motion.p>
           </motion.div>
 
@@ -142,11 +142,11 @@ export default function ResourcesPage() {
           >
             <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 rounded-full border border-zinc-800">
               <Github className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-zinc-300">Open source</span>
+              <span className="text-sm text-zinc-300">Open Source</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 rounded-full border border-zinc-800">
               <GitBranch className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-zinc-300">Contribuciones bienvenidas</span>
+              <span className="text-sm text-zinc-300">Contribuciones</span>
             </div>
           </motion.div>
         </motion.section>
@@ -174,7 +174,9 @@ export default function ResourcesPage() {
                     value="gitlab"
                     className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white gap-2 transition-all duration-200"
                   >
-                    <Code className="h-4 w-4" />
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/>
+                    </svg>
                     GitLab
                   </TabsTrigger>
                 </TabsList>
@@ -246,7 +248,7 @@ export default function ResourcesPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-              Proyectos Destacados
+              Proyectos destacados
             </h2>
             <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
               Mis proyectos personales y contribuciones de código abierto más
@@ -267,11 +269,10 @@ export default function ResourcesPage() {
                     <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors duration-300">
                       <Code className="h-5 w-5 text-blue-500" />
                     </div>
-                    Financial Dashboard
+                    carrilloapps
                   </CardTitle>
                   <CardDescription className="text-zinc-400 leading-relaxed">
-                    Dashboard de análisis financiero de código abierto con
-                    visualización de datos en tiempo real
+                    Mi sitio web con portafolio, blog, área de recursos, contacto, agendamiento y todo lo que necesita un líder de desarrollo o desarrollador de software.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -280,32 +281,34 @@ export default function ResourcesPage() {
                     <span className="text-zinc-300 font-medium">TypeScript</span>
                   </div>
                   <p className="text-zinc-400 text-sm leading-relaxed">
-                    Construido con React, D3.js y Node.js. Incluye seguimiento de
-                    portafolio, análisis de mercado y widgets personalizables.
+                    Construido con Next.js, usando TailwindCSS y diferentes librerías. Tiene una integración con GitHub y GitLab para mostrar los recursos públicos automáticamente.
                   </p>
                   <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">React</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">D3.js</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Node.js</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Next.js</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">TailwindCSS</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Vercel</span>
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between items-center pt-4">
                   <div className="flex items-center gap-4 text-sm text-zinc-400">
                     <div className="flex items-center gap-1">
                       <Star className="h-4 w-4" />
-                      <span>128</span>
+                      <span>0</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Eye className="h-4 w-4" />
-                      <span>42</span>
+                      <span>0</span>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     className="border-zinc-700 hover:bg-zinc-800 hover:border-blue-500 gap-2 transition-all duration-200"
+                    asChild
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Ver proyecto
+                    <a href="https://github.com/carrilloapps/carrilloapps" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-4 w-4" />
+                      Ver proyecto
+                    </a>
                   </Button>
                 </CardFooter>
               </Card>
@@ -318,34 +321,34 @@ export default function ResourcesPage() {
                     <div className="p-2 bg-yellow-500/10 rounded-lg group-hover:bg-yellow-500/20 transition-colors duration-300">
                       <Code className="h-5 w-5 text-yellow-500" />
                     </div>
-                    Backoffice Toolkit
+                    Simple CRUD Api
                   </CardTitle>
                   <CardDescription className="text-zinc-400 leading-relaxed">
-                    Colección de herramientas para automatizar operaciones de
-                    backoffice
+                    Es un CRUD simple pero bastante didagtico hecho en Go, que permite crear, leer, actualizar y eliminar registros en una base de datos.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <span className="text-zinc-300 font-medium">JavaScript</span>
+                    <span className="text-zinc-300 font-medium">Golang</span>
                   </div>
                   <p className="text-zinc-400 text-sm leading-relaxed">
-                    Incluye módulos para procesamiento de datos, generación de
-                    reportes y automatización de flujos. Usado por varias
-                    instituciones financieras.
+                    Implementa autenticación JWT, compresión de datos con Snappy,
+                    conexión a MongoDB, y manejo de errores robusto. Usado en
+                    aplicaciones web de alto rendimiento.
                   </p>
                   <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">JavaScript</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Automation</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Reports</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Go</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">MongoDB</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">JWT</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Echo</span>
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between items-center pt-4">
                   <div className="flex items-center gap-4 text-sm text-zinc-400">
                     <div className="flex items-center gap-1">
                       <Star className="h-4 w-4" />
-                      <span>95</span>
+                      <span>2</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Eye className="h-4 w-4" />
@@ -355,9 +358,12 @@ export default function ResourcesPage() {
                   <Button
                     variant="outline"
                     className="border-zinc-700 hover:bg-zinc-800 hover:border-yellow-500 gap-2 transition-all duration-200"
+                    asChild
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Ver proyecto
+                    <a href="https://github.com/carrilloapps/simple-crud-api" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-4 w-4" />
+                      Ver proyecto
+                    </a>
                   </Button>
                 </CardFooter>
               </Card>
@@ -370,46 +376,50 @@ export default function ResourcesPage() {
                     <div className="p-2 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors duration-300">
                       <Code className="h-5 w-5 text-green-500" />
                     </div>
-                    Secure Payment Gateway
+                    Franchises API
                   </CardTitle>
                   <CardDescription className="text-zinc-400 leading-relaxed">
-                    Sistema de procesamiento de pagos de código abierto con
-                    detección de fraude
+                    API REST moderna para gestión de franquicias construida con Kotlin
+                    y Spring Boot con PostgreSQL y OpenAPI, completamente contenerizado en Docker.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span className="text-zinc-300 font-medium">Python</span>
+                    <span className="text-zinc-300 font-medium">Kotlin</span>
                   </div>
                   <p className="text-zinc-400 text-sm leading-relaxed">
-                    Implementa protocolos de seguridad estándar de la industria y
-                    machine learning para detección de fraude. Soporta múltiples
-                    métodos de pago.
+                    API robusta que aprovecha las características de Kotlin y Spring Boot
+                    para ofrecer un sistema completo de gestión de franquicias con
+                    autenticación JWT y documentación OpenAPI.
                   </p>
                   <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Python</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Security</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">ML</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Kotlin</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Spring Boot</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">PostgreSQL</span>
+                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">OpenAPI</span>
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between items-center pt-4">
                   <div className="flex items-center gap-4 text-sm text-zinc-400">
                     <div className="flex items-center gap-1">
                       <Star className="h-4 w-4" />
-                      <span>210</span>
+                      <span>5</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Eye className="h-4 w-4" />
-                      <span>78</span>
+                      <span>42</span>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     className="border-zinc-700 hover:bg-zinc-800 hover:border-green-500 gap-2 transition-all duration-200"
+                    asChild
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Ver proyecto
+                    <a href="https://github.com/carrilloapps/franchises-api" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-4 w-4" />
+                      Ver proyecto
+                    </a>
                   </Button>
                 </CardFooter>
               </Card>
