@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Award, BookOpen, Calendar, User, Download, Mail } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Award, BookOpen, Calendar, User, Download, Mail, Eye } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,8 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import Link from "next/link";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -22,38 +27,43 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: [0.25, 0.46, 0.45, 0.94],
     },
   },
 };
 
 export default function AboutPage() {
+  const [cvModalOpen, setCvModalOpen] = useState(false)
+  const [cvFormSubmitted, setCvFormSubmitted] = useState(false)
+  const [formData, setFormData] = useState({ name: "", email: "" })
+  const [formErrors, setFormErrors] = useState({ name: "", email: "" })
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <ParticleHeroBackground />
-      
+
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-      
+
       <SiteHeader />
 
       <main className="relative z-10 container py-12 space-y-24">
         {/* Hero Section */}
-        <motion.section 
+        <motion.section
           className="py-12 md:py-0 space-y-8"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
           <div className="grid gap-12 md:grid-cols-2 items-center">
-            <motion.div className="space-y-6" variants={itemVariants}>
+            <motion.div className="space-y-6 order-2 md:order-1" variants={itemVariants}>
               <div className="space-y-2">
                 <motion.div variants={itemVariants}>
                   <Badge
@@ -63,20 +73,20 @@ export default function AboutPage() {
                     Conóceme
                   </Badge>
                 </motion.div>
-                <motion.h1 
+                <motion.h1
                   className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg"
                   variants={itemVariants}
                 >
                   Hola, soy José Carrillo
                 </motion.h1>
-                <motion.p 
+                <motion.p
                   className="text-xl text-zinc-400"
                   variants={itemVariants}
                 >
                   Mi trayectoria profesional en el mundo del desarrollo
                 </motion.p>
               </div>
-              <motion.p 
+              <motion.p
                 className="text-zinc-400 leading-relaxed"
                 variants={itemVariants}
               >
@@ -86,7 +96,7 @@ export default function AboutPage() {
                 resolver problemas complejos y crear software que genere un
                 impacto real en las operaciones empresariales.
               </motion.p>
-              <motion.p 
+              <motion.p
                 className="text-zinc-400 leading-relaxed"
                 variants={itemVariants}
               >
@@ -95,35 +105,35 @@ export default function AboutPage() {
                 mentoría de la nueva generación de desarrolladores y con la
                 creación de soluciones de software sostenibles y escalables.
               </motion.p>
-              <motion.div 
-                className="flex gap-4"
-                variants={itemVariants}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+                role="group"
+                aria-label="Acciones principales"
               >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                  <Link href="/contacto" aria-describedby="explore-projects-desc">
+                    Contactarme
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                    <span id="explore-projects-desc" className="sr-only">Conversemos más a fundo sobre lo que deseé</span>
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                  onClick={() => setCvModalOpen(true)}
+                  aria-describedby="download-cv-desc"
                 >
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25">
-                    <Download className="mr-2 h-4 w-4" />
-                    Descargar CV
-                  </Button>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Button
-                    variant="outline"
-                    className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-zinc-600/50"
-                  >
-                    <Mail className="mr-2 h-4 w-4" />
-                    Contáctame
-                  </Button>
-                </motion.div>
+                  Descargar CV
+                  <Download className="ml-2 h-5 w-5" aria-hidden="true" />
+                  <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
+                </Button>
               </motion.div>
             </motion.div>
-            <motion.div 
-              className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm"
+            <motion.div
+              className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm order-1 md:order-2"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
@@ -145,7 +155,7 @@ export default function AboutPage() {
         </motion.section>
 
         {/* Sección de Trayectoria Profesional */}
-        <motion.section 
+        <motion.section
           className="py-12 space-y-8"
           initial="hidden"
           whileInView="visible"
@@ -153,8 +163,8 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
             >
               Timeline
@@ -168,12 +178,12 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="relative border-l border-zinc-800/50 ml-3 md:ml-6 pl-6 md:pl-10 space-y-10"
             variants={itemVariants}
           >
             {/* Posición actual */}
-            <motion.div 
+            <motion.div
               className="relative"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -221,7 +231,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Rol senior */}
-            <motion.div 
+            <motion.div
               className="relative"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -269,7 +279,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Experiencia media */}
-            <motion.div 
+            <motion.div
               className="relative"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -338,7 +348,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Inicio de carrera */}
-            <motion.div 
+            <motion.div
               className="relative"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -403,7 +413,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Formación académica */}
-            <motion.div 
+            <motion.div
               className="relative"
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}
@@ -467,7 +477,7 @@ export default function AboutPage() {
         </motion.section>
 
         {/* Philosophy Section */}
-        <motion.section 
+        <motion.section
           className="py-12 space-y-8"
           initial="hidden"
           whileInView="visible"
@@ -475,11 +485,11 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
             >
-              Enfoque de Desarrollo
+              Enfoque de desarrollo
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
               Visión y misión profesional
@@ -490,14 +500,14 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid gap-8 md:grid-cols-3"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
               <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
                 <CardContent className="p-6 space-y-4">
-                  <motion.div 
+                  <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
@@ -517,7 +527,7 @@ export default function AboutPage() {
             <motion.div variants={itemVariants}>
               <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 h-full group">
                 <CardContent className="p-6 space-y-4">
-                  <motion.div 
+                  <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
@@ -537,7 +547,7 @@ export default function AboutPage() {
             <motion.div variants={itemVariants}>
               <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 h-full group">
                 <CardContent className="p-6 space-y-4">
-                  <motion.div 
+                  <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
@@ -545,10 +555,9 @@ export default function AboutPage() {
                   </motion.div>
                   <h3 className="text-xl font-bold">Aprendizaje continuo</h3>
                   <p className="text-zinc-400">
-                    Me comprometo a mantenerme a la vanguardia de la tecnología en
-                    constante evolución. Dedico tiempo a explorar nuevas técnicas
+                    Estoy comprometo con mantenerme a la vanguardia de la tecnología. Dedico tiempo a explorar nuevas técnicas
                     y buenas prácticas para desarrollar soluciones innovadoras
-                    ante los desafíos empresariales actuales.
+                    ante los desafíos actuales.
                   </p>
                 </CardContent>
               </Card>
@@ -557,7 +566,7 @@ export default function AboutPage() {
         </motion.section>
 
         {/* Personal Interests */}
-        <motion.section 
+        <motion.section
           className="py-12 space-y-8"
           initial="hidden"
           whileInView="visible"
@@ -565,8 +574,8 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
             >
               Más allá del código
@@ -575,90 +584,86 @@ export default function AboutPage() {
               Intereses personales
             </h2>
             <p className="text-zinc-400 max-w-2xl mx-auto">
-              Cuando no estoy programando o liderando equipos técnicos, esto es lo que me mantiene inspirado
+              Cuando no estoy programando o liderando equipos técnicos, esto es lo que me mantiene inspirado y me permite recargar energía.
             </p>
           </motion.div>
 
           <motion.div variants={itemVariants}>
             <Tabs defaultValue="hobbies" className="w-full">
               <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-1">
-                  <TabsTrigger
+                <TabsTrigger
                   value="hobbies"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white"
-                  >
+                >
                   Pasatiempos
-                  </TabsTrigger>
-                  <TabsTrigger
+                </TabsTrigger>
+                <TabsTrigger
                   value="reading"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white"
-                  >
+                >
                   Lecturas
-                  </TabsTrigger>
-                  <TabsTrigger
+                </TabsTrigger>
+                <TabsTrigger
                   value="community"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white"
-                  >
+                >
                   Comunidad
-                  </TabsTrigger>
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="hobbies" className="mt-6">
-                <motion.div 
+                <motion.div
                   className="grid gap-6 md:grid-cols-2"
                   variants={containerVariants}
                 >
                   <motion.div variants={itemVariants}>
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
-                      <div className="aspect-video bg-zinc-800/50 backdrop-blur-sm relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10" />
+                      <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <motion.div 
-                            className="text-4xl"
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            🏔️
-                          </motion.div>
+                          <Image
+                            src="https://www.metropolitan-touring.com/wp-content/uploads/2024/11/el-poblado-discrict.webp"
+                            alt="Caminatas por la ciudad de Medellín"
+                            layout="fill"
+                            objectFit="cover"
+                          />
                         </div>
                       </div>
-                        <CardContent className="p-6 space-y-4">
+                      <CardContent className="p-6 space-y-4">
                         <h3 className="text-xl font-bold">
-                          Senderismo y Aventuras al Aire Libre
+                          Caminatas por la ciudad
                         </h3>
                         <p className="text-zinc-400">
-                          Desconectarme de la tecnología y conectar con la naturaleza 
-                          me ayuda a mantener la perspectiva y la creatividad. He 
-                          recorrido más de 20 parques nacionales y siempre estoy 
-                          planificando mi próxima aventura en la montaña.
+                          No todas las formas de conectar son igual, y particularmente en la ciudad,
+                          donde hay tantas oportunidades para interactuar con otras personas, es importante
+                          dedicar tiempo a conocer la jungla de cemento. Por eso me encanta caminar por la ciudad,
+                          explorar las calles y encontrar nuevos lugares ocultos.
                         </p>
-                        </CardContent>
+                      </CardContent>
                     </Card>
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group">
-                      <div className="aspect-video bg-zinc-800/50 backdrop-blur-sm relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10" />
+                      <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <motion.div 
-                            className="text-4xl"
-                            whileHover={{ scale: 1.1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            🎸
-                          </motion.div>
+                          <Image
+                            src="https://almipro.com/wp-content/uploads/2019/01/parquedelcafe.jpg"
+                            alt="Me encanta el tiempo en familia"
+                            layout="fill"
+                            objectFit="cover"
+                          />
                         </div>
                       </div>
-                        <CardContent className="p-6 space-y-4">
-                        <h3 className="text-xl font-bold">Producción Musical</h3>
+                      <CardContent className="p-6 space-y-4">
+                        <h3 className="text-xl font-bold">Tiempo en familia</h3>
                         <p className="text-zinc-400">
-                          Tocar guitarra y producir música electrónica es mi 
-                          escape creativo. El proceso de componer y mezclar 
-                          pistas tiene sorprendentes paralelismos con el desarrollo 
-                          de software - ambos requieren atención al detalle y 
-                          resolución creativa de problemas.
+                          Mi tiempo en familia es fundamental. Me encanta
+                          pasar tiempo con mis hijos y esposa, familiares y compañeros de
+                          trabajo. Disfruto de momentos de tranquilidad y conexión
+                          con las personas que me rodean y aportan valor a lo que soy,
+                          en reuniones o incluso compartido lugares únicos.
                         </p>
-                        </CardContent>
+                      </CardContent>
                     </Card>
                   </motion.div>
                 </motion.div>
@@ -668,20 +673,20 @@ export default function AboutPage() {
                 <motion.div variants={itemVariants}>
                   <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
                     <CardContent className="p-6 space-y-6">
-                        <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
-                        <p className="text-zinc-400">
+                      <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
+                      <p className="text-zinc-400">
                         La lectura es fundamental para mi crecimiento profesional y
                         personal. Estos son algunos libros que han influido significativamente
                         en mi forma de pensar:
-                        </p>
+                      </p>
 
                       <div className="space-y-4">
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                            <h4 className="font-bold">Lecturas Técnicas</h4>
-                            <ul className="mt-2 space-y-2 text-zinc-400">
+                          <h4 className="font-bold">Lecturas Técnicas</h4>
+                          <ul className="mt-2 space-y-2 text-zinc-400">
                             <li>• "Código Limpio" por Robert C. Martin</li>
                             <li>
                               • "Diseñando Aplicaciones Data-Intensivas" por Martin
@@ -692,35 +697,35 @@ export default function AboutPage() {
                               • "Acelerar" por Nicole Forsgren, Jez Humble y
                               Gene Kim
                             </li>
-                            </ul>
+                          </ul>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Liderazgo y Negocios</h4>
                           <ul className="mt-2 space-y-2 text-zinc-400">
-                          <li>
-                            • "Las cinco disfunciones de un equipo" por Patrick
-                            Lencioni
-                          </li>
-                          <li>• "Crítica Radical" por Kim Scott</li>
-                          <li>• "El método Lean Startup" por Eric Ries</li>
-                          <li>• "Gestión de Alto Rendimiento" por Andrew Grove</li>
+                            <li>
+                              • "Las cinco disfunciones de un equipo" por Patrick
+                              Lencioni
+                            </li>
+                            <li>• "Crítica Radical" por Kim Scott</li>
+                            <li>• "El método Lean Startup" por Eric Ries</li>
+                            <li>• "Gestión de Alto Rendimiento" por Andrew Grove</li>
                           </ul>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Filosofía y Pensamiento</h4>
                           <ul className="mt-2 space-y-2 text-zinc-400">
-                          <li>• "Pensar rápido, pensar despacio" por Daniel Kahneman</li>
-                          <li>• "Antifrágil" por Nassim Nicholas Taleb</li>
-                          <li>• "Mindset: La actitud del éxito" por Carol Dweck</li>
-                          <li>• "Trabajo Profundo" por Cal Newport</li>
+                            <li>• "Pensar rápido, pensar despacio" por Daniel Kahneman</li>
+                            <li>• "Antifrágil" por Nassim Nicholas Taleb</li>
+                            <li>• "Mindset: La actitud del éxito" por Carol Dweck</li>
+                            <li>• "Trabajo Profundo" por Cal Newport</li>
                           </ul>
                         </motion.div>
                       </div>
@@ -733,61 +738,61 @@ export default function AboutPage() {
                 <motion.div variants={itemVariants}>
                   <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
                     <CardContent className="p-6 space-y-6">
-                        <h3 className="text-xl font-bold">Participación en la comunidad</h3>
-                        <p className="text-zinc-400">
+                      <h3 className="text-xl font-bold">Participación en la comunidad</h3>
+                      <p className="text-zinc-400">
                         Creo firmemente en retribuir a la comunidad tecnológica y
                         apoyar a la siguiente generación de desarrolladores. Así es
                         como me involucro:
-                        </p>
+                      </p>
 
                       <div className="grid gap-4 md:grid-cols-2">
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                            <h4 className="font-bold">Programa de Mentorías</h4>
-                            <p className="mt-2 text-zinc-400">
-                            Regularmente mentoreo a desarrolladores junior a través de programas 
-                            estructurados y relaciones informales, ayudándoles a navegar sus 
+                          <h4 className="font-bold">Programa de Mentorías</h4>
+                          <p className="mt-2 text-zinc-400">
+                            Regularmente mentoreo a desarrolladores junior a través de programas
+                            estructurados y relaciones informales, ayudándoles a navegar sus
                             trayectorias profesionales y desafíos técnicos en el mundo del desarrollo.
-                            </p>
+                          </p>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
-                            <h4 className="font-bold">Contribuciones Open Source</h4>
-                            <p className="mt-2 text-zinc-400">
-                            Contribuyo activamente a proyectos de código abierto en el 
-                            ámbito de la tecnología financiera, ayudando a construir 
+                          <h4 className="font-bold">Contribuciones Open Source</h4>
+                          <p className="mt-2 text-zinc-400">
+                            Contribuyo activamente a proyectos de código abierto en el
+                            ámbito de la tecnología financiera, ayudando a construir
                             herramientas que benefician a la comunidad de desarrolladores
                             y democratizan el acceso a soluciones financieras.
-                            </p>
+                          </p>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Charlas Técnicas & Talleres</h4>
                           <p className="mt-2 text-zinc-400">
-                          Participo como ponente en meetups y conferencias locales 
-                          sobre arquitectura de software financiero, liderazgo y 
-                          desarrollo profesional en el ámbito tecnológico.
+                            Participo como ponente en meetups y conferencias locales
+                            sobre arquitectura de software financiero, liderazgo y
+                            desarrollo profesional en el ámbito tecnológico.
                           </p>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Educación Tecnológica</h4>
                           <p className="mt-2 text-zinc-400">
-                          Colaboro con programas que introducen conceptos de 
-                          programación y tecnología a grupos subrepresentados 
-                          en el sector tech, contribuyendo a construir una 
-                          industria más diversa e inclusiva.
+                            Colaboro con programas que introducen conceptos de
+                            programación y tecnología a grupos subrepresentados
+                            en el sector tech, contribuyendo a construir una
+                            industria más diversa e inclusiva.
                           </p>
                         </motion.div>
                       </div>
@@ -800,7 +805,7 @@ export default function AboutPage() {
         </motion.section>
 
         {/* Llamado a la Acción */}
-        <motion.section 
+        <motion.section
           className="py-12"
           initial="hidden"
           whileInView="visible"
@@ -815,15 +820,15 @@ export default function AboutPage() {
             <Card className="bg-gradient-to-br from-blue-600/90 to-purple-600/90 border-0 backdrop-blur-sm shadow-2xl shadow-blue-500/25 relative overflow-hidden">
               {/* Glassmorphism overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-[1px]" />
-              
+
               <CardContent className="p-8 md:p-12 text-center space-y-6 relative z-10">
-                <motion.h2 
+                <motion.h2
                   className="text-3xl md:text-4xl font-bold text-white"
                   variants={itemVariants}
                 >
                   ¿Trabajamos juntos?
                 </motion.h2>
-                <motion.p 
+                <motion.p
                   className="text-white/90 max-w-2xl mx-auto text-lg"
                   variants={itemVariants}
                 >
@@ -832,7 +837,7 @@ export default function AboutPage() {
                   empresariales, estoy aquí para ayudarte a convertir tu visión en
                   realidad.
                 </motion.p>
-                <motion.div 
+                <motion.div
                   className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
                   variants={containerVariants}
                 >
@@ -868,6 +873,134 @@ export default function AboutPage() {
           </motion.div>
         </motion.section>
       </main>
+
+      {/* CV Download Modal */}
+      <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
+        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
+            <DialogDescription className="text-zinc-400">
+              {!cvFormSubmitted
+                ? "Por favor, ingresa tu información para acceder el CV, esperando quizás conocerte mejor en algun momento."
+                : "¡Gracias! Ahora puedes ver o descargar el CV"}
+            </DialogDescription>
+          </DialogHeader>
+
+          {!cvFormSubmitted ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+
+                // Validate form
+                const errors = {
+                  name: formData.name ? "" : "El nombre es requerido",
+                  email: !formData.email
+                    ? "El correo electrónico es requerido"
+                    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+                      ? "Por favor ingresa un correo electrónico válido"
+                      : "",
+                }
+
+                setFormErrors(errors)
+
+                // If no errors, submit form
+                if (!errors.name && !errors.email) {
+                  // Here you would typically send the data to your backend
+                  console.log("Form submitted:", formData)
+                  setCvFormSubmitted(true)
+                }
+              }}
+              className="space-y-4 py-2"
+            >
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white">
+                  Nombre completo
+                </Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  autoCapitalize="words"
+                  autoComplete="name"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  required
+                  aria-required="true"
+                  aria-invalid={!!formErrors.name}
+                  aria-errormessage="name-error"
+                  aria-describedby="name-error"
+                  aria-label="Nombre completo"
+                  aria-labelledby="name-label"
+                  aria-placeholder="Por favor ingresa tu nombre completo"
+                  aria-autocorrect="off"
+                  aria-spellcheck="false"
+                  aria-autocapitalize="words"
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="bg-zinc-800 border-zinc-700 text-white"
+                  placeholder="Por favor ingresa tu nombre completo"
+                />
+                {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white">
+                  Correo electrónico
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  required
+                  aria-required="true"
+                  aria-invalid={!!formErrors.email}
+                  aria-errormessage="email-error"
+                  aria-describedby="email-error"
+                  aria-label="Correo electrónico"
+                  aria-labelledby="email-label"
+                  aria-placeholder="Por favor ingrese su correo electrónico"
+                  aria-autocorrect="off"
+                  aria-spellcheck="false"
+                  aria-autocapitalize="none"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="bg-zinc-800 border-zinc-700 text-white"
+                  placeholder="Por favor ingrese su correo electrónico"
+                />
+                {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
+              </div>
+
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                Acceder al CV
+              </Button>
+            </form>
+          ) : (
+            <div className="space-y-4 py-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 flex-1"
+                  onClick={() => window.open("/cv.pdf", "_blank")}
+                >
+                  <Eye className="mr-2 h-4 w-4" />
+                  Ver el CV
+                </Button>
+                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 flex-1" asChild>
+                  <a href="/cv.pdf" download>
+                    <Download className="mr-2 h-4 w-4" />
+                    Descargar el CV
+                  </a>
+                </Button>
+              </div>
+
+              <div className="text-center text-zinc-400 text-sm">
+                <p>¡Gracias por el interés, {formData.name}!</p>
+                <p>Se ha enviado tambien a {formData.email}.</p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <SiteFooter />
     </div>
