@@ -605,7 +605,7 @@ function ServicesPageContent() {
                 className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-purple-500/25 transition-all duration-300"
               >
                 <Link href="/contacto" className="flex items-center gap-3">
-                  ¿Alguna duda? Contactame
+                  ¿Alguna duda? Contáctame
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
