@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Contacto | Consultoría Tecnológica",
+  title: "Contacto | Consultoría tecnológica",
   description:
     "Ponte en contacto conmigo para discutir tu proyecto o posibles oportunidades de colaboración en desarrollo de software y liderazgo técnico.",
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: "/contacto",
   },
   openGraph: {
-    title: "Contacto | José Carrillo",
+    title: "Contacto",
     description:
       "Ponte en contacto conmigo para discutir tu proyecto o posibles oportunidades de colaboración en desarrollo de software y liderazgo técnico.",
     url: "https://carrillo.app/contacto",
@@ -27,12 +27,12 @@ export const metadata: Metadata = {
         url: "https://carrillo.app/contact-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Contacto - José Carrillo",
+        alt: "Contacto",
       },
     ],
   },
   twitter: {
-    title: "Contacto | José Carrillo",
+    title: "Contacto",
     description:
       "Ponte en contacto conmigo para discutir tu proyecto o posibles oportunidades de colaboración en desarrollo de software y liderazgo técnico.",
   },

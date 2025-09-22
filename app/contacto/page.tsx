@@ -1,6 +1,6 @@
 "use client"
 
-import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Send, Clock, Globe, MessageSquare, HelpCircle, Settings, Code, Shield, Share2 } from "lucide-react"
+import { Mail, MapPin, Phone, Github, Linkedin, Send, Clock, Globe, MessageSquare, HelpCircle, Settings, Code, Shield, Share2 } from "lucide-react"
 import { motion, type Variants } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -177,7 +177,7 @@ export default function ContactPage() {
                         <Phone className="w-5 h-5 text-emerald-400" />
                       </div>
                       <CardTitle className="text-2xl bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                        Información de Contacto
+                        Información de contacto
                       </CardTitle>
                     </div>
                     <CardDescription className="text-zinc-400">
@@ -254,7 +254,7 @@ export default function ContactPage() {
                         <Globe className="w-5 h-5 text-purple-400" />
                       </div>
                       <CardTitle className="text-2xl bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                        Mis Redes Sociales
+                        Mis redes sociales
                       </CardTitle>
                     </div>
                     <CardDescription className="text-zinc-400">
@@ -290,7 +290,7 @@ export default function ContactPage() {
                         <span className="text-sm font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">LinkedIn</span>
                       </motion.a>
                       <motion.a
-                        href="https://twitter.com/carrilloapps"
+                        href="https://x.com/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-cyan-500/30"
@@ -298,7 +298,7 @@ export default function ContactPage() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-600/20 to-teal-600/20 flex items-center justify-center border border-cyan-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
-                          <Twitter className="h-6 w-6 text-cyan-400" />
+                          <svg className="h-6 w-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                         </div>
                         <span className="text-sm font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">Twitter</span>
                       </motion.a>
@@ -329,7 +329,7 @@ export default function ContactPage() {
                   <MessageSquare className="w-6 h-6 text-emerald-400" />
                 </div>
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-                  Preguntas Frecuentes
+                  Preguntas frecuentes
                 </h2>
               </div>
               <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
