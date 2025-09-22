@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { motion } from "framer-motion";
-import { Code, Filter, Search, Github, GitBranch, Star, Eye, ExternalLink } from "lucide-react";
+import { Code, Filter, Search, Github, GitBranch, Star, Eye, ExternalLink, ArrowRight, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +36,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -176,7 +177,7 @@ export default function ResourcesPage() {
                     className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white gap-2 transition-all duration-200"
                   >
                     <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/>
+                      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
                     </svg>
                     GitLab
                   </TabsTrigger>
@@ -275,7 +276,7 @@ export default function ResourcesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    ¿Quieres Colaborar?
+                    ¿Quieres colaborar?
                   </motion.h2>
                   <motion.p
                     className="text-lg md:text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed"
@@ -295,14 +296,22 @@ export default function ResourcesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 text-lg font-medium transition-all duration-200 transform hover:scale-105">
-                    Contáctame
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                    <Link href="/contacto" aria-describedby="explore-projects-desc">
+                      Contactarme
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                      <span id="explore-projects-desc" className="sr-only">Contactame y conversemos</span>
+                    </Link>
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-zinc-600 hover:bg-zinc-800 hover:border-zinc-500 px-8 py-3 text-lg font-medium transition-all duration-200 transform hover:scale-105"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                    aria-describedby="download-cv-desc"
                   >
-                    Ver más proyectos
+                    <Link href="/agendamiento" aria-describedby="explore-projects-desc">
+                      Agendar reunión
+                      <span id="download-cv-desc" className="sr-only">Agendame una reunión y discutamos tu proyecto</span>
+                    </Link>
                   </Button>
                 </motion.div>
               </CardContent>
