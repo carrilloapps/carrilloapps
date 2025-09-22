@@ -27,6 +27,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RepositoriesList } from "@/components/repositories-list";
 import { RepositoriesLoading } from "@/components/unified-loading";
+import { FeaturedProjects } from "@/components/featured-projects";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -252,179 +253,11 @@ export default function ResourcesPage() {
             </h2>
             <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
               Mis proyectos personales y contribuciones de código abierto más
-              significativas, desarrollados con las últimas tecnologías.
+              significativas, desarrollados con las mejores y más estables tecnologías.
             </p>
           </motion.div>
 
-          <motion.div
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={cardVariants} whileHover="hover">
-              <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full group">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-3 text-xl">
-                    <div className="p-2 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors duration-300">
-                      <Code className="h-5 w-5 text-blue-500" />
-                    </div>
-                    carrilloapps
-                  </CardTitle>
-                  <CardDescription className="text-zinc-400 leading-relaxed">
-                    Mi sitio web con portafolio, blog, área de recursos, contacto, agendamiento y todo lo que necesita un líder de desarrollo o desarrollador de software.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                    <span className="text-zinc-300 font-medium">TypeScript</span>
-                  </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed">
-                    Construido con Next.js, usando TailwindCSS y diferentes librerías. Tiene una integración con GitHub y GitLab para mostrar los recursos públicos automáticamente.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Next.js</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">TailwindCSS</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Vercel</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between items-center pt-4">
-                  <div className="flex items-center gap-4 text-sm text-zinc-400">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4" />
-                      <span>0</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-4 w-4" />
-                      <span>0</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="border-zinc-700 hover:bg-zinc-800 hover:border-blue-500 gap-2 transition-all duration-200"
-                    asChild
-                  >
-                    <a href="https://github.com/carrilloapps/carrilloapps" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Ver proyecto
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-
-            <motion.div variants={cardVariants} whileHover="hover">
-              <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full group">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-3 text-xl">
-                    <div className="p-2 bg-yellow-500/10 rounded-lg group-hover:bg-yellow-500/20 transition-colors duration-300">
-                      <Code className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    Simple CRUD Api
-                  </CardTitle>
-                  <CardDescription className="text-zinc-400 leading-relaxed">
-                    Es un CRUD simple pero bastante didagtico hecho en Go, que permite crear, leer, actualizar y eliminar registros en una base de datos.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <span className="text-zinc-300 font-medium">Golang</span>
-                  </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed">
-                    Implementa autenticación JWT, compresión de datos con Snappy,
-                    conexión a MongoDB, y manejo de errores robusto. Usado en
-                    aplicaciones web de alto rendimiento.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Go</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">MongoDB</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">JWT</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Echo</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between items-center pt-4">
-                  <div className="flex items-center gap-4 text-sm text-zinc-400">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4" />
-                      <span>2</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-4 w-4" />
-                      <span>31</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="border-zinc-700 hover:bg-zinc-800 hover:border-yellow-500 gap-2 transition-all duration-200"
-                    asChild
-                  >
-                    <a href="https://github.com/carrilloapps/simple-crud-api" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Ver proyecto
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-
-            <motion.div variants={cardVariants} whileHover="hover">
-              <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full group">
-                <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center gap-3 text-xl">
-                    <div className="p-2 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors duration-300">
-                      <Code className="h-5 w-5 text-green-500" />
-                    </div>
-                    Franchises API
-                  </CardTitle>
-                  <CardDescription className="text-zinc-400 leading-relaxed">
-                    API REST moderna para gestión de franquicias construida con Kotlin
-                    y Spring Boot con PostgreSQL y OpenAPI, completamente contenerizado en Docker.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 text-sm">
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span className="text-zinc-300 font-medium">Kotlin</span>
-                  </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed">
-                    API robusta que aprovecha las características de Kotlin y Spring Boot
-                    para ofrecer un sistema completo de gestión de franquicias con
-                    autenticación JWT y documentación OpenAPI.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Kotlin</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">Spring Boot</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">PostgreSQL</span>
-                    <span className="px-2 py-1 bg-zinc-800 text-zinc-300 text-xs rounded-full">OpenAPI</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between items-center pt-4">
-                  <div className="flex items-center gap-4 text-sm text-zinc-400">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4" />
-                      <span>5</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-4 w-4" />
-                      <span>42</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="border-zinc-700 hover:bg-zinc-800 hover:border-green-500 gap-2 transition-all duration-200"
-                    asChild
-                  >
-                    <a href="https://github.com/carrilloapps/franchises-api" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Ver proyecto
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-          </motion.div>
+          <FeaturedProjects />
         </motion.section>
 
         <motion.section className="py-16" variants={itemVariants}>
