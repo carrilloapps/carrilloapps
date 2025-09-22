@@ -238,58 +238,67 @@ export function BlogArticle({ slug }: { slug: string }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
             {post.title}
           </h1>
         </motion.div>
         
         <motion.div 
-          className="flex flex-wrap gap-6 text-sm"
+          className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 text-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <motion.div 
-            className="flex items-center gap-2 p-3 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[200px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden flex-shrink-0">
               {post.author === "José Carrillo" ? (
                 <Image
                   src="https://avatars.githubusercontent.com/u/16759783"
                   alt={post.author}
-                  width={32}
-                  height={32}
+                  width={40}
+                  height={40}
                   className="object-cover w-full h-full"
                 />
               ) : (
-                <User className="h-4 w-4 text-blue-400" />
+                <User className="h-5 w-5 text-blue-400" />
               )}
             </div>
-            <span className="text-zinc-300 font-medium flex-1 w-full">{post.author}</span>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-xs text-zinc-500 font-medium">Autor</span>
+              <span className="text-zinc-300 font-semibold truncate">{post.author}</span>
+            </div>
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-2 p-3 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[180px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30 shadow-lg shadow-purple-500/10">
-              <Calendar className="h-4 w-4 text-purple-400" />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30 shadow-lg shadow-purple-500/10 flex-shrink-0">
+              <Calendar className="h-5 w-5 text-purple-400" />
             </div>
-            <span className="text-zinc-300 font-medium flex-1 w-full">{formattedDate}</span>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-xs text-zinc-500 font-medium">Publicado</span>
+              <span className="text-zinc-300 font-semibold truncate">{formattedDate}</span>
+            </div>
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-2 p-3 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30 shadow-lg shadow-green-500/10">
-              <Clock className="h-4 w-4 text-green-400" />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30 shadow-lg shadow-green-500/10 flex-shrink-0">
+              <Clock className="h-5 w-5 text-green-400" />
             </div>
-            <span className="text-zinc-300 font-medium flex-1 w-full">{readingTime} min de lectura</span>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-xs text-zinc-500 font-medium">Lectura</span>
+              <span className="text-zinc-300 font-semibold truncate">{readingTime} min</span>
+            </div>
           </motion.div>
         </motion.div>
       </motion.header>
