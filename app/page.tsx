@@ -68,7 +68,7 @@ export default function Home() {
                 >
                   Como desarrollador de software senior y líder técnico, me especializo en la creación de{" "}
                   <span className="text-blue-300 font-semibold">soluciones de pago y sistemas financieros</span>{" "}
-                  de alta trasaccionabilidad y seguridad.
+                  de alta transaccionalidad y seguridad.
                 </motion.p>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -278,7 +278,7 @@ export default function Home() {
                       <p className="text-zinc-300">Sky Airline</p>
                     </div>
                     <p className="text-zinc-300">
-                      Construí varios microservicios, como la gestión de perfiles. Y escale hasta Tech Leader Backup, desarrollando junto a mi equipo la nueva versión de AppSales, mientras se soportaba la anterios versión para más de 1 millón de transacciones mensuales en Android e iOS.
+                      Construí varios microservicios, como la gestión de perfiles. Y escalé hasta Tech Leader Backup, desarrollando junto a mi equipo la nueva versión de AppSales, mientras se soportaba la anterior versión para más de 1 millón de transacciones mensuales en Android e iOS.
                     </p>
                     <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
                       <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
@@ -864,7 +864,7 @@ export default function Home() {
                 className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
                 role="text"
               >
-                ¿Tienes alguna <span className="text-green-300 font-semibold">idea en mente?</span> Comunicate conmigo y conversemos de ella.
+                ¿Tienes alguna <span className="text-green-300 font-semibold">idea en mente?</span> Comunícate conmigo y conversemos de ella.
               </motion.p>
             </div>
 
