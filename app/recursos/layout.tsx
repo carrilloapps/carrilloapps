@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/recursos",
   },
   openGraph: {
-    title: "Recursos y Proyectos",
+    title: "Recursos y proyectos",
     description:
       "Explora mis repositorios públicos de GitHub y GitLab. Proyectos de código abierto en sistemas financieros, backoffice y más.",
     url: "https://carrillo.app/recursos",
@@ -29,12 +29,12 @@ export const metadata: Metadata = {
         url: "https://carrillo.app/resources-og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Recursos y Proyectos - José Carrillo",
+        alt: "Recursos y proyectos - José Carrillo",
       },
     ],
   },
   twitter: {
-    title: "Recursos y Proyectos | José Carrillo",
+    title: "Recursos y proyectos",
     description:
       "Explora mis repositorios públicos de GitHub y GitLab. Proyectos de código abierto en sistemas financieros, backoffice y más.",
   },
