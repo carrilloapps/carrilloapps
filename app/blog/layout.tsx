@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 
 export const metadata: Metadata = {
-  title: "Blog | Insights sobre Tecnología Financiera y Desarrollo | José Carrillo",
+  title: "Blog | Insights sobre desarrollo de software",
   description:
-    "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
+    "artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
   keywords: [
     "blog tecnología",
     "desarrollo software",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     canonical: "/blog",
   },
   openGraph: {
-    title: "Blog | José Carrillo",
+    title: "Blog",
     description:
       "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
     url: "https://carrillo.app/blog",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: "Blog | José Carrillo",
+    title: "Blog",
     description:
       "Artículos, tutoriales y reflexiones sobre desarrollo de software, sistemas financieros y liderazgo técnico.",
   },

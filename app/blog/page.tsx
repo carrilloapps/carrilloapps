@@ -70,10 +70,10 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
                 </Badge>
               </motion.div>
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg"
+                className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg pb-2"
                 variants={itemVariants}
               >
-                Insights & Experiencias
+                Insights & experiencias
               </motion.h1>
               <motion.p 
                 className="text-xl text-zinc-400 max-w-2xl mx-auto"
@@ -104,8 +104,8 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
               variants={itemVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-                {search ? `Resultados para "${search}"` : category ? `Categoría: ${category}` : "Artículos Recientes"}
+              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent capitalize">
+                {search ? `Resultados: "${search}"` : category ? `Categoría: ${category}` : "Publicaciones"}
               </h2>
             </motion.div>
 
