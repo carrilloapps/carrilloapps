@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   
   return {
-    title: `${post.title} | José Carrillo`,
+    title: post.title,
     description: post.description,
     openGraph: {
       title: post.title,
@@ -147,7 +147,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 Artículos relacionados
               </h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
-                Descubre más contenido que podría interesarte sobre desarrollo, tecnología y liderazgo técnico
+                Descubre más contenido que podría interesarte sobre desarrollo de software, tecnología y liderazgo técnico, así como negocios y tendencias del sector TI.
               </p>
             </div>
             

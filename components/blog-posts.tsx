@@ -118,7 +118,30 @@ export function BlogPosts({
           );
         }
 
-        setPosts(filteredPosts);
+        // Función para capitalizar según las reglas especificadas (solo para tags y categorías)
+        const capitalizeByRules = (text: string): string => {
+          return text.split(' ').map((word, index) => {
+            // La primera palabra siempre se capitaliza, sin importar su longitud
+            if (index === 0) {
+              return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }
+            // Para el resto de palabras, aplicar la regla original
+            if (word.length <= 3) {
+              return word.toLowerCase();
+            } else {
+              return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }
+          }).join(' ');
+        };
+
+        // Aplicar capitalización solo a categorías y tags
+        const capitalizedPosts = filteredPosts.map(post => ({
+          ...post,
+          categories: post.categories.map(category => capitalizeByRules(category)),
+          tags: post.tags ? post.tags.map(tag => capitalizeByRules(tag)) : undefined,
+        }));
+
+        setPosts(capitalizedPosts);
         setTotalPages(Math.ceil(filteredPosts.length / postsPerPage));
       } catch (err) {
         console.error("Error fetching Medium posts:", err);

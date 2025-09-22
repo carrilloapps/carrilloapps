@@ -97,8 +97,8 @@ export default function BlogFeatured() {
         {/* Animated border gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
         
-        <div className="relative z-10 grid md:grid-cols-2 gap-6 p-2">
-          <div className="p-6 flex flex-col justify-between">
+        <div className="relative z-10 flex flex-col md:grid md:grid-cols-2 gap-6 p-2">
+          <div className="p-6 flex flex-col justify-between order-2 md:order-1">
             <div>
               <div className="mb-4 capitalize gap-2 flex items-center">
                 <Badge className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 border border-blue-500/40 text-blue-100 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-md shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 transition-all duration-300">
@@ -152,7 +152,7 @@ export default function BlogFeatured() {
               </div>
             </div>
           </div>
-          <div className="p-2 flex flex-col">
+          <div className="p-2 flex flex-col order-1 md:order-2">
             <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
               <div className="relative overflow-hidden rounded-lg group-hover:shadow-xl group-hover:shadow-blue-500/20 transition-all duration-500">
                 <Image
