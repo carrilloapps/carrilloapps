@@ -1,8 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import Image from "next/image"
+import { motion, type Variants } from "framer-motion"
+import { memo } from "react"
 
 interface LogoProps {
   className?: string
@@ -12,9 +13,78 @@ interface LogoProps {
   href?: string
   showDot?: boolean
   animationLevel?: "none" | "subtle" | "medium" | "playful"
+  variant?: "text" | "image"
+  imageSrc?: string
+  imageAlt?: string
+  imageWidth?: number
+  imageHeight?: number
 }
 
-export function Logo({
+// Optimized animation variants following project patterns
+const logoVariants: Variants = {
+  initial: { 
+    opacity: 0, 
+    y: -10 
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94], // Consistent easing from project
+    }
+  },
+  hover: {
+    y: -2,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    }
+  }
+}
+
+const textVariants: Variants = {
+  initial: { opacity: 0 },
+  animate: { 
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      staggerChildren: 0.03, // Reduced from 0.04 for smoother effect
+      delayChildren: 0.1,
+    }
+  }
+}
+
+const letterVariants: Variants = {
+  initial: { opacity: 0, y: 10 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    }
+  }
+}
+
+const dotVariants: Variants = {
+  initial: { opacity: 0, scale: 0.8 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+      delay: 0.2,
+    }
+  },
+  hover: {
+    scale: 1.1,
+    transition: { duration: 0.2 }
+  }
+}
+
+export const Logo = memo(function Logo({
   className = "",
   linkClassName = "",
   textClassName = "text-white",
@@ -22,19 +92,43 @@ export function Logo({
   href = "/",
   showDot = true,
   animationLevel = "medium",
+  variant = "text",
+  imageSrc = "/logo.webp",
+  imageAlt = "Logo de mi sitio web",
+  imageWidth = 130,
+  imageHeight = 30,
 }: LogoProps) {
-  const [isClient, setIsClient] = useState(false)
+  
+  // Static version for no animations or image variant without animations
+  if (animationLevel === "none") {
+    if (variant === "image") {
+      return (
+        <div className={className}>
+          <Link 
+          href={href} 
+          className={`${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`} 
+          aria-label="Ir a la página de inicio"
+        >
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            width={imageWidth}
+            height={imageHeight}
+            priority
+            className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
+          />
+        </Link>
+        </div>
+      )
+    }
 
-  // Prevent hydration mismatch by only enabling animations after mount
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  // No animations if specified or if we're server-side rendering
-  if (animationLevel === "none" || !isClient) {
     return (
       <div className={`font-bold text-xl ${className}`}>
-        <Link href={href} className={linkClassName} aria-label="carrillo.app - Página de inicio">
+        <Link 
+          href={href} 
+          className={`${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`} 
+          aria-label="Ir a la página de inicio"
+        >
           <span className={textClassName}>carrillo</span>
           {showDot && <span className={accentClassName}>.app</span>}
         </Link>
@@ -42,117 +136,75 @@ export function Logo({
     )
   }
 
-  // Animation variants based on the selected level
-  const containerVariants = {
-    initial: { opacity: 0, y: -10 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        when: "beforeChildren",
-        staggerChildren: 0.04,
-      },
-    },
-    hover: {
-      scale: animationLevel === "playful" ? 1.05 : 1.02,
-      transition: { type: "spring", stiffness: 400, damping: 10 },
-    },
-    tap: {
-      scale: 0.98,
-      transition: { type: "spring", stiffness: 400, damping: 10 },
-    },
+  // Image variant with optimized animations
+  if (variant === "image") {
+    return (
+      <motion.div
+        className={className}
+        variants={logoVariants}
+        initial="initial"
+        animate="animate"
+        whileHover="hover"
+      >
+        <Link 
+          href={href} 
+          className={`${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`} 
+          aria-label="Ir a la página de inicio"
+        >
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            width={imageWidth}
+            height={imageHeight}
+            priority
+            className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
+          />
+        </Link>
+      </motion.div>
+    )
   }
 
-  const letterVariants = {
-    initial: { opacity: 0, y: 10 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 200, damping: 10 },
-    },
-  }
-
-  const dotVariants = {
-    initial: { opacity: 0, scale: 0 },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 500,
-        damping: 10,
-        delay: 0.4,
-      },
-    },
-    hover: {
-      scale: animationLevel === "playful" ? [1, 1.2, 1] : [1, 1.1, 1],
-      rotate: animationLevel === "playful" ? [0, -10, 0, 10, 0] : 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeInOut",
-        times: [0, 0.4, 0.6, 0.8, 1],
-        repeat: animationLevel === "playful" ? Number.POSITIVE_INFINITY : 0,
-        repeatDelay: 3,
-      },
-    },
-  }
-
-  const appVariants = {
-    initial: { opacity: 0, x: -10 },
-    animate: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10,
-        delay: 0.3,
-      },
-    },
-    hover: {
-      color: animationLevel === "playful" ? "#3b82f6" : "",
-      transition: { duration: 0.3 },
-    },
-  }
-
-  // Split "Carrillo" into individual letters for animation
+  // Text variant with optimized animations
   const letters = "carrillo".split("")
 
   return (
     <motion.div
       className={`font-bold text-xl ${className}`}
+      variants={logoVariants}
       initial="initial"
       animate="animate"
-      variants={containerVariants}
       whileHover="hover"
-      whileTap="tap"
     >
       <Link
         href={href}
-        className={`inline-flex items-baseline ${linkClassName}`}
-        aria-label="carrillo.app - Página de inicio"
+        className={`inline-flex items-baseline ${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`}
+        aria-label="Ir a la página de inicio"
       >
-        <span className={`inline-flex ${textClassName}`}>
+        <motion.span 
+          className={`inline-flex ${textClassName}`}
+          variants={textVariants}
+        >
           {letters.map((letter, index) => (
-            <motion.span key={`letter-${index}`} variants={letterVariants} className="inline-block">
+            <motion.span 
+              key={index} 
+              variants={letterVariants} 
+              className="inline-block"
+            >
               {letter}
             </motion.span>
           ))}
-        </span>
+        </motion.span>
 
         {showDot && (
-          <>
-            <motion.span className={accentClassName} variants={dotVariants}>
-              .
-            </motion.span>
-
-            <motion.span className={accentClassName} variants={appVariants}>
-              app
-            </motion.span>
-          </>
+          <motion.span 
+            className={accentClassName} 
+            variants={dotVariants}
+            whileHover="hover"
+          >
+            .app
+          </motion.span>
         )}
       </Link>
     </motion.div>
   )
-}
+})
