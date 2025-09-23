@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       "url": "https://carrillo.app",
       "sameAs": [
         "https://medium.com/@carrilloapps",
-        "https://linkedin.com/in/josecarrillo",
+        "https://linkedin.com/in/carrilloapps",
         "https://github.com/carrilloapps"
       ]
     },
@@ -82,7 +82,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       "name": "José Carrillo",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://carrillo.app/placeholder-logo.svg"
+        "url": "https://carrillo.app/logo.webp"
       }
     },
     "datePublished": post.pubDate,
