@@ -93,11 +93,6 @@ export default function ContactPage() {
             >
               ¿Tienes un proyecto en mente? Me encantaría conocer más sobre tu visión y cómo puedo ayudarte a hacerla realidad.
             </motion.p>
-
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 to-zinc-900/30 -z-10" />
-            <div className="absolute top-20 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl -z-10" />
-            <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 rounded-full blur-3xl -z-10" />
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
