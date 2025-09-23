@@ -5,37 +5,43 @@ import { BreadcrumbJsonLd } from "@/components/json-ld"
 export const metadata: Metadata = {
   title: "Sobre mí | Senior Software Developer & Tech Leader",
   description:
-    "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
+    "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
   keywords: [
     "josé carrillo biografía",
+    "tech leader yummy",
     "experiencia desarrollador senior",
     "líder técnico",
+    "medios de pago",
     "trayectoria profesional",
     "sistemas financieros",
-    "backoffice",
+    "backoffice financiero",
     "desarrollo software",
+    "open banking",
+    "pagos digitales",
+    "arquitectura microservicios",
+    "mentoría técnica",
   ],
   alternates: {
     canonical: "/sobre-mi",
   },
   openGraph: {
-    title: "Sobre Mí | José Carrillo",
+    title: "Sobre mí",
     description:
-      "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
+      "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
     url: "https://carrillo.app/sobre-mi",
     images: [
       {
-        url: "https://carrillo.app/about-og-image.jpg",
+        url: "https://carrillo.app/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Sobre Mí - José Carrillo",
+        alt: "Sobre Mí",
       },
     ],
   },
   twitter: {
-    title: "Sobre Mí | José Carrillo",
+    title: "Sobre mí",
     description:
-      "Conoce más sobre mi trayectoria, experiencia y enfoque en el desarrollo de software y liderazgo técnico. Más de 10 años de experiencia en sistemas financieros.",
+      "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
   },
 }
 
@@ -50,7 +56,7 @@ export default function AboutLayout({
       <BreadcrumbJsonLd
         items={[
           { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Sobre Mí", url: "https://carrillo.app/about" },
+          { name: "Sobre Mí", url: "https://carrillo.app/sobre-mi" },
         ]}
       />
     </>
