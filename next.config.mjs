@@ -13,6 +13,7 @@ const nextConfig = {
   // Configuración para framer-motion con Next.js 15
   experimental: {
     optimizePackageImports: ['framer-motion'],
+    allowedDevOrigins: ['http://localhost:3000'],
   },
   transpilePackages: ['framer-motion'],
   // Optimizaciones para SEO

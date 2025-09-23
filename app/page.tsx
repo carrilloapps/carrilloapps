@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
 import { motion } from "framer-motion"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 import { projects } from "@/data/projects"
 
@@ -1013,7 +1013,6 @@ export default function Home() {
           </div>
         </AnimatedSection>
       </main>
-
       {/* CV Download Modal */}
       <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
@@ -1141,8 +1140,7 @@ export default function Home() {
           )}
         </DialogContent>
       </Dialog>
-
       <SiteFooter />
     </div>
-  )
+  );
 }

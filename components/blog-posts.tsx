@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar, Clock, Search, Filter, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -301,7 +301,6 @@ export function BlogPosts({
           </motion.div>
         )}
       </motion.div>
-
       {/* Grid de artículos */}
       <motion.div 
         className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
@@ -389,7 +388,6 @@ export function BlogPosts({
           </motion.div>
         ))}
       </motion.div>
-
       {/* Paginación mejorada */}
       {totalPages > 1 && (
         <motion.div 

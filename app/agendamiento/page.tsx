@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Calendar, Clock, Info, CheckCircle, AlertCircle, ArrowRight, Briefcase, Download } from "lucide-react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
