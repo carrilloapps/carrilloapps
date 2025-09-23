@@ -1,5 +1,5 @@
 // Service Worker para mejorar el rendimiento y SEO
-const CACHE_NAME = 'carrillo-app-v1'
+const CACHE_NAME = 'carrillo-app'
 const STATIC_ASSETS = [
   '/',
   '/blog',
