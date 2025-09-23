@@ -49,6 +49,25 @@ export const metadata: Metadata = {
       "en-US": "/en",
     },
   },
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/icons/48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icons/72.png", sizes: "72x72", type: "image/png" },
+      { url: "/icons/96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icons/144.png", sizes: "144x144", type: "image/png" },
+      { url: "/icons/192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/1024.png", sizes: "1024x1024", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/72.png", sizes: "72x72", type: "image/png" },
+      { url: "/icons/96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icons/144.png", sizes: "144x144", type: "image/png" },
+      { url: "/icons/192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/icons/48.png",
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
@@ -98,8 +117,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <head />
+    <html lang="es_ES" suppressHydrationWarning>
+      <head>
+        {/* Meta tags para PWA */}
+        <meta name="theme-color" content="#000000" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="carrillo.app" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <PageLoadingProvider>
