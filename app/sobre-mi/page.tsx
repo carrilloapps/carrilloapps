@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { ArrowRight, Award, BookOpen, Calendar, User, Download, Mail, Eye } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
@@ -48,12 +48,9 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <ParticleHeroBackground />
-
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-
       <SiteHeader />
-
       <main className="relative z-10 container py-12 space-y-24">
         {/* Hero Section */}
         <motion.section
@@ -883,7 +880,6 @@ export default function AboutPage() {
           </motion.div>
         </motion.section>
       </main>
-
       {/* CV Download Modal */}
       <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
@@ -1011,7 +1007,6 @@ export default function AboutPage() {
           )}
         </DialogContent>
       </Dialog>
-
       <SiteFooter />
     </div>
   );

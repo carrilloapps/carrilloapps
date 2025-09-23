@@ -43,7 +43,7 @@ function generateSlug(title: string): string {
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
-    .trim()
+    .trim();
 }
 
 // Función para obtener el tiempo de lectura estimado
@@ -62,7 +62,7 @@ function extractThumbnail(content: string): string | null {
 
 // Función para validar si una URL de imagen es válida
 function validThumbnail(content: string): string {
-  return /\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i.test(content) ? content : ''
+  return /\.(jpe?g|png|gif|webp|svg)(\?.*)?$/i.test(content) ? content : '';
 }
 
 // Función para extraer la descripción del contenido
@@ -116,7 +116,7 @@ function transformRSSItemToMediumPost(item: RSSItem): MediumPost {
     license: "All Rights Reserved",
     tags: item.categories || [],
     estimatedReadingTime: readingTime,
-  }
+  };
 }
 
 // Función principal para obtener datos RSS (sin caché)
