@@ -15,6 +15,9 @@ export default function robots(): MetadataRoute.Robots {
           '/private/',
           '*.json',
           '/agendamiento/gracias',
+          '/privacidad',
+          '/terminos',
+          '/cookies',
         ],
       },
       {

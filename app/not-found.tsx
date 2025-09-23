@@ -30,7 +30,7 @@ function NotFoundContent() {
             </Link>
           </Button>
           <Button variant="outline" className="border-zinc-700 hover:bg-zinc-900" asChild>
-            <Link href="/contacto">Solicitar soporte</Link>
+            <Link href="/contacto">Solicitar contacto</Link>
           </Button>
         </div>
       </main>

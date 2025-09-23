@@ -19,7 +19,7 @@ export function OrganizationJsonLd() {
           "@type": "Organization",
           name: "José Carrillo",
           url: "https://carrillo.app",
-          logo: "https://carrillo.app/logo.png",
+          logo: "https://carrillo.app/logo.webp",
           sameAs: [
             "https://github.com/carrilloapps",
             "https://linkedin.com/in/carrilloapps",
