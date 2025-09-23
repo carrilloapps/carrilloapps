@@ -364,7 +364,7 @@ export default function Home() {
               </div>
 
               <TabsContent value="technical" className="mt-6">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Categorías de habilidades técnicas">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" role="list" aria-label="Categorías de habilidades técnicas">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -636,7 +636,7 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="domain" className="mt-6">
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Conocimiento de dominio">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" role="list" aria-label="Conocimiento de dominio">
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="payment-systems-heading">Sistemas de pago</h3>
