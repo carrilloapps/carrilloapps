@@ -183,7 +183,7 @@ export function SiteHeader() {
             <Logo animationLevel="none" />
           </motion.div>
 
-          <nav className="hidden md:flex items-center gap-2" aria-label="Navegación principal">
+          <nav className="hidden lg:flex items-center gap-2" aria-label="Navegación principal">
             {navItems.map((item, i) => {
               const isActive = pathname === item.href
 
@@ -220,7 +220,7 @@ export function SiteHeader() {
               animate="animate"
               whileHover="hover"
               whileTap="tap"
-              className="hidden md:block"
+              className="hidden lg:block"
             >
               <Button
                 variant="outline"
@@ -251,7 +251,7 @@ export function SiteHeader() {
                   animate="animate"
                   whileHover="hover"
                   whileTap="tap"
-                  className="md:hidden"
+                  className="lg:hidden"
                 >
                   <Button
                     variant="outline"
@@ -276,7 +276,7 @@ export function SiteHeader() {
               </AnimatePresence>
 
               {/* Mobile Menu Button */}
-              <div className="md:hidden">
+              <div className="lg:hidden">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -339,7 +339,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 md:hidden"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           >
             <motion.div
