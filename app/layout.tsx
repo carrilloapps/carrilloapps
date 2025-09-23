@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | José Carrillo",
   },
   description:
-    "Senior Software Developer and Tech Leader specializing in financial and backoffice solutions with over 10 years of experience building enterprise systems.",
+    "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables",
   keywords: [
     "José Carrillo",
     "software developer",
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "en-US": "/",
-      "es-ES": "/es",
+      "es-ES": "/",
+      "en-US": "/en",
     },
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "es_ES",
     url: "https://carrillo.app",
     title: "José Carrillo | Senior Software Developer & Tech Leader",
     description:
-      "Senior Software Developer and Tech Leader specializing in financial and backoffice solutions with over 10 years of experience building enterprise systems.",
+      "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables",
     siteName: "José Carrillo Portfolio",
     images: [
       {
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "José Carrillo | Senior Software Developer & Tech Leader",
     description:
-      "Senior Software Developer and Tech Leader specializing in financial and backoffice solutions with over 10 years of experience building enterprise systems.",
-    creator: "@josecarrillo",
-    images: ["https://carrillo.app/twitter-image.jpg"],
+      "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables",
+    creator: "@carrilloapps",
+    images: ["https://carrillo.app/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     google: "google-site-verification-code",
     yandex: "yandex-verification-code",
   },
-    generator: 'v0.dev'
+  generator: '@carrillo.app/v1'
 }
 
 export default function RootLayout({

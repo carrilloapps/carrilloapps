@@ -12,22 +12,22 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: 'portrait',
     scope: '/',
     lang: 'es-ES',
-    categories: ['business', 'technology', 'finance', 'education'],
+    categories: ['business', 'technology', 'finance', 'education', 'payments'],
     icons: [
       {
-        src: '/placeholder-logo.svg',
+        src: 'icons/1024.png',
         sizes: 'any',
-        type: 'image/svg+xml',
-        purpose: 'any maskable',
+        type: 'image/png',
+        purpose: 'any',
       },
       {
-        src: '/placeholder-logo.png',
+        src: '/icons/192.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: '/placeholder-logo.png',
+        src: '/icons/512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any',
@@ -57,7 +57,7 @@ export default function manifest(): MetadataRoute.Manifest {
         url: '/blog',
         icons: [
           {
-            src: '/placeholder-logo.png',
+            src: '/icons/96.png',
             sizes: '96x96',
             type: 'image/png',
           },
@@ -70,7 +70,7 @@ export default function manifest(): MetadataRoute.Manifest {
         url: '/servicios',
         icons: [
           {
-            src: '/placeholder-logo.png',
+            src: '/icons/96.png',
             sizes: '96x96',
             type: 'image/png',
           },
@@ -83,7 +83,7 @@ export default function manifest(): MetadataRoute.Manifest {
         url: '/contacto',
         icons: [
           {
-            src: '/placeholder-logo.png',
+            src: '/icons/96.png',
             sizes: '96x96',
             type: 'image/png',
           },
