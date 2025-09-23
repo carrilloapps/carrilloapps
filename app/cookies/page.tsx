@@ -92,10 +92,10 @@ export default function CookiePolicyPage() {
                 para aceptar o rechazar cookies. La forma de hacerlo depende de tu navegador:
               </p>
               <ul className="list-disc pl-6 text-zinc-400 space-y-2">
-                <li>Chrome: Configuración > Privacidad y seguridad > Cookies y otros datos de sitios</li>
-                <li>Firefox: Menú > Opciones > Privacidad y Seguridad > Cookies y datos del sitio</li>
-                <li>Safari: Preferencias > Privacidad > Cookies y datos del sitio web</li>
-                <li>Edge: Configuración > Cookies y permisos del sitio > Cookies</li>
+                <li>Chrome: Configuración &gt; Privacidad y seguridad &gt; Cookies y otros datos de sitios</li>
+                <li>Firefox: Menú &gt; Opciones &gt; Privacidad y Seguridad &gt; Cookies y datos del sitio</li>
+                <li>Safari: Preferencias &gt; Privacidad &gt; Cookies y datos del sitio web</li>
+                <li>Edge: Configuración &gt; Cookies y permisos del sitio &gt; Cookies</li>
               </ul>
               <p className="text-zinc-400">
                 Los tipos específicos de cookies propias y de terceros que se utilizan en mi sitio web y los fines
