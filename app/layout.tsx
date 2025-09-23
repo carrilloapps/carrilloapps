@@ -37,10 +37,19 @@ export const metadata: Metadata = {
   authors: [{ name: "José Carrillo", url: "https://carrillo.app" }],
   creator: "José Carrillo",
   publisher: "carrillo.app",
+  category: "Technology",
+  classification: "Business",
   formatDetection: {
     email: true,
     address: true,
     telephone: true,
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    viewportFit: "cover",
   },
   alternates: {
     canonical: "/",
@@ -96,9 +105,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
@@ -117,13 +128,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es_ES" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="carrillo.app" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="José Carrillo" />
+        <meta name="msapplication-TileColor" content="#000000" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
