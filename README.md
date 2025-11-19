@@ -1,4 +1,4 @@
-<h1 align="center">Hi 👋, i'm Junior Carrillo</h1>
+<h1 align="center">Hi 👋, i'm José Carrillo</h1>
 <h3 align="center">A passionate senior fullstack developer (Tech Lead)</h3>
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=carrilloapps&label=Visits%20to%20this%20profile&color=0e75b6&style=flat" alt="José Carrillo" /> </p>
@@ -11,9 +11,9 @@
 
 - 👯 I’m looking to collaborate on [Golang Venezuela](https://github.com/GolangVE)
 
-- 🤝 You can contact me [Telegram](https://t.me/CarrilloApps)
+- 🤝 You can contact me [Telegram](https://t.me/carrilloapps)
 
-- 👨‍💻 All of my projects are available at [Projects](https://www.juniorcarrillo.com/proyectos)
+- 👨‍💻 All of my projects are available at [Projects](https://carrillo.app/proyectos)
 
 - 📝 I regularly write articles on [Blog](https://carrillo.app/blog)
 
@@ -21,7 +21,7 @@
 
 - 📫 How to reach me **junior@carrillo.app**
 
-- 📄 Know about my experiences [CV](https://www.juniorcarrillo.com/cv.pdf)
+- 📄 Know about my experiences [CV](https://carrillo.app/cv.pdf)
 
 - ⚡ My hobbies **Ham Radio, Music, Movies & Outdoor walks.**
 
@@ -79,4 +79,4 @@ I'm self-taught and I am open to learning new technologies and tools for the dev
 </ul>
 
 <h3 align="left">Support:</h3>
-<p><a href="https://www.buymeacoffee.com/carrilloapps"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="Junior Carrillo" /></a></p><br><br>
+<p><a href="https://www.buymeacoffee.com/carrilloapps"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="José Carrillo" /></a></p><br><br>
