@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { DynamicBackground } from "@/components/dynamic-background";
 import { PageHeroSplit } from "@/components/page-hero-split";
 import Link from "next/link";
 import { useState } from "react";
@@ -47,10 +47,8 @@ export default function AboutPage() {
   const [formErrors, setFormErrors] = useState({ name: "", email: "" })
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <ParticleHeroBackground />
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
+    <div className="min-h-screen text-white relative overflow-hidden">
+      <DynamicBackground />
       <SiteHeader />
       <main className="relative z-10 container py-12 space-y-24">
         <PageHeroSplit

@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer";
+import { DynamicBackground } from "@/components/dynamic-background";
 import { AnimatedSection } from "@/components/animated-section"
 import { ProjectDialog } from "@/components/project-dialog"
 import { useIsMobile } from "@/hooks/use-media-query"
@@ -30,30 +31,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Modern dynamic background */}
-      <div className="fixed inset-0 -z-50 bg-black">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-      </div>
-      
-      {/* Radial gradient overlay */}
-      <div className="fixed inset-0 -z-40">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/30 via-zinc-950/60 to-black" />
-      </div>
-      
-      {/* Animated grid pattern */}
-      <div className="fixed inset-0 -z-30 opacity-20">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
-          animation: 'gridMove 20s linear infinite'
-        }} />
-      </div>
-      
+      <DynamicBackground />
       <SiteHeader />
       <main id="main-content" role="main" className="relative z-10">
         {/* Hero Section - Full Width */}
