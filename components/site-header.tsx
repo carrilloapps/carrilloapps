@@ -275,6 +275,7 @@ export function SiteHeader() {
   const firstMenuItemRef = useRef<HTMLAnchorElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const navRef = useRef<HTMLElement>(null)
+  const ticking = useRef(false)
 
   // Handle scroll effect - hide/show header based on scroll direction
   useEffect(() => {
@@ -282,25 +283,31 @@ export function SiteHeader() {
     setMounted(true)
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      const isScrolled = currentScrollY > 10
-      
-      setScrolled(isScrolled)
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY
+          const isScrolled = currentScrollY > 10
+          
+          setScrolled(isScrolled)
 
-      // Hide header when scrolling down, show when scrolling up
-      // Always show header at the top of the page
-      if (currentScrollY < 10) {
-        setIsVisible(true)
-      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        // Scrolling down - hide header (reduced threshold from 100 to 50)
-        setIsVisible(false)
-      } else if (currentScrollY < lastScrollY) {
-        // Scrolling up - show header
-        setIsVisible(true)
+          // Hide header when scrolling down, show when scrolling up
+          // Always show header at the top of the page
+          if (currentScrollY < 10) {
+            setIsVisible(true)
+          } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+            // Scrolling down - hide header (reduced threshold from 100 to 50)
+            setIsVisible(false)
+          } else if (currentScrollY < lastScrollY) {
+            // Scrolling up - show header
+            setIsVisible(true)
+          }
+          // If scroll position hasn't changed, maintain current visibility state
+
+          setLastScrollY(currentScrollY)
+          ticking.current = false
+        })
+        ticking.current = true
       }
-      // If scroll position hasn't changed, maintain current visibility state
-
-      setLastScrollY(currentScrollY)
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })

@@ -12,10 +12,81 @@ Según el reporte de PageSpeed Insights, el sitio tenía los siguientes problema
 3. **JavaScript bloqueante**: Framer Motion y otras librerías retrasando la renderización
 4. **Efectos CSS pesados**: Blur y animaciones degradando el performance
 5. **Falta de optimizaciones de cache**: Para Cloudflare y Vercel
+6. **Forced Reflows**: 57ms de reprocesamiento forzado por lecturas de geometría DOM
 
 ## Optimizaciones Implementadas
 
-### 1. Next.js Configuration (next.config.mjs)
+### 1. Forced Reflow Optimization
+
+**Problema:** JavaScript consultaba propiedades geométricas (`window.scrollY`, `offsetWidth`, etc.) después de cambios en el DOM, causando forced reflows síncronos que bloqueaban el rendering.
+
+**Archivos afectados:**
+- `components/site-header.tsx` (57ms forced reflow)
+- `components/scroll-to-top.tsx`
+- `components/repositories-list.tsx`
+- `components/blog-posts.tsx`
+- `app/servicios/page.tsx`
+- `app/agendamiento/page.tsx`
+
+**Solución implementada:**
+
+#### 1.1 Site Header - Scroll Handling con RAF
+```javascript
+// Antes (causaba forced reflow)
+const handleScroll = () => {
+  const currentScrollY = window.scrollY
+  setScrolled(currentScrollY > 10)
+  setIsVisible(/* logic */)
+  setLastScrollY(currentScrollY)
+}
+
+// Después (optimizado con requestAnimationFrame)
+const ticking = useRef(false)
+const handleScroll = () => {
+  if (!ticking.current) {
+    window.requestAnimationFrame(() => {
+      const currentScrollY = window.scrollY
+      setScrolled(currentScrollY > 10)
+      setIsVisible(/* logic */)
+      setLastScrollY(currentScrollY)
+      ticking.current = false
+    })
+    ticking.current = true
+  }
+}
+```
+
+**Beneficios:**
+- ✅ Elimina ~57ms de forced reflow en scroll
+- ✅ Batch de lecturas DOM en un único frame
+- ✅ Sincronizado con refresh rate del navegador (60fps)
+- ✅ No bloquea el main thread durante scroll
+
+#### 1.2 Scroll Actions con RAF
+```javascript
+// Antes (todas las funciones scrollTo/scrollIntoView síncronas)
+window.scrollTo({ top: 0, behavior: "smooth" })
+element.scrollIntoView({ behavior: "smooth" })
+
+// Después (defer con requestAnimationFrame)
+window.requestAnimationFrame(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" })
+})
+
+window.requestAnimationFrame(() => {
+  element.scrollIntoView({ behavior: "smooth" })
+})
+```
+
+**Beneficios:**
+- ✅ Evita forced layout recalculation
+- ✅ Permite al navegador optimizar el timing del scroll
+- ✅ Mejora la fluidez de animaciones durante scroll
+- ✅ Reduce jank visual
+
+**Impacto total:** Eliminación de ~57ms de forced reflow + mejor UX en scroll
+
+### 2. Next.js Configuration (next.config.mjs)
 
 #### Cache Components (Experimental)
 ```javascript

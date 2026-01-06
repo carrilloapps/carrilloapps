@@ -171,7 +171,7 @@ export default function SchedulePage() {
               >
                 <Button 
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" 
-                  onClick={() => window.scrollTo({ top: 800, behavior: "smooth" })}
+                  onClick={() => window.requestAnimationFrame(() => window.scrollTo({ top: 800, behavior: "smooth" }))}
                   aria-describedby="agendar-servicio-desc"
                 >
                   Agendar servicio
