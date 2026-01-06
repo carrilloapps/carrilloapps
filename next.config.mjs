@@ -68,8 +68,9 @@ const nextConfig = {
     ],
     // Web Vitals attribution for debugging (Vercel Analytics compatible)
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
-    // Optimize CSS
+    // Optimize CSS - inline critical CSS
     optimizeCss: true,
+    cssChunking: 'strict', // Optimize CSS loading with strict mode
     // Optimize server actions
     serverActions: {
       bodySizeLimit: '1mb',

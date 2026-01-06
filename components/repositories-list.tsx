@@ -31,7 +31,7 @@ type RepositoriesListProps = {
 export function RepositoriesList({ source, username }: RepositoriesListProps) {
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [pinnedRepos, setPinnedRepos] = useState<Repository[]>([])
-  const [loading, setLoading] = useState(false)
+  const [_loading, _setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -42,7 +42,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
   useEffect(() => {
     async function fetchRepositories() {
-      setLoading(true)
+      _setLoading(true)
       setError(null)
 
       try {
@@ -93,7 +93,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
         setRepositories([])
         setPinnedRepos([])
       } finally {
-        setLoading(false)
+        _setLoading(false)
       }
     }
 

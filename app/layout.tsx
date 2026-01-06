@@ -15,6 +15,7 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
+  adjustFontFallback: true,
   variable: "--font-inter",
   weight: ["400", "500", "600", "700", "800", "900"],
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
