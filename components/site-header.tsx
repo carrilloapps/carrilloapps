@@ -150,23 +150,15 @@ const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: bo
     <Link
       href={item.href}
       onClick={onClose}
-      className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
+      className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
         isActive
-          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30 shadow-lg shadow-blue-500/10"
-          : "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:backdrop-blur-sm hover:border hover:border-zinc-700/50"
+          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
+          : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
       }`}
       aria-current={isActive ? "page" : undefined}
     >
-      {Icon && <Icon className="w-4 h-4 flex-shrink-0 relative z-10" aria-hidden="true" />}
-      <span className="relative z-10">{item.label}</span>
-      {isActive && (
-        <motion.div
-          layoutId="activeNavIndicator"
-          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl -z-10"
-          transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-        />
-      )}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300 -z-10" />
+      {Icon && <Icon className="w-4 h-4 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />}
+      <span>{item.label}</span>
     </Link>
   )
 })
@@ -234,33 +226,30 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
                       <Link
                         href={child.href}
                         onClick={onClose}
-                        className="group flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative"
+                        className="group flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-zinc-800/40 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative"
                       >
-                        {/* Subtle hover background */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-200 rounded-lg" />
-                        
                         {/* Icon */}
                         {ChildIcon && (
-                          <div className="relative z-10 flex-shrink-0">
-                            <ChildIcon className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors duration-200" />
+                          <div className="flex-shrink-0">
+                            <ChildIcon className="w-5 h-5 text-zinc-400 group-hover:text-blue-400 transition-colors duration-300" />
                           </div>
                         )}
                         
                         {/* Content */}
-                        <div className="relative z-10 flex-1 min-w-0">
-                          <h3 className="text-white font-medium group-hover:text-blue-400 transition-colors duration-200 text-sm">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-medium group-hover:text-blue-400 transition-colors duration-300 text-sm">
                             {child.label}
                           </h3>
                           {child.description && (
-                            <p className="text-zinc-500 text-xs group-hover:text-zinc-400 transition-colors duration-200 leading-relaxed mt-0.5">
+                            <p className="text-zinc-500 text-xs group-hover:text-zinc-400 transition-colors duration-300 leading-relaxed mt-0.5 line-clamp-2">
                               {child.description}
                             </p>
                           )}
                         </div>
                         
                         {/* Subtle arrow indicator */}
-                        <div className="relative z-10 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <ChevronDown className="w-4 h-4 text-blue-400 rotate-[-45deg]" />
+                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <ChevronDown className="w-4 h-4 text-blue-400 rotate-[-90deg]" />
                         </div>
                       </Link>
                     </motion.div>
@@ -277,10 +266,12 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
 MegaMenu.displayName = "MegaMenu"
 
 export function SiteHeader() {
-  const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = usePathname()
   const shouldReduceMotion = useReducedMotion()
   
@@ -289,18 +280,34 @@ export function SiteHeader() {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const navRef = useRef<HTMLElement>(null)
 
-  // Handle scroll effect - header always visible
+  // Handle scroll effect - hide/show header based on scroll direction
   useEffect(() => {
     setMounted(true)
 
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10
+      const currentScrollY = window.scrollY
+      const isScrolled = currentScrollY > 10
+      
       setScrolled(isScrolled)
+
+      // Hide header when scrolling down, show when scrolling up
+      // Always show header at the top of the page
+      if (currentScrollY < 10) {
+        setIsVisible(true)
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide header
+        setIsVisible(false)
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up - show header
+        setIsVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [lastScrollY])
 
   // Handle body scroll lock when mobile menu is open
   useEffect(() => {
@@ -453,10 +460,8 @@ export function SiteHeader() {
         itemScope
         itemType="https://schema.org/WPHeader"
       >
-        {/* Enhanced glassmorphism overlay effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
+        {/* Subtle glassmorphism overlay effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent pointer-events-none" />
         <div className="container flex h-16 items-center justify-between relative z-10">
           {/* Logo */}
           <motion.div
@@ -500,27 +505,19 @@ export function SiteHeader() {
                     <button
                       type="button"
                       onClick={() => handleMegaMenuToggle(item.href)}
-                      className={`group relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
+                      className={`group relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
                         isActive
-                          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30 shadow-lg shadow-blue-500/10"
-                          : "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:backdrop-blur-sm hover:border hover:border-zinc-700/50"
+                          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
+                          : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
                       }`}
                       aria-expanded={isMegaMenuOpen}
                       aria-haspopup="true"
                     >
-                      <span className="relative z-10">{item.label}</span>
+                      <span>{item.label}</span>
                       <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-200 relative z-10 ${isMegaMenuOpen ? "rotate-180" : ""}`}
+                        className={`w-3.5 h-3.5 transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180" : ""}`}
                         aria-hidden="true"
                       />
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeNavIndicator"
-                          className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl -z-10"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                        />
-                      )}
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300 -z-10" />
                     </button>
                   ) : (
                     <NavLink item={item} isActive={isActive} />
@@ -554,7 +551,7 @@ export function SiteHeader() {
                 asChild
               >
                 <Link href="/agendamiento">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
                   <Calendar className="h-4 w-4 mr-2 relative z-10" aria-hidden="true" />
                   <span className="relative z-10">Agéndame</span>
                 </Link>
