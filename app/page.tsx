@@ -180,16 +180,20 @@ export default function Home() {
             <div className="grid gap-12 md:grid-cols-2 items-center relative z-10">
               {/* Mobile: Image first, Desktop: Content first */}
               <div className="space-y-8 text-center md:text-left order-2 md:order-1">
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+                <motion.div 
+                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : -20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  transition={{ delay: isMobile ? 0 : 0.2, duration: isMobile ? 0 : 0.5 }}
+                >
                   <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-emerald-600/10" role="text">
                     Tech Leader | Senior Full Stack
                   </div>
                 </motion.div>
                 <motion.h1
                   id="hero-heading"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6, type: "spring" }}
+                  transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0 : 0.6, type: isMobile ? undefined : "spring" }}
                   className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight"
                 >
                   <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
@@ -197,9 +201,9 @@ export default function Home() {
                   </span>
                 </motion.h1>
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.7 }}
+                  transition={{ delay: isMobile ? 0 : 0.4, duration: isMobile ? 0 : 0.7 }}
                   className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto md:mx-0 leading-relaxed"
                   role="text"
                 >
@@ -208,9 +212,9 @@ export default function Home() {
                   de alta transaccionalidad y seguridad.
                 </motion.p>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
+                  transition={{ delay: isMobile ? 0 : 0.5, duration: isMobile ? 0 : 0.8 }}
                   className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                   role="group"
                   aria-label="Acciones principales"
