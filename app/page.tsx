@@ -2,23 +2,19 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
-import { ArrowRight, Github, Linkedin, Mail, Download, Eye, Send, Phone, Clock, MapPin, Globe } from "lucide-react"
+import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/legacy/image"
 
 import { projects } from "@/data/projects"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
-import { ContactInfoCard } from "@/components/contact-info-card"
-import { ContactSocialSection } from "@/components/contact-social-section"
 import { CompactContactSection } from "@/components/compact-contact-section"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer";
@@ -176,7 +172,7 @@ export default function Home() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <DynamicBackground />
       <SiteHeader />
-      <main id="main-content" role="main" className="relative z-10">
+      <main id="main-content" role="main" className="relative z-10 pt-5">
         {/* Hero Section - Full Width */}
         <AnimatedSection className="py-16 md:py-28 relative w-full" role="banner" aria-labelledby="hero-heading">
 
