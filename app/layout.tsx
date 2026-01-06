@@ -77,9 +77,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
         
-        {/* Critical CSS preload - helps with LCP */}
-        <link rel="preload" as="style" href="/_next/static/css/app/layout.css" />
-        
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
