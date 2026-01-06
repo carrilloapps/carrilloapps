@@ -45,16 +45,16 @@ export function PageHero({ badge, title, description, children }: PageHeroProps)
   const {
     text: badgeText,
     icon: BadgeIcon,
-    gradientFrom = "from-blue-600/20",
-    gradientTo = "to-purple-600/20",
-    borderColor = "border-blue-600/30",
-    textColor = "text-white",
-    shadowColor = "shadow-blue-600/10",
+    gradientFrom = "from-emerald-600/20",
+    gradientTo = "to-teal-600/20",
+    borderColor = "border-emerald-500/30",
+    textColor = "text-emerald-400",
+    shadowColor = "shadow-emerald-600/10",
   } = badge;
 
   return (
     <motion.section 
-      className="py-12 md:py-24 space-y-8"
+      className="py-8 md:py-16 space-y-6"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -83,12 +83,13 @@ export function PageHero({ badge, title, description, children }: PageHeroProps)
         </motion.p>
       </motion.div>
 
-      <motion.div className="h-8" variants={itemVariants} />
-
       {children && (
-        <motion.div variants={itemVariants}>
-          {children}
-        </motion.div>
+        <>
+          <motion.div className="h-6" variants={itemVariants} />
+          <motion.div variants={itemVariants}>
+            {children}
+          </motion.div>
+        </>
       )}
     </motion.section>
   );

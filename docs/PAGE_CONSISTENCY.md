@@ -183,11 +183,13 @@ El gradiente overlay debe ser consistente en todas las páginas:
 - `badge`: Objeto con configuración del badge
   - `text` (requerido): Texto del badge
   - `icon` (opcional): Icono de Lucide React
-  - `gradientFrom` (opcional): Clase de gradiente inicial (default: `"from-blue-600/20"`)
-  - `gradientTo` (opcional): Clase de gradiente final (default: `"to-purple-600/20"`)
-  - `borderColor` (opcional): Clase de color del borde (default: `"border-blue-600/30"`)
-  - `textColor` (opcional): Clase de color del texto (default: `"text-white"`)
-  - `shadowColor` (opcional): Clase de color de la sombra (default: `"shadow-blue-600/10"`)
+  - `gradientFrom` (opcional): Clase de gradiente inicial (default: `"from-emerald-600/20"`)
+  - `gradientTo` (opcional): Clase de gradiente final (default: `"to-teal-600/20"`)
+  - `borderColor` (opcional): Clase de color del borde (default: `"border-emerald-500/30"`)
+  - `textColor` (opcional): Clase de color del texto (default: `"text-emerald-400"`)
+  - `shadowColor` (opcional): Clase de color de la sombra (default: `"shadow-emerald-600/10"`)
+
+**Nota sobre colores por defecto**: Los badges usan colores verdes (emerald/teal) por defecto para diferenciarse de los elementos del menú activo que usan azul/púrpura. Si necesitas un color diferente, puedes personalizarlo usando las props opcionales.
 - `title` (requerido): Título principal
 - `description` (requerido): Descripción de la página
 - `children` (opcional): Contenido adicional después del hero (ej: featured content)
@@ -271,10 +273,14 @@ const itemVariants: Variants = {
 
 ## Colores y Gradientes
 
-### Badge del Hero
-- Clase: `bg-gradient-to-r from-blue-600/20 to-purple-600/20`
-- Borde: `border-blue-600/30`
-- Sombra: `shadow-lg shadow-blue-600/10`
+### Badge del Hero (Por Defecto)
+Los badges usan colores verdes por defecto para diferenciarse de los elementos del menú activo:
+- Gradiente: `bg-gradient-to-r from-emerald-600/20 to-teal-600/20`
+- Borde: `border-emerald-500/30`
+- Texto: `text-emerald-400`
+- Sombra: `shadow-lg shadow-emerald-600/10`
+
+**Razón del color verde**: Los elementos del menú activo usan azul/púrpura, por lo que los badges verdes proporcionan mejor contraste visual y evitan confusión con la navegación.
 
 ### Título Principal
 - Clase: `bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent`
