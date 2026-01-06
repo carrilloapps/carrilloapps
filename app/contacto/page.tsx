@@ -34,19 +34,6 @@ const deobfuscatePhone = (obfuscated: string): string => {
   ).join('')
 }
 
-// Bot detection
-const detectBot = (): boolean => {
-  if (typeof window === 'undefined') return false
-  
-  // Check for common bot user agents
-  const botPatterns = [
-    /bot/i, /crawler/i, /spider/i, /scraper/i, /curl/i, /wget/i, /python/i
-  ]
-  
-  const userAgent = navigator.userAgent
-  return botPatterns.some(pattern => pattern.test(userAgent))
-}
-
 // Rate limiting
 const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
   const [attempts, setAttempts] = useState<number[]>([])
@@ -112,7 +99,6 @@ export default function ContactPage() {
   // Security states
   const [emailRevealed, setEmailRevealed] = useState(false)
   const [phoneRevealed, setPhoneRevealed] = useState(false)
-  const [isBot, setIsBot] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -138,18 +124,8 @@ export default function ContactPage() {
   
   // Security checks on mount
   useEffect(() => {
-    setIsBot(detectBot())
     startTime.current = Date.now()
-    
-    // Additional bot detection - check for rapid interactions
-    const handleMouseMove = () => {
-      if (Date.now() - startTime.current < 1000) {
-        setIsBot(true)
-      }
-    }
-    
-    document.addEventListener('mousemove', handleMouseMove, { once: true })
-    return () => document.removeEventListener('mousemove', handleMouseMove)
+    // Inicializar tiempo de carga para validación de envío
   }, [])
   
   // Handle form input changes
@@ -162,11 +138,7 @@ export default function ContactPage() {
     e.preventDefault()
     
     // Security validations
-    if (isBot) {
-      console.warn('Bot detected, submission blocked')
-      return
-    }
-    
+    // Solo bloquear si el honeypot está lleno (bots lo llenan automáticamente)
     if (formData.honeypot) {
       console.warn('Honeypot field filled, submission blocked')
       return
@@ -177,9 +149,10 @@ export default function ContactPage() {
       return
     }
     
-    // Check submission timing (too fast = bot)
+    // Check submission timing - tiempo mínimo reducido para usuarios legítimos
     const submissionTime = Date.now() - startTime.current
-    if (submissionTime < 3000) {
+    if (submissionTime < 1000) {
+      // Solo bloquear si es extremadamente rápido (< 1 segundo)
       console.warn('Submission too fast, likely bot')
       return
     }
@@ -217,14 +190,12 @@ export default function ContactPage() {
     }
   }
   
-  // Reveal contact information with additional security
+  // Reveal contact information
   const revealEmail = () => {
-    if (isBot) return
     setEmailRevealed(true)
   }
   
   const revealPhone = () => {
-    if (isBot) return
     setPhoneRevealed(true)
   }
   return (
@@ -299,10 +270,12 @@ export default function ContactPage() {
                         width: '1px', 
                         height: '1px',
                         opacity: 0,
-                        pointerEvents: 'none'
+                        pointerEvents: 'none',
+                        visibility: 'hidden'
                       }}
                       tabIndex={-1}
                       autoComplete="off"
+                      aria-hidden="true"
                     />
                     
                     <div className="grid grid-cols-2 gap-4">
@@ -314,7 +287,7 @@ export default function ContactPage() {
                           onChange={(e) => handleInputChange('name', e.target.value)}
                           className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
                           required
-                          disabled={isSubmitting || isBot}
+                          disabled={isSubmitting}
                         />
                       </div>
                       <div className="space-y-2">
@@ -326,7 +299,7 @@ export default function ContactPage() {
                           onChange={(e) => handleInputChange('email', e.target.value)}
                           className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
                           required
-                          disabled={isSubmitting || isBot}
+                          disabled={isSubmitting}
                         />
                       </div>
                     </div>
@@ -338,7 +311,7 @@ export default function ContactPage() {
                         onChange={(e) => handleInputChange('subject', e.target.value)}
                         className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
                         required
-                        disabled={isSubmitting || isBot}
+                        disabled={isSubmitting}
                       />
                     </div>
                     <div className="space-y-2">
@@ -350,7 +323,7 @@ export default function ContactPage() {
                         className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300 min-h-[120px]"
                         rows={5}
                         required
-                        disabled={isSubmitting || isBot}
+                        disabled={isSubmitting}
                       />
                     </div>
                     
@@ -362,22 +335,14 @@ export default function ContactPage() {
                       </div>
                     )}
                     
-                    {isBot && (
-                      <div className="p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-                        <p className="text-yellow-400 text-sm">
-                          Se ha detectado actividad automatizada. El formulario está deshabilitado.
-                        </p>
-                      </div>
-                    )}
-                    
                     <motion.div
-                      whileHover={{ scale: isSubmitting || isBot || isLimited ? 1 : 1.02 }}
-                      whileTap={{ scale: isSubmitting || isBot || isLimited ? 1 : 0.98 }}
+                      whileHover={{ scale: isSubmitting || isLimited ? 1 : 1.02 }}
+                      whileTap={{ scale: isSubmitting || isLimited ? 1 : 0.98 }}
                     >
                       <Button 
                         type="submit"
                         className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 transition-all duration-300"
-                        disabled={isSubmitting || isBot || isLimited}
+                        disabled={isSubmitting || isLimited}
                       >
                         {isSubmitting ? (
                           <>
@@ -435,7 +400,6 @@ export default function ContactPage() {
                             <button
                               onClick={revealEmail}
                               className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-200"
-                              disabled={isBot}
                             >
                               <Eye className="w-4 h-4" />
                               <span className="text-sm">Hacer clic para revelar email</span>
@@ -469,7 +433,6 @@ export default function ContactPage() {
                             <button
                               onClick={revealPhone}
                               className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
-                              disabled={isBot}
                             >
                               <Eye className="w-4 h-4" />
                               <span className="text-sm">Hacer clic para revelar teléfono</span>
