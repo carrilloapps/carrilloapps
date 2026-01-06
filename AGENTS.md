@@ -20,11 +20,18 @@ This document provides comprehensive guidelines for AI agents working on the Car
 
 **IMPORTANT**: All packages use `~` (tilde) versioning for patch-level updates only. This ensures stability and prevents breaking changes from minor/major version updates.
 
-## Core Component: PageHero
+## Core Hero Components
 
-The `PageHero` component is the **standard hero section** for all pages. It provides consistent structure, animations, and styling.
+The project has two hero component variants:
 
-### Location
+1. **`PageHero`** - Standard centered hero (default for most pages)
+2. **`PageHeroSplit`** - Split layout hero with image on the right (for profile/about pages)
+
+### PageHero - Standard Centered Hero
+
+The `PageHero` component is the **standard hero section** for most pages. It provides consistent structure, animations, and styling.
+
+#### Location
 `components/page-hero.tsx`
 
 ### Default Badge Colors
@@ -104,6 +111,133 @@ interface PageHeroProps {
 - Section padding: `py-8 md:py-16`
 - Internal spacing: `space-y-6`
 - Spacer before children: `h-6` (only when children exist)
+
+### PageHeroSplit - Split Layout Hero
+
+The `PageHeroSplit` component is used for hero sections with a **split layout**: content on the left, image on the right. This is ideal for profile pages, about pages, or any page that needs to showcase an image alongside text content.
+
+#### Location
+`components/page-hero-split.tsx`
+
+#### Default Badge Colors
+
+Same as `PageHero` - green (emerald/teal) by default.
+
+#### Basic Usage
+
+```tsx
+import { PageHeroSplit } from "@/components/page-hero-split";
+
+<PageHeroSplit
+  badge={{ text: "About Me" }}
+  title="Hello, I'm José Carrillo"
+  subtitle="My professional journey in development"
+  description="Extended description text here..."
+  image={{
+    src: "/path/to/image.jpg",
+    alt: "José Carrillo",
+    width: 600,
+    height: 600,
+    priority: true,
+  }}
+/>
+```
+
+#### With Multiple Description Paragraphs
+
+```tsx
+<PageHeroSplit
+  badge={{ text: "About Me" }}
+  title="Hello, I'm José Carrillo"
+  subtitle="My professional journey"
+  description={
+    <>
+      <p className="text-zinc-400 leading-relaxed">
+        First paragraph of description...
+      </p>
+      <p className="text-zinc-400 leading-relaxed">
+        Second paragraph of description...
+      </p>
+    </>
+  }
+  image={{ src: "/image.jpg", alt: "Profile" }}
+/>
+```
+
+#### With Action Buttons
+
+```tsx
+<PageHeroSplit
+  badge={{ text: "About Me" }}
+  title="Hello, I'm José Carrillo"
+  description="Description text..."
+  image={{ src: "/image.jpg", alt: "Profile" }}
+  actions={
+    <>
+      <Button asChild>
+        <Link href="/contact">Contact Me</Link>
+      </Button>
+      <Button variant="outline">Download CV</Button>
+    </>
+  }
+/>
+```
+
+#### With Additional Content
+
+```tsx
+<PageHeroSplit
+  badge={{ text: "About Me" }}
+  title="Hello, I'm José Carrillo"
+  description="Main description..."
+  image={{ src: "/image.jpg", alt: "Profile" }}
+  additionalContent={
+    <div className="space-y-4">
+      {/* Additional content like stats, links, etc. */}
+    </div>
+  }
+/>
+```
+
+#### Props Interface
+
+```typescript
+interface PageHeroSplitProps {
+  badge: {
+    text: string;                    // Required
+    icon?: LucideIcon;               // Optional
+    gradientFrom?: string;           // Default: "from-emerald-600/20"
+    gradientTo?: string;             // Default: "to-teal-600/20"
+    borderColor?: string;            // Default: "border-emerald-500/30"
+    textColor?: string;              // Default: "text-emerald-400"
+    shadowColor?: string;            // Default: "shadow-emerald-600/10"
+  };
+  title: string;                     // Required
+  subtitle?: string;                 // Optional subtitle below title
+  description: string | ReactNode;   // Required - can be string or JSX
+  image: {
+    src: string;                     // Required
+    alt: string;                     // Required
+    width?: number;                  // Default: 600
+    height?: number;                 // Default: 600
+    priority?: boolean;              // Default: true
+  };
+  actions?: ReactNode;                // Optional - action buttons
+  additionalContent?: ReactNode;      // Optional - additional content after description
+}
+```
+
+#### Layout Behavior
+
+- **Desktop**: Content on left, image on right (grid 2 columns)
+- **Mobile**: Image appears first, then content (order changes)
+- **Image**: Square aspect ratio with glassmorphism effects and hover scale
+
+#### Spacing
+
+- Section padding: `py-12 md:py-0`
+- Grid gap: `gap-12`
+- Internal spacing: `space-y-6`
 
 ## Standard Page Structure
 
@@ -396,14 +530,20 @@ docs/
 ## Reference Pages
 
 Pages that correctly follow these standards:
+
+### Using PageHero (Centered)
 - `app/blog/page.tsx` - Blog page
 - `app/recursos/page.tsx` - Resources page
 - `app/contacto/page.tsx` - Contact page
 
+### Using PageHeroSplit (Split Layout)
+- `app/sobre-mi/page.tsx` - About page (profile with image)
+
 ## Additional Resources
 
 - **Detailed Consistency Guide**: `docs/PAGE_CONSISTENCY.md`
-- **Component Source**: `components/page-hero.tsx`
+- **PageHero Component**: `components/page-hero.tsx`
+- **PageHeroSplit Component**: `components/page-hero-split.tsx`
 - **Project Documentation**: `docs/PROJECT.md`
 
 ## Quick Reference
