@@ -4,19 +4,10 @@
   "regions": ["iad1"],
   "functions": {
     "app/api/**/*.{js,ts,jsx,tsx}": {
-      "maxDuration": 30,
+      "maxDuration": 10,
       "memory": 1024
-    },
-    "app/**/*.{js,ts,jsx,tsx}": {
-      "maxDuration": 10
     }
   },
-  "crons": [
-    {
-      "path": "/api/cron/revalidate-cache",
-      "schedule": "0 */6 * * *"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
