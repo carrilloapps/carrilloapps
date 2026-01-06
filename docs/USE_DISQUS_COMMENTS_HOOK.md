@@ -1,19 +1,19 @@
-# Hook useDisqusComments
+# useDisqusComments Hook
 
-Este hook personalizado se conecta a Disqus para obtener el número de comentarios de un artículo específico.
+This custom hook connects to Disqus to retrieve the comment count for a specific article.
 
-## Características
+## Features
 
-- ✅ **Múltiples métodos de obtención**: Utiliza diferentes estrategias para obtener el conteo más preciso
-- ✅ **Estado de carga**: Proporciona información sobre el estado de carga
-- ✅ **Manejo de errores**: Incluye manejo robusto de errores
-- ✅ **Fallbacks**: Si un método falla, intenta con otros métodos
-- ✅ **Optimización**: Evita cargar scripts duplicados
-- ✅ **TypeScript**: Completamente tipado
+- ✅ **Multiple retrieval methods**: Uses different strategies to obtain the most accurate count
+- ✅ **Loading state**: Provides information about the loading state
+- ✅ **Error handling**: Includes robust error handling
+- ✅ **Fallbacks**: If one method fails, it tries other methods
+- ✅ **Optimization**: Avoids loading duplicate scripts
+- ✅ **TypeScript**: Fully typed
 
-## Uso Básico
+## Basic Usage
 
-### Hook Completo
+### Complete Hook
 
 ```tsx
 import { useDisqusComments } from "@/hooks/use-disqus-comments"
@@ -22,7 +22,7 @@ function MyComponent({ articleSlug }: { articleSlug: string }) {
   const { count, isLoading, error } = useDisqusComments(articleSlug)
 
   if (isLoading) {
-    return <span>Cargando comentarios...</span>
+    return <span>Loading comments...</span>
   }
 
   if (error) {
@@ -31,13 +31,13 @@ function MyComponent({ articleSlug }: { articleSlug: string }) {
 
   return (
     <span>
-      {count} {count === 1 ? 'comentario' : 'comentarios'}
+      {count} {count === 1 ? 'comment' : 'comments'}
     </span>
   )
 }
 ```
 
-### Hook Simplificado
+### Simplified Hook
 
 ```tsx
 import { useCommentCount } from "@/hooks/use-disqus-comments"
@@ -47,7 +47,7 @@ function MyComponent({ articleSlug }: { articleSlug: string }) {
 
   return (
     <span>
-      {commentCount} {commentCount === 1 ? 'comentario' : 'comentarios'}
+      {commentCount} {commentCount === 1 ? 'comment' : 'comments'}
     </span>
   )
 }
@@ -57,34 +57,34 @@ function MyComponent({ articleSlug }: { articleSlug: string }) {
 
 ### useDisqusComments(identifier: string)
 
-Retorna un objeto con:
+Returns an object with:
 
-- `count: number` - Número de comentarios (default: 0)
-- `isLoading: boolean` - Estado de carga
-- `error: string | null` - Mensaje de error si ocurre algún problema
+- `count: number` - Number of comments (default: 0)
+- `isLoading: boolean` - Loading state
+- `error: string | null` - Error message if a problem occurs
 
 ### useCommentCount(identifier: string)
 
-Retorna directamente el número de comentarios como `number`.
+Directly returns the comment count as `number`.
 
-## Métodos de Obtención
+## Retrieval Methods
 
-El hook utiliza múltiples métodos para obtener el conteo de comentarios:
+The hook uses multiple methods to retrieve the comment count:
 
-1. **Verificación de Disqus cargado**: Verifica si Disqus ya está cargado en la página
-2. **Script count.js**: Carga el script oficial de Disqus para conteo
-3. **Elementos existentes**: Busca elementos existentes con el conteo
-4. **Elemento temporal**: Crea un elemento temporal para que Disqus lo procese
+1. **Disqus loaded check**: Verifies if Disqus is already loaded on the page
+2. **count.js script**: Loads the official Disqus script for counting
+3. **Existing elements**: Searches for existing elements with the count
+4. **Temporary element**: Creates a temporary element for Disqus to process
 
-## Configuración Requerida
+## Required Configuration
 
-Asegúrate de tener configuradas las siguientes variables de entorno:
+Make sure you have the following environment variables configured:
 
 ```env
-NEXT_PUBLIC_DISQUS_SHORTNAME=tu-shortname-de-disqus
+NEXT_PUBLIC_DISQUS_SHORTNAME=your-disqus-shortname
 ```
 
-## Ejemplo de Implementación
+## Implementation Example
 
 ```tsx
 // components/blog-article.tsx
@@ -101,10 +101,10 @@ export function BlogArticle({ slug }: { slug: string }) {
           {commentLoading ? (
             <span className="inline-flex items-center gap-1">
               <span className="w-3 h-3 bg-gray-400 rounded animate-pulse"></span>
-              comentarios
+              comments
             </span>
           ) : (
-            `${commentCount} ${commentCount === 1 ? 'comentario' : 'comentarios'}`
+            `${commentCount} ${commentCount === 1 ? 'comment' : 'comments'}`
           )}
         </span>
       </div>
@@ -113,32 +113,32 @@ export function BlogArticle({ slug }: { slug: string }) {
 }
 ```
 
-## Consideraciones
+## Considerations
 
-- El hook es optimista y no bloquea la UI si no puede obtener el conteo
-- Utiliza timeouts para evitar cargas infinitas
-- Es compatible con SSR (Server-Side Rendering)
-- Se limpia automáticamente cuando el componente se desmonta
-- Maneja múltiples instancias del mismo identificador
+- The hook is optimistic and does not block the UI if it cannot retrieve the count
+- Uses timeouts to avoid infinite loading
+- Compatible with SSR (Server-Side Rendering)
+- Automatically cleans up when the component unmounts
+- Handles multiple instances of the same identifier
 
-## Solución de Problemas
+## Troubleshooting
 
-### El conteo siempre es 0
+### Count is always 0
 
-1. Verifica que `NEXT_PUBLIC_DISQUS_SHORTNAME` esté configurado
-2. Asegúrate de que el dominio esté en los "Trusted Domains" de Disqus
-3. Verifica que el artículo tenga comentarios en Disqus
+1. Verify that `NEXT_PUBLIC_DISQUS_SHORTNAME` is configured
+2. Make sure the domain is in Disqus "Trusted Domains"
+3. Verify that the article has comments on Disqus
 
-### El hook no carga
+### Hook does not load
 
-1. Revisa la consola del navegador para errores
-2. Verifica la conectividad a internet
-3. Asegúrate de que Disqus no esté bloqueado por ad-blockers
+1. Check the browser console for errors
+2. Verify internet connectivity
+3. Make sure Disqus is not blocked by ad-blockers
 
-### Rendimiento
+### Performance
 
-El hook está optimizado para:
-- Evitar cargas duplicadas de scripts
-- Usar timeouts razonables
-- Limpiar recursos automáticamente
-- Manejar múltiples instancias eficientemente
+The hook is optimized for:
+- Avoid duplicate script loads
+- Use reasonable timeouts
+- Automatically clean up resources
+- Handle multiple instances efficiently

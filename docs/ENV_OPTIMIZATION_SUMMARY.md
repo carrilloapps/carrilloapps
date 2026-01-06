@@ -1,74 +1,74 @@
-# Análisis y Optimización de Variables de Entorno para Vercel
+# Environment Variables Analysis and Optimization for Vercel
 
-## Resumen de Cambios Realizados
+## Summary of Changes Made
 
-### 1. Archivo de Variables de Entorno Actualizado
+### 1. Updated Environment Variables File
 
-**Archivo:** `.env.example`
-- ✅ Estructura organizada por categorías (públicas, privadas, Vercel)
-- ✅ Documentación clara de cada variable
-- ✅ Compatibilidad completa con Vercel
-- ✅ Variables comentadas para uso futuro
+**File:** `.env.example`
+- ✅ Organized structure by categories (public, private, Vercel)
+- ✅ Clear documentation for each variable
+- ✅ Full Vercel compatibility
+- ✅ Commented variables for future use
 
-### 2. Utilidad de Variables de Entorno
+### 2. Environment Variables Utility
 
-**Archivo:** `lib/env.ts`
-- ✅ Acceso type-safe a variables de entorno
-- ✅ Funciones utilitarias para detección de entorno
-- ✅ Manejo automático de URLs según entorno
-- ✅ Validación de variables requeridas
-- ✅ Soporte completo para variables automáticas de Vercel
+**File:** `lib/env.ts`
+- ✅ Type-safe access to environment variables
+- ✅ Utility functions for environment detection
+- ✅ Automatic URL handling according to environment
+- ✅ Required variables validation
+- ✅ Full support for automatic Vercel variables
 
-### 3. Configuración de Vercel
+### 3. Vercel Configuration
 
-**Archivo:** `vercel.json`
-- ✅ Configuración de headers de seguridad
-- ✅ Redirects para SEO
-- ✅ Variables de entorno por defecto
-- ✅ Configuración de funciones
+**File:** `vercel.json`
+- ✅ Security headers configuration
+- ✅ SEO redirects
+- ✅ Default environment variables
+- ✅ Functions configuration
 
-### 4. Documentación Completa
+### 4. Complete Documentation
 
-**Archivo:** `docs/VERCEL.md`
-- ✅ Guía completa de deployment en Vercel
-- ✅ Mejores prácticas para variables de entorno
-- ✅ Configuración por entornos (dev/preview/prod)
-- ✅ Troubleshooting común
-- ✅ Comandos de Vercel CLI
+**File:** `docs/VERCEL.md`
+- ✅ Complete Vercel deployment guide
+- ✅ Best practices for environment variables
+- ✅ Configuration by environments (dev/preview/prod)
+- ✅ Common troubleshooting
+- ✅ Vercel CLI commands
 
-### 5. Componentes Actualizados
+### 5. Updated Components
 
-**Archivos:** `components/blog-article.tsx`, `components/disqus-comments.tsx`
-- ✅ Uso de la nueva utilidad de variables de entorno
-- ✅ Eliminación de hardcoding de URLs
-- ✅ Manejo dinámico de URLs según entorno
+**Files:** `components/blog-article.tsx`, `components/disqus-comments.tsx`
+- ✅ Use of the new environment variables utility
+- ✅ Removal of hardcoded URLs
+- ✅ Dynamic URL handling according to environment
 
-## Cumplimiento con Estándares de Vercel
+## Compliance with Vercel Standards
 
-### ✅ Variables Públicas (NEXT_PUBLIC_*)
-- Correctamente prefijadas para exposición al navegador
-- Inlineadas en build time según especificación de Next.js
-- Configurables por entorno en Vercel Dashboard
+### ✅ Public Variables (NEXT_PUBLIC_*)
+- Correctly prefixed for browser exposure
+- Inlined at build time according to Next.js specification
+- Configurable per environment in Vercel Dashboard
 
-### ✅ Variables Privadas
-- Solo disponibles en servidor
-- Configurables en Vercel Project Settings
-- No expuestas al cliente
+### ✅ Private Variables
+- Only available on server
+- Configurable in Vercel Project Settings
+- Not exposed to the client
 
-### ✅ Variables Automáticas de Vercel
-- `VERCEL=1`: Detecta ejecución en Vercel
-- `VERCEL_URL`: URL del deployment actual
-- `VERCEL_ENV`: Entorno actual (development/preview/production)
-- `VERCEL_REGION`: Región de ejecución
+### ✅ Automatic Vercel Variables
+- `VERCEL=1`: Detects execution on Vercel
+- `VERCEL_URL`: Current deployment URL
+- `VERCEL_ENV`: Current environment (development/preview/production)
+- `VERCEL_REGION`: Execution region
 
 ### ✅ Edge Runtime Compatible
-- Variables configuradas en Vercel Dashboard (no en archivos .env)
-- Compatibles con Edge Runtime de Vercel
-- Acceso type-safe desde utilidad centralizada
+- Variables configured in Vercel Dashboard (not in .env files)
+- Compatible with Vercel's Edge Runtime
+- Type-safe access from centralized utility
 
-## Configuración Recomendada en Vercel
+## Recommended Configuration in Vercel
 
-### Variables por Entorno
+### Variables by Environment
 
 | Variable | Development | Preview | Production |
 |----------|-------------|---------|------------|
@@ -76,41 +76,41 @@
 | `NEXT_PUBLIC_BASE_URL` | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
 | `NEXT_PUBLIC_DISQUS_SHORTNAME` | `carrilloapps` | `carrilloapps` | `carrilloapps` |
 
-### Variables Opcionales
+### Optional Variables
 
-- `DISQUS_API_KEY`: Para funcionalidades avanzadas de Disqus
-- `DISQUS_API_SECRET`: Para autenticación con API de Disqus
-- `DISQUS_ACCESS_TOKEN`: Para requests autenticados
+- `DISQUS_API_KEY`: For advanced Disqus features
+- `DISQUS_API_SECRET`: For Disqus API authentication
+- `DISQUS_ACCESS_TOKEN`: For authenticated requests
 
-## Beneficios de la Implementación
+## Implementation Benefits
 
-1. **Type Safety**: Acceso type-safe a variables de entorno
-2. **Flexibilidad**: Manejo automático de diferentes entornos
-3. **Seguridad**: Separación clara entre variables públicas y privadas
-4. **Mantenibilidad**: Configuración centralizada y documentada
-5. **Compatibilidad**: 100% compatible con Vercel y Next.js
-6. **Escalabilidad**: Fácil adición de nuevas variables
+1. **Type Safety**: Type-safe access to environment variables
+2. **Flexibility**: Automatic handling of different environments
+3. **Security**: Clear separation between public and private variables
+4. **Maintainability**: Centralized and documented configuration
+5. **Compatibility**: 100% compatible with Vercel and Next.js
+6. **Scalability**: Easy addition of new variables
 
-## Próximos Pasos
+## Next Steps
 
-1. **Configurar variables en Vercel Dashboard**
-2. **Verificar deployment en preview**
-3. **Validar funcionamiento en producción**
-4. **Monitorear logs de Vercel**
+1. **Configure variables in Vercel Dashboard**
+2. **Verify deployment in preview**
+3. **Validate functionality in production**
+4. **Monitor Vercel logs**
 
-## Comandos Útiles
+## Useful Commands
 
 ```bash
-# Sincronizar variables de Vercel localmente
+# Sync Vercel variables locally
 vercel env pull .env.local
 
-# Listar variables configuradas
+# List configured variables
 vercel env ls
 
-# Desarrollo con variables de Vercel
+# Development with Vercel variables
 vercel dev
 ```
 
 ---
 
-**Estado:** ✅ Completado y listo para deployment en Vercel
+**Status:** ✅ Completed and ready for deployment on Vercel

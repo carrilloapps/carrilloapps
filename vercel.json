@@ -1,13 +1,30 @@
 {
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "regions": ["iad1"],
   "functions": {
+    "app/api/**/*.{js,ts,jsx,tsx}": {
+      "maxDuration": 30,
+      "memory": 1024
+    },
     "app/**/*.{js,ts,jsx,tsx}": {
-      "maxDuration": 30
+      "maxDuration": 10
     }
   },
+  "crons": [
+    {
+      "path": "/api/cron/revalidate-cache",
+      "schedule": "0 */6 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "on"
+        },
         {
           "key": "X-Frame-Options",
           "value": "DENY"
@@ -22,7 +39,34 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/icons/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).{jpg,jpeg,png,gif,webp,avif,ico,svg}",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
@@ -38,10 +82,5 @@
       "destination": "/",
       "permanent": true
     }
-  ],
-  "env": {
-    "NEXT_PUBLIC_SITE_URL": "https://carrillo.app",
-    "NEXT_PUBLIC_BASE_URL": "https://carrillo.app",
-    "NEXT_PUBLIC_DISQUS_SHORTNAME": "juniorcarrillo"
-  }
+  ]
 }

@@ -1,18 +1,18 @@
 # Vercel Deployment Guide
 
-Este documento explica cómo configurar correctamente las variables de entorno para el despliegue en Vercel.
+This document explains how to correctly configure environment variables for deployment on Vercel.
 
-## Variables de Entorno en Vercel
+## Environment Variables in Vercel
 
-### Configuración en el Dashboard de Vercel
+### Configuration in Vercel Dashboard
 
-1. Ve a tu proyecto en [Vercel Dashboard](https://vercel.com/dashboard)
-2. Navega a **Settings** > **Environment Variables**
-3. Configura las siguientes variables:
+1. Go to your project in [Vercel Dashboard](https://vercel.com/dashboard)
+2. Navigate to **Settings** > **Environment Variables**
+3. Configure the following variables:
 
-#### Variables Públicas (NEXT_PUBLIC_*)
+#### Public Variables (NEXT_PUBLIC_*)
 
-Estas variables son expuestas al navegador y se incluyen en el bundle de JavaScript:
+These variables are exposed to the browser and included in the JavaScript bundle:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://carrillo.app
@@ -20,9 +20,9 @@ NEXT_PUBLIC_BASE_URL=https://carrillo.app
 NEXT_PUBLIC_DISQUS_SHORTNAME=carrilloapps
 ```
 
-#### Variables Privadas (Solo servidor)
+#### Private Variables (Server-only)
 
-Estas variables solo están disponibles en el servidor:
+These variables are only available on the server:
 
 ```
 DISQUS_API_KEY=your_disqus_api_key_here
@@ -30,15 +30,15 @@ DISQUS_API_SECRET=your_disqus_api_secret_here
 DISQUS_ACCESS_TOKEN=your_disqus_access_token_here
 ```
 
-### Configuración por Entorno
+### Configuration by Environment
 
-Vercel permite configurar variables específicas para cada entorno:
+Vercel allows you to configure environment-specific variables:
 
-- **Development**: Para `vercel dev` y desarrollo local
-- **Preview**: Para deployments de preview (branches)
-- **Production**: Para el deployment de producción
+- **Development**: For `vercel dev` and local development
+- **Preview**: For preview deployments (branches)
+- **Production**: For production deployment
 
-#### Configuración Recomendada:
+#### Recommended Configuration:
 
 | Variable | Development | Preview | Production |
 |----------|-------------|---------|------------|
@@ -46,50 +46,50 @@ Vercel permite configurar variables específicas para cada entorno:
 | `NEXT_PUBLIC_BASE_URL` | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
 | `NEXT_PUBLIC_DISQUS_SHORTNAME` | `carrilloapps` | `carrilloapps` | `carrilloapps` |
 
-## Variables Automáticas de Vercel
+## Automatic Vercel Variables
 
-Vercel proporciona automáticamente estas variables:
+Vercel automatically provides these variables:
 
-- `VERCEL=1`: Indica que el código se ejecuta en Vercel
-- `VERCEL_URL`: URL del deployment actual
-- `VERCEL_ENV`: Entorno actual (development, preview, production)
-- `VERCEL_REGION`: Región donde se ejecuta el código
+- `VERCEL=1`: Indicates the code is running on Vercel
+- `VERCEL_URL`: Current deployment URL
+- `VERCEL_ENV`: Current environment (development, preview, production)
+- `VERCEL_REGION`: Region where the code is running
 
-### Uso en el Código
+### Usage in Code
 
 ```typescript
-// Detectar si estamos en Vercel
+// Detect if we're on Vercel
 const isVercel = process.env.VERCEL === '1'
 
-// Obtener la URL del deployment
+// Get the deployment URL
 const deploymentUrl = process.env.VERCEL_URL
 
-// Obtener el entorno actual
+// Get the current environment
 const environment = process.env.VERCEL_ENV
 
-// Usar la URL correcta según el entorno
+// Use the correct URL according to the environment
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 ```
 
-## Mejores Prácticas
+## Best Practices
 
-### 1. Prefijos Correctos
+### 1. Correct Prefixes
 
-- ✅ `NEXT_PUBLIC_*`: Variables expuestas al navegador
-- ✅ Sin prefijo: Variables solo del servidor
-- ❌ No uses `REACT_APP_*` (es para Create React App)
+- ✅ `NEXT_PUBLIC_*`: Variables exposed to the browser
+- ✅ Without prefix: Server-only variables
+- ❌ Do not use `REACT_APP_*` (that's for Create React App)
 
-### 2. Seguridad
+### 2. Security
 
-- ✅ Nunca pongas secrets en variables `NEXT_PUBLIC_*`
-- ✅ Usa variables privadas para API keys y tokens
-- ✅ Configura variables en Vercel Dashboard, no en archivos `.env`
+- ✅ Never put secrets in `NEXT_PUBLIC_*` variables
+- ✅ Use private variables for API keys and tokens
+- ✅ Configure variables in Vercel Dashboard, not in `.env` files
 
-### 3. URLs Dinámicas
+### 3. Dynamic URLs
 
 ```typescript
-// ✅ Buena práctica: URL dinámica según entorno
+// ✅ Good practice: Dynamic URL according to environment
 const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL
@@ -102,11 +102,11 @@ const getBaseUrl = () => {
   return 'http://localhost:3000'
 }
 
-// ❌ Mala práctica: URL hardcodeada
+// ❌ Bad practice: Hardcoded URL
 const baseUrl = 'https://carrillo.app'
 ```
 
-### 4. Validación de Variables
+### 4. Variable Validation
 
 ```typescript
 // utils/env.ts
@@ -116,61 +116,61 @@ export const env = {
   DISQUS_API_KEY: process.env.DISQUS_API_KEY,
 } as const
 
-// Validar variables requeridas
+// Validate required variables
 if (!env.NEXT_PUBLIC_DISQUS_SHORTNAME) {
   throw new Error('NEXT_PUBLIC_DISQUS_SHORTNAME is required')
 }
 ```
 
-## Comandos de Vercel CLI
+## Vercel CLI Commands
 
-### Sincronizar Variables Locales
+### Sync Local Variables
 
 ```bash
-# Descargar variables de entorno de Vercel
+# Download environment variables from Vercel
 vercel env pull .env.local
 
-# Listar variables de entorno
+# List environment variables
 vercel env ls
 
-# Agregar una nueva variable
+# Add a new variable
 vercel env add VARIABLE_NAME
 
-# Remover una variable
+# Remove a variable
 vercel env rm VARIABLE_NAME
 ```
 
-### Desarrollo Local
+### Local Development
 
 ```bash
-# Usar variables de Vercel en desarrollo local
+# Use Vercel variables in local development
 vercel dev
 
-# O usar Next.js con variables locales
+# Or use Next.js with local variables
 npm run dev
 ```
 
 ## Troubleshooting
 
-### Variables no se actualizan
+### Variables not updating
 
-1. Verifica que la variable esté configurada en el entorno correcto
-2. Redeploy el proyecto después de cambiar variables
-3. Para variables `NEXT_PUBLIC_*`, necesitas rebuild
+1. Verify the variable is configured in the correct environment
+2. Redeploy the project after changing variables
+3. For `NEXT_PUBLIC_*` variables, you need to rebuild
 
-### Variables undefined en el cliente
+### Variables undefined in client
 
-1. Verifica que tengan el prefijo `NEXT_PUBLIC_`
-2. Reinicia el servidor de desarrollo
-3. Verifica que no haya typos en el nombre
+1. Verify they have the `NEXT_PUBLIC_` prefix
+2. Restart the development server
+3. Check for typos in the variable name
 
-### Variables no disponibles en Edge Runtime
+### Variables not available in Edge Runtime
 
-- Las variables `.env*` no están disponibles en Edge Runtime
-- Configura todas las variables en Vercel Dashboard
-- Usa variables con prefijo `NEXT_PUBLIC_` para el cliente
+- Variables in `.env*` files are not available in Edge Runtime
+- Configure all variables in Vercel Dashboard
+- Use variables with `NEXT_PUBLIC_` prefix for the client
 
-## Recursos
+## Resources
 
 - [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables)
 - [Next.js Environment Variables](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables)

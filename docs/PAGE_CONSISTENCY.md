@@ -1,12 +1,12 @@
-# Guía de Consistencia de Páginas
+# Page Consistency Guide
 
-Esta guía documenta los estándares de diseño y estructura que deben seguirse al crear nuevas páginas en el proyecto para mantener la consistencia visual y funcional con el blog y otras páginas principales.
+This guide documents the design and structure standards that should be followed when creating new pages in the project to maintain visual and functional consistency with the blog and other main pages.
 
-## Componente PageHero
+## PageHero Component
 
-**IMPORTANTE**: Usa el componente `PageHero` para el hero section de todas las páginas. Este componente abstrae toda la lógica de animación y estructura, manteniendo la consistencia automáticamente.
+**IMPORTANT**: Use the `PageHero` component for the hero section of all pages. This component abstracts all animation and structure logic, maintaining consistency automatically.
 
-### Uso Básico
+### Basic Usage
 
 ```tsx
 import { PageHero } from "@/components/page-hero";
@@ -18,7 +18,7 @@ import { PageHero } from "@/components/page-hero";
 />
 ```
 
-### Con Icono y Colores Personalizados
+### With Icon and Custom Colors
 
 ```tsx
 import { PageHero } from "@/components/page-hero";
@@ -26,7 +26,7 @@ import { Mail } from "lucide-react";
 
 <PageHero
   badge={{
-    text: "Disponible para nuevos proyectos",
+    text: "Available for new projects",
     icon: Mail,
     gradientFrom: "from-emerald-600/20",
     gradientTo: "to-teal-600/20",
@@ -34,18 +34,18 @@ import { Mail } from "lucide-react";
     textColor: "text-emerald-400",
     shadowColor: "shadow-emerald-600/10",
   }}
-  title="Hablemos"
-  description="¿Tienes un proyecto en mente? Me encantaría conocer más sobre tu visión."
+  title="Let's Talk"
+  description="Do you have a project in mind? I'd love to learn more about your vision."
 />
 ```
 
-### Con Contenido Adicional
+### With Additional Content
 
 ```tsx
 <PageHero
   badge={{ text: "Blog" }}
-  title="Insights & experiencias"
-  description="Artículos sobre desarrollo de software..."
+  title="Insights & Experiences"
+  description="Articles about software development..."
 >
   <Suspense fallback={<Loading />}>
     <FeaturedContent />
@@ -53,9 +53,9 @@ import { Mail } from "lucide-react";
 </PageHero>
 ```
 
-## Estructura Base
+## Base Structure
 
-Todas las páginas deben seguir esta estructura base:
+All pages must follow this base structure:
 
 ```tsx
 "use client";
@@ -92,7 +92,7 @@ function PageContent() {
             description="Descripción breve de la página."
           />
 
-          {/* Secciones adicionales */}
+          {/* Additional sections */}
           <motion.section 
             className="py-12 space-y-8"
             initial="hidden"
@@ -100,7 +100,7 @@ function PageContent() {
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            {/* Contenido de la sección */}
+            {/* Section content */}
           </motion.section>
         </main>
 
@@ -119,11 +119,11 @@ export default function Page() {
 }
 ```
 
-## Componentes Requeridos
+## Required Components
 
 ### 1. PageLoadingProvider y PageLoadingOverlay
 
-Todas las páginas deben usar el sistema de carga consistente:
+All pages must use the consistent loading system:
 
 ```tsx
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
@@ -135,7 +135,7 @@ function PageContent() {
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      {/* resto del contenido */}
+      {/* rest of content */}
     </>
   );
 }
@@ -151,7 +151,7 @@ export default function Page() {
 
 ### 2. ParticleHeroBackground
 
-Todas las páginas deben incluir el fondo de partículas animado:
+All pages must include the animated particle background:
 
 ```tsx
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
@@ -164,49 +164,49 @@ import { ParticleHeroBackground } from "@/components/particle-hero-background";
 
 ### 3. Gradient Overlay
 
-El gradiente overlay debe ser consistente en todas las páginas:
+The gradient overlay must be consistent across all pages:
 
 ```tsx
 <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
 ```
 
-## Estructura del Hero Section
+## Hero Section Structure
 
-**Usa siempre el componente `PageHero`**. No crees hero sections manualmente. El componente maneja automáticamente:
-- Animaciones consistentes
-- Estructura y espaciado
+**Always use the `PageHero` component**. Do not create hero sections manually. The component automatically handles:
+- Consistent animations
+- Structure and spacing
 - Responsive design
-- Variantes de animación
+- Animation variants
 
-### Props del PageHero
+### PageHero Props
 
-- `badge`: Objeto con configuración del badge
-  - `text` (requerido): Texto del badge
-  - `icon` (opcional): Icono de Lucide React
-  - `gradientFrom` (opcional): Clase de gradiente inicial (default: `"from-emerald-600/20"`)
-  - `gradientTo` (opcional): Clase de gradiente final (default: `"to-teal-600/20"`)
-  - `borderColor` (opcional): Clase de color del borde (default: `"border-emerald-500/30"`)
-  - `textColor` (opcional): Clase de color del texto (default: `"text-emerald-400"`)
-  - `shadowColor` (opcional): Clase de color de la sombra (default: `"shadow-emerald-600/10"`)
+- `badge`: Object with badge configuration
+  - `text` (required): Badge text
+  - `icon` (optional): Lucide React icon
+  - `gradientFrom` (optional): Initial gradient class (default: `"from-emerald-600/20"`)
+  - `gradientTo` (optional): Final gradient class (default: `"to-teal-600/20"`)
+  - `borderColor` (optional): Border color class (default: `"border-emerald-500/30"`)
+  - `textColor` (optional): Text color class (default: `"text-emerald-400"`)
+  - `shadowColor` (optional): Shadow color class (default: `"shadow-emerald-600/10"`)
 
-**Nota sobre colores por defecto**: Los badges usan colores verdes (emerald/teal) por defecto para diferenciarse de los elementos del menú activo que usan azul/púrpura. Si necesitas un color diferente, puedes personalizarlo usando las props opcionales.
-- `title` (requerido): Título principal
-- `description` (requerido): Descripción de la página
-- `children` (opcional): Contenido adicional después del hero (ej: featured content)
+**Note on default colors**: Badges use green (emerald/teal) colors by default to differentiate from active menu items that use blue/purple. If you need a different color, you can customize it using the optional props.
+- `title` (required): Main title
+- `description` (required): Page description
+- `children` (optional): Additional content after the hero (e.g., featured content)
 
-## Estructura del Main
+## Main Structure
 
-El elemento `<main>` debe tener estas clases y estructura:
+The `<main>` element must have these classes and structure:
 
 ```tsx
 <main className="relative z-10 container py-12 space-y-24" id="main-content">
-  {/* Secciones con space-y-24 entre ellas */}
+  {/* Sections with space-y-24 between them */}
 </main>
 ```
 
-## Secciones Adicionales
+## Additional Sections
 
-Para secciones que aparecen después del hero, usa `whileInView`:
+For sections that appear after the hero, use `whileInView`:
 
 ```tsx
 <motion.section 
@@ -216,13 +216,13 @@ Para secciones que aparecen después del hero, usa `whileInView`:
   viewport={{ once: true, margin: "-100px" }}
   variants={containerVariants}
 >
-  {/* Contenido */}
+  {/* Content */}
 </motion.section>
 ```
 
-## Variantes de Animación
+## Animation Variants
 
-**El componente `PageHero` maneja automáticamente las animaciones**. Para secciones adicionales, usa estas variantes:
+**The `PageHero` component automatically handles animations**. For additional sections, use these variants:
 
 ```tsx
 const containerVariants: Variants = {
@@ -250,81 +250,81 @@ const itemVariants: Variants = {
 
 ## Breadcrumbs
 
-**IMPORTANTE**: No incluyas breadcrumbs visuales en la UI. Los breadcrumbs solo deben estar en el JSON-LD del layout para SEO:
+**IMPORTANT**: Do not include visual breadcrumbs in the UI. Breadcrumbs should only be in the layout's JSON-LD for SEO:
 
 ```tsx
-// ❌ NO hacer esto en page.tsx
+// ❌ DO NOT do this in page.tsx
 <Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>
 
-// ✅ Hacer esto en layout.tsx
+// ✅ Do this in layout.tsx
 <BreadcrumbJsonLd
   items={[
-    { name: "Inicio", url: "https://carrillo.app" },
-    { name: "Página", url: "https://carrillo.app/pagina" },
+    { name: "Home", url: "https://carrillo.app" },
+    { name: "Page", url: "https://carrillo.app/page" },
   ]}
 />
 ```
 
-## Colores y Gradientes
+## Colors and Gradients
 
-### Badge del Hero (Por Defecto)
-Los badges usan colores verdes por defecto para diferenciarse de los elementos del menú activo:
-- Gradiente: `bg-gradient-to-r from-emerald-600/20 to-teal-600/20`
-- Borde: `border-emerald-500/30`
-- Texto: `text-emerald-400`
-- Sombra: `shadow-lg shadow-emerald-600/10`
+### Hero Badge (Default)
+Badges use green colors by default to differentiate from active menu items:
+- Gradient: `bg-gradient-to-r from-emerald-600/20 to-teal-600/20`
+- Border: `border-emerald-500/30`
+- Text: `text-emerald-400`
+- Shadow: `shadow-lg shadow-emerald-600/10`
 
-**Razón del color verde**: Los elementos del menú activo usan azul/púrpura, por lo que los badges verdes proporcionan mejor contraste visual y evitan confusión con la navegación.
+**Reason for green color**: Active menu items use blue/purple, so green badges provide better visual contrast and avoid confusion with navigation.
 
-### Título Principal
-- Clase: `bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent`
+### Main Title
+- Class: `bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent`
 
-### Títulos de Sección
-- Clase: `bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent`
+### Section Titles
+- Class: `bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent`
 
-## Espaciado
+## Spacing
 
-- Entre secciones principales: `space-y-24`
-- Padding del main: `py-12`
-- Padding del hero: `py-12 md:py-24`
-- Padding de secciones: `py-12`
+- Between main sections: `space-y-24`
+- Main padding: `py-12`
+- Hero padding: `py-12 md:py-24`
+- Section padding: `py-12`
 
-## Ejemplos de Referencia
+## Reference Examples
 
-Páginas que siguen correctamente estos estándares:
-- `app/blog/page.tsx` - Página de blog
-- `app/recursos/page.tsx` - Página de recursos
-- `app/contacto/page.tsx` - Página de contacto
+Pages that correctly follow these standards:
+- `app/blog/page.tsx` - Blog page
+- `app/recursos/page.tsx` - Resources page
+- `app/contacto/page.tsx` - Contact page
 
-## Checklist para Nuevas Páginas
+## Checklist for New Pages
 
-Al crear una nueva página, verifica:
+When creating a new page, verify:
 
-- [ ] Usa `PageLoadingProvider` y `PageLoadingOverlay`
-- [ ] Incluye `ParticleHeroBackground`
-- [ ] Tiene el gradiente overlay correcto
-- [ ] **Usa el componente `PageHero` para el hero section**
-- [ ] Main tiene `space-y-24` entre secciones
-- [ ] Secciones adicionales usan `whileInView`
-- [ ] No tiene breadcrumbs visuales (solo JSON-LD en layout)
-- [ ] Badge, títulos y colores son consistentes (manejados por `PageHero`)
-- [ ] Espaciado es consistente con otras páginas
+- [ ] Uses `PageLoadingProvider` and `PageLoadingOverlay`
+- [ ] Includes `ParticleHeroBackground`
+- [ ] Has the correct gradient overlay
+- [ ] **Uses the `PageHero` component for the hero section**
+- [ ] Main has `space-y-24` between sections
+- [ ] Additional sections use `whileInView`
+- [ ] No visual breadcrumbs (only JSON-LD in layout)
+- [ ] Badge, titles and colors are consistent (handled by `PageHero`)
+- [ ] Spacing is consistent with other pages
 
-## Notas Importantes
+## Important Notes
 
-1. **No uses breadcrumbs visuales**: El proyecto no usa breadcrumbs en la UI, solo en JSON-LD para SEO.
+1. **Do not use visual breadcrumbs**: The project does not use breadcrumbs in the UI, only in JSON-LD for SEO.
 
-2. **Consistencia de animaciones**: Todas las páginas deben usar las mismas variantes de animación para una experiencia uniforme.
+2. **Animation consistency**: All pages should use the same animation variants for a uniform experience.
 
-3. **Fondo de partículas**: Siempre incluye `ParticleHeroBackground` para mantener la identidad visual.
+3. **Particle background**: Always include `ParticleHeroBackground` to maintain visual identity.
 
-4. **Sistema de carga**: Usa siempre `PageLoadingProvider` para transiciones suaves entre páginas.
+4. **Loading system**: Always use `PageLoadingProvider` for smooth transitions between pages.
 
-5. **Espaciado**: Mantén `space-y-24` en el main para consistencia visual entre secciones.
+5. **Spacing**: Maintain `space-y-24` in main for visual consistency between sections.
 

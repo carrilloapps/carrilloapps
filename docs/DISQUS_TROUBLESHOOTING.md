@@ -1,24 +1,24 @@
-# Solución de Problemas: Disqus en Vercel
+# Troubleshooting: Disqus on Vercel
 
-## Problema Identificado
+## Problem Identified
 
-Disqus funciona en desarrollo local pero no en Vercel. Este es un problema común con varias causas posibles.
+Disqus works in local development but not on Vercel. This is a common problem with several possible causes.
 
-## Causas Más Comunes
+## Most Common Causes
 
-### 1. Variables de Entorno No Configuradas en Vercel
+### 1. Environment Variables Not Configured in Vercel
 
-**Síntoma**: Los comentarios no aparecen en producción
-**Solución**:
-1. Ve a tu proyecto en Vercel Dashboard
+**Symptom**: Comments do not appear in production
+**Solution**:
+1. Go to your project in Vercel Dashboard
 2. Settings → Environment Variables
-3. Agrega las siguientes variables:
+3. Add the following variables:
 
 ```env
-# Para todos los entornos (Development, Preview, Production)
+# For all environments (Development, Preview, Production)
 NEXT_PUBLIC_DISQUS_SHORTNAME=carrilloapps
 
-# Diferentes valores según el entorno:
+# Different values according to environment:
 # Development
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
@@ -29,35 +29,35 @@ NEXT_PUBLIC_SITE_URL=https://carrilloapps-git-[branch].vercel.app
 NEXT_PUBLIC_SITE_URL=https://carrillo.app
 ```
 
-### 2. Dominio No Configurado en Disqus
+### 2. Domain Not Configured in Disqus
 
-**Síntoma**: Error "We were unable to load Disqus"
-**Solución**:
-1. Ve a [Disqus Admin](https://disqus.com/admin/)
-2. Selecciona tu sitio
+**Symptom**: Error "We were unable to load Disqus"
+**Solution**:
+1. Go to [Disqus Admin](https://disqus.com/admin/)
+2. Select your site
 3. Settings → General
-4. En "Website URL": `https://carrillo.app`
-5. En "Trusted Domains", agrega:
+4. In "Website URL": `https://carrillo.app`
+5. In "Trusted Domains", add:
    - `carrillo.app`
    - `carrilloapps.vercel.app`
-   - `*.vercel.app` (para previews)
-   - `localhost` (para desarrollo)
+   - `*.vercel.app` (for previews)
+   - `localhost` (for development)
 
-### 3. URL Incorrecta Pasada a Disqus
+### 3. Incorrect URL Passed to Disqus
 
-**Síntoma**: Comentarios no se cargan o aparecen en sitio incorrecto
-**Solución**: Verificar que la URL generada sea correcta
+**Symptom**: Comments don't load or appear on wrong site
+**Solution**: Verify that the generated URL is correct
 
 ```typescript
-// En el componente DisqusComments
-const siteUrl = getSiteUrl() // Debe retornar la URL correcta
-const fullUrl = `${siteUrl}/blog/${slug}` // URL completa del artículo
+// In the DisqusComments component
+const siteUrl = getSiteUrl() // Should return the correct URL
+const fullUrl = `${siteUrl}/blog/${slug}` // Full article URL
 ```
 
-### 4. Configuración de CSP (Content Security Policy)
+### 4. CSP (Content Security Policy) Configuration
 
-**Síntoma**: Scripts de Disqus bloqueados
-**Solución**: Agregar a `next.config.mjs`:
+**Symptom**: Disqus scripts blocked
+**Solution**: Add to `next.config.mjs`:
 
 ```javascript
 const nextConfig = {
@@ -77,61 +77,61 @@ const nextConfig = {
 }
 ```
 
-### 5. Problemas con Edge Runtime
+### 5. Problems with Edge Runtime
 
-**Síntoma**: Variables de entorno no disponibles en Edge
-**Solución**: Asegurar que las variables públicas estén correctamente prefijadas:
+**Symptom**: Environment variables not available in Edge
+**Solution**: Ensure public variables are correctly prefixed:
 
 ```typescript
-// ✅ Correcto - disponible en Edge Runtime
+// ✅ Correct - available in Edge Runtime
 process.env.NEXT_PUBLIC_DISQUS_SHORTNAME
 
-// ❌ Incorrecto - no disponible en Edge Runtime
+// ❌ Incorrect - not available in Edge Runtime
 process.env.DISQUS_SHORTNAME
 ```
 
-## Pasos de Diagnóstico
+## Diagnostic Steps
 
-### 1. Verificar Variables de Entorno
+### 1. Verify Environment Variables
 
 ```bash
-# En local
+# Locally
 vercel env pull .env.local
 
-# Verificar que las variables estén disponibles
+# Verify variables are available
 vercel env ls
 ```
 
-### 2. Verificar Configuración de Disqus
+### 2. Verify Disqus Configuration
 
-1. Ve a tu panel de Disqus
-2. Verifica que el shortname sea correcto
-3. Confirma que los dominios estén configurados
-4. Revisa que no haya restricciones de país/región
+1. Go to your Disqus panel
+2. Verify the shortname is correct
+3. Confirm domains are configured
+4. Check for country/region restrictions
 
-### 3. Verificar en Consola del Navegador
+### 3. Check Browser Console
 
-Abre las herramientas de desarrollador y busca:
-- Errores de CORS
-- Scripts bloqueados
-- Errores de configuración de Disqus
+Open developer tools and look for:
+- CORS errors
+- Blocked scripts
+- Disqus configuration errors
 
-### 4. Probar en Diferentes Entornos
+### 4. Test in Different Environments
 
 - ✅ Local: `http://localhost:3000`
 - ✅ Preview: `https://carrilloapps-git-[branch].vercel.app`
 - ❌ Production: `https://carrillo.app`
 
-## Configuración Recomendada para Vercel
+## Recommended Configuration for Vercel
 
-### Variables de Entorno por Entorno
+### Environment Variables by Environment
 
 | Variable | Development | Preview | Production |
 |----------|-------------|---------|------------|
 | `NEXT_PUBLIC_DISQUS_SHORTNAME` | `carrilloapps` | `carrilloapps` | `carrilloapps` |
 | `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | `https://carrilloapps-git-main.vercel.app` | `https://carrillo.app` |
 
-### Configuración en Disqus
+### Configuration in Disqus
 
 **Website URL**: `https://carrillo.app`
 
@@ -143,38 +143,38 @@ carrilloapps.vercel.app
 localhost
 ```
 
-## Comandos Útiles
+## Useful Commands
 
 ```bash
-# Sincronizar variables de Vercel
+# Sync Vercel variables
 vercel env pull .env.local
 
-# Ejecutar en modo Vercel localmente
+# Run in Vercel mode locally
 vercel dev
 
-# Ver logs de deployment
+# View deployment logs
 vercel logs [deployment-url]
 
-# Verificar variables en runtime
+# Verify variables at runtime
 vercel env ls --environment=production
 ```
 
-## Verificación Final
+## Final Verification
 
-1. **Variables configuradas en Vercel** ✅
-2. **Dominios configurados en Disqus** ✅
-3. **URLs correctas generadas** ✅
-4. **Sin errores en consola** ✅
-5. **Funciona en preview** ✅
-6. **Funciona en producción** ✅
+1. **Variables configured in Vercel** ✅
+2. **Domains configured in Disqus** ✅
+3. **Correct URLs generated** ✅
+4. **No errors in console** ✅
+5. **Works in preview** ✅
+6. **Works in production** ✅
 
-## Contacto para Soporte
+## Support Contact
 
-Si el problema persiste después de seguir estos pasos:
-1. Revisa los logs de Vercel
-2. Verifica la configuración en Disqus Admin
-3. Contacta al soporte de Disqus si es necesario
+If the problem persists after following these steps:
+1. Check Vercel logs
+2. Verify configuration in Disqus Admin
+3. Contact Disqus support if necessary
 
 ---
 
-**Nota**: Este documento se actualizará según se identifiquen nuevos problemas o soluciones.
+**Note**: This document will be updated as new problems or solutions are identified.
