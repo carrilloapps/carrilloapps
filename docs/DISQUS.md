@@ -1,130 +1,130 @@
-# Configuración de Disqus
+# Disqus Configuration
 
-Este documento explica cómo configurar Disqus para habilitar comentarios en el blog.
+This document explains how to configure Disqus to enable comments on the blog.
 
-## Variables de Entorno Requeridas
+## Required Environment Variables
 
-### Variables Públicas (Requeridas)
-
-```env
-# Shortname de tu sitio en Disqus
-NEXT_PUBLIC_DISQUS_SHORTNAME=tu-shortname-aqui
-
-# URL base de tu sitio
-NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
-```
-
-### Variables Opcionales (Para funcionalidades avanzadas)
+### Public Variables (Required)
 
 ```env
-# API Key de Disqus (para obtener estadísticas de comentarios)
-DISQUS_API_KEY=tu-api-key-aqui
+# Your site's shortname in Disqus
+NEXT_PUBLIC_DISQUS_SHORTNAME=your-shortname-here
 
-# API Secret de Disqus
-DISQUS_API_SECRET=tu-api-secret-aqui
-
-# Access Token de Disqus
-DISQUS_ACCESS_TOKEN=tu-access-token-aqui
+# Base URL of your site
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-## Configuración Paso a Paso
+### Optional Variables (For advanced features)
 
-### 1. Crear una cuenta en Disqus
+```env
+# Disqus API Key (to get comment statistics)
+DISQUS_API_KEY=your-api-key-here
 
-1. Ve a [https://disqus.com/](https://disqus.com/)
-2. Crea una cuenta o inicia sesión
-3. Haz clic en "Get Started"
-4. Selecciona "I want to install Disqus on my site"
+# Disqus API Secret
+DISQUS_API_SECRET=your-api-secret-here
 
-### 2. Configurar tu sitio
+# Disqus Access Token
+DISQUS_ACCESS_TOKEN=your-access-token-here
+```
 
-1. Ingresa el nombre de tu sitio web
-2. Elige una categoría
-3. Selecciona un plan (puedes empezar con el plan gratuito)
-4. **Importante**: Anota el "shortname" que se genera automáticamente
+## Step-by-Step Configuration
 
-### 3. Configurar las variables de entorno
+### 1. Create a Disqus account
 
-1. Copia el archivo `.env.example` a `.env.local`:
+1. Go to [https://disqus.com/](https://disqus.com/)
+2. Create an account or sign in
+3. Click "Get Started"
+4. Select "I want to install Disqus on my site"
+
+### 2. Configure your site
+
+1. Enter your website name
+2. Choose a category
+3. Select a plan (you can start with the free plan)
+4. **Important**: Write down the "shortname" that is automatically generated
+
+### 3. Configure environment variables
+
+1. Copy the `.env.example` file to `.env.local`:
    ```bash
    cp .env.example .env.local
    ```
 
-2. Edita `.env.local` y actualiza las variables:
+2. Edit `.env.local` and update the variables:
    ```env
-   NEXT_PUBLIC_DISQUS_SHORTNAME=tu-shortname-de-disqus
-   NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
+   NEXT_PUBLIC_DISQUS_SHORTNAME=your-disqus-shortname
+   NEXT_PUBLIC_SITE_URL=https://your-domain.com
    ```
 
-### 4. Configuración avanzada (Opcional)
+### 4. Advanced configuration (Optional)
 
-Para obtener estadísticas de comentarios y funcionalidades avanzadas:
+To get comment statistics and advanced features:
 
-1. Ve a [https://disqus.com/api/applications/](https://disqus.com/api/applications/)
-2. Crea una nueva aplicación
-3. Obtén tu API Key, API Secret y Access Token
-4. Agrega estas variables a tu `.env.local`
+1. Go to [https://disqus.com/api/applications/](https://disqus.com/api/applications/)
+2. Create a new application
+3. Get your API Key, API Secret and Access Token
+4. Add these variables to your `.env.local`
 
-### 5. Configuración de dominio en Disqus
+### 5. Domain configuration in Disqus
 
-1. Ve a tu panel de administración de Disqus
-2. Navega a Settings > General
-3. En "Website URL", ingresa tu dominio: `https://tu-dominio.com`
-4. En "Trusted Domains", agrega:
-   - `tu-dominio.com`
-   - `localhost` (para desarrollo)
+1. Go to your Disqus admin panel
+2. Navigate to Settings > General
+3. In "Website URL", enter your domain: `https://your-domain.com`
+4. In "Trusted Domains", add:
+   - `your-domain.com`
+   - `localhost` (for development)
 
-## Características del Componente
+## Component Features
 
-El componente `DisqusComments` incluye:
+The `DisqusComments` component includes:
 
-- ✅ **Carga automática**: Se carga automáticamente cuando es necesario
-- ✅ **Estados de carga**: Muestra un skeleton mientras carga
-- ✅ **Manejo de errores**: Muestra mensajes de error si algo falla
-- ✅ **Contador de comentarios**: Muestra el número de comentarios
-- ✅ **Configuración por variables de entorno**: Fácil configuración
-- ✅ **Responsive**: Se adapta a diferentes tamaños de pantalla
-- ✅ **Animaciones**: Incluye animaciones suaves con Framer Motion
-- ✅ **Tema oscuro**: Diseñado para el tema oscuro del sitio
+- ✅ **Automatic loading**: Loads automatically when needed
+- ✅ **Loading states**: Shows a skeleton while loading
+- ✅ **Error handling**: Shows error messages if something fails
+- ✅ **Comment counter**: Shows the number of comments
+- ✅ **Environment variable configuration**: Easy configuration
+- ✅ **Responsive**: Adapts to different screen sizes
+- ✅ **Animations**: Includes smooth animations with Framer Motion
+- ✅ **Dark theme**: Designed for the site's dark theme
 
-## Solución de Problemas
+## Troubleshooting
 
-### Los comentarios no aparecen
+### Comments don't appear
 
-1. Verifica que `NEXT_PUBLIC_DISQUS_SHORTNAME` esté configurado correctamente
-2. Asegúrate de que el dominio esté configurado en Disqus
-3. Revisa la consola del navegador para errores
+1. Verify that `NEXT_PUBLIC_DISQUS_SHORTNAME` is configured correctly
+2. Make sure the domain is configured in Disqus
+3. Check the browser console for errors
 
-### Error de dominio no confiable
+### Untrusted domain error
 
-1. Ve a tu panel de Disqus
-2. Agrega tu dominio a "Trusted Domains"
-3. Incluye tanto `tu-dominio.com` como `localhost`
+1. Go to your Disqus panel
+2. Add your domain to "Trusted Domains"
+3. Include both `your-domain.com` and `localhost`
 
-### Los comentarios no se sincronizan entre páginas
+### Comments don't sync between pages
 
-Esto es normal. Cada página tiene su propio hilo de comentarios basado en el `identifier` único.
+This is normal. Each page has its own comment thread based on the unique `identifier`.
 
-## Desarrollo Local
+## Local Development
 
-Para desarrollo local, asegúrate de:
+For local development, make sure to:
 
-1. Tener `localhost` en los dominios confiables de Disqus
-2. Usar `NEXT_PUBLIC_SITE_URL=http://localhost:3000` en desarrollo
-3. Reiniciar el servidor de desarrollo después de cambiar variables de entorno
+1. Have `localhost` in Disqus trusted domains
+2. Use `NEXT_PUBLIC_SITE_URL=http://localhost:3000` in development
+3. Restart the development server after changing environment variables
 
-## Producción
+## Production
 
-Para producción:
+For production:
 
-1. Actualiza `NEXT_PUBLIC_SITE_URL` con tu dominio real
-2. Configura las variables de entorno en tu plataforma de hosting
-3. Verifica que el dominio esté configurado correctamente en Disqus
+1. Update `NEXT_PUBLIC_SITE_URL` with your real domain
+2. Configure environment variables in your hosting platform
+3. Verify that the domain is correctly configured in Disqus
 
-## Soporte
+## Support
 
-Si tienes problemas con la configuración:
+If you have problems with the configuration:
 
-1. Revisa la [documentación oficial de Disqus](https://help.disqus.com/)
-2. Verifica la configuración en el panel de administración de Disqus
-3. Revisa los logs del navegador para errores específicos
+1. Check the [official Disqus documentation](https://help.disqus.com/)
+2. Verify the configuration in the Disqus admin panel
+3. Check browser logs for specific errors

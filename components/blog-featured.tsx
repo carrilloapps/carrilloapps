@@ -160,9 +160,11 @@ export default function BlogFeatured() {
                   height={500}
                   className="rounded-lg object-cover w-full h-[30rem] transition-all duration-700 group-hover:scale-105"
                   placeholder="blur"
-                  blurDataURL={featuredPost.thumbnail || "/placeholder.svg"}
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzI3MjcyNyIvPjwvc3ZnPg=="
                   src={featuredPost.thumbnail || "/placeholder.svg"}
                   alt={featuredPost.title || "Thumbnail"}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Image overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

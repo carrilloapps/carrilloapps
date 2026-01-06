@@ -194,7 +194,7 @@ export default function SchedulePage() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20" />
               <Image
-                src="/placeholder.svg?height=600&width=600"
+                src="/placeholder.svg"
                 alt="José Carrillo - Consultor Tecnológico"
                 width={600}
                 height={600}

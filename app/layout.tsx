@@ -4,14 +4,21 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
-import { CookieConsent } from "@/components/cookie-consent"
 import { WebsiteJsonLd, OrganizationJsonLd, PersonJsonLd } from "@/components/json-ld"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { SkipLink } from "@/components/skip-link"
 import { PageLoadingProvider } from "@/components/page-loading-context"
 import { GlobalPageLoader } from "@/components/global-page-loader"
+import { DynamicCookieConsent } from "@/components/dynamic-imports"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://carrillo.app"),
@@ -82,7 +89,7 @@ export default function RootLayout({
             <GlobalPageLoader />
             <ScrollToTop />
             {children}
-            <CookieConsent />
+            <DynamicCookieConsent />
           </PageLoadingProvider>
         </ThemeProvider>
         <WebsiteJsonLd />
