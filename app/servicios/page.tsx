@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import { motion, type Variants } from "framer-motion"
 import { ArrowRight, Code, Database, LineChart, Users, Layers, Shield, Server, Cpu, CheckCircle } from "lucide-react"
 

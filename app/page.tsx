@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
 import { motion } from "framer-motion"
-import Image from "next/legacy/image"
+import Image from "next/image"
 
 import { projects } from "@/data/projects"
 
@@ -258,6 +258,7 @@ export default function Home() {
                       height={300}
                       className="object-cover w-full h-full contrast-110 brightness-90"
                       priority
+                      fetchPriority="high"
                     />
                     {/* Subtle gradient overlays */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
@@ -937,8 +938,10 @@ export default function Home() {
                             <Image
                               src={project.image}
                               alt={project.imageAlt || `Captura de pantalla del proyecto ${project.title}`}
-                              layout="fill"
-                              objectFit="cover"
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              className="object-cover"
+                              loading="lazy"
                             />
                           ) : (
                             <div className="text-4xl" aria-hidden="true">{project.imageEmoji}</div>

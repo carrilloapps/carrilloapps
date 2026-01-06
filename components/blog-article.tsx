@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import Link from "next/link"
 import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, ArrowLeft, Home, BookOpen, Filter, Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"

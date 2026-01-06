@@ -3,7 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { LucideIcon } from "lucide-react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { ReactNode } from "react";
 
 const containerVariants: Variants = {
@@ -161,10 +161,11 @@ export function PageHeroSplit({
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  width={image.width || 600}
-                  height={image.height || 600}
-                  className="absolute inset-0 object-cover w-full h-full rounded-2xl border border-zinc-800/50"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover rounded-2xl border border-zinc-800/50"
                   priority={image.priority !== false}
+                  {...(image.priority !== false && { fetchPriority: "high" as const })}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

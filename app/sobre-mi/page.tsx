@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { ArrowRight, Award, BookOpen, Calendar, User, Download, Mail, Eye } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
@@ -573,8 +573,10 @@ export default function AboutPage() {
                           <Image
                             src="https://www.metropolitan-touring.com/wp-content/uploads/2024/11/el-poblado-discrict.webp"
                             alt="Caminatas por la ciudad de Medellín"
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover"
+                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -599,8 +601,10 @@ export default function AboutPage() {
                           <Image
                             src="https://almipro.com/wp-content/uploads/2019/01/parquedelcafe.jpg"
                             alt="Me encanta el tiempo en familia"
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover"
+                            loading="lazy"
                           />
                         </div>
                       </div>
