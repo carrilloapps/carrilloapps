@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import { Calendar } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -16,6 +16,9 @@ export function SiteHeader() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const firstMenuItemRef = useRef<HTMLAnchorElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   const navItems = [
     { href: "/", label: "Inicio" },
@@ -75,12 +78,83 @@ export function SiteHeader() {
       document.body.style.overflow = "hidden"
       // Always show header when menu is open
       setVisible(true)
+      // Set aria-hidden on main content for screen readers
+      const mainContent = document.getElementById("main-content")
+      if (mainContent) {
+        mainContent.setAttribute("aria-hidden", "true")
+      }
     } else {
       document.body.style.overflow = ""
+      // Remove aria-hidden from main content
+      const mainContent = document.getElementById("main-content")
+      if (mainContent) {
+        mainContent.removeAttribute("aria-hidden")
+      }
     }
 
     return () => {
       document.body.style.overflow = ""
+      const mainContent = document.getElementById("main-content")
+      if (mainContent) {
+        mainContent.removeAttribute("aria-hidden")
+      }
+    }
+  }, [mobileMenuOpen])
+
+  // Handle Escape key to close mobile menu
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    if (mobileMenuOpen) {
+      document.addEventListener("keydown", handleEscape)
+      // Focus first menu item when menu opens
+      setTimeout(() => {
+        firstMenuItemRef.current?.focus()
+      }, 100)
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape)
+    }
+  }, [mobileMenuOpen])
+
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return
+
+      const menuItems = mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button'
+      )
+      if (!menuItems || menuItems.length === 0) return
+
+      const firstItem = menuItems[0]
+      const lastItem = menuItems[menuItems.length - 1]
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstItem) {
+          e.preventDefault()
+          lastItem.focus()
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastItem) {
+          e.preventDefault()
+          firstItem.focus()
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleTabKey)
+    return () => {
+      document.removeEventListener("keydown", handleTabKey)
     }
   }, [mobileMenuOpen])
 
@@ -144,18 +218,23 @@ export function SiteHeader() {
     },
   }
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen((prev) => !prev)
+  }, [])
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false)
+  }, [])
 
   if (!mounted)
     return (
       <header
         className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/75 backdrop-blur-md h-16"
         role="banner"
+        aria-label="Cargando encabezado"
       >
         <div className="container flex h-16 items-center justify-between">
-          <div className="opacity-0">Loading...</div>
+          <div className="opacity-0" aria-hidden="true">Loading...</div>
         </div>
       </header>
     )
@@ -166,7 +245,7 @@ export function SiteHeader() {
         initial="visible"
         animate={visible || mobileMenuOpen ? "visible" : "hidden"}
         variants={headerVariants}
-        className={`sticky top-0 z-40 w-full transition-all duration-500 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-500 ${
           scrolled 
             ? "bg-black/20 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-blue-500/5" 
             : "bg-black/10 backdrop-blur-lg border-b border-white/5"
@@ -191,7 +270,7 @@ export function SiteHeader() {
                 <motion.div key={item.href} custom={i} initial="initial" animate="animate" variants={navItemVariants}>
                   <Link
                     href={item.href}
-                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl group ${
+                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl group focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
                       isActive 
                         ? "text-white font-semibold bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg shadow-blue-500/10" 
                         : "text-zinc-400 hover:text-white hover:bg-white/5 hover:backdrop-blur-sm hover:border hover:border-white/10"
@@ -282,6 +361,8 @@ export function SiteHeader() {
                   size="icon"
                   onClick={toggleMobileMenu}
                   aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="mobile-menu"
                   className="text-white hover:bg-zinc-800/50 transition-colors rounded-full relative"
                 >
                   <motion.div animate={{ rotate: mobileMenuOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
@@ -298,6 +379,7 @@ export function SiteHeader() {
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          aria-hidden="true"
                         >
                           <path d="M18 6 6 18"></path>
                           <path d="m6 6 12 12"></path>
@@ -316,6 +398,7 @@ export function SiteHeader() {
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
+                          aria-hidden="true"
                         >
                           <line x1="4" x2="20" y1="12" y2="12"></line>
                           <line x1="4" x2="20" y1="6" y2="6"></line>
@@ -340,9 +423,14 @@ export function SiteHeader() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 lg:hidden"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={closeMobileMenu}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación móvil"
           >
             <motion.div
+              ref={mobileMenuRef}
+              id="mobile-menu"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -354,9 +442,10 @@ export function SiteHeader() {
                 <div className="flex items-center justify-between p-4 border-b border-zinc-800/50">
                   <Logo animationLevel="playful" />
                   <Button
+                    ref={closeButtonRef}
                     variant="ghost"
                     size="icon"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     aria-label="Cerrar menú"
                     className="text-white hover:bg-zinc-800/50 rounded-full"
                   >
@@ -370,6 +459,7 @@ export function SiteHeader() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      aria-hidden="true"
                     >
                       <path d="M18 6 6 18"></path>
                       <path d="m6 6 12 12"></path>
@@ -379,9 +469,10 @@ export function SiteHeader() {
 
                 {/* Navigation */}
                 <div className="flex-1 overflow-y-auto py-8 px-4">
-                  <nav className="space-y-2">
+                  <nav className="space-y-2" aria-label="Navegación móvil">
                     {navItems.map((item, index) => {
                       const isActive = pathname === item.href
+                      const isFirstItem = index === 0
                       return (
                         <motion.div
                           key={item.href}
@@ -390,13 +481,15 @@ export function SiteHeader() {
                           transition={{ delay: index * 0.1, duration: 0.3 }}
                         >
                           <Link
+                            ref={isFirstItem ? firstMenuItemRef : undefined}
                             href={item.href}
-                            className={`flex items-center justify-between py-4 px-6 rounded-xl transition-all duration-300 group relative ${
+                            className={`flex items-center justify-between py-4 px-6 rounded-xl transition-all duration-300 group relative focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
                               isActive
                                 ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-white/20 backdrop-blur-sm shadow-lg shadow-blue-500/10"
                                 : "text-zinc-300 hover:bg-white/5 hover:text-white hover:backdrop-blur-sm hover:border hover:border-white/10"
                             }`}
-                            onClick={() => setMobileMenuOpen(false)}
+                            onClick={closeMobileMenu}
+                            aria-current={isActive ? "page" : undefined}
                           >
                             <span className="font-medium text-lg relative z-10">{item.label}</span>
                             {isActive ? (
@@ -435,7 +528,7 @@ export function SiteHeader() {
                       className="w-full relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 py-4 text-base font-medium shadow-2xl shadow-blue-500/30 border border-white/20 backdrop-blur-sm group"
                       asChild
                     >
-                      <Link href="/agendamiento" onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/agendamiento" onClick={closeMobileMenu}>
                         <motion.div
                           initial={{ rotate: 0 }}
                           whileHover={{ rotate: 15 }}
