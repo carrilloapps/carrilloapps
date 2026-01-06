@@ -159,12 +159,175 @@ npm run lint         # ESLint check
 npm run build && npm run start  # Test production build locally
 ```
 
+## Next.js App Router Structure
+
+### Route Organization
+- **App directory**: All routes in `app/` folder using file-based routing
+- **Page files**: `page.tsx` creates routes (e.g., `app/blog/page.tsx` → `/blog`)
+- **Layout files**: `layout.tsx` wraps child routes with shared UI
+- **Loading states**: `loading.tsx` provides automatic loading UI during navigation
+- **Not found**: `not-found.tsx` handles 404 errors at route level
+
+### Dynamic Routes
+```
+app/blog/[slug]/page.tsx    → /blog/any-slug
+app/api/[...path]/route.ts  → /api/catch-all-segments
+```
+
+### Route Groups (Organizational)
+- Use `(folder)` syntax to organize without affecting URL
+- Example: `app/(marketing)/about/page.tsx` → `/about` (not `/marketing/about`)
+
+### Metadata Pattern
+```tsx
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Page Title - José Carrillo',
+  description: 'Page description for SEO',
+  openGraph: {
+    title: 'OG Title',
+    description: 'OG Description',
+    images: [{ url: '/og-image.jpg' }],
+  },
+};
+```
+
+## API Integration Patterns
+
+### GitHub/GitLab Repository Data
+- **Endpoints**: `app/api/github-repositories/route.ts`, `app/api/gitlab-repositories/route.ts`
+- **Caching**: Uses Next.js `revalidate` for automatic cache invalidation
+- **Error handling**: Always return structured JSON responses with status codes
+
+### RSS Feed Integration (Medium Blog)
+- **Service**: `lib/rss-service.ts` - fetches and parses RSS feeds
+- **Client**: `lib/rss-client.ts` - wrapper for fetch with error handling
+- **Usage**: Import from service, not direct fetch
+```tsx
+import { getBlogPosts } from '@/lib/rss-service';
+const posts = await getBlogPosts();
+```
+
+### Rate Limiting Pattern
+```tsx
+const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
+  const [attempts, setAttempts] = useState<number[]>([]);
+  
+  const isLimited = useCallback(() => {
+    const now = Date.now();
+    const recentAttempts = attempts.filter(time => now - time < windowMs);
+    return recentAttempts.length >= limit;
+  }, [attempts, limit, windowMs]);
+  
+  return { isLimited: isLimited(), recordAttempt };
+};
+```
+
+### Security Patterns
+- **Email obfuscation**: Use `obfuscateEmail()` / `deobfuscateEmail()` for client-side protection
+- **Honeypot fields**: Add hidden fields to forms to catch bots
+- **Time-based validation**: Track form submission time to prevent instant bot submissions
+
+## Testing & Quality Standards
+
+### Pre-Deployment Checklist
+1. **Build succeeds**: `npm run build` completes without errors
+2. **Lint passes**: `npm run lint` has no errors (warnings acceptable)
+3. **Accessibility audit**: Lighthouse score ≥95 for accessibility
+4. **Performance**: Lighthouse performance score ≥90
+5. **SEO**: All pages have proper metadata and structured data
+
+### Lighthouse Testing (Required Before Merge)
+```bash
+# Run production build
+npm run build
+npm run start
+
+# Open http://localhost:3000
+# Run Lighthouse in Chrome DevTools (Ctrl+Shift+I → Lighthouse tab)
+# Test both mobile and desktop
+```
+
+### Accessibility Testing Tools
+- **Browser**: Chrome DevTools Accessibility panel
+- **Extensions**: axe DevTools, WAVE
+- **Screen reader**: NVDA (Windows) or VoiceOver (Mac)
+- **Keyboard navigation**: Tab through entire page - all interactive elements must be reachable
+
+### Manual Testing Scenarios
+1. **Mobile devices**: Test on real devices when possible (iPhone, Android)
+2. **Touch interactions**: All buttons/links respond to touch without delay
+3. **Form validation**: Test all error states and edge cases
+4. **Loading states**: Verify PageLoadingOverlay appears during navigation
+5. **Error boundaries**: Test error pages and recovery flows
+
+## Deployment Process (Vercel)
+
+### Automatic Deployments
+- **Production**: Push to `main` branch → auto-deploys to production
+- **Preview**: Any PR or branch → creates preview deployment
+- **Domain**: carrillo.app (configured in Vercel dashboard)
+
+### Environment Variables (Vercel Dashboard)
+1. Navigate to Project Settings → Environment Variables
+2. Add variables for Production, Preview, and Development separately
+3. Required variables listed in `.env.example`
+4. Never commit `.env.local` or `.env` to repository
+
+### Build Configuration
+```json
+// vercel.json
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"]  // US East (fastest for target audience)
+}
+```
+
+### Performance Optimization (Vercel)
+- **Edge caching**: Automatic for static assets
+- **Image optimization**: Next.js Image component uses Vercel's image CDN
+- **Analytics**: Enable Vercel Analytics in dashboard for real-time metrics
+- **Speed Insights**: Enable for Core Web Vitals monitoring
+
+### Rollback Process
+1. Go to Vercel dashboard → Deployments
+2. Find working deployment
+3. Click "..." → Promote to Production
+4. Instant rollback (no build required)
+
+### Post-Deployment Verification
+1. Check production URL loads correctly
+2. Test critical user flows (contact form, navigation, blog)
+3. Verify analytics tracking is working
+4. Check Vercel deployment logs for any warnings
+
 ## Documentation References
 
 - **Component patterns**: `AGENTS.md` (724 lines of detailed component usage)
 - **Page consistency**: `docs/PAGE_CONSISTENCY.md`
 - **Project overview**: `docs/PROJECT.md`
 - **Development setup**: `docs/DEVELOPMENT.md`
+
+## Quick Troubleshooting
+
+### Build Failures
+- **TypeScript errors**: Run `npm run build` locally first
+- **Missing dependencies**: Delete `node_modules` and `package-lock.json`, run `npm install`
+- **Cache issues**: Delete `.next` folder and rebuild
+
+### Runtime Errors
+- **Hydration errors**: Check for client-only code in server components
+- **Image optimization**: Verify images are in `public/` or use external URLs
+- **API route errors**: Check Next.js API route conventions (must export named functions)
+
+### Accessibility Issues
+- **Low contrast**: Check all text colors against background (use Chrome DevTools)
+- **Missing labels**: Every form input must have associated label with `htmlFor`
+- **Focus indicators**: All interactive elements must have visible focus state
 
 ## Questions for Clarification
 
@@ -174,3 +337,5 @@ When implementing new features, verify:
 3. Do all colors meet WCAG 2.1 AA contrast requirements?
 4. Are forms properly labeled with htmlFor/id pairs?
 5. Is DynamicBackground included in the page structure?
+6. Have you tested the page with Lighthouse before submitting?
+7. Are all API responses properly typed with TypeScript?
