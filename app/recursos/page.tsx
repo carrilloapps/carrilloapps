@@ -1,11 +1,10 @@
 "use client";
 
 import { Suspense } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Code, Filter, Search, Github, GitBranch, Star, Eye, ExternalLink, ArrowRight, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -28,142 +27,90 @@ import { SiteFooter } from "@/components/site-footer";
 import { RepositoriesList } from "@/components/repositories-list";
 import { RepositoriesLoading } from "@/components/unified-loading";
 import { FeaturedProjects } from "@/components/featured-projects";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
+import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
+import { PageHero } from "@/components/page-hero";
 import Link from "next/link";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.2,
     },
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.6,
       ease: "easeOut",
     },
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: "easeOut",
-    },
-  },
-  hover: {
-    scale: 1.02,
-    transition: {
-      duration: 0.2,
-      ease: "easeInOut",
-    },
-  },
-};
+function ResourcesPageContent() {
+  const { isLoading } = usePageLoading();
 
-export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <SiteHeader />
+    <>
+      <PageLoadingOverlay isVisible={isLoading} />
+      <div className="min-h-screen bg-black text-white relative overflow-hidden">
+        <ParticleHeroBackground />
+        
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
+        
+        <SiteHeader />
 
-      <motion.main
-        className="container py-8 space-y-16"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div variants={itemVariants}>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Recursos</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </motion.div>
-        {/* Hero Section */}
-        <motion.section
-          className="py-12 md:py-24 space-y-8"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <motion.div variants={itemVariants}>
-              <Badge
-                variant="outline"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-              >
-                Recursos
-              </Badge>
-            </motion.div>
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg pb-2"
-              variants={itemVariants}
-            >
-              Gratuitos &amp; código abierto
-            </motion.h1>
-            <motion.p
-              className="text-xl text-zinc-400 max-w-2xl mx-auto"
-              variants={itemVariants}
-            >
-              Proyectos de software, sistemas enfocados en finanzas y medios de pago, todos recursos para desarrolladores.
-            </motion.p>
-          </motion.div>
+        <main className="relative z-10 container py-12 space-y-24" id="main-content">
+          <PageHero
+            badge={{ text: "Recursos" }}
+            title="Gratuitos & código abierto"
+            description="Proyectos de software, sistemas enfocados en finanzas y medios de pago, todos recursos para desarrolladores."
+          />
 
-          <motion.div className="h-8" variants={itemVariants} />
-
-          <motion.div
-            className="flex flex-wrap justify-center gap-4 pt-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          {/* Repositories Section */}
+          <motion.section 
+            className="py-12 space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
           >
-            <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 rounded-full border border-zinc-800">
-              <Github className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-zinc-300">Open Source</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50 rounded-full border border-zinc-800">
-              <GitBranch className="h-4 w-4 text-green-400" />
-              <span className="text-sm text-zinc-300">Contribuciones</span>
-            </div>
-          </motion.div>
-        </motion.section>
-        <motion.section className="py-16 md:py-24 space-y-12" variants={itemVariants}>
           <motion.div
-            variants={itemVariants}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.6,
+                  ease: "easeOut",
+                },
+              },
+            }}
             className="w-full"
           >
             <Tabs defaultValue="github" className="w-full">
-              <motion.div
-                className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
+            <motion.div
+              className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8"
+              variants={itemVariants}
+            >
                 <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2 h-auto bg-zinc-900/80 backdrop-blur-sm border border-zinc-800 p-1">
                   <TabsTrigger
                     value="github"
@@ -216,11 +163,7 @@ export default function ResourcesPage() {
               </motion.div>
 
               <TabsContent value="github" className="mt-0">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                >
+                <motion.div variants={itemVariants}>
                   <Suspense fallback={<RepositoriesLoading />}>
                     <RepositoriesList source="github" username="carrilloapps" />
                   </Suspense>
@@ -228,11 +171,7 @@ export default function ResourcesPage() {
               </TabsContent>
 
               <TabsContent value="gitlab" className="mt-0">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                >
+                <motion.div variants={itemVariants}>
                   <Suspense fallback={<RepositoriesLoading />}>
                     <RepositoriesList source="gitlab" username="carrilloapps" />
                   </Suspense>
@@ -242,85 +181,90 @@ export default function ResourcesPage() {
           </motion.div>
         </motion.section>
 
-        <motion.section className="py-16 space-y-12" variants={itemVariants}>
-          <motion.div
-            className="space-y-6 text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+          {/* Featured Projects Section */}
+          <motion.section 
+            className="py-12 space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-              Proyectos destacados
-            </h2>
-            <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Mis proyectos personales y contribuciones de código abierto más
-              significativas, desarrollados con las mejores y más estables tecnologías.
-            </p>
-          </motion.div>
+            <motion.div 
+              className="space-y-6 text-center"
+              variants={itemVariants}
+            >
+              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
+                Proyectos destacados
+              </h2>
+              <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+                Mis proyectos personales y contribuciones de código abierto más
+                significativas, desarrollados con las mejores y más estables tecnologías.
+              </p>
+            </motion.div>
 
-          <FeaturedProjects />
-        </motion.section>
+            <motion.div variants={itemVariants}>
+              <FeaturedProjects />
+            </motion.div>
+          </motion.section>
 
-        <motion.section className="py-16" variants={itemVariants}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+          {/* CTA Section */}
+          <motion.section 
+            className="py-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
           >
-            <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 backdrop-blur-sm border-zinc-700 hover:border-zinc-600 transition-all duration-300">
-              <CardContent className="p-8 md:p-12 space-y-8">
-                <div className="space-y-6 text-center">
-                  <motion.h2
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  >
-                    ¿Quieres colaborar?
-                  </motion.h2>
-                  <motion.p
-                    className="text-lg md:text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    Siempre estoy abierto a colaborar en proyectos interesantes,
-                    especialmente en desarrollo web, aplicaciones móviles y sistemas
-                    financieros. Si tienes una idea o proyecto que te gustaría
-                    discutir, no dudes en contactarme.
-                  </motion.p>
-                </div>
-                <motion.div
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
-                    <Link href="/contacto" aria-describedby="explore-projects-desc">
-                      Contactarme
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                      <span id="explore-projects-desc" className="sr-only">Contactame y conversemos</span>
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
-                    aria-describedby="download-cv-desc"
-                  >
-                    <Link href="/agendamiento" aria-describedby="explore-projects-desc">
-                      Agendar reunión
-                      <span id="download-cv-desc" className="sr-only">Agendame una reunión y discutamos tu proyecto</span>
-                    </Link>
-                  </Button>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.section>
-      </motion.main>
+            <motion.div variants={itemVariants}>
+              <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 backdrop-blur-sm border-zinc-700 hover:border-zinc-600 transition-all duration-300">
+                <CardContent className="p-8 md:p-12 space-y-8">
+                  <div className="space-y-6 text-center">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+                      ¿Quieres colaborar?
+                    </h2>
+                    <p className="text-lg md:text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed">
+                      Siempre estoy abierto a colaborar en proyectos interesantes,
+                      especialmente en desarrollo web, aplicaciones móviles y sistemas
+                      financieros. Si tienes una idea o proyecto que te gustaría
+                      discutir, no dudes en contactarme.
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                      <Link href="/contacto" aria-describedby="explore-projects-desc">
+                        Contactarme
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                        <span id="explore-projects-desc" className="sr-only">Contactame y conversemos</span>
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                      aria-describedby="download-cv-desc"
+                      asChild
+                    >
+                      <Link href="/agendamiento" aria-describedby="explore-projects-desc">
+                        Agendar reunión
+                        <span id="download-cv-desc" className="sr-only">Agendame una reunión y discutamos tu proyecto</span>
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.section>
+        </main>
 
-      <SiteFooter />
-    </div>
+        <SiteFooter />
+      </div>
+    </>
+  );
+}
+
+export default function ResourcesPage() {
+  return (
+    <PageLoadingProvider>
+      <ResourcesPageContent />
+    </PageLoadingProvider>
   );
 }

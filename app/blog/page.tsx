@@ -7,31 +7,9 @@ import BlogFeatured from "@/components/blog-featured";
 import { BlogFeaturedLoading, BlogGridLoading, OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { Badge } from "@/components/ui/badge"
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+import { PageHero } from "@/components/page-hero";
 
 interface BlogPageProps {
   searchParams: Promise<{ category?: string; search?: string }>;
@@ -53,44 +31,15 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
         <SiteHeader />
 
         <main className="relative z-10 container py-12 space-y-24" id="main-content">
-          {/* Hero Section */}
-          <motion.section 
-            className="py-12 md:py-24 space-y-8"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
+          <PageHero
+            badge={{ text: "Blog" }}
+            title="Insights & experiencias"
+            description="Artículos sobre desarrollo de software, sistemas financieros y de pago, liderazgo técnico y recursos para desarrolladores."
           >
-            <motion.div className="space-y-4 text-center" variants={itemVariants}>
-              <motion.div variants={itemVariants}>
-                <Badge 
-                  variant="outline" 
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-                >
-                  Blog
-                </Badge>
-              </motion.div>
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg pb-2"
-                variants={itemVariants}
-              >
-                Insights & experiencias
-              </motion.h1>
-              <motion.p 
-                className="text-xl text-zinc-400 max-w-2xl mx-auto"
-                variants={itemVariants}
-              >
-                Artículos sobre desarrollo de software, sistemas financieros y de pago, liderazgo técnico y recursos para desarrolladores.
-              </motion.p>
-            </motion.div>
-
-            <motion.div className="h-8" variants={itemVariants} />
-
-            <motion.div variants={itemVariants}>
-              <Suspense fallback={<BlogFeaturedLoading />}>
-                <BlogFeatured />
-              </Suspense>
-            </motion.div>
-          </motion.section>
+            <Suspense fallback={<BlogFeaturedLoading />}>
+              <BlogFeatured />
+            </Suspense>
+          </PageHero>
 
           {/* Articles Section */}
           <motion.section 
@@ -98,18 +47,48 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
           >
             <motion.div 
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
-              variants={itemVariants}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeOut",
+                  },
+                },
+              }}
             >
               <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent capitalize">
                 {search ? `Resultados: "${search}"` : category ? `Categoría: ${category}` : "Publicaciones"}
               </h2>
             </motion.div>
 
-            <motion.div variants={itemVariants}>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+            >
               <Suspense fallback={<BlogGridLoading />}>
                 <BlogPosts category={category} search={search} />
               </Suspense>

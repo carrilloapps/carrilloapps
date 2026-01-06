@@ -9,9 +9,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { ParticleHeroBackground } from "@/components/particle-hero-background"
+import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
+import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
+import { PageHero } from "@/components/page-hero"
 
 // Security utilities
 const obfuscateEmail = (email: string): string => {
@@ -52,14 +55,13 @@ const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
   return { isLimited: isLimited(), recordAttempt }
 }
 
-// Animation variants
+// Animation variants - consistent with blog and resources pages
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.2,
     },
   },
 }
@@ -71,7 +73,7 @@ const itemVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: "easeOut",
     },
   },
 }
@@ -83,7 +85,7 @@ const cardVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: "easeOut",
     },
   },
   hover: {
@@ -95,7 +97,8 @@ const cardVariants: Variants = {
   },
 }
 
-export default function ContactPage() {
+function ContactPageContent() {
+  const { isLoading } = usePageLoading();
   // Security states
   const [emailRevealed, setEmailRevealed] = useState(false)
   const [phoneRevealed, setPhoneRevealed] = useState(false)
@@ -199,47 +202,46 @@ export default function ContactPage() {
     setPhoneRevealed(true)
   }
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl pointer-events-none" />
+    <>
+      <PageLoadingOverlay isVisible={isLoading} />
+      <div className="min-h-screen bg-black text-white relative overflow-hidden">
+        <ParticleHeroBackground />
+        
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
+        
+        <SiteHeader />
 
-      <SiteHeader />
-
-      <main className="container py-12 space-y-16 relative z-10">
-        <motion.section
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="py-12 md:py-24 space-y-12"
-        >
-          <motion.div variants={itemVariants} className="space-y-6 text-center relative">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Badge variant="secondary" className="bg-emerald-600/20 text-emerald-400 border-emerald-500/30 px-4 py-2">
-                <Mail className="w-4 h-4 mr-2" />
-                Disponible para nuevos proyectos
-              </Badge>
-            </div>
-
-
-            <motion.h1
-              variants={itemVariants}
-              className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
+        <main className="relative z-10 container py-12 space-y-24" id="main-content">
+          <PageHero
+            badge={{
+              text: "Disponible para nuevos proyectos",
+              icon: Mail,
+              gradientFrom: "from-emerald-600/20",
+              gradientTo: "to-teal-600/20",
+              borderColor: "border-emerald-500/30",
+              textColor: "text-emerald-400",
+              shadowColor: "shadow-emerald-600/10",
+            }}
+            title="Hablemos"
+            description="¿Tienes un proyecto en mente? Me encantaría conocer más sobre tu visión y cómo puedo ayudarte a hacerla realidad."
+          >
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeOut",
+                  },
+                },
+              }}
             >
-              Hablemos
-            </motion.h1>
-            <motion.p
-              variants={itemVariants}
-              className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed"
-            >
-              ¿Tienes un proyecto en mente? Me encantaría conocer más sobre tu visión y cómo puedo ayudarte a hacerla realidad.
-            </motion.p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <motion.div variants={cardVariants} whileHover="hover">
-              <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
+              <div className="grid lg:grid-cols-2 gap-12 items-start">
+                <motion.div variants={cardVariants} whileHover="hover">
+                  <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
                 {/* Card Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -359,11 +361,11 @@ export default function ContactPage() {
                     </motion.div>
                   </form>
                 </CardContent>
-              </Card>
-            </motion.div>
+                  </Card>
+                </motion.div>
 
-            <div className="space-y-8">
-              <motion.div variants={cardVariants} whileHover="hover">
+                <div className="space-y-8">
+                  <motion.div variants={cardVariants} whileHover="hover">
                 <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
                   {/* Card Background Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -530,24 +532,21 @@ export default function ContactPage() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-            </div>
-          </div>
-        </motion.section>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </PageHero>
 
-        <motion.section
-          className="py-16 relative"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {/* Background Elements */}
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 to-zinc-900/30" />
-          <div className="absolute top-20 left-1/4 w-96 h-96 bg-gradient-to-r from-emerald-600/10 to-blue-600/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-full blur-3xl" />
-
-          <div className="container mx-auto px-4 relative z-10">
+          {/* FAQ Section */}
+          <motion.section 
+            className="py-12 space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
+          >
+            <div className="container mx-auto px-4">
             <motion.div className="text-center mb-12" variants={itemVariants}>
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-emerald-600/20 to-blue-600/20 flex items-center justify-center border border-emerald-500/30">
@@ -639,10 +638,19 @@ export default function ContactPage() {
               </motion.div>
             </motion.div>
           </div>
-        </motion.section>
-      </main>
+          </motion.section>
+        </main>
 
-      <SiteFooter />
-    </div>
-  )
+        <SiteFooter />
+      </div>
+    </>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <PageLoadingProvider>
+      <ContactPageContent />
+    </PageLoadingProvider>
+  );
 }
