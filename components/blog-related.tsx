@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -113,8 +113,10 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
                 <Image
                   src={post.thumbnail || "/placeholder.svg"}
                   alt={post.title}
-                  layout="fill"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
