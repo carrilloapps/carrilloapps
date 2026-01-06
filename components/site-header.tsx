@@ -456,7 +456,7 @@ export function SiteHeader() {
           opacity: isVisible ? 1 : 0
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+        className={`z-50 w-full transition-all duration-300 ${
           scrolled
             ? "bg-black/20 backdrop-blur-2xl border-b border-white/10 shadow-lg shadow-black/20"
             : "bg-black/10 backdrop-blur-xl border-b border-white/5"
