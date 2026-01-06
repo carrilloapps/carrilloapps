@@ -285,7 +285,6 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex gap-4 md:gap-8 justify-center md:justify-start pt-8"
-              role="list"
               aria-label="Enlaces de redes sociales"
             >
               <Link href="https://github.com/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de GitHub (se abre en nueva ventana)">
@@ -353,7 +352,7 @@ export default function Home() {
               </motion.p>
             </div>
 
-            <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Experiencia laboral">
+            <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" aria-label="Experiencia laboral">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -371,7 +370,7 @@ export default function Home() {
                     <p className="text-zinc-300">
                       Liderando un equipo de 7 desarrolladores en el diseño e implementación de herramientas innovadoras para Pagos y Finanzas. Implementando medios de pagos y arquitecturas de microservicios que mejoran la confiabilidad del sistema en un 40%.
                     </p>
-                    <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
+                    <div className="flex flex-wrap gap-2" aria-label="Tecnologías utilizadas">
                       <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Node.js
                       </Badge>
@@ -406,7 +405,7 @@ export default function Home() {
                     <p className="text-zinc-300">
                       Desarrollé herramientas y módulos de contabilidad con integración en SAP que gestionan cerca de 2 millones en transacciones semanales. Optimicé consultas de bases de datos, lo que resultó en tiempos de procesamiento un 60% más rápidos.
                     </p>
-                    <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
+                    <div className="flex flex-wrap gap-2" aria-label="Tecnologías utilizadas">
                       <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         TypeScript
                       </Badge>
@@ -438,7 +437,7 @@ export default function Home() {
                     <p className="text-zinc-300">
                       Construí varios microservicios, como la gestión de perfiles. Y escalé hasta Tech Leader Backup, desarrollando junto a mi equipo la nueva versión de AppSales, mientras se soportaba la anterior versión para más de 1 millón de transacciones mensuales en Android e iOS.
                     </p>
-                    <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
+                    <div className="flex flex-wrap gap-2" aria-label="Tecnologías utilizadas">
                       <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         React Native
                       </Badge>
@@ -522,7 +521,7 @@ export default function Home() {
               </div>
 
               <TabsContent value="technical" className="mt-6">
-                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" role="list" aria-label="Categorías de habilidades técnicas">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" aria-label="Categorías de habilidades técnicas">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -533,7 +532,7 @@ export default function Home() {
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-purple-500/20 group-hover:border-purple-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-purple-300">Lenguajes</h3>
-                        <div className="space-y-4" role="list" aria-label="Lenguajes de programación">
+                        <div className="space-y-4" aria-label="Lenguajes de programación">
                           <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>JavaScript/TypeScript</span>
@@ -605,7 +604,7 @@ export default function Home() {
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-blue-300">Frameworks</h3>
-                        <div className="space-y-4" role="list" aria-label="Frameworks y librerías">
+                        <div className="space-y-4" aria-label="Frameworks y librerías">
                           <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>React/Next.js</span>
@@ -677,7 +676,7 @@ export default function Home() {
                     <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-green-500/20 group-hover:border-green-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-green-300">Infraestructura</h3>
-                        <div className="space-y-4" role="list" aria-label="Tecnologías de infraestructura">
+                        <div className="space-y-4" aria-label="Tecnologías de infraestructura">
                           <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Microservices</span>
@@ -742,11 +741,11 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="leadership" className="mt-6">
-                <div className="grid gap-4 md:grid-cols-2" role="list" aria-label="Habilidades de liderazgo">
+                <div className="grid gap-4 md:grid-cols-2" aria-label="Habilidades de liderazgo">
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="team-management-heading">Gestión de equipos</h3>
-                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="team-management-heading">
+                      <ul className="space-y-2 text-zinc-300" aria-labelledby="team-management-heading">
                         <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Lideré equipos multifuncionales de hasta 15 desarrolladores
@@ -770,7 +769,7 @@ export default function Home() {
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="project-management-heading">Gestión de proyectos</h3>
-                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="project-management-heading">
+                      <ul className="space-y-2 text-zinc-300" aria-labelledby="project-management-heading">
                         <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Gestionó proyectos técnicos desde su concepción hasta su entrega.
@@ -794,11 +793,11 @@ export default function Home() {
               </TabsContent>
 
               <TabsContent value="domain" className="mt-6">
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" role="list" aria-label="Conocimiento de dominio">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" aria-label="Conocimiento de dominio">
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="payment-systems-heading">Sistemas de pago</h3>
-                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="payment-systems-heading">
+                      <ul className="space-y-2 text-zinc-300" aria-labelledby="payment-systems-heading">
                         <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Procesamiento de pagos en línea.
@@ -822,7 +821,7 @@ export default function Home() {
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="financial-systems-heading">Sistemas financieros</h3>
-                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="financial-systems-heading">
+                      <ul className="space-y-2 text-zinc-300" aria-labelledby="financial-systems-heading">
                         <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementación de sistemas ERP.
@@ -846,7 +845,7 @@ export default function Home() {
                   <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="security-compliance-heading">Seguridad y cumplimiento</h3>
-                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="security-compliance-heading">
+                      <ul className="space-y-2 text-zinc-300" aria-labelledby="security-compliance-heading">
                         <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           PCI DSS compliance
@@ -909,7 +908,7 @@ export default function Home() {
               </motion.p>
             </div>
 
-            <div className="grid gap-8 grid-cols-1 md:grid-cols-2" role="list" aria-label="Lista de proyectos destacados">
+            <div className="grid gap-8 grid-cols-1 md:grid-cols-2" aria-label="Lista de proyectos destacados">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
@@ -951,7 +950,7 @@ export default function Home() {
                           <h3 className="text-xl font-bold" id={`project-title-${project.id}`}>{project.shortTitle}</h3>
                           <p className="text-zinc-300" role="text">{project.shortDescription}</p>
                         </div>
-                        <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
+                        <div className="flex flex-wrap gap-2" aria-label="Tecnologías utilizadas">
                           {project.technologies.slice(0, 4).map((tech) => (
                             <Badge
                               key={tech}
