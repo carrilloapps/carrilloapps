@@ -17,7 +17,6 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer";
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
 import { AnimatedSection } from "@/components/animated-section"
 import { ProjectDialog } from "@/components/project-dialog"
 import { useIsMobile } from "@/hooks/use-media-query"
@@ -30,14 +29,35 @@ export default function Home() {
   const [formErrors, setFormErrors] = useState({ name: "", email: "" })
 
   return (
-    <div className="min-h-screen text-white">
-      <ParticleHeroBackground />
+    <div className="min-h-screen text-white relative overflow-hidden">
+      {/* Modern dynamic background */}
+      <div className="fixed inset-0 -z-50 bg-black">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+      </div>
+      
+      {/* Radial gradient overlay */}
+      <div className="fixed inset-0 -z-40">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/30 via-zinc-950/60 to-black" />
+      </div>
+      
+      {/* Animated grid pattern */}
+      <div className="fixed inset-0 -z-30 opacity-20">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          animation: 'gridMove 20s linear infinite'
+        }} />
+      </div>
+      
       <SiteHeader />
-      <main id="main-content" role="main">
+      <main id="main-content" role="main" className="relative z-10">
         {/* Hero Section - Full Width */}
         <AnimatedSection className="py-16 md:py-28 relative w-full" role="banner" aria-labelledby="hero-heading">
-          {/* Gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/10 to-slate-900/20 pointer-events-none"></div>
 
           <div className="container mx-auto px-4">
             <div className="grid gap-12 md:grid-cols-2 items-center relative z-10">
@@ -108,14 +128,27 @@ export default function Home() {
                 aria-label="Foto de perfil de José Carrillo"
               >
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-tilt" aria-hidden="true"></div>
-                <Image
-                  src="https://avatars.githubusercontent.com/u/16759783"
-                  alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
-                  width={300}
-                  height={300}
-                  className="relative rounded-full border-4 border-white/20 object-cover shadow-2xl backdrop-blur-sm transform group-hover:scale-105 transition-transform duration-500"
-                  priority
-                />
+                <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-zinc-700/50 shadow-2xl">
+                  <Image
+                    src="https://avatars.githubusercontent.com/u/16759783"
+                    alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
+                    width={300}
+                    height={300}
+                    className="object-cover w-full h-full grayscale contrast-110 brightness-90"
+                    priority
+                  />
+                  {/* Circular frame effect */}
+                  <div className="absolute inset-0 rounded-full border-4 border-zinc-600/30 pointer-events-none" style={{ 
+                    boxShadow: 'inset 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 40px rgba(0, 0, 0, 0.5)'
+                  }} />
+                  {/* Subtle gradient overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-full" />
+                  {/* Vignette effect */}
+                  <div className="absolute inset-0 rounded-full" style={{
+                    boxShadow: 'inset 0 0 80px rgba(0, 0, 0, 0.4)'
+                  }} />
+                </div>
               </motion.div>
             </div>
             {/* Enhanced social links */}
