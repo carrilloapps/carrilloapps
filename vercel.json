@@ -3,7 +3,7 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
-    "app/api/**/*.{js,ts,jsx,tsx}": {
+    "app/api/**/*.ts": {
       "maxDuration": 10,
       "memory": 1024
     }
