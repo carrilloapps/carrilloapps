@@ -215,7 +215,7 @@ export default function Home() {
                   role="group"
                   aria-label="Acciones principales"
                 >
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 min-h-[48px] rounded-lg shadow-lg shadow-blue-500/30 touch-manipulation transform hover:scale-105 transition-all duration-300 group" asChild>
                     <Link href="/contacto" aria-describedby="contact-me-desc">
                       Contactarme
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
@@ -224,7 +224,7 @@ export default function Home() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                    className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 min-h-[48px] rounded-lg backdrop-blur-sm touch-manipulation transform hover:scale-105 transition-all duration-300"
                     onClick={() => setCvModalOpen(true)}
                     aria-describedby="download-cv-desc"
                   >
@@ -284,21 +284,21 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
-              className="flex gap-8 justify-center md:justify-start pt-8"
+              className="flex gap-4 md:gap-8 justify-center md:justify-start pt-8"
               role="list"
               aria-label="Enlaces de redes sociales"
             >
-              <Link href="https://github.com/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de GitHub (se abre en nueva ventana)" role="listitem">
-                <Github className="h-7 w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
+              <Link href="https://github.com/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de GitHub (se abre en nueva ventana)">
+                <Github className="h-6 w-6 md:h-7 md:w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
               </Link>
-              <Link href="https://linkedin.com/in/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de LinkedIn (se abre en nueva ventana)" role="listitem">
-                <Linkedin className="h-7 w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
+              <Link href="https://linkedin.com/in/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de LinkedIn (se abre en nueva ventana)">
+                <Linkedin className="h-6 w-6 md:h-7 md:w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
               </Link>
-              <Link href="https://x.com/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de X/Twitter (se abre en nueva ventana)" role="listitem">
-                <svg className="h-6 w-6 group-hover:drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+              <Link href="https://x.com/carrilloapps" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Visitar mi perfil de X/Twitter (se abre en nueva ventana)">
+                <svg className="h-6 w-6 md:h-7 md:w-7 group-hover:drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
               </Link>
-              <Link href="mailto:contacto@carrillo.com" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 transform hover:scale-110 transition-all duration-300 group" aria-label="Enviar correo electrónico a contacto@carrillo.com" role="listitem">
-                <Mail className="h-7 w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
+              <Link href="mailto:contacto@carrillo.com" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Enviar correo electrónico a contacto@carrillo.com">
+                <Mail className="h-6 w-6 md:h-7 md:w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
               </Link>
             </motion.div>
 
@@ -359,7 +359,6 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                role="listitem"
                 className="group"
               >
                 <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full focus-within:ring-4 focus-within:ring-blue-500/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300" role="article" aria-labelledby="job-1-title">
@@ -373,16 +372,16 @@ export default function Home() {
                       Liderando un equipo de 7 desarrolladores en el diseño e implementación de herramientas innovadoras para Pagos y Finanzas. Implementando medios de pagos y arquitecturas de microservicios que mejoran la confiabilidad del sistema en un 40%.
                     </p>
                     <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Node.js
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         React
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         AWS
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Microservicios
                       </Badge>
                     </div>
@@ -395,7 +394,6 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                role="listitem"
                 className="group"
               >
                 <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full focus-within:ring-4 focus-within:ring-blue-500/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300" role="article" aria-labelledby="job-2-title">
@@ -409,13 +407,13 @@ export default function Home() {
                       Desarrollé herramientas y módulos de contabilidad con integración en SAP que gestionan cerca de 2 millones en transacciones semanales. Optimicé consultas de bases de datos, lo que resultó en tiempos de procesamiento un 60% más rápidos.
                     </p>
                     <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         TypeScript
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Amazon Redshift
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Terraform
                       </Badge>
                     </div>
@@ -429,7 +427,6 @@ export default function Home() {
                 transition={{ delay: 0.4 }}
                 whileHover={{ y: -8, scale: 1.02 }}
                 className={`group ${isMobile ? "" : "lg:col-span-1 sm:col-span-2"}`}
-                role="listitem"
               >
                 <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full focus-within:ring-4 focus-within:ring-blue-500/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300" role="article" aria-labelledby="job-3-title">
                   <CardContent className="p-6 space-y-4">
@@ -442,16 +439,16 @@ export default function Home() {
                       Construí varios microservicios, como la gestión de perfiles. Y escalé hasta Tech Leader Backup, desarrollando junto a mi equipo la nueva versión de AppSales, mientras se soportaba la anterior versión para más de 1 millón de transacciones mensuales en Android e iOS.
                     </p>
                     <div className="flex flex-wrap gap-2" role="list" aria-label="Tecnologías utilizadas">
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         React Native
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         NestJS
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         Firebase
                       </Badge>
-                      <Badge variant="outline" className="border-zinc-700 text-zinc-300" role="listitem">
+                      <Badge variant="outline" className="border-zinc-700 text-zinc-300">
                         GCP
                       </Badge>
                     </div>
@@ -461,8 +458,8 @@ export default function Home() {
             </div>
 
             <div className="text-center mt-8">
-              <Button variant="link" className="text-blue-500">
-                <Link href="/sobre-mi" className="flex items-center focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg px-3 py-2" aria-label="Ver toda mi experiencia laboral">
+              <Button variant="link" className="text-blue-500 min-h-[48px]" asChild>
+                <Link href="/sobre-mi" className="flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg px-6 py-3 min-h-[48px] touch-manipulation" aria-label="Ver toda mi experiencia laboral">
                   Ver más experiencia
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   <span className="sr-only">- Navegar a la página completa de experiencia laboral</span>
@@ -512,13 +509,13 @@ export default function Home() {
             <Tabs defaultValue="technical" className="w-full">
               <div className="overflow-x-auto pb-2">
                 <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-zinc-900 p-1 min-w-max">
-                  <TabsTrigger value="technical" className="data-[state=active]:bg-zinc-800">
+                  <TabsTrigger value="technical" className="data-[state=active]:bg-zinc-800 min-h-[44px] px-6 touch-manipulation">
                     Técnico
                   </TabsTrigger>
-                  <TabsTrigger value="leadership" className="data-[state=active]:bg-zinc-800">
+                  <TabsTrigger value="leadership" className="data-[state=active]:bg-zinc-800 min-h-[44px] px-6 touch-manipulation">
                     Liderazgo
                   </TabsTrigger>
-                  <TabsTrigger value="domain" className="data-[state=active]:bg-zinc-800">
+                  <TabsTrigger value="domain" className="data-[state=active]:bg-zinc-800 min-h-[44px] px-6 touch-manipulation">
                     Dominio
                   </TabsTrigger>
                 </TabsList>
@@ -533,11 +530,11 @@ export default function Home() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className="group"
                   >
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-purple-500/20 group-hover:border-purple-500/30 transition-all duration-300" role="listitem">
+                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-purple-500/20 group-hover:border-purple-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-purple-300">Lenguajes</h3>
                         <div className="space-y-4" role="list" aria-label="Lenguajes de programación">
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>JavaScript/TypeScript</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
@@ -551,7 +548,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Golang</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
@@ -565,7 +562,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Python</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
@@ -579,7 +576,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Java/Kotlin</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
@@ -605,11 +602,11 @@ export default function Home() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className="group"
                   >
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300" role="listitem">
+                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-blue-300">Frameworks</h3>
                         <div className="space-y-4" role="list" aria-label="Frameworks y librerías">
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>React/Next.js</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
@@ -623,7 +620,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Node.js/Nest.js</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
@@ -637,7 +634,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>React Native</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
@@ -651,7 +648,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Vue.js/Angular</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
@@ -677,11 +674,11 @@ export default function Home() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className="group"
                   >
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-green-500/20 group-hover:border-green-500/30 transition-all duration-300" role="listitem">
+                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-green-500/20 group-hover:border-green-500/30 transition-all duration-300">
                       <CardContent className="p-6">
                         <h3 className="text-lg font-bold mb-4 text-green-300">Infraestructura</h3>
                         <div className="space-y-4" role="list" aria-label="Tecnologías de infraestructura">
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Microservices</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
@@ -695,7 +692,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>AWS</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
@@ -709,7 +706,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>Docker/Kubernetes</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
@@ -723,7 +720,7 @@ export default function Home() {
                               ></motion.div>
                             </motion.div>
                           </div>
-                          <div className="space-y-2" role="listitem">
+                          <div className="space-y-2">
                             <div className="flex justify-between">
                               <span>CI/CD</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
@@ -746,23 +743,23 @@ export default function Home() {
 
               <TabsContent value="leadership" className="mt-6">
                 <div className="grid gap-4 md:grid-cols-2" role="list" aria-label="Habilidades de liderazgo">
-                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
+                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="team-management-heading">Gestión de equipos</h3>
-                      <ul className="space-y-2 text-zinc-400" role="list" aria-labelledby="team-management-heading">
-                        <li className="flex items-start" role="listitem">
+                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="team-management-heading">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Lideré equipos multifuncionales de hasta 15 desarrolladores
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementamos metodologías ágiles mejorando X2 tiempos de entrega
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           He mentoreado a desarrolladores en tecnologías y su implementación.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementando marcos de trabajo colaborativo y CI/CD.
                         </li>
@@ -770,23 +767,23 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
+                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="project-management-heading">Gestión de proyectos</h3>
-                      <ul className="space-y-2 text-zinc-400" role="list" aria-labelledby="project-management-heading">
-                        <li className="flex items-start" role="listitem">
+                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="project-management-heading">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Gestionó proyectos técnicos desde su concepción hasta su entrega.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementé estrategias de gestión de riesgos reduciendo los retrasos.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Estándares de documentación técnica establecidos en toda la organización.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Lideré la gestión de las partes para iniciativas complejas de varios equipos.
                         </li>
@@ -798,23 +795,23 @@ export default function Home() {
 
               <TabsContent value="domain" className="mt-6">
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" role="list" aria-label="Conocimiento de dominio">
-                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
+                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="payment-systems-heading">Sistemas de pago</h3>
-                      <ul className="space-y-2 text-zinc-400" role="list" aria-labelledby="payment-systems-heading">
-                        <li className="flex items-start" role="listitem">
+                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="payment-systems-heading">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Procesamiento de pagos en línea.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Interoperabilidad de plataformas de pagos.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Integración gestores de prevención del fraude.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Inicialización de procesos de cobro.
                         </li>
@@ -822,23 +819,23 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
+                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="financial-systems-heading">Sistemas financieros</h3>
-                      <ul className="space-y-2 text-zinc-400" role="list" aria-labelledby="financial-systems-heading">
-                        <li className="flex items-start" role="listitem">
+                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="financial-systems-heading">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementación de sistemas ERP.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Integración bancaria y conciliación de cuentas.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Implementación de facturación electrónica.
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Levantamiento de Data Warehousing
                         </li>
@@ -846,23 +843,23 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500" role="listitem">
+                  <Card className="bg-zinc-900 border-zinc-800 focus-within:ring-2 focus-within:ring-blue-500">
                     <CardContent className="p-6 space-y-4">
                       <h3 className="text-lg font-bold" id="security-compliance-heading">Seguridad y cumplimiento</h3>
-                      <ul className="space-y-2 text-zinc-400" role="list" aria-labelledby="security-compliance-heading">
-                        <li className="flex items-start" role="listitem">
+                      <ul className="space-y-2 text-zinc-300" role="list" aria-labelledby="security-compliance-heading">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           PCI DSS compliance
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           GDPR implementation
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           SOC 2 certification
                         </li>
-                        <li className="flex items-start" role="listitem">
+                        <li className="flex items-start">
                           <span className="text-blue-500 mr-2" aria-hidden="true">•</span>
                           Penetration testing
                         </li>
@@ -921,7 +918,7 @@ export default function Home() {
                   transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
                   whileHover={{ y: -8, scale: 1.02 }}
                   className="group"
-                  role="listitem"
+                 
                 >
                   <ProjectDialog
                     title={project.title}
@@ -959,18 +956,18 @@ export default function Home() {
                             <Badge
                               key={tech}
                               variant="outline"
-                              className="border-zinc-700 text-zinc-400"
-                              role="listitem"
+                              className="border-zinc-700 text-zinc-200"
+                             
                             >
                               {tech}
                             </Badge>
                           ))}
                         </div>
                         <div className="flex justify-between items-center pt-4">
-                          <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500" aria-label={`Ver más detalles del proyecto ${project.shortTitle}`}>
+                          <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500 min-h-[44px] px-6 touch-manipulation" aria-label={`Ver más detalles del proyecto ${project.shortTitle}`}>
                             Ver más
                           </Button>
-                          <div className="text-zinc-500 text-sm" role="text" aria-label={`Año de desarrollo: ${project.year}`}>{project.year}</div>
+                          <div className="text-zinc-300 text-sm font-medium" role="text" aria-label={`Año de desarrollo: ${project.year}`}>{project.year}</div>
                         </div>
                       </CardContent>
                     </Card>
@@ -980,8 +977,8 @@ export default function Home() {
             </div>
 
             <div className="text-center mt-8">
-              <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500" asChild>
-                <Link href="/recursos" aria-label="Ver todos los proyectos en la página de recursos">
+              <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 min-h-[48px]" asChild>
+                <Link href="/recursos" className="flex items-center justify-center px-6 py-3 min-h-[48px] touch-manipulation focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg" aria-label="Ver todos los proyectos en la página de recursos">
                   Ver otros proyectos
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   <span className="sr-only">Navegar a la página de recursos para ver más proyectos</span>
@@ -1059,7 +1056,7 @@ export default function Home() {
         <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-zinc-300">
               {!cvFormSubmitted
                 ? "Por favor, ingresa tu información para acceder el CV, esperando quizás conocerte mejor en algun momento."
                 : "¡Gracias! Ahora puedes ver o descargar el CV"}
@@ -1151,7 +1148,7 @@ export default function Home() {
                 {cvFormErrors.email && <p className="text-red-500 text-sm">{cvFormErrors.email}</p>}
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/50 min-h-[48px] touch-manipulation">
                 Acceder al CV
               </Button>
             </form>
@@ -1159,13 +1156,13 @@ export default function Home() {
             <div className="space-y-4 py-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  className="bg-blue-600 hover:bg-blue-700 flex-1"
+                  className="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/50 flex-1 min-h-[48px] touch-manipulation"
                   onClick={() => window.open("/cv.pdf", "_blank")}
                 >
                   <Eye className="mr-2 h-4 w-4" />
                   Ver el CV
                 </Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 flex-1" asChild>
+                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 focus:ring-4 focus:ring-zinc-500/50 flex-1 min-h-[48px] touch-manipulation" asChild>
                   <a href="/cv.pdf" download>
                     <Download className="mr-2 h-4 w-4" />
                     Descargar el CV
@@ -1173,7 +1170,7 @@ export default function Home() {
                 </Button>
               </div>
 
-              <div className="text-center text-zinc-400 text-sm">
+              <div className="text-center text-zinc-300 text-sm">
                 <p>¡Gracias por el interés, {cvFormData.name}!</p>
                 <p>Se ha enviado tambien a {cvFormData.email}.</p>
               </div>

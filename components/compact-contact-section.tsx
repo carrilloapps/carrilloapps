@@ -118,19 +118,22 @@ export function CompactContactSection({
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-300">Nombre</label>
+                  <label htmlFor="contact-name" className="text-sm font-medium text-zinc-300">Nombre</label>
                   <Input
+                    id="contact-name"
                     placeholder="Tu nombre"
                     value={formData.name}
                     onChange={(e) => onInputChange('name', e.target.value)}
                     className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
                     required
                     disabled={isSubmitting}
+                    aria-label="Tu nombre completo"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-zinc-300">Email</label>
+                  <label htmlFor="contact-email" className="text-sm font-medium text-zinc-300">Email</label>
                   <Input
+                    id="contact-email"
                     type="email"
                     placeholder="tu@email.com"
                     value={formData.email}
@@ -138,18 +141,19 @@ export function CompactContactSection({
                     className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
                     required
                     disabled={isSubmitting}
+                    aria-label="Tu correo electrónico"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-300">Asunto</label>
+                <label htmlFor="subject-select" className="text-sm font-medium text-zinc-300">Asunto</label>
                 <Select
                   value={formData.subject}
                   onValueChange={(value) => onInputChange('subject', value)}
                   disabled={isSubmitting}
                 >
-                  <SelectTrigger className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300">
+                  <SelectTrigger id="subject-select" className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300" aria-label="Selecciona un asunto para tu mensaje">
                     <SelectValue placeholder="Selecciona un asunto" />
                   </SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-zinc-800">
@@ -163,8 +167,9 @@ export function CompactContactSection({
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-300">Mensaje</label>
+                <label htmlFor="contact-message" className="text-sm font-medium text-zinc-300">Mensaje</label>
                 <Textarea
+                  id="contact-message"
                   placeholder="Cuéntame más sobre tu proyecto..."
                   value={formData.message}
                   onChange={(e) => onInputChange('message', e.target.value)}
@@ -172,6 +177,7 @@ export function CompactContactSection({
                   rows={4}
                   required
                   disabled={isSubmitting}
+                  aria-label="Mensaje detallado sobre tu proyecto"
                 />
               </div>
               
@@ -189,8 +195,9 @@ export function CompactContactSection({
               >
                 <Button 
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 min-h-[48px] touch-manipulation transition-all duration-300"
                   disabled={isSubmitting || isLimited}
+                  aria-label="Enviar mensaje de contacto"
                 >
                   {isSubmitting ? (
                     <>
