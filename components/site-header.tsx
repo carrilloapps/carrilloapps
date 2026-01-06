@@ -55,7 +55,7 @@ const navItems: NavItem[] = [
     description: "Soluciones tecnológicas",
     children: [
       {
-        href: "/servicios#desarrollo-web",
+        href: "/servicios#technical-leadership",
         label: "Desarrollo Web",
         description: "Aplicaciones web modernas y escalables",
         icon: Globe,
@@ -87,7 +87,7 @@ const navItems: NavItem[] = [
     description: "Artículos y tutoriales",
     children: [
       {
-        href: "/blog?category=desarrollo",
+        href: "/blog",
         label: "Desarrollo",
         description: "Tutoriales y guías de programación",
         icon: Code,
@@ -119,13 +119,13 @@ const navItems: NavItem[] = [
     description: "Herramientas y repositorios",
     children: [
       {
-        href: "/recursos#repositorios",
+        href: "/recursos",
         label: "Repositorios",
         description: "Proyectos open source",
         icon: Github,
       },
       {
-        href: "/recursos#herramientas",
+        href: "/recursos",
         label: "Herramientas",
         description: "Utilidades y recursos útiles",
         icon: Wrench,
@@ -138,7 +138,7 @@ const navItems: NavItem[] = [
     icon: Mail,
     description: "Ponte en contacto",
   },
-]
+];
 
 // Memoized navigation item component for performance
 const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
