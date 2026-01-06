@@ -95,8 +95,8 @@ export const Logo = memo(function Logo({
   variant = "image",
   imageSrc = "/logo.webp",
   imageAlt = "Logo de mi sitio web",
-  imageWidth = 130,
-  imageHeight = 30,
+  imageWidth = 80 * 1.4,
+  imageHeight = 30 * 1.4,
 }: LogoProps) {
   
   // Static version for no animations or image variant without animations

@@ -471,7 +471,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
           >
-            <Logo animationLevel="none" />
+            <Logo animationLevel="none" variant="image" />
           </motion.div>
 
           {/* Desktop Navigation */}
