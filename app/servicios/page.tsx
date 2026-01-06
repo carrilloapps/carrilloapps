@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AnimatedSection } from "@/components/animated-section"
 import { ServicesSeo } from "@/components/services-seo"
+import { PageHeroSplit } from "@/components/page-hero-split"
 import { useIsMobile } from "@/hooks/use-media-query"
 
 // Variantes de animación
@@ -242,71 +243,54 @@ function ServicesPageContent() {
       <SiteHeader />
       <ServicesSeo />
 
-      <main className="container py-12 md:py-16 space-y-20 md:space-y-32" id="main-content">
-        {/* Hero Section */}
-        <motion.section
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="py-16 md:py-32 space-y-12"
-        >
-          <div className="grid gap-12 md:gap-16 md:grid-cols-2 items-center">
-            <motion.div variants={itemVariants} className="space-y-8">
-              <div className="space-y-4">
-                <motion.div variants={itemVariants}>
-                  <Badge
-                    variant="outline"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-                  >
-                    Servicios profesionales
-                  </Badge>
-                </motion.div>
-                <motion.h1
-                  variants={itemVariants}
-                  className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight"
-                >
-                  Soluciones tecnológicas{" "}
-                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    de alto impacto
-                  </span>
-                </motion.h1>
-                <motion.p
-                  variants={itemVariants}
-                  className="text-xl text-zinc-400 leading-relaxed max-w-2xl"
-                >
-                  Transformo ideas en soluciones tecnológicas robustas y escalables.
-                  Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.
-                </motion.p>
-              </div>
-              <motion.div variants={itemVariants}>
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
-                  asChild
-                >
-                  <Link href="#technical-leadership">
-                    Explorar servicios
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </motion.div>
-            <motion.div variants={itemVariants} className="relative">
-              <div className="aspect-square bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl border border-zinc-800/50 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="relative z-10 text-center space-y-4">
-                  <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
-                    <Code className="w-12 h-12 text-white" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-white">15+ Años</h3>
-                    <p className="text-zinc-400">de Experiencia</p>
-                  </div>
+      <main className="container py-12 space-y-24" id="main-content">
+        <PageHeroSplit
+          badge={{ text: "Servicios profesionales" }}
+          title={
+            <>
+              <span className="text-white">Soluciones</span>
+              <br />
+              <span className="text-white">tecnológicas </span>
+              <span className="text-blue-400">de</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                alto impacto
+              </span>
+            </>
+          }
+          description={
+            <p className="text-zinc-400 leading-relaxed">
+              Transformo ideas en soluciones tecnológicas robustas y escalables. Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.
+            </p>
+          }
+          rightContent={
+            <>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="relative z-10 text-center space-y-4 w-full h-full flex flex-col items-center justify-center">
+                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <Code className="w-10 h-10 text-white" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-white">15+ Años</h3>
+                  <p className="text-sm text-zinc-400">de Experiencia</p>
                 </div>
               </div>
-            </motion.div>
-          </div>
-        </motion.section>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
+            </>
+          }
+          actions={
+            <Button
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group"
+              asChild
+            >
+              <Link href="#technical-leadership">
+                Explorar servicios
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+              </Link>
+            </Button>
+          }
+        />
 
         {/* Services Navigation */}
         <motion.section
