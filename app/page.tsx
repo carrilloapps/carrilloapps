@@ -64,7 +64,7 @@ export default function Home() {
               {/* Mobile: Image first, Desktop: Content first */}
               <div className="space-y-8 text-center md:text-left order-2 md:order-1">
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
-                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10" role="text">
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-emerald-600/10" role="text">
                     Tech Leader | Senior Full Stack
                   </div>
                 </motion.div>
@@ -99,15 +99,15 @@ export default function Home() {
                   aria-label="Acciones principales"
                 >
                   <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
-                    <Link href="/recursos" aria-describedby="explore-projects-desc">
-                      Explorar proyectos
+                    <Link href="/contacto" aria-describedby="contact-me-desc">
+                      Contactarme
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                      <span id="explore-projects-desc" className="sr-only">Ver mis proyectos y trabajos realizados</span>
+                      <span id="contact-me-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
                     </Link>
                   </Button>
                   <Button
                     variant="outline"
-                    className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                    className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
                     onClick={() => setCvModalOpen(true)}
                     aria-describedby="download-cv-desc"
                   >
@@ -127,27 +127,38 @@ export default function Home() {
                 role="img"
                 aria-label="Foto de perfil de José Carrillo"
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-tilt" aria-hidden="true"></div>
-                <div className="relative w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-zinc-700/50 shadow-2xl">
-                  <Image
-                    src="https://avatars.githubusercontent.com/u/16759783"
-                    alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
-                    width={300}
-                    height={300}
-                    className="object-cover w-full h-full grayscale contrast-110 brightness-90"
-                    priority
-                  />
-                  {/* Circular frame effect */}
-                  <div className="absolute inset-0 rounded-full border-4 border-zinc-600/30 pointer-events-none" style={{ 
-                    boxShadow: 'inset 0 0 0 2px rgba(255, 255, 255, 0.1), 0 0 40px rgba(0, 0, 0, 0.5)'
-                  }} />
-                  {/* Subtle gradient overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-full" />
-                  {/* Vignette effect */}
-                  <div className="absolute inset-0 rounded-full" style={{
-                    boxShadow: 'inset 0 0 80px rgba(0, 0, 0, 0.4)'
-                  }} />
+                {/* Outer glow ring */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition duration-1000 group-hover:duration-200" aria-hidden="true"></div>
+                
+                <div className="relative w-[300px] h-[300px] rounded-full overflow-visible">
+                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/50 shadow-2xl" style={{
+                    boxShadow: '0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3)'
+                  }}>
+                    <Image
+                      src="https://avatars.githubusercontent.com/u/16759783"
+                      alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
+                      width={300}
+                      height={300}
+                      className="object-cover w-full h-full contrast-110 brightness-90"
+                      priority
+                    />
+                    {/* Subtle gradient overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-full" />
+                    {/* Vignette effect */}
+                    <div className="absolute inset-0 rounded-full" style={{
+                      boxShadow: 'inset 0 0 80px rgba(0, 0, 0, 0.4)'
+                    }} />
+                  </div>
+                  
+                  {/* Status badge */}
+                  <div className="absolute bottom-4 right-4 bg-black/90 backdrop-blur-sm border border-emerald-500/30 rounded-lg px-3 py-2 shadow-xl shadow-emerald-600/10 flex items-center gap-2 z-10">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" aria-hidden="true"></div>
+                    <div className="text-white">
+                      <div className="text-xs text-zinc-400 leading-tight">Status</div>
+                      <div className="text-sm font-semibold text-emerald-400 leading-tight">On Work</div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>
