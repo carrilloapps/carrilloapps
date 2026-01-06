@@ -241,17 +241,20 @@ export default function Home() {
                 role="img"
                 aria-label="Foto de perfil de José Carrillo"
               >
-                {/* Outer glow ring - Removed blur to improve LCP */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-300" aria-hidden="true"></div>
-                
-                <div className="relative w-[300px] h-[300px] rounded-full overflow-visible">
-                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/50 shadow-2xl">
+                <div className="relative w-[320px] h-[320px] md:w-[380px] md:h-[380px] lg:w-[420px] lg:h-[420px] rounded-full">
+                  {/* Clean border with subtle glow */}
+                  <div 
+                    className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/40 group-hover:border-blue-400/60 transition-all duration-500"
+                    style={{
+                      boxShadow: '0 0 40px rgba(59, 130, 246, 0.25), 0 0 80px rgba(147, 51, 234, 0.15), 0 20px 60px rgba(0, 0, 0, 0.3)'
+                    }}
+                  >
                     <Image
                       src="https://avatars.githubusercontent.com/u/16759783"
                       alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
-                      width={300}
-                      height={300}
-                      className="object-cover w-full h-full"
+                      width={420}
+                      height={420}
+                      className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
                       priority
                       fetchPriority="high"
                       loading="eager"

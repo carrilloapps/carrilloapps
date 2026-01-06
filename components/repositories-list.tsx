@@ -102,7 +102,9 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    })
   }
 
   const handleSearch = () => {

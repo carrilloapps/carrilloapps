@@ -18,10 +18,12 @@ function ScrollToTopContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Scroll al inicio cuando cambia la ruta
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
+    // Scroll al inicio cuando cambia la ruta usando requestAnimationFrame
+    window.requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
     })
   }, [pathname, searchParams])
 

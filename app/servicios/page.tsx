@@ -217,13 +217,13 @@ function ServicesPageContent() {
         setActiveTab(hash)
       })
 
-      // Scroll suave a la sección con un pequeño delay para asegurar que el DOM esté listo
-      setTimeout(() => {
+      // Scroll suave a la sección con requestAnimationFrame
+      requestAnimationFrame(() => {
         const element = document.getElementById(hash)
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" })
         }
-      }, 100)
+      })
     }
   }, [])
 
@@ -232,13 +232,13 @@ function ServicesPageContent() {
     setActiveTab(value)
     window.history.pushState({}, "", `/servicios#${value}`)
 
-    // Scroll suave al elemento correspondiente
-    setTimeout(() => {
+    // Scroll suave al elemento correspondiente con requestAnimationFrame
+    requestAnimationFrame(() => {
       const element = document.getElementById(value)
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" })
       }
-    }, 100)
+    })
   }
 
   return (
