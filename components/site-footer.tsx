@@ -1,9 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import { Github, Linkedin } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Logo } from "@/components/logo"
+
+// Get current year - safe for client component after hydration
+const currentYear = typeof window !== 'undefined' ? new Date().getFullYear() : 2026
 
 export function SiteFooter() {
   return (
@@ -113,7 +118,7 @@ export function SiteFooter() {
 
         <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center">
           <p className="text-zinc-400 text-sm text-center md:text-left">
-            &copy; {new Date().getFullYear()} José Carrillo. Todos los derechos reservados.
+            &copy; {currentYear} José Carrillo. Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
             <Link href="/privacidad" className="text-zinc-400 hover:text-white text-sm">

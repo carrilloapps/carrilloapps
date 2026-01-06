@@ -40,6 +40,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.bancolombia.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.metropolitan-touring.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'almipro.com',
+      },
     ],
   },
   
@@ -59,14 +67,21 @@ const nextConfig = {
     ],
     // Web Vitals attribution for debugging (Vercel Analytics compatible)
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
-    // Enable PPR for better performance (Next.js 16 feature)
-    ppr: false, // Set to true when ready for Partial Prerendering
     // Optimize CSS
     optimizeCss: true,
+    // Optimize server actions
+    serverActions: {
+      bodySizeLimit: '1mb',
+    },
   },
   
+  // Cache components - Disabled due to strict prerendering requirements
+  // Causes errors with Date.now(), fetch() timing, and RSS client
+  // cacheComponents: true,
+  
   // React Compiler optimization (Next.js 16+)
-  reactCompiler: false, // Enable when React 19 compiler is stable
+  // Disabled - requires babel-plugin-react-compiler
+  reactCompiler: false,
   
   // Transpile packages for better compatibility
   transpilePackages: ['framer-motion'],
@@ -77,6 +92,8 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
+    // Remove React props in production for smaller bundle
+    reactRemoveProperties: process.env.NODE_ENV === 'production',
   },
   
   // Production optimizations
@@ -86,8 +103,6 @@ const nextConfig = {
   
   // Output configuration for Vercel
   output: 'standalone',
-  // Output configuration for Vercel
-  output: 'standalone',
   
   // Security and performance headers
   async headers() {
@@ -95,6 +110,11 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
+          // Performance headers
+          {
+            key: 'Link',
+            value: '<https://avatars.githubusercontent.com>; rel=preconnect, <https://miro.medium.com>; rel=preconnect',
+          },
           // Security headers
           {
             key: 'X-DNS-Prefetch-Control',
@@ -162,6 +182,10 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'CDN-Cache-Control',
             value: 'public, max-age=31536000, immutable',
           },
         ],

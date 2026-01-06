@@ -103,13 +103,43 @@ html {
   @apply bg-zinc-900;
 }
 
-/* Animated grid background */
+/* Animated grid background - Optimized for GPU */
 @keyframes gridMove {
   0% {
     transform: translate(0, 0);
   }
   100% {
     transform: translate(50px, 50px);
+  }
+}
+
+/* Performance optimizations */
+@layer utilities {
+  .will-change-opacity {
+    will-change: opacity;
+  }
+  
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Contain layout for better performance */
+  .contain-layout {
+    contain: layout;
+  }
+  
+  .contain-paint {
+    contain: paint;
+  }
+  
+  .contain-strict {
+    contain: strict;
   }
 }
 
