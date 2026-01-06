@@ -20,6 +20,7 @@ export function PageLoadingProvider({ children }: { children: ReactNode }) {
 
   // Reset loading state on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
     
     // Auto-hide after exactly 2 second as requested

@@ -20,7 +20,7 @@ export function NewsletterForm() {
       await new Promise(resolve => setTimeout(resolve, 1000)) // Simulación
       setStatus("success")
       setEmail("")
-    } catch (error) {
+    } catch {
       setStatus("error")
     }
   }

@@ -31,7 +31,6 @@ type RepositoriesListProps = {
 export function RepositoriesList({ source, username }: RepositoriesListProps) {
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [pinnedRepos, setPinnedRepos] = useState<Repository[]>([])
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)

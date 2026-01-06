@@ -7,8 +7,10 @@ export function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     const media = window.matchMedia(query)
+    // Only update if value actually changed to avoid cascading renders
     if (media.matches !== matches) {
-      setMatches(media.matches)
+      // Use setTimeout to defer state update
+      setTimeout(() => setMatches(media.matches), 0)
     }
 
     const listener = () => setMatches(media.matches)

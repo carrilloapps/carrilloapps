@@ -100,7 +100,7 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
       initial="hidden"
       animate="visible"
     >
-      {relatedPosts.map((post, index) => (
+      {relatedPosts.map((post, _index) => (
         <motion.div
           key={post.guid}
           variants={itemVariants}

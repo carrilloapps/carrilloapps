@@ -23,19 +23,6 @@ interface RSSResponse {
   items: RSSItem[]
 }
 
-interface RSSItem {
-  title: string
-  pubDate: string
-  link: string
-  guid: string
-  author: string
-  thumbnail: string
-  description: string
-  content: string
-  enclosure: any
-  categories: string[]
-}
-
 // Función para generar un slug a partir del título
 function generateSlug(title: string): string {
   return title

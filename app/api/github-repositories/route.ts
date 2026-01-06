@@ -1,9 +1,26 @@
 import { NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 
+// GitHub API types
+interface GitHubRepo {
+  id: number;
+  name: string;
+  description: string | null;
+  language: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  html_url: string;
+  updated_at: string;
+  topics: string[];
+}
+
+interface GitHubUser {
+  public_repos: number;
+}
+
 // Cache function for GitHub API calls
 const getCachedGitHubRepos = unstable_cache(
-  async (username: string) => {
+  async (username: string): Promise<GitHubRepo[]> => {
     const apiUrl = `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`
     
     const response = await fetch(apiUrl, {
@@ -27,7 +44,7 @@ const getCachedGitHubRepos = unstable_cache(
 )
 
 const getCachedGitHubUserInfo = unstable_cache(
-  async (username: string) => {
+  async (username: string): Promise<GitHubUser> => {
     const response = await fetch(`https://api.github.com/users/${username}`, {
       headers: {
         Accept: "application/vnd.github.v3+json",
@@ -59,15 +76,15 @@ export async function GET(request: Request) {
 
   try {
     // Get cached data
-    const [data, userInfo] = await Promise.all([
+    const [data, _userInfo] = await Promise.all([
       getCachedGitHubRepos(username),
       getCachedGitHubUserInfo(username)
     ])
 
     // Get pinned repositories (simulate by taking top starred repos)
     const pinnedRepos = data
-      .filter((repo: any) => repo.stargazers_count > 0)
-      .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
+      .filter((repo: GitHubRepo) => repo.stargazers_count > 0)
+      .sort((a: GitHubRepo, b: GitHubRepo) => b.stargazers_count - a.stargazers_count)
       .slice(0, 6)
 
     // Apply filters
@@ -75,13 +92,13 @@ export async function GET(request: Request) {
 
     if (language !== "all") {
       filteredData = filteredData.filter(
-        (repo: any) => repo.language && repo.language.toLowerCase() === language.toLowerCase(),
+        (repo: GitHubRepo) => repo.language && repo.language.toLowerCase() === language.toLowerCase(),
       )
     }
 
     if (search) {
       filteredData = filteredData.filter(
-        (repo: any) =>
+        (repo: GitHubRepo) =>
           repo.name.toLowerCase().includes(search.toLowerCase()) ||
           (repo.description && repo.description.toLowerCase().includes(search.toLowerCase())),
       )
@@ -93,7 +110,7 @@ export async function GET(request: Request) {
     const paginatedData = filteredData.slice(startIndex, endIndex)
 
     // Transform the data to match our Repository type
-    const repositories = paginatedData.map((repo: any) => ({
+    const repositories = paginatedData.map((repo: GitHubRepo) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description || "",
@@ -102,13 +119,13 @@ export async function GET(request: Request) {
       forks: repo.forks_count,
       updated_at: repo.updated_at,
       html_url: repo.html_url,
-      pinned: pinnedRepos.some((pinnedRepo: any) => pinnedRepo.id === repo.id),
+      pinned: pinnedRepos.some((pinnedRepo: GitHubRepo) => pinnedRepo.id === repo.id),
     }))
 
     const totalCount = filteredData.length
     const totalPages = Math.ceil(totalCount / perPage)
 
-    const pinnedRepositories = pinnedRepos.map((repo: any) => ({
+    const pinnedRepositories = pinnedRepos.map((repo: GitHubRepo) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description || "",

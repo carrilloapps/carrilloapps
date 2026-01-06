@@ -1,13 +1,22 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, Home, BookOpen } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 
+interface MediumPost {
+  title: string;
+  content: string;
+  author: string;
+  pubDate: string;
+  categories: string[];
+  thumbnail?: string;
+}
+
 interface BlogPostClientProps {
-  post: any
+  post: MediumPost
   slug: string
 }
 

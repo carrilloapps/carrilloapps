@@ -10,7 +10,8 @@ export function GlobalPageLoader() {
 
   useEffect(() => {
     if (isLoading) {
-      // Show immediately when loading starts
+      // Show immediately when loading starts (intentional synchronous setState)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsVisible(true);
     } else {
       // Add a small delay before hiding to ensure smooth fade-out

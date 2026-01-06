@@ -29,18 +29,8 @@ interface UnifiedLoadingProps {
   isVisible?: boolean; // Control visibility for overlay
 }
 
-export function UnifiedLoading({
-  variant,
-  count = 6,
-  showPagination = false,
-  title = "Cargando...",
-  description = "Por favor, espere mientras cargamos el contenido.",
-  className = "",
-  isVisible = true
-}: UnifiedLoadingProps) {
-  
-  // Tech-inspired loading animation with rocket and aurora effect
-  const TechSpinner = () => {
+// Tech-inspired loading animation with rocket and aurora effect - MOVED OUTSIDE COMPONENT
+const TechSpinner = () => {
   return (
     <div className="relative w-24 h-24 flex items-center justify-center">
       {/* Aurora background effect */}
@@ -180,149 +170,159 @@ export function UnifiedLoading({
   );
 };
 
-  // Card skeleton component
-  const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repository" }) => {
-    if (type === "blog") {
-      return (
-        <Card className="bg-zinc-900 border-zinc-800">
-          <div className="aspect-video bg-zinc-800 animate-pulse"></div>
-          <CardContent className="p-6 space-y-4">
-            <Skeleton className="h-6 w-3/4 bg-zinc-800" />
-            <Skeleton className="h-4 w-full bg-zinc-800" />
-            <Skeleton className="h-4 w-full bg-zinc-800" />
-            <div className="flex gap-2 pt-2">
-              <Skeleton className="h-6 w-20 bg-zinc-800" />
-              <Skeleton className="h-6 w-20 bg-zinc-800" />
-            </div>
-          </CardContent>
-          <CardFooter className="px-6 pb-6 pt-0 flex justify-between">
-            <Skeleton className="h-4 w-24 bg-zinc-800" />
-            <Skeleton className="h-4 w-24 bg-zinc-800" />
-          </CardFooter>
-        </Card>
-      );
-    }
-    
-    if (type === "repository") {
-      return (
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <div className="space-y-2">
-              <Skeleton className="h-6 w-2/3 bg-zinc-800" />
-              <Skeleton className="h-4 w-full bg-zinc-800" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-1/4 bg-zinc-800" />
-              <Skeleton className="h-4 w-full bg-zinc-800" />
-              <Skeleton className="h-4 w-full bg-zinc-800" />
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <div className="flex items-center gap-4">
-              <Skeleton className="h-4 w-16 bg-zinc-800" />
-              <Skeleton className="h-4 w-16 bg-zinc-800" />
-            </div>
-            <Skeleton className="h-9 w-28 bg-zinc-800" />
-          </CardFooter>
-        </Card>
-      );
-    }
-    
+// Card skeleton component - MOVED OUTSIDE COMPONENT
+const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repository" }) => {
+  if (type === "blog") {
     return (
       <Card className="bg-zinc-900 border-zinc-800">
+        <div className="aspect-video bg-zinc-800 animate-pulse"></div>
         <CardContent className="p-6 space-y-4">
           <Skeleton className="h-6 w-3/4 bg-zinc-800" />
           <Skeleton className="h-4 w-full bg-zinc-800" />
-          <Skeleton className="h-4 w-2/3 bg-zinc-800" />
+          <Skeleton className="h-4 w-full bg-zinc-800" />
+          <div className="flex gap-2 pt-2">
+            <Skeleton className="h-6 w-20 bg-zinc-800" />
+            <Skeleton className="h-6 w-20 bg-zinc-800" />
+          </div>
         </CardContent>
+        <CardFooter className="px-6 pb-6 pt-0 flex justify-between">
+          <Skeleton className="h-4 w-24 bg-zinc-800" />
+          <Skeleton className="h-4 w-24 bg-zinc-800" />
+        </CardFooter>
       </Card>
     );
-  };
-
-  // Grid component
-  const GridSkeleton = ({ type, itemCount }: { type: "blog" | "repository" | "default", itemCount: number }) => (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {Array(itemCount).fill(0).map((_, i) => (
-        <CardSkeleton key={i} type={type} />
-      ))}
-    </div>
-  );
-
-  // Hero section skeleton
-  const HeroSkeleton = () => (
-    <section className="py-12 md:py-24 space-y-8">
-      <div className="grid gap-12 md:grid-cols-2 items-center">
-        <div className="space-y-6">
+  }
+  
+  if (type === "repository") {
+    return (
+      <Card className="bg-zinc-900 border-zinc-800">
+        <CardHeader>
           <div className="space-y-2">
-            <Skeleton className="w-32 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50" />
-            <Skeleton className="w-full h-12 bg-gradient-to-r from-zinc-800 to-zinc-700" />
-            <Skeleton className="w-3/4 h-8 bg-gradient-to-r from-zinc-800 to-zinc-700" />
+            <Skeleton className="h-6 w-2/3 bg-zinc-800" />
+            <Skeleton className="h-4 w-full bg-zinc-800" />
           </div>
-          <Skeleton className="w-full h-24 bg-gradient-to-r from-zinc-800 to-zinc-700" />
-          <div className="flex gap-4">
-            <Skeleton className="w-40 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50" />
-            <Skeleton className="w-40 h-10 bg-zinc-800/50 border border-zinc-700" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/4 bg-zinc-800" />
+            <Skeleton className="h-4 w-full bg-zinc-800" />
+            <Skeleton className="h-4 w-full bg-zinc-800" />
           </div>
-        </div>
-        <div className="relative aspect-square rounded-2xl bg-gradient-to-br from-blue-800/20 to-purple-800/20 border border-zinc-800/50 animate-pulse"></div>
-      </div>
-    </section>
-  );
-
-  // Form skeleton
-  const FormSkeleton = () => (
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-4 w-16 bg-zinc-800" />
+            <Skeleton className="h-4 w-16 bg-zinc-800" />
+          </div>
+          <Skeleton className="h-9 w-28 bg-zinc-800" />
+        </CardFooter>
+      </Card>
+    );
+  }
+  
+  return (
     <Card className="bg-zinc-900 border-zinc-800">
-      <CardHeader>
-        <Skeleton className="h-6 w-48 bg-zinc-800" />
+      <CardContent className="p-6 space-y-4">
+        <Skeleton className="h-6 w-3/4 bg-zinc-800" />
         <Skeleton className="h-4 w-full bg-zinc-800" />
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-24 bg-zinc-800" />
-              <Skeleton className="h-10 w-full bg-zinc-800" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-24 bg-zinc-800" />
-              <Skeleton className="h-10 w-full bg-zinc-800" />
-            </div>
-          </div>
+        <Skeleton className="h-4 w-2/3 bg-zinc-800" />
+      </CardContent>
+    </Card>
+  );
+};
+
+// Grid component - MOVED OUTSIDE COMPONENT
+const GridSkeleton = ({ type, itemCount }: { type: "blog" | "repository" | "default", itemCount: number }) => (
+  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {Array(itemCount).fill(0).map((_, i) => (
+      <CardSkeleton key={i} type={type} />
+    ))}
+  </div>
+);
+
+// Hero section skeleton - MOVED OUTSIDE COMPONENT
+const HeroSkeleton = () => (
+  <section className="py-12 md:py-24 space-y-8">
+    <div className="grid gap-12 md:grid-cols-2 items-center">
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="w-32 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50" />
+          <Skeleton className="w-full h-12 bg-gradient-to-r from-zinc-800 to-zinc-700" />
+          <Skeleton className="w-3/4 h-8 bg-gradient-to-r from-zinc-800 to-zinc-700" />
+        </div>
+        <Skeleton className="w-full h-24 bg-gradient-to-r from-zinc-800 to-zinc-700" />
+        <div className="flex gap-4">
+          <Skeleton className="w-40 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50" />
+          <Skeleton className="w-40 h-10 bg-zinc-800/50 border border-zinc-700" />
+        </div>
+      </div>
+      <div className="relative aspect-square rounded-2xl bg-gradient-to-br from-blue-800/20 to-purple-800/20 border border-zinc-800/50 animate-pulse"></div>
+    </div>
+  </section>
+);
+
+// Form skeleton - MOVED OUTSIDE COMPONENT
+const FormSkeleton = () => (
+  <Card className="bg-zinc-900 border-zinc-800">
+    <CardHeader>
+      <Skeleton className="h-6 w-48 bg-zinc-800" />
+      <Skeleton className="h-4 w-full bg-zinc-800" />
+    </CardHeader>
+    <CardContent>
+      <div className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Skeleton className="h-4 w-24 bg-zinc-800" />
             <Skeleton className="h-10 w-full bg-zinc-800" />
           </div>
           <div className="space-y-2">
             <Skeleton className="h-4 w-24 bg-zinc-800" />
-            <Skeleton className="h-32 w-full bg-zinc-800" />
+            <Skeleton className="h-10 w-full bg-zinc-800" />
           </div>
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-24 bg-zinc-800" />
           <Skeleton className="h-10 w-full bg-zinc-800" />
         </div>
-      </CardContent>
-    </Card>
-  );
-
-  // Blog featured skeleton
-  const BlogFeaturedSkeleton = () => (
-    <Card className="bg-zinc-900 border-zinc-800">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="aspect-video bg-zinc-800 animate-pulse"></div>
-        <div className="p-6 space-y-4">
-          <Skeleton className="h-6 w-3/4 bg-zinc-800" />
-          <Skeleton className="h-4 w-full bg-zinc-800" />
-          <Skeleton className="h-4 w-full bg-zinc-800" />
-          <Skeleton className="h-4 w-3/4 bg-zinc-800" />
-          <div className="flex gap-2 pt-2">
-            <Skeleton className="h-6 w-20 bg-zinc-800" />
-            <Skeleton className="h-6 w-20 bg-zinc-800" />
-          </div>
-          <Skeleton className="h-10 w-40 bg-zinc-800 mt-4" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-24 bg-zinc-800" />
+          <Skeleton className="h-32 w-full bg-zinc-800" />
         </div>
+        <Skeleton className="h-10 w-full bg-zinc-800" />
       </div>
-    </Card>
-  );
+    </CardContent>
+  </Card>
+);
+
+// Blog featured skeleton - MOVED OUTSIDE COMPONENT
+const BlogFeaturedSkeleton = () => (
+  <Card className="bg-zinc-900 border-zinc-800">
+    <div className="grid md:grid-cols-2 gap-6">
+      <div className="aspect-video bg-zinc-800 animate-pulse"></div>
+      <div className="p-6 space-y-4">
+        <Skeleton className="h-6 w-3/4 bg-zinc-800" />
+        <Skeleton className="h-4 w-full bg-zinc-800" />
+        <Skeleton className="h-4 w-full bg-zinc-800" />
+        <Skeleton className="h-4 w-3/4 bg-zinc-800" />
+        <div className="flex gap-2 pt-2">
+          <Skeleton className="h-6 w-20 bg-zinc-800" />
+          <Skeleton className="h-6 w-20 bg-zinc-800" />
+        </div>
+        <Skeleton className="h-10 w-40 bg-zinc-800 mt-4" />
+      </div>
+    </div>
+  </Card>
+);
+
+export function UnifiedLoading({
+  variant,
+  count = 6,
+  showPagination = false,
+  title = "Cargando...",
+  description = "Por favor, espere mientras cargamos el contenido.",
+  className = "",
+  isVisible = true
+}: UnifiedLoadingProps) {
 
   // Render based on variant
   switch (variant) {

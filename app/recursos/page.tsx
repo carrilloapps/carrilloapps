@@ -2,17 +2,10 @@
 
 import { Suspense } from "react";
 import { motion, Variants } from "framer-motion";
-import { Code, Filter, Search, Github, GitBranch, Star, Eye, ExternalLink, ArrowRight, Download } from "lucide-react";
+import { Filter, Search, Github, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {

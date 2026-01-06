@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AnimatedSection } from "@/components/animated-section"
 import { ServicesSeo } from "@/components/services-seo"
 import { PageHeroSplit } from "@/components/page-hero-split"
 import { DynamicBackground } from "@/components/dynamic-background"
@@ -205,15 +204,18 @@ export default function ServicesPage() {
 
 // Componente interno que usa useSearchParams
 function ServicesPageContent() {
-  const searchParams = useSearchParams()
+  const _searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState("technical-leadership")
-  const isMobile = useIsMobile()
+  const _isMobile = useIsMobile()
 
   // Efecto para manejar la navegación por anclas
   useEffect(() => {
     const hash = window.location.hash.replace("#", "")
     if (hash && services.some((service) => service.id === hash)) {
-      setActiveTab(hash)
+      // Using requestAnimationFrame to defer setState
+      requestAnimationFrame(() => {
+        setActiveTab(hash)
+      })
 
       // Scroll suave a la sección con un pequeño delay para asegurar que el DOM esté listo
       setTimeout(() => {

@@ -72,7 +72,7 @@ export function FeaturedProjects() {
                 error: 'Failed to fetch repository data'
               }
             }
-          } catch (error) {
+          } catch {
             return {
               ...project,
               loading: false,

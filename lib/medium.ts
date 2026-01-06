@@ -8,7 +8,7 @@ import {
 } from "./rss-service"
 
 // Función principal para obtener los posts de Medium (ahora usa caché)
-export async function fetchMediumPosts(username?: string): Promise<MediumPost[]> {
+export async function getMediumPosts(_username?: string): Promise<MediumPost[]> {
   try {
     return await getCachedMediumPosts()
   } catch (error) {
@@ -40,7 +40,7 @@ export async function fetchRelatedMediumPosts(username: string, currentSlug: str
 }
 
 // Función para obtener todas las categorías únicas (ahora usa caché)
-export async function fetchMediumCategories(username?: string): Promise<string[]> {
+export async function fetchMediumCategories(_username?: string): Promise<string[]> {
   try {
     return await getCachedMediumCategories()
   } catch (error) {
