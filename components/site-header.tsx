@@ -294,13 +294,14 @@ export function SiteHeader() {
       // Always show header at the top of the page
       if (currentScrollY < 10) {
         setIsVisible(true)
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down - hide header
+      } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down - hide header (reduced threshold from 100 to 50)
         setIsVisible(false)
       } else if (currentScrollY < lastScrollY) {
         // Scrolling up - show header
         setIsVisible(true)
       }
+      // If scroll position hasn't changed, maintain current visibility state
 
       setLastScrollY(currentScrollY)
     }
@@ -450,8 +451,12 @@ export function SiteHeader() {
 
       <motion.header
         initial={false}
-        animate={{ y: 0, opacity: 1 }}
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        animate={{ 
+          y: isVisible ? 0 : -100,
+          opacity: isVisible ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
           scrolled
             ? "bg-black/20 backdrop-blur-2xl border-b border-white/10 shadow-lg shadow-black/20"
             : "bg-black/10 backdrop-blur-xl border-b border-white/5"
@@ -705,10 +710,10 @@ export function SiteHeader() {
                         <Link
                           ref={isFirstItem ? firstMenuItemRef : undefined}
                           href={item.href}
-                          className={`flex items-center justify-between py-3 px-4 rounded-xl transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative overflow-hidden ${
+                          className={`flex items-center justify-between py-3 px-4 rounded-lg transition-all duration-300 ease-out group focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative ${
                             isActive
-                              ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30 backdrop-blur-sm shadow-lg shadow-blue-500/10"
-                              : "text-zinc-300 hover:bg-zinc-800/50 hover:text-white hover:border hover:border-zinc-700/50"
+                              ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
+                              : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
                           }`}
                           onClick={hasChildren ? (e) => {
                             e.preventDefault()
@@ -716,14 +721,13 @@ export function SiteHeader() {
                           } : closeMobileMenu}
                           aria-current={isActive ? "page" : undefined}
                         >
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
-                          <div className="flex items-center gap-3 relative z-10">
-                            {item.icon && <item.icon className="w-5 h-5" aria-hidden="true" />}
+                          <div className="flex items-center gap-3">
+                            {item.icon && <item.icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />}
                             <span className="font-medium">{item.label}</span>
                           </div>
                           {hasChildren && (
                             <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                              className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
                               aria-hidden="true"
                             />
                           )}
@@ -744,22 +748,24 @@ export function SiteHeader() {
                                       key={child.href}
                                       href={child.href}
                                       onClick={closeMobileMenu}
-                                      className="group/item flex items-center gap-3 py-3 px-4 text-sm text-zinc-400 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative overflow-hidden backdrop-blur-sm border border-transparent hover:border-white/10"
+                                      className="group/item flex items-center gap-3 py-3 px-4 text-sm rounded-lg transition-all duration-300 ease-out hover:bg-zinc-800/40"
                                     >
                                       {child.icon && (
-                                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
-                                          <child.icon className="w-4 h-4 text-blue-400" />
+                                        <div className="flex-shrink-0">
+                                          <child.icon className="w-5 h-5 text-zinc-400 group-hover/item:text-blue-400 transition-colors duration-300" />
                                         </div>
                                       )}
-                                      <div className="flex-1">
-                                        <div className="font-medium">{child.label}</div>
+                                      <div className="flex-1 min-w-0">
+                                        <div className="font-medium text-white group-hover/item:text-blue-400 transition-colors duration-300">{child.label}</div>
                                         {child.description && (
-                                          <div className="text-xs text-zinc-500 group-hover/item:text-zinc-300 mt-0.5">
+                                          <div className="text-xs text-zinc-500 group-hover/item:text-zinc-400 transition-colors duration-300 leading-relaxed mt-0.5 line-clamp-2">
                                             {child.description}
                                           </div>
                                         )}
                                       </div>
-                                      <ChevronDown className="w-4 h-4 opacity-0 group-hover/item:opacity-100 transition-opacity rotate-[-45deg]" />
+                                      <div className="flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                                        <ChevronDown className="w-4 h-4 text-blue-400 rotate-[-90deg]" />
+                                      </div>
                                     </Link>
                                   ))}
                                 </div>
