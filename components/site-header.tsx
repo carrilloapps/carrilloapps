@@ -12,14 +12,11 @@ import {
   Home, 
   User, 
   Briefcase, 
-  FileText,
   Globe,
   Layers,
   Users,
   Sparkles,
-  Terminal,
   Zap,
-  Database,
   Github,
   Wrench
 } from "lucide-react"
@@ -451,12 +448,12 @@ export function SiteHeader() {
 
       <motion.header
         initial={false}
-        animate={{ 
+        animate={{
           y: isVisible ? 0 : -100,
-          opacity: isVisible ? 1 : 0
+          opacity: isVisible ? 1 : 0,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
           scrolled
             ? "bg-black/20 backdrop-blur-2xl border-b border-white/10 shadow-lg shadow-black/20"
             : "bg-black/10 backdrop-blur-xl border-b border-white/5"
@@ -486,13 +483,13 @@ export function SiteHeader() {
             itemType="https://schema.org/SiteNavigationElement"
           >
             {navItems.map((item) => {
-              const isActive = isItemActive(item)
-              const hasChildren = item.children && item.children.length > 0
-              const isMegaMenuOpen = openMegaMenu === item.href
+              const isActive = isItemActive(item);
+              const hasChildren = item.children && item.children.length > 0;
+              const isMegaMenuOpen = openMegaMenu === item.href;
 
               return (
-                <div 
-                  key={item.href} 
+                <div
+                  key={item.href}
                   className="relative"
                   onMouseEnter={() => hasChildren && setOpenMegaMenu(item.href)}
                   onMouseLeave={() => {
@@ -500,9 +497,9 @@ export function SiteHeader() {
                       // Delay to allow mouse to move to mega menu
                       setTimeout(() => {
                         if (openMegaMenu !== item.href) {
-                          setOpenMegaMenu(null)
+                          setOpenMegaMenu(null);
                         }
-                      }, 300)
+                      }, 300);
                     }
                   }}
                 >
@@ -520,7 +517,9 @@ export function SiteHeader() {
                     >
                       <span>{item.label}</span>
                       <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-300 ${isMegaMenuOpen ? "rotate-180" : ""}`}
+                        className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                          isMegaMenuOpen ? "rotate-180" : ""
+                        }`}
                         aria-hidden="true"
                       />
                     </button>
@@ -528,15 +527,15 @@ export function SiteHeader() {
                     <NavLink item={item} isActive={isActive} />
                   )}
                   {hasChildren && (
-                    <MegaMenu 
-                      item={item} 
-                      isOpen={isMegaMenuOpen} 
+                    <MegaMenu
+                      item={item}
+                      isOpen={isMegaMenuOpen}
                       onClose={handleMegaMenuClose}
                       onKeepOpen={() => setOpenMegaMenu(item.href)}
                     />
                   )}
                 </div>
-              )
+              );
             })}
           </nav>
 
@@ -546,7 +545,10 @@ export function SiteHeader() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, delay: 0.1 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.3,
+                delay: 0.1,
+              }}
               className="hidden lg:block"
             >
               <Button
@@ -556,8 +558,11 @@ export function SiteHeader() {
                 asChild
               >
                 <Link href="/agendamiento">
-                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
-                  <Calendar className="h-4 w-4 mr-2 relative z-10" aria-hidden="true" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
+                  <Calendar
+                    className="h-4 w-4 mr-2 relative z-10"
+                    aria-hidden="true"
+                  />
                   <span className="relative z-10">Agéndame</span>
                 </Link>
               </Button>
@@ -666,7 +671,7 @@ export function SiteHeader() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
-              
+
               {/* Mobile Header */}
               <div className="flex items-center justify-between p-4 border-b border-zinc-800/50 relative z-10">
                 <Logo animationLevel="playful" />
@@ -700,10 +705,11 @@ export function SiteHeader() {
               <div className="flex-1 overflow-y-auto py-6 px-4 relative z-10">
                 <nav className="space-y-1" aria-label="Navegación móvil">
                   {navItems.map((item, index) => {
-                    const isActive = isItemActive(item)
-                    const hasChildren = item.children && item.children.length > 0
-                    const isExpanded = openMegaMenu === item.href
-                    const isFirstItem = index === 0
+                    const isActive = isItemActive(item);
+                    const hasChildren =
+                      item.children && item.children.length > 0;
+                    const isExpanded = openMegaMenu === item.href;
+                    const isFirstItem = index === 0;
 
                     return (
                       <div key={item.href}>
@@ -715,19 +721,30 @@ export function SiteHeader() {
                               ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
                               : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
                           }`}
-                          onClick={hasChildren ? (e) => {
-                            e.preventDefault()
-                            handleMegaMenuToggle(item.href)
-                          } : closeMobileMenu}
+                          onClick={
+                            hasChildren
+                              ? (e) => {
+                                  e.preventDefault();
+                                  handleMegaMenuToggle(item.href);
+                                }
+                              : closeMobileMenu
+                          }
                           aria-current={isActive ? "page" : undefined}
                         >
                           <div className="flex items-center gap-3">
-                            {item.icon && <item.icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />}
+                            {item.icon && (
+                              <item.icon
+                                className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                                aria-hidden="true"
+                              />
+                            )}
                             <span className="font-medium">{item.label}</span>
                           </div>
                           {hasChildren && (
                             <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                              className={`w-4 h-4 transition-transform duration-300 ${
+                                isExpanded ? "rotate-180" : ""
+                              }`}
                               aria-hidden="true"
                             />
                           )}
@@ -739,7 +756,9 @@ export function SiteHeader() {
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
+                                transition={{
+                                  duration: shouldReduceMotion ? 0 : 0.2,
+                                }}
                                 className="overflow-hidden"
                               >
                                 <div className="py-2 pl-12 space-y-1">
@@ -756,7 +775,9 @@ export function SiteHeader() {
                                         </div>
                                       )}
                                       <div className="flex-1 min-w-0">
-                                        <div className="font-medium text-white group-hover/item:text-blue-400 transition-colors duration-300">{child.label}</div>
+                                        <div className="font-medium text-white group-hover/item:text-blue-400 transition-colors duration-300">
+                                          {child.label}
+                                        </div>
                                         {child.description && (
                                           <div className="text-xs text-zinc-500 group-hover/item:text-zinc-400 transition-colors duration-300 leading-relaxed mt-0.5 line-clamp-2">
                                             {child.description}
@@ -774,7 +795,7 @@ export function SiteHeader() {
                           </AnimatePresence>
                         )}
                       </div>
-                    )
+                    );
                   })}
                 </nav>
               </div>
@@ -787,7 +808,10 @@ export function SiteHeader() {
                 >
                   <Link href="/agendamiento" onClick={closeMobileMenu}>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover/btn:via-white/20 transition-all duration-300" />
-                    <Calendar className="h-4 w-4 mr-2 relative z-10" aria-hidden="true" />
+                    <Calendar
+                      className="h-4 w-4 mr-2 relative z-10"
+                      aria-hidden="true"
+                    />
                     <span className="relative z-10">Agéndame</span>
                   </Link>
                 </Button>
@@ -797,5 +821,5 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }
