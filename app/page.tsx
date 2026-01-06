@@ -235,22 +235,17 @@ export default function Home() {
                 </motion.div>
               </div>
 
-              {/* Enhanced profile image section */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+              {/* Enhanced profile image section - Optimized for LCP */}
+              <div
                 className="relative group flex justify-center items-center order-1 md:order-2"
                 role="img"
                 aria-label="Foto de perfil de José Carrillo"
               >
-                {/* Outer glow ring */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition duration-1000 group-hover:duration-200" aria-hidden="true"></div>
+                {/* Outer glow ring - Removed blur to improve LCP */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-300" aria-hidden="true"></div>
                 
                 <div className="relative w-[300px] h-[300px] rounded-full overflow-visible">
-                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/50 shadow-2xl" style={{
-                    boxShadow: '0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3)'
-                  }}>
+                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-blue-500/50 shadow-2xl">
                     <Image
                       src="https://avatars.githubusercontent.com/u/16759783"
                       alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
@@ -260,14 +255,11 @@ export default function Home() {
                       priority
                       fetchPriority="high"
                       loading="eager"
+                      quality={90}
+                      unoptimized={false}
                     />
-                    {/* Subtle gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-full" />
-                    {/* Vignette effect */}
-                    <div className="absolute inset-0 rounded-full" style={{
-                      boxShadow: 'inset 0 0 80px rgba(0, 0, 0, 0.4)'
-                    }} />
+                    {/* Simplified overlays - removed heavy blur effects */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/3 to-transparent rounded-full" />
                   </div>
                   
                   {/* Status badge */}
@@ -279,7 +271,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
             {/* Enhanced social links */}
             <motion.div
