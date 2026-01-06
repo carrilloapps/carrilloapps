@@ -103,6 +103,16 @@ html {
   @apply bg-zinc-900;
 }
 
+/* Animated grid background */
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
 ::-webkit-scrollbar-thumb {
   @apply bg-zinc-700 rounded-full;
 }
