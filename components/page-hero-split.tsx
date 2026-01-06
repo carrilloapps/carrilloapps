@@ -151,23 +151,23 @@ export function PageHeroSplit({
         {/* Right Column - Image or Custom Content */}
         {(image || rightContent) && (
           <motion.div
-            className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm order-1 md:order-2 flex items-center justify-center"
+            className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm order-1 md:order-2"
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
           >
             {image ? (
               <>
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 <Image
                   src={image.src}
                   alt={image.alt}
                   width={image.width || 600}
                   height={image.height || 600}
-                  className="object-cover"
+                  className="absolute inset-0 object-cover w-full h-full rounded-2xl border border-zinc-800/50"
                   priority={image.priority !== false}
                 />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 {/* Glassmorphism overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
               </>
