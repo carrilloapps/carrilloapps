@@ -14,7 +14,7 @@ import { DynamicCookieConsent } from "@/components/dynamic-imports"
 const inter = Inter({ 
   subsets: ["latin"],
   display: "swap",
-  preload: true,
+  preload: false, // Disabled to avoid 404 errors - Next.js optimizes font loading automatically
   adjustFontFallback: true,
   variable: "--font-inter",
   weight: ["400", "500", "600", "700", "800", "900"],
