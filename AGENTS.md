@@ -1,6 +1,6 @@
 # Agent Guidelines for CarrilloApps Project
 
-This document provides comprehensive guidelines for AI agents working on the CarrilloApps project. It includes project structure, component usage, design conventions, and best practices.
+This is the main agent configuration file for the CarrilloApps portfolio project. This document provides high-level guidelines and references to detailed documentation in subdirectories.
 
 ## Project Overview
 
@@ -12,13 +12,237 @@ This document provides comprehensive guidelines for AI agents working on the Car
 - **UI Library**: React 19.2.3
 - **Language**: TypeScript 5.9.3
 - **Styling**: Tailwind CSS 3.4.19
-- **Animations**: Framer Motion
+- **Animations**: Framer Motion 12.24.7
 - **Component Library**: Radix UI primitives with custom shadcn/ui components
 - **Deployment**: Vercel
 
 ### Package Versioning
 
 **IMPORTANT**: All packages use `~` (tilde) versioning for patch-level updates only. This ensures stability and prevents breaking changes from minor/major version updates.
+
+## Directory Structure
+
+```
+├── app/                    # Next.js App Router pages and layouts
+│   └── AGENTS.md          # Page structure and routing guidelines
+├── components/            # React components
+│   └── AGENTS.md          # Component usage and patterns
+├── lib/                   # Utility functions and services
+│   └── AGENTS.md          # Library utilities and services
+├── data/                  # Static data and configuration
+│   └── AGENTS.md          # Data structure and management
+├── hooks/                 # Custom React hooks
+│   └── AGENTS.md          # Hook usage patterns
+├── types/                 # TypeScript type definitions
+│   └── AGENTS.md          # Type conventions
+└── docs/                  # Project documentation
+    └── README.md          # Comprehensive documentation index
+
+```
+
+## Quick Start Guide
+
+### Creating New Pages
+
+All pages must follow the standard structure defined in [app/AGENTS.md](app/AGENTS.md):
+
+1. Use `PageLoadingProvider` and `PageLoadingOverlay`
+2. Include `DynamicBackground` component
+3. Use `PageHero` or `PageHeroSplit` for hero sections
+4. Follow consistent spacing: `space-y-24` between sections
+5. Implement scroll animations with standard variants
+
+### Using Components
+
+Component guidelines are detailed in [components/AGENTS.md](components/AGENTS.md):
+
+- **Hero Components**: `PageHero` (centered) and `PageHeroSplit` (split layout)
+- **Background**: `DynamicBackground` (used in ALL pages)
+- **Loading States**: Unified loading components
+- **UI Components**: shadcn/ui + Radix UI primitives
+
+### Working with Data
+
+Data management patterns are in [data/AGENTS.md](data/AGENTS.md):
+
+- Project data structure
+- Featured projects configuration
+- Static data management
+
+### Utility Functions
+
+Library utilities are documented in [lib/AGENTS.md](lib/AGENTS.md):
+
+- RSS feed services (Medium integration)
+- Environment variable handling
+- Utility functions
+
+## Mandatory Code Quality Standards
+
+### ESLint Compliance (Required Before Commit)
+
+**⚠️ CRITICAL: All code changes MUST pass lint with 0 errors and 0 warnings**
+
+Before committing any changes, ALWAYS run:
+
+```bash
+npm run lint
+```
+
+The command must complete clean: **0 errors, 0 warnings**
+
+#### Verification Process
+
+1. **Run lint**: `npm run lint`
+2. **Review errors**: Read each message carefully
+3. **Fix systematically**: Solve issues one by one
+4. **Verify again**: Re-run until clean
+5. **Local build**: `npm run build` must complete without errors
+
+#### Non-Negotiable Rules
+
+- ✅ **0 ESLint errors** (no exceptions)
+- ✅ **0 ESLint warnings** (no exceptions)
+- ✅ **Successful build** without compilation errors
+- ✅ **TypeScript without errors**
+- ✅ **No unused imports**
+- ✅ **No unused variables**
+- ✅ **No `any` types** (use specific types or `unknown`)
+
+**Commits that don't meet these requirements will be rejected.**
+
+### Performance Standards
+
+#### Largest Contentful Paint (LCP)
+
+**Target**: < 2.5 seconds (Good), < 4.0 seconds (Needs Improvement)
+
+All elements contributing to LCP must be optimized:
+
+1. **Above-the-Fold Images**:
+   - Use `priority={true}` on Next.js Image for critical images
+   - Use `fetchPriority="high"` on hero images
+   - Avoid heavy CSS filters (`contrast`, `brightness`) on LCP images
+   - Consider local images in `/public` instead of external URLs
+
+2. **Eliminate Rendering Delays**:
+   - Minimize blocking JavaScript before first render
+   - Use `loading="eager"` for critical content
+   - Avoid animations on LCP elements during initial load
+   - Reduce `transition` and `animation` delays in hero
+
+3. **Resource Optimization**:
+   - Preload critical resources with `<link rel="preload">`
+   - Use Next.js Image for automatic optimization
+   - Compress images (WebP/AVIF when possible)
+
+**Note**: If Lighthouse shows "Element rendering delay" > 1000ms, investigate:
+- Framer Motion animations delaying visibility
+- CSS effects blocking render (blur, backdrop-filter)
+- JavaScript blocking component mounting
+
+## Design Conventions
+
+### Colors and Gradients
+
+#### Hero Badge (Default)
+- Gradient: `from-emerald-600/20 to-teal-600/20`
+- Border: `border-emerald-500/30`
+- Text: `text-emerald-400`
+- Shadow: `shadow-emerald-600/10`
+
+**Why green?** Active menu items use blue/purple, so green badges provide better visual contrast.
+
+#### Title Gradients
+- Main title: `from-white via-blue-100 to-purple-200`
+- Section titles: `from-white via-blue-100 to-blue-300`
+
+### Spacing Standards
+
+- Between main sections: `space-y-24`
+- Hero section padding: `py-8 md:py-16`
+- Regular sections: `py-12 space-y-8`
+- First section after hero: `pt-6 pb-12` (reduced top padding)
+
+### Typography
+
+- Hero title: `text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter`
+- Hero description: `text-xl text-zinc-400 max-w-2xl mx-auto`
+- Section titles: `text-2xl md:text-3xl font-bold`
+
+## Animation Patterns
+
+Standard animation variants used throughout the project:
+
+```tsx
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+```
+
+## Important Rules
+
+### 1. No Visual Breadcrumbs
+**DO NOT** include visual breadcrumbs in UI. Only use JSON-LD in layout files for SEO.
+
+### 2. Always Use Standard Components
+- Use `PageHero` or `PageHeroSplit` for hero sections
+- Use `DynamicBackground` for page backgrounds (NOT `ParticleHeroBackground`)
+- Use unified loading components
+
+### 3. Consistent Animations
+All pages must use standard animation variants for uniform experience.
+
+### 4. Loading System
+Always use `PageLoadingProvider` for smooth page transitions.
+
+## Detailed Documentation
+
+For detailed information, refer to:
+
+- **Pages**: [app/AGENTS.md](app/AGENTS.md) - Page structure, routing, and patterns
+- **Components**: [components/AGENTS.md](components/AGENTS.md) - Component usage and props
+- **Library**: [lib/AGENTS.md](lib/AGENTS.md) - Utilities and services
+- **Data**: [data/AGENTS.md](data/AGENTS.md) - Data structures
+- **Hooks**: [hooks/AGENTS.md](hooks/AGENTS.md) - Custom hooks
+- **Types**: [types/AGENTS.md](types/AGENTS.md) - TypeScript types
+- **Full Documentation**: [docs/README.md](docs/README.md) - Complete project docs
+
+## Quick Reference
+
+### Common Commands
+
+```bash
+npm run dev          # Start development server
+npm run build        # Production build
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint issues automatically
+```
+
+### File Naming Conventions
+
+- **Pages**: `page.tsx` (Next.js App Router convention)
+- **Layouts**: `layout.tsx`
+- **Components**: `kebab-case.tsx` (e.g., `page-hero.tsx`)
+- **Utilities**: `kebab-case.ts` (e.g., `rss-service.ts`)
+- **Types**: `kebab-case.ts` (e.g., `medium.ts`)
+
+---
+
+**Last Updated**: January 2026 - Based on Next.js 16.1.1, React 19, and current project standards
 
 ## Core Hero Components
 
