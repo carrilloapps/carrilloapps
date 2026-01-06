@@ -119,13 +119,13 @@ const navItems: NavItem[] = [
     description: "Herramientas y repositorios",
     children: [
       {
-        href: "/recursos",
+        href: "/recursos#repositorios",
         label: "Repositorios",
         description: "Proyectos open source",
         icon: Github,
       },
       {
-        href: "/recursos",
+        href: "/recursos#herramientas",
         label: "Herramientas",
         description: "Utilidades y recursos útiles",
         icon: Wrench,
@@ -212,7 +212,6 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
             <div className="space-y-0">
               {item.children?.map((child, index) => {
                 const ChildIcon = child.icon
-                const isLast = index === (item.children?.length ?? 0) - 1
                 return (
                   <div key={child.href}>
                     <motion.div
@@ -279,6 +278,7 @@ export function SiteHeader() {
 
   // Handle scroll effect - hide/show header based on scroll direction
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
 
     const handleScroll = () => {

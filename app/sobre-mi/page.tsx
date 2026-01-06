@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Award, BookOpen, Calendar, User, Download, Mail, Eye } from "lucide-react";
+import { ArrowRight, Award, BookOpen, Calendar, User, Download, Eye } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";

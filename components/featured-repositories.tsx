@@ -39,7 +39,7 @@ export function FeaturedRepositories() {
           throw new Error("Failed to fetch GitHub repositories")
         }
         const githubResult = await githubResponse.json()
-        const githubPinned = (githubResult.pinnedRepos || []).map((repo: any) => ({
+        const githubPinned = (githubResult.pinnedRepos || []).map((repo: Repository) => ({
           ...repo,
           source: "github" as const,
         }))
@@ -50,7 +50,7 @@ export function FeaturedRepositories() {
           throw new Error("Failed to fetch GitLab repositories")
         }
         const gitlabResult = await gitlabResponse.json()
-        const gitlabPinned = (gitlabResult.pinnedRepos || []).map((repo: any) => ({
+        const gitlabPinned = (gitlabResult.pinnedRepos || []).map((repo: Repository) => ({
           ...repo,
           source: "gitlab" as const,
         }))

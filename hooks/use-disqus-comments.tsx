@@ -9,16 +9,6 @@ interface DisqusCommentsData {
   error: string | null
 }
 
-interface DisqusThread {
-  id: string
-  posts: number
-  identifiers: string[]
-}
-
-interface DisqusApiResponse {
-  response: DisqusThread[]
-}
-
 /**
  * Hook to fetch comment count from Disqus API
  * Uses multiple methods to get the most accurate count
@@ -30,8 +20,11 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
 
   useEffect(() => {
     if (!identifier || !publicEnv.DISQUS_SHORTNAME) {
-      setIsLoading(false)
-      setError("Missing Disqus configuration")
+      // Using timeout to defer setState and avoid cascading render
+      setTimeout(() => {
+        setIsLoading(false)
+        setError("Missing Disqus configuration")
+      }, 0)
       return
     }
 
@@ -52,7 +45,7 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
             const threadElement = document.getElementById('disqus_thread')
             if (threadElement) {
               // Try to get count from Disqus thread data
-              const disqusData = (window as any).DISQUS?.page
+              const disqusData = (window as unknown as { DISQUS?: { page?: { identifier?: string } } }).DISQUS?.page
               if (disqusData && disqusData.identifier === identifier) {
                 // This is a fallback - Disqus doesn't expose count directly
                 // We'll rely on the count script method

@@ -21,7 +21,13 @@ interface RSSResponse {
   items: RSSItem[]
 }
 
-interface RSSItem {
+interface RSSEnclosure {
+  link?: string;
+  type?: string;
+  length?: number;
+}
+
+export interface RSSItem {
   title: string
   pubDate: string
   link: string
@@ -30,7 +36,7 @@ interface RSSItem {
   thumbnail: string
   description: string
   content: string
-  enclosure: any
+  enclosure: RSSEnclosure
   categories: string[]
 }
 
@@ -40,7 +46,7 @@ interface CacheEntry<T> {
   timestamp: number
 }
 
-const clientCache = new Map<string, CacheEntry<any>>()
+const clientCache = new Map<string, CacheEntry<unknown>>()
 
 // Función para verificar si el cache es válido
 function isCacheValid(timestamp: number): boolean {

@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Calendar, Clock, Search, Filter, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -64,7 +64,7 @@ export function BlogPosts({
     setSelectedCategory(value);
   };
 
-  const filterPosts = (posts: MediumPost[]) => {
+  const filterPosts = useCallback((posts: MediumPost[]) => {
     return posts.filter((post) => {
       const matchesSearch =
         searchQuery === "" ||
@@ -79,7 +79,7 @@ export function BlogPosts({
 
       return matchesSearch && matchesCategory;
     });
-  };
+  }, [searchQuery, selectedCategory]);
 
   const handleLinkClick = () => {
     setLoading(true);
@@ -160,7 +160,7 @@ export function BlogPosts({
     const filteredPosts = filterPosts(posts);
     setTotalPages(Math.ceil(filteredPosts.length / postsPerPage));
     setCurrentPage(1); // Reset to first page when filters change
-  }, [searchQuery, selectedCategory, posts]);
+  }, [searchQuery, selectedCategory, posts, filterPosts]);
 
   // Obtener los posts para la página actual
   const getCurrentPagePosts = () => {
@@ -308,7 +308,7 @@ export function BlogPosts({
         initial="hidden"
         animate="visible"
       >
-        {getCurrentPagePosts().map((post, index) => (
+        {getCurrentPagePosts().map((post, _index) => (
           <motion.div
             key={post.guid}
             variants={itemVariants}

@@ -1,6 +1,6 @@
 "use client"
 
-import { Mail, MapPin, Phone, Github, Linkedin, Send, Clock, Globe, MessageSquare, HelpCircle, Settings, Code, Shield, Share2, Eye, EyeOff } from "lucide-react"
+import { Mail, MapPin, Phone, Github, Linkedin, Send, Clock, Globe, MessageSquare, Eye } from "lucide-react"
 import { motion, type Variants } from "framer-motion"
 import { useState, useEffect, useCallback, useRef } from "react"
 

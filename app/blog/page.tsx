@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, use } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { BlogPosts } from "@/components/blog-posts";
 import BlogFeatured from "@/components/blog-featured";
 import { BlogFeaturedLoading, BlogGridLoading, OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";

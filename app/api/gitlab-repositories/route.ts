@@ -1,5 +1,17 @@
 import { NextResponse } from "next/server"
 
+// GitLab API types
+interface GitLabProject {
+  id: number;
+  name: string;
+  description: string | null;
+  star_count: number;
+  forks_count: number;
+  web_url: string;
+  last_activity_at: string;
+  topics: string[];
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const username = searchParams.get("username") || "carrilloapps"
@@ -48,13 +60,13 @@ export async function GET(request: Request) {
 
     // Get starred projects as a proxy for "pinned" since GitLab doesn't have a direct pinned concept
     // In a real implementation, you might want to hardcode the IDs of important repos
-    const pinnedRepos = data.filter((repo: any) => repo.star_count > 0).slice(0, 3)
+    const pinnedRepos = data.filter((repo: GitLabProject) => repo.star_count > 0).slice(0, 3)
 
     // Apply filters
     let filteredData = data
 
     if (language !== "all") {
-      filteredData = filteredData.filter((repo: any) => {
+      filteredData = filteredData.filter((_repo: GitLabProject) => {
         // GitLab doesn't directly expose language in the projects API
         // You might need to make additional API calls or use a different approach
         return true // For now, we'll skip language filtering for GitLab
@@ -63,14 +75,14 @@ export async function GET(request: Request) {
 
     if (search) {
       filteredData = filteredData.filter(
-        (repo: any) =>
+        (repo: GitLabProject) =>
           repo.name.toLowerCase().includes(search.toLowerCase()) ||
           (repo.description && repo.description.toLowerCase().includes(search.toLowerCase())),
       )
     }
 
     // Transform the data to match our Repository type
-    const repositories = filteredData.map((repo: any) => ({
+    const repositories = filteredData.map((repo: GitLabProject) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description || "",
@@ -79,14 +91,14 @@ export async function GET(request: Request) {
       forks: repo.forks_count,
       updated_at: repo.last_activity_at,
       html_url: repo.web_url,
-      pinned: pinnedRepos.some((pinnedRepo: any) => pinnedRepo.id === repo.id),
+      pinned: pinnedRepos.some((pinnedRepo: GitLabProject) => pinnedRepo.id === repo.id),
     }))
 
     // Get total count from GitLab API
     const totalCount = Number.parseInt(response.headers.get("X-Total") || "0")
     const totalPages = Number.parseInt(response.headers.get("X-Total-Pages") || "1")
 
-    const pinnedRepositories = pinnedRepos.map((repo: any) => ({
+    const pinnedRepositories = pinnedRepos.map((repo: GitLabProject) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description || "",

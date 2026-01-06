@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { MessageSquare, Users, Clock, AlertCircle } from "lucide-react"
+import { MessageSquare, Users, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -15,14 +15,6 @@ interface DisqusCommentsProps {
   identifier: string
   title: string
   url?: string
-}
-
-interface DisqusConfig {
-  page: {
-    identifier: string
-    url: string
-    title: string
-  }
 }
 
 declare global {

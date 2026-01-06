@@ -7,10 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send, Mail, Phone, MapPin, Clock, Globe, Github, Linkedin } from "lucide-react";
 import { ContactInfoCard } from "@/components/contact-info-card";
-import { SocialLinkCard } from "@/components/social-link-card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
 
 // X (Twitter) Icon Component
 const XIcon = ({ className }: { className?: string }) => (

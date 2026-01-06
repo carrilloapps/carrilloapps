@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LucideIcon, Clock, Globe } from "lucide-react";
-import { Eye } from "lucide-react";
+import { LucideIcon, Eye } from "lucide-react";
 
 interface ContactInfoCardProps {
   icon: LucideIcon;
