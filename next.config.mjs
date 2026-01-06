@@ -11,6 +11,7 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year in seconds
+    qualities: [75, 90], // Support both default and high quality
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -110,11 +111,6 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // Performance headers
-          {
-            key: 'Link',
-            value: '<https://avatars.githubusercontent.com>; rel=preconnect, <https://miro.medium.com>; rel=preconnect',
-          },
           // Security headers
           {
             key: 'X-DNS-Prefetch-Control',

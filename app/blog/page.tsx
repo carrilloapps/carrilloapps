@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, use } from "react";
+import { Suspense, use, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BlogPosts } from "@/components/blog-posts";
 import BlogFeatured from "@/components/blog-featured";
@@ -18,6 +18,24 @@ interface BlogPageProps {
 function BlogPageContent({ searchParams }: BlogPageProps) {
   const { isLoading } = usePageLoading();
   const { category, search } = use(searchParams)
+
+  // Add preconnect for Medium images only on blog page
+  useEffect(() => {
+    const preconnectLink = document.createElement('link');
+    preconnectLink.rel = 'preconnect';
+    preconnectLink.href = 'https://miro.medium.com';
+    document.head.appendChild(preconnectLink);
+    
+    const preconnectLink2 = document.createElement('link');
+    preconnectLink2.rel = 'preconnect';
+    preconnectLink2.href = 'https://cdn-images-1.medium.com';
+    document.head.appendChild(preconnectLink2);
+    
+    return () => {
+      document.head.removeChild(preconnectLink);
+      document.head.removeChild(preconnectLink2);
+    };
+  }, []);
 
   return (
     <>
