@@ -719,5 +719,71 @@ When using the `image` prop, the image automatically receives:
 
 ---
 
+## Mandatory Code Quality Standards
+
+### ESLint Compliance (Required Before Commit)
+
+**⚠️ CRÍTICO: Todo cambio de código DEBE pasar el lint sin errores ni warnings**
+
+Antes de hacer commit de cualquier cambio, SIEMPRE ejecuta:
+
+```bash
+npm run lint
+```
+
+El comando debe completarse limpio: **0 errors, 0 warnings**
+
+#### Proceso de Verificación
+
+1. **Ejecuta el lint**: `npm run lint`
+2. **Revisa errores**: Lee cuidadosamente cada mensaje
+3. **Corrige sistemáticamente**: Soluciona uno por uno
+4. **Verifica de nuevo**: Re-ejecuta hasta estar limpio
+5. **Build local**: `npm run build` debe completarse sin errores
+
+#### Reglas No Negociables
+
+- ✅ **0 errores de ESLint** (ninguna excepción)
+- ✅ **0 warnings de ESLint** (ninguna excepción)
+- ✅ **Build exitoso** sin errores de compilación
+- ✅ **TypeScript sin errores** de tipos
+- ✅ **Sin importaciones no utilizadas** (unused imports)
+- ✅ **Sin variables no utilizadas** (unused vars)
+- ✅ **Sin tipos `any`** (usar tipos específicos o `unknown`)
+
+**Commits que no cumplan estos requisitos serán rechazados.**
+
+### Performance Standards
+
+#### Largest Contentful Paint (LCP)
+
+**Target**: < 2.5 segundos (Good), < 4.0 segundos (Needs Improvement)
+
+Todos los elementos que contribuyen al LCP deben optimizarse:
+
+1. **Imágenes Above-the-Fold**:
+   - Usar `priority={true}` en Next.js Image para imágenes críticas
+   - Usar `fetchPriority="high"` en imágenes del hero
+   - Evitar filtros CSS pesados (`contrast`, `brightness`) en imágenes LCP
+   - Considerar imágenes locales en `/public` en lugar de URLs externas
+
+2. **Eliminar Retrasos de Renderización**:
+   - Minimizar JavaScript bloqueante antes del primer render
+   - Usar `loading="eager"` para contenido crítico
+   - Evitar animaciones en elementos LCP durante la carga inicial
+   - Reducir `transition` y `animation` delays en el hero
+
+3. **Optimización de Recursos**:
+   - Precargar recursos críticos con `<link rel="preload">`
+   - Usar Next.js Image para optimización automática
+   - Comprimir imágenes (WebP/AVIF cuando sea posible)
+
+**Nota**: Si Lighthouse muestra "Retraso en la renderización del elemento" > 1000ms, investiga:
+- Animaciones de Framer Motion que retrasan la visibilidad
+- Efectos CSS que bloquean el render (blur, backdrop-filter)
+- JavaScript que bloquea el montaje del componente
+
+---
+
 **Last Updated**: Based on project state as of DynamicBackground implementation, PageHeroSplit enhancements, and green badge default colors.
 

@@ -46,7 +46,7 @@ export function CookieConsent() {
               <p className="text-zinc-400 text-sm">
                 Utilizamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar el contenido. Al
                 hacer clic en "Aceptar", consientes el uso de cookies según nuestra{" "}
-                <Link href="/cookie-policy" className="text-blue-500 hover:underline">
+                <Link href="/cookies" className="text-blue-500 hover:underline">
                   política de cookies
                 </Link>
                 .

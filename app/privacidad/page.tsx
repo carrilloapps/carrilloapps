@@ -131,7 +131,7 @@ export default function PrivacyPolicyPage() {
                 información más detallada sobre las cookies específicas que
                 utilizo, consulta mi
                 <a
-                  href="/cookie-policy"
+                  href="/cookies"
                   className="text-blue-500 hover:text-blue-400"
                 >
                   {" "}

@@ -152,9 +152,10 @@ export function PageHeroSplit({
         {(image || rightContent) && (
           <motion.div
             className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm order-1 md:order-2"
-            variants={itemVariants}
-            whileHover={{ scale: 1.02 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
+            whileHover={{ scale: 1.02 }}
           >
             {image ? (
               <>
@@ -165,12 +166,13 @@ export function PageHeroSplit({
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover rounded-2xl border border-zinc-800/50"
                   priority={image.priority !== false}
-                  {...(image.priority !== false && { fetchPriority: "high" as const })}
+                  {...(image.priority !== false && { 
+                    fetchPriority: "high" as const,
+                    loading: "eager" as const
+                  })}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                {/* Glassmorphism overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
               </>
             ) : (
               <>{rightContent}</>
