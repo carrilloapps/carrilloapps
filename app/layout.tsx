@@ -72,13 +72,9 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Performance optimizations */}
+        {/* Performance optimizations - Only preconnect to origins used on initial load */}
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
-        <link rel="preconnect" href="https://miro.medium.com" />
-        <link rel="dns-prefetch" href="https://miro.medium.com" />
-        <link rel="preconnect" href="https://cdn-images-1.medium.com" />
-        <link rel="dns-prefetch" href="https://cdn-images-1.medium.com" />
         
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
