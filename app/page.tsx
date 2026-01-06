@@ -1,20 +1,25 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
-import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
+import { ArrowRight, Github, Linkedin, Mail, Download, Eye, Send, Phone, Clock, MapPin, Globe } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/legacy/image"
 
 import { projects } from "@/data/projects"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Separator } from "@/components/ui/separator"
+import { ContactInfoCard } from "@/components/contact-info-card"
+import { ContactSocialSection } from "@/components/contact-social-section"
+import { CompactContactSection } from "@/components/compact-contact-section"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
@@ -22,12 +27,150 @@ import { AnimatedSection } from "@/components/animated-section"
 import { ProjectDialog } from "@/components/project-dialog"
 import { useIsMobile } from "@/hooks/use-media-query"
 
+// Security utilities
+const obfuscateEmail = (email: string): string => {
+  return btoa(email).split('').reverse().join('')
+}
+
+const deobfuscateEmail = (obfuscated: string): string => {
+  return atob(obfuscated.split('').reverse().join(''))
+}
+
+const obfuscatePhone = (phone: string): string => {
+  return phone.split('').map((char, index) => 
+    index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) + 1)
+  ).join('')
+}
+
+const deobfuscatePhone = (obfuscated: string): string => {
+  return obfuscated.split('').map((char, index) => 
+    index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) - 1)
+  ).join('')
+}
+
+// Rate limiting hook
+const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
+  const [attempts, setAttempts] = useState<number[]>([])
+  
+  const isLimited = useCallback(() => {
+    const now = Date.now()
+    const recentAttempts = attempts.filter(time => now - time < windowMs)
+    return recentAttempts.length >= limit
+  }, [attempts, limit, windowMs])
+  
+  const recordAttempt = useCallback(() => {
+    const now = Date.now()
+    setAttempts(prev => [...prev.filter(time => now - time < windowMs), now])
+  }, [windowMs])
+  
+  return { isLimited: isLimited(), recordAttempt }
+}
+
 export default function Home() {
   const isMobile = useIsMobile()
   const [cvModalOpen, setCvModalOpen] = useState(false)
   const [cvFormSubmitted, setCvFormSubmitted] = useState(false)
-  const [formData, setFormData] = useState({ name: "", email: "" })
-  const [formErrors, setFormErrors] = useState({ name: "", email: "" })
+  const [cvFormData, setCvFormData] = useState({ name: "", email: "" })
+  const [cvFormErrors, setCvFormErrors] = useState({ name: "", email: "" })
+  
+  // Contact form security states
+  const [emailRevealed, setEmailRevealed] = useState(false)
+  const [phoneRevealed, setPhoneRevealed] = useState(false)
+  const [contactFormData, setContactFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    honeypot: '' // Hidden field for bot detection
+  })
+  
+  // Rate limiting for contact form
+  const { isLimited: isContactLimited, recordAttempt: recordContactAttempt } = useRateLimit(3, 60000)
+  
+  // Form submission tracking
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [lastSubmission, setLastSubmission] = useState<number>(0)
+  
+  // Refs for additional security
+  const contactFormRef = useRef<HTMLFormElement>(null)
+  const startTime = useRef<number>(Date.now())
+  
+  // Obfuscated contact data
+  const obfuscatedEmail = obfuscateEmail('m@carrillo.app')
+  const obfuscatedPhone = obfuscatePhone('+57 (300) 332 8389')
+  
+  // Security checks on mount
+  useEffect(() => {
+    startTime.current = Date.now()
+  }, [])
+  
+  // Handle contact form input changes
+  const handleContactInputChange = (field: string, value: string) => {
+    setContactFormData(prev => ({ ...prev, [field]: value }))
+  }
+  
+  // Handle contact form submission with security checks
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Security validations
+    if (contactFormData.honeypot) {
+      console.warn('Honeypot field filled, submission blocked')
+      return
+    }
+    
+    if (isContactLimited) {
+      alert('Demasiados intentos. Por favor, espera un momento antes de intentar nuevamente.')
+      return
+    }
+    
+    // Check submission timing
+    const submissionTime = Date.now() - startTime.current
+    if (submissionTime < 1000) {
+      console.warn('Submission too fast, likely bot')
+      return
+    }
+    
+    // Check for duplicate rapid submissions
+    if (Date.now() - lastSubmission < 5000) {
+      alert('Por favor, espera antes de enviar otro mensaje.')
+      return
+    }
+    
+    setIsSubmitting(true)
+    recordContactAttempt()
+    setLastSubmission(Date.now())
+    
+    try {
+      // Here you would implement your actual form submission logic
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      // Reset form after successful submission
+      setContactFormData({
+        name: '',
+        email: '',
+        subject: contactFormData.subject || '', // Keep subject if it exists (for full form)
+        message: '',
+        honeypot: ''
+      })
+      
+      alert('¡Mensaje enviado exitosamente!')
+    } catch (error) {
+      console.error('Error sending message:', error)
+      alert('Error al enviar el mensaje. Por favor, inténtalo nuevamente.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+  
+  // Reveal contact information
+  const revealEmail = () => {
+    setEmailRevealed(true)
+  }
+  
+  const revealPhone = () => {
+    setPhoneRevealed(true)
+  }
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
@@ -853,12 +996,12 @@ export default function Home() {
         </AnimatedSection>
 
         {/* Contact Section */}
-        <AnimatedSection id="contact" className="py-16 md:py-24 relative" delay={0.4} role="region" aria-labelledby="contact-heading">
+        <AnimatedSection id="contact" className="py-12 md:py-16 relative" delay={0.4} role="region" aria-labelledby="contact-heading">
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-green-900/5 via-emerald-900/5 to-slate-900/5 pointer-events-none"></div>
 
           <div className="container mx-auto px-4 relative z-10">
-            <div className="space-y-6 text-center pb-8">
+            <div className="space-y-4 text-center pb-6">
               <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-600/30 text-green-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-green-600/10" role="text">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -890,148 +1033,28 @@ export default function Home() {
               </motion.p>
             </div>
 
-            <Card className="bg-zinc-900 border-zinc-800 max-w-2xl mx-auto mb-8" role="form" aria-labelledby="contact-form-heading">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="sr-only" id="contact-form-heading">Formulario de contacto</h3>
-                <form className="space-y-4" role="form" aria-label="Enviar mensaje de contacto">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium">
-                        Nombre <span className="text-red-500" aria-label="campo requerido">*</span>
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        required
-                        aria-required="true"
-                        aria-describedby="name-help"
-                        placeholder="Su nombre completo"
-                        className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
-                      />
-                      <div id="name-help" className="sr-only">Ingrese su nombre completo</div>
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium">
-                        Correo electrónico <span className="text-red-500" aria-label="campo requerido">*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        aria-required="true"
-                        aria-describedby="email-help"
-                        placeholder="Su dirección de correo electrónico"
-                        className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
-                      />
-                      <div id="email-help" className="sr-only">Ingrese una dirección de correo electrónico válida</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium">
-                      Asunto <span className="text-red-500" aria-label="campo requerido">*</span>
-                    </label>
-                    <input
-                      id="subject"
-                      name="subject"
-                      required
-                      aria-required="true"
-                      aria-describedby="subject-help"
-                      placeholder="¿Cómo puedo ayudarte?"
-                      className="flex h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
-                    />
-                    <div id="subject-help" className="sr-only">Describa brevemente el motivo de su contacto</div>
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium">
-                      Mensaje <span className="text-red-500" aria-label="campo requerido">*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      aria-required="true"
-                      aria-describedby="message-help"
-                      placeholder="Dame un poco más de contexto para entender tu idea"
-                      rows={5}
-                      className="flex w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 py-2 text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-visible:ring-offset-2"
-                    ></textarea>
-                    <div id="message-help" className="sr-only">Proporcione detalles adicionales sobre su consulta o proyecto</div>
-                  </div>
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500" aria-label="Enviar formulario de contacto">
-                    Enviar mensaje
-                    <span className="sr-only">Se enviará su mensaje a través del formulario de contacto</span>
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-
-            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto" role="list" aria-label="Métodos de contacto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group"
-                role="listitem"
-              >
-                <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-green-500/20 group-hover:border-green-500/30 transition-all duration-300 focus-within:ring-2 focus-within:ring-green-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900" role="article" aria-labelledby="email-heading">
-                  <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                    <Mail className="h-10 w-10 text-blue-500" role="img" aria-label="Icono de correo electrónico" />
-                    <h3 id="email-heading" className="text-lg font-bold">Correo electrónico</h3>
-                    <p className="text-zinc-400" role="text">m@carrillo.app</p>
-                    <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900" aria-label="Enviar mensaje a m@carrillo.app">
-                      Enviame un mensaje
-                      <span className="sr-only">Se abrirá su cliente de correo electrónico</span>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group"
-                role="listitem"
-              >
-                <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-blue-500/20 group-hover:border-blue-500/30 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900" role="article" aria-labelledby="linkedin-heading">
-                  <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                    <Linkedin className="h-10 w-10 text-blue-500" role="img" aria-label="Icono de LinkedIn" />
-                    <h3 id="linkedin-heading" className="text-lg font-bold">LinkedIn</h3>
-                    <p className="text-zinc-400" role="text">Conéctate profesionalmente</p>
-                    <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900" aria-label="Ver perfil de LinkedIn">
-                      Ver perfil
-                      <span className="sr-only">Se abrirá LinkedIn en una nueva pestaña</span>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group sm:col-span-2 lg:col-span-1"
-                role="listitem"
-              >
-                <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 border border-zinc-700/50 h-full backdrop-blur-sm shadow-xl shadow-black/20 group-hover:shadow-purple-500/20 group-hover:border-purple-500/30 transition-all duration-300 focus-within:ring-2 focus-within:ring-purple-500 focus-within:ring-offset-2 focus-within:ring-offset-zinc-900" role="article" aria-labelledby="github-heading">
-                  <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                    <Github className="h-10 w-10 text-blue-500" role="img" aria-label="Icono de GitHub" />
-                    <h3 id="github-heading" className="text-lg font-bold">GitHub</h3>
-                    <p className="text-zinc-400" role="text">Conoce mis proyectos</p>
-                    <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus-ring-offset-zinc-900" asChild>
-                      <Link href="https://github.com/carrilloapps" target="_blank" aria-label="Ver repositorios en GitHub">
-                        Ver repositorios
-                        <span className="sr-only">Se abrirá GitHub en una nueva pestaña</span>
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </div>
+            <CompactContactSection
+              formData={{
+                name: contactFormData.name,
+                email: contactFormData.email,
+                subject: contactFormData.subject,
+                message: contactFormData.message,
+                honeypot: contactFormData.honeypot,
+              }}
+              onInputChange={handleContactInputChange}
+              onSubmit={handleContactSubmit}
+              isSubmitting={isSubmitting}
+              isLimited={isContactLimited}
+              formRef={contactFormRef}
+              emailRevealed={emailRevealed}
+              phoneRevealed={phoneRevealed}
+              onRevealEmail={revealEmail}
+              onRevealPhone={revealPhone}
+              obfuscatedEmail={obfuscatedEmail}
+              obfuscatedPhone={obfuscatedPhone}
+              deobfuscateEmail={deobfuscateEmail}
+              deobfuscatePhone={deobfuscatePhone}
+            />
           </div>
         </AnimatedSection>
       </main>
@@ -1054,20 +1077,20 @@ export default function Home() {
 
                 // Validate form
                 const errors = {
-                  name: formData.name ? "" : "El nombre es requerido",
-                  email: !formData.email
+                  name: cvFormData.name ? "" : "El nombre es requerido",
+                  email: !cvFormData.email
                     ? "El correo electrónico es requerido"
-                    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+                    : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cvFormData.email)
                       ? "Por favor ingresa un correo electrónico válido"
                       : "",
                 }
 
-                setFormErrors(errors)
+                setCvFormErrors(errors)
 
                 // If no errors, submit form
                 if (!errors.name && !errors.email) {
                   // Here you would typically send the data to your backend
-                  console.log("Form submitted:", formData)
+                  console.log("Form submitted:", cvFormData)
                   setCvFormSubmitted(true)
                 }
               }}
@@ -1079,14 +1102,14 @@ export default function Home() {
                 </Label>
                 <Input
                   id="name"
-                  value={formData.name}
+                  value={cvFormData.name}
                   autoCapitalize="words"
                   autoComplete="name"
                   autoCorrect="off"
                   spellCheck="false"
                   required
                   aria-required="true"
-                  aria-invalid={!!formErrors.name}
+                  aria-invalid={!!cvFormErrors.name}
                   aria-errormessage="name-error"
                   aria-describedby="name-error"
                   aria-label="Nombre completo"
@@ -1095,11 +1118,11 @@ export default function Home() {
                   aria-autocorrect="off"
                   aria-spellcheck="false"
                   aria-autocapitalize="words"
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) => setCvFormData({ ...cvFormData, name: e.target.value })}
                   className="bg-zinc-800 border-zinc-700 text-white"
                   placeholder="Por favor ingresa tu nombre completo"
                 />
-                {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
+                {cvFormErrors.name && <p className="text-red-500 text-sm">{cvFormErrors.name}</p>}
               </div>
 
               <div className="space-y-2">
@@ -1115,7 +1138,7 @@ export default function Home() {
                   spellCheck="false"
                   required
                   aria-required="true"
-                  aria-invalid={!!formErrors.email}
+                  aria-invalid={!!cvFormErrors.email}
                   aria-errormessage="email-error"
                   aria-describedby="email-error"
                   aria-label="Correo electrónico"
@@ -1124,12 +1147,12 @@ export default function Home() {
                   aria-autocorrect="off"
                   aria-spellcheck="false"
                   aria-autocapitalize="none"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  value={cvFormData.email}
+                  onChange={(e) => setCvFormData({ ...cvFormData, email: e.target.value })}
                   className="bg-zinc-800 border-zinc-700 text-white"
                   placeholder="Por favor ingrese su correo electrónico"
                 />
-                {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
+                {cvFormErrors.email && <p className="text-red-500 text-sm">{cvFormErrors.email}</p>}
               </div>
 
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
@@ -1155,8 +1178,8 @@ export default function Home() {
               </div>
 
               <div className="text-center text-zinc-400 text-sm">
-                <p>¡Gracias por el interés, {formData.name}!</p>
-                <p>Se ha enviado tambien a {formData.email}.</p>
+                <p>¡Gracias por el interés, {cvFormData.name}!</p>
+                <p>Se ha enviado tambien a {cvFormData.email}.</p>
               </div>
             </div>
           )}
