@@ -32,6 +32,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn-images-1.medium.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.fashionnetwork.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.bancolombia.com',
+      },
     ],
   },
   
