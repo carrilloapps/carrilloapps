@@ -13,12 +13,12 @@ export const metadata: Metadata = {
     "cookies esenciales",
   ],
   alternates: {
-    canonical: "/cookie-policy",
+    canonical: "/cookies",
   },
   openGraph: {
     title: "Política de Cookies | José Carrillo",
     description: "Política de cookies que explica cómo se utilizan las cookies en el sitio web carrillo.app.",
-    url: "https://carrillo.app/cookie-policy",
+    url: "https://carrillo.app/cookies",
   },
   robots: {
     index: false,
@@ -37,7 +37,7 @@ export default function CookiePolicyLayout({
       <BreadcrumbJsonLd
         items={[
           { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Política de Cookies", url: "https://carrillo.app/cookie-policy" },
+          { name: "Política de Cookies", url: "https://carrillo.app/cookies" },
         ]}
       />
     </>

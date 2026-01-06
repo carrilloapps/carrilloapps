@@ -237,9 +237,9 @@ export default function Home() {
 
               {/* Enhanced profile image section */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ delay: 0.4, duration: 0.6, type: "spring", stiffness: 100 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 className="relative group flex justify-center items-center order-1 md:order-2"
                 role="img"
                 aria-label="Foto de perfil de José Carrillo"
@@ -256,9 +256,10 @@ export default function Home() {
                       alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
                       width={300}
                       height={300}
-                      className="object-cover w-full h-full contrast-110 brightness-90"
+                      className="object-cover w-full h-full"
                       priority
                       fetchPriority="high"
+                      loading="eager"
                     />
                     {/* Subtle gradient overlays */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-transparent rounded-full" />
