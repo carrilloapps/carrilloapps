@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { PageHeroSplit } from "@/components/page-hero-split";
 import Link from "next/link";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -34,7 +35,7 @@ const itemVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: "easeOut",
     },
   },
 };
@@ -52,104 +53,56 @@ export default function AboutPage() {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
       <SiteHeader />
       <main className="relative z-10 container py-12 space-y-24">
-        {/* Hero Section */}
-        <motion.section
-          className="py-12 md:py-0 space-y-8"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <motion.div className="space-y-6 order-2 md:order-1" variants={itemVariants}>
-              <div className="space-y-2">
-                <motion.div variants={itemVariants}>
-                  <Badge
-                    variant="outline"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-                  >
-                    Conóceme
-                  </Badge>
-                </motion.div>
-                <motion.h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg"
-                  variants={itemVariants}
-                >
-                  Hola, soy José Carrillo
-                </motion.h1>
-                <motion.p
-                  className="text-xl text-zinc-400"
-                  variants={itemVariants}
-                >
-                  Mi trayectoria profesional en el mundo del desarrollo
-                </motion.p>
-              </div>
-              <motion.p
-                className="text-zinc-400 leading-relaxed"
-                variants={itemVariants}
-              >
+        <PageHeroSplit
+          badge={{ text: "Conóceme" }}
+          title="Hola, soy José Carrillo"
+          subtitle="Mi trayectoria profesional en el mundo del desarrollo"
+          description={
+            <>
+              <p className="text-zinc-400 leading-relaxed pb-4">
                 Con más de 10 años de experiencia en la industria tecnológica,
                 he dedicado mi carrera a construir sistemas financieros robustos
                 y liderar equipos técnicos hacia el éxito. Mi pasión reside en
                 resolver problemas complejos y crear software que genere un
                 impacto real en las operaciones empresariales.
-              </motion.p>
-              <motion.p
-                className="text-zinc-400 leading-relaxed"
-                variants={itemVariants}
-              >
+              </p>
+              <p className="text-zinc-400 leading-relaxed">
                 Como líder técnico, creo en fomentar una cultura de innovación,
                 aprendizaje continuo y colaboración. Estoy comprometido con la
                 mentoría de la nueva generación de desarrolladores y con la
                 creación de soluciones de software sostenibles y escalables.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-                role="group"
-                aria-label="Acciones principales"
+              </p>
+            </>
+          }
+          image={{
+            src: "https://avatars.githubusercontent.com/u/16759783",
+            alt: "José Carrillo",
+            width: 600,
+            height: 600,
+            priority: true,
+          }}
+          actions={
+            <>
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                <Link href="/contacto" aria-describedby="explore-projects-desc">
+                  Contactarme
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                  <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                onClick={() => setCvModalOpen(true)}
+                aria-describedby="download-cv-desc"
               >
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
-                  <Link href="/contacto" aria-describedby="explore-projects-desc">
-                    Contactarme
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                    <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
-                  onClick={() => setCvModalOpen(true)}
-                  aria-describedby="download-cv-desc"
-                >
-                  Descargar CV
-                  <Download className="ml-2 h-5 w-5" aria-hidden="true" />
-                  <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
-                </Button>
-              </motion.div>
-            </motion.div>
-            <motion.div
-              className="relative aspect-square rounded-2xl overflow-hidden border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm order-1 md:order-2"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <Image
-                src="https://avatars.githubusercontent.com/u/16759783"
-                alt="José Carrillo"
-                width={600}
-                height={600}
-                className="object-cover"
-                priority
-              />
-              {/* Glassmorphism overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
-            </motion.div>
-          </div>
-        </motion.section>
+                Descargar CV
+                <Download className="ml-2 h-5 w-5" aria-hidden="true" />
+                <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
+              </Button>
+            </>
+          }
+        />
 
         {/* Sección de Trayectoria Profesional */}
         <motion.section
