@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AnimatedSection } from "@/components/animated-section"
 import { ServicesSeo } from "@/components/services-seo"
 import { PageHeroSplit } from "@/components/page-hero-split"
+import { DynamicBackground } from "@/components/dynamic-background"
 import { useIsMobile } from "@/hooks/use-media-query"
 
 // Variantes de animación
@@ -239,7 +240,8 @@ function ServicesPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white relative overflow-hidden">
+      <DynamicBackground />
       <SiteHeader />
       <ServicesSeo />
 

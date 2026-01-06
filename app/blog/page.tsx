@@ -7,7 +7,7 @@ import BlogFeatured from "@/components/blog-featured";
 import { BlogFeaturedLoading, BlogGridLoading, OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { DynamicBackground } from "@/components/dynamic-background";
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
 import { PageHero } from "@/components/page-hero";
 
@@ -22,12 +22,8 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      <div className="min-h-screen bg-black text-white relative overflow-hidden">
-        <ParticleHeroBackground />
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-        
+      <div className="min-h-screen text-white relative overflow-hidden">
+        <DynamicBackground />
         <SiteHeader />
 
         <main className="relative z-10 container py-12 space-y-24" id="main-content">

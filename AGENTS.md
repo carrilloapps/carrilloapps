@@ -248,7 +248,7 @@ All pages must follow this structure:
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { DynamicBackground } from "@/components/dynamic-background";
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
 import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
 import { PageHero } from "@/components/page-hero";
@@ -259,11 +259,8 @@ function PageContent() {
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      <div className="min-h-screen bg-black text-white relative overflow-hidden">
-        <ParticleHeroBackground />
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
+      <div className="min-h-screen text-white relative overflow-hidden">
+        <DynamicBackground />
         
         <SiteHeader />
 
@@ -331,26 +328,47 @@ export default function Page() {
 }
 ```
 
-### 2. ParticleHeroBackground
+### 2. DynamicBackground
 
-All pages must include the animated particle background:
+**ALL pages MUST use the `DynamicBackground` component** to maintain visual consistency across the entire project. This component provides a modern, dynamic background with animated gradient orbs, radial overlays, and an animated grid pattern.
+
+#### Location
+`components/dynamic-background.tsx`
+
+#### Usage
 
 ```tsx
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
+import { DynamicBackground } from "@/components/dynamic-background";
 
-<div className="min-h-screen bg-black text-white relative overflow-hidden">
-  <ParticleHeroBackground />
+<div className="min-h-screen text-white relative overflow-hidden">
+  <DynamicBackground />
   {/* rest of content */}
 </div>
 ```
 
-### 3. Gradient Overlay
+#### Features
 
-The gradient overlay must be consistent across all pages:
+The `DynamicBackground` component includes:
 
-```tsx
-<div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-```
+1. **Animated Gradient Orbs**: Four gradient orbs with different colors and animation delays:
+   - Blue orb (top-left): `bg-blue-500/20` with `animate-pulse`
+   - Purple orb (bottom-right): `bg-purple-500/20` with 1s delay
+   - Cyan-Blue gradient orb (center): `from-cyan-500/10 to-blue-500/10` with 2s delay
+   - Purple-Pink gradient orb (bottom-center): `from-purple-500/15 to-pink-500/15` with 0.5s delay
+
+2. **Radial Gradient Overlay**: Creates depth with a radial gradient from `zinc-900/30` via `zinc-950/60` to `black`
+
+3. **Animated Grid Pattern**: A subtle animated grid pattern that moves continuously:
+   - Grid size: `50px x 50px`
+   - Color: `rgba(59, 130, 246, 0.1)` (blue with low opacity)
+   - Animation: `gridMove 20s linear infinite` (defined in `globals.css`)
+
+#### Important Notes
+
+- **DO NOT** use `ParticleHeroBackground` - it has been replaced by `DynamicBackground`
+- **DO NOT** add custom gradient overlays - `DynamicBackground` handles all background effects
+- The component uses `fixed` positioning with negative z-index (`-z-50`, `-z-40`, `-z-30`) to stay behind all content
+- Container must have `relative overflow-hidden` classes for proper positioning
 
 ## Animation Variants
 
@@ -445,9 +463,9 @@ const itemVariants: Variants = {
 
 All pages must use the same animation variants for a uniform experience.
 
-### 4. Particle Background
+### 4. Dynamic Background
 
-Always include `ParticleHeroBackground` to maintain visual identity.
+**ALWAYS** include `DynamicBackground` in all pages to maintain visual consistency. This component provides the modern, dynamic background with animated effects that is standard across the entire project.
 
 ### 5. Loading System
 
@@ -458,13 +476,13 @@ Always use `PageLoadingProvider` for smooth page transitions.
 When creating a new page, verify:
 
 - [ ] Uses `PageLoadingProvider` and `PageLoadingOverlay`
-- [ ] Includes `ParticleHeroBackground`
-- [ ] Has the correct gradient overlay
-- [ ] **Uses `PageHero` component for hero section**
+- [ ] **Includes `DynamicBackground`** (NOT `ParticleHeroBackground`)
+- [ ] Container has `min-h-screen text-white relative overflow-hidden` classes
+- [ ] **Uses `PageHero` or `PageHeroSplit` component for hero section**
 - [ ] Main has `space-y-24` between sections
 - [ ] Additional sections use `whileInView`
 - [ ] No visual breadcrumbs (only JSON-LD in layout)
-- [ ] Badge, titles, and colors are consistent (handled by `PageHero`)
+- [ ] Badge, titles, and colors are consistent (handled by hero components)
 - [ ] Spacing is consistent with other pages
 - [ ] First section after hero uses `pt-6` instead of `py-12`
 
@@ -484,10 +502,11 @@ app/
   └── ...
 
 components/
-  ├── page-hero.tsx         # ⭐ Core hero component
+  ├── page-hero.tsx         # ⭐ Core hero component (centered)
+  ├── page-hero-split.tsx   # ⭐ Split layout hero component
+  ├── dynamic-background.tsx # ⭐ Modern dynamic background (used in ALL pages)
   ├── site-header.tsx
   ├── site-footer.tsx
-  ├── particle-hero-background.tsx
   ├── page-loading-context.tsx
   └── ...
 
@@ -539,11 +558,71 @@ Pages that correctly follow these standards:
 ### Using PageHeroSplit (Split Layout)
 - `app/sobre-mi/page.tsx` - About page (profile with image)
 
+## Dynamic Background System
+
+### Overview
+
+The `DynamicBackground` component is the **standard background system** for all pages in the project. It replaces the previous `ParticleHeroBackground` and provides a more modern, performant, and visually consistent experience.
+
+### Technical Details
+
+#### Z-Index Layers
+
+The component uses three z-index layers to create depth:
+
+1. **Layer -z-50**: Animated gradient orbs (base layer)
+2. **Layer -z-40**: Radial gradient overlay (middle layer)
+3. **Layer -z-30**: Animated grid pattern (top background layer)
+
+#### CSS Animation
+
+The grid pattern uses a custom animation defined in `globals.css`:
+
+```css
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+```
+
+#### Performance Considerations
+
+- Uses CSS animations (GPU-accelerated) instead of JavaScript
+- Fixed positioning prevents re-renders on scroll
+- Low opacity values ensure minimal visual impact on content readability
+- Blur effects are optimized with `blur-3xl` for performance
+
+### Migration from ParticleHeroBackground
+
+If you encounter old code using `ParticleHeroBackground`, replace it with:
+
+```tsx
+// ❌ OLD (deprecated)
+import { ParticleHeroBackground } from "@/components/particle-hero-background";
+<div className="min-h-screen bg-black text-white relative overflow-hidden">
+  <ParticleHeroBackground />
+  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
+  {/* content */}
+</div>
+
+// ✅ NEW (current standard)
+import { DynamicBackground } from "@/components/dynamic-background";
+<div className="min-h-screen text-white relative overflow-hidden">
+  <DynamicBackground />
+  {/* content */}
+</div>
+```
+
 ## Additional Resources
 
 - **Detailed Consistency Guide**: `docs/PAGE_CONSISTENCY.md`
 - **PageHero Component**: `components/page-hero.tsx`
 - **PageHeroSplit Component**: `components/page-hero-split.tsx`
+- **DynamicBackground Component**: `components/dynamic-background.tsx`
 - **Project Documentation**: `docs/PROJECT.md`
 
 ## Quick Reference
@@ -568,7 +647,77 @@ Pages that correctly follow these standards:
 | First section after hero | `pt-6 pb-12 space-y-8` |
 | Spacer before children | `h-6` (only when children exist) |
 
+## PageHeroSplit Advanced Features
+
+### Title with Partial Gradients
+
+The `title` prop can accept ReactNode to create titles with partial gradients:
+
+```tsx
+<PageHeroSplit
+  badge={{ text: "Services" }}
+  title={
+    <>
+      <span className="text-white">Soluciones</span>
+      <br />
+      <span className="text-white">tecnológicas </span>
+      <span className="text-blue-400">de</span>
+      <br />
+      <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+        alto impacto
+      </span>
+    </>
+  }
+  description="..."
+/>
+```
+
+### Image vs RightContent
+
+`PageHeroSplit` supports two modes:
+
+1. **With Image**: Use the `image` prop for profile photos or images
+2. **With Custom Content**: Use `rightContent` prop for icons, stats, or custom layouts
+
+```tsx
+// With image
+<PageHeroSplit
+  image={{
+    src: "/profile.jpg",
+    alt: "Profile",
+    width: 600,
+    height: 600,
+    priority: true,
+  }}
+/>
+
+// With custom content (icons, stats, etc.)
+<PageHeroSplit
+  rightContent={
+    <div className="text-center">
+      <Icon className="w-20 h-20" />
+      <h3>15+ Años</h3>
+      <p>de Experiencia</p>
+    </div>
+  }
+/>
+```
+
+### Image Styling
+
+When using the `image` prop, the image automatically receives:
+- Full coverage: `absolute inset-0 object-cover w-full h-full`
+- Rounded corners: `rounded-2xl`
+- Border: `border border-zinc-800/50`
+- Gradient overlays for depth
+- Glassmorphism effects
+
+### Alignment
+
+- **Content alignment**: Always `items-start` (top-aligned) to ensure badges align consistently across pages
+- **Badge margin**: Responsive top margin `mt-4 md:mt-28` for proper vertical positioning
+
 ---
 
-**Last Updated**: Based on project state as of the PageHero component implementation and green badge default colors.
+**Last Updated**: Based on project state as of DynamicBackground implementation, PageHeroSplit enhancements, and green badge default colors.
 
