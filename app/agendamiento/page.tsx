@@ -6,10 +6,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Calendar, Clock, CheckCircle, AlertCircle, ArrowRight, Briefcase, Info } from "lucide-react"
-import Image from "next/image"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { DynamicBackground } from "@/components/dynamic-background"
+import { PageHeroSplit } from "@/components/page-hero-split"
+import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
+import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -26,9 +29,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
 
-export default function SchedulePage() {
+function SchedulePageContent() {
+  const { isLoading } = usePageLoading()
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: "",
@@ -121,39 +124,22 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Global Background Elements */}
-      <div className="fixed inset-0 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 -z-50 pointer-events-none" />
-      <div className="fixed top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-600/5 to-purple-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
-      <div className="fixed bottom-0 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-600/5 to-cyan-600/5 rounded-full blur-3xl -z-40 pointer-events-none" />
+    <>
+      <PageLoadingOverlay isVisible={isLoading} />
+      <div className="min-h-screen text-white relative overflow-hidden">
+        <DynamicBackground />
+        
+        <SiteHeader />
 
-      <SiteHeader />
-
-      <main className="container py-12 space-y-12">
-        {/* Hero Section */}
-        <motion.section
-          className="py-12 md:py-24 space-y-8 relative"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <motion.div className="space-y-6 relative" variants={itemVariants}>
-              <div className="space-y-2">
-                <Badge
-                  variant="secondary"
-                  className="bg-blue-600/20 text-blue-400 border-blue-500/30 px-4 py-2 hover:bg-blue-600/30 transition-colors"
-                >
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  Consultoría Personalizada
-                </Badge>
-                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent select-text">
-                  Agenda una sesión
-                </h1>
-                <p className="text-xl md:text-2xl text-zinc-400 select-text">
-                  Experto en soluciones bancarias, pagos y finanzas
-                </p>
-              </div>
+        <main className="relative z-10 container py-12 space-y-24" id="main-content">
+          {/* Hero Section */}
+          <PageHeroSplit
+            badge={{ 
+              text: "Consultoría Personalizada"
+            }}
+            title="Agenda una sesión"
+            subtitle="Experto en soluciones bancarias, pagos y finanzas"
+            description={
               <p className="text-zinc-400 leading-relaxed">
                 Reserva una consulta personalizada para discutir tu proyecto,
                 resolver dudas técnicas o explorar oportunidades de
@@ -161,69 +147,53 @@ export default function SchedulePage() {
                 de sistemas financieros y liderazgo técnico, puedo ayudarte a
                 encontrar la solución adecuada para tu negocio.
               </p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-                role="group"
-                aria-label="Acciones principales"
-              >
+            }
+            image={{
+              src: "https://avatars.githubusercontent.com/u/16759783",
+              alt: "José Carrillo - Tech Consultant",
+              width: 600,
+              height: 600,
+              priority: true,
+            }}
+            actions={
+              <>
                 <Button 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group min-h-[48px]" 
                   onClick={() => window.requestAnimationFrame(() => window.scrollTo({ top: 800, behavior: "smooth" }))}
                   aria-describedby="agendar-servicio-desc"
                 >
                   Agendar servicio
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                  <span id="agendar-servicio-desc" className="sr-only">Agendar servicio profesional especializado</span>
+                  <span id="agendar-servicio-desc" className="sr-only">Book a specialized professional service</span>
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-h-[48px]"
                   aria-describedby="services-desc"
                 >
                   Ver servicios
-                  <span id="services-desc" className="sr-only">Ver mis servicios</span>
+                  <span id="services-desc" className="sr-only">View my services</span>
                 </Button>
-              </motion.div>
-            </motion.div>
-            <motion.div
-              variants={itemVariants}
-              className="relative aspect-square rounded-2xl overflow-hidden border-2 border-zinc-800"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20" />
-              <Image
-                src="/placeholder.svg"
-                alt="José Carrillo - Consultor Tecnológico"
-                width={600}
-                height={600}
-                className="object-cover"
-                priority
-              />
-            </motion.div>
-          </div>
-        </motion.section>
+              </>
+            }
+          />
 
-        <motion.section
-          className="py-12 md:py-24 space-y-8 relative"
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-        >
-          {/* Section Background Elements */}
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/50 to-zinc-900/30 -z-10 pointer-events-none" />
-          <div className="absolute top-20 left-1/3 w-72 h-72 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-
-          <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent select-text">
-              Agenda una consulta
-            </h2>
-            <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto leading-relaxed select-text">
-              Completa el formulario para agendar una consulta inicial y
-              discutir cómo puedo ayudarte con tu proyecto.
-            </p>
-          </motion.div>
+          <motion.section
+            className="pt-6 pb-12 space-y-8 relative"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={containerVariants}
+          >
+            <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent select-text">
+                Agenda una consulta
+              </h2>
+              <p className="text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto leading-relaxed select-text">
+                Completa el formulario para agendar una consulta inicial y
+                discutir cómo puedo ayudarte con tu proyecto.
+              </p>
+            </motion.div>
 
           <div className="grid gap-8 md:grid-cols-2">
             <motion.div
@@ -695,5 +665,14 @@ export default function SchedulePage() {
 
       <SiteFooter />
     </div>
+    </>
+  );
+}
+
+export default function SchedulePage() {
+  return (
+    <PageLoadingProvider>
+      <SchedulePageContent />
+    </PageLoadingProvider>
   );
 }
