@@ -76,8 +76,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         {/* Performance optimizations - Critical resource hints */}
-        <link rel="preconnect" href="https://avatars.githubusercontent.com" />
-        <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
+        <link rel="preload" href="/profile.jpg" as="image" type="image/jpeg" fetchPriority="high" />
         
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />

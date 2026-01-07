@@ -14,9 +14,133 @@ Comprehensive performance optimizations implemented in carrillo.app, including d
 1. [Desktop Optimizations](#desktop-optimizations)
 2. [Mobile-Specific Optimizations](#mobile-specific-optimizations)
 3. [Universal Optimizations](#universal-optimizations)
-4. [Performance Metrics](#performance-metrics)
-5. [Verification Steps](#verification-steps)
-6. [Best Practices](#best-practices)
+4. [Cache Strategy](#cache-strategy)
+5. [Performance Metrics](#performance-metrics)
+6. [Verification Steps](#verification-steps)
+7. [Best Practices](#best-practices)
+
+---
+
+## Cache Strategy
+
+### Browser and CDN Caching
+
+**Long-term caching (1 year) is configured for static assets to accelerate repeat visits:**
+
+#### Image Optimization
+- **Next.js optimized images** (`/_next/image`): 1 year cache
+  - Includes `s-maxage=31536000` for CDN caching
+  - Uses `stale-while-revalidate=86400` (24h) for instant updates while revalidating in background
+  - Vercel-specific header: `Vercel-CDN-Cache-Control` for additional CDN control
+  
+- **Static images** (`/profile.jpg`, `/logo.webp`, `/icons/*`): 1 year cache
+  - Marked as `immutable` (content never changes, no conditional requests needed)
+  - Direct CDN caching without revalidation
+
+#### Static Assets
+- **JavaScript/CSS bundles** (`/_next/static/*`): 1 year cache, immutable
+- **Fonts** (`/_next/static/media/*`): 1 year cache, immutable
+
+#### Dynamic Content
+- **Pages** (`/(.*)`): 1 hour cache with 24h stale-while-revalidate
+- **Sitemap** (`/sitemap.xml`): 1 hour cache with 24h revalidation
+- **Robots** (`/robots.txt`): 24 hours cache
+
+### Configuration Files
+
+#### `next.config.mjs`
+```javascript
+images: {
+  minimumCacheTTL: 31536000, // 1 year in seconds
+  formats: ['image/avif', 'image/webp'],
+}
+
+async headers() {
+  return [
+    {
+      source: '/_next/image:path*',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
+        },
+        {
+          key: 'CDN-Cache-Control',
+          value: 'public, max-age=31536000, immutable',
+        },
+      ],
+    },
+    {
+      source: '/profile.jpg',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
+        },
+      ],
+    },
+  ]
+}
+```
+
+#### `vercel.json`
+```json
+{
+  "headers": [
+    {
+      "source": "/_next/image(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/profile.jpg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Cache Headers Explained
+
+- **`max-age=31536000`**: Browser caches for 1 year (client-side cache)
+- **`s-maxage=31536000`**: CDN/shared caches for 1 year (server-side cache)
+- **`stale-while-revalidate=86400`**: Serve stale content while revalidating in background (24h grace period)
+- **`immutable`**: Asset never changes (browser skips conditional requests even with force refresh)
+- **`Vercel-CDN-Cache-Control`**: Vercel-specific CDN caching directive (ensures Vercel Edge Network honors cache)
+- **`CDN-Cache-Control`**: Generic CDN caching directive (for Cloudflare, Fastly, etc.)
+
+### Benefits
+
+1. **Faster repeat visits**: Static assets loaded instantly from browser cache
+2. **Reduced bandwidth**: No re-downloads for unchanged assets
+3. **Better LCP**: Images load faster on subsequent page loads
+4. **CDN efficiency**: Edge servers cache assets, reducing origin requests
+5. **Stale-while-revalidate**: Zero-latency updates (serve cached, update in background)
 
 ---
 

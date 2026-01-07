@@ -2,6 +2,17 @@
 
 Personal portfolio and professional website for José Carrillo, Tech Lead at Yummy Inc.
 
+## ⚠️ Documentation Guidelines
+
+**Before creating any new documentation:**
+
+1. **Check if the topic already exists** in any of the files listed below
+2. **Update existing files** instead of creating new ones
+3. **Consolidate related information** in a single file
+4. Only create new files for completely new topics that don't fit existing structure
+
+See `../AGENTS.md` → "Documentation Best Practices" section for detailed guidelines.
+
 ## Quick Start
 
 ```bash

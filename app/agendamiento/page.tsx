@@ -149,7 +149,7 @@ function SchedulePageContent() {
               </p>
             }
             image={{
-              src: "https://avatars.githubusercontent.com/u/16759783",
+              src: "/profile.jpg",
               alt: "José Carrillo - Tech Consultant",
               width: 600,
               height: 600,
