@@ -9,7 +9,7 @@ import { BlogArticle } from "@/components/blog-article"
 import { JsonLd } from "@/components/json-ld"
 import { ParticleHeroBackground } from "@/components/particle-hero-background"
 import { BlogPostClient } from "./blog-post-client"
-import { getCachedMediumPostBySlug, getCachedSitemapData } from "@/lib/rss-client"
+import { getCachedSitemapData, getCachedMediumPostBySlug } from "@/lib/rss-service"
 import { MediumPost } from "@/types/medium"
 import notFound from "@/app/not-found"
 

@@ -282,9 +282,18 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
       <div className="space-y-4">
         <h3 className="text-xl font-bold">Todos los repositorios</h3>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {repositories.map((repo) => renderRepository(repo))}
-        </div>
+        {repositories.length === 0 ? (
+          <Card className="bg-zinc-900 border-zinc-800">
+            <CardContent className="p-12 text-center">
+              <p className="text-zinc-400 text-lg mb-2">No se encontraron repositorios</p>
+              <p className="text-zinc-500 text-sm">Intenta ajustar los filtros de búsqueda o lenguaje</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {repositories.map((repo) => renderRepository(repo))}
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center mt-8">

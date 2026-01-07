@@ -10,6 +10,25 @@ const RSS_CONFIG = {
 } as const
 
 // Tipos para la respuesta de la API RSS2JSON
+interface RSSEnclosure {
+  link?: string;
+  type?: string;
+  length?: number;
+}
+
+interface RSSItem {
+  title: string
+  pubDate: string
+  link: string
+  guid: string
+  author: string
+  thumbnail: string
+  description: string
+  content: string
+  enclosure: RSSEnclosure
+  categories: string[]
+}
+
 interface RSSResponse {
   status: string
   feed: {

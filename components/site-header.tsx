@@ -5,20 +5,20 @@ import Link from "next/link"
 import { 
   Calendar, 
   ChevronDown, 
-  Code, 
   BookOpen, 
   FolderOpen, 
   Mail, 
   Home, 
   User, 
   Briefcase, 
-  Globe,
   Layers,
   Users,
-  Sparkles,
-  Zap,
   Github,
-  Wrench
+  LineChart,
+  Database,
+  Shield,
+  Server,
+  Cpu
 } from "lucide-react"
 import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
@@ -26,6 +26,13 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { trackNavigation, trackCTAClick } from "@/lib/analytics"
+
+// GitLab icon component
+const GitLabIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+  </svg>
+)
 
 // Navigation structure with mega menu support
 interface NavItem {
@@ -57,27 +64,45 @@ const navItems: NavItem[] = [
     children: [
       {
         href: "/servicios#technical-leadership",
-        label: "Desarrollo Web",
-        description: "Aplicaciones web modernas y escalables",
-        icon: Globe,
+        label: "Liderazgo Técnico",
+        description: "Dirección estratégica de equipos",
+        icon: Users,
       },
       {
-        href: "/servicios#consultoria",
-        label: "Consultoría",
-        description: "Asesoría técnica especializada",
-        icon: Briefcase,
+        href: "/servicios#financial-systems",
+        label: "Fintech & Banking",
+        description: "Soluciones financieras avanzadas",
+        icon: LineChart,
       },
       {
-        href: "/servicios#arquitectura",
+        href: "/servicios#backoffice-solutions",
+        label: "Backoffice",
+        description: "Automatización de procesos internos",
+        icon: Database,
+      },
+      {
+        href: "/servicios#architecture-design",
         label: "Arquitectura de Software",
-        description: "Diseño de sistemas robustos",
+        description: "Diseño de sistemas escalables",
         icon: Layers,
       },
       {
-        href: "/servicios#mentoria",
-        label: "Mentoría",
-        description: "Desarrollo de equipos y talento",
-        icon: Users,
+        href: "/servicios#security-compliance",
+        label: "Seguridad & Compliance",
+        description: "Protección y cumplimiento normativo",
+        icon: Shield,
+      },
+      {
+        href: "/servicios#cloud-infrastructure",
+        label: "Cloud Infrastructure",
+        description: "Infraestructuras cloud optimizadas",
+        icon: Server,
+      },
+      {
+        href: "/servicios#ai-integration",
+        label: "Inteligencia Artificial",
+        description: "IA y Machine Learning",
+        icon: Cpu,
       },
     ],
   },
@@ -86,32 +111,6 @@ const navItems: NavItem[] = [
     label: "Blog",
     icon: BookOpen,
     description: "Artículos y tutoriales",
-    children: [
-      {
-        href: "/blog",
-        label: "Desarrollo",
-        description: "Tutoriales y guías de programación",
-        icon: Code,
-      },
-      {
-        href: "/blog?category=tecnologia",
-        label: "Tecnología",
-        description: "Tendencias y novedades tecnológicas",
-        icon: Zap,
-      },
-      {
-        href: "/blog?category=arquitectura",
-        label: "Arquitectura",
-        description: "Diseño y arquitectura de software",
-        icon: Layers,
-      },
-      {
-        href: "/blog?category=best-practices",
-        label: "Mejores Prácticas",
-        description: "Estándares y buenas prácticas",
-        icon: Sparkles,
-      },
-    ],
   },
   {
     href: "/recursos",
@@ -120,16 +119,16 @@ const navItems: NavItem[] = [
     description: "Herramientas y repositorios",
     children: [
       {
-        href: "/recursos#repositorios",
-        label: "Repositorios",
-        description: "Proyectos open source",
+        href: "/recursos?tab=github",
+        label: "Repositorios GitHub",
+        description: "Proyectos open source en GitHub",
         icon: Github,
       },
       {
-        href: "/recursos#herramientas",
-        label: "Herramientas",
-        description: "Utilidades y recursos útiles",
-        icon: Wrench,
+        href: "/recursos?tab=gitlab",
+        label: "Repositorios GitLab",
+        description: "Proyectos privados y corporativos",
+        icon: GitLabIcon,
       },
     ],
   },
@@ -172,6 +171,7 @@ NavLink.displayName = "NavLink"
 const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; isOpen: boolean; onClose: () => void; onKeepOpen?: () => void }) => {
   const shouldReduceMotion = useReducedMotion()
   const menuRef = useRef<HTMLDivElement>(null)
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (isOpen && menuRef.current) {
@@ -185,6 +185,20 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
     }
   }, [isOpen, onClose])
 
+  const handleMouseLeave = useCallback(() => {
+    closeTimeoutRef.current = setTimeout(() => {
+      onClose()
+    }, 150)
+  }, [onClose])
+
+  const handleMouseEnter = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
+    }
+    onKeepOpen?.()
+  }, [onKeepOpen])
+
   if (!item.children || item.children.length === 0) return null
 
   return (
@@ -196,7 +210,7 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
-          className="absolute top-full left-0 mt-2 w-[560px] bg-black/70 backdrop-blur-2xl rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden"
+          className="absolute top-full left-0 mt-2 w-[560px] bg-black/95 backdrop-blur-2xl rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden border border-zinc-800/50"
           style={{
             backdropFilter: 'blur(32px) saturate(180%)',
             WebkitBackdropFilter: 'blur(32px) saturate(180%)',
@@ -208,13 +222,8 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
           
           <div 
             className="relative z-10 p-5"
-            onMouseEnter={() => onKeepOpen?.()}
-            onMouseLeave={() => {
-              // Delay to allow mouse to return to button
-              setTimeout(() => {
-                onClose()
-              }, 300)
-            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <div className="space-y-0">
               {item.children?.map((child, index) => {
@@ -286,6 +295,7 @@ export function SiteHeader() {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const ticking = useRef(false)
+  const menuCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Handle scroll effect - hide/show header based on scroll direction
   useEffect(() => {
@@ -508,15 +518,20 @@ export function SiteHeader() {
                 <div
                   key={item.href}
                   className="relative"
-                  onMouseEnter={() => hasChildren && setOpenMegaMenu(item.href)}
+                  onMouseEnter={() => {
+                    if (hasChildren) {
+                      if (menuCloseTimeoutRef.current) {
+                        clearTimeout(menuCloseTimeoutRef.current)
+                        menuCloseTimeoutRef.current = null
+                      }
+                      setOpenMegaMenu(item.href)
+                    }
+                  }}
                   onMouseLeave={() => {
                     if (hasChildren) {
-                      // Delay to allow mouse to move to mega menu
-                      setTimeout(() => {
-                        if (openMegaMenu !== item.href) {
-                          setOpenMegaMenu(null);
-                        }
-                      }, 300);
+                      menuCloseTimeoutRef.current = setTimeout(() => {
+                        setOpenMegaMenu(null)
+                      }, 150)
                     }
                   }}
                 >

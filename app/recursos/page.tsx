@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, Variants } from "framer-motion";
 import { Filter, Search, Github, ArrowRight } from "lucide-react";
 
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   Select,
   SelectContent,
@@ -51,6 +53,17 @@ const itemVariants: Variants = {
 
 function ResourcesPageContent() {
   const { isLoading } = usePageLoading();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  // Leer tab del query param, por defecto "github"
+  const tabFromUrl = searchParams.get("tab");
+  const activeTab = (tabFromUrl === "gitlab" || tabFromUrl === "github") ? tabFromUrl : "github";
+
+  // Handler para cambiar de tab
+  const handleTabChange = (value: string) => {
+    router.replace(`/recursos?tab=${value}`, { scroll: false });
+  };
 
   return (
     <>
@@ -96,7 +109,7 @@ function ResourcesPageContent() {
             }}
             className="w-full"
           >
-            <Tabs defaultValue="github" className="w-full">
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full" suppressHydrationWarning>
             <motion.div
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8"
               variants={itemVariants}
@@ -153,19 +166,15 @@ function ResourcesPageContent() {
               </motion.div>
 
               <TabsContent value="github" className="mt-0">
-                <motion.div variants={itemVariants}>
-                  <Suspense fallback={<RepositoriesLoading />}>
-                    <RepositoriesList source="github" username="carrilloapps" />
-                  </Suspense>
-                </motion.div>
+                <Suspense fallback={<RepositoriesLoading />}>
+                  <RepositoriesList key="github-repos" source="github" username="carrilloapps" />
+                </Suspense>
               </TabsContent>
 
               <TabsContent value="gitlab" className="mt-0">
-                <motion.div variants={itemVariants}>
-                  <Suspense fallback={<RepositoriesLoading />}>
-                    <RepositoriesList source="gitlab" username="carrilloapps" />
-                  </Suspense>
-                </motion.div>
+                <Suspense fallback={<RepositoriesLoading />}>
+                  <RepositoriesList key="gitlab-repos" source="gitlab" username="carrilloapps" />
+                </Suspense>
               </TabsContent>
             </Tabs>
           </motion.div>
@@ -259,7 +268,9 @@ function ResourcesPageContent() {
 export default function ResourcesPage() {
   return (
     <PageLoadingProvider>
-      <ResourcesPageContent />
+      <Suspense fallback={<div className="min-h-screen bg-black"></div>}>
+        <ResourcesPageContent />
+      </Suspense>
     </PageLoadingProvider>
   );
 }
