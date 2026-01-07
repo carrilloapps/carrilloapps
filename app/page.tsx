@@ -284,7 +284,7 @@ export default function Home() {
                     }}
                   >
                     <Image
-                      src="https://avatars.githubusercontent.com/u/16759783"
+                      src="/profile.jpg"
                       alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
                       width={420}
                       height={420}
@@ -293,7 +293,7 @@ export default function Home() {
                       fetchPriority="high"
                       loading="eager"
                       quality={90}
-                      unoptimized={false}
+                      sizes="(max-width: 768px) 320px, (max-width: 1024px) 380px, 420px"
                     />
                     {/* Simplified overlays - removed heavy blur effects */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/3 to-transparent rounded-full" />
@@ -314,7 +314,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
+              transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0.3 : 0.5 }}
               className="flex gap-4 md:gap-8 justify-center md:justify-start pt-8"
               aria-label="Enlaces de redes sociales"
             >
