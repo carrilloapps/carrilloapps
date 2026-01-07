@@ -22,7 +22,32 @@ export function CookieConsent() {
   }, [])
 
   const acceptCookies = () => {
-    localStorage.setItem("cookieConsent", "true")
+    // Save consent as JSON object with analytics enabled
+    const consent = {
+      analytics: true,
+      functional: true,
+      timestamp: new Date().toISOString()
+    }
+    localStorage.setItem("cookieConsent", JSON.stringify(consent))
+    
+    // Dispatch event to notify analytics components
+    window.dispatchEvent(new Event("cookieConsentChange"))
+    
+    setIsVisible(false)
+  }
+
+  const rejectCookies = () => {
+    // Save rejection as JSON object with analytics disabled
+    const consent = {
+      analytics: false,
+      functional: true,
+      timestamp: new Date().toISOString()
+    }
+    localStorage.setItem("cookieConsent", JSON.stringify(consent))
+    
+    // Dispatch event to notify analytics components
+    window.dispatchEvent(new Event("cookieConsentChange"))
+    
     setIsVisible(false)
   }
 
@@ -56,7 +81,7 @@ export function CookieConsent() {
               <Button
                 variant="outline"
                 className="border-zinc-700 hover:bg-zinc-800 flex-1 md:flex-auto"
-                onClick={() => setIsVisible(false)}
+                onClick={rejectCookies}
               >
                 Rechazar
               </Button>
