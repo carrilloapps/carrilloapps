@@ -16,11 +16,12 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        pathname: '/u/**',
-      },
+      // GitHub Avatars - Commented out: using local /profile.jpg for performance
+      // {
+      //   protocol: 'https',
+      //   hostname: 'avatars.githubusercontent.com',
+      //   pathname: '/u/**',
+      // },
       {
         protocol: 'https',
         hostname: '**.medium.com',
@@ -251,6 +252,30 @@ const nextConfig = {
           {
             key: 'CDN-Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Next.js optimized images
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
+          },
+          {
+            key: 'CDN-Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Static images from public folder
+      {
+        source: '/profile.jpg',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
           },
         ],
       },

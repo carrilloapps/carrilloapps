@@ -73,7 +73,7 @@ export default function AboutPage() {
             </>
           }
           image={{
-            src: "https://avatars.githubusercontent.com/u/16759783",
+            src: "/profile.jpg",
             alt: "José Carrillo, desarrollador de software senior y líder técnico",
             width: 600,
             height: 600,

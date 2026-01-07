@@ -20,6 +20,43 @@ This is the main agent configuration file for the CarrilloApps portfolio project
 
 **IMPORTANT**: All packages use `~` (tilde) versioning for patch-level updates only. This ensures stability and prevents breaking changes from minor/major version updates.
 
+## Documentation Best Practices
+
+### ⚠️ CRITICAL: Avoid Documentation Redundancy
+
+**Before creating ANY new documentation file:**
+
+1. **Check if documentation already exists:**
+   - Search `docs/` directory for existing files
+   - Check if the topic is already covered in `AGENTS.md` or subdirectory `AGENTS.md` files
+   - Review `docs/README.md` for documentation index
+
+2. **Update existing documentation instead of creating new files:**
+   - ✅ Add new sections to existing relevant files
+   - ✅ Consolidate related information in one place
+   - ❌ DO NOT create separate "optimization" or "guide" files for topics already documented
+   - ❌ DO NOT create summary files that duplicate existing content
+
+3. **Documentation hierarchy:**
+   - `docs/PERFORMANCE.md` → ALL performance optimizations (cache, images, LCP, etc.)
+   - `docs/ANALYTICS.md` → ALL analytics (GA4, Clarity, tracking)
+   - `docs/DISQUS.md` → ALL blog comments integration
+   - `docs/API.md` → ALL API documentation
+   - `docs/DEVELOPMENT.md` → Development setup and workflow
+   - `AGENTS.md` (root) → High-level project guidelines
+   - `*/AGENTS.md` (subdirectories) → Specific directory patterns
+
+4. **When to create a NEW file:**
+   - ONLY when topic is completely new and doesn't fit existing files
+   - ONLY when existing file would become too large (>1000 lines)
+   - MUST update `docs/README.md` index
+
+**Example of redundancy to AVOID:**
+```
+❌ BAD: Creating CACHE_OPTIMIZATION.md when docs/PERFORMANCE.md already has "Cache Strategy" section
+✅ GOOD: Add cache optimization details to docs/PERFORMANCE.md
+```
+
 ## Directory Structure
 
 ```

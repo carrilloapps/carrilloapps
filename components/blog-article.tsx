@@ -257,7 +257,7 @@ export function BlogArticle({ slug }: { slug: string }) {
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden flex-shrink-0">
               {post.author === "José Carrillo" ? (
                 <Image
-                  src="https://avatars.githubusercontent.com/u/16759783"
+                  src="/profile.jpg"
                   alt={post.author}
                   width={40}
                   height={40}
@@ -325,7 +325,7 @@ export function BlogArticle({ slug }: { slug: string }) {
                 <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden">
                   {post.author === "Junior Carrillo" ? (
                     <Image
-                      src="https://avatars.githubusercontent.com/u/16759783"
+                      src="/profile.jpg"
                       alt={post.author}
                       width={48}
                       height={48}
