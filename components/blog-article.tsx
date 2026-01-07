@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
+import { BlogContentRenderer } from "@/components/blog-content-renderer"
 import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
 import { useDisqusComments } from "@/hooks/use-disqus-comments"
@@ -227,12 +228,12 @@ export function BlogArticle({ slug }: { slug: string }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-      <motion.header 
-        className="space-y-6 mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
+            <motion.header 
+              className="space-y-6 mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -299,23 +300,23 @@ export function BlogArticle({ slug }: { slug: string }) {
               <span className="text-xs text-zinc-500 font-medium">Lectura</span>
               <span className="text-zinc-300 font-semibold truncate">{readingTime} min</span>
             </div>
-          </motion.div>
-        </motion.div>
-      </motion.header>
+              </motion.div>
+            </motion.div>
+          </motion.header>
 
-      <div className="prose prose-invert prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <BlogContentRenderer content={post.content} />
 
-      {/* Metadata Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="mb-8"
-      >
-        <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
-          <CardContent className="p-6 relative z-10">
+          {/* Metadata Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-8"
+          >
+            <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
+              <CardContent className="p-6 relative z-10">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
               <motion.div 
                 className="flex items-center gap-3"
@@ -453,17 +454,13 @@ export function BlogArticle({ slug }: { slug: string }) {
           </CardContent>
         </Card>
       </motion.div>
-
-      <div className="mt-8 pt-8">
-      </div>
-
-      {/* Disqus Comments */}
-      <DisqusComments
-        identifier={post.slug}
-        title={post.title}
-        url={`${getSiteUrl()}/blog/${post.slug}`}
-      />
     </motion.article>
+    {/* Disqus Comments */}
+    <DisqusComments
+      identifier={post.slug}
+      title={post.title}
+      url={`${getSiteUrl()}/blog/${post.slug}`}
+    />
   </motion.div>
 
   {/* Sidebar */}
