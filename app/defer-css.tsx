@@ -50,12 +50,12 @@ export function DeferCSS() {
     };
 
     // Use requestIdleCallback for optimal timing
-    if ('requestIdleCallback' in window) {
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       window.requestIdleCallback(deferCSS, { timeout: 1000 });
     } else {
       // Fallback to requestAnimationFrame
-      window.requestAnimationFrame(() => {
-        window.setTimeout(deferCSS, 1);
+      requestAnimationFrame(() => {
+        setTimeout(deferCSS, 1);
       });
     }
   }, []);
