@@ -10,6 +10,7 @@ import { SkipLink } from "@/components/skip-link"
 import { PageLoadingProvider } from "@/components/page-loading-context"
 import { GlobalPageLoader } from "@/components/global-page-loader"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
+import { DeferCSS } from "@/app/defer-css"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -73,9 +74,17 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Performance optimizations - Only preconnect to origins used on initial load */}
+        {/* Performance optimizations - Critical resource hints */}
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
+        
+        {/* Preload critical CSS chunks - improves LCP by reducing render-blocking */}
+        <link 
+          rel="preload" 
+          href="/_next/static/css/app/layout.css" 
+          as="style" 
+          fetchPriority="high"
+        />
         
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
@@ -100,6 +109,7 @@ export default function RootLayout({
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <PersonJsonLd />
+        <DeferCSS />
       </body>
     </html>
   )
