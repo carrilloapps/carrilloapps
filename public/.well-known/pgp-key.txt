@@ -1,4 +1,11 @@
 -----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: ID del usuario:	José Carrillo <m@carrillo.app>
+Comment: Válido desde:	06/01/2026 07:33 PM
+Comment: Válido hasta:	01/01/2029 12:00 PM
+Comment: Tipo:	255-bit EdDSA (clave secreta disponible)
+Comment: Uso:	Firmado, Cifrado, Certificando ID de usuarios
+Comment: Huella digital:	5394D712D825192D3B13D8D8BCD7707092E028B5
+
 
 mDMEaV2pyRYJKwYBBAHaRw8BAQdAsLRWC/BvOSDH1cFzqIs864nGaCgq2ftshSyy
 E7oa/IO0H0pvc8OpIENhcnJpbGxvIDxtQGNhcnJpbGxvLmFwcD6ImQQTFgoAQRYh
