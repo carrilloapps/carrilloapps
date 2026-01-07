@@ -11,6 +11,7 @@ import { PageLoadingProvider } from "@/components/page-loading-context"
 import { GlobalPageLoader } from "@/components/global-page-loader"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
 import { DeferCSS } from "@/app/defer-css"
+import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -109,6 +110,8 @@ export default function RootLayout({
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <PersonJsonLd />
+        <GoogleAnalytics />
+        <MicrosoftClarity />
         <DeferCSS />
       </body>
     </html>
