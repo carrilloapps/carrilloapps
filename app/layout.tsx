@@ -16,7 +16,7 @@ import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
 const inter = Inter({ 
   subsets: ["latin"],
   display: "swap",
-  preload: false, // Disabled to avoid 404 errors - Next.js optimizes font loading automatically
+  preload: true, // Enable preloading for optimal font loading
   adjustFontFallback: true,
   variable: "--font-inter",
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -78,14 +78,6 @@ export default function RootLayout({
         {/* Performance optimizations - Critical resource hints */}
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
-        
-        {/* Preload critical CSS chunks - improves LCP by reducing render-blocking */}
-        <link 
-          rel="preload" 
-          href="/_next/static/css/app/layout.css" 
-          as="style" 
-          fetchPriority="high"
-        />
         
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
