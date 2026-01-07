@@ -1,130 +1,319 @@
-# Disqus Configuration
+# Disqus Integration
 
-This document explains how to configure Disqus to enable comments on the blog.
+Complete guide for Disqus comments integration in carrillo.app blog.
 
-## Required Environment Variables
+## Quick Setup
 
-### Public Variables (Required)
+### 1. Create Disqus Account
 
-```env
-# Your site's shortname in Disqus
+1. Go to [https://disqus.com/](https://disqus.com/)
+2. Create account or sign in
+3. Click "Get Started" → "I want to install Disqus on my site"
+4. Enter website name and choose category
+5. **Copy the "shortname"** (automatically generated)
+
+### 2. Configure Environment
+
+```bash
+# .env.local
 NEXT_PUBLIC_DISQUS_SHORTNAME=your-shortname-here
-
-# Base URL of your site
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-### Optional Variables (For advanced features)
+### 3. Configure Trusted Domains
 
-```env
-# Disqus API Key (to get comment statistics)
-DISQUS_API_KEY=your-api-key-here
-
-# Disqus API Secret
-DISQUS_API_SECRET=your-api-secret-here
-
-# Disqus Access Token
-DISQUS_ACCESS_TOKEN=your-access-token-here
-```
-
-## Step-by-Step Configuration
-
-### 1. Create a Disqus account
-
-1. Go to [https://disqus.com/](https://disqus.com/)
-2. Create an account or sign in
-3. Click "Get Started"
-4. Select "I want to install Disqus on my site"
-
-### 2. Configure your site
-
-1. Enter your website name
-2. Choose a category
-3. Select a plan (you can start with the free plan)
-4. **Important**: Write down the "shortname" that is automatically generated
-
-### 3. Configure environment variables
-
-1. Copy the `.env.example` file to `.env.local`:
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. Edit `.env.local` and update the variables:
-   ```env
-   NEXT_PUBLIC_DISQUS_SHORTNAME=your-disqus-shortname
-   NEXT_PUBLIC_SITE_URL=https://your-domain.com
-   ```
-
-### 4. Advanced configuration (Optional)
-
-To get comment statistics and advanced features:
-
-1. Go to [https://disqus.com/api/applications/](https://disqus.com/api/applications/)
-2. Create a new application
-3. Get your API Key, API Secret and Access Token
-4. Add these variables to your `.env.local`
-
-### 5. Domain configuration in Disqus
-
-1. Go to your Disqus admin panel
-2. Navigate to Settings > General
-3. In "Website URL", enter your domain: `https://your-domain.com`
+**Disqus Admin Panel:**
+1. Go to [Disqus Admin](https://disqus.com/admin/)
+2. Select your site → Settings → General
+3. In "Website URL": `https://carrillo.app`
 4. In "Trusted Domains", add:
-   - `your-domain.com`
+   - `carrillo.app`
+   - `carrilloapps.vercel.app`
+   - `*.vercel.app` (for previews)
    - `localhost` (for development)
 
-## Component Features
+### 4. Vercel Configuration
 
-The `DisqusComments` component includes:
+**Environment Variables:**
+- Project Settings → Environment Variables
+- Add for Production, Preview, Development:
 
-- ✅ **Automatic loading**: Loads automatically when needed
-- ✅ **Loading states**: Shows a skeleton while loading
-- ✅ **Error handling**: Shows error messages if something fails
-- ✅ **Comment counter**: Shows the number of comments
-- ✅ **Environment variable configuration**: Easy configuration
-- ✅ **Responsive**: Adapts to different screen sizes
-- ✅ **Animations**: Includes smooth animations with Framer Motion
-- ✅ **Dark theme**: Designed for the site's dark theme
+```env
+# Production
+NEXT_PUBLIC_DISQUS_SHORTNAME=carrilloapps
+NEXT_PUBLIC_SITE_URL=https://carrillo.app
+
+# Preview
+NEXT_PUBLIC_SITE_URL=https://carrilloapps-git-[branch].vercel.app
+
+# Development
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+## Implementation
+
+### Disqus Component
+
+**Location:** `components/disqus-comments.tsx`
+
+**Props:**
+```typescript
+interface DisqusCommentsProps {
+  postId: string        // Unique post identifier
+  postTitle: string     // Post title
+  postSlug: string      // Post URL slug
+}
+```
+
+**Usage:**
+```tsx
+import { DisqusComments } from '@/components/disqus-comments'
+
+<DisqusComments
+  postId="blog-post-123"
+  postTitle="My Blog Post Title"
+  postSlug="my-blog-post-slug"
+/>
+```
+
+### useDisqusComments Hook
+
+**Location:** `hooks/use-disqus-comments.tsx`
+
+**Features:**
+- ✅ Multiple retrieval methods for comment count
+- ✅ Loading state
+- ✅ Error handling
+- ✅ Automatic fallbacks
+- ✅ TypeScript support
+
+**Complete Hook:**
+```tsx
+import { useDisqusComments } from "@/hooks/use-disqus-comments"
+
+function MyComponent({ articleSlug }: { articleSlug: string }) {
+  const { count, isLoading, error } = useDisqusComments(articleSlug)
+
+  if (isLoading) {
+    return <span>Loading comments...</span>
+  }
+
+  if (error) {
+    return <span>Comments unavailable</span>
+  }
+
+  return (
+    <span>
+      {count} {count === 1 ? 'comment' : 'comments'}
+    </span>
+  )
+}
+```
+
+**Simplified Hook:**
+```tsx
+import { useCommentCount } from "@/hooks/use-disqus-comments"
+
+function MyComponent({ articleSlug }: { articleSlug: string }) {
+  const commentCount = useCommentCount(articleSlug)
+
+  return <span>{commentCount} comments</span>
+}
+```
+
+## Hook Behavior
+
+### Retrieval Strategy
+
+The hook uses a multi-method approach:
+
+1. **Disqus API** - Direct API call to get accurate count
+2. **Thread Count API** - Alternative API endpoint
+3. **DOM Scraping** - Fallback by reading Disqus-injected elements
+
+### Optimization
+
+- **Script loading**: Prevents duplicate Disqus script injections
+- **Caching**: Stores counts to reduce API calls
+- **Debouncing**: Prevents excessive API requests
 
 ## Troubleshooting
 
-### Comments don't appear
+### Comments Don't Appear
 
-1. Verify that `NEXT_PUBLIC_DISQUS_SHORTNAME` is configured correctly
-2. Make sure the domain is configured in Disqus
-3. Check the browser console for errors
+**Symptom:** Disqus widget doesn't load on production
 
-### Untrusted domain error
+**Solutions:**
 
-1. Go to your Disqus panel
-2. Add your domain to "Trusted Domains"
-3. Include both `your-domain.com` and `localhost`
+1. **Check environment variables** in Vercel:
+   ```bash
+   # Verify these are set
+   NEXT_PUBLIC_DISQUS_SHORTNAME
+   NEXT_PUBLIC_SITE_URL
+   ```
 
-### Comments don't sync between pages
+2. **Verify trusted domains** in Disqus Admin:
+   - Must include production domain
+   - Must include Vercel preview domains
+   - Must include localhost for development
 
-This is normal. Each page has its own comment thread based on the unique `identifier`.
+3. **Clear cache:**
+   - Browser cache (Ctrl+Shift+R)
+   - Vercel deployment cache
+   - Disqus cache (wait 5-10 minutes)
 
-## Local Development
+### Error: "We were unable to load Disqus"
 
-For local development, make sure to:
+**Causes:**
+- Domain not in Disqus trusted domains list
+- Incorrect NEXT_PUBLIC_SITE_URL value
+- CORS issues
 
-1. Have `localhost` in Disqus trusted domains
-2. Use `NEXT_PUBLIC_SITE_URL=http://localhost:3000` in development
-3. Restart the development server after changing environment variables
+**Solutions:**
+1. Add domain to Disqus trusted domains
+2. Verify URL matches exactly (https vs http)
+3. Check browser console for specific errors
 
-## Production
+### Comments Appear on Wrong Site
 
-For production:
+**Cause:** Incorrect URL passed to Disqus causing identifier mismatch
 
-1. Update `NEXT_PUBLIC_SITE_URL` with your real domain
-2. Configure environment variables in your hosting platform
-3. Verify that the domain is correctly configured in Disqus
+**Solution:**
+```tsx
+// Ensure correct URL format
+const url = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${postSlug}`
 
-## Support
+// Disqus config
+config={{
+  url: url,
+  identifier: postId,
+  title: postTitle
+}}
+```
 
-If you have problems with the configuration:
+### Comment Count Shows 0
 
-1. Check the [official Disqus documentation](https://help.disqus.com/)
-2. Verify the configuration in the Disqus admin panel
-3. Check browser logs for specific errors
+**Causes:**
+- Disqus hasn't indexed the page yet
+- Incorrect identifier
+- Comments exist but aren't approved
+
+**Solutions:**
+1. Wait 24-48 hours for Disqus to index new pages
+2. Verify identifier matches between widget and hook
+3. Check Disqus Admin → Comments → Pending for unapproved comments
+
+### Development vs Production Issues
+
+**Symptom:** Works locally but not on Vercel
+
+**Solutions:**
+
+1. **Check environment-specific URLs:**
+   ```typescript
+   // Use environment detection
+   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+   ```
+
+2. **Verify Vercel environment variables:**
+   - Go to Vercel Dashboard
+   - Check each environment (Development, Preview, Production)
+   - Ensure variables are set for all environments
+
+3. **Test with Vercel Preview:**
+   - Create a preview deployment
+   - Add preview URL to Disqus trusted domains
+   - Test before pushing to production
+
+### CORS Errors
+
+**Symptom:** Console shows "blocked by CORS policy"
+
+**Solutions:**
+1. Ensure domain is in Disqus trusted domains
+2. Use correct URL format (no trailing slashes)
+3. Match protocol (http vs https)
+
+## Advanced Configuration
+
+### Custom Styles
+
+Disqus supports custom CSS through their admin panel:
+
+1. Disqus Admin → Settings → Appearance
+2. Add custom CSS rules
+3. Match your site's design system
+
+### Moderation
+
+**Auto-moderation rules:**
+- Disqus Admin → Settings → Community
+- Configure spam filters
+- Set comment approval workflows
+
+### Analytics
+
+**Track comment engagement:**
+```typescript
+// Track when comments are viewed
+if (window.gtag) {
+  window.gtag('event', 'comments_viewed', {
+    event_category: 'engagement',
+    event_label: postTitle
+  })
+}
+```
+
+## Best Practices
+
+1. **Use unique identifiers:** Ensure each post has unique `postId`
+2. **Consistent URLs:** Always use absolute URLs with protocol
+3. **Test environments:** Test in development, preview, and production
+4. **Monitor spam:** Regularly check Disqus moderation panel
+5. **Backup comments:** Export comments regularly from Disqus Admin
+
+## File Structure
+
+```
+hooks/
+  └── use-disqus-comments.tsx     # Comment count hook
+
+components/
+  └── disqus-comments.tsx         # Disqus widget component
+
+app/
+  blog/
+    └── [slug]/
+        └── page.tsx              # Blog post with comments
+
+.env.local                        # Environment variables
+docs/
+  └── DISQUS.md                   # This file
+```
+
+## API Reference
+
+### useDisqusComments
+
+```typescript
+interface UseDisqusCommentsReturn {
+  count: number          // Comment count
+  isLoading: boolean     // Loading state
+  error: string | null   // Error message if any
+}
+
+function useDisqusComments(articleSlug: string): UseDisqusCommentsReturn
+```
+
+### useCommentCount
+
+```typescript
+function useCommentCount(articleSlug: string): number
+```
+
+Returns comment count directly (0 if loading/error).
+
+---
+
+**Version**: 1.0.0 (Jan 2026)  
+**Maintained by**: José Carrillo (junior@carrillo.app)

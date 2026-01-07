@@ -2,20 +2,20 @@
 
 ## Project Overview
 
-carrillo.app is a personal portfolio and professional website for José Carrillo, a senior fullstack developer and tech lead. The site showcases his skills, projects, blog, services, and provides a platform for contact and appointment scheduling.
+carrillo.app is a personal portfolio and professional website for José Carrillo, Tech Lead of the Financial Backoffice team at Yummy Inc. The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
 
 ## Technology Stack
 
-- **Frontend Framework**: Next.js 15.2.4
-- **UI Library**: React 19
-- **Styling**: TailwindCSS with custom components
-- **Component Library**: Custom UI components using Radix UI primitives
-- **Animations**: Framer Motion
+- **Frontend Framework**: Next.js 16.1.1 (App Router + Turbopack)
+- **UI Library**: React 19.2.3
+- **Language**: TypeScript 5.9.3
+- **Styling**: Tailwind CSS 3.4.19
+- **Component Library**: Radix UI primitives + shadcn/ui
+- **Animations**: Framer Motion 12.24.7
 - **Form Handling**: React Hook Form with Zod validation
-- **State Management**: React Context API
-- **Data Visualization**: Recharts
-- **Language**: TypeScript
-- **Package Manager**: pnpm
+- **Analytics**: Google Analytics 4 + Microsoft Clarity
+- **Comments**: Disqus integration
+- **Package Manager**: npm
 - **Deployment**: Vercel
 
 ## Project Structure
@@ -34,19 +34,24 @@ The project follows a standard Next.js application structure:
 
 ## Key Features
 
-1. **Portfolio Showcase**: Display of professional skills and experience
-2. **Blog**: Articles on technology and development topics
-3. **Services**: Professional services offered
-4. **Contact Form**: Direct communication channel
+### Core Features
+1. **Portfolio Showcase**: Professional skills and experience display with project galleries
+2. **Blog**: Articles on technology and development (Medium RSS integration)
+3. **Services**: Professional services offered with detailed descriptions
+4. **Contact Form**: Direct communication with rate limiting and spam protection
 5. **Appointment Scheduling**: Calendar-based appointment booking system
-6. **Project Gallery**: Interactive display of past and current projects
-7. **GitHub/GitLab Integration**: Display of repositories and contributions
-8. **SEO Optimization**: Proper metadata and structured data
-9. **Multilingual Support**: Content in English and Spanish
-10. **Responsive Design**: Mobile-first approach
-11. **Accessibility Features**: WCAG compliance
-12. **Dark/Light Theme**: Customizable user experience
-13. **Newsletter**: Subscription capability for updates
+6. **Project Gallery**: Interactive display of past and current projects with GitHub/GitLab integration
+7. **Repository Integration**: Display of repositories and contributions from GitHub and GitLab
+
+### Technical Features
+8. **SEO Optimization**: Complete metadata, structured data (JSON-LD), sitemap, robots.txt
+9. **Analytics Tracking**: Comprehensive GA4 and Clarity integration (25+ event types)
+10. **Performance Optimized**: LCP < 2.5s, lighthouse score 95+/100
+11. **Responsive Design**: Mobile-first approach with breakpoints for all devices
+12. **Accessibility**: WCAG 2.1 AA compliance, keyboard navigation, screen reader support
+13. **Dark Theme**: Glassmorphism effects with animated backgrounds
+14. **Cookie Consent**: GDPR-compliant consent management
+15. **Progressive Enhancement**: Works without JavaScript for core content
 
 ## Build and Development
 
