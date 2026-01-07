@@ -1,8 +1,8 @@
-# CarrilloApps Project Documentation
+# carrillo.app Project Documentation
 
 ## Project Overview
 
-CarrilloApps is a personal portfolio and professional website for José Carrillo, a senior fullstack developer and tech lead. The site showcases his skills, projects, blog, services, and provides a platform for contact and appointment scheduling.
+carrillo.app is a personal portfolio and professional website for José Carrillo, a senior fullstack developer and tech lead. The site showcases his skills, projects, blog, services, and provides a platform for contact and appointment scheduling.
 
 ## Technology Stack
 

@@ -30,18 +30,11 @@ const inter = Inter({
 });
 ```
 
-**Headers de Preload en vercel.json:**
-```json
-{
-  "key": "Link",
-  "value": "</fonts/inter-latin.woff2>; rel=preload; as=font; crossorigin=anonymous"
-}
-```
-
 **Beneficios:**
 - `display: "swap"` muestra el texto inmediatamente con fuente fallback
 - `adjustFontFallback: true` ajusta métricas de fuente fallback para evitar layout shift
-- Preload reduce el tiempo de carga de la fuente crítica
+- `preload: false` evita errores 404 - Next.js optimiza la carga automáticamente
+- Google Fonts optimization automático con Next.js
 - Evita Flash of Unstyled Text (FOUT)
 
 ### 3. Eliminación de Polyfills

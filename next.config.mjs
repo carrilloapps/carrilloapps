@@ -120,11 +120,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: blob: https: http:",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://*.medium.com https://api.github.com https://gitlab.com https://www.googleapis.com https://forms.hsforms.com",
+              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://*.medium.com https://api.github.com https://gitlab.com https://www.googleapis.com https://forms.hsforms.com https://*.cloudflareinsights.com",
               "frame-src 'self' https://forms.hsforms.com https://www.youtube.com https://www.youtube-nocookie.com",
               "media-src 'self' https:",
               "object-src 'none'",

@@ -1,6 +1,6 @@
-# CarrilloApps Documentation
+# carrillo.app Documentation
 
-Welcome to the documentation for CarrilloApps, the personal portfolio and professional website for José Carrillo.
+Welcome to the documentation for carrillo.app, the personal portfolio and professional website for José Carrillo.
 
 ## Table of Contents
 
