@@ -1,8 +1,7 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useCallback } from "react";
 
 /**
  * Google Analytics 4 (GA4) Component
@@ -43,16 +42,47 @@ function GoogleAnalyticsContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [hasConsent, setHasConsent] = useState(false);
+  const [scriptsLoaded, setScriptsLoaded] = useState(false);
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-  // Check for user consent (cookie consent banner)
+  // Function to dynamically load Google Analytics
+  const loadGoogleAnalytics = useCallback(() => {
+    if (!gaId || typeof window === "undefined") return;
+
+    // Load gtag.js script
+    const script = document.createElement("script");
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args: unknown[]) {
+      window.dataLayer.push(args);
+    }
+    window.gtag = gtag as typeof window.gtag;
+    window.gtag("js", new Date());
+    window.gtag("config", gaId, {
+      page_path: window.location.pathname,
+      send_page_view: true,
+    });
+  }, [gaId]);
+
+  // Check for user consent and load scripts dynamically
   useEffect(() => {
     const checkConsent = () => {
       const consent = localStorage.getItem("cookieConsent");
       if (consent) {
         try {
           const parsed = JSON.parse(consent);
-          setHasConsent(parsed.analytics === true);
+          if (parsed.analytics === true) {
+            setHasConsent(true);
+            // Load scripts immediately when consent is given
+            if (!scriptsLoaded) {
+              loadGoogleAnalytics();
+              setScriptsLoaded(true);
+            }
+          }
         } catch {
           setHasConsent(false);
         }
@@ -61,18 +91,18 @@ function GoogleAnalyticsContent() {
 
     checkConsent();
 
-    // Listen for consent changes
+    // Listen for consent changes (when user accepts cookies)
     const handleConsentChange = () => checkConsent();
     window.addEventListener("cookieConsentChange", handleConsentChange);
 
     return () => {
       window.removeEventListener("cookieConsentChange", handleConsentChange);
     };
-  }, []);
+  }, [scriptsLoaded, loadGoogleAnalytics]);
 
   // Track page views on route change
   useEffect(() => {
-    if (!gaId || !hasConsent) return;
+    if (!gaId || !hasConsent || !scriptsLoaded) return;
 
     const url = pathname + searchParams.toString();
     
@@ -82,37 +112,10 @@ function GoogleAnalyticsContent() {
         page_path: url,
       });
     }
-  }, [pathname, searchParams, gaId, hasConsent]);
+  }, [pathname, searchParams, gaId, hasConsent, scriptsLoaded]);
 
-  // Don't load if no measurement ID or no consent
-  if (!gaId || !hasConsent) {
-    return null;
-  }
-
-  return (
-    <>
-      {/* Google Analytics 4 - gtag.js */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
-      <Script
-        id="google-analytics-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gaId}', {
-              page_path: window.location.pathname,
-              send_page_view: true
-            });
-          `,
-        }}
-      />
-    </>
-  );
+  // Scripts are loaded dynamically, no need to render anything
+  return null;
 }
 
 /**

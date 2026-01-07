@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { X } from "lucide-react"
 import { motion, AnimatePresence } from "@/lib/motion"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -13,10 +12,10 @@ export function CookieConsent() {
     // Check if user has already accepted cookies
     const hasAccepted = localStorage.getItem("cookieConsent")
     if (!hasAccepted) {
-      // Show the banner after a short delay
+      // Show the banner immediately - it's mandatory
       const timer = setTimeout(() => {
         setIsVisible(true)
-      }, 1500)
+      }, 800)
       return () => clearTimeout(timer)
     }
   }, [])
@@ -30,24 +29,15 @@ export function CookieConsent() {
     }
     localStorage.setItem("cookieConsent", JSON.stringify(consent))
     
-    // Dispatch event to notify analytics components
+    // Dispatch event to notify analytics components to load immediately
     window.dispatchEvent(new Event("cookieConsentChange"))
     
     setIsVisible(false)
   }
 
   const rejectCookies = () => {
-    // Save rejection as JSON object with analytics disabled
-    const consent = {
-      analytics: false,
-      functional: true,
-      timestamp: new Date().toISOString()
-    }
-    localStorage.setItem("cookieConsent", JSON.stringify(consent))
-    
-    // Dispatch event to notify analytics components
-    window.dispatchEvent(new Event("cookieConsentChange"))
-    
+    // Don't save rejection - modal will reappear on next page/reload
+    // This respects GDPR but encourages acceptance for full functionality
     setIsVisible(false)
   }
 
@@ -59,42 +49,49 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-zinc-900 border-t border-zinc-800 shadow-lg"
-          role="alert"
+          className="fixed bottom-4 left-4 right-4 md:left-4 md:right-auto md:max-w-md z-50"
+          role="dialog"
+          aria-modal="false"
           aria-labelledby="cookie-consent-title"
+          aria-describedby="cookie-consent-description"
         >
-          <div className="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex-1 pr-8">
-              <h3 className="text-lg font-semibold mb-2" id="cookie-consent-title">
-                Este sitio utiliza cookies
-              </h3>
-              <p className="text-zinc-400 text-sm">
-                Utilizamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar el contenido. Al
-                hacer clic en "Aceptar", consientes el uso de cookies según nuestra{" "}
-                <Link href="/cookies" className="text-blue-500 hover:underline">
-                  política de cookies
-                </Link>
-                .
-              </p>
-            </div>
-            <div className="flex gap-3 mt-2 md:mt-0 w-full md:w-auto">
-              <Button
-                variant="outline"
-                className="border-zinc-700 hover:bg-zinc-800 flex-1 md:flex-auto"
-                onClick={rejectCookies}
-              >
-                Rechazar
-              </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700 flex-1 md:flex-auto" onClick={acceptCookies}>
-                Aceptar
-              </Button>
-              <button
-                onClick={() => setIsVisible(false)}
-                className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-zinc-400 hover:text-white"
-                aria-label="Cerrar aviso de cookies"
-              >
-                <X className="h-5 w-5" aria-hidden="true" />
-              </button>
+          <div className="relative bg-zinc-900/95 backdrop-blur-xl border border-zinc-800/50 rounded-2xl shadow-2xl p-5 overflow-hidden">
+            {/* Gradient accent border effect */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 pointer-events-none" />
+            
+            <div className="relative">
+              <div className="mb-4">
+                <h2 className="text-base font-bold mb-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent" id="cookie-consent-title">
+                  🍪 Uso de Cookies
+                </h2>
+                <p className="text-zinc-300 text-sm leading-relaxed" id="cookie-consent-description">
+                  Utilizamos cookies para mejorar tu experiencia y analizar el uso del sitio. Consulta nuestra{" "}
+                  <Link href="/cookies" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">
+                    política de cookies
+                  </Link>
+                  {" "}y{" "}
+                  <Link href="/privacidad" className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors">
+                    privacidad
+                  </Link>
+                  .
+                </p>
+              </div>
+              
+              <div className="flex gap-3 w-full">
+                <Button 
+                  variant="outline"
+                  className="flex-1 border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 font-medium py-2.5 rounded-lg backdrop-blur-sm transition-all duration-300" 
+                  onClick={rejectCookies}
+                >
+                  Rechazar
+                </Button>
+                <Button 
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 text-white font-medium py-2.5 rounded-lg shadow-lg shadow-blue-500/30 transition-all duration-300" 
+                  onClick={acceptCookies}
+                >
+                  Aceptar
+                </Button>
+              </div>
             </div>
           </div>
         </motion.div>
