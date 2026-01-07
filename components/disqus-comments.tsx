@@ -38,6 +38,7 @@ export function DisqusComments({
   const pathname = usePathname()
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
+  const [errorDetails, setErrorDetails] = useState<string>("")
   const [commentCount, setCommentCount] = useState<number | null>(null)
   
   const siteUrl = getSiteUrl()
@@ -78,8 +79,17 @@ export function DisqusComments({
       return
     }
 
+    let mounted = true
+    let retryCount = 0
+    const maxRetries = 3
+
     const loadDisqus = () => {
       try {
+        // Check if we're in a browser environment
+        if (typeof window === 'undefined') {
+          return
+        }
+
         // Reset Disqus if it's already loaded
         if (window.DISQUS) {
           window.DISQUS.reset({
@@ -90,7 +100,10 @@ export function DisqusComments({
               this.page.title = title
             },
           })
-          setIsLoading(false)
+          if (mounted) {
+            setIsLoading(false)
+            setHasError(false)
+          }
           return
         }
 
@@ -101,40 +114,94 @@ export function DisqusComments({
           this.page.title = title
         }
 
+        // Check if script already exists
+        const existingScript = document.querySelector('script[src*="disqus.com/embed.js"]')
+        if (existingScript) {
+          // Script exists but Disqus might not be loaded yet
+          const checkDisqus = setInterval(() => {
+            if (window.DISQUS && mounted) {
+              clearInterval(checkDisqus)
+              setIsLoading(false)
+              setHasError(false)
+            }
+          }, 500)
+          
+          // Timeout after 10 seconds
+          setTimeout(() => {
+            clearInterval(checkDisqus)
+            if (mounted && !window.DISQUS) {
+              setHasError(true)
+              setIsLoading(false)
+            }
+          }, 10000)
+          return
+        }
+
         // Load Disqus script
         const script = document.createElement("script")
         script.src = `https://${shortname}.disqus.com/embed.js`
         script.setAttribute("data-timestamp", Date.now().toString())
         script.async = true
+        script.defer = true
         
         script.onload = () => {
-          setIsLoading(false)
-          setHasError(false)
+          if (mounted) {
+            console.log('Disqus script loaded successfully')
+            setIsLoading(false)
+            setHasError(false)
+          }
         }
         
         script.onerror = () => {
-          setHasError(true)
-          setIsLoading(false)
+          const errorMsg = `Failed to load Disqus script from https://${shortname}.disqus.com/embed.js`
+          console.error(errorMsg)
+          if (mounted) {
+            retryCount++
+            if (retryCount < maxRetries) {
+              console.log(`Retrying Disqus load (${retryCount}/${maxRetries})...`)
+              setErrorDetails(`Reintentando (${retryCount}/${maxRetries})...`)
+              // Retry after a delay
+              setTimeout(() => {
+                if (mounted && document.body.contains(script)) {
+                  document.body.removeChild(script)
+                }
+                loadDisqus()
+              }, 2000 * retryCount)
+            } else {
+              setHasError(true)
+              setIsLoading(false)
+              setErrorDetails(`No se pudo cargar el script de Disqus. Verifica que el shortname "${shortname}" sea correcto.`)
+            }
+          }
         }
         
         document.body.appendChild(script)
 
-        return () => {
-          // Clean up script when component unmounts
-          if (document.body.contains(script)) {
-            document.body.removeChild(script)
+        // Timeout fallback - if Disqus doesn't load in 15 seconds, show error
+        setTimeout(() => {
+          if (mounted && isLoading) {
+            console.warn('Disqus loading timeout')
+            setHasError(true)
+            setIsLoading(false)
           }
-        }
+        }, 15000)
+
       } catch (error) {
         console.error("Error loading Disqus:", error)
-        setHasError(true)
-        setIsLoading(false)
+        if (mounted) {
+          setHasError(true)
+          setIsLoading(false)
+        }
       }
     }
 
     const timer = setTimeout(loadDisqus, 100)
-    return () => clearTimeout(timer)
-  }, [shortname, identifier, title, fullUrl, pathname])
+    
+    return () => {
+      mounted = false
+      clearTimeout(timer)
+    }
+  }, [shortname, identifier, title, fullUrl, pathname, isLoading])
 
   if (!shortname) {
     return (
@@ -223,12 +290,26 @@ export function DisqusComments({
                 Error al cargar comentarios
               </h3>
               <p className="text-red-200/80 text-sm mb-4">
-                No se pudieron cargar los comentarios. Verifica tu conexión a internet.
+                No se pudieron cargar los comentarios de Disqus.<br />
+                Verifica tu conexión a internet o que tu navegador no bloquee scripts externos.
               </p>
+              {errorDetails && (
+                <div className="text-xs text-zinc-300 bg-zinc-800/50 p-3 rounded mb-4 text-left">
+                  <strong>Detalles:</strong> {errorDetails}
+                </div>
+              )}
+              <div className="text-xs text-zinc-400 mb-4">
+                Shortname: <code className="bg-zinc-800/50 px-2 py-1 rounded">{shortname}</code><br />
+                URL: <code className="bg-zinc-800/50 px-2 py-1 rounded text-xs">{fullUrl}</code>
+              </div>
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => window.location.reload()}
+                onClick={() => {
+                  setHasError(false)
+                  setIsLoading(true)
+                  window.location.reload()
+                }}
                 className="border-red-700/50 bg-red-900/20 hover:bg-red-800/30 text-red-100"
               >
                 Reintentar

@@ -15,7 +15,7 @@ import { BlogContentRenderer } from "@/components/blog-content-renderer"
 import { SocialShareDialog } from "@/components/social-share-dialog"
 import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
-import { useDisqusComments, useDisqusReactions } from "@/hooks/use-disqus-comments"
+import { useDisqusComments, useDisqusReactions, useDisqusSaves } from "@/hooks/use-disqus-comments"
 import type { MediumPost } from "@/types/medium"
 
 export function BlogArticle({ slug }: { slug: string }) {
@@ -25,13 +25,15 @@ export function BlogArticle({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
-  const [isSaved, setIsSaved] = useState(false)
   
   // Get comment count using the custom hook
   const { count: commentCount, isLoading: commentLoading } = useDisqusComments(slug)
   
   // Get reactions/likes using the custom hook
   const { reactions, hasReacted, toggleReaction, isLoading: reactionsLoading } = useDisqusReactions(slug)
+  
+  // Get saves/bookmarks using the custom hook
+  const { reactions: saves, hasSaved, toggleSave, isLoading: savesLoading } = useDisqusSaves(slug)
 
   useEffect(() => {
     async function loadData() {
@@ -46,10 +48,6 @@ export function BlogArticle({ slug }: { slug: string }) {
         setPost(postData)
         setRelatedPosts(relatedData.slice(0, 4))
         setCategories(categoriesData.slice(0, 8))
-        
-        // Check if article is saved
-        const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]')
-        setIsSaved(savedArticles.includes(slug))
       } catch (err) {
         console.error("Error fetching Medium post:", err)
         setError("No pudimos cargar el artículo. Por favor, intenta de nuevo más tarde.")
@@ -60,22 +58,6 @@ export function BlogArticle({ slug }: { slug: string }) {
 
     loadData()
   }, [slug])
-
-  const handleSaveArticle = () => {
-    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]')
-    
-    if (isSaved) {
-      // Remove from saved
-      const updated = savedArticles.filter((id: string) => id !== slug)
-      localStorage.setItem('savedArticles', JSON.stringify(updated))
-      setIsSaved(false)
-    } else {
-      // Add to saved
-      savedArticles.push(slug)
-      localStorage.setItem('savedArticles', JSON.stringify(savedArticles))
-      setIsSaved(true)
-    }
-  }
 
   if (loading) {
     return (
@@ -415,15 +397,15 @@ export function BlogArticle({ slug }: { slug: string }) {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    onClick={handleSaveArticle}
+                    onClick={toggleSave}
                     className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
-                      isSaved 
+                      hasSaved 
                         ? "border-green-500/50 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20 text-green-400" 
                         : "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20"
                     }`}
                   >
-                    {isSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
-                    <span className="flex-1 w-full">{isSaved ? "Guardado" : "Guardar"}</span>
+                    {hasSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+                    <span className="flex-1 w-full">{hasSaved ? "Guardado" : "Guardar"}</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -487,14 +469,14 @@ export function BlogArticle({ slug }: { slug: string }) {
                 </div>
                 <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300">
                   <p className="text-sm text-zinc-400 font-medium mb-2">Estadísticas</p>
-                  <div className="flex items-center gap-4 text-zinc-300">
+                  <div className="flex flex-col gap-3 text-zinc-300">
                     <motion.div 
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-2"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.2 }}
                     >
                       <MessageSquare className="h-4 w-4 text-zinc-400" />
-                      <span className="flex-1 w-full">
+                      <span className="flex-1 w-full text-sm">
                         {commentLoading ? (
                           <span className="inline-flex items-center gap-1">
                             <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
@@ -506,19 +488,36 @@ export function BlogArticle({ slug }: { slug: string }) {
                       </span>
                     </motion.div>
                     <motion.div 
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-2"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.2 }}
                     >
                       <ThumbsUp className="h-4 w-4 text-zinc-400" />
-                      <span className="flex-1 w-full">
+                      <span className="flex-1 w-full text-sm">
                         {reactionsLoading ? (
                           <span className="inline-flex items-center gap-1">
                             <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
-                            likes
+                            me gusta
                           </span>
                         ) : (
-                          `${reactions} ${reactions === 1 ? 'like' : 'likes'}`
+                          `${reactions} me gusta`
+                        )}
+                      </span>
+                    </motion.div>
+                    <motion.div 
+                      className="flex items-center gap-2"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Bookmark className="h-4 w-4 text-zinc-400" />
+                      <span className="flex-1 w-full text-sm">
+                        {savesLoading ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
+                            guardados
+                          </span>
+                        ) : (
+                          `${saves} ${saves === 1 ? 'guardado' : 'guardados'}`
                         )}
                       </span>
                     </motion.div>
@@ -722,14 +721,14 @@ export function BlogArticle({ slug }: { slug: string }) {
           <Button 
             size="sm" 
             variant="outline"
-            onClick={handleSaveArticle}
+            onClick={toggleSave}
             className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 transition-all duration-300 ${
-              isSaved 
+              hasSaved 
                 ? "border-green-500/50 hover:border-green-500/30 text-green-400" 
                 : "hover:border-blue-500/30"
             }`}
           >
-            {isSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+            {hasSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
           </Button>
         </div>
       </CardContent>
