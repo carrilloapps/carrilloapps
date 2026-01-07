@@ -1,86 +1,139 @@
 # carrillo.app Documentation
 
-Welcome to the documentation for carrillo.app, the personal portfolio and professional website for José Carrillo.
+Personal portfolio and professional website for José Carrillo, Tech Lead at Yummy Inc.
 
-## Table of Contents
+## Quick Start
 
-### Getting Started
-- [Project Overview](./PROJECT.md) - High-level overview of the project
-- [Development Guide](./DEVELOPMENT.md) - Guide for setting up the development environment and contributing
-
-### Technical Documentation
-- [API Documentation](./API.md) - Details of the API endpoints and their usage
-- [Translation Guide](./TRANSLATION.md) - Guidelines for translating and localizing content
-- [GitHub Integration](./GITHUB.md) - Information about GitHub workflows and repository management
-
-### Contributor Guides
-- [Contributing Guidelines](../CONTRIBUTING.md) - How to contribute to the project
-- [Code of Conduct](../CODE_OF_CONDUCT.md) - Expected behavior for contributors
-- [Pull Request Template](../.github/PULL_REQUEST_TEMPLATE.md) - Template for pull requests
-
-### Project Management
-- [Changelog](../CHANGELOG.md) - History of changes in the project
-- [License](../LICENSE.md) - Licensing information
-- [Security Policy](../SECURITY.md) - Security information and vulnerability reporting
-
-## Quick Reference
-
-### Technology Stack
-- Next.js 15.2.4
-- React 19
-- TypeScript
-- TailwindCSS
-- Radix UI components
-
-### Key Commands
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Start development server
-pnpm dev
+npm run dev
 
 # Build for production
-pnpm build
-
-# Start production server
-pnpm start
+npm run build
 
 # Run linting
-pnpm lint
+npm run lint
 ```
 
-### Project Structure
+## Documentation Index
+
+### Core Documentation
+- **[Project Overview](./PROJECT.md)** - Technology stack, features, and architecture
+- **[Development Guide](./DEVELOPMENT.md)** - Setup, contributing, and development workflow
+
+### Integration Guides
+- **[Analytics](./ANALYTICS.md)** - Google Analytics 4 & Microsoft Clarity setup and tracking
+- **[Disqus](./DISQUS.md)** - Blog comments integration and troubleshooting
+- **[GitHub](./GITHUB.md)** - Repository integration and workflows
+- **[Vercel](./VERCEL.md)** - Deployment configuration and best practices
+
+### Technical Guides
+- **[API Documentation](./API.md)** - API endpoints and usage
+- **[Performance](./PERFORMANCE.md)** - Optimization strategies and metrics
+- **[Translation](./TRANSLATION.md)** - Localization and i18n guidelines
+- **[Page Consistency](./PAGE_CONSISTENCY.md)** - UI/UX standards and patterns
+
+### Project Resources
+- [Contributing Guidelines](../CONTRIBUTING.md)
+- [Code of Conduct](../CODE_OF_CONDUCT.md)
+- [Changelog](../CHANGELOG.md)
+- [Security Policy](../SECURITY.md)
+
+## Technology Stack
+
+- **Framework**: Next.js 16.1.1 (App Router + Turbopack)
+- **UI Library**: React 19.2.3
+- **Language**: TypeScript 5.9.3
+- **Styling**: Tailwind CSS 3.4.19
+- **Components**: Radix UI + shadcn/ui
+- **Animations**: Framer Motion 12.24.7
+- **Deployment**: Vercel
+
+## Key Features
+
+- ✅ Portfolio showcase with project galleries
+- ✅ Blog with Medium RSS integration
+- ✅ Professional services section
+- ✅ Contact form with rate limiting
+- ✅ Appointment scheduling
+- ✅ GitHub/GitLab repository integration
+- ✅ Analytics tracking (GA4 + Clarity)
+- ✅ SEO optimized with structured data
+- ✅ Responsive design (mobile-first)
+- ✅ WCAG 2.1 AA accessibility compliance
+- ✅ Dark theme with glassmorphism effects
+
+## Project Structure
+
 ```
-/app                 # Next.js pages and routes
-/components          # React components
-/data                # Static data files
-/docs                # Documentation
-/hooks               # Custom React hooks
-/lib                 # Utility functions and libraries
-/public              # Static assets
-/styles              # Global styles
-/types               # TypeScript type definitions
+├── app/                    # Next.js App Router pages
+├── components/             # React components
+│   ├── analytics/         # Analytics integrations
+│   └── ui/                # shadcn/ui components
+├── data/                  # Static data (projects, config)
+├── docs/                  # Documentation (you are here)
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utilities and services
+├── public/                # Static assets
+├── styles/                # Global styles
+└── types/                 # TypeScript definitions
 ```
 
-### Key Features
-- Portfolio showcase
-- Blog
-- Services section
-- Contact form
-- Appointment scheduling
-- GitHub/GitLab integration
-- Responsive design
-- Dark/Light theme
+## Environment Variables
+
+Required environment variables (see `.env.example`):
+
+```bash
+# Analytics
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_CLARITY_PROJECT_ID=abc123def
+
+# Disqus
+NEXT_PUBLIC_DISQUS_SHORTNAME=your-shortname
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
+# Contact Form
+CONTACT_EMAIL_TO=your@email.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@email.com
+SMTP_PASS=your-app-password
+```
+
+## Common Commands
+
+```bash
+# Development
+npm run dev              # Start dev server (port 3000)
+npm run build            # Production build
+npm run start            # Start production server
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint issues
+
+# Deployment
+git push                 # Auto-deploys to Vercel
+```
 
 ## Getting Help
 
-If you need help with the project, you can:
-
-1. Check the [GitHub Discussions](https://github.com/carrilloapps/carrilloapps/discussions)
-2. Open an [issue](https://github.com/carrilloapps/carrilloapps/issues)
-3. Contact José Carrillo directly at [junior@carrillo.app](mailto:junior@carrillo.app)
+- **Discussions**: [GitHub Discussions](https://github.com/carrilloapps/carrilloapps/discussions)
+- **Issues**: [GitHub Issues](https://github.com/carrilloapps/carrilloapps/issues)
+- **Email**: junior@carrillo.app
 
 ## Contributing
 
-Contributions are welcome! Please read the [Contributing Guidelines](../CONTRIBUTING.md) before submitting a pull request.
+Contributions are welcome! See [Contributing Guidelines](../CONTRIBUTING.md) for details.
+
+## License
+
+**PRIVATE** - Proprietary software. See [LICENSE.md](../LICENSE.md) for details.
+
+---
+
+**Version**: 2.0.0 (Jan 2026)  
+**Maintained by**: José Carrillo (junior@carrillo.app)  
+**Last Updated**: January 7, 2026
+

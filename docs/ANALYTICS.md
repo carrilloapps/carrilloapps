@@ -1,52 +1,30 @@
-# Analytics Integration Documentation
+# Analytics Integration
+
+Complete guide for Google Analytics 4 and Microsoft Clarity integration in carrillo.app.
 
 ## Overview
 
-CarrilloApps integrates two complementary analytics platforms:
+CarrilloApps integrates two analytics platforms:
+- **Google Analytics 4 (GA4)** - Web analytics and conversion tracking
+- **Microsoft Clarity** - User behavior analytics with session recordings
 
-1. **Google Analytics 4 (GA4)** - Comprehensive web analytics
-2. **Microsoft Clarity** - User behavior analytics with session recordings
-
-## Features
-
-### Google Analytics 4
-- ✅ Page view tracking
-- ✅ Event tracking
-- ✅ User engagement metrics
-- ✅ Traffic source analysis
-- ✅ Conversion tracking
-- ✅ Real-time analytics
-- ✅ GDPR compliant (respects cookie consent)
-
-### Microsoft Clarity
-- ✅ Session recordings
-- ✅ Heatmaps (click, scroll, attention)
-- ✅ Rage clicks detection
-- ✅ Dead clicks detection
-- ✅ Excessive scrolling detection
-- ✅ JavaScript errors tracking
-- ✅ GDPR compliant (respects cookie consent)
-
-## Setup Instructions
+## Quick Setup
 
 ### 1. Google Analytics 4
 
-1. **Create GA4 Property**:
-   - Go to [Google Analytics](https://analytics.google.com/)
-   - Click "Admin" → "Create Property"
-   - Follow the setup wizard
-   - Copy your **Measurement ID** (format: `G-XXXXXXXXXX`)
+**Create GA4 Property:**
+1. Go to [Google Analytics](https://analytics.google.com/)
+2. Admin → Create Property → Copy Measurement ID (format: `G-XXXXXXXXXX`)
 
-2. **Configure Environment Variable**:
-   ```bash
-   # In .env.local (local development)
-   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-   ```
+**Configure Environment:**
+```bash
+# .env.local
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
 
-3. **Vercel Deployment**:
-   - Go to Vercel Dashboard → Project Settings → Environment Variables
-   - Add `NEXT_PUBLIC_GA_MEASUREMENT_ID` with your Measurement ID
-   - Available in: Production, Preview, Development
+**Vercel Deployment:**
+- Project Settings → Environment Variables
+- Add `NEXT_PUBLIC_GA_MEASUREMENT_ID` for Production, Preview, Development
 
 ### 2. Microsoft Clarity
 
@@ -101,51 +79,147 @@ window.addEventListener("cookieConsentChange", () => {
 });
 ```
 
-## Custom Event Tracking (GA4)
+## Tracking Library
 
-### Track Button Clicks
+**Location:** `lib/analytics.ts` - Centralized tracking utilities with 25+ functions
 
+### Core Functions
+
+**Generic Events:**
 ```typescript
-// In any client component
-if (typeof window !== "undefined" && window.gtag) {
-  window.gtag("event", "button_click", {
-    event_category: "engagement",
-    event_label: "Contact Button",
-    value: 1,
-  });
+trackEvent(action: string, category: string, label?: string, value?: number)
+```
+
+**Button Interactions:**
+```typescript
+trackButtonClick(label: string, location: string)
+trackCTAClick(label: string, variant: 'primary' | 'secondary', location: string)
+```
+
+**Navigation:**
+```typescript
+trackNavigation(label: string, href: string, location: string)
+```
+
+**Forms:**
+```typescript
+trackFormStart(formName: string)
+trackFormSubmit(formName: string, success: boolean)
+```
+
+**Content:**
+```typescript
+trackSearch(query: string, category?: string)
+trackProjectView(projectName: string, category?: string)
+trackBlogPostView(title: string, slug: string, category?: string)
+trackScrollDepth(percentage: number)
+```
+
+**Social & External:**
+```typescript
+trackSocialClick(platform: string, location: string)
+trackNewsletterSignup(location: string)
+```
+
+**Microsoft Clarity:**
+```typescript
+clarityTag(key: string, value: string)
+clarityIdentify(userId: string, sessionId?: string, pageId?: string)
+```
+
+## Implementation Coverage
+
+### Header (`components/site-header.tsx`)
+- ✅ Desktop/mobile navigation links → `trackNavigation()`
+- ✅ Mega menu sub-items → `trackNavigation()`
+- ✅ Logo clicks → `trackNavigation()`
+- ✅ "Agéndame" CTA buttons (3 variants) → `trackCTAClick()`
+
+### Footer (`components/site-footer.tsx`)
+- ✅ Social media links → `trackSocialClick()`
+- ✅ Footer navigation → `trackNavigation()`
+- ✅ Newsletter form → `trackNewsletterSignup()`
+- ✅ Legal links → `trackNavigation()`
+
+### Contact Page (`app/contacto/page.tsx`)
+- ✅ Form lifecycle → `trackFormStart()` / `trackFormSubmit()`
+- ✅ Social media CTAs → `trackSocialClick()`
+- ✅ Contact reveals (phone, email) → `trackEvent()`
+
+### Blog (`app/blog/page.tsx`, `components/blog-posts.tsx`)
+- ✅ Search queries → `trackSearch()`
+- ✅ Category filtering → `trackEvent()`
+- ✅ Blog post views → `trackBlogPostView()`
+
+### Repositories (`components/repositories-list.tsx`)
+- ✅ Repository clicks → `trackEvent()`
+- ✅ Search filters → `trackSearch()`
+
+### Resources (`app/recursos/page.tsx`)
+- ✅ Resource CTAs → `trackCTAClick()`
+
+### Services (`app/servicios/page.tsx`)
+- ✅ Service selection → `trackEvent()`
+- ✅ CTA buttons → `trackCTAClick()`
+
+### Home (`app/page.tsx`)
+- ✅ Hero CTAs → `trackCTAClick()`
+- ✅ Scroll depth (25%, 50%, 75%, 100%) → `trackScrollDepth()`
+- ✅ Project views → `trackProjectView()`
+
+## Usage Examples
+
+### Track Button Click
+```typescript
+import { trackButtonClick } from '@/lib/analytics'
+
+<button onClick={() => trackButtonClick('Download CV', 'hero')}>
+  Download CV
+</button>
+```
+
+### Track Form Submission
+```typescript
+import { trackFormStart, trackFormSubmit } from '@/lib/analytics'
+
+const handleSubmit = async (data) => {
+  trackFormStart('contact-form')
+  
+  try {
+    await submitForm(data)
+    trackFormSubmit('contact-form', true)
+  } catch (error) {
+    trackFormSubmit('contact-form', false)
+  }
 }
 ```
 
-### Track Form Submissions
-
+### Track Search
 ```typescript
-window.gtag("event", "form_submit", {
-  event_category: "engagement",
-  event_label: "Contact Form",
-  form_name: "contact",
-});
+import { trackSearch } from '@/lib/analytics'
+
+const handleSearch = (query: string) => {
+  trackSearch(query, 'blog')
+}
 ```
 
-### Track Downloads
-
+### Track Scroll Depth
 ```typescript
-window.gtag("event", "file_download", {
-  event_category: "engagement",
-  event_label: "Resume PDF",
-  file_name: "jose-carrillo-cv.pdf",
-  file_extension: "pdf",
-});
-```
+import { trackScrollDepth } from '@/lib/analytics'
 
-### Track Outbound Links
-
-```typescript
-window.gtag("event", "click", {
-  event_category: "outbound",
-  event_label: "GitHub Profile",
-  transport_type: "beacon",
-  link_url: "https://github.com/username",
-});
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollPercentage = (window.scrollY / document.documentElement.scrollHeight) * 100
+    
+    if (scrollPercentage >= 25 && !tracked25) {
+      trackScrollDepth(25)
+      setTracked25(true)
+    }
+  }
+  
+  window.addEventListener('scroll', handleScroll)
+  return () => window.removeEventListener('scroll', handleScroll)
+}, [])
 ```
 
 ## Performance Impact
@@ -216,84 +290,62 @@ Both platforms comply with:
 - Input fields: Masked automatically
 - Payment info: Never recorded
 
-## Testing
+## Verification
 
 ### Local Testing
+1. Open browser DevTools → Console
+2. Navigate through the site
+3. Check for analytics events (development mode shows console logs)
 
-1. **Enable analytics in development**:
-   ```bash
-   # .env.local
-   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-   NEXT_PUBLIC_CLARITY_PROJECT_ID=abc123def
-   ```
+### GA4 Dashboard
+1. Go to [Google Analytics](https://analytics.google.com/)
+2. Reports → Realtime to see live events
+3. Reports → Events to see all tracked events
 
-2. **Accept cookie consent** in the banner
+### Clarity Dashboard
+1. Go to [Microsoft Clarity](https://clarity.microsoft.com/)
+2. Select your project
+3. View recordings, heatmaps, and insights
 
-3. **Open browser DevTools** → Network tab
+## Features
 
-4. **Look for requests to**:
-   - `www.google-analytics.com`
-   - `www.clarity.ms`
+### Google Analytics 4
+- ✅ Page view tracking
+- ✅ Custom event tracking (25+ functions)
+- ✅ User engagement metrics
+- ✅ Traffic source analysis
+- ✅ Conversion tracking
+- ✅ Real-time analytics
+- ✅ GDPR compliant (cookie consent)
 
-### Production Testing
+### Microsoft Clarity
+- ✅ Session recordings
+- ✅ Heatmaps (click, scroll, attention)
+- ✅ Rage clicks detection
+- ✅ Dead clicks detection
+- ✅ Excessive scrolling detection
+- ✅ JavaScript errors tracking
+- ✅ GDPR compliant (cookie consent)
 
-1. **Deploy to Vercel** with environment variables
+## Privacy & Compliance
 
-2. **Visit production site**
+Both platforms respect the cookie consent system in `components/cookie-consent.tsx`.
 
-3. **Open GA4 Real-Time Report**:
-   - Go to Analytics → Reports → Realtime
-   - Should see your visit
-
-4. **Open Clarity Dashboard**:
-   - Go to Clarity → Dashboard
-   - Should see session recording (after ~1 minute)
-
-## Troubleshooting
-
-### Analytics Not Loading
-
-**Problem**: Scripts don't load after accepting consent
-
-**Solutions**:
-1. Check environment variables are set
-2. Check browser console for CSP errors
-3. Verify consent is saved in localStorage
-4. Hard refresh (Ctrl+Shift+R)
-
-### GA4 Not Showing Data
-
-**Problem**: No data in GA4 dashboard
-
-**Solutions**:
-1. Wait 24-48 hours (initial setup delay)
-2. Check Measurement ID format (`G-XXXXXXXXXX`)
-3. Verify Real-Time report shows activity
-4. Check Data Filters in GA4 settings
-
-### Clarity Not Recording
-
-**Problem**: No session recordings in Clarity
-
-**Solutions**:
-1. Wait ~5 minutes (processing delay)
-2. Check Project ID format (no special characters)
-3. Verify cookies are enabled
-4. Check for ad blockers (disable temporarily)
-
-### CSP Violations
-
-**Problem**: Console shows "Refused to load script"
-
-**Solutions**:
-1. Verify `next.config.mjs` CSP includes analytics domains
-2. Rebuild project: `npm run build`
-3. Clear browser cache
-4. Check Vercel deployment logs for CSP headers
+**Cookie Consent Integration:**
+```typescript
+// Only loads when user accepts analytics cookies
+const cookieConsent = localStorage.getItem('cookieConsent')
+if (cookieConsent === 'accepted') {
+  // Load analytics scripts
+}
+```
 
 ## File Structure
 
 ```
+lib/
+  └── analytics.ts                # Tracking library (25+ functions)
+
 components/
   analytics/
     ├── google-analytics.tsx      # GA4 component
@@ -304,30 +356,36 @@ app/
   └── layout.tsx                  # Analytics integration
 
 next.config.mjs                   # CSP configuration
-.env.example                      # Environment variables template
-docs/
-  └── ANALYTICS.md                # This file
 ```
 
-## Additional Resources
+## Best Practices
 
-### Google Analytics 4
-- [GA4 Setup Guide](https://support.google.com/analytics/answer/9304153)
-- [GA4 Events Reference](https://developers.google.com/analytics/devguides/collection/ga4/events)
-- [GA4 Measurement Protocol](https://developers.google.com/analytics/devguides/collection/protocol/ga4)
+1. **Event Naming**: Use consistent naming conventions
+2. **Categories**: Group related events for better analysis
+3. **Privacy**: Always respect user privacy and cookie consent
+4. **Performance**: Track critical interactions, avoid over-tracking
+5. **Testing**: Test analytics in staging before production
 
-### Microsoft Clarity
-- [Clarity Setup Guide](https://docs.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup)
-- [Clarity Masking Settings](https://docs.microsoft.com/en-us/clarity/setup-and-installation/clarity-masking)
-- [Clarity API Documentation](https://docs.microsoft.com/en-us/clarity/api-reference/)
+## Troubleshooting
 
-### Privacy & Compliance
-- [GDPR Compliance Guide](https://gdpr.eu/compliance/)
-- [Google Analytics GDPR](https://support.google.com/analytics/answer/9019185)
-- [Clarity Privacy](https://docs.microsoft.com/en-us/clarity/setup-and-installation/clarity-data-security)
+### Analytics Not Loading
+- Verify environment variables are set correctly
+- Check cookie consent is accepted
+- Clear browser cache and cookies
+- Verify scripts load in Network tab
+
+### Events Not Appearing in GA4
+- Wait 24-48 hours for full data processing
+- Check Realtime reports for immediate feedback
+- Verify Measurement ID is correct
+
+### Clarity Not Recording
+- Verify Project ID is correct
+- Check browser console for errors
+- Ensure cookie consent is accepted
+- Clarity requires 100+ sessions for heatmaps
 
 ---
 
-**Last Updated**: 2026-01-07
-**Version**: 1.0.0
-**Maintained by**: José Carrillo (m@carrillo.app)
+**Version**: 2.0.0 (Jan 2026) - Complete site coverage with 25+ tracking functions  
+**Maintained by**: José Carrillo (junior@carrillo.app)
