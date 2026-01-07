@@ -88,6 +88,13 @@ const nextConfig = {
   // Transpile packages for better compatibility
   transpilePackages: ['framer-motion'],
   
+  // Module optimization - use native ESM when possible
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+    },
+  },
+  
   // Compiler optimizations
   compiler: {
     // Remove console logs in production
