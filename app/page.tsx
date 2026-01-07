@@ -22,6 +22,7 @@ import { DynamicBackground } from "@/components/dynamic-background";
 import { AnimatedSection } from "@/components/animated-section"
 import { ProjectDialog } from "@/components/project-dialog"
 import { useIsMobile } from "@/hooks/use-media-query"
+import { trackCTAClick, trackButtonClick, trackScrollDepth, trackProjectView } from "@/lib/analytics";
 
 // Security utilities
 const obfuscateEmail = (email: string): string => {
@@ -99,6 +100,28 @@ export default function Home() {
   useEffect(() => {
     startTime.current = Date.now()
   }, [])
+
+  // Scroll depth tracking
+  useEffect(() => {
+    const scrollDepths = [25, 50, 75, 100];
+    const tracked = new Set<number>();
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+
+      scrollDepths.forEach((depth) => {
+        if (scrollPercent >= depth && !tracked.has(depth)) {
+          trackScrollDepth(depth as 25 | 50 | 75 | 100);
+          tracked.add(depth);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   // Handle contact form input changes
   const handleContactInputChange = (field: string, value: string) => {
@@ -219,7 +242,11 @@ export default function Home() {
                   role="group"
                   aria-label="Acciones principales"
                 >
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 min-h-[48px] rounded-lg shadow-lg shadow-blue-500/30 touch-manipulation transform hover:scale-105 transition-all duration-300 group" asChild>
+                  <Button 
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 min-h-[48px] rounded-lg shadow-lg shadow-blue-500/30 touch-manipulation transform hover:scale-105 transition-all duration-300 group" 
+                    asChild
+                    onClick={() => trackCTAClick('Contactarme', 'primary', 'home-hero')}
+                  >
                     <Link href="/contacto" aria-describedby="contact-me-desc">
                       Contactarme
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
@@ -229,7 +256,10 @@ export default function Home() {
                   <Button
                     variant="outline"
                     className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 min-h-[48px] rounded-lg backdrop-blur-sm touch-manipulation transform hover:scale-105 transition-all duration-300"
-                    onClick={() => setCvModalOpen(true)}
+                    onClick={() => {
+                      trackButtonClick('Descargar CV', 'home-hero');
+                      setCvModalOpen(true);
+                    }}
                     aria-describedby="download-cv-desc"
                   >
                     Descargar CV
@@ -459,7 +489,12 @@ export default function Home() {
 
             <div className="text-center mt-8">
               <Button variant="link" className="text-blue-500 min-h-[48px]" asChild>
-                <Link href="/sobre-mi" className="flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg px-6 py-3 min-h-[48px] touch-manipulation" aria-label="Ver toda mi experiencia laboral">
+                <Link 
+                  href="/sobre-mi" 
+                  className="flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg px-6 py-3 min-h-[48px] touch-manipulation" 
+                  aria-label="Ver toda mi experiencia laboral"
+                  onClick={() => trackButtonClick('Ver más experiencia', 'home-experience-section')}
+                >
                   Ver más experiencia
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   <span className="sr-only">- Navegar a la página completa de experiencia laboral</span>
@@ -966,7 +1001,12 @@ export default function Home() {
                           ))}
                         </div>
                         <div className="flex justify-between items-center pt-4">
-                          <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500 min-h-[44px] px-6 touch-manipulation" aria-label={`Ver más detalles del proyecto ${project.shortTitle}`}>
+                          <Button 
+                            variant="outline" 
+                            className="border-zinc-700 hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500 min-h-[44px] px-6 touch-manipulation" 
+                            aria-label={`Ver más detalles del proyecto ${project.shortTitle}`}
+                            onClick={() => trackProjectView(project.shortTitle, project.category)}
+                          >
                             Ver más
                           </Button>
                           <div className="text-zinc-300 text-sm font-medium" role="text" aria-label={`Año de desarrollo: ${project.year}`}>{project.year}</div>
@@ -980,7 +1020,12 @@ export default function Home() {
 
             <div className="text-center mt-8">
               <Button variant="link" className="text-blue-500 focus:ring-2 focus:ring-blue-500 min-h-[48px]" asChild>
-                <Link href="/recursos" className="flex items-center justify-center px-6 py-3 min-h-[48px] touch-manipulation focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg" aria-label="Ver todos los proyectos en la página de recursos">
+                <Link 
+                  href="/recursos" 
+                  className="flex items-center justify-center px-6 py-3 min-h-[48px] touch-manipulation focus:outline-none focus:ring-4 focus:ring-blue-500/50 rounded-lg" 
+                  aria-label="Ver todos los proyectos en la página de recursos"
+                  onClick={() => trackButtonClick('Ver otros proyectos', 'home-projects-section')}
+                >
                   Ver otros proyectos
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   <span className="sr-only">Navegar a la página de recursos para ver más proyectos</span>

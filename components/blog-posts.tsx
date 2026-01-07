@@ -21,6 +21,7 @@ import { getCachedMediumPosts } from "@/lib/rss-client";
 import type { MediumPost } from "@/types/medium";
 import { usePageLoading } from "@/components/page-loading-context";
 import { SpinnerLoading } from "@/components/unified-loading";
+import { trackBlogPostView } from "@/lib/analytics";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -81,7 +82,9 @@ export function BlogPosts({
     });
   }, [searchQuery, selectedCategory]);
 
-  const handleLinkClick = () => {
+  const handlePostClick = (post: MediumPost) => {
+    const firstCategory = post.categories && post.categories.length > 0 ? post.categories[0] : 'Uncategorized';
+    trackBlogPostView(post.title, firstCategory);
     setLoading(true);
   };
 
@@ -317,7 +320,7 @@ export function BlogPosts({
             whileHover={{ y: -8 }}
             transition={{ duration: 0.3 }}
           >
-            <Link href={`/blog/${post.slug}`} className="block h-full group" onClick={handleLinkClick}>
+            <Link href={`/blog/${post.slug}`} className="block h-full group" onClick={() => handlePostClick(post)}>
               <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group-hover:scale-[1.02]">
                 <div className="aspect-video bg-zinc-800 relative overflow-hidden">
                   <Image

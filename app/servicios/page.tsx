@@ -17,6 +17,7 @@ import { ServicesSeo } from "@/components/services-seo"
 import { PageHeroSplit } from "@/components/page-hero-split"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { useIsMobile } from "@/hooks/use-media-query"
+import { trackCTAClick, trackButtonClick } from "@/lib/analytics";
 
 // Variantes de animación
 const containerVariants: Variants = {
@@ -360,7 +361,11 @@ function ServicesPageContent() {
                           <p className="text-zinc-400 text-xl leading-relaxed">
                             {service.description}
                           </p>
-                          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg">
+                          <Button 
+                            size="lg" 
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
+                            onClick={() => trackCTAClick('Solicitar Consulta', 'primary', `servicios-${service.id}-description`)}
+                          >
                             <Link href={`/contact?service=${service.id}`} className="flex items-center gap-2">
                               Solicitar Consulta
                               <ArrowRight className="w-5 h-5" />
@@ -404,10 +409,17 @@ function ServicesPageContent() {
                                 <p className="text-zinc-400 leading-relaxed">{service.caseStudy.description}</p>
                               </div>
                               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-600/20">
+                                <Button 
+                                  variant="outline" 
+                                  className="border-blue-500/50 text-blue-400 hover:bg-blue-600/20"
+                                  onClick={() => trackButtonClick('Más información', `servicios-${service.id}-case-study`)}
+                                >
                                   Más información
                                 </Button>
-                                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                                <Button 
+                                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                                  onClick={() => trackCTAClick('Contactar', 'primary', `servicios-${service.id}-case-study`)}
+                                >
                                   <Link href={`/contact?service=${service.id}`}>
                                     Contactar
                                   </Link>
@@ -591,6 +603,7 @@ function ServicesPageContent() {
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-purple-500/25 transition-all duration-300"
+                onClick={() => trackCTAClick('¿Alguna duda? Contáctame', 'primary', 'servicios-bottom-cta')}
               >
                 <Link href="/contacto" className="flex items-center gap-3">
                   ¿Alguna duda? Contáctame
@@ -780,6 +793,7 @@ function ServicesPageContent() {
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl"
               asChild
+              onClick={() => trackCTAClick('Iniciar conversación', 'primary', 'servicios-final-cta')}
             >
               <Link href="/contacto">
                 Iniciar conversación
@@ -791,6 +805,7 @@ function ServicesPageContent() {
               size="lg"
               className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 px-12 py-6 text-xl"
               asChild
+              onClick={() => trackButtonClick('Ver otros proyectos', 'servicios-final-cta')}
             >
               <Link href="/recursos">
                 Ver otros proyectos

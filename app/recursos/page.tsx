@@ -25,6 +25,7 @@ import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-c
 import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
 import { PageHero } from "@/components/page-hero";
 import Link from "next/link";
+import { trackCTAClick } from "@/lib/analytics";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -219,7 +220,11 @@ function ResourcesPageContent() {
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+                    <Button 
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" 
+                      asChild
+                      onClick={() => trackCTAClick('Contactarme', 'primary', 'recursos-cta-section')}
+                    >
                       <Link href="/contacto" aria-describedby="explore-projects-desc">
                         Contactarme
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
@@ -231,6 +236,7 @@ function ResourcesPageContent() {
                       className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
                       aria-describedby="download-cv-desc"
                       asChild
+                      onClick={() => trackCTAClick('Agendar reunión', 'secondary', 'recursos-cta-section')}
                     >
                       <Link href="/agendamiento" aria-describedby="explore-projects-desc">
                         Agendar reunión

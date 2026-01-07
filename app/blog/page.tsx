@@ -10,6 +10,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
 import { PageHero } from "@/components/page-hero";
+import { trackSearch, trackSectionView } from "@/lib/analytics";
 
 interface BlogPageProps {
   searchParams: Promise<{ category?: string; search?: string }>;
@@ -36,6 +37,16 @@ function BlogPageContent({ searchParams }: BlogPageProps) {
       document.head.removeChild(preconnectLink2);
     };
   }, []);
+
+  // Track search and category filtering
+  useEffect(() => {
+    if (search) {
+      trackSearch(search);
+    }
+    if (category) {
+      trackSectionView(`Blog - ${category}`, `category-${category}`);
+    }
+  }, [search, category]);
 
   return (
     <>
