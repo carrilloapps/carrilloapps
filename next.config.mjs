@@ -204,6 +204,25 @@ const nextConfig = {
           },
         ],
       },
+      // CSS files - specific pattern for app router
+      {
+        source: '/_next/static/css/app/:path*.css',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'CDN-Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // CSS files - general pattern
       {
         source: '/_next/static/css/:path*.css',
         headers: [
@@ -221,6 +240,7 @@ const nextConfig = {
           },
         ],
       },
+      // All other static files
       {
         source: '/_next/static/:path*',
         headers: [
