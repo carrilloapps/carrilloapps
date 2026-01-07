@@ -108,8 +108,8 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
           transition={{ duration: 0.3 }}
         >
           <Link href={`/blog/${post.slug}`} className="block h-full group">
-            <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group-hover:scale-[1.02]">
-              <div className="aspect-video bg-zinc-800 relative overflow-hidden">
+            <Card className="flex flex-col h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group-hover:scale-[1.02]">
+              <div className="aspect-video bg-zinc-800 relative overflow-hidden flex-shrink-0">
                 <Image
                   src={post.thumbnail || "/placeholder.svg"}
                   alt={post.title}
@@ -126,12 +126,12 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
                 </div>
               </div>
               
-              <CardContent className="p-6 space-y-4 flex-grow">
-                <h3 className="text-lg font-bold line-clamp-2 group-hover:text-blue-100 transition-colors duration-300">
+              <CardContent className="p-6 space-y-4 flex-grow flex flex-col">
+                <h3 className="text-lg font-bold line-clamp-2 group-hover:text-blue-100 transition-colors duration-300 min-h-[3.5rem]">
                   {post.title}
                 </h3>
                 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 min-h-[28px]">
                   {post.categories.slice(0, 2).map((category, i) => (
                     <Badge 
                       key={i} 
@@ -144,29 +144,31 @@ export function BlogRelated({ currentSlug }: { currentSlug: string }) {
                 </div>
               </CardContent>
               
-              <CardFooter className="px-6 pb-6 pt-3 flex justify-between border-t border-zinc-800/50 mt-auto">
+              <CardFooter className="px-6 pb-6 pt-3 flex justify-between items-center border-t border-zinc-800/50 h-16 flex-shrink-0">
                 <motion.div 
-                  className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
+                  className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300 min-w-[120px]"
                   whileHover={{ scale: 1.05 }}
                 >
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30 flex-shrink-0">
                     <Calendar className="h-3 w-3 text-purple-400" />
                   </div>
-                  {new Date(post.pubDate).toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
+                  <span className="truncate">
+                    {new Date(post.pubDate).toLocaleDateString('es-ES', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </span>
                 </motion.div>
                 
                 <motion.div 
-                  className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
+                  className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300 min-w-[70px]"
                   whileHover={{ scale: 1.05 }}
                 >
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30 flex-shrink-0">
                     <Clock className="h-3 w-3 text-green-400" />
                   </div>
-                  {post.readingTime} min
+                  <span>{post.readingTime} min</span>
                 </motion.div>
               </CardFooter>
             </Card>

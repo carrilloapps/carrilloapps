@@ -381,14 +381,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             className="py-12 space-y-8 border-t border-gradient-to-r from-transparent via-zinc-700/50 to-transparent" 
             aria-labelledby="related-articles"
           >
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-6">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500/30 shadow-lg shadow-green-600/10 backdrop-blur-sm">
+                <span className="text-sm font-medium text-green-400 tracking-wide">
+                  Más contenido
+                </span>
+              </div>
               <h2 
                 id="related-articles" 
-                className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
+                className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight"
               >
-                Artículos relacionados
+                <span className="bg-gradient-to-r from-white via-green-100 to-emerald-200 bg-clip-text text-transparent">
+                  Artículos relacionados
+                </span>
               </h2>
-              <p className="text-zinc-400 max-w-2xl mx-auto">
+              <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
                 Descubre más contenido que podría interesarte sobre desarrollo de software, tecnología y liderazgo técnico, así como negocios y tendencias del sector TI.
               </p>
             </div>
