@@ -10,6 +10,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { trackProjectView, trackProjectLinkClick, trackSearch } from "@/lib/analytics";
 
 type Repository = {
   id: number
@@ -108,6 +109,9 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
   }
 
   const handleSearch = () => {
+    if (searchInput) {
+      trackSearch(searchInput);
+    }
     setSearchQuery(searchInput)
     setCurrentPage(1)
   }
@@ -209,7 +213,15 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
               {repo.forks}
             </div>
           </div>
-          <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+          <a 
+            href={repo.html_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            onClick={() => {
+              trackProjectView(repo.name, repo.language || 'Unknown');
+              trackProjectLinkClick(repo.name, source as 'github' | 'gitlab');
+            }}
+          >
             <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
               <Code className="h-4 w-4" />
               Ver proyecto
