@@ -210,12 +210,14 @@ export function detectLanguage(code: string): string {
   // Bash/Shell
   if (
     /^#!\/bin\/(bash|sh)/.test(firstLine) ||
-    /^\$\s+\w+/.test(firstLine) ||
-    /^(npm|yarn|pnpm|git|docker|kubectl|cargo|go)\s+/.test(firstLine) ||
+    /^\$\s+/.test(firstLine) ||
+    /^(npm|yarn|pnpm|git|docker|kubectl|cargo|go|node|python|pip|brew|apt|yum|dnf|pacman|systemctl|service|curl|wget|ssh|scp|rsync|tar|unzip|zip|chmod|chown|mkdir|cd|ls|pwd|rm|mv|cp|cat|grep|sed|awk|find|ps|kill|sudo|su)\s+/.test(firstLine) ||
+    lines.filter(line => /^(npm|yarn|pnpm|git|docker|kubectl|cargo|go|node|python|pip|brew|apt|yum|dnf|pacman|systemctl|service|curl|wget|ssh|scp|rsync|tar|unzip|zip|chmod|chown|mkdir|cd|ls|pwd|rm|mv|cp|cat|grep|sed|awk|find|ps|kill|sudo|su)\s+/.test(line.trim())).length >= 2 ||
     /(export|source|alias)\s+\w+=/.test(code) ||
     /if\s*\[\[/.test(code) && !code.includes("package ") ||
     /elif\s+/.test(code) && /then/.test(code) ||
-    /for\s+\w+\s+in\s+/.test(code) && /do\s*\n/.test(code)
+    /for\s+\w+\s+in\s+/.test(code) && /do\s*\n/.test(code) ||
+    /&&\s*\w+/.test(code) && /^(mkdir|cd|git|npm|yarn|go|docker)/.test(firstLine)
   ) {
     return "bash"
   }
