@@ -26,17 +26,28 @@ This is the main agent configuration file for the CarrilloApps portfolio project
 ├── app/                    # Next.js App Router pages and layouts
 │   └── AGENTS.md          # Page structure and routing guidelines
 ├── components/            # React components
+│   ├── analytics/         # Analytics integrations (GA4, Clarity)
+│   ├── ui/                # shadcn/ui components
 │   └── AGENTS.md          # Component usage and patterns
 ├── lib/                   # Utility functions and services
+│   ├── analytics.ts       # Analytics tracking library (25+ functions)
+│   ├── rss-service.ts     # Medium RSS integration
 │   └── AGENTS.md          # Library utilities and services
 ├── data/                  # Static data and configuration
+│   ├── projects.ts        # Project data
+│   ├── featured-projects.ts # Featured projects
 │   └── AGENTS.md          # Data structure and management
 ├── hooks/                 # Custom React hooks
+│   ├── use-disqus-comments.tsx # Disqus integration hook
 │   └── AGENTS.md          # Hook usage patterns
 ├── types/                 # TypeScript type definitions
 │   └── AGENTS.md          # Type conventions
-└── docs/                  # Project documentation
-    └── README.md          # Comprehensive documentation index
+└── docs/                  # Project documentation (11 consolidated files)
+    ├── README.md          # Documentation index
+    ├── ANALYTICS.md       # GA4 + Clarity integration guide
+    ├── DISQUS.md          # Blog comments integration
+    ├── PERFORMANCE.md     # Performance optimizations
+    └── ...                # API, GitHub, Vercel, etc.
 
 ```
 
@@ -76,6 +87,25 @@ Library utilities are documented in [lib/AGENTS.md](lib/AGENTS.md):
 - RSS feed services (Medium integration)
 - Environment variable handling
 - Utility functions
+
+### Analytics Tracking
+
+Comprehensive analytics integration detailed in [docs/ANALYTICS.md](docs/ANALYTICS.md):
+
+- **Google Analytics 4**: Page views, events, conversions
+- **Microsoft Clarity**: Session recordings, heatmaps
+- **Tracking Library**: 25+ pre-built tracking functions (`lib/analytics.ts`)
+- **Full Coverage**: Header, footer, forms, blog, all interactions tracked
+
+### Performance Optimization
+
+Performance guidelines documented in [docs/PERFORMANCE.md](docs/PERFORMANCE.md):
+
+- **LCP Optimization**: Font preloading, CSS MIME type fixes
+- **Forced Reflow Elimination**: requestAnimationFrame patterns
+- **CSS Optimization**: Critical CSS preloading, deferred loading
+- **Cache Headers**: Vercel + CDN configuration
+- **Target**: Lighthouse score 95+/100, LCP < 2.5s
 
 ## Mandatory Code Quality Standards
 
@@ -211,15 +241,26 @@ Always use `PageLoadingProvider` for smooth page transitions.
 
 ## Detailed Documentation
 
-For detailed information, refer to:
-
+### Code Organization (AGENTS.md files)
 - **Pages**: [app/AGENTS.md](app/AGENTS.md) - Page structure, routing, and patterns
 - **Components**: [components/AGENTS.md](components/AGENTS.md) - Component usage and props
 - **Library**: [lib/AGENTS.md](lib/AGENTS.md) - Utilities and services
 - **Data**: [data/AGENTS.md](data/AGENTS.md) - Data structures
 - **Hooks**: [hooks/AGENTS.md](hooks/AGENTS.md) - Custom hooks
 - **Types**: [types/AGENTS.md](types/AGENTS.md) - TypeScript types
-- **Full Documentation**: [docs/README.md](docs/README.md) - Complete project docs
+
+### Project Documentation (docs/)
+- **[README.md](docs/README.md)** - Documentation index and quick start
+- **[PROJECT.md](docs/PROJECT.md)** - Technology stack and features
+- **[DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development setup and workflow
+- **[ANALYTICS.md](docs/ANALYTICS.md)** - GA4 + Clarity integration (consolidated)
+- **[DISQUS.md](docs/DISQUS.md)** - Blog comments integration (consolidated)
+- **[PERFORMANCE.md](docs/PERFORMANCE.md)** - Performance optimizations (consolidated)
+- **[API.md](docs/API.md)** - API endpoints documentation
+- **[GITHUB.md](docs/GITHUB.md)** - Repository workflows
+- **[VERCEL.md](docs/VERCEL.md)** - Deployment configuration
+- **[TRANSLATION.md](docs/TRANSLATION.md)** - Localization guidelines
+- **[PAGE_CONSISTENCY.md](docs/PAGE_CONSISTENCY.md)** - UI/UX standards
 
 ## Quick Reference
 
@@ -695,6 +736,70 @@ All pages must use the same animation variants for a uniform experience.
 
 Always use `PageLoadingProvider` for smooth page transitions.
 
+## Important Tools and Integrations
+
+### Analytics Tracking (`lib/analytics.ts`)
+
+**Core Functions** - Always use these for consistent tracking:
+```typescript
+import { 
+  trackButtonClick,      // Button interactions
+  trackNavigation,       // Navigation clicks  
+  trackCTAClick,        // Call-to-action buttons
+  trackFormStart,       // Form interaction start
+  trackFormSubmit,      // Form submission
+  trackSearch,          // Search queries
+  trackBlogPostView,    // Blog post views
+  trackProjectView,     // Project views
+  trackScrollDepth,     // Scroll tracking
+  trackSocialClick      // Social media clicks
+} from '@/lib/analytics'
+```
+
+**Example Usage**:
+```tsx
+// Track button click
+<button onClick={() => trackButtonClick('Download CV', 'hero')}>
+  Download CV
+</button>
+
+// Track navigation
+<Link href="/blog" onClick={() => trackNavigation('Blog', '/blog', 'header')}>
+  Blog
+</Link>
+
+// Track form submission
+const handleSubmit = async (data) => {
+  trackFormStart('contact-form')
+  try {
+    await submitForm(data)
+    trackFormSubmit('contact-form', true)
+  } catch (error) {
+    trackFormSubmit('contact-form', false)
+  }
+}
+```
+
+### Disqus Comments (`hooks/use-disqus-comments.tsx`)
+
+**For Blog Posts**:
+```tsx
+import { useDisqusComments } from '@/hooks/use-disqus-comments'
+
+const { count, isLoading, error } = useDisqusComments(articleSlug)
+```
+
+See [docs/DISQUS.md](docs/DISQUS.md) for complete setup guide.
+
+### RSS Integration (`lib/rss-service.ts`)
+
+**Fetch Medium Blog Posts**:
+```tsx
+import { getBlogPosts } from '@/lib/rss-service'
+
+const posts = await getBlogPosts()
+```
+
 ## Page Creation Checklist
 
 When creating a new page, verify:
@@ -709,6 +814,8 @@ When creating a new page, verify:
 - [ ] Badge, titles, and colors are consistent (handled by hero components)
 - [ ] Spacing is consistent with other pages
 - [ ] First section after hero uses `pt-6` instead of `py-12`
+- [ ] **Analytics tracking added** for interactive elements
+- [ ] **Performance optimized** (fonts preloaded, images optimized)
 
 ## File Structure
 
@@ -843,11 +950,18 @@ import { DynamicBackground } from "@/components/dynamic-background";
 
 ## Additional Resources
 
-- **Detailed Consistency Guide**: `docs/PAGE_CONSISTENCY.md`
+### Component Documentation
 - **PageHero Component**: `components/page-hero.tsx`
 - **PageHeroSplit Component**: `components/page-hero-split.tsx`
 - **DynamicBackground Component**: `components/dynamic-background.tsx`
-- **Project Documentation**: `docs/PROJECT.md`
+- **Analytics Components**: `components/analytics/`
+
+### Project Documentation
+- **UI/UX Standards**: [docs/PAGE_CONSISTENCY.md](docs/PAGE_CONSISTENCY.md)
+- **Project Overview**: [docs/PROJECT.md](docs/PROJECT.md)
+- **Performance Guide**: [docs/PERFORMANCE.md](docs/PERFORMANCE.md)
+- **Analytics Setup**: [docs/ANALYTICS.md](docs/ANALYTICS.md)
+- **API Reference**: [docs/API.md](docs/API.md)
 
 ## Quick Reference
 
@@ -1009,5 +1123,13 @@ Todos los elementos que contribuyen al LCP deben optimizarse:
 
 ---
 
-**Last Updated**: Based on project state as of DynamicBackground implementation, PageHeroSplit enhancements, and green badge default colors.
+**Version**: 2.0.0  
+**Last Updated**: January 7, 2026  
+**Maintained by**: José Carrillo (junior@carrillo.app)
+
+**Major Updates**:
+- Documentation consolidated (17 → 11 files, 51KB reduction)
+- Analytics integration complete (25+ tracking functions)
+- Performance optimizations (LCP < 2.5s, score 95+/100)
+- Updated references to consolidated docs (ANALYTICS.md, DISQUS.md, PERFORMANCE.md)
 
