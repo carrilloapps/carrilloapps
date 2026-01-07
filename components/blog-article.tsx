@@ -456,13 +456,15 @@ export function BlogArticle({ slug }: { slug: string }) {
                         transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
                         whileHover={{ scale: 1.05 }}
                       >
-                        <Badge 
-                          variant="outline" 
-                          className="capitalize bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white backdrop-blur-sm shadow-lg shadow-blue-600/10 hover:shadow-blue-600/20 transition-all duration-300"
-                        >
-                          <Tag className="h-3 w-3 mr-1" />
-                          {category}
-                        </Badge>
+                        <Link href={`/blog?category=${encodeURIComponent(category)}`}>
+                          <Badge 
+                            variant="outline" 
+                            className="capitalize bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white backdrop-blur-sm shadow-lg shadow-blue-600/10 hover:shadow-blue-600/20 transition-all duration-300 cursor-pointer"
+                          >
+                            <Tag className="h-3 w-3 mr-1" />
+                            {category}
+                          </Badge>
+                        </Link>
                       </motion.div>
                     ))}
                   </div>
@@ -475,15 +477,15 @@ export function BlogArticle({ slug }: { slug: string }) {
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <MessageSquare className="h-4 w-4 text-zinc-400" />
+                      <MessageSquare className="h-4 w-4 text-blue-400" />
                       <span className="flex-1 w-full text-sm">
                         {commentLoading ? (
-                          <span className="inline-flex items-center gap-1">
-                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
-                            comentarios
+                          <span className="inline-flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            <span className="text-zinc-400">Sincronizando...</span>
                           </span>
                         ) : (
-                          `${commentCount} ${commentCount === 1 ? 'comentario' : 'comentarios'}`
+                          <span className="font-medium">{commentCount} {commentCount === 1 ? 'comentario' : 'comentarios'}</span>
                         )}
                       </span>
                     </motion.div>
@@ -492,15 +494,15 @@ export function BlogArticle({ slug }: { slug: string }) {
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ThumbsUp className="h-4 w-4 text-zinc-400" />
+                      <ThumbsUp className={`h-4 w-4 ${hasReacted ? 'text-blue-400' : 'text-zinc-400'}`} />
                       <span className="flex-1 w-full text-sm">
                         {reactionsLoading ? (
-                          <span className="inline-flex items-center gap-1">
-                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
-                            me gusta
+                          <span className="inline-flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            <span className="text-zinc-400">Cargando...</span>
                           </span>
                         ) : (
-                          `${reactions} me gusta`
+                          <span className={hasReacted ? 'font-medium text-blue-400' : 'font-medium'}>{reactions} me gusta</span>
                         )}
                       </span>
                     </motion.div>
@@ -509,15 +511,15 @@ export function BlogArticle({ slug }: { slug: string }) {
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Bookmark className="h-4 w-4 text-zinc-400" />
+                      <Bookmark className={`h-4 w-4 ${hasSaved ? 'text-emerald-400 fill-emerald-400' : 'text-zinc-400'}`} />
                       <span className="flex-1 w-full text-sm">
                         {savesLoading ? (
-                          <span className="inline-flex items-center gap-1">
-                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
-                            guardados
+                          <span className="inline-flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                            <span className="text-zinc-400">Cargando...</span>
                           </span>
                         ) : (
-                          `${saves} ${saves === 1 ? 'guardado' : 'guardados'}`
+                          <span className={hasSaved ? 'font-medium text-emerald-400' : 'font-medium'}>{saves} {saves === 1 ? 'guardado' : 'guardados'}</span>
                         )}
                       </span>
                     </motion.div>

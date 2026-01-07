@@ -32,9 +32,15 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
     }
 
     let isMounted = true
+    let attempts = 0
+    const maxAttempts = 6 // Intentar hasta 6 veces (12 segundos)
 
     const loadCountScript = () => {
       if (document.querySelector('script[src*="count.js"]')) {
+        // Si ya existe el script, forzar actualización
+        if (window.DISQUSWIDGETS && typeof window.DISQUSWIDGETS.getCount === 'function') {
+          window.DISQUSWIDGETS.getCount({ reset: true })
+        }
         return Promise.resolve()
       }
 
@@ -44,11 +50,57 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
         script.id = "dsq-count-scr"
         script.async = true
         
-        script.onload = () => resolve()
+        script.onload = () => {
+          // Forzar actualización del conteo después de cargar
+          if (window.DISQUSWIDGETS && typeof window.DISQUSWIDGETS.getCount === 'function') {
+            window.DISQUSWIDGETS.getCount({ reset: true })
+          }
+          resolve()
+        }
         script.onerror = () => reject(new Error("Failed to load Disqus count script"))
         
         document.body.appendChild(script)
       })
+    }
+
+    const checkCount = () => {
+      if (!isMounted) return
+
+      // Buscar elemento con el identificador
+      const countElements = document.querySelectorAll(`[data-disqus-identifier="${identifier}"]`)
+      
+      let foundCount = 0
+      countElements.forEach(el => {
+        const countText = el.textContent || "0"
+        const countMatch = countText.match(/\d+/)
+        if (countMatch) {
+          const parsed = parseInt(countMatch[0], 10)
+          if (parsed > foundCount) {
+            foundCount = parsed
+          }
+        }
+      })
+
+      if (foundCount > 0) {
+        setCount(foundCount)
+        setIsLoading(false)
+        return true
+      }
+
+      return false
+    }
+
+    const pollForCount = () => {
+      if (!isMounted) return
+
+      const found = checkCount()
+      
+      if (!found && attempts < maxAttempts) {
+        attempts++
+        setTimeout(pollForCount, 2000) // Intentar cada 2 segundos
+      } else {
+        setIsLoading(false)
+      }
     }
 
     const fetchCommentCount = async () => {
@@ -58,24 +110,19 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
 
         await loadCountScript()
 
+        // Crear elemento temporal para que Disqus lo procese
         const tempElement = document.createElement("span")
         tempElement.className = "disqus-comment-count"
         tempElement.setAttribute("data-disqus-identifier", identifier)
         tempElement.style.display = "none"
         document.body.appendChild(tempElement)
 
+        // Esperar un momento y empezar a hacer polling
         setTimeout(() => {
-          if (!isMounted) return
-
-          const countText = tempElement.textContent || "0"
-          const countMatch = countText.match(/\d+/)
-          const commentCount = countMatch ? parseInt(countMatch[0], 10) : 0
-
-          setCount(commentCount)
-          setIsLoading(false)
-
-          document.body.removeChild(tempElement)
-        }, 2000)
+          if (isMounted) {
+            pollForCount()
+          }
+        }, 1000)
 
       } catch (err) {
         if (!isMounted) return
@@ -95,6 +142,15 @@ export function useDisqusComments(identifier: string): DisqusCommentsData {
   }, [identifier])
 
   return { count, isLoading, error }
+}
+
+// Declarar tipos globales para Disqus
+declare global {
+  interface Window {
+    DISQUSWIDGETS?: {
+      getCount: (config: { reset: boolean }) => void
+    }
+  }
 }
 
 export function useDisqusReactions(identifier: string): DisqusReactionsData {
