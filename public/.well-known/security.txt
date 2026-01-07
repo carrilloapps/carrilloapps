@@ -1,0 +1,9 @@
+# public/.well-known/security.txt
+Contact: mailto:m@carrillo.app
+Contact: https://carrillo.app/contacto
+Preferred-Languages: es, en
+# Encryption: https://carrillo.app/.well-known/pgp-key.txt
+Policy: https://carrillo.app/privacidad
+Canonical: https://carrillo.app/.well-known/security.txt
+Expires: 2026-12-31T23:59:59.000Z
+Acknowledgments: https://carrillo.app/sobre-mi
