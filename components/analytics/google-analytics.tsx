@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 /**
  * Google Analytics 4 (GA4) Component
@@ -38,7 +38,8 @@ import { useEffect, useState } from "react";
  * });
  * ```
  */
-export function GoogleAnalytics() {
+
+function GoogleAnalyticsContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [hasConsent, setHasConsent] = useState(false);
@@ -111,6 +112,18 @@ export function GoogleAnalytics() {
         }}
       />
     </>
+  );
+}
+
+/**
+ * Google Analytics wrapper with Suspense boundary
+ * Required for Next.js pre-rendering compatibility
+ */
+export function GoogleAnalytics() {
+  return (
+    <Suspense fallback={null}>
+      <GoogleAnalyticsContent />
+    </Suspense>
   );
 }
 
