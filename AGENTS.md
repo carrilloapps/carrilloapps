@@ -1,4 +1,4 @@
-# Agent Guidelines for CarrilloApps Project
+# Agent Guidelines for carrillo.app Project
 
 This is the main agent configuration file for the CarrilloApps portfolio project. This document provides high-level guidelines and references to detailed documentation in subdirectories.
 
