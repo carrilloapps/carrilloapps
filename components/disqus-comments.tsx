@@ -7,7 +7,7 @@ import { MessageSquare, Users, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { publicEnv, getSiteUrl } from "@/lib/env"
+import { publicEnv, getSiteUrl, isDevelopment } from "@/lib/env"
 import { SpinnerLoading } from "@/components/unified-loading"
 
 interface DisqusCommentsProps {
@@ -146,7 +146,9 @@ export function DisqusComments({
         
         script.onload = () => {
           if (mounted) {
-            console.log('Disqus script loaded successfully')
+            if (isDevelopment()) {
+              console.log('[Disqus] Script loaded successfully')
+            }
             setIsLoading(false)
             setHasError(false)
           }
@@ -154,11 +156,15 @@ export function DisqusComments({
         
         script.onerror = () => {
           const errorMsg = `Failed to load Disqus script from https://${shortname}.disqus.com/embed.js`
-          console.error(errorMsg)
+          if (isDevelopment()) {
+            console.error('[Disqus Error]', errorMsg)
+          }
           if (mounted) {
             retryCount++
             if (retryCount < maxRetries) {
-              console.log(`Retrying Disqus load (${retryCount}/${maxRetries})...`)
+              if (isDevelopment()) {
+                console.log(`[Disqus] Retrying (${retryCount}/${maxRetries})...`)
+              }
               setErrorDetails(`Reintentando (${retryCount}/${maxRetries})...`)
               // Retry after a delay
               setTimeout(() => {
@@ -170,7 +176,7 @@ export function DisqusComments({
             } else {
               setHasError(true)
               setIsLoading(false)
-              setErrorDetails(`No se pudo cargar el script de Disqus. Verifica que el shortname "${shortname}" sea correcto.`)
+              setErrorDetails(`No se pudo cargar el script de Disqus. Verifica que el shortname "${shortname}" sea correcto y que los dominios estén configurados en Disqus Admin.`)
             }
           }
         }
@@ -180,7 +186,9 @@ export function DisqusComments({
         // Timeout fallback - if Disqus doesn't load in 15 seconds, show error
         setTimeout(() => {
           if (mounted && isLoading) {
-            console.warn('Disqus loading timeout')
+            if (isDevelopment()) {
+              console.warn('[Disqus] Loading timeout - Disqus took too long to respond')
+            }
             setHasError(true)
             setIsLoading(false)
           }
@@ -287,21 +295,20 @@ export function DisqusComments({
             >
               <AlertCircle className="h-12 w-12 text-red-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-red-100 mb-2">
-                Error al cargar comentarios
+                No se pudieron cargar los comentarios
               </h3>
               <p className="text-red-200/80 text-sm mb-4">
-                No se pudieron cargar los comentarios de Disqus.<br />
-                Verifica tu conexión a internet o que tu navegador no bloquee scripts externos.
+                Los comentarios no están disponibles en este momento.<br />
+                Verifica tu conexión o intenta más tarde.
               </p>
-              {errorDetails && (
+              {isDevelopment() && errorDetails && (
                 <div className="text-xs text-zinc-300 bg-zinc-800/50 p-3 rounded mb-4 text-left">
-                  <strong>Detalles:</strong> {errorDetails}
+                  <strong>Detalles (solo visible en desarrollo):</strong><br />
+                  {errorDetails}<br />
+                  <strong>Shortname:</strong> {shortname}<br />
+                  <strong>URL:</strong> {fullUrl}
                 </div>
               )}
-              <div className="text-xs text-zinc-400 mb-4">
-                Shortname: <code className="bg-zinc-800/50 px-2 py-1 rounded">{shortname}</code><br />
-                URL: <code className="bg-zinc-800/50 px-2 py-1 rounded text-xs">{fullUrl}</code>
-              </div>
               <Button 
                 variant="outline" 
                 size="sm"
