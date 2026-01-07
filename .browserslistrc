@@ -1,0 +1,17 @@
+# Browserslist configuration for modern browsers only
+# Supports ES2022 features natively (Array.at, Object.hasOwn, etc.)
+# Last updated: 2026-01-07
+
+[production]
+chrome >= 95
+safari >= 15
+firefox >= 93
+edge >= 95
+and_chr >= 95
+and_ff >= 93
+ios_saf >= 15
+
+[development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version
