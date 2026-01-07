@@ -6,11 +6,41 @@ import { Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Logo } from "@/components/logo"
+import { trackSocialClick, trackNavigation, trackNewsletterSignup } from "@/lib/analytics"
+import { useState, FormEvent } from "react"
 
 // Get current year - safe for client component after hydration
 const currentYear = typeof window !== 'undefined' ? new Date().getFullYear() : 2026
 
 export function SiteFooter() {
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleNewsletterSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!email || isSubmitting) return
+
+    setIsSubmitting(true)
+    
+    try {
+      // Track newsletter signup attempt
+      trackNewsletterSignup(email, 'footer', true)
+      
+      // Here you would normally send to your newsletter service
+      // For now, just simulate success
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Clear form on success
+      setEmail('')
+      alert('¡Gracias por suscribirte!')
+    } catch {
+      trackNewsletterSignup(email, 'footer', false)
+      alert('Error al suscribirse. Inténtalo de nuevo.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <footer className="border-t border-zinc-800 bg-black" role="contentinfo">
       <div className="container py-8 md:py-12">
@@ -27,6 +57,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white"
                 aria-label="GitHub de José Carrillo"
+                onClick={() => trackSocialClick('GitHub', 'profile_visit', 'https://github.com/carrilloapps')}
               >
                 <Github className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">GitHub</span>
@@ -37,6 +68,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white"
                 aria-label="LinkedIn de José Carrillo"
+                onClick={() => trackSocialClick('LinkedIn', 'profile_visit', 'https://linkedin.com')}
               >
                 <Linkedin className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">LinkedIn</span>
@@ -47,6 +79,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="text-zinc-400 hover:text-white"
                 aria-label="X (Twitter) de José Carrillo"
+                onClick={() => trackSocialClick('Twitter/X', 'profile_visit', 'https://twitter.com')}
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
@@ -61,16 +94,32 @@ export function SiteFooter() {
               Enlaces rápidos
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-quick-links">
-              <Link href="/" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Inicio', '/', 'footer')}
+              >
                 Inicio
               </Link>
-              <Link href="/about" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/about" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Sobre mí', '/about', 'footer')}
+              >
                 Sobre mí
               </Link>
-              <Link href="/sobre-mi" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/sobre-mi" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Recursos', '/sobre-mi', 'footer')}
+              >
                 Recursos
               </Link>
-              <Link href="/contacto" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/contacto" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Contacto', '/contacto', 'footer')}
+              >
                 Contacto
               </Link>
             </nav>
@@ -81,16 +130,32 @@ export function SiteFooter() {
               Servicios
             </h3>
             <nav className="flex flex-col space-y-2" aria-labelledby="footer-services">
-              <Link href="/servicios#technical-leadership" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/servicios#technical-leadership" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Liderazgo técnico', '/servicios#technical-leadership', 'footer')}
+              >
                 Liderazgo técnico
               </Link>
-              <Link href="/servicios#financial-systems" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/servicios#financial-systems" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Sistemas financieros', '/servicios#financial-systems', 'footer')}
+              >
                 Sistemas financieros
               </Link>
-              <Link href="/servicios#backoffice-solutions" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/servicios#backoffice-solutions" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Soluciones de backoffice', '/servicios#backoffice-solutions', 'footer')}
+              >
                 Soluciones de backoffice
               </Link>
-              <Link href="/servicios#architecture-design" className="text-zinc-400 hover:text-white">
+              <Link 
+                href="/servicios#architecture-design" 
+                className="text-zinc-400 hover:text-white"
+                onClick={() => trackNavigation('Diseño de arquitectura', '/servicios#architecture-design', 'footer')}
+              >
                 Diseño de arquitectura
               </Link>
             </nav>
@@ -101,16 +166,23 @@ export function SiteFooter() {
               Boletín Informativo
             </h3>
             <p className="text-zinc-400">Suscríbete para recibir actualizaciones sobre mis últimos proyectos y conocimientos tecnológicos.</p>
-            <form className="flex flex-col sm:flex-row gap-2" aria-labelledby="footer-newsletter">
+            <form className="flex flex-col sm:flex-row gap-2" aria-labelledby="footer-newsletter" onSubmit={handleNewsletterSubmit}>
               <Input
                 type="email"
                 placeholder="Su correo electrónico"
                 className="bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 flex-1"
                 aria-label="Su correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isSubmitting}
               />
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
-                Suscribirse
+              <Button 
+                type="submit" 
+                className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Suscribiendo...' : 'Suscribirse'}
               </Button>
             </form>
           </div>
@@ -121,13 +193,25 @@ export function SiteFooter() {
             &copy; {currentYear} José Carrillo. Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
-            <Link href="/privacidad" className="text-zinc-400 hover:text-white text-sm">
+            <Link 
+              href="/privacidad" 
+              className="text-zinc-400 hover:text-white text-sm"
+              onClick={() => trackNavigation('Política de Privacidad', '/privacidad', 'footer')}
+            >
               Política de Privacidad
             </Link>
-            <Link href="/terminos" className="text-zinc-400 hover:text-white text-sm">
+            <Link 
+              href="/terminos" 
+              className="text-zinc-400 hover:text-white text-sm"
+              onClick={() => trackNavigation('Términos del Servicio', '/terminos', 'footer')}
+            >
               Términos del Servicio
             </Link>
-            <Link href="/cookies" className="text-zinc-400 hover:text-white text-sm">
+            <Link 
+              href="/cookies" 
+              className="text-zinc-400 hover:text-white text-sm"
+              onClick={() => trackNavigation('Política de Cookies', '/cookies', 'footer')}
+            >
               Política de Cookies
             </Link>
           </div>
