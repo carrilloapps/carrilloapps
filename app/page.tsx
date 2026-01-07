@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion } from "@/lib/motion"
 import Image from "next/image"
 
 import { projects } from "@/data/projects"
@@ -11,16 +11,25 @@ import { projects } from "@/data/projects"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { CompactContactSection } from "@/components/compact-contact-section"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
 import { AnimatedSection } from "@/components/animated-section"
-import { ProjectDialog } from "@/components/project-dialog"
+import { 
+  DynamicTabs as Tabs,
+  DynamicTabsContent as TabsContent,
+  DynamicTabsList as TabsList,
+  DynamicTabsTrigger as TabsTrigger,
+  DynamicDialog as Dialog,
+  DynamicDialogContent as DialogContent,
+  DynamicDialogDescription as DialogDescription,
+  DynamicDialogHeader as DialogHeader,
+  DynamicDialogTitle as DialogTitle,
+  DynamicCompactContactSection as CompactContactSection,
+  DynamicProjectDialog as ProjectDialog
+} from "@/components/dynamic-imports"
 import { useIsMobile } from "@/hooks/use-media-query"
 import { trackCTAClick, trackButtonClick, trackScrollDepth, trackProjectView } from "@/lib/analytics";
 

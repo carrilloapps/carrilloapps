@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "@/lib/motion"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 

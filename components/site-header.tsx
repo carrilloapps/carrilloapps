@@ -20,7 +20,7 @@ import {
   Github,
   Wrench
 } from "lucide-react"
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"

@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { motion } from "@/lib/motion"
 import Image from "next/image"
 
 interface AnimatedSectionProps {

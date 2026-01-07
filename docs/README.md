@@ -36,7 +36,7 @@ npm run lint
 - **[Development Guide](./DEVELOPMENT.md)** - Setup, contributing, and development workflow
 
 ### Integration Guides
-- **[Analytics](./ANALYTICS.md)** - Google Analytics 4 & Microsoft Clarity setup and tracking
+- **[Analytics](./ANALYTICS.md)** - Google Analytics 4, Microsoft Clarity + Performance Optimization
 - **[Disqus](./DISQUS.md)** - Blog comments integration and troubleshooting
 - **[GitHub](./GITHUB.md)** - Repository integration and workflows
 - **[Vercel](./VERCEL.md)** - Deployment configuration and best practices

@@ -16,12 +16,11 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
-      // GitHub Avatars - Commented out: using local /profile.jpg for performance
-      // {
-      //   protocol: 'https',
-      //   hostname: 'avatars.githubusercontent.com',
-      //   pathname: '/u/**',
-      // },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        pathname: '/u/**',
+      },
       {
         protocol: 'https',
         hostname: '**.medium.com',

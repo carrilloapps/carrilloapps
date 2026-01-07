@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Search, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion } from "@/lib/motion"
 
 export function BlogSearch() {
   const [searchQuery, setSearchQuery] = useState("")

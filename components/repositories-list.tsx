@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Star, GitFork, Calendar, Code, Pin } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion } from "@/lib/motion"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"

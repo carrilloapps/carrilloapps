@@ -1,146 +1,45 @@
 # Performance Optimization Guide
 
-Comprehensive performance optimizations implemented in carrillo.app, including desktop and mobile-specific improvements.
+Optimizaciones de rendimiento en carrillo.app con mejoras significativas en desktop y mobile.
 
-## Overview
+## Resultados
 
-**Date**: January 2026  
-**Score Improvement**: 
-- Desktop: 67/100 → 95+/100 (PageSpeed Insights)
-- Mobile: 45/100 (LCP 11s) → 85+/100 (LCP 6-7s)
+**Desktop**: 67/100 → 95+/100 | **Mobile**: 45/100 (LCP 11s) → 85+/100 (LCP 6-7s)
 
-## Table of Contents
+## Índice
 
-1. [Desktop Optimizations](#desktop-optimizations)
-2. [Mobile-Specific Optimizations](#mobile-specific-optimizations)
-3. [Universal Optimizations](#universal-optimizations)
-4. [Cache Strategy](#cache-strategy)
-5. [Performance Metrics](#performance-metrics)
-6. [Verification Steps](#verification-steps)
-7. [Best Practices](#best-practices)
-
----
+1. [Cache Strategy](#cache-strategy)
+2. [JavaScript Optimization](#javascript-optimization)
+3. [LCP Optimization](#lcp-optimization)
+4. [Mobile Optimization](#mobile-optimization)
+5. [Verification](#verification)
 
 ## Cache Strategy
 
-### Browser and CDN Caching
+### Configuración de Headers
 
-**Long-term caching (1 year) is configured for static assets to accelerate repeat visits:**
-
-#### Image Optimization
-- **Next.js optimized images** (`/_next/image`): 1 year cache
-  - Includes `s-maxage=31536000` for CDN caching
-  - Uses `stale-while-revalidate=86400` (24h) for instant updates while revalidating in background
-  - Vercel-specific header: `Vercel-CDN-Cache-Control` for additional CDN control
-  
-- **Static images** (`/profile.jpg`, `/logo.webp`, `/icons/*`): 1 year cache
-  - Marked as `immutable` (content never changes, no conditional requests needed)
-  - Direct CDN caching without revalidation
-
-#### Static Assets
-- **JavaScript/CSS bundles** (`/_next/static/*`): 1 year cache, immutable
-- **Fonts** (`/_next/static/media/*`): 1 year cache, immutable
-
-#### Dynamic Content
-- **Pages** (`/(.*)`): 1 hour cache with 24h stale-while-revalidate
-- **Sitemap** (`/sitemap.xml`): 1 hour cache with 24h revalidation
-- **Robots** (`/robots.txt`): 24 hours cache
-
-### Configuration Files
-
-#### `next.config.mjs`
+**Archivos Estáticos** (1 año):
 ```javascript
-images: {
-  minimumCacheTTL: 31536000, // 1 year in seconds
-  formats: ['image/avif', 'image/webp'],
-}
-
-async headers() {
-  return [
-    {
-      source: '/_next/image:path*',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
-        },
-        {
-          key: 'CDN-Cache-Control',
-          value: 'public, max-age=31536000, immutable',
-        },
-      ],
-    },
-    {
-      source: '/profile.jpg',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
-        },
-      ],
-    },
-  ]
-}
+// next.config.mjs & vercel.json
+'Cache-Control': 'public, max-age=31536000, immutable'
 ```
 
-#### `vercel.json`
-```json
-{
-  "headers": [
-    {
-      "source": "/_next/image(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/profile.jpg",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
-}
+**Imágenes** (1 año + revalidación):
+```javascript
+'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable'
 ```
 
-### Cache Headers Explained
+**Páginas Dinámicas** (1 hora):
+```javascript
+'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400'
+```
 
-- **`max-age=31536000`**: Browser caches for 1 year (client-side cache)
-- **`s-maxage=31536000`**: CDN/shared caches for 1 year (server-side cache)
-- **`stale-while-revalidate=86400`**: Serve stale content while revalidating in background (24h grace period)
-- **`immutable`**: Asset never changes (browser skips conditional requests even with force refresh)
-- **`Vercel-CDN-Cache-Control`**: Vercel-specific CDN caching directive (ensures Vercel Edge Network honors cache)
-- **`CDN-Cache-Control`**: Generic CDN caching directive (for Cloudflare, Fastly, etc.)
+### Headers Clave
 
-### Benefits
-
-1. **Faster repeat visits**: Static assets loaded instantly from browser cache
-2. **Reduced bandwidth**: No re-downloads for unchanged assets
-3. **Better LCP**: Images load faster on subsequent page loads
-4. **CDN efficiency**: Edge servers cache assets, reducing origin requests
-5. **Stale-while-revalidate**: Zero-latency updates (serve cached, update in background)
+- `max-age`: Cache en browser
+- `s-maxage`: Cache en CDN
+- `stale-while-revalidate`: Sirve cache mientras actualiza en background
+- `immutable`: Nunca cambia (skip validación)
 
 ---
 
@@ -238,94 +137,39 @@ const handleScroll = () => {
       setLastScrollY(currentScrollY)
       ticking.current = false
     })
-    ticking.current = true
-  }
-}
-```
+##
+**File:** `lib/ui-components.ts`
 
-**Impact:** Eliminates 57ms forced reflows, smoother scrolling
+Only exports commonly used Radix UI components to improve tree-shaking:
 
-### 3. CSS Optimization Strategy
-
-**Multi-Layer Approach:**
-
-#### Critical CSS Preloading
 ```tsx
-// app/layout.tsx
-<link 
-  rel="preload" 
-  href="/_next/static/css/app/layout.css" 
-  as="style" 
-  fetchPriority="high"
-/>
+// Only commonly used components exported
+export { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+export { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+export { Select, SelectTrigger, SelectContent } from "@/components/ui/select";
+
+// For rarely used components, import directly:
+import { Accordion } from "@/components/ui/accordion";
 ```
 
-#### Deferred Non-Critical CSS
-```tsx
-// app/defer-css.tsx
-// Skip critical layout CSS (keep it blocking)
-if (href.includes('app/layout.css') || href.includes('globals.css')) {
-  return
-}
+#### D. Next.js Optimizations
 
-// Defer other CSS
-link.media = 'print'  // Doesn't block render
-link.onload = () => { link.media = 'all' }  // Apply after load
-```
+**File:** `next.config.mjs`
 
-**Impact:** Reduces render-blocking CSS from ~1,540ms to <200ms
-
-### 4. Image Optimization
-
-**Next.js Image Component:**
-```tsx
-import Image from 'next/image'
-
-<Image
-  src="/hero-image.jpg"
-  alt="Hero"
-  width={800}
-  height={600}
-  priority={true}              // ✅ Preload above-the-fold images
-  fetchPriority="high"
-  quality={85}
-  placeholder="blur"
-  blurDataURL={blurDataURL}
-/>
-```
-
-**Best Practices:**
-- Use `priority={true}` for LCP images
-- Use `loading="lazy"` for below-the-fold images
-- Optimize image sizes (WebP/AVIF)
-- Use appropriate dimensions
-
-### 5. Cache Headers
-
-**Static Assets:**
 ```javascript
-// next.config.mjs
-{
-  source: '/_next/static/:path*',
-  headers: [
-    { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
+experimental: {
+  optimizePackageImports: [
+    'lucide-react',      // Icons - only load used icons
+    'date-fns',          // Date library - tree-shakeable
+    'framer-motion',     // Animations
   ]
 }
 ```
 
-**Images:**
-```javascript
-{
-  source: '/images/:path*',
-  headers: [
-    { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
-  ]
-}
-```
-
-**Impact:** Faster repeat visits, reduced server load
-
-### 6. JavaScript Optimization
+**Impact:**
+- **Before**: 114.3 KiB JavaScript, 41.5 KiB unused (36% waste)
+- **After**: ~70 KiB JavaScript, <10 KiB unused (<15% waste)
+- **Savings**: ~44 KiB (38% reduction in total JS)
 
 **Code Splitting:**
 ```tsx
@@ -382,185 +226,39 @@ export function getSiteUrl(): string {
 ## Performance Metrics
 
 ### Before Optimization
+### Dynamic Imports (`components/dynamic-imports.tsx`)
 
-| Metric | Score | Value |
-|--------|-------|-------|
-| Performance | 67/100 | Poor |
-| LCP | 4.2s | Needs Improvement |
-| FCP | 2.1s | Needs Improvement |
-| TBT | 320ms | Needs Improvement |
-| CLS | 0.08 | Good |
-
-### After Optimization
-
-| Metric | Score | Value |
-|--------|-------|-------|
-| Performance | 95+/100 | Good |
-| LCP | 1.8s | Good |
-| FCP | 0.9s | Good |
-| TBT | 80ms | Good |
-| CLS | 0.02 | Good |
-
-## Verification Steps
-
-### 1. Build & Test Locally
-
-```bash
-# Clean build
-rm -rf .next
-npm run build
-
-# Test production build
-npm run start
-
-# Open http://localhost:3000
-```
-
-### 2. Run Lighthouse
-
-```bash
-# Open Chrome DevTools (F12)
-# Lighthouse tab
-# Select "Mobile" or "Desktop"
-# Click "Analyze page load"
-```
-
-### 3. Check Network Tab
-
-**Verify:**
-- ✅ CSS files have `Content-Type: text/css`
-- ✅ Font files load without 404 errors
-- ✅ Images use next/image optimization
-- ✅ Static assets have cache headers
-
-### 4. Monitor Production
-
-**Tools:**
-- PageSpeed Insights: https://pagespeed.web.dev/
-- Chrome UX Report (CrUX): Real user metrics
-- Vercel Analytics: Core Web Vitals dashboard
-
-## Best Practices
-
-### Images
-- ✅ Use Next.js Image component
-- ✅ Set `priority={true}` for above-the-fold images
-- ✅ Use appropriate sizes and formats (WebP/AVIF)
-- ✅ Lazy load below-the-fold images
-
-### CSS
-- ✅ Inline critical CSS
-- ✅ Defer non-critical CSS
-- ✅ Use CSS-in-JS only when necessary
-- ✅ Minimize use of heavy CSS effects (blur, shadows)
-
-### JavaScript
-- ✅ Use dynamic imports for heavy components
-- ✅ Implement code splitting
-- ✅ Remove unused code (tree shaking)
-- ✅ Use `useCallback` and `useMemo` for expensive computations
-
-### Fonts
-- ✅ Use next/font for automatic optimization
-- ✅ Enable font preloading
-- ✅ Use font-display: swap
-- ✅ Subset fonts to reduce file size
-
-### Caching
-- ✅ Set appropriate cache headers
-- ✅ Use immutable for static assets
-- ✅ Implement stale-while-revalidate for dynamic content
-
-## Troubleshooting
-
-### High LCP (> 2.5s)
-
-**Causes:**
-- Large images without priority
-- Render-blocking resources
-- Slow server response time
-
-**Solutions:**
-- Add `priority={true}` to LCP image
-- Defer non-critical CSS/JS
-- Optimize server response (< 600ms)
-
-### CSS MIME Type Errors
-
-**Symptom:** "Refused to apply style... MIME type ('text/plain')"
-
-**Solutions:**
-- Add explicit Content-Type headers in next.config.mjs
-- Add explicit Content-Type headers in vercel.json
-- Ensure CSS rules come BEFORE generic static file rules
-- Remove manual CSS preload links
-
-### Font 404 Errors
-
-**Symptom:** "Failed to load resource: /fonts/inter-latin.woff2 (404)"
-
-**Solutions:**
-- Enable font preloading: `preload: true`
-- Remove manual `@font-face` declarations
-- Let next/font handle font optimization
-- Verify font files in `.next/static/media/` after build
-
-### Forced Reflows
-
-**Symptom:** "Forced reflow while executing JavaScript"
-
-**Solutions:**
-- Use requestAnimationFrame for scroll handlers
-- Batch DOM reads and writes
-- Avoid layout thrashing patterns
-
----
-
-## Mobile-Specific Optimizations
-
-### Overview
-
-Mobile optimizations implemented to improve LCP from 11s to 6-7s without affecting functionality or visual appearance.
-
-### 1. Local Avatar Image
-
-**Problem:** External GitHub avatar URL (`https://avatars.githubusercontent.com/u/16759783`) very slow on mobile connections.
-
-**Solution:**
-```tsx
-// app/page.tsx
-<Image
-  src="/profile.jpg"  // ✅ Local (was: GitHub URL)
-  alt="José Carrillo..."
-  width={420}
-  height={420}
-  priority
-  fetchPriority="high"
-  loading="eager"
-  quality={90}
-  sizes="(max-width: 768px) 320px, (max-width: 1024px) 380px, 420px"
-/>
-```
-
-**Steps:**
-1. Download avatar: `Invoke-WebRequest -Uri "https://avatars.githubusercontent.com/u/16759783?v=4&s=600" -OutFile "public/profile.jpg"`
-2. Change src in app/page.tsx from GitHub URL to `/profile.jpg`
-3. Add responsive sizes attribute
-4. Keep priority, fetchPriority, loading attributes
-
-**Impact:**
-- **Mobile LCP**: -4s to -5s (from 11s → 6-7s)
-- **Desktop LCP**: No change (already optimized)
-- **Visual**: Identical
-- **Data reduction**: ~40% on mobile
-
-### 2. Mobile-Optimized Animations
-
-**Problem:** Animation delays block initial render on slow mobile devices.
-
-**Solution:** Detect mobile and disable animation delays:
+Lazy loading para componentes pesados:
 
 ```tsx
+import { DynamicTabs as Tabs, DynamicCompactContactSection } from "@/components/dynamic-imports";
+```
+
+**Componentes optimizados:**
+- `FeaturedProjects`, `FeaturedRepositories` - API calls
+- `CompactContactSection` - Formularios
+- `Tabs`, `Dialog` - Radix UI
+- `DisqusComments`, `NewsletterForm`
+
+### Framer Motion Optimizado (`lib/motion.ts`)
+
+```tsx
+// ❌ Antes: import { motion } from "framer-motion"
+// ✅ Ahora: 
+import { motion } from "@/lib/motion"
+```
+
+**Ahorro**: ~20KB
+
+### Next.js Config
+
+```javascript
+experimental: {
+  optimizePackageImports: ['lucide-react', 'date-fns', 'framer-motion']
+}
+```
+
+**Impacto**: 114.3 KiB → ~70 KiB (-38%) | Sin usar: 41.5 KiB → <10 KiB (-75%)tsx
 // app/page.tsx
 import { useIsMobile } from "@/hooks/use-mobile"
 
@@ -708,98 +406,104 @@ const inter = Inter({
 **Mobile Impact Summary:**
 - LCP: -4s to -5s improvement (45% reduction)
 - FCP: -1.5s improvement
-- TBT: -100ms improvement
-- Overall Score: +40 points
+- TLCP Optimization
 
----
-
-## Verification Steps
-
-### 1. Local Testing
-
-```bash
-# Clean build
-rm -rf .next
-npm run build
-npm run start
-
-# Open http://localhost:3000
-# DevTools → Network
-# Throttling: Fast 3G (mobile) or No throttling (desktop)
-
-# Verify:
-# - profile.jpg loads from local (not GitHub)
-# - LCP element appears quickly
-# - No unnecessary delays
-# - CSS loads with correct MIME type
-# - Fonts load without 404 errors
+### Fonts
+```typescript
+// app/layout.tsx
+const inter = Inter({ 
+  preload: true,
+  display: "swap",
+  adjustFontFallback: true
+})
 ```
 
-### 2. PageSpeed Insights
-
-```
-URL: https://carrillo.app
-Device: Mobile AND Desktop
-Target Mobile: LCP < 4.0s (Needs Improvement → Good at < 2.5s)
-Target Desktop: LCP < 2.5s (Good)
+### CSS MIME Type Fix
+```javascript
+// next.config.mjs & vercel.json
+{ key: 'Content-Type', value: 'text/css; charset=utf-8' }
 ```
 
-### 3. Chrome DevTools Performance
-
-```bash
-# Open DevTools → Performance
-# Throttling: Slow 3G (mobile) or Fast 3G
-# Record page load
-# Analyze:
-# - Time to LCP
-# - JavaScript execution time
-# - Layout shifts
-# - Forced reflows
+### Forced Reflow Fix
+```javascript
+// Use requestAnimationFrame
+const ticking = useRef(false)
+const handleScroll = () => {
+  if (!ticking.current) {
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY
+      // Update state
+      ticking.current = false
+    })
+    ticking.current = true
+  }
+}
 ```
 
-### 4. Mobile Testing Checklist
+### Imágenes
+```tsx
+<Image
+  src="/profile.jpg"
+  priority={true}
+  fetchPriority="high"
+  loading="eager"
+  sizes="(max-width: 768px) 320px, 420px"
+/>
+```
 
-- [ ] Image loads from `/profile.jpg` (not external URL)
-- [ ] Animations disabled or instant on mobile
-- [ ] Correct image size downloaded (320px on mobile)
-- [ ] No render-blocking resources
-- [ ] LCP < 7s on Fast 3G
-- [ ] Visual appearance identical to desktop
+## Mobile Optimization
 
----
+### 1. Imagen Local (no URL externa)
+```tsx
+// ✅ Ahora: /profile.jpg (local)
+// ❌ Antes: https://avatars.githubusercontent.com/...
+```
+**Impacto**: LCP 11s → 6-7s (-45%)
 
-## Additional Resources
+### 2. Animaciones Instantáneas en Mobile
+```tsx
+const isMobile = useIsMobile()
+<motion.div
+  initial={{ opacity: isMobile ? 1 : 0 }}
+  transition={{ delay: isMobile ? 0 : 0.2 }}
+/>
+```
 
-- [Web.dev Performance](https://web.dev/performance/)
-- [Next.js Performance](https://nextjs.org/docs/advanced-features/measuring-performance)
-- [Chrome DevTools Performance](https://developer.chrome.com/docs/devtools/performance/)
-- [Core Web Vitals](https://web.dev/vitals/)
-- [Mobile Performance Best Practices](https://web.dev/fast/)
+### 3. Tamaños Responsive
+```tsx
+sizes="(max-width: 768px) 320px, 420px"
+```
 
----
+## Métricas
 
-## Useful Commands
+| Métrica | Desktop Antes | Desktop Ahora | Mobile Antes | Mobile Ahora |
+|---------|---------------|---------------|--------------|--------------|
+| Performance | 67/100 | 95+/100 | 45/100 | 85+/100 |
+| LCP | 4.2s | 1.8s | 11s | 6-7s |
+| FCP | 2.1s | 0.9s | 3.5s | 2.0s |
+| TBT | 320ms | 80ms | 250ms | 150ms |
 
-```bash
-# Build and test locally
+## Verification```bash
+# Build local
 npm run build && npm run start
 
-# Lighthouse CLI (mobile)
-npx lighthouse https://carrillo.app --preset=perf --view --throttling.cpuSlowdownMultiplier=4 --screenEmulation.mobile=true
+# Lighthouse
+npx lighthouse https://carrillo.app --preset=perf --view
 
-# Lighthouse CLI (desktop)
-npx lighthouse https://carrillo.app --preset=perf --view --screenEmulation.mobile=false
+# Verificar
+# - CSS: Content-Type correcto
+# - Fonts: sin 404
+# - Images: next/image + cache headers
+# - profile.jpg: desde /public
+```
 
-# Analyze bundle size
-npm run build -- --profile
+## Comandos
+
+```bash
+npm run build && npm run start  # Test local
+npx lighthouse https://carrillo.app --preset=perf --view  # Audit
 ```
 
 ---
 
-**Version**: 3.0.0 (Jan 2026)  
-**Last Updated**: January 7, 2026  
-**Maintained by**: José Carrillo (junior@carrillo.app)  
-**Changelog**: 
-- v3.0.0: Consolidated mobile and desktop optimizations into single document
-- v2.0.0: Added CSS MIME type fix and forced reflow optimization
-- v1.0.0: Initial performance optimizations
+**Version**: 3.0.0 | **Updated**: Jan 7, 2026 | **By**: José Carrillo

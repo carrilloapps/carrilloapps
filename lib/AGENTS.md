@@ -6,12 +6,135 @@ This directory contains utility functions, services, and helper modules for the 
 
 ```
 lib/
+├── analytics.ts          # Analytics tracking functions (GA4, Clarity)
 ├── env.ts                # Environment variable handling
 ├── medium.ts             # Medium API integration
+├── motion.ts             # ⭐ Optimized Framer Motion exports
 ├── rss-client.ts         # RSS feed client
 ├── rss-service.ts        # RSS feed service (Medium posts)
+├── ui-components.ts      # ⭐ Optimized Radix UI exports
 └── utils.ts              # General utility functions
 ```
+
+## Performance Optimization Utilities
+
+### motion.ts ⭐ NEW
+
+**Location**: `lib/motion.ts`
+
+**Purpose**: Optimized Framer Motion exports to reduce bundle size by only importing necessary functions instead of the entire library.
+
+#### Why This Exists
+
+**Problem**: Importing from `framer-motion` directly includes the entire library (~80KB), even if you only use `motion`.
+
+**Solution**: Centralized exports of only what's actually needed across the project.
+
+#### Usage
+
+```tsx
+// ❌ BAD - Imports entire library
+import { motion } from "framer-motion";
+
+// ✅ GOOD - Only imports what's needed
+import { motion } from "@/lib/motion";
+```
+
+#### Available Exports
+
+```typescript
+// Components & hooks
+export { 
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValue,
+  useAnimation,
+  useInView
+} from "framer-motion";
+
+// Types
+export type { Variants, Target, Transition, AnimationControls } from "framer-motion";
+```
+
+#### Pre-defined Animation Variants
+
+Use common animation patterns for consistency:
+
+```tsx
+import { motion, commonVariants } from "@/lib/motion";
+
+// Container with staggered children
+<motion.div
+  initial="hidden"
+  animate="visible"
+  variants={commonVariants.container}
+>
+  {items.map(item => (
+    <motion.div key={item.id} variants={commonVariants.item}>
+      {item.content}
+    </motion.div>
+  ))}
+</motion.div>
+
+// Fade in
+<motion.div variants={commonVariants.fadeIn}>
+  Content
+</motion.div>
+
+// Slide up
+<motion.div variants={commonVariants.slideUp}>
+  Content
+</motion.div>
+```
+
+**Available Variants:**
+- `container`: Staggered children animation (0.1s delay between each)
+- `item`: Individual item animation (fade + slide up)
+- `fadeIn`: Simple fade in effect
+- `slideUp`: Slide from bottom with fade
+
+**Impact**: Reduces Framer Motion bundle by ~20KB
+
+### ui-components.ts ⭐ NEW
+
+**Location**: `lib/ui-components.ts`
+
+**Purpose**: Centralized exports for commonly used Radix UI components to improve tree-shaking and reduce unused code.
+
+#### Why This Exists
+
+**Problem**: Radix UI components are large, and importing them in multiple files can lead to code duplication and poor tree-shaking.
+
+**Solution**: Export only commonly used components from a single location.
+
+#### Usage
+
+```tsx
+// ✅ For common components (Dialog, Tabs, Select)
+import { Dialog, DialogContent, DialogTitle } from "@/lib/ui-components";
+
+// ✅ For rarely used components, import directly
+import { Accordion, AccordionItem } from "@/components/ui/accordion";
+```
+
+#### Exported Components
+
+**Always use from `lib/ui-components.ts`:**
+- Dialog (and all sub-components)
+- Tabs (and all sub-components)
+- DropdownMenu (and all sub-components)
+- Select (and all sub-components)
+- Tooltip (and all sub-components)
+
+**Import directly for:**
+- Accordion, AlertDialog, Popover, HoverCard (rarely used)
+- Any component used in only 1-2 places
+
+**Impact**: Better code splitting and tree-shaking for Radix UI components
 
 ## Utility Functions
 

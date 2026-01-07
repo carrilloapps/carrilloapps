@@ -78,6 +78,18 @@ export default function RootLayout({
         {/* Performance optimizations - Critical resource hints */}
         <link rel="preload" href="/profile.jpg" as="image" type="image/jpeg" fetchPriority="high" />
         
+        {/* DNS prefetch and preconnect for external resources */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+        <link rel="dns-prefetch" href="https://medium.com" />
+        <link rel="dns-prefetch" href="https://api.github.com" />
+        
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
