@@ -97,6 +97,48 @@ const handleSubmit = async (data) => {
 - ✅ Cookie consent required
 - ✅ CSP configured for both platforms
 
+### Troubleshooting
+
+**Analytics not tracking?**
+
+1. **Check environment variables**:
+   ```bash
+   # Must be in .env.local (not .env)
+   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-NZ48XLH763
+   NEXT_PUBLIC_CLARITY_PROJECT_ID=qcxy7rjpfx
+   ```
+
+2. **Restart dev server**:
+   ```bash
+   # Required after changing .env files
+   npm run dev
+   ```
+
+3. **Check cookie consent**:
+   - Open browser Console → Application → Local Storage
+   - Look for `cookieConsent` key
+   - Should be: `{"analytics":true,"functional":true,"timestamp":"..."}`
+   - If it's just `"true"`, clear storage and accept again
+
+4. **Verify scripts loaded**:
+   - Open Network tab in DevTools
+   - Look for: `gtag/js` and `clarity.ms/tag/`
+   - Status should be 200
+
+5. **Test tracking**:
+   ```javascript
+   // In browser console
+   window.gtag('event', 'test', { test_param: 'test' })
+   window.clarity('set', 'test', 'value')
+   ```
+
+**Common issues:**
+
+- ❌ Variables in `.env` instead of `.env.local` → Move to `.env.local`
+- ❌ Old consent format (`"true"` string) → Clear localStorage and accept again
+- ❌ Server not restarted → Restart with `npm run dev`
+- ❌ Ad blocker enabled → Disable to test (user tracking will still be blocked)
+
 ---
 
 ## Performance Optimization
