@@ -1,6 +1,6 @@
 # Data Directory - Agent Guidelines
 
-This directory contains static data, configuration, and content for the CarrilloApps project.
+This directory contains static data, configuration, and content for the carrillo.app project.
 
 ## Directory Structure
 

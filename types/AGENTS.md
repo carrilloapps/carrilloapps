@@ -1,6 +1,6 @@
 # Types Directory - Agent Guidelines
 
-This directory contains TypeScript type definitions for the CarrilloApps project.
+This directory contains TypeScript type definitions for the carrillo.app project.
 
 ## Directory Structure
 

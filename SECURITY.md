@@ -10,15 +10,15 @@ Use this section to tell people about which versions of your project are current
 
 ## Reporting a Vulnerability
 
-The CarrilloApps team takes security bugs seriously. We appreciate your efforts to responsibly disclose your findings and will make every effort to acknowledge your contributions.
+The carrillo.app team takes security bugs seriously. We appreciate your efforts to responsibly disclose your findings and will make every effort to acknowledge your contributions.
 
-To report a security issue, please email [junior@carrillo.app](mailto:junior@carrillo.app) with a description of the issue, the steps you took to create the issue, affected versions, and, if known, mitigations for the issue. 
+To report a security issue, please email [m@carrillo.app](mailto:m@carrillo.app) with a description of the issue, the steps you took to create the issue, affected versions, and, if known, mitigations for the issue. 
 
 Our security team will respond within 72 hours to acknowledge your report and provide an estimated timeline for a fix. We'll keep you updated as we work through the issue resolution process.
 
 ## Security Best Practices in the Project
 
-CarrilloApps has implemented several security measures:
+carrillo.app has implemented several security measures:
 
 1. **Data Validation**: All user inputs are validated using Zod and React Hook Form
 2. **Content Security Policy**: Implemented to prevent XSS attacks

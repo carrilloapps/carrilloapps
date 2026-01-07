@@ -1,6 +1,6 @@
 # Lib Directory - Agent Guidelines
 
-This directory contains utility functions, services, and helper modules for the CarrilloApps project.
+This directory contains utility functions, services, and helper modules for the carrillo.app project.
 
 ## Directory Structure
 

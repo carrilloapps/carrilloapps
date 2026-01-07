@@ -1,25 +1,25 @@
 # CSS Optimization Guide
 
-## Optimizaciones Implementadas
+## Implemented Optimizations
 
 ### 1. CSS Chunking Strict Mode
 
-**Configuración en next.config.mjs:**
+**Configuration in next.config.mjs:**
 ```javascript
 experimental: {
-  optimizeCss: true,
+  optimizeCs: true,
   cssChunking: 'strict',
 }
 ```
 
-**Beneficios:**
-- CSS se divide en chunks más pequeños y se carga solo cuando es necesario
-- Reduce el tiempo de bloqueo de renderización inicial
-- Mejora el First Contentful Paint (FCP) y Largest Contentful Paint (LCP)
+**Benefits:**
+- CSS is split into smaller chunks and loaded only when needed
+- Reduces initial render blocking time
+- Improves First Contentful Paint (FCP) and Largest Contentful Paint (LCP)
 
-### 2. Font Preload y Optimización
+### 2. Font Preload and Optimization
 
-**Configuración en app/layout.tsx:**
+**Configuration in app/layout.tsx:**
 ```typescript
 const inter = Inter({
   subsets: ["latin"],
@@ -30,16 +30,16 @@ const inter = Inter({
 });
 ```
 
-**Beneficios:**
-- `display: "swap"` muestra el texto inmediatamente con fuente fallback
-- `adjustFontFallback: true` ajusta métricas de fuente fallback para evitar layout shift
-- `preload: false` evita errores 404 - Next.js optimiza la carga automáticamente
-- Google Fonts optimization automático con Next.js
-- Evita Flash of Unstyled Text (FOUT)
+**Benefits:**
+- `display: "swap"` displays text immediately with fallback font
+- `adjustFontFallback: true` adjusts fallback font metrics to avoid layout shift
+- `preload: false` avoids 404 errors - Next.js optimizes loading automatically
+- Automatic Google Fonts optimization with Next.js
+- Avoids Flash of Unstyled Text (FOUT)
 
-### 3. Eliminación de Polyfills
+### 3. Polyfills Removal
 
-**Configuración en tsconfig.json:**
+**Configuration in tsconfig.json:**
 ```json
 {
   "compilerOptions": {
@@ -48,7 +48,7 @@ const inter = Inter({
 }
 ```
 
-**Browserslist en package.json:**
+**Browserslist in package.json:**
 ```json
 {
   "browserslist": {
@@ -62,139 +62,139 @@ const inter = Inter({
 }
 ```
 
-**Beneficios:**
-- Reduce ~13.9 KiB de código de polyfills
-- Código más pequeño = descarga más rápida
-- Solo soporta navegadores modernos (2021+)
+**Benefits:**
+- Reduces ~13.9 KiB of polyfill code
+- Smaller code = faster download
+- Only supports modern browsers (2021+)
 
-### 4. CSS Crítico y Inline
+### 4. Critical and Inline CSS
 
-**Configuración en next.config.mjs:**
+**Configuration in next.config.mjs:**
 ```javascript
 experimental: {
   optimizeCss: true,
 }
 ```
 
-**Beneficios:**
-- Next.js automáticamente inline CSS crítico en HTML
-- Reduce las solicitudes de red bloqueantes
-- Mejora el First Contentful Paint (FCP)
+**Benefits:**
+- Next.js automatically inlines critical CSS in HTML
+- Reduces blocking network requests
+- Improves First Contentful Paint (FCP)
 
-## Resultados Esperados
+## Expected Results
 
-### Antes de la Optimización
-- CSS bloqueante: 23.2 KiB (990ms total)
+### Before Optimization
+- Blocking CSS: 23.2 KiB (990ms total)
   - `56996a801544db59.css`: 21 KiB (490ms)
   - `242005b0b2cae306.css`: 2.1 KiB (490ms)
 - Polyfills: ~13.9 KiB
 - Font loading: FOUT visible
 
-### Después de la Optimización
-- CSS inline para above-the-fold content
-- CSS no crítico cargado de forma asíncrona
-- Polyfills eliminados: -13.9 KiB
-- Font swap con fallback optimizado: sin FOUT
-- Tiempo de bloqueo reducido en ~40-60%
+### After Optimization
+- Inline CSS for above-the-fold content
+- Non-critical CSS loaded asynchronously
+- Polyfills removed: -13.9 KiB
+- Font swap with optimized fallback: no FOUT
+- Blocking time reduced by ~40-60%
 
-## Optimizaciones Adicionales de Cloudflare
+## Additional Cloudflare Optimizations
 
-### ⚠️ IMPORTANTE: Configuración Manual Requerida
+### ⚠️ IMPORTANT: Manual Configuration Required
 
-Para maximizar el rendimiento, **debes configurar manualmente Cloudflare**:
+To maximize performance, **you must manually configure Cloudflare**:
 
-#### 1. Desactivar Email Obfuscation
+#### 1. Disable Email Obfuscation
 **Dashboard → Scrape Shield → Email Address Obfuscation → OFF**
 
-**Por qué:**
-- Inyecta `email-decode.min.js` (1 KB + 560ms)
-- Bloquea el renderizado inicial
-- Next.js ya protege emails de forma nativa
+**Why:**
+- Injects `email-decode.min.js` (1 KB + 560ms)
+- Blocks initial rendering
+- Next.js already protects emails natively
 
-#### 2. Desactivar Rocket Loader
+#### 2. Disable Rocket Loader
 **Dashboard → Speed → Optimization → Rocket Loader → OFF**
 
-**Por qué:**
-- Inyecta `rocket-loader.min.js` (5 KB)
-- Interfiere con optimizaciones de Next.js
-- Puede causar errores de hidratación en React
+**Why:**
+- Injects `rocket-loader.min.js` (5 KB)
+- Interferes with Next.js optimizations
+- Can cause React hydration errors
 
-#### 3. Desactivar Web Analytics (si no se usa)
+#### 3. Disable Web Analytics (if not using)
 **Dashboard → Speed → Optimization → Web Analytics → OFF**
 
-**Por qué:**
-- Inyecta `beacon.min.js` (7 KB)
-- Solo necesario si usas Cloudflare Analytics
-- Usa Vercel Analytics en su lugar
+**Why:**
+- Injects `beacon.min.js` (7 KB)
+- Only needed if using Cloudflare Analytics
+- Use Vercel Analytics instead
 
-#### 4. Desactivar Auto Minify
-**Dashboard → Speed → Optimization → Auto Minify → OFF (todos los checkboxes)**
+#### 4. Disable Auto Minify
+**Dashboard → Speed → Optimization → Auto Minify → OFF (all checkboxes)**
 
-**Por qué:**
-- Next.js ya minifica todos los assets
-- Puede causar double-minification (errores)
-- Vercel maneja la optimización
+**Why:**
+- Next.js already minifies all assets
+- Can cause double-minification (errors)
+- Vercel handles optimization
 
-#### 5. Configurar Browser Cache TTL
+#### 5. Configure Browser Cache TTL
 **Dashboard → Caching → Browser Cache TTL → Respect Existing Headers**
 
-**Por qué:**
-- Usa los headers `Cache-Control` de Vercel
-- Optimizados para cada tipo de recurso
-- Evita conflictos de caché
+**Why:**
+- Uses Vercel's `Cache-Control` headers
+- Optimized for each resource type
+- Avoids cache conflicts
 
-### Impacto Total de Scripts Cloudflare
+### Total Impact of Cloudflare Scripts
 
-Si no se desactivan, Cloudflare inyecta:
+If not disabled, Cloudflare injects:
 - `email-decode.min.js`: 1 KB + 560ms
 - `rocket-loader.min.js`: 5 KB
-- `beacon.min.js`: 7 KB (si analytics está activo)
-- **Total**: ~13 KB + latencia de red adicional
+- `beacon.min.js`: 7 KB (if analytics is active)
+- **Total**: ~13 KB + additional network latency
 
-## Verificación Post-Despliegue
+## Post-Deployment Verification
 
 ### 1. PageSpeed Insights
 ```
 https://pagespeed.web.dev/
 ```
-- FCP: < 1.8s (verde)
-- LCP: < 2.5s (verde)
-- TBT: < 200ms (verde)
-- CLS: < 0.1 (verde)
+- FCP: < 1.8s (green)
+- LCP: < 2.5s (green)
+- TBT: < 200ms (green)
+- CLS: < 0.1 (green)
 
 ### 2. Chrome DevTools
 **Network Tab:**
-1. Abre DevTools (F12)
+1. Open DevTools (F12)
 2. Network → Clear → Reload
-3. Verifica que CSS crítico esté inline en HTML
-4. Verifica que NO se carguen scripts de Cloudflare no deseados
+3. Verify critical CSS is inline in HTML
+4. Verify unwanted Cloudflare scripts are NOT loaded
 
 **Coverage Tab:**
-1. Abre DevTools (F12)
+1. Open DevTools (F12)
 2. Cmd+Shift+P → "Show Coverage"
 3. Reload
-4. Verifica que el CSS usado en la carga inicial sea > 80%
+4. Verify CSS used on initial load is > 80%
 
 ### 3. Lighthouse
-**Ejecutar desde Chrome DevTools:**
+**Run from Chrome DevTools:**
 1. F12 → Lighthouse tab
 2. Mode: Navigation
 3. Categories: Performance
-4. Device: Mobile y Desktop
+4. Device: Mobile and Desktop
 5. Analyze page load
 
-**Métricas objetivo:**
+**Target metrics:**
 - Performance: > 90/100
 - Accessibility: > 95/100
 - Best Practices: > 95/100
 - SEO: 100/100
 
-## Monitoreo Continuo
+## Continuous Monitoring
 
 ### Vercel Analytics
 **Dashboard → Project → Analytics**
 
-Métricas clave:
+Key metrics:
 - Real Experience Score (RES): > 85
 - LCP P75: < 2.5s
 - FCP P75: < 1.8s
@@ -203,49 +203,49 @@ Métricas clave:
 ### Cloudflare Analytics
 **Dashboard → Analytics & Logs → Web Analytics**
 
-Métricas clave:
+Key metrics:
 - Page Load Time: < 2.5s
 - Time to First Byte (TTFB): < 600ms
 - Cache Hit Ratio: > 90%
 
 ## Troubleshooting
 
-### CSS no se inline correctamente
-**Síntoma:** CSS aún aparece como archivos externos grandes en Network tab
+### CSS not inlining correctly
+**Symptom:** CSS still appears as large external files in Network tab
 
-**Solución:**
-1. Verificar `optimizeCss: true` en `next.config.mjs`
-2. Limpiar caché: `rm -rf .next && npm run build`
-3. Verificar que no haya errores de build
+**Solution:**
+1. Verify `optimizeCss: true` in `next.config.mjs`
+2. Clear cache: `rm -rf .next && npm run build`
+3. Verify there are no build errors
 
-### Font sigue mostrando FOUT
-**Síntoma:** Texto parpadea o cambia al cargar la fuente
+### Font still showing FOUT
+**Symptom:** Text flickers or changes when loading font
 
-**Solución:**
-1. Verificar `display: "swap"` en configuración de fuente
-2. Verificar `adjustFontFallback: true` está presente
-3. Verificar header de preload en `vercel.json`
-4. Limpiar caché de Cloudflare
+**Solution:**
+1. Verify `display: "swap"` in font configuration
+2. Verify `adjustFontFallback: true` is present
+3. Verify preload header in `vercel.json`
+4. Clear Cloudflare cache
 
-### Polyfills aún presentes
-**Síntoma:** Bundle incluye polyfills innecesarios
+### Polyfills still present
+**Symptom:** Bundle includes unnecessary polyfills
 
-**Solución:**
-1. Verificar `target: "ES2022"` en `tsconfig.json`
-2. Verificar `browserslist` en `package.json`
-3. Eliminar `.browserslistrc` si existe
-4. Rebuild completo: `rm -rf .next node_modules && npm install && npm run build`
+**Solution:**
+1. Verify `target: "ES2022"` in `tsconfig.json`
+2. Verify `browserslist` in `package.json`
+3. Remove `.browserslistrc` if it exists
+4. Complete rebuild: `rm -rf .next node_modules && npm install && npm run build`
 
-### Scripts de Cloudflare siguen apareciendo
-**Síntoma:** `email-decode.min.js` o `rocket-loader.min.js` en Network tab
+### Cloudflare scripts still appearing
+**Symptom:** `email-decode.min.js` or `rocket-loader.min.js` in Network tab
 
-**Solución:**
-1. Verifica la configuración en Cloudflare Dashboard
-2. Purga caché de Cloudflare: Dashboard → Caching → Purge Everything
-3. Espera 2-5 minutos para propagación
-4. Hard refresh en navegador (Ctrl+Shift+R)
+**Solution:**
+1. Check configuration in Cloudflare Dashboard
+2. Purge Cloudflare cache: Dashboard → Caching → Purge Everything
+3. Wait 2-5 minutes for propagation
+4. Hard refresh in browser (Ctrl+Shift+R)
 
-## Recursos Adicionales
+## Additional Resources
 
 - [Next.js CSS Optimization](https://nextjs.org/docs/app/building-your-application/optimizing/css)
 - [Web Vitals](https://web.dev/vitals/)
@@ -254,5 +254,5 @@ Métricas clave:
 
 ---
 
-**Última actualización:** Enero 2026
-**Versiones:** Next.js 16.1.1, React 19, Vercel (free/Hobby plan), Cloudflare CDN
+**Last Updated:** January 2026
+**Versions:** Next.js 16.1.1, React 19, Vercel (free/Hobby plan), Cloudflare CDN

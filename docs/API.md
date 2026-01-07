@@ -1,6 +1,6 @@
 # API Documentation
 
-This document outlines the API endpoints available in the CarrilloApps project.
+This document outlines the API endpoints available in the carrillo.app project.
 
 ## Base URL
 
@@ -46,7 +46,7 @@ Error responses include a JSON body with error details:
 
 #### GET /api/github-repositories
 
-Fetches repositories from GitHub for the CarrilloApps account.
+Fetches repositories from GitHub for the carrillo.app account.
 
 **Parameters:**
 - `limit` (optional): Number of repositories to return (default: 10)
@@ -76,7 +76,7 @@ Fetches repositories from GitHub for the CarrilloApps account.
 
 #### GET /api/gitlab-repositories
 
-Fetches repositories from GitLab for the CarrilloApps account.
+Fetches repositories from GitLab for the carrillo.app account.
 
 **Parameters:**
 - `limit` (optional): Number of repositories to return (default: 10)

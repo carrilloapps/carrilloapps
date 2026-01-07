@@ -1,10 +1,10 @@
 # GitHub Integration Guidelines
 
-This document provides information about how the CarrilloApps project integrates with GitHub and guidelines for managing the GitHub repository effectively.
+This document provides information about how the carrillo.app project integrates with GitHub and guidelines for managing the GitHub repository effectively.
 
 ## Repository Structure
 
-The CarrilloApps project is hosted on GitHub at [https://github.com/carrilloapps/carrilloapps](https://github.com/carrilloapps/carrilloapps). The repository follows a standard structure:
+The carrillo.app project is hosted on GitHub at [https://github.com/carrilloapps/carrilloapps](https://github.com/carrilloapps/carrilloapps). The repository follows a standard structure:
 
 - `main` branch: Production code
 - `develop` branch: Development and integration

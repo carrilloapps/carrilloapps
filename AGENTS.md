@@ -4,7 +4,7 @@ This is the main agent configuration file for the CarrilloApps portfolio project
 
 ## Project Overview
 
-**CarrilloApps** is a personal portfolio and professional website built with Next.js 16, React 19, and TypeScript. The project follows a modern, dark-themed design with consistent UI patterns across all pages.
+**carrillo.app** is a personal portfolio and professional website built with Next.js 16, React 19, and TypeScript. The project follows a modern, dark-themed design with consistent UI patterns across all pages.
 
 ### Technology Stack
 
