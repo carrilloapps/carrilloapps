@@ -168,7 +168,7 @@ function SchedulePageContent() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800/50 hover:border-slate-500 focus:bg-slate-800/50 focus:ring-4 focus:ring-slate-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg shadow-lg shadow-slate-500/20 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-h-[48px]"
+                  className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-h-[48px]"
                   aria-describedby="services-desc"
                 >
                   Ver servicios
@@ -379,7 +379,7 @@ function SchedulePageContent() {
 
                     <Button
                       type="submit"
-                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transition-all duration-300"
                     >
                       Solicitar Agendamiento
                     </Button>
@@ -582,7 +582,7 @@ function SchedulePageContent() {
       </main>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="bg-zinc-900/95 backdrop-blur-xl border-zinc-800/50 shadow-2xl shadow-blue-500/10 relative overflow-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full max-h-[90vh] overflow-y-auto z-50">
+        <DialogContent className="bg-zinc-900/95 backdrop-blur-xl border-zinc-800/50 shadow-2xl shadow-blue-500/10 max-w-2xl overflow-hidden">
           {/* Modal Background Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
 
@@ -642,7 +642,7 @@ function SchedulePageContent() {
             >
               <Button
                 variant="outline"
-                className="bg-zinc-800/50 backdrop-blur-sm border-zinc-700/50 hover:bg-zinc-700/50 hover:border-zinc-600/50 text-zinc-300 hover:text-white transition-all duration-300"
+                className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 font-bold py-3 px-8 rounded-lg backdrop-blur-sm transition-all duration-300"
                 onClick={() => setShowDialog(false)}
               >
                 Cancelar
@@ -653,7 +653,7 @@ function SchedulePageContent() {
               whileTap={{ scale: 0.98 }}
             >
               <Button
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 border border-blue-500/30 backdrop-blur-sm transition-all duration-300"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transition-all duration-300"
                 onClick={confirmSubmission}
               >
                 Confirmar y enviar

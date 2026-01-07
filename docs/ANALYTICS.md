@@ -114,20 +114,21 @@ const handleSubmit = async (data) => {
    npm run dev
    ```
 
-3. **Check cookie consent**:
-   - Open browser Console → Application → Local Storage
-   - Look for `cookieConsent` key
-   - Should be: `{"analytics":true,"functional":true,"timestamp":"..."}`
-   - If it's just `"true"`, clear storage and accept again
+3. **Accept cookies modal**:
+   - ⚠️ **Cookie consent is required for full functionality**
+   - Users can reject but modal reappears on every page until accepted
+   - Analytics and Clarity load **immediately** after acceptance (no page refresh needed)
+   - Check browser Console for loading confirmations
 
 4. **Verify scripts loaded**:
    - Open Network tab in DevTools
    - Look for: `gtag/js` and `clarity.ms/tag/`
    - Status should be 200
+   - Scripts load **dynamically after consent** (not on page load)
 
 5. **Test tracking**:
    ```javascript
-   // In browser console
+   // In browser console (after accepting cookies)
    window.gtag('event', 'test', { test_param: 'test' })
    window.clarity('set', 'test', 'value')
    ```
@@ -135,9 +136,16 @@ const handleSubmit = async (data) => {
 **Common issues:**
 
 - ❌ Variables in `.env` instead of `.env.local` → Move to `.env.local`
-- ❌ Old consent format (`"true"` string) → Clear localStorage and accept again
 - ❌ Server not restarted → Restart with `npm run dev`
-- ❌ Ad blocker enabled → Disable to test (user tracking will still be blocked)
+- ❌ Cookies rejected → **Modal will reappear** until you accept (legal requirement)
+- ❌ Modal not accepted → **You must accept** to enable analytics and navigate the site
+
+**New Behavior (Jan 2026):**
+- ✅ Cookie consent **respects GDPR/CCPA** (reject option available)
+- ⚠️ If cookies rejected, modal **reappears on every page** until accepted
+- ✅ Scripts load **immediately** after acceptance (dynamic loading)
+- ✅ Works on **all browsers** including Brave (once cookies accepted)
+- ✅ Clear messaging: Analytics necessary for full site functionality
 
 ---
 
