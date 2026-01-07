@@ -262,3 +262,63 @@ export function useDisqusReactions(identifier: string): DisqusReactionsData & {
 
   return { reactions, isLoading, error: null, hasReacted, toggleReaction }
 }
+
+/**
+ * Hook to track Disqus saves/bookmarks for an article
+ * Uses localStorage to track if user has saved the article
+ */
+export function useDisqusSaves(identifier: string): DisqusReactionsData & { 
+  hasSaved: boolean
+  toggleSave: () => void 
+} {
+  const [saves, setSaves] = useState<number>(0)
+  const [hasSaved, setHasSaved] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (!identifier) {
+      // Using timeout to defer setState and avoid cascading render
+      setTimeout(() => setIsLoading(false), 0)
+      return
+    }
+
+    // Check if user has saved this article
+    const storageKey = `disqus_save_${identifier}`
+    const hasUserSaved = localStorage.getItem(storageKey) === 'true'
+    
+    // Load saves count from localStorage (simulated backend)
+    const savesKey = `disqus_saves_count_${identifier}`
+    const storedSaves = localStorage.getItem(savesKey)
+    const initialSaves = storedSaves ? parseInt(storedSaves, 10) : 0
+    
+    // Batch state updates to avoid cascading renders
+    setTimeout(() => {
+      setHasSaved(hasUserSaved)
+      setSaves(initialSaves)
+      setIsLoading(false)
+    }, 0)
+  }, [identifier])
+
+  const toggleSave = () => {
+    const storageKey = `disqus_save_${identifier}`
+    const savesKey = `disqus_saves_count_${identifier}`
+    
+    if (hasSaved) {
+      // Remove save
+      localStorage.removeItem(storageKey)
+      const newCount = Math.max(0, saves - 1)
+      setSaves(newCount)
+      localStorage.setItem(savesKey, newCount.toString())
+      setHasSaved(false)
+    } else {
+      // Add save
+      localStorage.setItem(storageKey, 'true')
+      const newCount = saves + 1
+      setSaves(newCount)
+      localStorage.setItem(savesKey, newCount.toString())
+      setHasSaved(true)
+    }
+  }
+
+  return { reactions: saves, isLoading, error: null, hasSaved, toggleSave }
+}
