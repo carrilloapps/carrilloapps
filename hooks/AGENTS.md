@@ -1,6 +1,6 @@
 # Hooks Directory - Agent Guidelines
 
-This directory contains custom React hooks for the CarrilloApps project.
+This directory contains custom React hooks for the carrillo.app project.
 
 ## Directory Structure
 

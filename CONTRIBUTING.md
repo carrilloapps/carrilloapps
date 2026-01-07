@@ -1,10 +1,10 @@
-# Contributing to CarrilloApps
+# Contributing to carrillo.app
 
-First off, thank you for considering contributing to CarrilloApps! It's people like you that make this project such a great tool.
+First off, thank you for considering contributing to carrillo.app! It's people like you that make this project such a great tool.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the [CarrilloApps Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [junior@carrillo.app](mailto:junior@carrillo.app).
+This project and everyone participating in it is governed by the [carrillo.app Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [m@carrillo.app](mailto:m@carrillo.app).
 
 ## How Can I Contribute?
 

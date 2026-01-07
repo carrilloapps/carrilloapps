@@ -1,10 +1,10 @@
 # Translation and Localization Guide
 
-This document provides guidelines for translating and localizing content in the CarrilloApps project.
+This document provides guidelines for translating and localizing content in the carrillo.app project.
 
 ## Overview
 
-The CarrilloApps website supports multiple languages to serve a global audience. Currently, the site is available in:
+The carrillo.app website supports multiple languages to serve a global audience. Currently, the site is available in:
 
 - English (en-US) - Primary language
 - Spanish (es-ES) - Secondary language

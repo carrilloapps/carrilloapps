@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide provides an overview of development practices and standards for the CarrilloApps project.
+This guide provides an overview of development practices and standards for the carrillo.app project.
 
 ## Development Environment Setup
 

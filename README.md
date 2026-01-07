@@ -19,7 +19,7 @@
 
 - 💬 Ask me about **go, react, nestjs, android & ios.**
 
-- 📫 How to reach me **junior@carrillo.app**
+- 📫 How to reach me **m@carrillo.app**
 
 - 📄 Know about my experiences [CV](https://carrillo.app/cv.pdf)
 

@@ -1,4 +1,4 @@
-# Copilot Instructions for CarrilloApps
+# Copilot Instructions for carrillo.app
 
 ## Project Overview
 Personal portfolio website built with Next.js 16.1.1, React 19, TypeScript 5.9.3, and Tailwind CSS 3.4.19. Dark-themed design with strict accessibility requirements (WCAG 2.1 AA/AAA compliance).
