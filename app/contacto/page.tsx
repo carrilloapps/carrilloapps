@@ -15,6 +15,13 @@ import { DynamicBackground } from "@/components/dynamic-background"
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
 import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
 import { PageHero } from "@/components/page-hero"
+import { 
+  trackFormStart, 
+  trackFormSubmit, 
+  trackFormFieldInteraction,
+  trackSocialClick,
+  trackButtonClick
+} from "@/lib/analytics"
 
 // Security utilities
 const obfuscateEmail = (email: string): string => {
@@ -128,12 +135,18 @@ function ContactPageContent() {
   // Security checks on mount
   useEffect(() => {
     startTime.current = Date.now()
+    // Track form start
+    trackFormStart('contact_form')
     // Inicializar tiempo de carga para validación de envío
   }, [])
   
   // Handle form input changes
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
+    // Track field interaction on first interaction
+    if (value && !formData[field as keyof typeof formData]) {
+      trackFormFieldInteraction('contact_form', field)
+    }
   }
   
   // Handle form submission with security checks
@@ -175,6 +188,9 @@ function ContactPageContent() {
       // For now, we'll just simulate a delay
       await new Promise(resolve => setTimeout(resolve, 2000))
       
+      // Track successful submission
+      trackFormSubmit('contact_form', true)
+      
       // Reset form after successful submission
       setFormData({
         name: '',
@@ -187,6 +203,8 @@ function ContactPageContent() {
       alert('¡Mensaje enviado exitosamente!')
     } catch (error) {
       console.error('Error sending message:', error)
+      // Track failed submission
+      trackFormSubmit('contact_form', false, error instanceof Error ? error.message : 'Unknown error')
       alert('Error al enviar el mensaje. Por favor, inténtalo nuevamente.')
     } finally {
       setIsSubmitting(false)
@@ -196,6 +214,7 @@ function ContactPageContent() {
   // Reveal contact information
   const revealEmail = () => {
     setEmailRevealed(true)
+    trackButtonClick('Reveal Email', 'contact_page', { action: 'reveal_contact_info' })
   }
   
   const revealPhone = () => {
@@ -493,6 +512,7 @@ function ContactPageContent() {
                         className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-purple-500/30"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() => trackSocialClick('GitHub', 'profile_visit', 'https://github.com/carrilloapps')}
                       >
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
                           <Github className="h-6 w-6 text-purple-400" />
@@ -506,6 +526,7 @@ function ContactPageContent() {
                         className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() => trackSocialClick('LinkedIn', 'profile_visit', 'https://linkedin.com/in/carrilloapps')}
                       >
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
                           <Linkedin className="h-6 w-6 text-blue-400" />
@@ -519,6 +540,7 @@ function ContactPageContent() {
                         className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-cyan-500/30"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() => trackSocialClick('Twitter/X', 'profile_visit', 'https://x.com/carrilloapps')}
                       >
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-600/20 to-teal-600/20 flex items-center justify-center border border-cyan-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
                           <svg className="h-6 w-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>

@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
+import { trackNavigation, trackCTAClick } from "@/lib/analytics"
 
 // Navigation structure with mega menu support
 interface NavItem {
@@ -143,10 +144,16 @@ const navItems: NavItem[] = [
 // Memoized navigation item component for performance
 const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
   const Icon = item.icon
+  
+  const handleClick = () => {
+    trackNavigation(item.label, item.href, "header")
+    onClose?.()
+  }
+  
   return (
     <Link
       href={item.href}
-      onClick={onClose}
+      onClick={handleClick}
       className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
         isActive
           ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
@@ -221,7 +228,10 @@ const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; i
                     >
                       <Link
                         href={child.href}
-                        onClick={onClose}
+                        onClick={() => {
+                          trackNavigation(child.label, child.href, "header")
+                          onClose()
+                        }}
                         className="group flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-zinc-800/40 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative"
                       >
                         {/* Icon */}
@@ -564,7 +574,10 @@ export function SiteHeader() {
                 className="relative overflow-hidden bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30 text-white hover:from-blue-500/30 hover:to-purple-500/30 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 group"
                 asChild
               >
-                <Link href="/agendamiento">
+                <Link 
+                  href="/agendamiento"
+                  onClick={() => trackCTAClick("Agéndame", "primary", "header-desktop")}
+                >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
                   <Calendar
                     className="h-4 w-4 mr-2 relative z-10"
@@ -583,7 +596,11 @@ export function SiteHeader() {
                 className="text-white hover:bg-zinc-800/50 transition-colors"
                 asChild
               >
-                <Link href="/agendamiento" aria-label="Agendar cita">
+                <Link 
+                  href="/agendamiento" 
+                  aria-label="Agendar cita"
+                  onClick={() => trackCTAClick("Agéndame", "primary", "header-mobile-icon")}
+                >
                   <Calendar className="h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
@@ -734,7 +751,10 @@ export function SiteHeader() {
                                   e.preventDefault();
                                   handleMegaMenuToggle(item.href);
                                 }
-                              : closeMobileMenu
+                              : () => {
+                                  trackNavigation(item.label, item.href, "header")
+                                  closeMobileMenu()
+                                }
                           }
                           aria-current={isActive ? "page" : undefined}
                         >
@@ -773,7 +793,10 @@ export function SiteHeader() {
                                     <Link
                                       key={child.href}
                                       href={child.href}
-                                      onClick={closeMobileMenu}
+                                      onClick={() => {
+                                        trackNavigation(child.label, child.href, "header")
+                                        closeMobileMenu()
+                                      }}
                                       className="group/item flex items-center gap-3 py-3 px-4 text-sm rounded-lg transition-all duration-300 ease-out hover:bg-zinc-800/40"
                                     >
                                       {child.icon && (
@@ -813,7 +836,13 @@ export function SiteHeader() {
                   className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 transition-all duration-200 relative overflow-hidden group/btn backdrop-blur-sm border border-blue-500/30 shadow-lg shadow-blue-500/20"
                   asChild
                 >
-                  <Link href="/agendamiento" onClick={closeMobileMenu}>
+                  <Link 
+                    href="/agendamiento" 
+                    onClick={() => {
+                      trackCTAClick("Agéndame", "primary", "mobile-menu-footer")
+                      closeMobileMenu()
+                    }}
+                  >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover/btn:via-white/20 transition-all duration-300" />
                     <Calendar
                       className="h-4 w-4 mr-2 relative z-10"
