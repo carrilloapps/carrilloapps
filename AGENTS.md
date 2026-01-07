@@ -38,8 +38,8 @@ This is the main agent configuration file for the CarrilloApps portfolio project
    - ❌ DO NOT create summary files that duplicate existing content
 
 3. **Documentation hierarchy:**
-   - `docs/PERFORMANCE.md` → ALL performance optimizations (cache, images, LCP, etc.)
-   - `docs/ANALYTICS.md` → ALL analytics (GA4, Clarity, tracking)
+   - `docs/ANALYTICS.md` → ALL analytics (GA4, Clarity, tracking) + performance optimizations (cache, JS, LCP)
+   - `docs/PERFORMANCE.md` → Performance benchmarks and detailed optimization strategies
    - `docs/DISQUS.md` → ALL blog comments integration
    - `docs/API.md` → ALL API documentation
    - `docs/DEVELOPMENT.md` → Development setup and workflow

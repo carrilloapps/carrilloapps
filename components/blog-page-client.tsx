@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "@/lib/motion";
 import { Badge } from "@/components/ui/badge";
 import { ParticleHeroBackground } from "@/components/particle-hero-background";
 import { ReactElement } from "react";

@@ -5,7 +5,7 @@ import type React from "react";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Calendar, Clock, Search, Filter, Sparkles, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/motion";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";

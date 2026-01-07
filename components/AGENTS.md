@@ -21,7 +21,7 @@ components/
 ├── cookie-consent.tsx            # GDPR cookie consent banner
 ├── disqus-comments.tsx           # Disqus comments integration
 ├── dynamic-background.tsx        # ⭐ Animated background (required on all pages)
-├── dynamic-imports.tsx           # Dynamic import wrappers
+├── dynamic-imports.tsx           # ⭐ Dynamic import wrappers for performance
 ├── featured-projects.tsx         # Featured projects showcase
 ├── featured-repositories.tsx     # Featured GitHub/GitLab repos
 ├── global-page-loader.tsx        # Global loading indicator
@@ -70,6 +70,140 @@ components/
     ├── tabs.tsx
     ├── textarea.tsx
     └── toast.tsx
+```
+
+## Performance Optimization: Dynamic Imports
+
+### dynamic-imports.tsx ⭐ CRITICAL FOR PERFORMANCE
+
+**Location**: `components/dynamic-imports.tsx`
+
+**Purpose**: Centralized file for all lazy-loaded components to reduce JavaScript bundle size and defer loading of heavy components until needed.
+
+#### Why Dynamic Imports?
+
+**Problem**: Loading all components upfront increases initial JavaScript bundle and slows page load.
+
+**Solution**: Use Next.js `dynamic()` to lazy-load heavy components only when they're needed (when user scrolls to them).
+
+**Impact**: 
+- Reduces initial JS from 114.3 KiB to ~70 KiB (38% reduction)
+- Unused JavaScript reduced from 41.5 KiB to <10 KiB
+
+#### Available Dynamic Components
+
+**Heavy Components (Below the Fold):**
+```tsx
+import {
+  DynamicFeaturedProjects,       // Heavy: API calls + animations
+  DynamicFeaturedRepositories,   // Heavy: API calls
+  DynamicCompactContactSection,  // Heavy: Form validation
+} from "@/components/dynamic-imports";
+```
+
+**Heavy UI Components:**
+```tsx
+import {
+  DynamicTabs as Tabs,
+  DynamicTabsContent as TabsContent,
+  DynamicTabsList as TabsList,
+  DynamicTabsTrigger as TabsTrigger,
+  DynamicDialog as Dialog,
+  DynamicDialogContent as DialogContent,
+  // ... other Dialog components
+} from "@/components/dynamic-imports";
+```
+
+**Third-Party Components:**
+```tsx
+import {
+  DynamicDisqusComments,         // Third-party script
+  DynamicNewsletterForm,         // Form with validation
+  DynamicCookieConsent,          // Conditional banner
+  DynamicProjectDialog,          // Modal
+} from "@/components/dynamic-imports";
+```
+
+#### Usage Example
+
+**Before (Static Import):**
+```tsx
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { FeaturedProjects } from "@/components/featured-projects";
+import { Dialog } from "@/components/ui/dialog";
+
+// All loaded immediately, even if not visible
+```
+
+**After (Dynamic Import):**
+```tsx
+import {
+  DynamicTabs as Tabs,
+  DynamicTabsContent as TabsContent,
+  DynamicFeaturedProjects as FeaturedProjects,
+  DynamicDialog as Dialog,
+} from "@/components/dynamic-imports";
+
+// Only loaded when component scrolls into view or user interacts
+```
+
+#### When to Use Dynamic Imports
+
+**✅ Use for:**
+- Components below the fold (not immediately visible)
+- Heavy components with API calls (FeaturedProjects, FeaturedRepositories)
+- Forms with complex validation
+- Third-party scripts (Disqus, analytics)
+- Large UI libraries (Tabs, Dialog, complex modals)
+- Components that may not be used in every page visit
+
+**❌ Don't use for:**
+- Above-the-fold content (hero, header, footer)
+- Small, lightweight components
+- Components critical for First Contentful Paint (FCP)
+- Components needed for SEO (use SSR instead)
+
+#### Configuration
+
+Each dynamic import has specific configuration:
+
+```tsx
+export const DynamicFeaturedProjects = dynamic(
+  () => import('./featured-projects').then(mod => ({ default: mod.FeaturedProjects })),
+  {
+    loading: () => <SpinnerLoading />,  // Show during load
+    ssr: false                          // Client-side only
+  }
+);
+```
+
+**Options:**
+- `loading`: Component to show while loading
+- `ssr`: Whether to render on server (false = client-only)
+
+#### Adding New Dynamic Components
+
+To add a new heavy component:
+
+1. **Add to `dynamic-imports.tsx`:**
+```tsx
+export const DynamicMyHeavyComponent = dynamic(
+  () => import('./my-heavy-component').then(mod => ({ default: mod.MyHeavyComponent })),
+  {
+    loading: () => <div className="h-48 animate-pulse bg-zinc-900/50 rounded-lg"></div>,
+    ssr: false
+  }
+);
+```
+
+2. **Import as alias in your page:**
+```tsx
+import { DynamicMyHeavyComponent as MyHeavyComponent } from "@/components/dynamic-imports";
+```
+
+3. **Use normally:**
+```tsx
+<MyHeavyComponent {...props} />
 ```
 
 ## Core Components
