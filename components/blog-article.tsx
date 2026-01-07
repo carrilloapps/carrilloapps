@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, ArrowLeft, Home, BookOpen, Filter, Sparkles, ArrowRight } from "lucide-react"
+import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Filter, Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -12,9 +12,10 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
 import { BlogContentRenderer } from "@/components/blog-content-renderer"
+import { SocialShareDialog } from "@/components/social-share-dialog"
 import { getSiteUrl } from '@/lib/env'
 import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
-import { useDisqusComments } from "@/hooks/use-disqus-comments"
+import { useDisqusComments, useDisqusReactions } from "@/hooks/use-disqus-comments"
 import type { MediumPost } from "@/types/medium"
 
 export function BlogArticle({ slug }: { slug: string }) {
@@ -23,9 +24,14 @@ export function BlogArticle({ slug }: { slug: string }) {
   const [categories, setCategories] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [shareDialogOpen, setShareDialogOpen] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
   
   // Get comment count using the custom hook
   const { count: commentCount, isLoading: commentLoading } = useDisqusComments(slug)
+  
+  // Get reactions/likes using the custom hook
+  const { reactions, hasReacted, toggleReaction, isLoading: reactionsLoading } = useDisqusReactions(slug)
 
   useEffect(() => {
     async function loadData() {
@@ -40,6 +46,10 @@ export function BlogArticle({ slug }: { slug: string }) {
         setPost(postData)
         setRelatedPosts(relatedData.slice(0, 4))
         setCategories(categoriesData.slice(0, 8))
+        
+        // Check if article is saved
+        const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]')
+        setIsSaved(savedArticles.includes(slug))
       } catch (err) {
         console.error("Error fetching Medium post:", err)
         setError("No pudimos cargar el artículo. Por favor, intenta de nuevo más tarde.")
@@ -50,6 +60,22 @@ export function BlogArticle({ slug }: { slug: string }) {
 
     loadData()
   }, [slug])
+
+  const handleSaveArticle = () => {
+    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]')
+    
+    if (isSaved) {
+      // Remove from saved
+      const updated = savedArticles.filter((id: string) => id !== slug)
+      localStorage.setItem('savedArticles', JSON.stringify(updated))
+      setIsSaved(false)
+    } else {
+      // Add to saved
+      savedArticles.push(slug)
+      localStorage.setItem('savedArticles', JSON.stringify(savedArticles))
+      setIsSaved(true)
+    }
+  }
 
   if (loading) {
     return (
@@ -300,7 +326,24 @@ export function BlogArticle({ slug }: { slug: string }) {
               <span className="text-xs text-zinc-500 font-medium">Lectura</span>
               <span className="text-zinc-300 font-semibold truncate">{readingTime} min</span>
             </div>
-              </motion.div>
+          </motion.div>
+          
+          <motion.button
+            onClick={() => setShareDialogOpen(true)}
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px] cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            aria-label="Compartir artículo"
+          >
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-cyan-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 flex-shrink-0">
+              <Share2 className="h-5 w-5 text-blue-400" />
+            </div>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-xs text-zinc-500 font-medium">Compartir</span>
+              <span className="text-zinc-300 font-semibold truncate">Artículo</span>
+            </div>
+          </motion.button>
             </motion.div>
           </motion.header>
 
@@ -324,7 +367,7 @@ export function BlogArticle({ slug }: { slug: string }) {
                 transition={{ duration: 0.2 }}
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden">
-                  {post.author === "Junior Carrillo" ? (
+                  {post.author === "José Carrillo" || post.author === "Junior Carrillo" ? (
                     <Image
                       src="/profile.jpg"
                       alt={post.author}
@@ -343,21 +386,44 @@ export function BlogArticle({ slug }: { slug: string }) {
               </motion.div>
               <div className="flex flex-wrap gap-3">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" size="sm" className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 gap-1.5 transition-all duration-300">
-                    <ThumbsUp className="h-4 w-4" />
-                    <span className="flex-1 w-full">Me gusta</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={toggleReaction}
+                    className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
+                      hasReacted 
+                        ? "border-blue-500/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 text-blue-400" 
+                        : "hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20"
+                    }`}
+                  >
+                    <ThumbsUp className={`h-4 w-4 ${hasReacted ? 'fill-current' : ''}`} />
+                    <span className="flex-1 w-full">{hasReacted ? 'Te gusta' : 'Me gusta'}</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" size="sm" className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/20 gap-1.5 transition-all duration-300">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setShareDialogOpen(true)}
+                    className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/20 gap-1.5 transition-all duration-300"
+                  >
                     <Share2 className="h-4 w-4" />
                     <span className="flex-1 w-full">Compartir</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" size="sm" className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20 gap-1.5 transition-all duration-300">
-                    <Bookmark className="h-4 w-4" />
-                    <span className="flex-1 w-full">Guardar</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handleSaveArticle}
+                    className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
+                      isSaved 
+                        ? "border-green-500/50 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20 text-green-400" 
+                        : "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20"
+                    }`}
+                  >
+                    {isSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+                    <span className="flex-1 w-full">{isSaved ? "Guardado" : "Guardar"}</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -445,7 +511,16 @@ export function BlogArticle({ slug }: { slug: string }) {
                       transition={{ duration: 0.2 }}
                     >
                       <ThumbsUp className="h-4 w-4 text-zinc-400" />
-                      <span className="flex-1 w-full">0 likes</span>
+                      <span className="flex-1 w-full">
+                        {reactionsLoading ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="w-3 h-3 bg-zinc-600 rounded animate-pulse"></span>
+                            likes
+                          </span>
+                        ) : (
+                          `${reactions} ${reactions === 1 ? 'like' : 'likes'}`
+                        )}
+                      </span>
                     </motion.div>
                   </div>
                 </div>
@@ -458,6 +533,14 @@ export function BlogArticle({ slug }: { slug: string }) {
     {/* Disqus Comments */}
     <DisqusComments
       identifier={post.slug}
+      title={post.title}
+      url={`${getSiteUrl()}/blog/${post.slug}`}
+    />
+
+    {/* Social Share Dialog */}
+    <SocialShareDialog
+      open={shareDialogOpen}
+      onOpenChange={setShareDialogOpen}
       title={post.title}
       url={`${getSiteUrl()}/blog/${post.slug}`}
     />
@@ -630,6 +713,7 @@ export function BlogArticle({ slug }: { slug: string }) {
         <div className="flex gap-2">
           <Button 
             size="sm" 
+            onClick={() => setShareDialogOpen(true)}
             className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25"
           >
             <Share2 className="h-4 w-4 mr-1" />
@@ -638,9 +722,14 @@ export function BlogArticle({ slug }: { slug: string }) {
           <Button 
             size="sm" 
             variant="outline"
-            className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30"
+            onClick={handleSaveArticle}
+            className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 transition-all duration-300 ${
+              isSaved 
+                ? "border-green-500/50 hover:border-green-500/30 text-green-400" 
+                : "hover:border-blue-500/30"
+            }`}
           >
-            <Bookmark className="h-4 w-4" />
+            {isSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
           </Button>
         </div>
       </CardContent>

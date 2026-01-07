@@ -9,6 +9,12 @@ interface DisqusCommentsData {
   error: string | null
 }
 
+interface DisqusReactionsData {
+  reactions: number
+  isLoading: boolean
+  error: string | null
+}
+
 /**
  * Hook to fetch comment count from Disqus API
  * Uses multiple methods to get the most accurate count
@@ -195,4 +201,64 @@ function loadDisqusCountScript(): Promise<void> {
 export function useCommentCount(identifier: string): number {
   const { count } = useDisqusComments(identifier)
   return count
+}
+
+/**
+ * Hook to track Disqus reactions/likes for an article
+ * Uses localStorage to track if user has liked the article
+ */
+export function useDisqusReactions(identifier: string): DisqusReactionsData & { 
+  hasReacted: boolean
+  toggleReaction: () => void 
+} {
+  const [reactions, setReactions] = useState<number>(0)
+  const [hasReacted, setHasReacted] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (!identifier) {
+      // Using timeout to defer setState and avoid cascading render
+      setTimeout(() => setIsLoading(false), 0)
+      return
+    }
+
+    // Check if user has reacted to this article
+    const storageKey = `disqus_reaction_${identifier}`
+    const hasUserReacted = localStorage.getItem(storageKey) === 'true'
+    
+    // Load reactions count from localStorage (simulated backend)
+    const reactionsKey = `disqus_reactions_count_${identifier}`
+    const storedReactions = localStorage.getItem(reactionsKey)
+    const initialReactions = storedReactions ? parseInt(storedReactions, 10) : 0
+    
+    // Batch state updates to avoid cascading renders
+    setTimeout(() => {
+      setHasReacted(hasUserReacted)
+      setReactions(initialReactions)
+      setIsLoading(false)
+    }, 0)
+  }, [identifier])
+
+  const toggleReaction = () => {
+    const storageKey = `disqus_reaction_${identifier}`
+    const reactionsKey = `disqus_reactions_count_${identifier}`
+    
+    if (hasReacted) {
+      // Remove reaction
+      localStorage.removeItem(storageKey)
+      const newCount = Math.max(0, reactions - 1)
+      setReactions(newCount)
+      localStorage.setItem(reactionsKey, newCount.toString())
+      setHasReacted(false)
+    } else {
+      // Add reaction
+      localStorage.setItem(storageKey, 'true')
+      const newCount = reactions + 1
+      setReactions(newCount)
+      localStorage.setItem(reactionsKey, newCount.toString())
+      setHasReacted(true)
+    }
+  }
+
+  return { reactions, isLoading, error: null, hasReacted, toggleReaction }
 }
