@@ -90,9 +90,23 @@ function extractDescription(content: string): string {
   return stripped.length > 160 ? stripped.substring(0, 160) + '...' : stripped
 }
 
+// Normalize WordPress HTML for consistent server/client parsing
+function normalizeWPContent(html: string): string {
+  let normalized = html.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+  const blockTags = 'figure|div|table|blockquote|pre|ul|ol|h[1-6]|section|aside|article|nav|header|footer|details|summary|hr|iframe'
+  normalized = normalized.replace(
+    new RegExp(`<p[^>]*>\\s*(<(?:${blockTags})[\\s>/])`, 'gi'), '$1'
+  )
+  normalized = normalized.replace(
+    new RegExp(`(</(?:${blockTags})>)\\s*</p>`, 'gi'), '$1'
+  )
+  normalized = normalized.replace(/<p[^>]*>\s*<\/p>/gi, '')
+  return normalized.trim()
+}
+
 // Transform WordPress post to BlogPost
 function transformWPPostToBlogPost(post: WPPost): BlogPost {
-  const content = post.content.rendered
+  const content = normalizeWPContent(post.content.rendered)
   const readingTime = getReadingTime(content)
   const wordCount = content.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).length
 

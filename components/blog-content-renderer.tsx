@@ -170,17 +170,17 @@ function normalizeWPHtml(html: string): string {
   let normalized = html.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
 
   const blockTags = 'figure|div|table|blockquote|pre|ul|ol|h[1-6]|section|aside|article|nav|header|footer|details|summary|hr|iframe'
-  // Remove <p> wrapping block-level elements
+  // Remove <p> (with or without attributes) wrapping block-level elements
   normalized = normalized.replace(
-    new RegExp(`<p>\\s*(<(?:${blockTags})[\\s>])`, 'gi'),
+    new RegExp(`<p[^>]*>\\s*(<(?:${blockTags})[\\s>/])`, 'gi'),
     '$1'
   )
   normalized = normalized.replace(
     new RegExp(`(</(?:${blockTags})>)\\s*</p>`, 'gi'),
     '$1'
   )
-  // Remove empty <p></p> tags left over from normalization
-  normalized = normalized.replace(/<p>\s*<\/p>/gi, '')
+  // Remove empty <p> tags (with or without attributes) left over
+  normalized = normalized.replace(/<p[^>]*>\s*<\/p>/gi, '')
 
   return normalized.trim()
 }
