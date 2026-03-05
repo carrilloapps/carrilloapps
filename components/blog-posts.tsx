@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { Calendar, Clock, Search, Filter, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "@/lib/motion";
@@ -128,19 +128,22 @@ export function BlogPosts({
       tags: post.tags ? post.tags.map(tag => capitalizeByRules(tag)) : undefined,
     }));
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(Math.ceil(posts.length / postsPerPage));
   const postsPerPage = 6;
+  const [pageState, setPageState] = useState({ page: 1, filterKey: `${searchQuery}|${selectedCategory}` });
 
-  useEffect(() => {
-    const filteredPosts = filterPosts(posts);
-    setTotalPages(Math.ceil(filteredPosts.length / postsPerPage));
-    setCurrentPage(1); // Reset to first page when filters change
-  }, [searchQuery, selectedCategory, posts, filterPosts]);
+  const filteredPosts = useMemo(() => filterPosts(posts), [filterPosts, posts]);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+
+  // Derive currentPage — reset to 1 when filters change
+  const filterKey = `${searchQuery}|${selectedCategory}`;
+  const currentPage = pageState.filterKey === filterKey ? pageState.page : 1;
+
+  const setCurrentPage = useCallback((page: number) => {
+    setPageState({ page, filterKey });
+  }, [filterKey]);
 
   // Obtener los posts para la página actual
   const getCurrentPagePosts = () => {
-    const filteredPosts = filterPosts(posts);
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
     return filteredPosts.slice(startIndex, endIndex);
