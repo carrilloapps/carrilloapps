@@ -41,6 +41,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'almipro.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
+      },
     ],
   },
   

@@ -5,6 +5,11 @@ import { motion } from "@/lib/motion"
 import { MessageSquare } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { publicEnv, getSiteUrl } from "@/lib/env"
+import { useSyncExternalStore } from 'react'
+
+const emptySubscribe = () => () => {}
+const getIsLocalhost = () => typeof window !== 'undefined' && window.location.hostname === 'localhost'
+const getServerSnapshot = () => false
 
 interface DisqusCommentsProps {
   shortname?: string
@@ -21,13 +26,9 @@ export function DisqusComments({
 }: DisqusCommentsProps) {
   const siteUrl = getSiteUrl()
   const fullUrl = url || `${siteUrl}/blog/${identifier}`
+  const isLocalhost = useSyncExternalStore(emptySubscribe, getIsLocalhost, getServerSnapshot)
 
-  if (!shortname) {
-    return null
-  }
-
-  // Disable Disqus on localhost to avoid third-party CSP errors
-  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+  if (!shortname || isLocalhost) {
     return null
   }
 

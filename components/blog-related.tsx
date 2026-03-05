@@ -8,6 +8,7 @@ import { motion } from "@/lib/motion"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { formatDateES } from "@/lib/utils"
 import type { BlogPost } from "@/types/blog"
 
 const containerVariants = {
@@ -123,11 +124,7 @@ export function BlogRelated({ posts: relatedPosts }: { posts: BlogPost[] }) {
                     <Calendar className="h-3 w-3 text-purple-400" />
                   </div>
                   <span className="truncate">
-                    {new Date(post.pubDate).toLocaleDateString('es-ES', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric'
-                    })}
+                    {formatDateES(post.pubDate)}
                   </span>
                 </motion.div>
                 

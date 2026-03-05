@@ -20,6 +20,7 @@ import {
 import type { BlogPost } from "@/types/blog";
 import { usePageLoading } from "@/components/page-loading-context";
 import { trackBlogPostView } from "@/lib/analytics";
+import { formatDateES } from "@/lib/utils";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -312,11 +313,7 @@ export function BlogPosts({
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30">
                       <Calendar className="h-3 w-3 text-purple-400" />
                     </div>
-                    {new Date(post.pubDate).toLocaleDateString("es-ES", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+                    {formatDateES(post.pubDate)}
                   </motion.div>
                   
                   <motion.div 

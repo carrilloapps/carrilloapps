@@ -97,8 +97,16 @@ function transformWPPostToBlogPost(post: WPPost): BlogPost {
   const wordCount = content.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).length
 
   const author = post._embedded?.author?.[0]?.name || 'José Carrillo'
+  const authorBio = post._embedded?.author?.[0]?.description || undefined
+  const authorAvatar = post._embedded?.author?.[0]?.avatar_urls?.['96'] || undefined
   const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0]
   const thumbnail = featuredMedia?.source_url || null
+  const thumbnailAlt = featuredMedia?.alt_text || undefined
+  const thumbnailCaption = featuredMedia?.caption?.rendered
+    ? featuredMedia.caption.rendered.replace(/<[^>]*>/g, '').trim()
+    : undefined
+  const thumbnailWidth = featuredMedia?.media_details?.width || undefined
+  const thumbnailHeight = featuredMedia?.media_details?.height || undefined
 
   const categories = post._embedded?.['wp:term']?.[0]
     ?.filter(term => term.taxonomy === 'category')
@@ -115,11 +123,17 @@ function transformWPPostToBlogPost(post: WPPost): BlogPost {
   return {
     title: post.title.rendered.replace(/&#8217;/g, "'").replace(/&#8220;/g, '"').replace(/&#8221;/g, '"').replace(/&amp;/g, '&'),
     author,
+    authorBio,
+    authorAvatar,
     content,
     description,
     link: post.link,
     guid: post.id.toString(),
     thumbnail,
+    thumbnailAlt,
+    thumbnailCaption,
+    thumbnailWidth,
+    thumbnailHeight,
     pubDate: post.date_gmt ? `${post.date_gmt}Z` : post.date,
     categories,
     readingTime,
@@ -133,6 +147,9 @@ function transformWPPostToBlogPost(post: WPPost): BlogPost {
     license: 'All Rights Reserved',
     tags,
     estimatedReadingTime: readingTime,
+    commentStatus: post.comment_status,
+    format: post.format,
+    sticky: post.sticky,
   }
 }
 

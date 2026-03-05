@@ -16,6 +16,9 @@ export interface WPPost {
   featured_media: number
   categories: number[]
   tags: number[]
+  comment_status: string
+  format: string
+  sticky: boolean
   _embedded?: {
     author?: Array<{
       id: number
@@ -30,6 +33,7 @@ export interface WPPost {
       id: number
       source_url: string
       alt_text: string
+      caption?: { rendered: string }
       media_details?: {
         width: number
         height: number
@@ -75,20 +79,23 @@ export interface WPTag {
 export interface BlogPost {
   title: string
   author: string
+  authorBio?: string
+  authorAvatar?: string
   content: string
   description: string
   link: string
   guid: string
   thumbnail: string | null
+  thumbnailAlt?: string
+  thumbnailCaption?: string
+  thumbnailWidth?: number
+  thumbnailHeight?: number
   pubDate: string
   categories: string[]
   readingTime: number
   slug: string
   // Additional metadata
-  claps?: number
-  responses?: number
   wordCount?: number
-  mediumUrl?: string
   canonicalUrl?: string
   subtitle?: string
   lastModified?: string
@@ -97,4 +104,7 @@ export interface BlogPost {
   license?: string
   tags?: string[]
   estimatedReadingTime?: number
+  commentStatus?: string
+  format?: string
+  sticky?: boolean
 }

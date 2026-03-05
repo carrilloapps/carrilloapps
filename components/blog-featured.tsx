@@ -8,6 +8,7 @@ import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { formatDateES } from "@/lib/utils";
 import type { BlogPost } from "@/types/blog";
 import { usePageLoading } from "@/components/page-loading-context";
 
@@ -69,11 +70,7 @@ export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | 
               <div className="mb-4 flex gap-6 text-sm text-zinc-400 pt-2 group-hover:text-zinc-300 transition-colors duration-300">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  {new Date(featuredPost.pubDate).toLocaleDateString("es-ES", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDateES(featuredPost.pubDate)}
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />

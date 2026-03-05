@@ -14,6 +14,7 @@ import { DisqusComments } from "@/components/disqus-comments"
 import { BlogContentRenderer } from "@/components/blog-content-renderer"
 import { SocialShareDialog } from "@/components/social-share-dialog"
 import { getSiteUrl } from '@/lib/env'
+import { formatDateES } from '@/lib/utils'
 import { useDisqusComments, useDisqusReactions, useDisqusSaves } from "@/hooks/use-disqus-comments"
 import type { BlogPost } from "@/types/blog"
 
@@ -36,13 +37,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
   // Get saves/bookmarks using the custom hook
   const { reactions: saves, hasSaved, toggleSave, isLoading: savesLoading } = useDisqusSaves(slug)
 
-  // Calcular la fecha de publicación formateada
-  const publishDate = new Date(post.pubDate)
-  const formattedDate = publishDate.toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const formattedDate = formatDateES(post.pubDate)
 
   // Calcular tiempo estimado de lectura
   const readingTime = post.readingTime || Math.ceil(post.content.split(" ").length / 200)
@@ -177,22 +172,29 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
           {/* Featured Image */}
           {post.thumbnail && (
-            <motion.div
-              className="relative w-full aspect-video rounded-2xl overflow-hidden mb-12 border border-zinc-700/50 shadow-2xl shadow-blue-500/10"
+            <motion.figure
+              className="mb-12"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Image
-                src={post.thumbnail}
-                alt={post.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 900px"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/30 via-transparent to-transparent" />
-            </motion.div>
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-zinc-700/50 shadow-2xl shadow-blue-500/10">
+                <Image
+                  src={post.thumbnail}
+                  alt={post.thumbnailAlt || post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 900px"
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/30 via-transparent to-transparent" />
+              </div>
+              {post.thumbnailCaption && (
+                <figcaption className="mt-3 text-center text-sm text-zinc-400 italic">
+                  {post.thumbnailCaption}
+                </figcaption>
+              )}
+            </motion.figure>
           )}
 
           <BlogContentRenderer content={post.content} />
@@ -215,7 +217,15 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                 transition={{ duration: 0.2 }}
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden">
-                  {post.author === "José Carrillo" || post.author === "Junior Carrillo" ? (
+                  {post.authorAvatar ? (
+                    <Image
+                      src={post.authorAvatar}
+                      alt={post.author}
+                      width={48}
+                      height={48}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : post.author === "José Carrillo" || post.author === "Junior Carrillo" ? (
                     <Image
                       src="/profile.jpg"
                       alt={post.author}
@@ -229,7 +239,11 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                 </div>
                 <div>
                   <p className="font-medium bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">{post.author}</p>
-                  <p className="text-sm text-zinc-400">Autor</p>
+                  {post.authorBio ? (
+                    <p className="text-sm text-zinc-400 line-clamp-1">{post.authorBio}</p>
+                  ) : (
+                    <p className="text-sm text-zinc-400">Autor</p>
+                  )}
                 </div>
               </motion.div>
               <div className="flex flex-wrap gap-3">
@@ -304,6 +318,14 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                   <p className="text-sm text-zinc-400 font-medium mb-1">ID del artículo</p>
                   <p className="text-zinc-300 text-sm truncate font-mono">{post.guid}</p>
                 </div>
+                {post.lastModified && post.lastModified !== post.pubDate && (
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300">
+                    <p className="text-sm text-zinc-400 font-medium mb-1">Última actualización</p>
+                    <p className="text-zinc-300 font-medium">
+                      {formatDateES(post.lastModified)}
+                    </p>
+                  </div>
+                )}
               </motion.div>
               <motion.div 
                 className="space-y-4"
@@ -335,6 +357,29 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                     ))}
                   </div>
                 </div>
+                {post.tags && post.tags.length > 0 && (
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-teal-500/30 hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-300">
+                    <p className="text-sm text-zinc-400 font-medium mb-2">Etiquetas</p>
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          <Badge 
+                            variant="outline" 
+                            className="capitalize bg-gradient-to-r from-teal-600/20 to-emerald-600/20 border border-teal-600/30 text-white backdrop-blur-sm shadow-lg shadow-teal-600/10 hover:shadow-teal-600/20 transition-all duration-300"
+                          >
+                            {tag}
+                          </Badge>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300">
                   <p className="text-sm text-zinc-400 font-medium mb-2">Estadísticas</p>
                   <div className="flex flex-col gap-3 text-zinc-300">
@@ -523,10 +568,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                     </h4>
                     <div className="flex items-center gap-2 text-xs text-zinc-500">
                       <Calendar className="h-3 w-3" />
-                      {new Date(relatedPost.pubDate).toLocaleDateString('es-ES', {
-                        month: 'short',
-                        day: 'numeric'
-                      })}
+                      {formatDateES(relatedPost.pubDate)}
                       <Clock className="h-3 w-3 ml-2" />
                       {relatedPost.readingTime || 5} min
                     </div>
