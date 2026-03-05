@@ -276,6 +276,9 @@ All pages must use standard animation variants for uniform experience.
 ### 4. Loading System
 Always use `PageLoadingProvider` for smooth page transitions.
 
+### 5. Git Commit Authorship
+**DO NOT** add `Co-authored-by` trailers or any co-author attribution in git commit messages. All commits are authored solely by the repository owner.
+
 ## Detailed Documentation
 
 ### Code Organization (AGENTS.md files)
@@ -772,6 +775,10 @@ All pages must use the same animation variants for a uniform experience.
 ### 5. Loading System
 
 Always use `PageLoadingProvider` for smooth page transitions.
+
+### 6. Git Commit Authorship
+
+**DO NOT** add `Co-authored-by` trailers or any co-author attribution in git commit messages. All commits are authored solely by the repository owner.
 
 ## Important Tools and Integrations
 
