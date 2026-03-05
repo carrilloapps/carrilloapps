@@ -175,6 +175,26 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
             </motion.div>
           </motion.header>
 
+          {/* Featured Image */}
+          {post.thumbnail && (
+            <motion.div
+              className="relative w-full aspect-video rounded-2xl overflow-hidden mb-12 border border-zinc-700/50 shadow-2xl shadow-blue-500/10"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <Image
+                src={post.thumbnail}
+                alt={post.title}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 900px"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/30 via-transparent to-transparent" />
+            </motion.div>
+          )}
+
           <BlogContentRenderer content={post.content} />
 
           {/* Metadata Card */}
