@@ -1,52 +1,32 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion } from "@/lib/motion"
 import { Filter, Sparkles } from "lucide-react"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { getCachedMediumCategories } from "@/lib/rss-client";
 import { SpinnerLoading } from "@/components/unified-loading";
 
 // Componente principal que envuelve con Suspense
-export function BlogCategories() {
+export function BlogCategories({ categories }: { categories: string[] }) {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-4">
         <SpinnerLoading />
       </div>
     }>
-      <BlogCategoriesContent />
+      <BlogCategoriesContent categories={categories} />
     </Suspense>
   )
 }
 
 // Componente interno que usa useSearchParams
-function BlogCategoriesContent() {
-  const [categories, setCategories] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
+function BlogCategoriesContent({ categories }: { categories: string[] }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const currentCategory = searchParams.get("category") || ""
   const currentSearch = searchParams.get("search") || ""
-
-  useEffect(() => {
-    async function loadCategories() {
-      try {
-        setLoading(true)
-        const allCategories = await getCachedMediumCategories()
-        setCategories(allCategories)
-      } catch (err) {
-        console.error("Error fetching Medium categories:", err)
-        setCategories([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadCategories()
-  }, [])
 
   const handleCategoryChange = (value: string) => {
     const params = new URLSearchParams()
@@ -61,23 +41,6 @@ function BlogCategoriesContent() {
 
     const queryString = params.toString()
     router.push(`/blog${queryString ? `?${queryString}` : ""}`)
-  }
-
-  if (loading) {
-    return (
-      <motion.div 
-        className="w-full md:w-64 h-12 bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 rounded-lg animate-pulse relative overflow-hidden"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-zinc-600/20 to-transparent animate-pulse" />
-        <div className="flex items-center gap-3 p-3">
-          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-600/30 to-purple-600/30 animate-pulse" />
-          <div className="h-4 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 rounded animate-pulse flex-1" />
-        </div>
-      </motion.div>
-    )
   }
 
   return (

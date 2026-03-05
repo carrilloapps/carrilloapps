@@ -1,6 +1,6 @@
 "use client"
 
-interface MediumPost {
+interface BlogPost {
   title: string;
   content: string;
   author: string;
@@ -10,7 +10,7 @@ interface MediumPost {
 }
 
 interface BlogPostClientProps {
-  post: MediumPost
+  post: BlogPost
   slug: string
 }
 

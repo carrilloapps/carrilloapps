@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getCachedSitemapData } from '@/lib/rss-service'
+import { getCachedSitemapData } from '@/lib/wordpress-service'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://carrillo.app'

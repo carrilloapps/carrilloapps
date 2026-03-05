@@ -26,6 +26,11 @@ export function DisqusComments({
     return null
   }
 
+  // Disable Disqus on localhost to avoid third-party CSP errors
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return null
+  }
+
   const disqusConfig = {
     url: fullUrl,
     identifier: identifier,

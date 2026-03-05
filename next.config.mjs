@@ -23,15 +23,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**.medium.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'miro.medium.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn-images-1.medium.com',
+        hostname: 'blog.carrillo.app',
       },
       {
         protocol: 'https',
@@ -124,11 +116,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://*.disqus.com https://*.disquscdn.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://connect.facebook.net https://apis.google.com https://www.google.com https://www.gstatic.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.disquscdn.com",
-              "img-src 'self' data: blob: https: http: https://www.google-analytics.com https://www.googletagmanager.com https://*.disqus.com https://*.disquscdn.com https://referrer.disqus.com",
+              "img-src 'self' data: blob: https: http: https://blog.carrillo.app https://www.google-analytics.com https://www.googletagmanager.com https://*.disqus.com https://*.disquscdn.com https://referrer.disqus.com",
               "font-src 'self' data: https://fonts.gstatic.com https://*.disquscdn.com",
-              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://*.medium.com https://api.github.com https://gitlab.com https://www.googleapis.com https://forms.hsforms.com https://*.cloudflareinsights.com https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com",
+              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://blog.carrillo.app https://api.github.com https://gitlab.com https://www.googleapis.com https://forms.hsforms.com https://*.cloudflareinsights.com https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com",
               "frame-src 'self' https://forms.hsforms.com https://www.youtube.com https://www.youtube-nocookie.com https://disqus.com https://*.disqus.com",
               "media-src 'self' https:",
               "object-src 'none'",
@@ -157,7 +149,7 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), serial=(), bluetooth=(), document-domain=()',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), serial=(), bluetooth=()',
           },
           {
             key: 'X-XSS-Protection',

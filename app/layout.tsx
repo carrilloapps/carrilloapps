@@ -75,14 +75,11 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Performance optimizations - Critical resource hints */}
-        <link rel="preload" href="/profile.jpg" as="image" type="image/jpeg" fetchPriority="high" />
-        
         {/* DNS prefetch and preconnect for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
-        <link rel="dns-prefetch" href="https://medium.com" />
+        <link rel="dns-prefetch" href="https://blog.carrillo.app" />
         <link rel="dns-prefetch" href="https://api.github.com" />
         
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />

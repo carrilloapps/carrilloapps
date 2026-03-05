@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Filter, Sparkles, ArrowRight } from "lucide-react"
@@ -14,16 +14,17 @@ import { DisqusComments } from "@/components/disqus-comments"
 import { BlogContentRenderer } from "@/components/blog-content-renderer"
 import { SocialShareDialog } from "@/components/social-share-dialog"
 import { getSiteUrl } from '@/lib/env'
-import { getCachedMediumPostBySlug, getCachedRelatedMediumPosts, getCachedMediumCategories } from "@/lib/rss-client";
 import { useDisqusComments, useDisqusReactions, useDisqusSaves } from "@/hooks/use-disqus-comments"
-import type { MediumPost } from "@/types/medium"
+import type { BlogPost } from "@/types/blog"
 
-export function BlogArticle({ slug }: { slug: string }) {
-  const [post, setPost] = useState<MediumPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<MediumPost[]>([])
-  const [categories, setCategories] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+interface BlogArticleProps {
+  slug: string
+  post: BlogPost
+  relatedPosts: BlogPost[]
+  categories: string[]
+}
+
+export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticleProps) {
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   
   // Get comment count using the custom hook
@@ -34,161 +35,6 @@ export function BlogArticle({ slug }: { slug: string }) {
   
   // Get saves/bookmarks using the custom hook
   const { reactions: saves, hasSaved, toggleSave, isLoading: savesLoading } = useDisqusSaves(slug)
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        setLoading(true)
-        const [postData, relatedData, categoriesData] = await Promise.all([
-          getCachedMediumPostBySlug(slug),
-          getCachedRelatedMediumPosts(slug).catch(() => []),
-          getCachedMediumCategories().catch(() => [])
-        ])
-        
-        setPost(postData)
-        setRelatedPosts(relatedData.slice(0, 4))
-        setCategories(categoriesData.slice(0, 8))
-      } catch (err) {
-        console.error("Error fetching Medium post:", err)
-        setError("No pudimos cargar el artículo. Por favor, intenta de nuevo más tarde.")
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadData()
-  }, [slug])
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content Skeleton */}
-          <div className="lg:col-span-3 space-y-8">
-            {/* Breadcrumb Skeleton */}
-            <div className="flex items-center gap-2 text-sm">
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-12"></div>
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-1"></div>
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-16"></div>
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-1"></div>
-              <div className="h-4 bg-zinc-800 rounded animate-pulse w-24"></div>
-            </div>
-
-            {/* Header Skeleton */}
-            <div className="space-y-6">
-              <div className="h-12 bg-zinc-800 rounded animate-pulse w-full"></div>
-              <div className="h-8 bg-zinc-800 rounded animate-pulse w-3/4"></div>
-              
-              {/* Meta info skeleton */}
-              <div className="flex flex-wrap gap-6">
-                {Array(3).fill(0).map((_, i) => (
-                  <div key={i} className="flex items-center gap-2 p-3 rounded-xl bg-zinc-800/50 animate-pulse">
-                    <div className="w-8 h-8 rounded-full bg-zinc-700"></div>
-                    <div className="h-4 bg-zinc-700 rounded w-20"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Content Skeleton */}
-            <div className="space-y-4">
-              {Array(8).fill(0).map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="h-4 bg-zinc-800 rounded animate-pulse w-full"></div>
-                  <div className="h-4 bg-zinc-800 rounded animate-pulse w-5/6"></div>
-                  {i % 3 === 0 && <div className="h-4 bg-zinc-800 rounded animate-pulse w-4/6"></div>}
-                </div>
-              ))}
-            </div>
-
-            {/* Metadata Card Skeleton */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-6 space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-zinc-800 animate-pulse"></div>
-                <div className="space-y-2">
-                  <div className="h-4 bg-zinc-800 rounded animate-pulse w-24"></div>
-                  <div className="h-3 bg-zinc-800 rounded animate-pulse w-16"></div>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                {Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="p-4 bg-zinc-800/50 rounded-xl space-y-2">
-                    <div className="h-3 bg-zinc-700 rounded animate-pulse w-20"></div>
-                    <div className="h-4 bg-zinc-700 rounded animate-pulse w-32"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar Skeleton */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Navigation Skeleton */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 space-y-3">
-              <div className="h-5 bg-zinc-800 rounded animate-pulse w-24"></div>
-              {Array(3).fill(0).map((_, i) => (
-                <div key={i} className="flex items-center gap-2 p-2 rounded">
-                  <div className="w-4 h-4 bg-zinc-800 rounded animate-pulse"></div>
-                  <div className="h-4 bg-zinc-800 rounded animate-pulse w-20"></div>
-                </div>
-              ))}
-            </div>
-
-            {/* Categories Skeleton */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 space-y-3">
-              <div className="h-5 bg-zinc-800 rounded animate-pulse w-20"></div>
-              <div className="flex flex-wrap gap-2">
-                {Array(6).fill(0).map((_, i) => (
-                  <div key={i} className="h-6 bg-zinc-800 rounded-full animate-pulse w-16"></div>
-                ))}
-              </div>
-            </div>
-
-            {/* Related Posts Skeleton */}
-            <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-4 space-y-4">
-              <div className="h-5 bg-zinc-800 rounded animate-pulse w-32"></div>
-              {Array(3).fill(0).map((_, i) => (
-                <div key={i} className="space-y-3">
-                  <div className="aspect-video bg-zinc-800 rounded animate-pulse"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-zinc-800 rounded animate-pulse w-full"></div>
-                    <div className="h-4 bg-zinc-800 rounded animate-pulse w-3/4"></div>
-                    <div className="flex gap-2">
-                      <div className="h-5 bg-zinc-800 rounded-full animate-pulse w-12"></div>
-                      <div className="h-5 bg-zinc-800 rounded-full animate-pulse w-16"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <Card className="bg-zinc-900 border-zinc-800">
-        <CardContent className="p-6 text-center">
-          <p className="text-red-500">{error}</p>
-          <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
-            Intentar de nuevo
-          </Button>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  if (!post) {
-    return (
-      <Card className="bg-zinc-900 border-zinc-800">
-        <CardContent className="p-6 text-center">
-          <p className="text-zinc-400">No se encontró el artículo solicitado.</p>
-        </CardContent>
-      </Card>
-    )
-  }
 
   // Calcular la fecha de publicación formateada
   const publishDate = new Date(post.pubDate)
@@ -363,7 +209,7 @@ export function BlogArticle({ slug }: { slug: string }) {
                 </div>
                 <div>
                   <p className="font-medium bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">{post.author}</p>
-                  <p className="text-sm text-zinc-400">Vía Medium</p>
+                  <p className="text-sm text-zinc-400">Autor</p>
                 </div>
               </motion.div>
               <div className="flex flex-wrap gap-3">
@@ -412,7 +258,7 @@ export function BlogArticle({ slug }: { slug: string }) {
                   <Button variant="outline" size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25 gap-1.5 transition-all duration-300">
                     <a href={post.link} className="flex gap-2 justify-center items-center" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-4 w-4" />
-                      Leer en Medium
+                      Leer original
                     </a>
                   </Button>
                 </motion.div>

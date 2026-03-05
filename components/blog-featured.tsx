@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
@@ -9,67 +8,15 @@ import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getCachedFeaturedPost } from "@/lib/rss-client";
-import type { MediumPost } from "@/types/medium";
+import type { BlogPost } from "@/types/blog";
 import { usePageLoading } from "@/components/page-loading-context";
-import { SpinnerLoading } from "@/components/unified-loading";
 
-export default function BlogFeatured() {
+export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | null }) {
   const { setLoading } = usePageLoading();
-  const [featuredPost, setFeaturedPost] = useState<MediumPost | null>(null);
-  const [loading, setLocalLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const handleLinkClick = () => {
     setLoading(true);
   };
-
-  useEffect(() => {
-    async function loadFeaturedPost() {
-      try {
-        setLocalLoading(true);
-        const post = await getCachedFeaturedPost();
-        setFeaturedPost(post);
-      } catch (err) {
-        console.error("Error fetching featured Medium post:", err);
-        setError(
-          "No pudimos cargar el artículo destacado. Por favor, intenta de nuevo más tarde."
-        );
-      } finally {
-        setLocalLoading(false);
-      }
-    }
-
-    loadFeaturedPost();
-  }, []);
-
-  if (loading) {
-    return (
-      <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
-        <div className="relative z-10 flex items-center justify-center py-24">
-          <SpinnerLoading />
-        </div>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-red-500/30 backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-red-500/5" />
-        <CardContent className="relative z-10 p-6 text-center">
-          <p className="text-red-400">{error}</p>
-          <Button
-            onClick={() => window.location.reload()}
-            className="mt-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 border-0 shadow-lg shadow-red-500/25"
-          >
-            Intentar de nuevo
-          </Button>
-        </CardContent>
-      </Card>
-    );
-  }
 
   if (!featuredPost) {
     return (

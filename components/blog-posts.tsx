@@ -17,10 +17,8 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import { getCachedMediumPosts } from "@/lib/rss-client";
-import type { MediumPost } from "@/types/medium";
+import type { BlogPost } from "@/types/blog";
 import { usePageLoading } from "@/components/page-loading-context";
-import { SpinnerLoading } from "@/components/unified-loading";
 import { trackBlogPostView } from "@/lib/analytics";
 
 const containerVariants = {
@@ -47,9 +45,11 @@ const itemVariants = {
 }
 
 export function BlogPosts({
+  initialPosts = [],
   category = "",
   search = "",
 }: {
+  initialPosts?: BlogPost[];
   category?: string;
   search?: string;
 }) {
@@ -65,7 +65,7 @@ export function BlogPosts({
     setSelectedCategory(value);
   };
 
-  const filterPosts = useCallback((posts: MediumPost[]) => {
+  const filterPosts = useCallback((posts: BlogPost[]) => {
     return posts.filter((post) => {
       const matchesSearch =
         searchQuery === "" ||
@@ -82,82 +82,54 @@ export function BlogPosts({
     });
   }, [searchQuery, selectedCategory]);
 
-  const handlePostClick = (post: MediumPost) => {
+  const handlePostClick = (post: BlogPost) => {
     const firstCategory = post.categories && post.categories.length > 0 ? post.categories[0] : 'Uncategorized';
     trackBlogPostView(post.title, firstCategory);
     setLoading(true);
   };
 
-  const [posts, setPosts] = useState<MediumPost[]>([]);
-  const [loading, setLocalLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const postsPerPage = 6;
-
-  useEffect(() => {
-    async function loadPosts() {
-      try {
-        setLocalLoading(true);
-        const allPosts = await getCachedMediumPosts();
-
-        // Filtrar por categoría y búsqueda si es necesario
-        let filteredPosts = allPosts;
-
-        if (category) {
-          filteredPosts = filteredPosts.filter((post) =>
-            post.categories.some((cat) =>
-              cat.toLowerCase().includes(category.toLowerCase())
-            )
-          );
-        }
-
-        if (search) {
-          filteredPosts = filteredPosts.filter(
-            (post) =>
-              post.title.toLowerCase().includes(search.toLowerCase()) ||
-              post.content.toLowerCase().includes(search.toLowerCase()) ||
-              post.description.toLowerCase().includes(search.toLowerCase())
-          );
-        }
-
-        // Función para capitalizar según las reglas especificadas (solo para tags y categorías)
-        const capitalizeByRules = (text: string): string => {
-          return text.split(' ').map((word, index) => {
-            // La primera palabra siempre se capitaliza, sin importar su longitud
-            if (index === 0) {
-              return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-            }
-            // Para el resto de palabras, aplicar la regla original
-            if (word.length <= 3) {
-              return word.toLowerCase();
-            } else {
-              return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-            }
-          }).join(' ');
-        };
-
-        // Aplicar capitalización solo a categorías y tags
-        const capitalizedPosts = filteredPosts.map(post => ({
-          ...post,
-          categories: post.categories.map(category => capitalizeByRules(category)),
-          tags: post.tags ? post.tags.map(tag => capitalizeByRules(tag)) : undefined,
-        }));
-
-        setPosts(capitalizedPosts);
-        setTotalPages(Math.ceil(filteredPosts.length / postsPerPage));
-      } catch (err) {
-        console.error("Error fetching Medium posts:", err);
-        setError(
-          "No pudimos cargar los artículos. Por favor, intenta de nuevo más tarde."
-        );
-      } finally {
-        setLocalLoading(false);
+  const capitalizeByRules = useCallback((text: string): string => {
+    return text.split(' ').map((word, index) => {
+      if (index === 0) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
       }
+      if (word.length <= 3) {
+        return word.toLowerCase();
+      } else {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      }
+    }).join(' ');
+  }, []);
+
+  const [posts] = useState<BlogPost[]>(() => {
+    let filteredPosts = initialPosts;
+
+    if (category) {
+      filteredPosts = filteredPosts.filter((post) =>
+        post.categories.some((cat) =>
+          cat.toLowerCase().includes(category.toLowerCase())
+        )
+      );
     }
 
-    loadPosts();
-  }, [category, search]);
+    if (search) {
+      filteredPosts = filteredPosts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(search.toLowerCase()) ||
+          post.content.toLowerCase().includes(search.toLowerCase()) ||
+          post.description.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return filteredPosts.map(post => ({
+      ...post,
+      categories: post.categories.map(cat => capitalizeByRules(cat)),
+      tags: post.tags ? post.tags.map(tag => capitalizeByRules(tag)) : undefined,
+    }));
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(Math.ceil(posts.length / postsPerPage));
+  const postsPerPage = 6;
 
   useEffect(() => {
     const filteredPosts = filterPosts(posts);
@@ -179,41 +151,6 @@ export function BlogPosts({
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-24">
-        <SpinnerLoading />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Card className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-red-500/30">
-          <CardContent className="p-12 text-center space-y-4">
-            <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-red-600/20 to-red-700/20 flex items-center justify-center border border-red-600/30">
-              <Sparkles className="h-8 w-8 text-red-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-zinc-300">Error al cargar artículos</h3>
-            <p className="text-red-400 max-w-md mx-auto">{error}</p>
-            <Button
-              onClick={() => window.location.reload()}
-              className="mt-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 border-0 shadow-lg shadow-red-500/25"
-            >
-              <ArrowRight className="mr-2 h-4 w-4" />
-              Intentar de nuevo
-            </Button>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  }
 
   if (posts.length === 0) {
     return (

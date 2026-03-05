@@ -109,14 +109,16 @@ export const Logo = memo(function Logo({
           className={`${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`} 
           aria-label="Ir a la página de inicio"
         >
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            width={imageWidth}
-            height={imageHeight}
-            priority
-            className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
-          />
+          <div className="relative" style={{ width: imageWidth, height: imageHeight }}>
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              sizes={`${imageWidth}px`}
+              priority
+              className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
+            />
+          </div>
         </Link>
         </div>
       )
@@ -151,14 +153,16 @@ export const Logo = memo(function Logo({
           className={`${linkClassName} focus:outline-none focus:ring-0 focus:border-0 hover:outline-none hover:ring-0 hover:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none`} 
           aria-label="Ir a la página de inicio"
         >
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            width={imageWidth}
-            height={imageHeight}
-            priority
-            className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
-          />
+          <div className="relative" style={{ width: imageWidth, height: imageHeight }}>
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              sizes={`${imageWidth}px`}
+              priority
+              className="object-contain focus:outline-none focus:ring-0 focus:border-0 !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !active:ring-0 !active:outline-none"
+            />
+          </div>
         </Link>
       </motion.div>
     )

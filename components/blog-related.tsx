@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react"
@@ -9,9 +8,7 @@ import { motion } from "@/lib/motion"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { getCachedRelatedMediumPosts } from "@/lib/rss-client";
-import type { MediumPost } from "@/types/medium"
-import { SpinnerLoading } from "@/components/unified-loading";
+import type { BlogPost } from "@/types/blog"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -36,34 +33,7 @@ const itemVariants = {
   }
 }
 
-export function BlogRelated({ currentSlug }: { currentSlug: string }) {
-  const [relatedPosts, setRelatedPosts] = useState<MediumPost[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function loadRelatedPosts() {
-      try {
-        setLoading(true)
-        const posts = await getCachedRelatedMediumPosts(currentSlug);
-        setRelatedPosts(posts.slice(0, 3)) // Limitamos a 3 posts relacionados
-      } catch (err) {
-        console.error("Error fetching related Medium posts:", err)
-        setRelatedPosts([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadRelatedPosts()
-  }, [currentSlug])
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-24">
-        <SpinnerLoading />
-      </div>
-    )
-  }
+export function BlogRelated({ posts: relatedPosts }: { posts: BlogPost[] }) {
 
   if (relatedPosts.length === 0) {
     return (

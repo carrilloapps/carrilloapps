@@ -9,8 +9,8 @@ import { BlogArticle } from "@/components/blog-article"
 import { JsonLd } from "@/components/json-ld"
 import { ParticleHeroBackground } from "@/components/particle-hero-background"
 import { BlogPostClient } from "./blog-post-client"
-import { getCachedSitemapData, getCachedMediumPostBySlug } from "@/lib/rss-service"
-import { MediumPost } from "@/types/medium"
+import { getCachedSitemapData, getCachedBlogPostBySlug, getCachedRelatedBlogPosts, getCachedBlogCategories } from "@/lib/wordpress-service"
+import { BlogPost } from "@/types/blog"
 import notFound from "@/app/not-found"
 
 // Lazy loading para componentes no críticos
@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   // SEO dinámico basado en contenido
-  const generateDynamicSEO = (post: MediumPost) => {
+  const generateDynamicSEO = (post: BlogPost) => {
     // Extraer keywords del contenido
     const contentKeywords = post.content
       .replace(/<[^>]*>/g, ' ')
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
-  const post = await getCachedMediumPostBySlug(slug)
+  const post = await getCachedBlogPostBySlug(slug)
   
   const dynamicSEO = post ? generateDynamicSEO(post) : null
   
@@ -168,14 +168,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post: MediumPost | null = await getCachedMediumPostBySlug(slug)
+  const [post, relatedPosts, categories] = await Promise.all([
+    getCachedBlogPostBySlug(slug),
+    getCachedRelatedBlogPosts(slug).catch(() => []),
+    getCachedBlogCategories().catch(() => []),
+  ])
+  const typedPost: BlogPost | null = post
   
-  if (!post) {
+  if (!typedPost) {
     notFound()
   }
 
   // SEO dinámico basado en contenido (reutilizado del metadata)
-  const generateDynamicSEO = (post: MediumPost) => {
+  const generateDynamicSEO = (post: BlogPost) => {
     // Extraer keywords del contenido
     const contentKeywords = post.content
       .replace(/<[^>]*>/g, ' ')
@@ -208,42 +213,42 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   // We know post is not null here since we checked above with notFound()
-  const dynamicSEO = generateDynamicSEO(post as MediumPost)
+  const dynamicSEO = generateDynamicSEO(post as BlogPost)
   
   // Keywords dinámicas basadas en contenido
   const dynamicKeywords = [
     ...(dynamicSEO?.keywords || []),
-    ...(post as MediumPost).categories,
-    (post as MediumPost).author,
+    ...(post as BlogPost).categories,
+    (post as BlogPost).author,
     'desarrollo software',
     'tech leader',
     'sistemas financieros',
     'yummy inc',
     'blog tecnología',
-    ...((post as MediumPost).tags || [])
+    ...((post as BlogPost).tags || [])
   ].filter((keyword, index, arr) => arr.indexOf(keyword) === index) // Eliminar duplicados
   
   // Datos estructurados para JSON-LD optimizados
   const jsonLdData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": (post as MediumPost).title,
-    "description": (post as MediumPost).description,
+    "headline": (post as BlogPost).title,
+    "description": (post as BlogPost).description,
     "image": {
       "@type": "ImageObject",
-      "url": (post as MediumPost).thumbnail || "https://carrillo.app/placeholder.jpg",
+      "url": (post as BlogPost).thumbnail || "https://carrillo.app/placeholder.jpg",
       "width": 1200,
       "height": 630,
-      "caption": (post as MediumPost).title
+      "caption": (post as BlogPost).title
     },
     "author": {
       "@type": "Person",
-      "name": (post as MediumPost).author,
+      "name": (post as BlogPost).author,
       "jobTitle": "Tech Leader & Senior Software Developer",
       "url": "https://carrillo.app",
       "image": "https://carrillo.app/logo.webp",
       "sameAs": [
-        "https://medium.com/@carrilloapps",
+        "https://blog.carrillo.app",
         "https://linkedin.com/in/carrilloapps",
         "https://github.com/carrilloapps",
         "https://twitter.com/carrilloapps"
@@ -276,18 +281,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "https://github.com/carrilloapps"
       ]
     },
-    "datePublished": (post as MediumPost).pubDate,
-    "dateModified": new Date((post as MediumPost).lastModified || (post as MediumPost).pubDate).toISOString(),
+    "datePublished": (post as BlogPost).pubDate,
+    "dateModified": new Date((post as BlogPost).lastModified || (post as BlogPost).pubDate).toISOString(),
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": `https://carrillo.app/blog/${slug}`,
       "url": `https://carrillo.app/blog/${slug}`
     },
     "url": `https://carrillo.app/blog/${slug}`,
-    "wordCount": (post as MediumPost).wordCount || (post as MediumPost).content.split(" ").length,
-    "timeRequired": `PT${(post as MediumPost).readingTime || 5}M`,
+    "wordCount": (post as BlogPost).wordCount || (post as BlogPost).content.split(" ").length,
+    "timeRequired": `PT${(post as BlogPost).readingTime || 5}M`,
     "keywords": [
-      ...(post as MediumPost).categories,
+      ...(post as BlogPost).categories,
       ...dynamicKeywords,
       "desarrollo software",
       "sistemas financieros", 
@@ -297,16 +302,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       `nivel ${dynamicSEO?.readingLevel?.toLowerCase() || "intermedio"}`,
       `categoría ${dynamicSEO?.category?.toLowerCase() || "tecnología"}`
     ].filter(Boolean).join(", "),
-    "articleSection": (post as MediumPost).categories[0] || "Tecnología",
-    "articleBody": (post as MediumPost).content.replace(/<[^>]*>/g, '').substring(0, 500) + "...",
+    "articleSection": (post as BlogPost).categories[0] || "Tecnología",
+    "articleBody": (post as BlogPost).content.replace(/<[^>]*>/g, '').substring(0, 500) + "...",
     "inLanguage": "es-ES",
     "isAccessibleForFree": true,
     "copyrightHolder": {
       "@type": "Person",
-      "name": (post as MediumPost).author,
+      "name": (post as BlogPost).author,
       "url": "https://carrillo.app"
     },
-    "copyrightYear": new Date((post as MediumPost).pubDate).getFullYear(),
+    "copyrightYear": new Date((post as BlogPost).pubDate).getFullYear(),
     "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
     "genre": ["Technology", "Software Development", "Financial Technology"],
     "audience": {
@@ -330,7 +335,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "description": "Leadership practices in technology teams and projects"
       }
     ],
-    "mentions": (post as MediumPost).categories.map(category => ({
+    "mentions": (post as BlogPost).categories.map(category => ({
       "@type": "Thing",
       "name": category
     })),
@@ -342,12 +347,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {
         "@type": "InteractionCounter",
         "interactionType": "https://schema.org/ReadAction",
-        "userInteractionCount": (post as MediumPost).claps || 0
+        "userInteractionCount": (post as BlogPost).claps || 0
       },
       {
         "@type": "InteractionCounter", 
         "interactionType": "https://schema.org/CommentAction",
-        "userInteractionCount": (post as MediumPost).responses || 0
+        "userInteractionCount": (post as BlogPost).responses || 0
       }
     ]
   }
@@ -365,13 +370,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <main className="py-12 space-y-12 relative z-10 w-full" id="main-content">
         {/* Componente cliente para la UI interactiva - ancho completo */}
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          {post && <BlogPostClient post={post} slug={slug} />}
+          {typedPost && <BlogPostClient post={typedPost} slug={slug} />}
         </div>
 
         {/* Contenido del artículo - contenedor normal */}
         <div className="container">
           <Suspense fallback={<BlogGridLoading />}>
-            <BlogArticle slug={slug} />
+            <BlogArticle slug={slug} post={typedPost as BlogPost} relatedPosts={relatedPosts.slice(0, 4)} categories={categories.slice(0, 8)} />
           </Suspense>
         </div>
 
@@ -401,7 +406,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
             
             <Suspense fallback={<BlogGridLoading count={3} />}>
-              <BlogRelated currentSlug={slug} />
+              <BlogRelated posts={relatedPosts.slice(0, 3)} />
             </Suspense>
           </section>
         </div>
