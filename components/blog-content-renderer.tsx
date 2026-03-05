@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import parse, { Element, type HTMLReactParserOptions, type DOMNode } from "html-react-parser"
+import parse, { Element, Text, type HTMLReactParserOptions, type DOMNode } from "html-react-parser"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { Check, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -190,6 +190,30 @@ export function BlogContentRenderer({ content }: BlogContentRendererProps) {
 
   const options: HTMLReactParserOptions = {
     replace: (domNode) => {
+      // Inject IDs into h2/h3 headings for TOC anchor linking
+      if (domNode instanceof Element && /^h[23]$/.test(domNode.name)) {
+        const extractText = (node: DOMNode): string => {
+          if (node instanceof Text) return node.data
+          if (node instanceof Element && node.children) {
+            return node.children.map(extractText).join("")
+          }
+          return ""
+        }
+        const text = domNode.children.map(extractText).join("").trim()
+        const id = text
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/&[^;]+;/g, "")
+          .replace(/[^a-z0-9\s-]/g, "")
+          .replace(/\s+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+
+        if (!domNode.attribs) domNode.attribs = {}
+        domNode.attribs.id = id
+      }
+
       if (domNode instanceof Element && domNode.name === "pre") {
         const getTextContent = (node: DOMNode | string): string => {
           if (typeof node === "string") return node

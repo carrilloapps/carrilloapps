@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Filter, Sparkles, ArrowRight } from "lucide-react"
+import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { DisqusComments } from "@/components/disqus-comments"
 import { BlogContentRenderer } from "@/components/blog-content-renderer"
+import { BlogTableOfContents, extractHeadings } from "@/components/blog-table-of-contents"
 import { SocialShareDialog } from "@/components/social-share-dialog"
 import { getSiteUrl } from '@/lib/env'
 import { formatDateES } from '@/lib/utils'
@@ -38,6 +39,9 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
   const { reactions: saves, hasSaved, toggleSave, isLoading: savesLoading } = useDisqusSaves(slug)
 
   const formattedDate = formatDateES(post.pubDate)
+
+  // Extract headings for Table of Contents
+  const tocHeadings = useMemo(() => extractHeadings(post.content), [post.content])
 
   // Calcular tiempo estimado de lectura
   const readingTime = post.readingTime || Math.ceil(post.content.split(" ").length / 200)
@@ -465,35 +469,28 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.6, delay: 0.2 }}
   >
+    {/* Sticky wrapper for TOC */}
+    <div className="lg:sticky lg:top-24 space-y-6">
+
+    {/* Table of Contents */}
+    <BlogTableOfContents headings={tocHeadings} />
+
     {/* Quick Navigation */}
-    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
-      <CardHeader className="pb-3">
-        <h3 className="text-lg font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent flex items-center gap-2">
-          <Filter className="h-5 w-5 text-blue-400" />
-          Navegación
-        </h3>
-      </CardHeader>
-      <CardContent className="space-y-2">
+    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-zinc-600/50 transition-all duration-300">
+      <CardContent className="py-3 px-4 space-y-1">
         <Link 
           href="/blog" 
-          className="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors duration-300 text-zinc-300 hover:text-blue-400"
+          className="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors duration-300 text-zinc-400 hover:text-blue-400 text-sm"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           Volver al blog
         </Link>
         <Link 
           href="/" 
-          className="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors duration-300 text-zinc-300 hover:text-blue-400"
+          className="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors duration-300 text-zinc-400 hover:text-blue-400 text-sm"
         >
-          <Home className="h-4 w-4" />
+          <Home className="h-3.5 w-3.5" />
           Página principal
-        </Link>
-        <Link 
-          href="/contacto" 
-          className="flex items-center gap-2 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors duration-300 text-zinc-300 hover:text-blue-400"
-        >
-          <MessageSquare className="h-4 w-4" />
-          Contacto
         </Link>
       </CardContent>
     </Card>
@@ -643,6 +640,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
         </div>
       </CardContent>
     </Card>
+    </div>{/* Close sticky wrapper */}
   </motion.aside>
 </div>
 </div>
