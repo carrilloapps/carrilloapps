@@ -12,4 +12,6 @@ export interface Project {
   imageAlt?: string
   shortTitle: string
   shortDescription: string
+  type?: string
+  category?: string
 }

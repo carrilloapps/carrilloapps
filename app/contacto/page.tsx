@@ -1,6 +1,7 @@
 "use client"
 
-import { Mail, MapPin, Phone, Github, Linkedin, Send, Clock, Globe, MessageSquare, Eye } from "lucide-react"
+import { Mail, MapPin, Phone, Send, Clock, Globe, MessageSquare, Eye } from "lucide-react"
+import { Github, Linkedin } from "@/components/icons/social-icons"
 import { motion, type Variants } from "framer-motion"
 import { useState, useEffect, useCallback, useRef } from "react"
 
@@ -126,7 +127,7 @@ function ContactPageContent() {
   
   // Refs for additional security
   const formRef = useRef<HTMLFormElement>(null)
-  const startTime = useRef<number>(Date.now())
+  const startTime = useRef<number>(0)
   
   // Obfuscated contact data
   const obfuscatedEmail = obfuscateEmail('m@carrillo.app')

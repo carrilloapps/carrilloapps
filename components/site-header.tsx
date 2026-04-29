@@ -2,30 +2,33 @@
 
 import { useState, useEffect, useRef, useCallback, memo } from "react"
 import Link from "next/link"
-import { 
-  Calendar, 
-  ChevronDown, 
-  BookOpen, 
-  FolderOpen, 
-  Mail, 
-  Home, 
-  User, 
-  Briefcase, 
+import {
+  Calendar,
+  ChevronDown,
+  BookOpen,
+  FolderOpen,
+  Mail,
+  Home,
+  User,
+  Briefcase,
   Layers,
   Users,
-  Github,
   LineChart,
   Database,
   Shield,
   Server,
   Cpu
 } from "lucide-react"
+import { Github } from "@/components/icons/social-icons"
 import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { trackNavigation, trackCTAClick } from "@/lib/analytics"
+import { getSiteUrl } from "@/lib/env"
+
+const SITE_URL = getSiteUrl()
 
 // GitLab icon component
 const GitLabIcon = ({ className }: { className?: string }) => (
@@ -463,10 +466,10 @@ export function SiteHeader() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "CarrilloApps",
-            url: "https://carrillo.app",
+            url: SITE_URL,
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://carrillo.app/blog?search={search_term_string}",
+              target: `${SITE_URL}/blog?search={search_term_string}`,
               "query-input": "required name=search_term_string",
             },
           }),
@@ -498,7 +501,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
           >
-            <Logo animationLevel="none" variant="image" />
+            <Logo animationLevel="none" showMark={false} />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -713,7 +716,7 @@ export function SiteHeader() {
 
               {/* Mobile Header */}
               <div className="flex items-center justify-between p-4 border-b border-zinc-800/50 relative z-10">
-                <Logo animationLevel="playful" />
+                <Logo animationLevel="playful" showMark={false} />
                 <Button
                   ref={closeButtonRef}
                   variant="ghost"

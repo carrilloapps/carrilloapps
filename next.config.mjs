@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // TypeScript configuration
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
   // Image optimization for Next.js 16 + Vercel
   images: {
     formats: ['image/avif', 'image/webp'],

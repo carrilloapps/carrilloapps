@@ -1,7 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
-import { motion } from "@/lib/motion"
+import type { AriaRole, ReactNode } from "react"
 import Image from "next/image"
 
 interface AnimatedSectionProps {
@@ -12,40 +11,35 @@ interface AnimatedSectionProps {
   backgroundImage?: string
   imagePosition?: "left" | "right" | "top" | "bottom" | "center"
   imageOpacity?: number
+  role?: AriaRole
+  "aria-labelledby"?: string
+  "aria-label"?: string
+  "aria-describedby"?: string
 }
 
 export function AnimatedSection({
   children,
-  delay = 0,
   className = "",
   id,
   backgroundImage,
   imagePosition = "right",
   imageOpacity = 0.2,
+  role,
+  "aria-labelledby": ariaLabelledby,
+  "aria-label": ariaLabel,
+  "aria-describedby": ariaDescribedby,
 }: AnimatedSectionProps) {
   return (
-    <motion.section
-      initial={{ y: 50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{
-        duration: 0.5,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+    <section
       className={`${className} relative`}
       id={id}
+      role={role}
+      aria-labelledby={ariaLabelledby}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedby}
     >
       {backgroundImage && (
-        <motion.div
-          className="absolute inset-0 overflow-hidden -z-10"
-          initial={{ opacity: 0, scale: 1.2 }}
-          animate={{ opacity: imageOpacity, scale: 1 }}
-          transition={{
-            duration: 1.2,
-            delay: delay + 0.3,
-            ease: "easeOut",
-          }}
-        >
+        <div className="absolute inset-0 overflow-hidden -z-10" style={{ opacity: imageOpacity }}>
           <div
             className={`absolute ${
               imagePosition === "left"
@@ -60,18 +54,18 @@ export function AnimatedSection({
             }`}
           >
             <Image
-              src={backgroundImage || "/placeholder.svg"}
+              src={backgroundImage}
               alt=""
               fill
               className="object-cover"
-              priority={delay === 0}
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80" />
           </div>
-        </motion.div>
+        </div>
       )}
       {children}
-    </motion.section>
+    </section>
   )
 }

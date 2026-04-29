@@ -31,3 +31,4 @@ next-env.d.ts
 # skills (regenerated from skills-lock.json via `npm run skills:sync`)
 /.agents/skills/
 /.claude/skills/
+/.claude/settings.local.json

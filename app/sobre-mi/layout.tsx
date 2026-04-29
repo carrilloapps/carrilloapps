@@ -1,11 +1,16 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Sobre mí | Senior Software Developer & Tech Leader",
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
+  title: "Sobre mí",
   description:
     "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
+  path: "/sobre-mi",
+  ogType: "profile",
   keywords: [
     "josé carrillo biografía",
     "tech leader yummy",
@@ -21,29 +26,7 @@ export const metadata: Metadata = {
     "arquitectura microservicios",
     "mentoría técnica",
   ],
-  alternates: {
-    canonical: "/sobre-mi",
-  },
-  openGraph: {
-    title: "Sobre mí",
-    description:
-      "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
-    url: "https://carrillo.app/sobre-mi",
-    images: [
-      {
-        url: "https://carrillo.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Sobre Mí",
-      },
-    ],
-  },
-  twitter: {
-    title: "Sobre mí",
-    description:
-      "Tech Leader con +10 años de experiencia construyendo sistemas financieros robustos y escalables. Especializado en pagos, Open Banking y liderazgo técnico.",
-  },
-}
+})
 
 export default function AboutLayout({
   children,
@@ -55,8 +38,8 @@ export default function AboutLayout({
       {children}
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Sobre Mí", url: "https://carrillo.app/sobre-mi" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Sobre Mí", url: `${SITE_URL}/sobre-mi` },
         ]}
       />
     </>

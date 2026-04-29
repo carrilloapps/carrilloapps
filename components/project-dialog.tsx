@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Code, Github } from "lucide-react"
+import { ExternalLink, Code } from "lucide-react"
+import { Github } from "@/components/icons/social-icons"
 
 interface ProjectDialogProps {
   title: string

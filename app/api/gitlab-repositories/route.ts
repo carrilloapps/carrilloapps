@@ -10,6 +10,7 @@ interface GitLabProject {
   web_url: string;
   last_activity_at: string;
   topics: string[];
+  language?: string;
 }
 
 export async function GET(request: Request) {

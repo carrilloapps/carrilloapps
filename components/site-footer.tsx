@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Github, Linkedin } from "lucide-react"
+import { Github, Linkedin } from "@/components/icons/social-icons"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

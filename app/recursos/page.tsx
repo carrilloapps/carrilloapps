@@ -3,7 +3,8 @@
 import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, Variants } from "framer-motion";
-import { Funnel, Search, Github, ArrowRight } from "lucide-react";
+import { Funnel, Search, ArrowRight } from "lucide-react";
+import { Github } from "@/components/icons/social-icons";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
-import { ArrowRight, Github, Linkedin, Mail, Download, Eye } from "lucide-react"
+import { ArrowRight, Mail, Download, Eye } from "lucide-react"
+import { Github, Linkedin } from "@/components/icons/social-icons"
 import { motion } from "@/lib/motion"
 import Image from "next/image"
 
@@ -99,7 +100,7 @@ export default function Home() {
   
   // Refs for additional security
   const contactFormRef = useRef<HTMLFormElement>(null)
-  const startTime = useRef<number>(Date.now())
+  const startTime = useRef<number>(0)
   
   // Obfuscated contact data
   const obfuscatedEmail = obfuscateEmail('m@carrillo.app')
@@ -212,41 +213,28 @@ export default function Home() {
             <div className="grid gap-12 md:grid-cols-2 items-center relative z-10">
               {/* Mobile: Image first, Desktop: Content first */}
               <div className="space-y-8 text-center md:text-left order-2 md:order-1">
-                <motion.div 
-                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : -20 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  transition={{ delay: isMobile ? 0 : 0.2, duration: isMobile ? 0 : 0.5 }}
-                >
+                <div>
                   <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-emerald-600/10" role="text">
                     Tech Leader | Senior Full Stack
                   </div>
-                </motion.div>
-                <motion.h1
+                </div>
+                <h1
                   id="hero-heading"
-                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0 : 0.6, type: isMobile ? undefined : "spring" }}
                   className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight"
                 >
                   <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
                     José Carrillo
                   </span>
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: isMobile ? 0 : 0.4, duration: isMobile ? 0 : 0.7 }}
+                </h1>
+                <p
                   className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto md:mx-0 leading-relaxed"
                   role="text"
                 >
                   Como desarrollador de software senior y líder técnico, me especializo en la creación de{" "}
                   <span className="text-blue-300 font-semibold">soluciones de pago y sistemas financieros</span>{" "}
                   de alta transaccionalidad y seguridad.
-                </motion.p>
-                <motion.div
-                  initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: isMobile ? 0 : 0.5, duration: isMobile ? 0 : 0.8 }}
+                </p>
+                <div
                   className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                   role="group"
                   aria-label="Acciones principales"
@@ -275,7 +263,7 @@ export default function Home() {
                     <Download className="ml-2 h-5 w-5" aria-hidden="true" />
                     <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
                   </Button>
-                </motion.div>
+                </div>
               </div>
 
               {/* Enhanced profile image section - Optimized for LCP */}
@@ -320,10 +308,7 @@ export default function Home() {
               </div>
             </div>
             {/* Enhanced social links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0.3 : 0.5 }}
+            <div
               className="flex gap-4 md:gap-8 justify-center md:justify-start pt-8"
               aria-label="Enlaces de redes sociales"
             >
@@ -339,19 +324,14 @@ export default function Home() {
               <Link href="mailto:contacto@carrillo.com" className="text-slate-400 hover:text-blue-400 focus:text-blue-400 focus:ring-4 focus:ring-blue-500/50 rounded-lg p-3 md:p-4 min-w-[48px] min-h-[48px] flex items-center justify-center touch-manipulation transform hover:scale-110 transition-all duration-300 group" aria-label="Enviar correo electrónico a contacto@carrillo.com">
                 <Mail className="h-6 w-6 md:h-7 md:w-7 group-hover:drop-shadow-lg" aria-hidden="true" />
               </Link>
-            </motion.div>
+            </div>
 
             {/* Scroll indicator */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="flex justify-center mt-16"
-            >
+            <div className="flex justify-center mt-16">
               <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
                 <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-bounce"></div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </AnimatedSection>
 
@@ -362,7 +342,7 @@ export default function Home() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="space-y-6 text-center pb-8">
-              <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+              <motion.div initial={{ y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-blue-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10" role="text">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -373,7 +353,7 @@ export default function Home() {
               </motion.div>
               <motion.h2
                 id="experience-heading"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight"
@@ -383,7 +363,7 @@ export default function Home() {
                 </span>
               </motion.h2>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
                 className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
@@ -394,7 +374,7 @@ export default function Home() {
 
             <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" aria-label="Experiencia laboral">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 whileHover={{ y: -8, scale: 1.02 }}
@@ -429,7 +409,7 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 whileHover={{ y: -8, scale: 1.02 }}
@@ -461,7 +441,7 @@ export default function Home() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 whileHover={{ y: -8, scale: 1.02 }}
@@ -520,7 +500,7 @@ export default function Home() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="space-y-6 text-center pb-8">
-              <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+              <motion.div initial={{ y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-600/30 text-purple-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-purple-600/10" role="text">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -530,7 +510,7 @@ export default function Home() {
               </motion.div>
               <motion.h2
                 id="skills-heading"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight"
@@ -540,7 +520,7 @@ export default function Home() {
                 </span>
               </motion.h2>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
                 className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
@@ -568,7 +548,7 @@ export default function Home() {
               <TabsContent value="technical" className="mt-6">
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:nth-child(3)]:md:col-span-2 [&>*:nth-child(3)]:lg:col-span-1" aria-label="Categorías de habilidades técnicas">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
                     whileHover={{ y: -5, scale: 1.02 }}
@@ -583,7 +563,7 @@ export default function Home() {
                               <span>JavaScript/TypeScript</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" aria-label="JavaScript/TypeScript: 99% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={99} aria-valuemin={0} aria-valuemax={100} aria-label="JavaScript/TypeScript: 99% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "99%" }}
@@ -597,7 +577,7 @@ export default function Home() {
                               <span>Golang</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" aria-label="Golang: 99% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={99} aria-valuemin={0} aria-valuemax={100} aria-label="Golang: 99% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "99%" }}
@@ -611,7 +591,7 @@ export default function Home() {
                               <span>Python</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Python: 95% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={95} aria-valuemin={0} aria-valuemax={100} aria-label="Python: 95% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "95%" }}
@@ -625,7 +605,7 @@ export default function Home() {
                               <span>Java/Kotlin</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="Java/Kotlin: 95% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={95} aria-valuemin={0} aria-valuemax={100} aria-label="Java/Kotlin: 95% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "95%" }}
@@ -640,7 +620,7 @@ export default function Home() {
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.6 }}
                     whileHover={{ y: -5, scale: 1.02 }}
@@ -655,7 +635,7 @@ export default function Home() {
                               <span>React/Next.js</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" aria-label="React/Next.js: 99% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={99} aria-valuemin={0} aria-valuemax={100} aria-label="React/Next.js: 99% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "99%" }}
@@ -669,7 +649,7 @@ export default function Home() {
                               <span>Node.js/Nest.js</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" aria-label="Node.js/Nest.js: 99% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={99} aria-valuemin={0} aria-valuemax={100} aria-label="Node.js/Nest.js: 99% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "99%" }}
@@ -683,7 +663,7 @@ export default function Home() {
                               <span>React Native</span>
                               <span aria-label="Nivel de competencia: 95 por ciento">95%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" aria-label="React Native: 95% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={95} aria-valuemin={0} aria-valuemax={100} aria-label="React Native: 95% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "95%" }}
@@ -697,7 +677,7 @@ export default function Home() {
                               <span>Vue.js/Angular</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Vue.js/Angular: 90% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={90} aria-valuemin={0} aria-valuemax={100} aria-label="Vue.js/Angular: 90% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "90%" }}
@@ -712,7 +692,7 @@ export default function Home() {
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7, duration: 0.6 }}
                     whileHover={{ y: -5, scale: 1.02 }}
@@ -727,7 +707,7 @@ export default function Home() {
                               <span>Microservices</span>
                               <span aria-label="Nivel de competencia: 99 por ciento">99%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100" aria-label="Microservices: 99% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={99} aria-valuemin={0} aria-valuemax={100} aria-label="Microservices: 99% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "99%" }}
@@ -741,7 +721,7 @@ export default function Home() {
                               <span>AWS</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="AWS: 90% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={90} aria-valuemin={0} aria-valuemax={100} aria-label="AWS: 90% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "90%" }}
@@ -755,7 +735,7 @@ export default function Home() {
                               <span>Docker/Kubernetes</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="Docker/Kubernetes: 90% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={90} aria-valuemin={0} aria-valuemax={100} aria-label="Docker/Kubernetes: 90% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "90%" }}
@@ -769,7 +749,7 @@ export default function Home() {
                               <span>CI/CD</span>
                               <span aria-label="Nivel de competencia: 90 por ciento">90%</span>
                             </div>
-                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="CI/CD: 90% de competencia">
+                            <motion.div className="h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={90} aria-valuemin={0} aria-valuemax={100} aria-label="CI/CD: 90% de competencia">
                               <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "90%" }}
@@ -923,7 +903,7 @@ export default function Home() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="space-y-6 text-center pb-8">
-              <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+              <motion.div initial={{ y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-600/30 text-blue-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10" role="text">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
@@ -933,7 +913,7 @@ export default function Home() {
               </motion.div>
               <motion.h2
                 id="projects-heading"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight"
@@ -943,7 +923,7 @@ export default function Home() {
                 </span>
               </motion.h2>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
                 className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
@@ -957,7 +937,7 @@ export default function Home() {
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
                   whileHover={{ y: -8, scale: 1.02 }}
@@ -1014,7 +994,7 @@ export default function Home() {
                             variant="outline" 
                             className="border-zinc-700 hover:bg-zinc-800 focus:ring-2 focus:ring-blue-500 min-h-[44px] px-6 touch-manipulation" 
                             aria-label={`Ver más detalles del proyecto ${project.shortTitle}`}
-                            onClick={() => trackProjectView(project.shortTitle, project.category)}
+                            onClick={() => trackProjectView(project.shortTitle, project.category ?? "")}
                           >
                             Ver más
                           </Button>
@@ -1051,7 +1031,7 @@ export default function Home() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="space-y-4 text-center pb-6">
-              <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
+              <motion.div initial={{ y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-600/30 text-green-300 text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-green-600/10" role="text">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -1062,7 +1042,7 @@ export default function Home() {
               </motion.div>
               <motion.h2
                 id="contact-heading"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight"
@@ -1072,7 +1052,7 @@ export default function Home() {
                 </span>
               </motion.h2>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
                 className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"

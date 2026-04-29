@@ -2,7 +2,8 @@
 
 import { motion } from "@/lib/motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Github, Linkedin } from "lucide-react";
+import { Globe } from "lucide-react";
+import { Github, Linkedin } from "@/components/icons/social-icons";
 import { SocialLinkCard } from "@/components/social-link-card";
 
 export function ContactSocialSection() {

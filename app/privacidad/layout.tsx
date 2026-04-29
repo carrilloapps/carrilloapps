@@ -1,32 +1,33 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
   title: "Política de Privacidad",
   description:
-    "Política de privacidad que describe cómo se recopila, utiliza y protege tu información en carrillo.app.",
+    "Política de privacidad que describe cómo se recopila, utiliza y protege tu información en carrillo.app, incluyendo derechos GDPR y datos analíticos.",
+  path: "/privacidad",
   keywords: [
     "política de privacidad",
     "protección de datos",
     "josé carrillo privacidad",
     "uso de cookies",
     "información personal",
+    "GDPR",
   ],
-  alternates: {
-    canonical: "/privacy-policy",
-  },
-  openGraph: {
-    title: "Política de Privacidad | José Carrillo",
-    description:
-      "Política de privacidad que describe cómo se recopila, utiliza y protege tu información en carrillo.app.",
-    url: "https://carrillo.app/privacy-policy",
-  },
   robots: {
     index: false,
     follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
-}
+})
 
 export default function PrivacyPolicyLayout({
   children,
@@ -38,8 +39,8 @@ export default function PrivacyPolicyLayout({
       {children}
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Política de Privacidad", url: "https://carrillo.app/privacy-policy" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Política de Privacidad", url: `${SITE_URL}/privacidad` },
         ]}
       />
     </>

@@ -1,6 +1,9 @@
 import { Suspense } from "react"
 import { Metadata } from "next"
 import dynamic from "next/dynamic"
+import { getSiteUrl } from "@/lib/env"
+
+const SITE_URL = getSiteUrl()
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -107,19 +110,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         `nivel ${dynamicSEO?.readingLevel?.toLowerCase() || 'intermedio'}`,
         `categoría ${dynamicSEO?.category?.toLowerCase() || 'tecnología'}`
       ].filter(Boolean).join(', '),
-    authors: [{ name: post.author, url: "https://carrillo.app" }],
+    authors: [{ name: post.author, url: SITE_URL }],
     creator: post.author,
     publisher: "José Carrillo",
     alternates: {
-      canonical: `https://carrillo.app/blog/${slug}`,
+      canonical: `${SITE_URL}/blog/${slug}`,
       types: {
-        "application/rss+xml": "https://carrillo.app/blog/rss.xml",
+        "application/rss+xml": `${SITE_URL}/blog/rss.xml`,
       },
     },
     openGraph: {
       title: post.title,
       description: seoDescription,
-      url: `https://carrillo.app/blog/${slug}`,
+      url: `${SITE_URL}/blog/${slug}`,
       siteName: "José Carrillo - Tech Leader & Senior Software Developer",
       images: post.thumbnail ? [{
         url: post.thumbnail,
@@ -127,7 +130,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         height: 630,
         alt: post.title,
       }] : [{
-        url: "https://carrillo.app/logo.webp",
+        url: `${SITE_URL}/logo.webp`,
         width: 1200,
         height: 630,
         alt: `${post.title} - José Carrillo`,
@@ -146,7 +149,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: seoDescription,
       creator: "@carrilloapps",
       site: "@carrilloapps",
-      images: post.thumbnail ? [post.thumbnail] : ["https://carrillo.app/logo.webp"],
+      images: post.thumbnail ? [post.thumbnail] : [`${SITE_URL}/logo.webp`],
     },
     robots: {
       index: true,
@@ -236,7 +239,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     "description": (post as BlogPost).description,
     "image": {
       "@type": "ImageObject",
-      "url": (post as BlogPost).thumbnail || "https://carrillo.app/placeholder.jpg",
+      "url": (post as BlogPost).thumbnail || `${SITE_URL}/placeholder.jpg`,
       "width": 1200,
       "height": 630,
       "caption": (post as BlogPost).title
@@ -245,8 +248,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       "@type": "Person",
       "name": (post as BlogPost).author,
       "jobTitle": "Tech Leader & Senior Software Developer",
-      "url": "https://carrillo.app",
-      "image": "https://carrillo.app/logo.webp",
+      "url": SITE_URL,
+      "image": `${SITE_URL}/logo.webp`,
       "sameAs": [
         "https://blog.carrillo.app",
         "https://linkedin.com/in/carrilloapps",
@@ -269,10 +272,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     "publisher": {
       "@type": "Organization",
       "name": "José Carrillo",
-      "url": "https://carrillo.app",
+      "url": SITE_URL,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://carrillo.app/logo.webp",
+        "url": `${SITE_URL}/logo.webp`,
         "width": 400,
         "height": 400
       },
@@ -285,10 +288,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     "dateModified": new Date((post as BlogPost).lastModified || (post as BlogPost).pubDate).toISOString(),
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://carrillo.app/blog/${slug}`,
-      "url": `https://carrillo.app/blog/${slug}`
+      "@id": `${SITE_URL}/blog/${slug}`,
+      "url": `${SITE_URL}/blog/${slug}`
     },
-    "url": `https://carrillo.app/blog/${slug}`,
+    "url": `${SITE_URL}/blog/${slug}`,
     "wordCount": (post as BlogPost).wordCount || (post as BlogPost).content.split(" ").length,
     "timeRequired": `PT${(post as BlogPost).readingTime || 5}M`,
     "keywords": [
@@ -309,7 +312,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     "copyrightHolder": {
       "@type": "Person",
       "name": (post as BlogPost).author,
-      "url": "https://carrillo.app"
+      "url": SITE_URL
     },
     "copyrightYear": new Date((post as BlogPost).pubDate).getFullYear(),
     "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
@@ -341,7 +344,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     })),
     "potentialAction": {
       "@type": "ReadAction",
-      "target": `https://carrillo.app/blog/${slug}`
+      "target": `${SITE_URL}/blog/${slug}`
     },
     "interactionStatistic": [
       {
