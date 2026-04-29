@@ -76,7 +76,7 @@ function BlogPageInner({ category, search, children }: BlogPageContentProps) {
                 },
               }}
             >
-              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent capitalize">
+              <h2 className="text-2xl md:text-3xl font-bold text-white capitalize">
                 {search ? `Resultados: "${search}"` : category ? `Categoría: ${category}` : "Publicaciones"}
               </h2>
             </motion.div>

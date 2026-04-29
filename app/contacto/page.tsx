@@ -384,11 +384,11 @@ function ContactPageContent() {
                   <motion.div variants={cardVariants} whileHover="hover">
                 <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
                   {/* Card Background Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <CardHeader className="relative z-10">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-600/20 to-blue-600/20 flex items-center justify-center border border-emerald-500/30">
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
                         <Phone className="w-5 h-5 text-emerald-400" />
                       </div>
                       <CardTitle className="text-2xl bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
@@ -404,7 +404,7 @@ function ContactPageContent() {
                       className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
                       whileHover={{ x: 4 }}
                     >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
                         <Mail className="h-6 w-6 text-blue-400" />
                       </div>
                       <div className="space-y-1 flex-1">
@@ -437,7 +437,7 @@ function ContactPageContent() {
                       className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
                       whileHover={{ x: 4 }}
                     >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-emerald-600/20 to-teal-600/20 flex items-center justify-center border border-emerald-500/30 group-hover/item:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
                         <Phone className="h-6 w-6 text-emerald-400" />
                       </div>
                       <div className="space-y-1 flex-1">
@@ -470,8 +470,8 @@ function ContactPageContent() {
                       className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
                       whileHover={{ x: 4 }}
                     >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30 group-hover/item:scale-110 transition-transform duration-300">
-                        <MapPin className="h-6 w-6 text-purple-400" />
+                      <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
+                        <MapPin className="h-6 w-6 text-blue-400" />
                       </div>
                       <div className="space-y-1 flex-1">
                         <p className="font-semibold text-white">Ubicación</p>
@@ -493,8 +493,8 @@ function ContactPageContent() {
 
                   <CardHeader className="relative z-10">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30">
-                        <Globe className="w-5 h-5 text-purple-400" />
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
+                        <Globe className="w-5 h-5 text-blue-400" />
                       </div>
                       <CardTitle className="text-2xl bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
                         Mis redes sociales
@@ -510,13 +510,13 @@ function ContactPageContent() {
                         href="https://github.com/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-purple-500/30"
+                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('GitHub', 'profile_visit', 'https://github.com/carrilloapps')}
                       >
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
-                          <Github className="h-6 w-6 text-purple-400" />
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
+                          <Github className="h-6 w-6 text-blue-400" />
                         </div>
                         <span className="text-sm font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">GitHub</span>
                       </motion.a>
@@ -529,7 +529,7 @@ function ContactPageContent() {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('LinkedIn', 'profile_visit', 'https://linkedin.com/in/carrilloapps')}
                       >
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
                           <Linkedin className="h-6 w-6 text-blue-400" />
                         </div>
                         <span className="text-sm font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">LinkedIn</span>
@@ -538,12 +538,12 @@ function ContactPageContent() {
                         href="https://x.com/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-cyan-500/30"
+                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('Twitter/X', 'profile_visit', 'https://x.com/carrilloapps')}
                       >
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-600/20 to-teal-600/20 flex items-center justify-center border border-cyan-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-3">
                           <svg className="h-6 w-6 text-cyan-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                         </div>
                         <span className="text-sm font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">Twitter</span>
@@ -568,7 +568,7 @@ function ContactPageContent() {
             <div className="container mx-auto px-4">
             <motion.div className="text-center mb-12" variants={itemVariants}>
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-emerald-600/20 to-blue-600/20 flex items-center justify-center border border-emerald-500/30">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
                   <MessageSquare className="w-6 h-6 text-emerald-400" />
                 </div>
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
@@ -602,10 +602,10 @@ function ContactPageContent() {
 
               <motion.div variants={cardVariants} whileHover="hover">
                 <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-600/20 to-blue-600/20 flex items-center justify-center border border-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
                         <Globe className="w-5 h-5 text-emerald-400" />
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Trabajas con clientes internacionales?</h3>
@@ -623,8 +623,8 @@ function ContactPageContent() {
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30 group-hover:scale-110 transition-transform duration-300">
-                        <Clock className="w-5 h-5 text-purple-400" />
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
+                        <Clock className="w-5 h-5 text-blue-400" />
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Cuál es tu cronograma típico de proyecto?</h3>
                     </div>
@@ -639,10 +639,10 @@ function ContactPageContent() {
 
               <motion.div variants={cardVariants} whileHover="hover">
                 <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-600/5 to-teal-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-600/20 to-teal-600/20 flex items-center justify-center border border-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
                         <Send className="w-5 h-5 text-cyan-400" />
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Cómo manejas la gestión de proyectos?</h3>

@@ -289,7 +289,10 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  // lastScrollY is a ref, not state — the scroll handler reads it
+  // synchronously and updating state on every scroll would re-run the effect
+  // (infinite loop) and trigger React's "Maximum update depth exceeded".
+  const lastScrollY = useRef(0)
   const pathname = usePathname()
   const shouldReduceMotion = useReducedMotion()
   
@@ -317,16 +320,15 @@ export function SiteHeader() {
           // Always show header at the top of the page
           if (currentScrollY < 10) {
             setIsVisible(true)
-          } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-            // Scrolling down - hide header (reduced threshold from 100 to 50)
+          } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+            // Scrolling down — hide header (threshold 50px)
             setIsVisible(false)
-          } else if (currentScrollY < lastScrollY) {
-            // Scrolling up - show header
+          } else if (currentScrollY < lastScrollY.current) {
+            // Scrolling up — show header
             setIsVisible(true)
           }
-          // If scroll position hasn't changed, maintain current visibility state
 
-          setLastScrollY(currentScrollY)
+          lastScrollY.current = currentScrollY
           ticking.current = false
         })
         ticking.current = true
@@ -335,7 +337,7 @@ export function SiteHeader() {
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   // Handle body scroll lock when mobile menu is open
   useEffect(() => {

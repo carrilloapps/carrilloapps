@@ -92,7 +92,7 @@ export function BlogPageClient({ featuredSection, articlesSection, search, categ
             className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
             variants={itemVariants}
           >
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
               {search ? `Resultados para "${search}"` : category ? `Categoría: ${category}` : "Artículos Recientes"}
             </h2>
           </motion.div>

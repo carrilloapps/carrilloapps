@@ -314,7 +314,7 @@ export function BlogPosts({
                     className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
                     whileHover={{ scale: 1.05 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30">
+                    <div className="w-6 h-6 rounded-full bg-zinc-800/60 flex items-center justify-center border border-zinc-700/50">
                       <Calendar className="h-3 w-3 text-purple-400" />
                     </div>
                     {formatDateES(post.pubDate)}
@@ -324,7 +324,7 @@ export function BlogPosts({
                     className="flex items-center gap-2 text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300"
                     whileHover={{ scale: 1.05 }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30">
+                    <div className="w-6 h-6 rounded-full bg-zinc-800/60 flex items-center justify-center border border-zinc-700/50">
                       <Clock className="h-3 w-3 text-green-400" />
                     </div>
                     {post.readingTime} min

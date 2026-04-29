@@ -602,7 +602,7 @@ function ServicesPageContent() {
             >
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-purple-500/25 transition-all duration-300"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/30 transition-all duration-300"
                 onClick={() => trackCTAClick('¿Alguna duda? Contáctame', 'primary', 'servicios-bottom-cta')}
               >
                 <Link href="/contacto" className="flex items-center gap-3">

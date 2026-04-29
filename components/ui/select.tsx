@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
+import { cva, type VariantProps } from "class-variance-authority"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -12,16 +13,35 @@ const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
 
+const selectTriggerVariants = cva(
+  "flex w-full items-center justify-between text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 transition-all",
+  {
+    variants: {
+      variant: {
+        default:
+          "h-10 rounded-md border border-input bg-background px-3 py-2 focus:ring-ring",
+        /** Glass — espejo de `<Input variant="glass">`. */
+        glass:
+          "h-11 rounded-lg border border-white/10 bg-white/[0.03] backdrop-blur-md px-3.5 py-2.5 text-zinc-100 placeholder:text-zinc-500 hover:border-white/20 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-blue-500/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface SelectTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
+    VariantProps<typeof selectTriggerVariants> {}
+
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  SelectTriggerProps
+>(({ className, children, variant, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
-      className
-    )}
+    className={cn(selectTriggerVariants({ variant }), className)}
     {...props}
   >
     {children}

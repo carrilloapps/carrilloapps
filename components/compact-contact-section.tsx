@@ -1,17 +1,30 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion } from "@/lib/motion";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Send, Mail, Phone, MapPin, Clock, Globe } from "lucide-react";
+import { SurfaceCard } from "@/components/ui/surface-card";
+import {
+  Send,
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Globe,
+  Eye,
+  type LucideIcon,
+} from "lucide-react";
 import { Github, Linkedin } from "@/components/icons/social-icons";
-import { ContactInfoCard } from "@/components/contact-info-card";
-import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-// X (Twitter) Icon Component
 const XIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
@@ -24,7 +37,6 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 interface CompactContactSectionProps {
-  // Form data and handlers
   formData: {
     name: string;
     email: string;
@@ -37,8 +49,6 @@ interface CompactContactSectionProps {
   isSubmitting: boolean;
   isLimited: boolean;
   formRef: React.RefObject<HTMLFormElement | null>;
-  
-  // Contact info
   emailRevealed: boolean;
   phoneRevealed: boolean;
   onRevealEmail: () => void;
@@ -49,6 +59,15 @@ interface CompactContactSectionProps {
   deobfuscatePhone: (value: string) => string;
 }
 
+/**
+ * Two-column contact block: form (2/3) + direct-contact card (1/3).
+ *
+ * Both top-level cards use `<SurfaceCard>` so they share the canonical glassy
+ * slate surface with the rest of the home. Inner contact rows + social pills
+ * use `surface-card-subtle` — same colour family, no halo, visually
+ * subordinate to the parent. One blue accent for every icon (no purple/pink/
+ * cyan/emerald soup).
+ */
 export function CompactContactSection({
   formData,
   onInputChange,
@@ -66,289 +85,363 @@ export function CompactContactSection({
   deobfuscatePhone,
 }: CompactContactSectionProps) {
   return (
-    <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
-      {/* Compact Form - Takes 2 columns */}
+    <div className="grid lg:grid-cols-3 gap-6 w-full">
+      {/* Form — spans 2 columns on lg+. */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="md:col-span-2"
+        whileHover={{ y: -4 }}
+        className="group lg:col-span-2"
       >
-        <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <CardHeader className="relative z-10 pb-1 pt-2.5 px-4">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-500/30">
-                <Send className="w-3.5 h-3.5 text-blue-400" />
-              </div>
-              <div>
-                <CardTitle className="text-base bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                  Envíame un mensaje
-                </CardTitle>
-                <CardDescription className="text-zinc-400 text-xs mt-0.5">
-                  Te responderé lo antes posible
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="relative z-10 space-y-6 px-4 pb-4">
-            <form ref={formRef} onSubmit={onSubmit} className="space-y-3">
-              {/* Honeypot field */}
+        <SurfaceCard className="h-full">
+          <div className="p-6 md:p-8 space-y-6">
+            <CardHead
+              icon={Send}
+              title="Envíame un mensaje"
+              description="Te respondo en menos de 24 horas."
+            />
+
+            <form ref={formRef} onSubmit={onSubmit} className="space-y-4">
+              {/* Honeypot — off-screen, hidden from AT and tab order. */}
               <input
                 type="text"
                 name="website"
                 value={formData.honeypot}
-                onChange={(e) => onInputChange('honeypot', e.target.value)}
-                style={{ 
-                  position: 'absolute', 
-                  left: '-9999px', 
-                  width: '1px', 
-                  height: '1px',
+                onChange={(e) => onInputChange("honeypot", e.target.value)}
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: "1px",
+                  height: "1px",
                   opacity: 0,
-                  pointerEvents: 'none',
-                  visibility: 'hidden'
+                  pointerEvents: "none",
+                  visibility: "hidden",
                 }}
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden="true"
               />
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="contact-name" className="text-sm font-medium text-zinc-300">Nombre</label>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field
+                  id="contact-name"
+                  label="Nombre"
+                >
                   <Input
                     id="contact-name"
-                    placeholder="Tu nombre"
+                    name="name"
+                    variant="glass"
+                    placeholder="Tu nombre completo"
                     value={formData.name}
-                    onChange={(e) => onInputChange('name', e.target.value)}
-                    className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
+                    onChange={(e) => onInputChange("name", e.target.value)}
                     required
                     disabled={isSubmitting}
-                    aria-label="Tu nombre completo"
+                    autoComplete="name"
+                    autoCapitalize="words"
+                    spellCheck={false}
+                    minLength={2}
                   />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="contact-email" className="text-sm font-medium text-zinc-300">Email</label>
+                </Field>
+                <Field id="contact-email" label="Email">
                   <Input
                     id="contact-email"
+                    name="email"
+                    variant="glass"
                     type="email"
-                    placeholder="tu@email.com"
+                    inputMode="email"
+                    placeholder="tu@correo.com"
                     value={formData.email}
-                    onChange={(e) => onInputChange('email', e.target.value)}
-                    className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
+                    onChange={(e) => onInputChange("email", e.target.value)}
                     required
                     disabled={isSubmitting}
-                    aria-label="Tu correo electrónico"
+                    autoComplete="email"
+                    autoCapitalize="off"
+                    spellCheck={false}
                   />
-                </div>
+                </Field>
               </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="subject-select" className="text-sm font-medium text-zinc-300">Asunto</label>
+
+              <Field id="subject-select" label="Asunto">
                 <Select
                   value={formData.subject}
-                  onValueChange={(value) => onInputChange('subject', value)}
+                  onValueChange={(value) => onInputChange("subject", value)}
                   disabled={isSubmitting}
                 >
-                  <SelectTrigger id="subject-select" className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300" aria-label="Selecciona un asunto para tu mensaje">
+                  <SelectTrigger id="subject-select" variant="glass">
                     <SelectValue placeholder="Selecciona un asunto" />
                   </SelectTrigger>
                   <SelectContent className="bg-zinc-900 border-zinc-800">
-                    <SelectItem value="consulta-general">Consulta general</SelectItem>
-                    <SelectItem value="proyecto-nuevo">Nuevo proyecto</SelectItem>
+                    <SelectItem value="consulta-general">
+                      Consulta general
+                    </SelectItem>
+                    <SelectItem value="proyecto-nuevo">
+                      Nuevo proyecto
+                    </SelectItem>
                     <SelectItem value="colaboracion">Colaboración</SelectItem>
                     <SelectItem value="consultoria">Consultoría</SelectItem>
                     <SelectItem value="otro">Otro</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="contact-message" className="text-sm font-medium text-zinc-300">Mensaje</label>
+              </Field>
+
+              <Field id="contact-message" label="Mensaje">
                 <Textarea
                   id="contact-message"
-                  placeholder="Cuéntame más sobre tu proyecto..."
+                  name="message"
+                  variant="glass"
+                  placeholder="Cuéntame sobre tu proyecto: contexto, escala, plazo…"
                   value={formData.message}
-                  onChange={(e) => onInputChange('message', e.target.value)}
-                  className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300 min-h-[120px]"
-                  rows={4}
+                  onChange={(e) => onInputChange("message", e.target.value)}
+                  rows={5}
                   required
                   disabled={isSubmitting}
-                  aria-label="Mensaje detallado sobre tu proyecto"
+                  minLength={10}
+                  maxLength={2000}
                 />
-              </div>
-              
+              </Field>
+
               {isLimited && (
-                <div className="p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+                <div
+                  className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg"
+                  role="alert"
+                >
                   <p className="text-red-400 text-sm">
-                    Has alcanzado el límite de envíos. Por favor, espera un momento antes de intentar nuevamente.
+                    Has alcanzado el límite de envíos. Espera un momento antes
+                    de intentar nuevamente.
                   </p>
                 </div>
               )}
-              
-              <motion.div
-                whileHover={{ scale: isSubmitting || isLimited ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitting || isLimited ? 1 : 0.98 }}
+
+              <Button
+                type="submit"
+                variant="gradient"
+                size="lg"
+                className="w-full min-h-[48px] touch-manipulation"
+                disabled={isSubmitting || isLimited}
+                aria-label="Enviar mensaje de contacto"
               >
-                <Button 
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 min-h-[48px] touch-manipulation transition-all duration-300"
-                  disabled={isSubmitting || isLimited}
-                  aria-label="Enviar mensaje de contacto"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Enviando...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Enviar mensaje
-                    </>
-                  )}
-                </Button>
-              </motion.div>
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" aria-hidden="true" />
+                    Enviar mensaje
+                  </>
+                )}
+              </Button>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </SurfaceCard>
       </motion.div>
 
-      {/* Compact Contact Info - Takes 1 column */}
+      {/* Direct contact info — single column. */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.6 }}
-        className="space-y-3"
+        whileHover={{ y: -4 }}
+        className="group"
       >
-        {/* Contact Info Card with integrated social */}
-        <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <CardHeader className="relative z-10 pb-2 pt-4 px-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-emerald-600/20 to-blue-600/20 flex items-center justify-center border border-emerald-500/30">
-                <Mail className="w-4 h-4 text-emerald-400" />
-              </div>
-              <CardTitle className="text-lg bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                Contacto
-              </CardTitle>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="relative z-10 space-y-2.5 px-4 pb-3">
-            <ContactInfoCard
+        <SurfaceCard className="h-full">
+          <div className="p-6 md:p-8 flex flex-col gap-6 h-full">
+            <CardHead
               icon={Mail}
-              iconColor="text-blue-400"
-              iconGradientFrom="from-blue-600/20"
-              iconGradientTo="to-cyan-600/20"
-              title="Email"
-              obfuscatedValue={obfuscatedEmail}
-              deobfuscateFn={deobfuscateEmail}
-              isRevealed={emailRevealed}
-              onReveal={onRevealEmail}
-              revealButtonText="Revelar email"
-              revealButtonColor="text-blue-400 hover:text-blue-300"
-              infoText="Respuesta en 24h"
-              infoIcon={Clock}
+              title="Contacto directo"
+              description="Otros canales para hablar."
             />
 
-            <Separator className="my-2 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+            <div className="space-y-3">
+              <ContactRow
+                icon={Mail}
+                label="Email"
+                infoIcon={Clock}
+                infoText="Respuesta en 24h"
+              >
+                {emailRevealed ? (
+                  <p className="text-zinc-200 font-mono text-sm select-all break-all">
+                    {deobfuscateEmail(obfuscatedEmail)}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={onRevealEmail}
+                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5" aria-hidden="true" />
+                    Revelar email
+                  </button>
+                )}
+              </ContactRow>
 
-            <ContactInfoCard
-              icon={Phone}
-              iconColor="text-emerald-400"
-              iconGradientFrom="from-emerald-600/20"
-              iconGradientTo="to-teal-600/20"
-              title="Teléfono"
-              obfuscatedValue={obfuscatedPhone}
-              deobfuscateFn={deobfuscatePhone}
-              isRevealed={phoneRevealed}
-              onReveal={onRevealPhone}
-              revealButtonText="Revelar teléfono"
-              revealButtonColor="text-emerald-400 hover:text-emerald-300"
-              infoText="Lun-Vie 9-18h"
-              infoIcon={Clock}
-            />
+              <ContactRow
+                icon={Phone}
+                label="Teléfono"
+                infoIcon={Clock}
+                infoText="Lun–Vie 9–18h"
+              >
+                {phoneRevealed ? (
+                  <p className="text-zinc-200 font-mono text-sm select-all">
+                    {deobfuscatePhone(obfuscatedPhone)}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={onRevealPhone}
+                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5" aria-hidden="true" />
+                    Revelar teléfono
+                  </button>
+                )}
+              </ContactRow>
 
-            <Separator className="my-2 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+              <ContactRow
+                icon={MapPin}
+                label="Ubicación"
+                infoIcon={Globe}
+                infoText="Remoto disponible"
+              >
+                <p className="text-zinc-200 text-sm">Medellín, CO</p>
+              </ContactRow>
+            </div>
 
-            <ContactInfoCard
-              icon={MapPin}
-              iconColor="text-purple-400"
-              iconGradientFrom="from-purple-600/20"
-              iconGradientTo="to-pink-600/20"
-              title="Ubicación"
-              location="Medellín, CO"
-              locationInfo="Remoto disponible"
-              infoIcon={Globe}
-            />
-
-            <Separator className="my-2 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
-
-            {/* Social Links - Integrated in same card */}
-            <div className="pt-1">
-              <div className="flex items-center gap-2 mb-2">
-                <Globe className="w-3.5 h-3.5 text-purple-400" />
-                <span className="text-xs font-medium text-zinc-400">Redes sociales</span>
-              </div>
-              <div className="grid grid-cols-3 gap-1.5">
-                <motion.a
+            <div className="mt-auto pt-5 border-t border-zinc-800/60">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium mb-3">
+                Redes sociales
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                <SocialLink
                   href="https://github.com/carrilloapps"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1, duration: 0.3 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex flex-col items-center justify-center p-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-purple-500/30"
+                  label="GitHub"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-1.5">
-                    <Github className="h-4 w-4 text-purple-400" />
-                  </div>
-                  <span className="text-xs font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">GitHub</span>
-                </motion.a>
-                <motion.a
+                  <Github className="w-4 h-4" />
+                </SocialLink>
+                <SocialLink
                   href="https://linkedin.com/in/carrilloapps"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.15, duration: 0.3 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex flex-col items-center justify-center p-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
+                  label="LinkedIn"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-600/20 to-cyan-600/20 flex items-center justify-center border border-blue-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-1.5">
-                    <Linkedin className="h-4 w-4 text-blue-400" />
-                  </div>
-                  <span className="text-xs font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">LinkedIn</span>
-                </motion.a>
-                <motion.a
+                  <Linkedin className="w-4 h-4" />
+                </SocialLink>
+                <SocialLink
                   href="https://x.com/carrilloapps"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex flex-col items-center justify-center p-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-cyan-500/30"
+                  label="X / Twitter"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-cyan-600/20 to-teal-600/20 flex items-center justify-center border border-cyan-500/30 group-hover/social:scale-110 transition-transform duration-300 mb-1.5">
-                    <XIcon className="h-4 w-4 text-cyan-400" />
-                  </div>
-                  <span className="text-xs font-medium text-zinc-300 group-hover/social:text-white transition-colors duration-300">X (Twitter)</span>
-                </motion.a>
+                  <XIcon className="w-4 h-4" />
+                </SocialLink>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </SurfaceCard>
       </motion.div>
     </div>
   );
 }
 
+function CardHead({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+        <Icon className="w-5 h-5 text-blue-400" aria-hidden="true" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-lg font-semibold text-white leading-tight">
+          {title}
+        </h3>
+        <p className="text-sm text-zinc-400 mt-0.5">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  id,
+  label,
+  children,
+}: {
+  id: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-2">
+      <label
+        htmlFor={id}
+        className="text-sm font-medium text-zinc-300"
+      >
+        {label}
+      </label>
+      {children}
+    </div>
+  );
+}
+
+function ContactRow({
+  icon: Icon,
+  label,
+  infoIcon: InfoIcon,
+  infoText,
+  children,
+}: {
+  icon: LucideIcon;
+  label: string;
+  infoIcon?: LucideIcon;
+  infoText?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="surface-card-subtle flex items-start gap-3 p-3">
+      <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+        <Icon className="h-4 w-4 text-blue-400" aria-hidden="true" />
+      </div>
+      <div className="flex-1 min-w-0 space-y-1">
+        <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+          {label}
+        </p>
+        {children}
+        {infoText && (
+          <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+            {InfoIcon && <InfoIcon className="w-3 h-3" aria-hidden="true" />}
+            <span>{infoText}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SocialLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.96 }}
+      className="surface-card-subtle flex flex-col items-center justify-center gap-1.5 p-3 text-zinc-400 hover:text-blue-300"
+      aria-label={`Visitar mi perfil de ${label} (se abre en nueva ventana)`}
+    >
+      {children}
+      <span className="text-[11px] font-medium">{label}</span>
+    </motion.a>
+  );
+}

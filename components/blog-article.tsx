@@ -128,11 +128,11 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[180px]"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[180px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-600/20 flex items-center justify-center border border-purple-600/30 shadow-lg shadow-purple-500/10 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-zinc-800/60 flex items-center justify-center border border-zinc-700/50 flex-shrink-0">
               <Calendar className="h-5 w-5 text-purple-400" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
@@ -142,11 +142,11 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px]"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-600/20 to-emerald-600/20 flex items-center justify-center border border-green-600/30 shadow-lg shadow-green-500/10 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-zinc-800/60 flex items-center justify-center border border-zinc-700/50 flex-shrink-0">
               <Clock className="h-5 w-5 text-green-400" />
             </div>
             <div className="flex flex-col min-w-0 flex-1">
@@ -242,7 +242,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                   )}
                 </div>
                 <div>
-                  <p className="font-medium bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">{post.author}</p>
+                  <p className="font-medium text-white">{post.author}</p>
                   {post.authorBio ? (
                     <p className="text-sm text-zinc-400 line-clamp-1">{post.authorBio}</p>
                   ) : (
@@ -271,7 +271,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                     variant="outline" 
                     size="sm" 
                     onClick={() => setShareDialogOpen(true)}
-                    className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/20 gap-1.5 transition-all duration-300"
+                    className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 gap-1.5 transition-all duration-300"
                   >
                     <Share2 className="h-4 w-4" />
                     <span className="flex-1 w-full">Compartir</span>
@@ -284,8 +284,8 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                     onClick={toggleSave}
                     className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
                       hasSaved 
-                        ? "border-green-500/50 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20 text-green-400" 
-                        : "hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20"
+                        ? "border-green-500/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 text-green-400" 
+                        : "hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20"
                     }`}
                   >
                     {hasSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
@@ -314,11 +314,11 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                   <p className="text-sm text-zinc-400 font-medium mb-1">Publicado el</p>
                   <p className="text-zinc-300 font-medium">{formattedDate}</p>
                 </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
                   <p className="text-sm text-zinc-400 font-medium mb-1">Tiempo de lectura</p>
                   <p className="text-zinc-300 font-medium">{readingTime} minutos</p>
                 </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
                   <p className="text-sm text-zinc-400 font-medium mb-1">ID del artículo</p>
                   <p className="text-zinc-300 text-sm truncate font-mono">{post.guid}</p>
                 </div>
@@ -337,7 +337,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-300">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
                   <p className="text-sm text-zinc-400 font-medium mb-2">Categorías</p>
                   <div className="flex flex-wrap gap-2">
                     {post.categories.map((category, i) => (
@@ -497,9 +497,9 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
     {/* Categories */}
     {categories.length > 0 && (
-      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">
+      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
         <CardHeader className="pb-3">
-          <h3 className="text-lg font-semibold bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Tag className="h-5 w-5 text-purple-400" />
             Categorías
           </h3>
@@ -531,9 +531,9 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
     {/* Related Posts */}
     {relatedPosts.length > 0 && (
-      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
         <CardHeader className="pb-3">
-          <h3 className="text-lg font-semibold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-green-400" />
             Artículos relacionados
           </h3>
@@ -592,7 +592,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
             <Button 
               variant="outline" 
               size="sm" 
-              className="w-full border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/20 gap-2 transition-all duration-300"
+              className="w-full border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 gap-2 transition-all duration-300"
             >
               <ArrowRight className="h-4 w-4" />
               Ver todos los artículos
@@ -609,7 +609,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           <ThumbsUp className="h-6 w-6 text-blue-400" />
         </div>
         <div className="space-y-2">
-          <h4 className="font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+          <h4 className="font-semibold text-white">
             ¿Te gustó este artículo?
           </h4>
           <p className="text-sm text-zinc-400">

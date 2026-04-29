@@ -146,7 +146,7 @@ export function BlogTableOfContents({ headings }: BlogTableOfContentsProps) {
           aria-expanded={!isCollapsed}
           aria-label={isCollapsed ? "Expandir tabla de contenidos" : "Colapsar tabla de contenidos"}
         >
-          <h3 className="text-sm font-semibold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-white flex items-center gap-2">
             <List className="h-4 w-4 text-blue-400" />
             Contenido
             <span className="text-[10px] font-normal text-zinc-500 ml-1">

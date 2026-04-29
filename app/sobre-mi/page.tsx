@@ -188,7 +188,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">mar. 2024 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -236,7 +236,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ago. 2021 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -370,7 +370,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <BookOpen className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ene. 2022 - feb. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -473,7 +473,7 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 h-full group">
+              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
@@ -493,7 +493,7 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 h-full group">
+              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
@@ -595,7 +595,7 @@ export default function AboutPage() {
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group">
+                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
                       <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Image
@@ -629,7 +629,7 @@ export default function AboutPage() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
                       <p className="text-zinc-400">
@@ -659,7 +659,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Liderazgo y negocios</h4>
@@ -675,7 +675,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Filosofía y pensamiento</h4>
@@ -721,7 +721,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Contribuciones Open Source</h4>
@@ -734,7 +734,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Charlas técnicas & talleres</h4>

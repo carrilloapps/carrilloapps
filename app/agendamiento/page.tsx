@@ -187,7 +187,7 @@ function SchedulePageContent() {
             variants={containerVariants}
           >
             <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent select-text">
+              <h2 className="text-4xl md:text-5xl font-bold text-white select-text">
                 Agenda una consulta
               </h2>
               <p className="text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto leading-relaxed select-text">
@@ -397,7 +397,7 @@ function SchedulePageContent() {
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10 relative overflow-hidden group">
+                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
                   {/* Card Background Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardHeader className="relative">
@@ -411,11 +411,11 @@ function SchedulePageContent() {
                   </CardHeader>
                   <CardContent className="space-y-4 relative">
                     <div className="space-y-2">
-                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Días Laborables</h3>
+                      <h3 className="font-semibold text-white select-text">Días Laborables</h3>
                       <p className="text-zinc-400">Lunes a Viernes</p>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Horario de Trabajo</h3>
+                      <h3 className="font-semibold text-white select-text">Horario de Trabajo</h3>
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex items-center gap-2 text-zinc-400">
                           <Clock className="h-4 w-4 text-emerald-500" />
@@ -432,7 +432,7 @@ function SchedulePageContent() {
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="font-semibold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent select-text">Zona Horaria</h3>
+                      <h3 className="font-semibold text-white select-text">Zona Horaria</h3>
                       <p className="text-zinc-400">Hora del Este (EST/EDT)</p>
                     </div>
                   </CardContent>
@@ -443,7 +443,7 @@ function SchedulePageContent() {
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 relative overflow-hidden group">
+                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
                   {/* Card Background Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardHeader className="relative">
@@ -464,7 +464,7 @@ function SchedulePageContent() {
                     </Alert>
 
                     <div className="space-y-2 mt-4">
-                      <h3 className="font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent select-text">Tipos de Consultas</h3>
+                      <h3 className="font-semibold text-white select-text">Tipos de Consultas</h3>
                       <ul className="space-y-2 text-zinc-400">
                         <li className="flex items-start">
                           <span className="text-purple-500 mr-2">•</span>

@@ -41,7 +41,7 @@ export default function ThankYouPage() {
             >
               <CheckCircle className="w-8 h-8 text-white" />
             </motion.div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent select-text">
+            <h1 className="text-4xl font-bold text-white select-text">
               ¡Solicitud Enviada!
             </h1>
             <p className="text-xl text-zinc-400">
@@ -59,7 +59,7 @@ export default function ThankYouPage() {
               {/* Card Background Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <CardContent className="p-6 space-y-4 relative">
-                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent select-text">Próximos pasos</h2>
+                <h2 className="text-xl font-bold text-white select-text">Próximos pasos</h2>
                 <ul className="space-y-3 text-zinc-400">
                   <li className="flex items-start">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center flex-shrink-0 mr-2 mt-0.5 shadow-lg shadow-blue-500/25">

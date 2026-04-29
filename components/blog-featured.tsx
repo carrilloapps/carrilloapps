@@ -63,7 +63,7 @@ export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | 
                 ))}
               </div>
               <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
-                <h2 className="text-3xl font-bold mb-1 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent group-hover:from-blue-200 group-hover:via-purple-200 group-hover:to-blue-200 transition-all duration-500">
+                <h2 className="text-3xl font-bold mb-1 text-white group-hover:text-blue-200 transition-colors duration-300">
                   {featuredPost.title}
                 </h2>
               </Link>
