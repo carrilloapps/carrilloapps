@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "skills": {
+    "brainstorming": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "computedHash": "3f22629ed4f1cde4cf5f263a1778fc205d88fa12a5702029df2c62440f98281d"
+    },
+    "changelog-generator": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "computedHash": "dec1f54cca47b266bf66d57f701669752ef4fc521bb8b3d8b7db41d33b0ac168"
+    },
+    "competitor-alternatives": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "390802ba5da3498e8aa238f54c2fbc79dc61094ac16c91d875b3acf4623b3d1c"
+    },
+    "devils-advocate": {
+      "source": "carrilloapps/skills",
+      "sourceType": "github",
+      "computedHash": "e05174e173253b72f229f95fe16e24577c5c9805d5dd6cd554b1bccc43837373"
+    },
+    "interface-design": {
+      "source": "dammyjay93/interface-design",
+      "sourceType": "github",
+      "computedHash": "b0428aa98108d9cecb207f4166beb322bfa33250c759db048cbd837c9a593208"
+    },
+    "sar-cybersecurity": {
+      "source": "carrilloapps/skills",
+      "sourceType": "github",
+      "computedHash": "ca3294b2d2b06ed09a26e4c3b6761d7e25f898a622b013edfc87733807f78071"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "f284918800782643bca229ee1d1c2fb185f125cc96d650b1e2d59ba766f7b3a4"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "path": "skills/react-best-practices",
+      "computedHash": "cb8bf8eeb0b2a0b9a9c6493a936823a235b534cb639d8a55449a139d4abebfd2"
+    }
+  }
+}
