@@ -1,12 +1,14 @@
 "use client";
 
+import type { ComponentType, SVGProps } from "react";
 import { motion } from "@/lib/motion";
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>;
 
 interface SocialLinkCardProps {
   href: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   label: string;
   iconGradientFrom: string;
   iconGradientTo: string;

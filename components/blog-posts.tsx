@@ -6,6 +6,7 @@ import { useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { Calendar, Clock, Search, Funnel, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "@/lib/motion";
+import type { Variants } from "framer-motion";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ import { usePageLoading } from "@/components/page-loading-context";
 import { trackBlogPostView } from "@/lib/analytics";
 import { formatDateES } from "@/lib/utils";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -33,7 +34,7 @@ const containerVariants = {
   }
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,

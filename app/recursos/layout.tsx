@@ -1,11 +1,15 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
   title: "Recursos gratuitos & código abierto",
   description:
-    "Descubre proyectos de software gratuitos y de código abierto con tecnologías modernas como React, Go, Next.js, TypeScript y Python.",
+    "Proyectos de software gratuitos y de código abierto con tecnologías modernas: React, Next.js, Go, TypeScript, Python. Repositorios destacados de GitHub y GitLab.",
+  path: "/recursos",
   keywords: [
     "recursos gratuitos desarrolladores",
     "código abierto finanzas",
@@ -23,52 +27,7 @@ export const metadata: Metadata = {
     "fintech desarrollo",
     "carrilloapps github",
   ],
-  authors: [{ name: "José Carrillo", url: "https://carrillo.app" }],
-  creator: "José Carrillo",
-  publisher: "CarrilloApps",
-  alternates: {
-    canonical: "/recursos",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "es_ES",
-    title: "Recursos gratuitos & código abierto - José Carrillo",
-    description:
-      "Descubre proyectos de software gratuitos y de código abierto con tecnologías modernas como React, Go, Next.js, TypeScript y Python.",
-    url: "https://carrillo.app/recursos",
-    siteName: "José Carrillo - Tech Lead & Full Stack Developer",
-    images: [
-      {
-        url: "https://carrillo.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Recursos gratuitos & código abierto - José Carrillo",
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@carrilloapps",
-    creator: "@carrilloapps",
-    title: "Recursos gratuitos & código abierto - José Carrillo",
-    description:
-      "Descubre proyectos de software gratuitos y de código abierto con tecnologías modernas como React, Go, Next.js, TypeScript y Python.",
-    images: ["https://carrillo.app/og-image.jpg"],
-  },
-  category: "Technology",
-};
+})
 
 // JSON-LD structured data for the resources page
 const resourcesJsonLd = {
@@ -76,11 +35,11 @@ const resourcesJsonLd = {
   "@type": "CollectionPage",
   name: "Recursos Gratuitos & Código Abierto",
   description: "Colección de proyectos de software gratuitos y de código abierto especializados en sistemas financieros y medios de pago",
-  url: "https://carrillo.app/recursos",
+  url: `${SITE_URL}/recursos`,
   author: {
     "@type": "Person",
     name: "José Carrillo",
-    url: "https://carrillo.app",
+    url: SITE_URL,
     jobTitle: "Tech Lead & Full Stack Developer",
     worksFor: {
       "@type": "Organization",
@@ -94,11 +53,11 @@ const resourcesJsonLd = {
   },
   publisher: {
     "@type": "Organization",
-    name: "CarrilloApps",
-    url: "https://carrillo.app",
+    name: "carrillo.app",
+    url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: "https://carrillo.app/logo.png",
+      url: `${SITE_URL}/logo.webp`,
     },
   },
   mainEntity: {
@@ -140,20 +99,20 @@ const resourcesJsonLd = {
         "@type": "ListItem",
         position: 1,
         name: "Inicio",
-        item: "https://carrillo.app",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Recursos",
-        item: "https://carrillo.app/recursos",
+        item: `${SITE_URL}/recursos`,
       },
     ],
   },
   isPartOf: {
     "@type": "WebSite",
     name: "José Carrillo - Tech Lead & Full Stack Developer",
-    url: "https://carrillo.app",
+    url: SITE_URL,
   },
   inLanguage: "es-ES",
   dateModified: new Date('2025-09-22').toISOString(),
@@ -171,8 +130,8 @@ export default function ResourcesLayout({
       {children}
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Recursos", url: "https://carrillo.app/recursos" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Recursos", url: `${SITE_URL}/recursos` },
         ]}
       />
     </>

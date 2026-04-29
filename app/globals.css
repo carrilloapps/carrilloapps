@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../styles/animations.css";
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: 0 0% 100%;
@@ -47,12 +51,94 @@
   --ring: 217.2 91.2% 59.8%;
 }
 
+@theme inline {
+  --breakpoint-2xl: 1400px;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --tw-prose-body: hsl(var(--foreground));
+  --tw-prose-headings: hsl(var(--foreground));
+  --tw-prose-lead: hsl(var(--foreground));
+  --tw-prose-links: hsl(var(--primary));
+  --tw-prose-bold: hsl(var(--foreground));
+  --tw-prose-counters: hsl(var(--muted-foreground));
+  --tw-prose-bullets: hsl(var(--muted-foreground));
+  --tw-prose-hr: hsl(var(--border));
+  --tw-prose-quotes: hsl(var(--muted-foreground));
+  --tw-prose-quote-borders: hsl(var(--primary));
+  --tw-prose-captions: hsl(var(--muted-foreground));
+  --tw-prose-code: hsl(var(--foreground));
+  --tw-prose-pre-code: hsl(var(--foreground));
+  --tw-prose-pre-bg: hsl(var(--muted));
+  --tw-prose-th-borders: hsl(var(--border));
+  --tw-prose-td-borders: hsl(var(--border));
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 2rem;
+  }
+
+  .prose :where(code):not(:where([class~="not-prose"] *)) {
+    background-color: hsl(var(--muted));
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+  }
+  .prose :where(code):not(:where([class~="not-prose"] *))::before,
+  .prose :where(code):not(:where([class~="not-prose"] *))::after {
+    content: "";
+  }
+  .prose :where(pre):not(:where([class~="not-prose"] *)) {
+    border-radius: 0.5rem;
+  }
+  .prose {
+    max-width: 100%;
   }
 }
 
@@ -60,50 +146,64 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Mejoras para dispositivos móviles */
 @media (max-width: 640px) {
   h1 {
-    @apply text-3xl;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
   h2 {
-    @apply text-2xl;
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
   h3 {
-    @apply text-xl;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
   .container {
-    @apply px-4;
+    padding-inline: 1rem;
   }
 }
 
-/* Mejoras para tablets */
 @media (min-width: 641px) and (max-width: 1023px) {
   h1 {
-    @apply text-4xl;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
   h2 {
-    @apply text-3xl;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
   h3 {
-    @apply text-2xl;
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 
-/* Mejoras para la accesibilidad */
 :focus-visible {
-  @apply outline-2 outline-blue-500 outline-offset-2;
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: rgb(59 130 246);
+  outline-offset: 2px;
 }
 
-/* Mejoras para el scroll */
 ::-webkit-scrollbar {
-  @apply w-2 h-2;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-zinc-900;
+  background-color: rgb(24 24 27);
 }
 
-/* Animated grid background - Optimized for GPU */
+::-webkit-scrollbar-thumb {
+  background-color: rgb(63 63 70);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(82 82 91);
+}
+
 @keyframes gridMove {
   0% {
     transform: translate(0, 0);
@@ -113,70 +213,54 @@ html {
   }
 }
 
-/* Performance optimizations */
 @layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
   .will-change-opacity {
     will-change: opacity;
   }
-  
   .will-change-transform {
     will-change: transform;
   }
-  
   .gpu-accelerated {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
   }
-  
-  /* Contain layout for better performance */
   .contain-layout {
     contain: layout;
   }
-  
   .contain-paint {
     contain: paint;
   }
-  
   .contain-strict {
     contain: strict;
   }
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-zinc-700 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-zinc-600;
-}
-
-/* Mejoras para la navegación por teclado */
 a:focus,
 button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-black;
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(0 0 0), 0 0 0 4px rgb(59 130 246);
 }
 
-/* Mejoras para el contraste */
-.text-zinc-400 {
-  @apply text-zinc-300;
-}
-
-/* Mejoras para el espaciado en móviles */
 @media (max-width: 640px) {
   .space-y-24 > :not([hidden]) ~ :not([hidden]) {
-    @apply mt-16;
+    margin-top: 4rem;
   }
   .space-y-12 > :not([hidden]) ~ :not([hidden]) {
-    @apply mt-8;
+    margin-top: 2rem;
   }
   .py-12 {
-    @apply py-8;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
   .py-24 {
-    @apply py-12;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 }

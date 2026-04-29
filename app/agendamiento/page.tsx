@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
+import type { Variants } from "framer-motion"
 import { Calendar, Clock, CheckCircle, AlertCircle, ArrowRight, Briefcase, Info } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
@@ -100,7 +101,7 @@ function SchedulePageContent() {
     router.push("/agendamiento/gracias")
   }
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -110,7 +111,7 @@ function SchedulePageContent() {
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,

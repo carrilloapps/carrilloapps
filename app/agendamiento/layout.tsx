@@ -1,11 +1,15 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Agenda una Consulta | Servicios de Consultoría | José Carrillo",
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
+  title: "Agenda una consulta",
   description:
     "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
+  path: "/agendamiento",
   keywords: [
     "agendar consulta",
     "consultoría tecnológica",
@@ -15,29 +19,7 @@ export const metadata: Metadata = {
     "sistemas financieros",
     "backoffice",
   ],
-  alternates: {
-    canonical: "/agendamiento",
-  },
-  openGraph: {
-    title: "Agenda una Consulta | José Carrillo",
-    description:
-      "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
-    url: "https://carrillo.app/agendamiento",
-    images: [
-      {
-        url: "https://carrillo.app/schedule-og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Agenda una Consulta - José Carrillo",
-      },
-    ],
-  },
-  twitter: {
-    title: "Agenda una Consulta | José Carrillo",
-    description:
-      "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
-  },
-}
+})
 
 export default function ScheduleLayout({
   children,
@@ -49,8 +31,8 @@ export default function ScheduleLayout({
       {children}
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Agenda una Consulta", url: "https://carrillo.app/agendamiento" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Agenda una Consulta", url: `${SITE_URL}/agendamiento` },
         ]}
       />
     </>

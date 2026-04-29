@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Send, Mail, Phone, MapPin, Clock, Globe, Github, Linkedin } from "lucide-react";
+import { Send, Mail, Phone, MapPin, Clock, Globe } from "lucide-react";
+import { Github, Linkedin } from "@/components/icons/social-icons";
 import { ContactInfoCard } from "@/components/contact-info-card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

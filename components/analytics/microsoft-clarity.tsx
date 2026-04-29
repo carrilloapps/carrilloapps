@@ -34,14 +34,18 @@ export function MicrosoftClarity() {
     if (!clarityId || typeof window === "undefined") return;
 
     // Initialize Clarity
-    (function(c: Window, l: Document, a: string, r: string, i: string, t: HTMLScriptElement, y: HTMLScriptElement) {
-      c[a] = c[a] || function(...args: unknown[]) { (c[a].q = c[a].q || []).push(args); };
-      t = l.createElement(r) as HTMLScriptElement;
+    type ClarityFn = ((...args: unknown[]) => void) & { q?: unknown[] };
+    type ClarityWindow = Window & Record<string, ClarityFn>;
+    (function(c: ClarityWindow, l: Document, a: string, r: string, i: string) {
+      c[a] = c[a] || (Object.assign(function(...args: unknown[]) {
+        (c[a].q = c[a].q || []).push(args);
+      }, { q: [] as unknown[] }) as ClarityFn);
+      const t = l.createElement(r) as HTMLScriptElement;
       t.async = true;
       t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0] as HTMLScriptElement;
-      y.parentNode?.insertBefore(t, y);
-    })(window as Window & { clarity?: { q?: unknown[] } }, document, "clarity", "script", clarityId, {} as HTMLScriptElement, {} as HTMLScriptElement);
+      const y = l.getElementsByTagName(r)[0];
+      y?.parentNode?.insertBefore(t, y);
+    })(window as unknown as ClarityWindow, document, "clarity", "script", clarityId);
   }, [clarityId]);
 
   // Check for user consent and load scripts dynamically

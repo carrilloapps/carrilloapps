@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { ServiceJsonLd, BreadcrumbJsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+
+const SITE_URL = getSiteUrl()
 
 export function ServicesSeo() {
   const [activeService, setActiveService] = useState("technical-leadership")
@@ -30,14 +33,14 @@ export function ServicesSeo() {
       <ServiceJsonLd service={activeService} />
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Servicios", url: "https://carrillo.app/services" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Servicios", url: `${SITE_URL}/services` },
           {
             name: activeService
               .split("-")
               .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
               .join(" "),
-            url: `https://carrillo.app/services#${activeService}`,
+            url: `${SITE_URL}/services#${activeService}`,
           },
         ]}
       />
