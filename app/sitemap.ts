@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next'
 import { getCachedSitemapData } from '@/lib/wordpress-service'
+import { getSiteUrl } from '@/lib/env'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://carrillo.app'
+  const baseUrl = getSiteUrl()
   const currentDate = new Date('2025-09-22')
   
   // URLs estáticas principales

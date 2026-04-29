@@ -87,20 +87,6 @@ export function InteractiveBackground() {
             },
           },
         },
-        links: {
-          color: {
-            value: "#ffffff",
-          },
-          distance: 120,
-          enable: true,
-          opacity: 0.2,
-          width: 0.8,
-          triangles: {
-            enable: true,
-            opacity: 0.05,
-          },
-          warp: true,
-        },
         move: {
           angle: {
             offset: 0,

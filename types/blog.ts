@@ -107,4 +107,6 @@ export interface BlogPost {
   commentStatus?: string
   format?: string
   sticky?: boolean
+  claps?: number
+  responses?: number
 }

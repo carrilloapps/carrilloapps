@@ -1,10 +1,15 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
   title: "Términos y Condiciones",
-  description: "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por José Carrillo.",
+  description:
+    "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por José Carrillo, incluyendo derechos de propiedad intelectual.",
+  path: "/terminos",
   keywords: [
     "términos y condiciones",
     "condiciones de uso",
@@ -12,20 +17,16 @@ export const metadata: Metadata = {
     "acuerdo legal",
     "derechos de propiedad intelectual",
   ],
-  alternates: {
-    canonical: "/terms-conditions",
-  },
-  openGraph: {
-    title: "Términos y Condiciones | José Carrillo",
-    description:
-      "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por José Carrillo.",
-    url: "https://carrillo.app/terms-conditions",
-  },
   robots: {
     index: false,
     follow: true,
+    googleBot: {
+      index: false,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
-}
+})
 
 export default function TermsConditionsLayout({
   children,
@@ -37,8 +38,8 @@ export default function TermsConditionsLayout({
       {children}
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Términos y Condiciones", url: "https://carrillo.app/terms-conditions" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Términos y Condiciones", url: `${SITE_URL}/terminos` },
         ]}
       />
     </>

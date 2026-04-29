@@ -12,6 +12,7 @@ import { GlobalPageLoader } from "@/components/global-page-loader"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
 import { DeferCSS } from "@/app/defer-css"
 import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
+import { getSiteUrl } from "@/lib/env"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -23,37 +24,24 @@ const inter = Inter({
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
 })
 
+const SITE_URL = getSiteUrl()
+const SITE_NAME = "José Carrillo"
+const SITE_TITLE = "José Carrillo | Senior Software Developer & Tech Leader"
+const SITE_DESCRIPTION =
+  "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables."
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://carrillo.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "José Carrillo | Senior Software Developer & Tech Leader",
+    default: SITE_TITLE,
     template: "%s | José Carrillo",
   },
-  description:
-    "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables",
-  keywords: [
-    "José Carrillo",
-    "tech leader",
-    "yummy inc",
-    "software developer",
-    "senior developer",
-    "odoo",
-    "medios de pagos",
-    "procesadores de pago",
-    "open banking",
-    "fintech",
-    "software engineering",
-    "technical leadership",
-    "arquitectura microservicios",
-    "sistemas financieros",
-    "backoffice financiero",
-    "mentoría técnica",
-  ],
-  authors: [{ name: "José Carrillo", url: "https://carrillo.app" }],
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: "José Carrillo", url: SITE_URL }],
   creator: "José Carrillo",
-  publisher: "carrillo.app",
+  publisher: "José Carrillo",
   category: "Technology",
-  classification: "Business",
   formatDetection: {
     email: true,
     address: true,
@@ -62,9 +50,49 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "es-CO": "/es-CO",
+      "es-CO": "/",
+      "x-default": "/",
     },
   },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "profile",
+    locale: "es_CO",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    firstName: "José",
+    lastName: "Carrillo",
+    username: "carrilloapps",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@carrilloapps",
+    creator: "@carrilloapps",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: { url: "/icons/192.png", sizes: "192x192" },
+  },
+  manifest: "/manifest.webmanifest",
 }
 
 export default function RootLayout({

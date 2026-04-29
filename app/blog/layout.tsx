@@ -1,11 +1,15 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Blog | Insights & experiencias de desarrollo de software",
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
+  title: "Blog",
   description:
-    "Insights, artículos y reflexiones de un Tech Leader en desarrollo de software, sistemas financieros, pagos y liderazgo técnico. +10 años de experiencia construyendo soluciones robustas y escalables.",
+    "Insights, artículos y reflexiones de un Tech Leader sobre desarrollo de software, sistemas financieros, pagos y liderazgo técnico.",
+  path: "/blog",
   keywords: [
     "blog tecnología",
     "josé carrillo blog",
@@ -23,29 +27,7 @@ export const metadata: Metadata = {
     "sistemas de pago",
     "mentoría técnica",
   ],
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    title: "Blog",
-    description:
-      "Insights, artículos y reflexiones de un Tech Leader sobre desarrollo de software, sistemas financieros, pagos y liderazgo técnico.",
-    url: "https://carrillo.app/blog",
-    images: [
-      {
-        url: "https://carrillo.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Blog - José Carrillo",
-      },
-    ],
-  },
-  twitter: {
-    title: "Blog | José Carrillo",
-    description:
-      "Insights, artículos y reflexiones de un Tech Leader sobre desarrollo de software, sistemas financieros, pagos y liderazgo técnico.",
-  },
-}
+})
 
 export default function BlogLayout({
   children,
@@ -58,12 +40,12 @@ export default function BlogLayout({
     "@type": "Blog",
     name: "Blog de José Carrillo",
     description: "Insights, artículos y reflexiones de un Tech Leader sobre desarrollo de software, sistemas financieros, pagos y liderazgo técnico.",
-    url: "https://carrillo.app/blog",
+    url: `${SITE_URL}/blog`,
     author: {
       "@type": "Person",
       name: "José Carrillo",
       jobTitle: "Tech Leader & Senior Software Developer",
-      url: "https://carrillo.app",
+      url: SITE_URL,
       sameAs: [
         "https://github.com/carrilloapps",
         "https://linkedin.com/in/carrilloapps",
@@ -81,7 +63,7 @@ export default function BlogLayout({
       name: "José Carrillo",
       logo: {
         "@type": "ImageObject",
-        url: "https://carrillo.app/logo.webp"
+        url: `${SITE_URL}/logo.webp`
       }
     },
     inLanguage: "es-ES",
@@ -99,7 +81,7 @@ export default function BlogLayout({
     ],
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": "https://carrillo.app/blog"
+      "@id": `${SITE_URL}/blog`
     }
   }
 
@@ -109,8 +91,8 @@ export default function BlogLayout({
       <JsonLd data={blogJsonLd} />
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Blog", url: "https://carrillo.app/blog" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Blog", url: `${SITE_URL}/blog` },
         ]}
       />
     </>
