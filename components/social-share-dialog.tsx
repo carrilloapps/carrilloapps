@@ -131,7 +131,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 onClick={() => handleShare(social.url)}
-                className={`flex items-center gap-3 p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 transition-all duration-300 ${social.color}`}
+                className={`surface-card-subtle flex items-center gap-3 p-3 ${social.color}`}
               >
                 <div className="flex-shrink-0">{social.icon}</div>
                 <span className="text-sm font-medium">{social.name}</span>

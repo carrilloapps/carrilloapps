@@ -412,7 +412,7 @@ function ContactPageContent() {
                   </CardHeader>
                   <CardContent className="space-y-6 relative z-10">
                     <motion.div
-                      className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
+                      className="surface-card-subtle flex items-start space-x-4 p-4 group/item"
                       whileHover={{ x: 4 }}
                     >
                       <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
@@ -445,7 +445,7 @@ function ContactPageContent() {
                     <Separator className="my-6 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
 
                     <motion.div
-                      className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
+                      className="surface-card-subtle flex items-start space-x-4 p-4 group/item"
                       whileHover={{ x: 4 }}
                     >
                       <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
@@ -478,7 +478,7 @@ function ContactPageContent() {
                     <Separator className="my-6 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
 
                     <motion.div
-                      className="flex items-start space-x-4 p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/item"
+                      className="surface-card-subtle flex items-start space-x-4 p-4 group/item"
                       whileHover={{ x: 4 }}
                     >
                       <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover/item:scale-110 transition-transform duration-300">
@@ -521,7 +521,7 @@ function ContactPageContent() {
                         href="https://github.com/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
+                        className="surface-card-subtle flex flex-col items-center justify-center p-4 group/social"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('GitHub', 'profile_visit', 'https://github.com/carrilloapps')}
@@ -535,7 +535,7 @@ function ContactPageContent() {
                         href="https://linkedin.com/in/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
+                        className="surface-card-subtle flex flex-col items-center justify-center p-4 group/social"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('LinkedIn', 'profile_visit', 'https://linkedin.com/in/carrilloapps')}
@@ -549,7 +549,7 @@ function ContactPageContent() {
                         href="https://x.com/carrilloapps"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30 hover:border-blue-500/30"
+                        className="surface-card-subtle flex flex-col items-center justify-center p-4 group/social"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => trackSocialClick('Twitter/X', 'profile_visit', 'https://x.com/carrilloapps')}

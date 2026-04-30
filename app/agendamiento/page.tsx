@@ -21,7 +21,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Dialog,
   DialogContent,
@@ -460,47 +459,51 @@ function SchedulePageContent() {
                       Proceso de Agendamiento
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4 relative">
-                    <Alert className="bg-zinc-800/50 border-purple-800/50 backdrop-blur-sm">
-                      <CheckCircle className="h-4 w-4 text-purple-500" />
-                      <AlertTitle>Cómo funciona</AlertTitle>
-                      <AlertDescription className="text-zinc-400">
-                        Una vez que envíes tu solicitud, revisaré los detalles y
-                        te contactaré dentro de 24-48 horas para confirmar la
-                        fecha y hora exacta de nuestra consulta.
-                      </AlertDescription>
-                    </Alert>
+                  <CardContent className="space-y-5 relative">
+                    {/* Info block — flat, no inner card. Solo border-l de acento. */}
+                    <div className="border-l-2 border-purple-500/40 pl-4 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-purple-400" aria-hidden="true" />
+                        <h3 className="font-semibold text-white">Cómo funciona</h3>
+                      </div>
+                      <p className="text-zinc-300 text-sm leading-relaxed">
+                        Una vez que envíes tu solicitud, revisaré los detalles y te contactaré
+                        dentro de 24–48 horas para confirmar la fecha y hora exacta.
+                      </p>
+                    </div>
 
-                    <div className="space-y-2 mt-4">
-                      <h3 className="font-semibold text-white select-text">Tipos de Consultas</h3>
-                      <ul className="space-y-2 text-zinc-400">
-                        <li className="flex items-start">
-                          <span className="text-purple-500 mr-2">•</span>
-                          Consulta inicial (30 minutos) - Gratuita
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-white">Tipos de consultas</h3>
+                      <ul className="space-y-1.5 text-zinc-300 text-sm">
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                          Consulta inicial (30 minutos) — Gratuita
                         </li>
-                        <li className="flex items-start">
-                          <span className="text-purple-500 mr-2">•</span>
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
                           Asesoría técnica (1 hora)
                         </li>
-                        <li className="flex items-start">
-                          <span className="text-purple-500 mr-2">•</span>
-                          Revisión de arquitectura (1-2 horas)
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                          Revisión de arquitectura (1–2 horas)
                         </li>
-                        <li className="flex items-start">
-                          <span className="text-purple-500 mr-2">•</span>
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
                           Planificación de proyecto (2+ horas)
                         </li>
                       </ul>
                     </div>
 
-                    <Alert className="bg-zinc-800/50 border-yellow-800/50 backdrop-blur-sm mt-4">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
-                      <AlertTitle>Importante</AlertTitle>
-                      <AlertDescription className="text-zinc-400">
-                        Para cancelaciones o reprogramaciones, por favor
-                        notifícame con al menos 24 horas de anticipación.
-                      </AlertDescription>
-                    </Alert>
+                    <div className="border-l-2 border-amber-500/40 pl-4 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                        <h3 className="font-semibold text-white">Importante</h3>
+                      </div>
+                      <p className="text-zinc-300 text-sm leading-relaxed">
+                        Para cancelaciones o reprogramaciones, por favor notifícame con al
+                        menos 24 horas de anticipación.
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -606,21 +609,21 @@ function SchedulePageContent() {
 
           <div className="space-y-4 py-4 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+              <div className="surface-card-subtle p-3">
                 <p className="text-sm font-medium text-zinc-400 mb-1">Nombre:</p>
                 <p className="truncate text-white font-medium">{formData.name}</p>
               </div>
-              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+              <div className="surface-card-subtle p-3">
                 <p className="text-sm font-medium text-zinc-400 mb-1">
                   Correo electrónico:
                 </p>
                 <p className="truncate text-white font-medium">{formData.email}</p>
               </div>
-              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+              <div className="surface-card-subtle p-3">
                 <p className="text-sm font-medium text-zinc-400 mb-1">Teléfono:</p>
                 <p className="truncate text-white font-medium">{formData.phone}</p>
               </div>
-              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+              <div className="surface-card-subtle p-3">
                 <p className="text-sm font-medium text-zinc-400 mb-1">
                   Horario preferido:
                 </p>
@@ -637,7 +640,7 @@ function SchedulePageContent() {
             </div>
 
             {formData.message && (
-              <div className="p-3 rounded-lg bg-zinc-800/50 backdrop-blur-sm border border-zinc-700/50">
+              <div className="surface-card-subtle p-3">
                 <p className="text-sm font-medium text-zinc-400 mb-2">Detalles del proyecto:</p>
                 <p className="text-white text-sm leading-relaxed">{formData.message}</p>
               </div>

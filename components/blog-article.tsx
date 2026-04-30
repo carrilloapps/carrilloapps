@@ -252,44 +252,36 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
               </motion.div>
               <div className="flex flex-wrap gap-3">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="glass"
+                    size="sm"
                     onClick={toggleReaction}
-                    className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
-                      hasReacted 
-                        ? "border-blue-500/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 text-blue-400" 
-                        : "hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20"
-                    }`}
+                    className={`gap-1.5 ${hasReacted ? "border-blue-500/50 text-blue-400" : ""}`}
                   >
-                    <ThumbsUp className={`h-4 w-4 ${hasReacted ? 'fill-current' : ''}`} />
-                    <span className="flex-1 w-full">{hasReacted ? 'Te gusta' : 'Me gusta'}</span>
+                    <ThumbsUp className={`h-4 w-4 ${hasReacted ? "fill-current" : ""}`} aria-hidden="true" />
+                    <span>{hasReacted ? "Te gusta" : "Me gusta"}</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="glass"
+                    size="sm"
                     onClick={() => setShareDialogOpen(true)}
-                    className="border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 gap-1.5 transition-all duration-300"
+                    className="gap-1.5"
                   >
-                    <Share2 className="h-4 w-4" />
-                    <span className="flex-1 w-full">Compartir</span>
+                    <Share2 className="h-4 w-4" aria-hidden="true" />
+                    <span>Compartir</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="glass"
+                    size="sm"
                     onClick={toggleSave}
-                    className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 gap-1.5 transition-all duration-300 ${
-                      hasSaved 
-                        ? "border-green-500/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 text-green-400" 
-                        : "hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20"
-                    }`}
+                    className={`gap-1.5 ${hasSaved ? "border-emerald-500/50 text-emerald-400" : ""}`}
                   >
-                    {hasSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
-                    <span className="flex-1 w-full">{hasSaved ? "Guardado" : "Guardar"}</span>
+                    {hasSaved ? <BookmarkCheck className="h-4 w-4" aria-hidden="true" /> : <Bookmark className="h-4 w-4" aria-hidden="true" />}
+                    <span>{hasSaved ? "Guardado" : "Guardar"}</span>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -548,7 +540,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
               whileHover={{ scale: 1.02 }}
             >
               <Link href={`/blog/${relatedPost.slug}`} className="block group">
-                <div className="space-y-3 p-3 rounded-lg hover:bg-zinc-800/30 transition-all duration-300">
+                <div className="space-y-3 p-3 rounded-lg hover:bg-white/[0.04] transition-colors duration-200">
                   {relatedPost.thumbnail && (
                     <div className="aspect-video relative overflow-hidden rounded-lg">
                       <Image
@@ -589,12 +581,8 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           <Separator className="bg-zinc-700/50" />
           
           <Link href="/blog" className="block">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="w-full border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/20 gap-2 transition-all duration-300"
-            >
-              <ArrowRight className="h-4 w-4" />
+            <Button variant="glass" size="sm" className="w-full gap-2">
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
               Ver todos los artículos
             </Button>
           </Link>
@@ -625,17 +613,14 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
             <Share2 className="h-4 w-4 mr-1" />
             Compartir
           </Button>
-          <Button 
-            size="sm" 
-            variant="outline"
+          <Button
+            variant="glass"
+            size="sm"
             onClick={toggleSave}
-            className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800/50 transition-all duration-300 ${
-              hasSaved 
-                ? "border-green-500/50 hover:border-green-500/30 text-green-400" 
-                : "hover:border-blue-500/30"
-            }`}
+            className={hasSaved ? "border-emerald-500/50 text-emerald-400" : ""}
+            aria-label={hasSaved ? "Guardado" : "Guardar artículo"}
           >
-            {hasSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+            {hasSaved ? <BookmarkCheck className="h-4 w-4" aria-hidden="true" /> : <Bookmark className="h-4 w-4" aria-hidden="true" />}
           </Button>
         </div>
       </CardContent>

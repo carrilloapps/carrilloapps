@@ -641,7 +641,7 @@ export default function AboutPage() {
 
                       <div className="space-y-4">
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Lecturas técnicas</h4>
@@ -660,7 +660,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Liderazgo y negocios</h4>
@@ -676,7 +676,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Filosofía y pensamiento</h4>
@@ -710,7 +710,7 @@ export default function AboutPage() {
 
                       <div className="grid gap-4 md:grid-cols-2">
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Programa de mentorías</h4>
@@ -722,7 +722,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Contribuciones Open Source</h4>
@@ -735,7 +735,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Charlas técnicas & talleres</h4>
@@ -747,7 +747,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Educación tecnológica</h4>
