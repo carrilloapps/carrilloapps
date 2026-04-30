@@ -620,7 +620,7 @@ export default function AboutPage() {
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
-              Cómo trabajo
+              ¿Cómo trabajo?
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
               Tres reglas que no rompo
