@@ -20,6 +20,7 @@ import { AnimatedSection } from "@/components/animated-section"
 import { SectionHeader } from "@/components/section-header"
 import { MessageCircle } from "lucide-react"
 import { trackScrollDepth } from "@/lib/analytics"
+import { toast } from "sonner"
 
 // Email/phone obfuscation kept inline for now since it's only used by the
 // contact form that lives on this page.
@@ -124,14 +125,16 @@ export default function Home() {
 
     if (contactFormData.honeypot) return
     if (isContactLimited) {
-      alert(
-        "Demasiados intentos. Por favor, espera un momento antes de intentar nuevamente."
-      )
+      toast.error("Demasiados intentos", {
+        description: "Espera un momento antes de intentar nuevamente.",
+      })
       return
     }
     if (Date.now() - startTime.current < 1000) return
     if (Date.now() - lastSubmission < 5000) {
-      alert("Por favor, espera antes de enviar otro mensaje.")
+      toast.warning("Espera un momento", {
+        description: "Por favor, espera antes de enviar otro mensaje.",
+      })
       return
     }
 
@@ -148,10 +151,14 @@ export default function Home() {
         message: "",
         honeypot: "",
       })
-      alert("¡Mensaje enviado exitosamente!")
+      toast.success("¡Mensaje enviado!", {
+        description: "Te respondo en menos de 24 horas.",
+      })
     } catch (error) {
       console.error("Error sending message:", error)
-      alert("Error al enviar el mensaje. Por favor, inténtalo nuevamente.")
+      toast.error("Error al enviar el mensaje", {
+        description: "Por favor, inténtalo nuevamente en un momento.",
+      })
     } finally {
       setIsSubmitting(false)
     }

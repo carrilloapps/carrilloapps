@@ -10,6 +10,7 @@ import { SkipLink } from "@/components/skip-link"
 import { PageLoadingProvider } from "@/components/page-loading-context"
 import { MotionPreferencesProvider } from "@/components/motion-preferences-provider"
 import { GlobalPageLoader } from "@/components/global-page-loader"
+import { Toaster } from "@/components/ui/sonner"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
 import { DeferCSS } from "@/app/defer-css"
 import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
@@ -135,6 +136,7 @@ export default function RootLayout({
               <ScrollToTop />
               {children}
               <DynamicCookieConsent />
+              <Toaster richColors closeButton position="bottom-right" theme="dark" />
             </PageLoadingProvider>
           </MotionPreferencesProvider>
         </ThemeProvider>

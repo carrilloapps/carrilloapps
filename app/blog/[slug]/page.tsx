@@ -9,7 +9,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { BlogGridLoading } from "@/components/unified-loading"
 import { BlogArticle } from "@/components/blog-article"
-import { JsonLd } from "@/components/json-ld"
+import { JsonLd, BreadcrumbJsonLd } from "@/components/json-ld"
 import { ParticleHeroBackground } from "@/components/particle-hero-background"
 import { BlogPostClient } from "./blog-post-client"
 import { getCachedSitemapData, getCachedBlogPostBySlug, getCachedRelatedBlogPosts, getCachedBlogCategories } from "@/lib/wordpress-service"
@@ -365,9 +365,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* Fondo de partículas */}
       <ParticleHeroBackground />
       
-      {/* Datos estructurados JSON-LD */}
+      {/* Datos estructurados JSON-LD — BlogPosting + BreadcrumbList */}
       <JsonLd data={jsonLdData} />
-      
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Inicio", url: SITE_URL },
+          { name: "Blog", url: `${SITE_URL}/blog` },
+          { name: (post as BlogPost).title, url: `${SITE_URL}/blog/${slug}` },
+        ]}
+      />
+
       <SiteHeader />
 
       <main className="py-12 space-y-12 relative z-10 w-full" id="main-content">

@@ -1,20 +1,30 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Card } from "@/components/ui/card"
+import { DynamicBackground } from "@/components/dynamic-background"
+import { SurfaceCard } from "@/components/ui/surface-card"
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white relative overflow-hidden">
+      <DynamicBackground />
       <SiteHeader />
 
-      <main className="container py-12 space-y-12">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Política de Privacidad</h1>
+      <main className="container py-12 md:py-16 space-y-8 relative z-10" id="main-content">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="space-y-3">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Legal
+            </span>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Política de Privacidad
+            </h1>
+          </div>
 
-          <Card className="bg-zinc-900 border-zinc-800 p-6 md:p-8 space-y-6">
+          <SurfaceCard>
+            <div className="p-6 md:p-8 space-y-6">
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Introducción</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Última actualización:{" "}
                 {new Date(1747346137458).toLocaleDateString("es-CO", {
                   year: "numeric",
@@ -22,7 +32,7 @@ export default function PrivacyPolicyPage() {
                   day: "numeric",
                 })}
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Gracias por visitar mi sitio web profesional. Yo, José Carrillo,
                 valoro y respeto tu privacidad y me comprometo a proteger tus
                 datos personales en conformidad con la Ley Estatutaria 1581 de
@@ -30,7 +40,7 @@ export default function PrivacyPolicyPage() {
                 política de privacidad te informará sobre cómo protejo tus datos
                 personales, tus derechos de privacidad y cómo la ley te protege.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Esta política se aplica a la información que recopilo a través
                 de mi sitio web en carrillo.app, por correo electrónico,
                 mensajes de texto u otras comunicaciones electrónicas entre tú y
@@ -40,12 +50,12 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Información que Recopilo</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Como responsable del tratamiento de datos, puedo recopilar
                 varios tipos de información de los usuarios de mi sitio web,
                 incluyendo:
               </p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+              <ul className="list-disc pl-6 text-zinc-300 space-y-2">
                 <li>
                   Información personal que proporcionas directamente cuando
                   completas formularios en mi sitio web, incluyendo tu nombre,
@@ -75,12 +85,12 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-2xl font-bold">
                 Cómo Utilizo Tu Información
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Utilizo la información que recopilo sobre ti o que me
                 proporcionas, incluida cualquier información personal, para los
                 siguientes fines:
               </p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+              <ul className="list-disc pl-6 text-zinc-300 space-y-2">
                 <li>
                   Presentarte mi sitio web y sus contenidos de manera adecuada.
                 </li>
@@ -118,14 +128,14 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-2xl font-bold">
                 Cookies y Tecnologías de Seguimiento
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Mi sitio web utiliza cookies y tecnologías de seguimiento
                 similares para rastrear la actividad en mi sitio web y almacenar
                 cierta información. Las cookies son archivos con una pequeña
                 cantidad de datos que pueden incluir un identificador único
                 anónimo.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Utilizamos cookies para mejorar la experiencia del usuario,
                 analizar el tráfico y personalizar el contenido. Para
                 información más detallada sobre las cookies específicas que
@@ -139,7 +149,7 @@ export default function PrivacyPolicyPage() {
                 </a>
                 .
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Puedes configurar tu navegador para que rechace todas o algunas
                 cookies, o para que te avise cuando se envíen cookies. Sin
                 embargo, si no aceptas cookies, es posible que no puedas
@@ -149,7 +159,7 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Seguridad de Datos</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 He implementado medidas técnicas y organizativas apropiadas para
                 proteger tus datos personales contra pérdidas accidentales y
                 contra el acceso, uso, alteración y divulgación no autorizados,
@@ -159,7 +169,7 @@ export default function PrivacyPolicyPage() {
                 proteger tu información personal, no puedo garantizar la
                 seguridad absoluta de los datos transmitidos a mi sitio web.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 En particular, para proyectos relacionados con sistemas
                 financieros y aplicaciones críticas, implemento protocolos
                 adicionales de seguridad para los datos compartidos mediante
@@ -169,7 +179,7 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Enlaces a Terceros</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Mi sitio web puede contener enlaces a sitios web, plugins y
                 aplicaciones de terceros, como GitHub, Medium, o plataformas de
                 redes sociales donde comparto mi trabajo profesional. Hacer clic
@@ -186,11 +196,11 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-2xl font-bold">
                 Derechos de los Titulares de Datos
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 De acuerdo con la ley colombiana de protección de datos (Ley
                 1581 de 2012), tienes los siguientes derechos:
               </p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+              <ul className="list-disc pl-6 text-zinc-300 space-y-2">
                 <li>Conocer, actualizar y rectificar tus datos personales.</li>
                 <li>
                   Solicitar la prueba de la autorización otorgada para el
@@ -214,7 +224,7 @@ export default function PrivacyPolicyPage() {
                   sido objeto de tratamiento.
                 </li>
               </ul>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Para ejercer estos derechos, puedes contactarme directamente a
                 través del formulario de contacto en mi sitio web o enviando un
                 correo electrónico a la dirección que se indica en la sección
@@ -226,7 +236,7 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-2xl font-bold">
                 Transferencia Internacional de Datos
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Como desarrollador especializado en sistemas financieros y
                 tecnológicos que trabaja con clientes internacionales, en
                 ocasiones puede ser necesario transferir datos a países fuera de
@@ -242,14 +252,14 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-2xl font-bold">
                 Cambios en esta Política de Privacidad
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Puedo actualizar esta política de privacidad periódicamente para
                 reflejar cambios en mis prácticas de información o por otros
                 motivos operativos, legales o regulatorios. Te notificaré sobre
                 cualquier cambio publicando la nueva política de privacidad en
                 esta página y actualizando la fecha de "Última actualización".
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Se recomienda revisar esta política de privacidad periódicamente
                 para cualquier cambio. Los cambios en esta política de
                 privacidad entran en vigor cuando se publican en esta página.
@@ -258,19 +268,20 @@ export default function PrivacyPolicyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Información de Contacto</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Si tienes alguna pregunta sobre esta política de privacidad o
                 mis prácticas de datos, o si deseas ejercer cualquiera de tus
                 derechos como titular de datos, por favor contáctame en:
               </p>
-              <p className="text-zinc-400">Correo electrónico: legal@carrillo.app</p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">Correo electrónico: legal@carrillo.app</p>
+              <p className="text-zinc-300">
                 Como responsable del tratamiento de datos personales, me
                 comprometo a responder a tu solicitud dentro de los plazos
                 establecidos por la legislación colombiana aplicable.
               </p>
             </section>
-          </Card>
+            </div>
+          </SurfaceCard>
         </div>
       </main>
 

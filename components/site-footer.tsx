@@ -13,6 +13,7 @@ import {
   trackNavigation,
   trackNewsletterSignup,
 } from "@/lib/analytics"
+import { toast } from "sonner"
 
 // Computed at module load, safe for both server and client.
 const currentYear = new Date().getFullYear()
@@ -91,10 +92,14 @@ export function SiteFooter() {
       // TODO: integrar con servicio real (Mailchimp / Resend / Buttondown).
       await new Promise((resolve) => setTimeout(resolve, 500))
       setEmail("")
-      alert("¡Gracias por suscribirte!")
+      toast.success("¡Gracias por suscribirte!", {
+        description: "Te avisaré cuando publique algo nuevo.",
+      })
     } catch {
       trackNewsletterSignup(email, "footer", false)
-      alert("Error al suscribirse. Inténtalo de nuevo.")
+      toast.error("Error al suscribirse", {
+        description: "Inténtalo de nuevo en un momento.",
+      })
     } finally {
       setIsSubmitting(false)
     }

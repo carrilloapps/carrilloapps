@@ -1,20 +1,30 @@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
-import { Card } from "@/components/ui/card"
+import { DynamicBackground } from "@/components/dynamic-background"
+import { SurfaceCard } from "@/components/ui/surface-card"
 
 export default function TermsConditionsPage() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white relative overflow-hidden">
+      <DynamicBackground />
       <SiteHeader />
 
-      <main className="container py-12 space-y-12">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Términos y Condiciones</h1>
+      <main className="container py-12 md:py-16 space-y-8 relative z-10" id="main-content">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="space-y-3">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Legal
+            </span>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Términos y Condiciones
+            </h1>
+          </div>
 
-          <Card className="bg-zinc-900 border-zinc-800 p-6 md:p-8 space-y-6">
+          <SurfaceCard>
+            <div className="p-6 md:p-8 space-y-6">
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Introducción</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Última actualización:{" "}
                 {new Date(1747346137458).toLocaleDateString("es-CO", {
                   year: "numeric",
@@ -22,20 +32,20 @@ export default function TermsConditionsPage() {
                   day: "numeric",
                 })}
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Bienvenido al sitio web profesional de José Carrillo. Estos
                 términos y condiciones establecen las reglas y normativas para
                 el uso de mi sitio web, ubicado en carrillo.app, y aplican a
                 todos los usuarios y visitantes.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 El presente documento constituye un acuerdo legalmente
                 vinculante entre el usuario y José Carrillo. Al acceder a este
                 sitio web, se asume que aceptas estos términos y condiciones en
                 su totalidad. Si no estás de acuerdo con alguna parte de estos
                 términos y condiciones, no debes utilizar este sitio web.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Este sitio web se rige por las leyes de la República de
                 Colombia. Cualquier disputa relacionada con este sitio web
                 estará sujeta a la jurisdicción de los tribunales colombianos.
@@ -46,7 +56,7 @@ export default function TermsConditionsPage() {
               <h2 className="text-2xl font-bold">
                 Derechos de Propiedad Intelectual
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Salvo que se indique lo contrario, José Carrillo posee los
                 derechos de propiedad intelectual de todo el material en
                 carrillo.app, protegido bajo las leyes colombianas de derechos
@@ -56,10 +66,10 @@ export default function TermsConditionsPage() {
                 sitio web para tu uso personal, sujeto a las restricciones
                 establecidas en estos términos y condiciones.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 No debes, sin mi autorización expresa por escrito:
               </p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+              <ul className="list-disc pl-6 text-zinc-300 space-y-2">
                 <li>Republicar material de carrillo.app</li>
                 <li>
                   Vender, alquilar o sublicenciar material de carrillo.app
@@ -71,7 +81,7 @@ export default function TermsConditionsPage() {
                   previa
                 </li>
               </ul>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Algunas secciones de este sitio web ofrecen la oportunidad a los
                 usuarios de compartir comentarios sobre artículos técnicos o
                 proyectos de código. No filtro, edito, publico ni reviso
@@ -87,7 +97,7 @@ export default function TermsConditionsPage() {
               <h2 className="text-2xl font-bold">
                 Responsabilidad del Contenido
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 No seré responsable por ningún contenido que aparezca en tu
                 sitio web como resultado de enlazar el mío. Aceptas protegerme y
                 defenderme contra todas las reclamaciones que surjan en tu sitio
@@ -96,7 +106,7 @@ export default function TermsConditionsPage() {
                 delictivo, o que infrinja, viole o promueva la infracción o
                 cualquier otra violación de los derechos de terceros.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Todo el contenido publicado en este sitio web, incluyendo pero
                 no limitado a artículos técnicos, código fuente de ejemplos, y
                 material educativo, se proporciona únicamente con fines
@@ -108,7 +118,7 @@ export default function TermsConditionsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Reserva de Derechos</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Me reservo el derecho de solicitar que elimines todos los
                 enlaces o cualquier enlace particular a mi sitio web. Aceptas
                 eliminar inmediatamente todos los enlaces a mi sitio web cuando
@@ -119,7 +129,7 @@ export default function TermsConditionsPage() {
                 enlazando a mi sitio web, aceptas estar vinculado y seguir estos
                 términos y condiciones de enlace.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Me reservo el derecho de modificar o discontinuar, temporal o
                 permanentemente, el sitio web o cualquier parte del mismo con o
                 sin previo aviso. No seré responsable ante ti ni ante terceros
@@ -132,7 +142,7 @@ export default function TermsConditionsPage() {
               <h2 className="text-2xl font-bold">
                 Eliminación de Enlaces de Mi Sitio Web
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Si encuentras algún enlace en mi sitio web que sea ofensivo por
                 cualquier motivo, tienes libertad para contactarme e informarme
                 en cualquier momento. Consideraré las solicitudes para eliminar
@@ -140,7 +150,7 @@ export default function TermsConditionsPage() {
                 directamente. Sin embargo, me esforzaré por atender todas las
                 comunicaciones en un plazo razonable.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 No garantizo que la información en este sitio web sea correcta,
                 no garantizo su integridad o exactitud; ni prometo asegurar que
                 el sitio web permanezca disponible o que el material en el sitio
@@ -154,7 +164,7 @@ export default function TermsConditionsPage() {
               <h2 className="text-2xl font-bold">
                 Exención de Responsabilidad
               </h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 En la máxima medida permitida por la ley aplicable colombiana,
                 excluyo todas las representaciones, garantías y condiciones
                 relacionadas con mi sitio web y el uso de este sitio web, en
@@ -162,7 +172,7 @@ export default function TermsConditionsPage() {
                 colombiano y demás normas aplicables. Nada en esta exención de
                 responsabilidad:
               </p>
-              <ul className="list-disc pl-6 text-zinc-400 space-y-2">
+              <ul className="list-disc pl-6 text-zinc-300 space-y-2">
                 <li>
                   Limitará o excluirá mi responsabilidad o la tuya por muerte o
                   lesiones personales;
@@ -180,7 +190,7 @@ export default function TermsConditionsPage() {
                   no puedan ser excluidas según la legislación aplicable.
                 </li>
               </ul>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Las limitaciones y prohibiciones de responsabilidad establecidas
                 en esta sección y en otras partes de esta exención de
                 responsabilidad: (a) están sujetas al párrafo anterior; y (b)
@@ -189,7 +199,7 @@ export default function TermsConditionsPage() {
                 surjan por contrato, por acto ilícito y por incumplimiento del
                 deber legal.
               </p>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 En la medida en que el sitio web y la información y los
                 servicios en el sitio web se proporcionen de forma gratuita, no
                 seré responsable de ninguna pérdida o daño de ninguna
@@ -200,7 +210,7 @@ export default function TermsConditionsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Solución de Disputas</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Cualquier disputa que surja de o en conexión con estos Términos
                 y Condiciones, incluyendo cualquier cuestión relacionada con su
                 existencia, validez o terminación, será resuelta a través de un
@@ -213,7 +223,7 @@ export default function TermsConditionsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Protección de Datos</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 El tratamiento de datos personales relacionados con este sitio
                 web se rige por nuestra
                 <a
@@ -231,13 +241,14 @@ export default function TermsConditionsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-bold">Información de Contacto</h2>
-              <p className="text-zinc-400">
+              <p className="text-zinc-300">
                 Si tienes alguna pregunta sobre estos Términos y Condiciones o
                 necesitas aclaraciones adicionales, por favor contáctame en:
               </p>
-              <p className="text-zinc-400">Correo electrónico: legal@carrillo.app</p>
+              <p className="text-zinc-300">Correo electrónico: legal@carrillo.app</p>
             </section>
-          </Card>
+            </div>
+          </SurfaceCard>
         </div>
       </main>
 
