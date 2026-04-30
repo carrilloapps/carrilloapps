@@ -539,7 +539,7 @@ export default function AboutPage() {
 
           <motion.div variants={itemVariants}>
             <Tabs defaultValue="hobbies" className="w-full">
-              <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-1">
+              <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-white/[0.03] backdrop-blur-md border border-white/10 p-1">
                 <TabsTrigger
                   value="hobbies"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white"

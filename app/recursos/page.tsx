@@ -116,7 +116,7 @@ function ResourcesPageContent() {
               className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8"
               variants={itemVariants}
             >
-                <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2 h-auto bg-zinc-900/80 backdrop-blur-sm border border-zinc-800 p-1">
+                <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2 h-auto bg-white/[0.03] backdrop-blur-md border border-white/10 p-1">
                   <TabsTrigger
                     value="github"
                     className="data-[state=active]:bg-zinc-800 data-[state=active]:text-white gap-2 transition-all duration-200"

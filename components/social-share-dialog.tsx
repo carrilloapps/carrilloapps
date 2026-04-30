@@ -111,7 +111,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-zinc-900 border-zinc-800 text-white">
+      <DialogContent className="sm:max-w-md bg-slate-950/95 backdrop-blur-xl border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
             Compartir artículo

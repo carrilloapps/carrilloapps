@@ -299,8 +299,8 @@ function SchedulePageContent() {
                       >
                         <SelectTrigger
                           id="projectType"
-                          className={`bg-zinc-950 border-zinc-800 focus:ring-blue-500 ${formErrors.projectType ? "border-red-500" : ""
-                            }`}
+                          variant="glass"
+                          className={formErrors.projectType ? "border-red-500" : ""}
                         >
                           <SelectValue placeholder="Selecciona el tipo de proyecto" />
                         </SelectTrigger>

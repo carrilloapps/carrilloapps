@@ -168,7 +168,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       transition={{ duration: 0.3 }}
       whileHover={{ y: -5 }}
     >
-      <Card className={`bg-zinc-900 ${isPinned ? "border-blue-800" : "border-zinc-800"}`}>
+      <Card className={`surface-card ${isPinned ? "ring-2 ring-blue-500/30" : ""}`}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <a
@@ -239,7 +239,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
           <Input
             type="search"
             placeholder="Buscar repositorio..."
-            className="pl-8 bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 w-full"
+            variant="glass" className="pl-9 w-full"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -253,7 +253,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
         </div>
         <div className="flex gap-2">
           <Select onValueChange={handleLanguageChange} defaultValue={language}>
-            <SelectTrigger className="w-full md:w-[180px] bg-zinc-950 border-zinc-800 focus:ring-blue-500">
+            <SelectTrigger variant="glass" className="w-full md:w-[180px]">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
             <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">

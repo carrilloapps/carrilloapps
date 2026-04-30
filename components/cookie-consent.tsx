@@ -55,7 +55,7 @@ export function CookieConsent() {
           aria-labelledby="cookie-consent-title"
           aria-describedby="cookie-consent-description"
         >
-          <div className="relative bg-zinc-900/95 backdrop-blur-xl border border-zinc-800/50 rounded-2xl shadow-2xl p-5 overflow-hidden">
+          <div className="surface-card p-5">
             {/* Gradient accent border effect */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 pointer-events-none" />
             

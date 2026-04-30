@@ -320,7 +320,7 @@ function ServicesPageContent() {
           <motion.div variants={itemVariants}>
             <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
               <div className="overflow-x-auto pb-2">
-                <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex lg:flex-wrap gap-2 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-2 mb-8 rounded-xl">
+                <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex lg:flex-wrap gap-2 h-auto bg-white/[0.03] backdrop-blur-md border border-white/10 p-2 mb-8 rounded-xl">
                   {services.map((service) => {
                     const IconComponent = service.icon
                     return (
