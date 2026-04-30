@@ -59,7 +59,7 @@ function BlogCategoriesContent({ categories }: { categories: string[] }) {
           <SelectValue placeholder="Filtrar por categoría" className="text-zinc-300" />
         </SelectTrigger>
         
-        <SelectContent className="bg-gradient-to-br from-zinc-800/95 to-zinc-900/95 backdrop-blur-xl border border-zinc-700/50 rounded-lg shadow-2xl shadow-black/50">
+        <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
