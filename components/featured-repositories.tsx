@@ -167,7 +167,7 @@ export function FeaturedRepositories() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between border-t border-zinc-800 bg-zinc-900/50">
+            <CardFooter className="flex justify-between border-t border-white/[0.06]">
               <div className="flex items-center gap-4 text-sm text-zinc-400">
                 <div className="flex items-center gap-1">
                   <Star className="h-4 w-4" />

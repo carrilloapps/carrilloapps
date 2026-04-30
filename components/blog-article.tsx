@@ -591,26 +591,31 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
     )}
 
     {/* Newsletter or CTA */}
-    <Card className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-sm border border-blue-700/30 overflow-hidden hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
-      <CardContent className="p-6 text-center space-y-4">
-        <div className="w-12 h-12 mx-auto rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30">
-          <ThumbsUp className="h-6 w-6 text-blue-400" />
+    <Card className="surface-card relative overflow-hidden">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-blue-600/15 via-purple-600/8 to-transparent pointer-events-none"
+        aria-hidden="true"
+      />
+      <CardContent className="p-6 text-center space-y-4 relative z-[2]">
+        <div className="w-12 h-12 mx-auto rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30">
+          <ThumbsUp className="h-5 w-5 text-blue-400" aria-hidden="true" />
         </div>
         <div className="space-y-2">
           <h4 className="font-semibold text-white">
             ¿Te gustó este artículo?
           </h4>
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-300">
             Compártelo con otros desarrolladores y sígueme para más contenido.
           </p>
         </div>
         <div className="flex gap-2">
-          <Button 
-            size="sm" 
+          <Button
+            variant="gradient"
+            size="sm"
             onClick={() => setShareDialogOpen(true)}
-            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25"
+            className="flex-1 touch-manipulation"
           >
-            <Share2 className="h-4 w-4 mr-1" />
+            <Share2 className="h-4 w-4 mr-1" aria-hidden="true" />
             Compartir
           </Button>
           <Button

@@ -851,7 +851,7 @@ export default function AboutPage() {
         <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-zinc-300">
               {!cvFormSubmitted
                 ? "Por favor, ingresa tu información para acceder el CV, esperando quizás conocerte mejor en algun momento."
                 : "¡Gracias! Ahora puedes ver o descargar el CV"}

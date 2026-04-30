@@ -602,7 +602,7 @@ function SchedulePageContent() {
             <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               Confirmar solicitud
             </DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-zinc-300">
               ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
             </DialogDescription>
           </DialogHeader>
