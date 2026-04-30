@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
+import { ParallaxBackdrop } from "@/components/parallax-backdrop";
+import { AuroraBackdrop } from "@/components/aurora-backdrop";
 import Link from "next/link";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -49,12 +51,11 @@ export default function AboutPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <DynamicBackground />
       <SiteHeader />
-      <main className="relative z-10 container py-12 space-y-24" id="main-content">
-        {/* Hero editorial — distinto del home: layout 7:5 (copy más ancho que
-            foto), retrato rectangular con esquinas suaves (no circular), tira
-            de stats numéricos como credenciales de un vistazo, y dos chips
-            glass superpuestos a la foto (ubicación arriba, status abajo).
-            Lenguaje editorial vs. el home, que es más comercial. */}
+      <main className="relative z-10 pt-12" id="main-content">
+        {/* Hero editorial — distinto del home: layout 7:5, retrato rectangular,
+            stats strip y chips glass sobre la foto. Lenguaje editorial vs el
+            home, que es más comercial. */}
+        <div className="container mx-auto px-4">
         <motion.section
           className="relative w-full pt-6 md:pt-10 pb-4"
           initial={{ opacity: 0 }}
@@ -84,8 +85,8 @@ export default function AboutPage() {
                 id="about-hero-heading"
                 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.05] text-white max-w-[20ch]"
               >
-                +10 años evitando que los sistemas financieros se caigan{" "}
-                <span className="text-blue-400">a las 3{" "}a.{" "}m.</span>
+                +10 años evitando que los sistemas financieros se caigan
+                <span className="text-blue-400">{" a las 3 a. m."}</span>
               </h1>
 
               <p className="text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl">
@@ -188,7 +189,7 @@ export default function AboutPage() {
                   priority
                   fetchPriority="high"
                   loading="eager"
-                  quality={92}
+                  quality={90}
                   sizes="(max-width: 768px) 360px, (max-width: 1280px) 380px, 440px"
                 />
 
@@ -222,50 +223,65 @@ export default function AboutPage() {
             </motion.figure>
           </div>
         </motion.section>
+        </div>
 
-        {/* Manifesto — pull-quote + párrafo con enlaces internos. Reemplaza
-            al bloque "propuesta" anterior, mejor escrito y con peso editorial.
-            Sin card propia: solo border-l de acento para no nest-card. */}
+        {/* 01 — Manifiesto · superficie clara con aurora tono studio · es la
+            "tesis editorial" del about, merece protagonismo visual. */}
+        <div className="relative overflow-hidden">
+          <AuroraBackdrop tone="studio" intensity={0.6} />
         <motion.section
-          className="relative max-w-3xl"
+          className="relative max-w-3xl mx-auto px-4 py-16 md:py-24"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
           aria-labelledby="about-manifesto"
         >
-          <div className="border-l-2 border-blue-500/40 pl-6 md:pl-8 space-y-5">
+          <div className="relative space-y-6">
+            {/* Comilla decorativa de apertura — refuerza el peso editorial. */}
+            <span
+              className="absolute -top-12 -left-2 md:-top-16 md:-left-4 text-[8rem] md:text-[10rem] leading-none text-blue-500/20 font-serif select-none pointer-events-none"
+              aria-hidden="true"
+            >
+              «
+            </span>
             <p
               id="about-manifesto"
-              className="text-[11px] uppercase tracking-[0.22em] text-zinc-500 font-medium"
+              className="text-[11px] uppercase tracking-[0.22em] text-zinc-500 font-medium relative"
             >
               El manifiesto
             </p>
-            <p className="text-xl md:text-2xl text-white leading-snug font-semibold tracking-tight max-w-prose">
+            <p className="text-2xl md:text-3xl lg:text-4xl text-white leading-tight font-bold tracking-tight max-w-prose relative">
               Mi trabajo no es escribir el código más bonito; es diseñar el
               sistema en el que un equipo puede meter cambios{" "}
               <span className="text-blue-300">sin miedo</span>.
             </p>
-            <p className="text-zinc-300 leading-relaxed max-w-prose">
-              Mentoreo desarrolladores cada semana, escribo sobre arquitectura
-              financiera en{" "}
-              <Link
-                href="/blog"
-                className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
-              >
-                mi blog
-              </Link>{" "}
-              y participo en meetups de fintech en Colombia. Si vas a
-              contratarme, lo que se llevan tus equipos no es un{" "}
-              <em>dev</em> senior: es un manual de cómo no quemarse
-              construyendo software crítico.
-            </p>
+            <div className="border-l-2 border-blue-500/40 pl-6 md:pl-8 max-w-prose">
+              <p className="text-base md:text-lg text-zinc-300 leading-relaxed">
+                Mentoreo desarrolladores cada semana, escribo sobre arquitectura
+                financiera en{" "}
+                <Link
+                  href="/blog"
+                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                >
+                  mi blog
+                </Link>{" "}
+                y participo en meetups de fintech en Colombia. Si vas a
+                contratarme, lo que se llevan tus equipos no es un{" "}
+                <em className="text-white not-italic font-semibold">dev</em> senior: es un manual de cómo no
+                quemarse construyendo software crítico.
+              </p>
+            </div>
           </div>
         </motion.section>
+        </div>
 
-        {/* Sección de Trayectoria Profesional */}
+        {/* 02 — Carrera/Timeline · superficie transparente · parallax diagonals
+            (mismo lenguaje que Experience en el home). */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="diagonals" position="top-left" speed={0.14} opacityClass="opacity-[0.05]" />
         <motion.section
-          className="py-12 space-y-8"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -295,7 +311,7 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
@@ -306,7 +322,7 @@ export default function AboutPage() {
                   </h3>
                 </div>
                 <p className="text-zinc-300">
-                  Lidero dos equipo de desarrolladores con los cuales construyo
+                  Lidero dos equipos de desarrolladores con los cuales construyo
                   las integraciones financieras empresariales y bancarias.
                   Implementé una arquitectura de microservicios que mejoró la
                   fiabilidad del sistema considerablemente. Mentoría a
@@ -343,7 +359,7 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
@@ -391,14 +407,14 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">ago. 2021 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
-                    Senior Software Engineering @ Acid Labs
+                    Senior Software Engineer @ Acid Labs
                   </h3>
                 </div>
                 <p className="text-zinc-300">
@@ -460,7 +476,7 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
@@ -525,7 +541,7 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <BookOpen className="w-4 h-4" />
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
@@ -536,14 +552,14 @@ export default function AboutPage() {
                   </h3>
                 </div>
                 <p className="text-zinc-300">
-                  Desarrolle y servi como Tech Leader Backup en el desarrollo la
-                  aplicación movil de ventas para la aerolínea, integrando desde
-                  sistemas de prevención del fraude, como sistemas de diseño y
-                  reservas, incluso pasarelas de pago. Rediseñé la arquitectura
+                  Desarrollé y serví como Tech Leader Backup en la construcción
+                  de la aplicación móvil de ventas para la aerolínea, integrando
+                  sistemas de prevención del fraude, módulos de diseño y reservas,
+                  e incluso pasarelas de pago. Rediseñé la arquitectura
                   de microservicios que mejoró la estabilidad de los sistemas de
                   venta en un 45%. Supervisé la implementación de un sistema de
                   perfiles y autenticación, lo que optimizó la experiencia de
-                  usuario en las plataformas de venta de voletos.
+                  usuario en las plataformas de venta de boletos.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   <Badge
@@ -574,19 +590,19 @@ export default function AboutPage() {
                     variant="outline"
                     className="border-zinc-700/50 text-zinc-400 bg-zinc-800/30"
                   >
-                    Prevención del fraude
+                    React Native
                   </Badge>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Pull quote — separador editorial entre carrera y filosofía. Sin
-            card propia: solo tipografía + acentos cromáticos para no romper
-            la jerarquía de surfaces. */}
+        {/* 03 — Pull quote · superficie limpia, ancho contenido · sirve como
+            "respiro narrativo" entre la carrera y la filosofía. */}
         <motion.figure
-          className="py-8 md:py-12"
+          className="container mx-auto px-4 py-12 md:py-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -597,12 +613,12 @@ export default function AboutPage() {
               className="absolute -top-4 left-0 text-7xl md:text-8xl text-blue-500/30 font-serif leading-none select-none"
               aria-hidden="true"
             >
-              “
+              «
             </span>
             <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-white leading-snug tracking-tight pl-6 md:pl-8">
               El mejor software de pagos es el que nadie nota. Si tu equipo
               está apagando incendios todos los lunes, no es problema de
-              código — es problema de arquitectura.
+              código: es problema de arquitectura.
             </p>
             <figcaption className="mt-4 pl-6 md:pl-8 text-sm text-zinc-400">
               — Algo que repito en mentorías más de lo que debería.
@@ -610,9 +626,12 @@ export default function AboutPage() {
           </blockquote>
         </motion.figure>
 
-        {/* Philosophy Section */}
+        {/* 04 — Filosofía · superficie oscura sutil + parallax rings ·
+            quiebra la monotonía con un fondo más denso. */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
         <motion.section
-          className="py-12 space-y-8"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -649,7 +668,7 @@ export default function AboutPage() {
                   </h3>
                   <p className="text-zinc-300 leading-relaxed">
                     Por eso me importa más la legibilidad que la cleverness.
-                    Una función obvia que cualquiera puede modificar a las 2 AM
+                    Una función obvia que cualquiera puede modificar a las 2 a. m.
                     vale más que un one-liner brillante que sólo entiende quien
                     lo escribió. La calidad no es un check de QA — es una
                     decisión de cada PR.
@@ -705,10 +724,14 @@ export default function AboutPage() {
             </motion.div>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Personal Interests */}
+        {/* 05 — Off-screen · superficie transparente + parallax brackets ·
+            cambio de pulso visual respecto a Filosofía (que va sobre slate). */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
         <motion.section
-          className="py-12 space-y-8"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -807,7 +830,7 @@ export default function AboutPage() {
                           pasar tiempo con mis hijos y esposa, familiares y compañeros de
                           trabajo. Disfruto de momentos de tranquilidad y conexión
                           con las personas que me rodean y aportan valor a lo que soy,
-                          en reuniones o incluso compartido lugares únicos.
+                          en reuniones o incluso compartiendo lugares únicos.
                         </p>
                       </CardContent>
                     </Card>
@@ -957,10 +980,14 @@ export default function AboutPage() {
             </Tabs>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Llamado a la Acción */}
+        {/* 06 — CTA final · superficie oscura sutil + parallax brackets
+            centrado · cierre del recorrido con peso visual. */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="brackets" position="center" speed={0.12} opacityClass="opacity-[0.04]" />
         <motion.section
-          className="py-12"
+          className="container mx-auto px-4 py-16 md:py-24"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -1036,6 +1063,7 @@ export default function AboutPage() {
             </Card>
           </motion.div>
         </motion.section>
+        </div>
       </main>
       {/* CV Download Modal */}
       <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
