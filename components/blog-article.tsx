@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Calendar, Clock, User, ExternalLink, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Sparkles, ArrowRight } from "lucide-react"
+import { Calendar, Clock, User, Tag, ThumbsUp, MessageSquare, Share2, Bookmark, BookmarkCheck, ArrowLeft, Home, BookOpen, Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -48,6 +48,38 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Breadcrumb + Título — full-bleed sobre el grid de contenido para
+          que el H1 use todo el ancho disponible. */}
+      <motion.nav
+        className="flex items-center gap-2 text-sm text-zinc-400 mb-8 flex-wrap"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Link href="/" className="hover:text-blue-400 transition-colors duration-300 flex items-center gap-1">
+          <Home className="h-4 w-4" aria-hidden="true" />
+          Inicio
+        </Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/blog" className="hover:text-blue-400 transition-colors duration-300 flex items-center gap-1">
+          <BookOpen className="h-4 w-4" aria-hidden="true" />
+          Blog
+        </Link>
+        <span aria-hidden="true">/</span>
+        <span className="text-zinc-300 line-clamp-1 max-w-[60ch]">{post.title}</span>
+      </motion.nav>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="mb-10 md:mb-14"
+      >
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
+          {post.title}
+        </h1>
+      </motion.div>
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Main Content */}
         <motion.div
@@ -56,47 +88,18 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Breadcrumb Navigation */}
-          <motion.nav 
-            className="flex items-center gap-2 text-sm text-zinc-400 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Link href="/" className="hover:text-blue-400 transition-colors duration-300 flex items-center gap-1">
-              <Home className="h-4 w-4" />
-              Inicio
-            </Link>
-            <span>/</span>
-            <Link href="/blog" className="hover:text-blue-400 transition-colors duration-300 flex items-center gap-1">
-              <BookOpen className="h-4 w-4" />
-              Blog
-            </Link>
-            <span>/</span>
-            <span className="text-zinc-300 truncate max-w-[800px]">{post.title}</span>
-          </motion.nav>
-
           <motion.article
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <motion.header 
+            <motion.header
               className="space-y-6 mb-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
-            {post.title}
-          </h1>
-        </motion.div>
-        
+
         <motion.div 
           className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 text-sm"
           initial={{ opacity: 0, y: 20 }}
@@ -211,89 +214,91 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
             className="mb-8"
           >
             <Card className="surface-card">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
-              <CardContent className="p-6 relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-              <motion.div 
-                className="flex items-center gap-3"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30 shadow-lg shadow-blue-500/10 overflow-hidden">
-                  {post.authorAvatar ? (
-                    <Image
-                      src={post.authorAvatar}
-                      alt={post.author}
-                      width={48}
-                      height={48}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : post.author === "José Carrillo" || post.author === "Junior Carrillo" ? (
-                    <Image
-                      src="/profile.jpg"
-                      alt={post.author}
-                      width={48}
-                      height={48}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <User className="w-6 h-6 text-blue-400" />
-                  )}
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              <CardContent className="p-6 relative z-[2]">
+                {/* Header row: autor a la izquierda, acciones a la derecha.
+                    En mobile colapsa en columna; las acciones quedan sobre
+                    una sola fila scroll-free gracias a `flex-wrap`. */}
+                <div className="flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+                  {/* Autor */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/30 overflow-hidden flex-shrink-0 shadow-lg shadow-blue-500/10">
+                      {post.authorAvatar ? (
+                        <Image
+                          src={post.authorAvatar}
+                          alt={post.author}
+                          width={64}
+                          height={64}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : post.author === "José Carrillo" || post.author === "Junior Carrillo" ? (
+                        <Image
+                          src="/profile.jpg"
+                          alt={post.author}
+                          width={64}
+                          height={64}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <User className="w-6 h-6 text-blue-400" aria-hidden="true" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-white truncate">{post.author}</p>
+                      <p className="text-sm text-zinc-400 leading-snug line-clamp-2">
+                        {post.authorBio || "Autor"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Acciones — botones consistentes en tamaño con scroll
+                      horizontal interno en viewports muy estrechos. */}
+                  <div
+                    className="flex flex-wrap gap-2 shrink-0"
+                    role="group"
+                    aria-label="Acciones del artículo"
+                  >
+                    <Button
+                      variant="glass"
+                      size="sm"
+                      onClick={toggleReaction}
+                      className={`gap-1.5 ${hasReacted ? "border-blue-500/50 text-blue-400" : ""}`}
+                      aria-pressed={hasReacted}
+                    >
+                      <ThumbsUp
+                        className={`h-4 w-4 ${hasReacted ? "fill-current" : ""}`}
+                        aria-hidden="true"
+                      />
+                      <span>{hasReacted ? "Te gusta" : "Me gusta"}</span>
+                    </Button>
+                    <Button
+                      variant="glass"
+                      size="sm"
+                      onClick={() => setShareDialogOpen(true)}
+                      className="gap-1.5"
+                    >
+                      <Share2 className="h-4 w-4" aria-hidden="true" />
+                      <span>Compartir</span>
+                    </Button>
+                    <Button
+                      variant="glass"
+                      size="sm"
+                      onClick={toggleSave}
+                      className={`gap-1.5 ${hasSaved ? "border-emerald-500/50 text-emerald-400" : ""}`}
+                      aria-pressed={hasSaved}
+                    >
+                      {hasSaved ? (
+                        <BookmarkCheck className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <Bookmark className="h-4 w-4" aria-hidden="true" />
+                      )}
+                      <span>{hasSaved ? "Guardado" : "Guardar"}</span>
+                    </Button>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-white">{post.author}</p>
-                  {post.authorBio ? (
-                    <p className="text-sm text-zinc-400 line-clamp-1">{post.authorBio}</p>
-                  ) : (
-                    <p className="text-sm text-zinc-400">Autor</p>
-                  )}
-                </div>
-              </motion.div>
-              <div className="flex flex-wrap gap-3">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    variant="glass"
-                    size="sm"
-                    onClick={toggleReaction}
-                    className={`gap-1.5 ${hasReacted ? "border-blue-500/50 text-blue-400" : ""}`}
-                  >
-                    <ThumbsUp className={`h-4 w-4 ${hasReacted ? "fill-current" : ""}`} aria-hidden="true" />
-                    <span>{hasReacted ? "Te gusta" : "Me gusta"}</span>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    variant="glass"
-                    size="sm"
-                    onClick={() => setShareDialogOpen(true)}
-                    className="gap-1.5"
-                  >
-                    <Share2 className="h-4 w-4" aria-hidden="true" />
-                    <span>Compartir</span>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    variant="glass"
-                    size="sm"
-                    onClick={toggleSave}
-                    className={`gap-1.5 ${hasSaved ? "border-emerald-500/50 text-emerald-400" : ""}`}
-                  >
-                    {hasSaved ? <BookmarkCheck className="h-4 w-4" aria-hidden="true" /> : <Bookmark className="h-4 w-4" aria-hidden="true" />}
-                    <span>{hasSaved ? "Guardado" : "Guardar"}</span>
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="gradient" size="sm" className="gap-1.5">
-                    <a href={post.link} className="flex gap-2 justify-center items-center" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Leer original
-                    </a>
-                  </Button>
-                </motion.div>
-              </div>
-            </div>
 
             {/* Meta-data grid — definition list pattern, sin cards anidadas.
                 Cada par label/value ocupa una fila con hairline divisor entre
