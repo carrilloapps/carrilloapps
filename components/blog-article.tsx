@@ -104,7 +104,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <motion.div 
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[200px]"
+            className="surface-card-subtle flex items-center gap-3 p-4 flex-1 sm:flex-initial sm:min-w-[200px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
@@ -128,7 +128,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[180px]"
+            className="surface-card-subtle flex items-center gap-3 p-4 flex-1 sm:flex-initial sm:min-w-[180px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
@@ -142,7 +142,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           </motion.div>
           
           <motion.div 
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px]"
+            className="surface-card-subtle flex items-center gap-3 p-4 flex-1 sm:flex-initial sm:min-w-[160px]"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
@@ -157,7 +157,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
           
           <motion.button
             onClick={() => setShareDialogOpen(true)}
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex-1 sm:flex-initial sm:min-w-[160px] cursor-pointer"
+            className="surface-card-subtle flex items-center gap-3 p-4 flex-1 sm:flex-initial sm:min-w-[160px] cursor-pointer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
@@ -302,20 +302,20 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+                <div className="surface-card-subtle p-4">
                   <p className="text-sm text-zinc-400 font-medium mb-1">Publicado el</p>
                   <p className="text-zinc-300 font-medium">{formattedDate}</p>
                 </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+                <div className="surface-card-subtle p-4">
                   <p className="text-sm text-zinc-400 font-medium mb-1">Tiempo de lectura</p>
                   <p className="text-zinc-300 font-medium">{readingTime} minutos</p>
                 </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+                <div className="surface-card-subtle p-4">
                   <p className="text-sm text-zinc-400 font-medium mb-1">ID del artículo</p>
                   <p className="text-zinc-300 text-sm truncate font-mono">{post.guid}</p>
                 </div>
                 {post.lastModified && post.lastModified !== post.pubDate && (
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300">
+                  <div className="surface-card-subtle p-4">
                     <p className="text-sm text-zinc-400 font-medium mb-1">Última actualización</p>
                     <p className="text-zinc-300 font-medium">
                       {formatDateES(post.lastModified)}
@@ -329,7 +329,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+                <div className="surface-card-subtle p-4">
                   <p className="text-sm text-zinc-400 font-medium mb-2">Categorías</p>
                   <div className="flex flex-wrap gap-2">
                     {post.categories.map((category, i) => (
@@ -354,7 +354,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                   </div>
                 </div>
                 {post.tags && post.tags.length > 0 && (
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-teal-500/30 hover:shadow-lg hover:shadow-teal-500/10 transition-all duration-300">
+                  <div className="surface-card-subtle p-4">
                     <p className="text-sm text-zinc-400 font-medium mb-2">Etiquetas</p>
                     <div className="flex flex-wrap gap-2">
                       {post.tags.map((tag, i) => (
@@ -376,7 +376,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                     </div>
                   </div>
                 )}
-                <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300">
+                <div className="surface-card-subtle p-4">
                   <p className="text-sm text-zinc-400 font-medium mb-2">Estadísticas</p>
                   <div className="flex flex-col gap-3 text-zinc-300">
                     <motion.div 
