@@ -11,7 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
-import { PageHeroSplit } from "@/components/page-hero-split";
 import Link from "next/link";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -50,69 +49,219 @@ export default function AboutPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <DynamicBackground />
       <SiteHeader />
-      <main className="relative z-10 container py-12 space-y-24">
-        <PageHeroSplit
-          badge={{ text: "Disponible para nuevos proyectos · Medellín, CO" }}
-          title="Llevo 10 años evitando que los sistemas financieros se caigan a las 3 AM"
-          subtitle="Tech Leader, Senior Software Developer y especialista en pagos. Medellín, Colombia."
-          description={
-            <>
-              <p className="text-zinc-300 leading-relaxed pb-4">
-                Soy desarrollador y líder técnico desde hace 10 años, basado
-                en Medellín. Hoy dirijo el equipo de pagos en{" "}
-                <Link href="https://yummysuperapp.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline">
+      <main className="relative z-10 container py-12 space-y-24" id="main-content">
+        {/* Hero editorial — distinto del home: layout 7:5 (copy más ancho que
+            foto), retrato rectangular con esquinas suaves (no circular), tira
+            de stats numéricos como credenciales de un vistazo, y dos chips
+            glass superpuestos a la foto (ubicación arriba, status abajo).
+            Lenguaje editorial vs. el home, que es más comercial. */}
+        <motion.section
+          className="relative w-full pt-6 md:pt-10 pb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          aria-labelledby="about-hero-heading"
+        >
+          <div className="grid gap-10 lg:gap-14 lg:grid-cols-12 items-center">
+            {/* Columna de copy — 7/12 en lg para que respire. */}
+            <motion.div
+              className="space-y-6 lg:col-span-7 order-2 lg:order-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="space-y-3">
+                <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm font-medium py-1.5 px-3 rounded-full backdrop-blur-sm">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    aria-hidden="true"
+                  />
+                  Disponible para nuevos proyectos
+                </span>
+              </div>
+
+              <h1
+                id="about-hero-heading"
+                className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.05] text-white max-w-[20ch]"
+              >
+                +10 años evitando que los sistemas financieros se caigan{" "}
+                <span className="text-blue-400">a las 3{" "}a.{" "}m.</span>
+              </h1>
+
+              <p className="text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+                Soy <strong className="font-semibold text-white">Tech Leader y Senior Software Developer</strong>,
+                especializado en pagos. Hoy dirijo el equipo de pagos en{" "}
+                <Link
+                  href="https://yummysuperapp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                >
                   Yummy Inc.
                 </Link>{" "}
                 — antes construí la pasarela B2B de Wompi (Bancolombia) y los
-                módulos de conciliación de Cencosud que mueven 2M+ facturas
-                semanales contra SAP. Mi obsesión: que los sistemas de dinero
-                sean predecibles, observables y se reparen antes de que el
-                cliente se entere.
+                módulos de Cencosud que mueven 2{" "}M+ facturas
+                semanales contra SAP.
               </p>
-              <p className="text-zinc-300 leading-relaxed">
-                Como Tech Leader, mi trabajo no es escribir el código más bonito
-                sino diseñar el sistema en el que un equipo de 7 personas puede
-                meter cambios sin miedo. Mentoreo desarrolladores cada semana,
-                escribo sobre arquitectura financiera en{" "}
-                <Link href="/blog" className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline">
-                  mi blog
-                </Link>{" "}
-                y participo en meetups de fintech en Colombia. Si vas a
-                contratarme, lo que se llevan tus equipos no es un dev senior —
-                es un manual de cómo no quemarse construyendo software crítico.
-              </p>
-            </>
-          }
-          image={{
-            src: "/profile.jpg",
-            alt: "José Carrillo, Tech Leader y Senior Software Developer especializado en sistemas de pago, basado en Medellín, Colombia",
-            width: 600,
-            height: 600,
-            priority: true,
-          }}
-          actions={
-            <>
-              <Button variant="gradient" size="xl" className="w-full sm:w-auto touch-manipulation group" asChild>
-                <Link href="/contacto" aria-describedby="contact-cta-desc">
-                  Conversemos sobre tu sistema
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                  <span id="contact-cta-desc" className="sr-only">Hablemos de tu próximo proyecto de arquitectura o pagos</span>
-                </Link>
-              </Button>
-              <Button
-                variant="glass"
-                size="xl"
-                className="w-full sm:w-auto touch-manipulation"
-                onClick={() => setCvModalOpen(true)}
-                aria-describedby="cv-cta-desc"
+
+              {/* Stats strip — credenciales numéricas de un vistazo. Es el
+                  rasgo más distintivo del hero del about respecto al del
+                  home, que no las muestra en el primer fold. */}
+              <ul
+                className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 max-w-2xl pt-2"
+                aria-label="Credenciales profesionales"
               >
-                Recibir mi CV
-                <Download className="ml-2 h-5 w-5" aria-hidden="true" />
-                <span id="cv-cta-desc" className="sr-only">Abrir formulario para recibir mi currículum vitae</span>
-              </Button>
-            </>
-          }
-        />
+                {[
+                  { value: "10", label: "Años de carrera" },
+                  { value: "7", label: "Personas en mi equipo" },
+                  { value: "2 M+", label: "Tx/día procesadas" },
+                  { value: "3", label: "Roles de liderazgo" },
+                ].map((stat) => (
+                  <li
+                    key={stat.label}
+                    className="surface-card-subtle px-3 py-3 text-center"
+                  >
+                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
+                      {stat.value}
+                    </div>
+                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
+                      {stat.label}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div
+                className="flex flex-col sm:flex-row gap-3 pt-2"
+                role="group"
+                aria-label="Acciones principales"
+              >
+                <Button
+                  variant="gradient"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation group"
+                  asChild
+                >
+                  <Link href="/contacto">
+                    Conversemos sobre tu sistema
+                    <ArrowRight
+                      className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </Button>
+                <Button
+                  variant="glass"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation"
+                  onClick={() => setCvModalOpen(true)}
+                >
+                  Recibir mi CV
+                  <Download className="ml-2 h-5 w-5" aria-hidden="true" />
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Retrato editorial — rectangular con esquinas suaves (rounded-3xl)
+                para diferenciarlo del avatar circular del home. Dos chips
+                glass superpuestos: ubicación arriba a la izquierda, indicador
+                de status abajo a la derecha. */}
+            <motion.figure
+              className="relative lg:col-span-5 order-1 lg:order-2 mx-auto lg:mx-0 w-full max-w-[360px] lg:max-w-none group"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              <div
+                className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10"
+                style={{
+                  boxShadow:
+                    "0 0 40px rgba(59, 130, 246, 0.18), 0 30px 80px -20px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                <Image
+                  src="/profile.jpg"
+                  alt="José Carrillo, Tech Leader y Senior Software Developer en Medellín, Colombia."
+                  width={480}
+                  height={600}
+                  className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-[1.04]"
+                  priority
+                  fetchPriority="high"
+                  loading="eager"
+                  quality={92}
+                  sizes="(max-width: 768px) 360px, (max-width: 1280px) 380px, 440px"
+                />
+
+                {/* Capa de oscurecimiento sutil para legibilidad de chips. */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/30 pointer-events-none"
+                  aria-hidden="true"
+                />
+
+                {/* Chip ubicación — arriba a la izquierda. */}
+                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/15 rounded-full px-3 py-1.5 text-xs text-white">
+                  <span aria-hidden="true">📍</span>
+                  <span className="font-medium">Medellín, CO</span>
+                </div>
+
+                {/* Chip status — abajo a la derecha. */}
+                <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 bg-black/60 backdrop-blur-md border border-emerald-500/40 rounded-full px-3 py-1.5">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    aria-hidden="true"
+                  />
+                  <span className="text-xs font-semibold text-emerald-300 leading-none">
+                    Disponible
+                  </span>
+                </div>
+              </div>
+
+              <figcaption className="sr-only">
+                Retrato de José Carrillo, basado en Medellín, Colombia.
+              </figcaption>
+            </motion.figure>
+          </div>
+        </motion.section>
+
+        {/* Manifesto — pull-quote + párrafo con enlaces internos. Reemplaza
+            al bloque "propuesta" anterior, mejor escrito y con peso editorial.
+            Sin card propia: solo border-l de acento para no nest-card. */}
+        <motion.section
+          className="relative max-w-3xl"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          aria-labelledby="about-manifesto"
+        >
+          <div className="border-l-2 border-blue-500/40 pl-6 md:pl-8 space-y-5">
+            <p
+              id="about-manifesto"
+              className="text-[11px] uppercase tracking-[0.22em] text-zinc-500 font-medium"
+            >
+              El manifiesto
+            </p>
+            <p className="text-xl md:text-2xl text-white leading-snug font-semibold tracking-tight max-w-prose">
+              Mi trabajo no es escribir el código más bonito; es diseñar el
+              sistema en el que un equipo puede meter cambios{" "}
+              <span className="text-blue-300">sin miedo</span>.
+            </p>
+            <p className="text-zinc-300 leading-relaxed max-w-prose">
+              Mentoreo desarrolladores cada semana, escribo sobre arquitectura
+              financiera en{" "}
+              <Link
+                href="/blog"
+                className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+              >
+                mi blog
+              </Link>{" "}
+              y participo en meetups de fintech en Colombia. Si vas a
+              contratarme, lo que se llevan tus equipos no es un{" "}
+              <em>dev</em> senior: es un manual de cómo no quemarse
+              construyendo software crítico.
+            </p>
+          </div>
+        </motion.section>
 
         {/* Sección de Trayectoria Profesional */}
         <motion.section
