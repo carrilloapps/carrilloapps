@@ -285,13 +285,10 @@ function ServicesPageContent() {
             </>
           }
           actions={
-            <Button
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group"
-              asChild
-            >
+            <Button variant="gradient" size="xl" className="w-full sm:w-auto touch-manipulation group" asChild>
               <Link href="#technical-leadership">
                 Explorar servicios
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
               </Link>
             </Button>
           }
@@ -361,9 +358,10 @@ function ServicesPageContent() {
                           <p className="text-zinc-400 text-xl leading-relaxed">
                             {service.description}
                           </p>
-                          <Button 
-                            size="lg" 
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
+                          <Button
+                            variant="gradient"
+                            size="lg"
+                            className="touch-manipulation"
                             onClick={() => trackCTAClick('Solicitar Consulta', 'primary', `servicios-${service.id}-description`)}
                           >
                             <Link href={`/contact?service=${service.id}`} className="flex items-center gap-2">
@@ -416,8 +414,9 @@ function ServicesPageContent() {
                                 >
                                   Más información
                                 </Button>
-                                <Button 
-                                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                                <Button
+                                  variant="gradient"
+                                  size="default"
                                   onClick={() => trackCTAClick('Contactar', 'primary', `servicios-${service.id}-case-study`)}
                                 >
                                   <Link href={`/contact?service=${service.id}`}>
@@ -600,14 +599,16 @@ function ServicesPageContent() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-2xl shadow-blue-500/25 hover:shadow-blue-500/30 transition-all duration-300"
+              <Button
+                variant="gradient"
+                size="xl"
+                className="touch-manipulation group"
+                asChild
                 onClick={() => trackCTAClick('¿Alguna duda? Contáctame', 'primary', 'servicios-bottom-cta')}
               >
-                <Link href="/contacto" className="flex items-center gap-3">
+                <Link href="/contacto" className="inline-flex items-center gap-2">
                   ¿Alguna duda? Contáctame
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                 </Link>
               </Button>
             </motion.div>
@@ -790,20 +791,21 @@ function ServicesPageContent() {
           </motion.div>
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button
-              size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl"
+              variant="gradient"
+              size="xl"
+              className="touch-manipulation group"
               asChild
               onClick={() => trackCTAClick('Iniciar conversación', 'primary', 'servicios-final-cta')}
             >
               <Link href="/contacto">
                 Iniciar conversación
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
               </Link>
             </Button>
             <Button
-              variant="outline"
-              size="lg"
-              className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 px-12 py-6 text-xl"
+              variant="glass"
+              size="xl"
+              className="touch-manipulation"
               asChild
               onClick={() => trackButtonClick('Ver otros proyectos', 'servicios-final-cta')}
             >

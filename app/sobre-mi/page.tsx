@@ -81,16 +81,17 @@ export default function AboutPage() {
           }}
           actions={
             <>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
+              <Button variant="gradient" size="xl" className="w-full sm:w-auto touch-manipulation group" asChild>
                 <Link href="/contacto" aria-describedby="explore-projects-desc">
                   Contactarme
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                   <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
                 </Link>
               </Button>
               <Button
-                variant="outline"
-                className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                variant="glass"
+                size="xl"
+                className="w-full sm:w-auto touch-manipulation"
                 onClick={() => setCvModalOpen(true)}
                 aria-describedby="download-cv-desc"
               >

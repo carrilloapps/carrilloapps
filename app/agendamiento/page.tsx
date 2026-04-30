@@ -158,13 +158,15 @@ function SchedulePageContent() {
             }}
             actions={
               <>
-                <Button 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group min-h-[48px]" 
+                <Button
+                  variant="gradient"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation group"
                   onClick={() => window.requestAnimationFrame(() => window.scrollTo({ top: 800, behavior: "smooth" }))}
                   aria-describedby="agendar-servicio-desc"
                 >
                   Agendar servicio
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                   <span id="agendar-servicio-desc" className="sr-only">Book a specialized professional service</span>
                 </Button>
                 <Button
@@ -223,7 +225,7 @@ function SchedulePageContent() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Tu nombre completo"
-                        className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.name ? "border-red-500" : ""
+                        className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.name ? "border-red-500" : ""
                           }`}
                       />
                       {formErrors.name && (
@@ -243,7 +245,7 @@ function SchedulePageContent() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="tu@email.com"
-                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.email ? "border-red-500" : ""
+                          className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.email ? "border-red-500" : ""
                             }`}
                         />
                         {formErrors.email && (
@@ -260,7 +262,7 @@ function SchedulePageContent() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="+1 (555) 123-4567"
-                          className={`bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 ${formErrors.phone ? "border-red-500" : ""
+                          className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.phone ? "border-red-500" : ""
                             }`}
                         />
                         {formErrors.phone && (
@@ -279,7 +281,7 @@ function SchedulePageContent() {
                         value={formData.company}
                         onChange={handleChange}
                         placeholder="Nombre de tu empresa"
-                        className="bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500"
+                        className="bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50"
                       />
                     </div>
 
@@ -374,13 +376,15 @@ function SchedulePageContent() {
                         onChange={handleChange}
                         placeholder="Cuéntame brevemente sobre tu proyecto y cómo puedo ayudarte..."
                         rows={5}
-                        className="bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500"
+                        className="bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50"
                       />
                     </div>
 
                     <Button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transition-all duration-300"
+                      variant="gradient"
+                      size="lg"
+                      className="w-full touch-manipulation"
                     >
                       Solicitar Agendamiento
                     </Button>
@@ -654,7 +658,9 @@ function SchedulePageContent() {
               whileTap={{ scale: 0.98 }}
             >
               <Button
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transition-all duration-300"
+                variant="gradient"
+                size="lg"
+                className="touch-manipulation"
                 onClick={confirmSubmission}
               >
                 Confirmar y enviar

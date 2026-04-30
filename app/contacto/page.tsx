@@ -16,13 +16,14 @@ import { DynamicBackground } from "@/components/dynamic-background"
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
 import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
 import { PageHero } from "@/components/page-hero"
-import { 
-  trackFormStart, 
-  trackFormSubmit, 
+import {
+  trackFormStart,
+  trackFormSubmit,
   trackFormFieldInteraction,
   trackSocialClick,
   trackButtonClick
 } from "@/lib/analytics"
+import { toast } from "sonner"
 
 // Security utilities
 const obfuscateEmail = (email: string): string => {
@@ -162,7 +163,9 @@ function ContactPageContent() {
     }
     
     if (isLimited) {
-      alert('Demasiados intentos. Por favor, espera un momento antes de intentar nuevamente.')
+      toast.error('Demasiados intentos', {
+        description: 'Espera un momento antes de intentar nuevamente.',
+      })
       return
     }
     
@@ -176,7 +179,9 @@ function ContactPageContent() {
     
     // Check for duplicate rapid submissions
     if (Date.now() - lastSubmission < 5000) {
-      alert('Por favor, espera antes de enviar otro mensaje.')
+      toast.warning('Espera un momento', {
+        description: 'Por favor, espera antes de enviar otro mensaje.',
+      })
       return
     }
     
@@ -201,12 +206,16 @@ function ContactPageContent() {
         honeypot: ''
       })
       
-      alert('¡Mensaje enviado exitosamente!')
+      toast.success('¡Mensaje enviado!', {
+        description: 'Te respondo en menos de 24 horas.',
+      })
     } catch (error) {
       console.error('Error sending message:', error)
       // Track failed submission
       trackFormSubmit('contact_form', false, error instanceof Error ? error.message : 'Unknown error')
-      alert('Error al enviar el mensaje. Por favor, inténtalo nuevamente.')
+      toast.error('Error al enviar el mensaje', {
+        description: 'Por favor, inténtalo nuevamente en un momento.',
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -303,7 +312,7 @@ function ContactPageContent() {
                           placeholder="Tu nombre"
                           value={formData.name}
                           onChange={(e) => handleInputChange('name', e.target.value)}
-                          className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
+                          variant="glass"
                           required
                           disabled={isSubmitting}
                         />
@@ -315,7 +324,7 @@ function ContactPageContent() {
                           placeholder="tu@email.com"
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
+                          variant="glass"
                           required
                           disabled={isSubmitting}
                         />
@@ -327,7 +336,7 @@ function ContactPageContent() {
                         placeholder="¿En qué puedo ayudarte?"
                         value={formData.subject}
                         onChange={(e) => handleInputChange('subject', e.target.value)}
-                        className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300"
+                        variant="glass"
                         required
                         disabled={isSubmitting}
                       />
@@ -338,7 +347,7 @@ function ContactPageContent() {
                         placeholder="Cuéntame más sobre tu proyecto..."
                         value={formData.message}
                         onChange={(e) => handleInputChange('message', e.target.value)}
-                        className="bg-zinc-800/50 border-zinc-700/50 focus:border-blue-500/50 transition-colors duration-300 min-h-[120px]"
+                        variant="glass"
                         rows={5}
                         required
                         disabled={isSubmitting}
@@ -357,9 +366,11 @@ function ContactPageContent() {
                       whileHover={{ scale: isSubmitting || isLimited ? 1 : 1.02 }}
                       whileTap={{ scale: isSubmitting || isLimited ? 1 : 0.98 }}
                     >
-                      <Button 
+                      <Button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 transition-all duration-300"
+                        variant="gradient"
+                        size="lg"
+                        className="w-full touch-manipulation"
                         disabled={isSubmitting || isLimited}
                       >
                         {isSubmitting ? (
