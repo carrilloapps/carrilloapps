@@ -52,29 +52,40 @@ export default function AboutPage() {
       <SiteHeader />
       <main className="relative z-10 container py-12 space-y-24">
         <PageHeroSplit
-          badge={{ text: "Conóceme" }}
-          title="Hola, soy José Carrillo"
-          subtitle="Mi trayectoria profesional en el mundo del desarrollo"
+          badge={{ text: "Disponible para nuevos proyectos · Medellín, CO" }}
+          title="Llevo 10 años evitando que los sistemas financieros se caigan a las 3 AM"
+          subtitle="Tech Leader, Senior Software Developer y especialista en pagos. Medellín, Colombia."
           description={
             <>
               <p className="text-zinc-300 leading-relaxed pb-4">
-                Con más de 10 años de experiencia en la industria tecnológica,
-                he dedicado mi carrera a construir sistemas financieros robustos
-                y liderar equipos técnicos hacia el éxito. Mi pasión reside en
-                resolver problemas complejos y crear software que genere un
-                impacto real en las operaciones empresariales.
+                Soy desarrollador y líder técnico desde hace 10 años, basado
+                en Medellín. Hoy dirijo el equipo de pagos en{" "}
+                <Link href="https://yummysuperapp.com" target="_blank" rel="noopener noreferrer" className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline">
+                  Yummy Inc.
+                </Link>{" "}
+                — antes construí la pasarela B2B de Wompi (Bancolombia) y los
+                módulos de conciliación de Cencosud que mueven 2M+ facturas
+                semanales contra SAP. Mi obsesión: que los sistemas de dinero
+                sean predecibles, observables y se reparen antes de que el
+                cliente se entere.
               </p>
               <p className="text-zinc-300 leading-relaxed">
-                Como líder técnico, creo en fomentar una cultura de innovación,
-                aprendizaje continuo y colaboración. Estoy comprometido con la
-                mentoría de la nueva generación de desarrolladores y con la
-                creación de soluciones de software sostenibles y escalables.
+                Como Tech Leader, mi trabajo no es escribir el código más bonito
+                sino diseñar el sistema en el que un equipo de 7 personas puede
+                meter cambios sin miedo. Mentoreo desarrolladores cada semana,
+                escribo sobre arquitectura financiera en{" "}
+                <Link href="/blog" className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline">
+                  mi blog
+                </Link>{" "}
+                y participo en meetups de fintech en Colombia. Si vas a
+                contratarme, lo que se llevan tus equipos no es un dev senior —
+                es un manual de cómo no quemarse construyendo software crítico.
               </p>
             </>
           }
           image={{
             src: "/profile.jpg",
-            alt: "José Carrillo, desarrollador de software senior y líder técnico",
+            alt: "José Carrillo, Tech Leader y Senior Software Developer especializado en sistemas de pago, basado en Medellín, Colombia",
             width: 600,
             height: 600,
             priority: true,
@@ -82,10 +93,10 @@ export default function AboutPage() {
           actions={
             <>
               <Button variant="gradient" size="xl" className="w-full sm:w-auto touch-manipulation group" asChild>
-                <Link href="/contacto" aria-describedby="explore-projects-desc">
-                  Contactarme
+                <Link href="/contacto" aria-describedby="contact-cta-desc">
+                  Conversemos sobre tu sistema
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                  <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
+                  <span id="contact-cta-desc" className="sr-only">Hablemos de tu próximo proyecto de arquitectura o pagos</span>
                 </Link>
               </Button>
               <Button
@@ -93,11 +104,11 @@ export default function AboutPage() {
                 size="xl"
                 className="w-full sm:w-auto touch-manipulation"
                 onClick={() => setCvModalOpen(true)}
-                aria-describedby="download-cv-desc"
+                aria-describedby="cv-cta-desc"
               >
-                Descargar CV
+                Recibir mi CV
                 <Download className="ml-2 h-5 w-5" aria-hidden="true" />
-                <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
+                <span id="cv-cta-desc" className="sr-only">Abrir formulario para recibir mi currículum vitae</span>
               </Button>
             </>
           }
@@ -112,18 +123,15 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Timeline
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Trayectoria profesional
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Carrera
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Roles que me formaron
             </h2>
-            <p className="text-zinc-300 max-w-2xl mx-auto">
-              De programador entusiasta a líder técnico - los hitos clave que
-              han formado mi carrera
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              De programador entusiasta a Tech Leader — los lugares y proyectos
+              donde aprendí a construir sistemas de dinero que no se rompen.
             </p>
           </motion.div>
 
@@ -425,6 +433,34 @@ export default function AboutPage() {
           </motion.div>
         </motion.section>
 
+        {/* Pull quote — separador editorial entre carrera y filosofía. Sin
+            card propia: solo tipografía + acentos cromáticos para no romper
+            la jerarquía de surfaces. */}
+        <motion.figure
+          className="py-8 md:py-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <blockquote className="relative max-w-3xl mx-auto px-6 md:px-10">
+            <span
+              className="absolute -top-4 left-0 text-7xl md:text-8xl text-blue-500/30 font-serif leading-none select-none"
+              aria-hidden="true"
+            >
+              “
+            </span>
+            <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-white leading-snug tracking-tight pl-6 md:pl-8">
+              El mejor software de pagos es el que nadie nota. Si tu equipo
+              está apagando incendios todos los lunes, no es problema de
+              código — es problema de arquitectura.
+            </p>
+            <figcaption className="mt-4 pl-6 md:pl-8 text-sm text-zinc-400">
+              — Algo que repito en mentorías más de lo que debería.
+            </figcaption>
+          </blockquote>
+        </motion.figure>
+
         {/* Philosophy Section */}
         <motion.section
           className="py-12 space-y-8"
@@ -434,18 +470,15 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Enfoque de desarrollo
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Visión y misión profesional
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Cómo trabajo
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Tres reglas que no rompo
             </h2>
-            <p className="text-zinc-300 max-w-2xl mx-auto">
-              Los principios fundamentales que guían mi trabajo como
-              desarrollador y líder técnico
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              Lo que aprendí en una década construyendo software financiero —
+              compactado en tres principios citables.
             </p>
           </motion.div>
 
@@ -460,14 +493,17 @@ export default function AboutPage() {
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <Award className="w-6 h-6 text-blue-400" />
+                    <Award className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Calidad ante todo</h3>
-                  <p className="text-zinc-300">
-                    Código de calidad significa mantenibilidad, legibilidad y
-                    escalabilidad, no solo funcionalidad. Priorizo escribir
-                    soluciones limpias y bien probadas que resistan el paso del
-                    tiempo y faciliten el crecimiento de los proyectos.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    El código se lee 10 veces más de las que se escribe
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    Por eso me importa más la legibilidad que la cleverness.
+                    Una función obvia que cualquiera puede modificar a las 2 AM
+                    vale más que un one-liner brillante que sólo entiende quien
+                    lo escribió. La calidad no es un check de QA — es una
+                    decisión de cada PR.
                   </p>
                 </CardContent>
               </Card>
@@ -480,14 +516,17 @@ export default function AboutPage() {
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <User className="w-6 h-6 text-blue-400" />
+                    <User className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Centrado en el usuario</h3>
-                  <p className="text-zinc-300">
-                    La excelencia técnica debe servir a necesidades reales. En
-                    sistemas financieros y empresariales, siempre busco entender
-                    los requerimientos del negocio para crear soluciones que
-                    resuelvan problemas concretos de manera efectiva.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    Si no entiendo el negocio, no puedo entregar arquitectura
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    En fintech, una decisión técnica equivocada es plata
+                    perdida. Antes de proponer microservicios o un esquema de
+                    eventos, pregunto cómo gana dinero el negocio, qué métrica
+                    rompe primero y qué pasa si el sistema se cae el último día
+                    del mes. La arquitectura sale de ahí, no del libro.
                   </p>
                 </CardContent>
               </Card>
@@ -500,13 +539,17 @@ export default function AboutPage() {
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <BookOpen className="w-6 h-6 text-blue-400" />
+                    <BookOpen className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Aprendizaje continuo</h3>
-                  <p className="text-zinc-300">
-                    Estoy comprometo con mantenerme a la vanguardia de la tecnología. Dedico tiempo a explorar nuevas técnicas
-                    y buenas prácticas para desarrollar soluciones innovadoras
-                    ante los desafíos actuales.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    El stack que dominabas hace 5 años hoy es deuda técnica
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    Leo, pruebo y me equivoco con tooling nuevo cada semana —
+                    no por moda, sino para saber qué problemas reales resuelve
+                    cada herramienta antes de que llegue al stack de producción.
+                    El día que deje de aprender, dejo de ser útil para mi
+                    equipo.
                   </p>
                 </CardContent>
               </Card>
@@ -523,17 +566,16 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Más allá del código
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Intereses personales
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Off-screen
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Lo que hago cuando cierro el editor
             </h2>
-            <p className="text-zinc-300 max-w-2xl mx-auto">
-              Cuando no estoy programando o liderando equipos técnicos, esto es lo que me mantiene inspirado y me permite recargar energía.
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              Caminar Medellín, leer fuera del stack, mentorear y compartir
+              con la comunidad. Lo que me mantiene curioso y me permite volver
+              al código con perspectiva.
             </p>
           </motion.div>
 
@@ -791,19 +833,19 @@ export default function AboutPage() {
 
               <CardContent className="p-8 md:p-12 text-center space-y-6 relative z-10">
                 <motion.h2
-                  className="text-3xl md:text-4xl font-bold text-white"
+                  className="text-3xl md:text-4xl font-extrabold tracking-tight text-white"
                   variants={itemVariants}
                 >
-                  ¿Trabajamos juntos?
+                  ¿Tu próximo proyecto necesita arquitectura?
                 </motion.h2>
                 <motion.p
-                  className="text-white/90 max-w-2xl mx-auto text-lg"
+                  className="text-zinc-200 max-w-2xl mx-auto text-base md:text-lg leading-relaxed"
                   variants={itemVariants}
                 >
-                  Si necesitas liderazgo técnico, experiencia en arquitectura de
-                  software o apoyo en el desarrollo de sistemas financieros o
-                  empresariales, estoy aquí para ayudarte a convertir tu visión en
-                  realidad.
+                  Si tienes un sistema de pagos creciendo más rápido de lo que
+                  aguanta, o un equipo que necesita un Tech Leader que entienda
+                  fintech desde la trinchera — hablemos. Reviso tu contexto en
+                  una llamada de 30 minutos antes de proponer cualquier cosa.
                 </motion.p>
                 <motion.div
                   className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
@@ -821,7 +863,7 @@ export default function AboutPage() {
                       asChild
                     >
                       <Link href="/contacto">
-                        Contáctame
+                        Conversemos sobre tu sistema
                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                       </Link>
                     </Button>
