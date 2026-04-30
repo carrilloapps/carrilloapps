@@ -57,14 +57,14 @@ export default function AboutPage() {
           subtitle="Mi trayectoria profesional en el mundo del desarrollo"
           description={
             <>
-              <p className="text-zinc-400 leading-relaxed pb-4">
+              <p className="text-zinc-300 leading-relaxed pb-4">
                 Con más de 10 años de experiencia en la industria tecnológica,
                 he dedicado mi carrera a construir sistemas financieros robustos
                 y liderar equipos técnicos hacia el éxito. Mi pasión reside en
                 resolver problemas complejos y crear software que genere un
                 impacto real en las operaciones empresariales.
               </p>
-              <p className="text-zinc-400 leading-relaxed">
+              <p className="text-zinc-300 leading-relaxed">
                 Como líder técnico, creo en fomentar una cultura de innovación,
                 aprendizaje continuo y colaboración. Estoy comprometido con la
                 mentoría de la nueva generación de desarrolladores y con la
@@ -121,7 +121,7 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
               Trayectoria profesional
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-zinc-300 max-w-2xl mx-auto">
               De programador entusiasta a líder técnico - los hitos clave que
               han formado mi carrera
             </p>
@@ -148,7 +148,7 @@ export default function AboutPage() {
                     Tech Leader @ Yummy Inc.
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Lidero dos equipo de desarrolladores con los cuales construyo
                   las integraciones financieras empresariales y bancarias.
                   Implementé una arquitectura de microservicios que mejoró la
@@ -196,7 +196,7 @@ export default function AboutPage() {
                     Developer Leader @ Cencosud S.A.
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Desarrollé módulos e integraciones financieras core junto a un
                   equipo especializado multinacional, e integrando estos con
                   herramientas ERP. Optimicé consultas de base de datos
@@ -244,7 +244,7 @@ export default function AboutPage() {
                     Senior Software Engineering @ Acid Labs
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Construí sistemas de tokenización bajo certificación PCI DSS y
                   aplicaciones móviles para empresas de transporte aéreo.
                   Durante mi tiempo en Acid Labs, una de las empresas líderes en
@@ -313,7 +313,7 @@ export default function AboutPage() {
                     Senior Developer Full Stack @ Wompi
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Como desarrollador senior en Wompi, participé en el desarrollo
                   de la plataforma de pagos, implementando integraciones con
                   múltiples entidades bancarias y financieras, mejorando la
@@ -378,7 +378,7 @@ export default function AboutPage() {
                     Senior Software Engineer (Tech Leader Backup) @ Sky Airline
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Desarrolle y servi como Tech Leader Backup en el desarrollo la
                   aplicación movil de ventas para la aerolínea, integrando desde
                   sistemas de prevención del fraude, como sistemas de diseño y
@@ -443,7 +443,7 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
               Visión y misión profesional
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-zinc-300 max-w-2xl mx-auto">
               Los principios fundamentales que guían mi trabajo como
               desarrollador y líder técnico
             </p>
@@ -463,7 +463,7 @@ export default function AboutPage() {
                     <Award className="w-6 h-6 text-blue-400" />
                   </motion.div>
                   <h3 className="text-xl font-bold">Calidad ante todo</h3>
-                  <p className="text-zinc-400">
+                  <p className="text-zinc-300">
                     Código de calidad significa mantenibilidad, legibilidad y
                     escalabilidad, no solo funcionalidad. Priorizo escribir
                     soluciones limpias y bien probadas que resistan el paso del
@@ -483,7 +483,7 @@ export default function AboutPage() {
                     <User className="w-6 h-6 text-blue-400" />
                   </motion.div>
                   <h3 className="text-xl font-bold">Centrado en el usuario</h3>
-                  <p className="text-zinc-400">
+                  <p className="text-zinc-300">
                     La excelencia técnica debe servir a necesidades reales. En
                     sistemas financieros y empresariales, siempre busco entender
                     los requerimientos del negocio para crear soluciones que
@@ -503,7 +503,7 @@ export default function AboutPage() {
                     <BookOpen className="w-6 h-6 text-blue-400" />
                   </motion.div>
                   <h3 className="text-xl font-bold">Aprendizaje continuo</h3>
-                  <p className="text-zinc-400">
+                  <p className="text-zinc-300">
                     Estoy comprometo con mantenerme a la vanguardia de la tecnología. Dedico tiempo a explorar nuevas técnicas
                     y buenas prácticas para desarrollar soluciones innovadoras
                     ante los desafíos actuales.
@@ -532,7 +532,7 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
               Intereses personales
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-zinc-300 max-w-2xl mx-auto">
               Cuando no estoy programando o liderando equipos técnicos, esto es lo que me mantiene inspirado y me permite recargar energía.
             </p>
           </motion.div>
@@ -585,7 +585,7 @@ export default function AboutPage() {
                         <h3 className="text-xl font-bold">
                           Caminatas por la ciudad
                         </h3>
-                        <p className="text-zinc-400">
+                        <p className="text-zinc-300">
                           No todas las formas de conectar son igual, y particularmente en la ciudad,
                           donde hay tantas oportunidades para interactuar con otras personas, es importante
                           dedicar tiempo a conocer la jungla de cemento. Por eso me encanta caminar por la ciudad,
@@ -611,7 +611,7 @@ export default function AboutPage() {
                       </div>
                       <CardContent className="p-6 space-y-4">
                         <h3 className="text-xl font-bold">Tiempo en familia</h3>
-                        <p className="text-zinc-400">
+                        <p className="text-zinc-300">
                           Mi tiempo en familia es fundamental. Me encanta
                           pasar tiempo con mis hijos y esposa, familiares y compañeros de
                           trabajo. Disfruto de momentos de tranquilidad y conexión
@@ -633,7 +633,7 @@ export default function AboutPage() {
                   <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
-                      <p className="text-zinc-400">
+                      <p className="text-zinc-300">
                         La lectura es fundamental para mi crecimiento profesional y
                         personal. Estos son algunos libros que han influido significativamente
                         en mi forma de pensar:
@@ -702,7 +702,7 @@ export default function AboutPage() {
                   <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Participación en la comunidad</h3>
-                      <p className="text-zinc-400">
+                      <p className="text-zinc-300">
                         Creo firmemente en retribuir a la comunidad tecnológica y
                         apoyar a la siguiente generación de desarrolladores. Así es
                         como me involucro:

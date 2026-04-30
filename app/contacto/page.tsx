@@ -586,7 +586,7 @@ function ContactPageContent() {
                   Preguntas frecuentes
                 </h2>
               </div>
-              <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
+              <p className="text-zinc-300 max-w-2xl mx-auto text-lg">
                 Aquí encontrarás respuestas a las dudas más comunes. Si tienes alguna pregunta adicional, no dudes en contactarme directamente.
               </p>
             </motion.div>
@@ -602,7 +602,7 @@ function ContactPageContent() {
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Qué servicios ofreces?</h3>
                     </div>
-                    <p className="text-zinc-400 leading-relaxed">
+                    <p className="text-zinc-300 leading-relaxed">
                       Me especializo en desarrollo de software financiero, liderazgo técnico, diseño de arquitectura y
                       soluciones de automatización de backoffice. Puedo ayudarte tanto con el desarrollo como con la
                       orientación técnica estratégica.
@@ -621,7 +621,7 @@ function ContactPageContent() {
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Trabajas con clientes internacionales?</h3>
                     </div>
-                    <p className="text-zinc-400 leading-relaxed">
+                    <p className="text-zinc-300 leading-relaxed">
                       Sí, trabajo con clientes de todo el mundo. Gracias a las herramientas modernas de colaboración
                       y una programación flexible, puedo adaptarme a diferentes zonas horarias y modalidades de trabajo.
                     </p>
@@ -639,7 +639,7 @@ function ContactPageContent() {
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Cuál es tu cronograma típico de proyecto?</h3>
                     </div>
-                    <p className="text-zinc-400 leading-relaxed">
+                    <p className="text-zinc-300 leading-relaxed">
                       Los tiempos varían según el alcance y la complejidad. Proyectos pequeños pueden tomar de 2 a 4 semanas,
                       mientras que soluciones empresariales más grandes pueden extenderse varios meses. Proporciono
                       cronogramas detallados durante las consultas iniciales.
@@ -658,7 +658,7 @@ function ContactPageContent() {
                       </div>
                       <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">¿Cómo manejas la gestión de proyectos?</h3>
                     </div>
-                    <p className="text-zinc-400 leading-relaxed">
+                    <p className="text-zinc-300 leading-relaxed">
                       Utilizo metodologías ágiles con seguimientos regulares y actualizaciones de progreso. Me adapto a
                       herramientas como Jira, Trello o Asana según tus preferencias, garantizando una comunicación
                       transparente durante todo el proceso.

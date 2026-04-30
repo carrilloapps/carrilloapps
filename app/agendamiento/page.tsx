@@ -141,7 +141,7 @@ function SchedulePageContent() {
             title="Agenda una sesión"
             subtitle="Experto en soluciones bancarias, pagos y finanzas"
             description={
-              <p className="text-zinc-400 leading-relaxed">
+              <p className="text-zinc-300 leading-relaxed">
                 Reserva una consulta personalizada para discutir tu proyecto,
                 resolver dudas técnicas o explorar oportunidades de
                 colaboración. Con más de 10 años de experiencia en el desarrollo
@@ -420,7 +420,7 @@ function SchedulePageContent() {
                   <CardContent className="space-y-4 relative">
                     <div className="space-y-2">
                       <h3 className="font-semibold text-white select-text">Días Laborables</h3>
-                      <p className="text-zinc-400">Lunes a Viernes</p>
+                      <p className="text-zinc-300">Lunes a Viernes</p>
                     </div>
                     <div className="space-y-2">
                       <h3 className="font-semibold text-white select-text">Horario de Trabajo</h3>
@@ -441,7 +441,7 @@ function SchedulePageContent() {
                     </div>
                     <div className="space-y-2">
                       <h3 className="font-semibold text-white select-text">Zona Horaria</h3>
-                      <p className="text-zinc-400">Hora del Este (EST/EDT)</p>
+                      <p className="text-zinc-300">Hora del Este (EST/EDT)</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -519,7 +519,7 @@ function SchedulePageContent() {
             <h2 className="text-2xl font-bold">
               He trabajado con empresas líderes en la industria
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-zinc-300 max-w-2xl mx-auto">
               Ayudando a transformar sus operaciones financieras y de backoffice
               con soluciones tecnológicas innovadoras
             </p>
@@ -529,44 +529,44 @@ function SchedulePageContent() {
             {/* Logos de marcas - Usando placeholders */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">BBVA</div>
+              <div className="text-2xl font-bold text-zinc-300">BBVA</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">Santander</div>
+              <div className="text-2xl font-bold text-zinc-300">Santander</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">IBM</div>
+              <div className="text-2xl font-bold text-zinc-300">IBM</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">Deloitte</div>
+              <div className="text-2xl font-bold text-zinc-300">Deloitte</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">PayPal</div>
+              <div className="text-2xl font-bold text-zinc-300">PayPal</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="bg-zinc-900 p-6 rounded-lg w-full max-w-[150px] h-[80px] flex items-center justify-center"
+              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
             >
-              <div className="text-2xl font-bold text-zinc-500">Visa</div>
+              <div className="text-2xl font-bold text-zinc-300">Visa</div>
             </motion.div>
           </div>
 
           <div className="flex justify-center mt-8">
-            <Card className="bg-zinc-900 border-zinc-800 max-w-3xl">
+            <Card className="surface-card max-w-3xl">
               <CardContent className="p-6 md:p-8">
                 <div className="flex flex-col md:flex-row gap-6 items-center">
                   <div className="flex-shrink-0">
@@ -576,7 +576,7 @@ function SchedulePageContent() {
                     <h3 className="text-xl font-bold mb-2">
                       Experiencia en Múltiples Industrias
                     </h3>
-                    <p className="text-zinc-400">
+                    <p className="text-zinc-300">
                       He colaborado con empresas de diversos sectores, desde
                       fintech y banca hasta retail y telecomunicaciones,
                       implementando soluciones tecnológicas que han mejorado su

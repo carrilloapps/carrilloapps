@@ -264,7 +264,7 @@ function ServicesPageContent() {
             </>
           }
           description={
-            <p className="text-zinc-400 leading-relaxed">
+            <p className="text-zinc-300 leading-relaxed">
               Transformo ideas en soluciones tecnológicas robustas y escalables. Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.
             </p>
           }
@@ -355,7 +355,7 @@ function ServicesPageContent() {
                             </div>
                             <h3 className="text-3xl md:text-4xl font-bold text-white">{service.title}</h3>
                           </div>
-                          <p className="text-zinc-400 text-xl leading-relaxed">
+                          <p className="text-zinc-300 text-xl leading-relaxed">
                             {service.description}
                           </p>
                           <Button
@@ -375,7 +375,7 @@ function ServicesPageContent() {
                             <IconComponent className="w-16 h-16 text-blue-400 mx-auto" />
                             <div className="space-y-2">
                               <h4 className="text-xl font-semibold text-white">{service.title}</h4>
-                              <p className="text-zinc-400">Solución Especializada</p>
+                              <p className="text-zinc-300">Solución Especializada</p>
                             </div>
                           </div>
                         </div>
@@ -404,7 +404,7 @@ function ServicesPageContent() {
                               <div className="space-y-3">
                                 <h5 className="text-xl font-semibold text-white">Caso de éxito</h5>
                                 <h6 className="text-lg font-medium text-blue-400">{service.caseStudy.title}</h6>
-                                <p className="text-zinc-400 leading-relaxed">{service.caseStudy.description}</p>
+                                <p className="text-zinc-300 leading-relaxed">{service.caseStudy.description}</p>
                               </div>
                               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                                 <Button 
@@ -548,7 +548,7 @@ function ServicesPageContent() {
                           <h4 className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-zinc-300 transition-all duration-300">
                             {item.title}
                           </h4>
-                          <p className="text-zinc-400 leading-relaxed text-base group-hover:text-zinc-300 transition-colors duration-300">
+                          <p className="text-zinc-300 leading-relaxed text-base group-hover:text-zinc-300 transition-colors duration-300">
                             {item.description}
                           </p>
                         </div>
@@ -680,7 +680,7 @@ function ServicesPageContent() {
                       </div>
                       <div className="space-y-3">
                         <h4 className="text-xl font-semibold text-white">{stat.label}</h4>
-                        <p className="text-zinc-400 leading-relaxed">{stat.description}</p>
+                        <p className="text-zinc-300 leading-relaxed">{stat.description}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -756,7 +756,7 @@ function ServicesPageContent() {
                       </div>
                       <div>
                         <p className="font-bold text-lg text-white">{testimonial.author}</p>
-                        <p className="text-zinc-400">{testimonial.role}</p>
+                        <p className="text-zinc-300">{testimonial.role}</p>
                       </div>
                     </div>
                   </CardContent>
