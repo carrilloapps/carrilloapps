@@ -4,7 +4,7 @@ import { SpinnerLoading } from "@/components/unified-loading"
 
 export default function ThankYouLoading() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-slate-950 text-white">
       <SiteHeader />
 
       <main className="container py-12 flex flex-col items-center justify-center min-h-[70vh]" id="main-content">

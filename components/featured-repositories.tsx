@@ -105,7 +105,7 @@ export function FeaturedRepositories() {
 
   if (error) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <CardContent className="p-6 text-center">
           <p className="text-red-500">Error: {error}</p>
           <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
@@ -118,9 +118,9 @@ export function FeaturedRepositories() {
 
   if (repositories.length === 0) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <CardContent className="p-6 text-center">
-          <p className="text-zinc-400">No pinned repositories found.</p>
+          <p className="text-zinc-300">No pinned repositories found.</p>
         </CardContent>
       </Card>
     )
@@ -136,7 +136,7 @@ export function FeaturedRepositories() {
           transition={{ duration: 0.3 }}
           whileHover={{ y: -5 }}
         >
-          <Card className="bg-zinc-900 border-zinc-800 overflow-hidden h-full flex flex-col">
+          <Card className="surface-card h-full flex flex-col">
             <div className="aspect-video bg-zinc-800 relative">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-4xl">
@@ -152,7 +152,7 @@ export function FeaturedRepositories() {
                     {repo.source === "github" ? "GitHub" : "GitLab"}
                   </Badge>
                 </div>
-                <p className="text-zinc-400">{repo.description || "No description provided."}</p>
+                <p className="text-zinc-300">{repo.description || "No description provided."}</p>
               </div>
               <div className="space-y-4 mt-auto">
                 <div className="flex items-center gap-2 text-sm text-zinc-400">

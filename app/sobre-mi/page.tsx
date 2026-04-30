@@ -143,7 +143,7 @@ export default function AboutPage() {
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">oct. 2024 - Presente</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">oct. 2024 - Presente</Badge>
                   <h3 className="text-xl font-bold">
                     Tech Leader @ Yummy Inc.
                   </h3>
@@ -191,7 +191,7 @@ export default function AboutPage() {
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">mar. 2024 - oct. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">mar. 2024 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Developer Leader @ Cencosud S.A.
                   </h3>
@@ -239,7 +239,7 @@ export default function AboutPage() {
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ago. 2021 - oct. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">ago. 2021 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Senior Software Engineering @ Acid Labs
                   </h3>
@@ -308,7 +308,7 @@ export default function AboutPage() {
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">may. 2023 - mar. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">may. 2023 - mar. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Senior Developer Full Stack @ Wompi
                   </h3>
@@ -373,7 +373,7 @@ export default function AboutPage() {
               </div>
               <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ene. 2022 - feb. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">ene. 2022 - feb. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Senior Software Engineer (Tech Leader Backup) @ Sky Airline
                   </h3>
@@ -568,7 +568,7 @@ export default function AboutPage() {
                   animate="visible"
                 >
                   <motion.div variants={itemVariants}>
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
+                    <Card className="surface-card group">
                       <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Image
@@ -596,7 +596,7 @@ export default function AboutPage() {
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
+                    <Card className="surface-card group">
                       <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Image
@@ -780,9 +780,14 @@ export default function AboutPage() {
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="bg-gradient-to-br from-blue-600/90 to-purple-600/90 border-0 backdrop-blur-sm shadow-2xl shadow-blue-500/25 relative overflow-hidden">
-              {/* Glassmorphism overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-[1px]" />
+            <Card className="surface-card relative overflow-hidden">
+              {/* Capa de saturación brand — el card sigue siendo glass pero
+                  con un tinte más vivo que el resto, para que la CTA final
+                  destaque visualmente sin romper el sistema. */}
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-purple-600/15 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
 
               <CardContent className="p-8 md:p-12 text-center space-y-6 relative z-10">
                 <motion.h2
@@ -843,7 +848,7 @@ export default function AboutPage() {
       </main>
       {/* CV Download Modal */}
       <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
+        <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
             <DialogDescription className="text-zinc-400">

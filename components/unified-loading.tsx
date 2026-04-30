@@ -174,7 +174,7 @@ const TechSpinner = () => {
 const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repository" }) => {
   if (type === "blog") {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <div className="aspect-video bg-zinc-800 animate-pulse"></div>
         <CardContent className="p-6 space-y-4">
           <Skeleton className="h-6 w-3/4 bg-zinc-800" />
@@ -195,7 +195,7 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
   
   if (type === "repository") {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <CardHeader>
           <div className="space-y-2">
             <Skeleton className="h-6 w-2/3 bg-zinc-800" />
@@ -221,7 +221,7 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
   }
   
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="surface-card">
       <CardContent className="p-6 space-y-4">
         <Skeleton className="h-6 w-3/4 bg-zinc-800" />
         <Skeleton className="h-4 w-full bg-zinc-800" />
@@ -263,7 +263,7 @@ const HeroSkeleton = () => (
 
 // Form skeleton - MOVED OUTSIDE COMPONENT
 const FormSkeleton = () => (
-  <Card className="bg-zinc-900 border-zinc-800">
+  <Card className="surface-card">
     <CardHeader>
       <Skeleton className="h-6 w-48 bg-zinc-800" />
       <Skeleton className="h-4 w-full bg-zinc-800" />
@@ -296,7 +296,7 @@ const FormSkeleton = () => (
 
 // Blog featured skeleton - MOVED OUTSIDE COMPONENT
 const BlogFeaturedSkeleton = () => (
-  <Card className="bg-zinc-900 border-zinc-800">
+  <Card className="surface-card">
     <div className="grid md:grid-cols-2 gap-6">
       <div className="aspect-video bg-zinc-800 animate-pulse"></div>
       <div className="p-6 space-y-4">
@@ -334,7 +334,7 @@ export function UnifiedLoading({
             <div className="text-center space-y-4">
               <TechSpinner />
               {title && title !== "Cargando..." && <h1 className="text-2xl font-bold">{title}</h1>}
-              {description && description !== "Por favor, espere mientras cargamos el contenido." && <p className="text-zinc-400">{description}</p>}
+              {description && description !== "Por favor, espere mientras cargamos el contenido." && <p className="text-zinc-300">{description}</p>}
             </div>
           </main>
           <SiteFooter />

@@ -149,7 +149,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
   if (error) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <CardContent className="p-6 text-center">
           <p className="text-red-500">Error: {error}</p>
           <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
@@ -256,7 +256,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
             <SelectTrigger className="w-full md:w-[180px] bg-zinc-950 border-zinc-800 focus:ring-blue-500">
               <SelectValue placeholder="Language" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-950 border-zinc-800">
+            <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
               <SelectItem value="all">Todos los lenguajes</SelectItem>
               {languages.map((lang) => (
                 <SelectItem key={lang} value={lang}>
@@ -283,9 +283,9 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       <div className="space-y-4">
         <h3 className="text-xl font-bold">Todos los repositorios</h3>
         {repositories.length === 0 ? (
-          <Card className="bg-zinc-900 border-zinc-800">
+          <Card className="surface-card">
             <CardContent className="p-12 text-center">
-              <p className="text-zinc-400 text-lg mb-2">No se encontraron repositorios</p>
+              <p className="text-zinc-300 text-lg mb-2">No se encontraron repositorios</p>
               <p className="text-zinc-500 text-sm">Intenta ajustar los filtros de búsqueda o lenguaje</p>
             </CardContent>
           </Card>

@@ -132,7 +132,7 @@ export function FeaturedProjects() {
           whileHover="hover"
           transition={{ delay: index * 0.1 }}
         >
-          <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800 hover:border-zinc-700 transition-all duration-300 h-full group flex flex-col">
+          <Card className="surface-card h-full group flex flex-col">
             {/* Header Section - Reduced padding for better proportion */}
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-3 text-lg font-semibold">
@@ -141,7 +141,7 @@ export function FeaturedProjects() {
                 </div>
                 {project.repositoryData?.name || project.name}
               </CardTitle>
-              <CardDescription className="text-zinc-400 leading-relaxed text-sm mt-2">
+              <CardDescription className="text-zinc-300 leading-relaxed text-sm mt-2">
                 {project.customDescription || project.repositoryData?.description || project.description}
               </CardDescription>
             </CardHeader>

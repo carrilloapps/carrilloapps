@@ -5,7 +5,7 @@ import { HeroLoading } from "@/components/unified-loading"
 
 export default function ServicesLoading() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-slate-950 text-white">
       <SiteHeader />
 
       <main className="container py-12 space-y-24" id="main-content">
@@ -29,7 +29,7 @@ export default function ServicesLoading() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
-            <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm">
+            <Card className="surface-card">
               <CardContent className="p-6 space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-blue-800/50 to-purple-800/50 animate-pulse"></div>
@@ -52,7 +52,7 @@ export default function ServicesLoading() {
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm">
+            <Card className="surface-card">
               <CardContent className="p-6 space-y-6">
                 <div className="space-y-2">
                   <div className="w-24 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded animate-pulse"></div>

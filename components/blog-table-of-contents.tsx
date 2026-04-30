@@ -128,7 +128,7 @@ export function BlogTableOfContents({ headings }: BlogTableOfContentsProps) {
   const activeIndex = headings.findIndex(h => h.id === activeId)
 
   return (
-    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+    <Card className="surface-card">
       {/* Progress bar */}
       <div className="h-0.5 w-full bg-zinc-800/50">
         <motion.div

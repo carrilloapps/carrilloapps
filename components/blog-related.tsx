@@ -50,7 +50,7 @@ export function BlogRelated({ posts: relatedPosts }: { posts: BlogPost[] }) {
               <Sparkles className="h-8 w-8 text-blue-400" />
             </div>
             <h3 className="text-xl font-semibold text-zinc-300">No hay artículos relacionados</h3>
-            <p className="text-zinc-400 max-w-md mx-auto">
+            <p className="text-zinc-300 max-w-md mx-auto">
               Aún no tenemos artículos relacionados disponibles, pero pronto habrá más contenido interesante.
             </p>
             <Button variant="outline" className="mt-4 border-zinc-700 hover:border-blue-500/50 hover:bg-blue-500/10" asChild>

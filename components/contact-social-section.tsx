@@ -14,7 +14,7 @@ export function ContactSocialSection() {
       transition={{ delay: 0.8, duration: 0.6 }}
       whileHover={{ y: -4 }}
     >
-      <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
+      <Card className="surface-card group">
         {/* Card Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -27,7 +27,7 @@ export function ContactSocialSection() {
               Mis redes sociales
             </CardTitle>
           </div>
-          <CardDescription className="text-zinc-400">
+          <CardDescription className="text-zinc-300">
             Conéctate conmigo o explora mi trabajo en línea.
           </CardDescription>
         </CardHeader>

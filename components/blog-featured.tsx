@@ -87,7 +87,7 @@ export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | 
                 </div>
               </div>
               <div className="mt-auto pt-4">
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 group-hover:scale-105" asChild>
+                <Button variant="gradient" size="default" className="touch-manipulation group" asChild>
                   <Link href={`/blog/${featuredPost.slug}`} onClick={handleLinkClick}>
                     Leer artículo
                     <ArrowRight className="ml-2 h-4 w-4" />

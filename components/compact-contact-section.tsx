@@ -171,7 +171,7 @@ export function CompactContactSection({
                   <SelectTrigger id="subject-select" variant="glass">
                     <SelectValue placeholder="Selecciona un asunto" />
                   </SelectTrigger>
-                  <SelectContent className="bg-zinc-900 border-zinc-800">
+                  <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
                     <SelectItem value="consulta-general">
                       Consulta general
                     </SelectItem>

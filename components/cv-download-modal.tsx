@@ -66,7 +66,7 @@ export function CvDownloadModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
+      <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
           <DialogDescription className="text-zinc-300">

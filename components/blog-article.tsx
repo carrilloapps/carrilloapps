@@ -210,7 +210,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-8"
           >
-            <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+            <Card className="surface-card">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
               <CardContent className="p-6 relative z-10">
@@ -293,7 +293,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg shadow-blue-500/25 gap-1.5 transition-all duration-300">
+                  <Button variant="gradient" size="sm" className="gap-1.5">
                     <a href={post.link} className="flex gap-2 justify-center items-center" target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-4 w-4" />
                       Leer original
@@ -476,7 +476,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
     <BlogTableOfContents headings={tocHeadings} />
 
     {/* Quick Navigation */}
-    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-zinc-600/50 transition-all duration-300">
+    <Card className="surface-card">
       <CardContent className="py-3 px-4 space-y-1">
         <Link 
           href="/blog" 
@@ -497,7 +497,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
     {/* Categories */}
     {categories.length > 0 && (
-      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+      <Card className="surface-card">
         <CardHeader className="pb-3">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Tag className="h-5 w-5 text-purple-400" />
@@ -531,7 +531,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
 
     {/* Related Posts */}
     {relatedPosts.length > 0 && (
-      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+      <Card className="surface-card">
         <CardHeader className="pb-3">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-green-400" />

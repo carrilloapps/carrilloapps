@@ -304,7 +304,7 @@ function SchedulePageContent() {
                         >
                           <SelectValue placeholder="Selecciona el tipo de proyecto" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-950 border-zinc-800">
+                        <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
                           <SelectItem value="financial-system">
                             Sistema Financiero
                           </SelectItem>
@@ -591,7 +591,7 @@ function SchedulePageContent() {
       </main>
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="bg-zinc-900/95 backdrop-blur-xl border-zinc-800/50 shadow-2xl shadow-blue-500/10 max-w-2xl overflow-hidden">
+        <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-2xl overflow-hidden shadow-2xl shadow-blue-500/10">
           {/* Modal Background Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
 

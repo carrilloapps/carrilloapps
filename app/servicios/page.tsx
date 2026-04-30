@@ -197,7 +197,7 @@ const services = [
 // Componente principal que envuelve con Suspense
 export default function ServicesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black"></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
       <ServicesPageContent />
     </Suspense>
   )

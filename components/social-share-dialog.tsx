@@ -116,7 +116,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
           <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
             Compartir artículo
           </DialogTitle>
-          <DialogDescription className="text-zinc-400">
+          <DialogDescription className="text-zinc-300">
             Comparte este artículo en tus redes sociales favoritas
           </DialogDescription>
         </DialogHeader>

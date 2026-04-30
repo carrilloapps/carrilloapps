@@ -151,7 +151,7 @@ function ResourcesPageContent() {
                       <SelectTrigger variant="glass" className="w-full md:w-[180px]" aria-label="Filtrar por lenguaje">
                         <SelectValue placeholder="Lenguaje" />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-950 border-zinc-800">
+                      <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
                         <SelectItem value="all">Todos los lenguajes</SelectItem>
                         <SelectItem value="javascript">JavaScript</SelectItem>
                         <SelectItem value="typescript">TypeScript</SelectItem>
@@ -276,7 +276,7 @@ function ResourcesPageContent() {
 export default function ResourcesPage() {
   return (
     <PageLoadingProvider>
-      <Suspense fallback={<div className="min-h-screen bg-black"></div>}>
+      <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
         <ResourcesPageContent />
       </Suspense>
     </PageLoadingProvider>

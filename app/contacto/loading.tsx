@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 export default function ContactLoading() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-slate-950 text-white">
       <SiteHeader />
 
       <main className="container py-12 space-y-12" id="main-content">
@@ -20,7 +20,7 @@ export default function ContactLoading() {
             <FormLoading />
 
             <div className="space-y-8">
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card className="surface-card">
                 <CardHeader>
                   <div className="h-6 w-48 bg-zinc-800 rounded animate-pulse mb-2"></div>
                   <div className="h-4 w-full bg-zinc-800 rounded animate-pulse"></div>
@@ -41,7 +41,7 @@ export default function ContactLoading() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card className="surface-card">
                 <CardHeader>
                   <div className="h-6 w-48 bg-zinc-800 rounded animate-pulse mb-2"></div>
                   <div className="h-4 w-full bg-zinc-800 rounded animate-pulse"></div>
