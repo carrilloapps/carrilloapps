@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
+import { HomeJsonLd } from "@/components/home-jsonld"
 import { OpenSourceSection } from "@/components/open-source-section"
 import { LatestPostsSection } from "@/components/latest-posts-section"
 import { ParallaxBackdrop } from "@/components/parallax-backdrop"
@@ -253,6 +254,8 @@ export default function Home() {
       <CvDownloadModal open={cvModalOpen} onOpenChange={setCvModalOpen} />
 
       <SiteFooter />
+
+      <HomeJsonLd />
     </div>
   )
 }

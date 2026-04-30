@@ -259,6 +259,13 @@ html {
   50% { transform: translate(-35%, -65%) scale(1.2); }
 }
 
+/* Service globe — pulso del anillo de luz alrededor de la singularidad.
+   Sutil oscilación de opacidad para evocar la radiación del horizonte. */
+@keyframes globePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
 .aurora-blob-a {
   animation: auroraBlobA 22s ease-in-out infinite;
   will-change: transform;

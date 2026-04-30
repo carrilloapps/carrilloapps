@@ -11,11 +11,12 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ServicesSeo } from "@/components/services-seo"
-import { PageHeroSplit } from "@/components/page-hero-split"
 import { DynamicBackground } from "@/components/dynamic-background"
+import { ParallaxBackdrop } from "@/components/parallax-backdrop"
+import { AuroraBackdrop } from "@/components/aurora-backdrop"
+import { ServiceGlobe } from "@/components/service-globe"
 import { useIsMobile } from "@/hooks/use-media-query"
 import { trackCTAClick, trackButtonClick } from "@/lib/analytics";
 
@@ -209,23 +210,49 @@ function ServicesPageContent() {
   const [activeTab, setActiveTab] = useState("technical-leadership")
   const _isMobile = useIsMobile()
 
-  // Efecto para manejar la navegación por anclas
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "")
-    if (hash && services.some((service) => service.id === hash)) {
-      // Using requestAnimationFrame to defer setState
-      requestAnimationFrame(() => {
-        setActiveTab(hash)
-      })
+  // Scroll a la sección que contiene los tabs — NO al TabsContent directo.
+  // Si scrolleamos al elemento con id={service.id} (el TabsContent),
+  // aterrizamos dentro del cuerpo del case-study y no se ve la barra de
+  // tabs ni el heading "Servicios especializados". Scrollar al `<section>`
+  // ancestro garantiza que el usuario vea el contexto completo.
+  //
+  // El offset ~96px compensa el header sticky (~65px) + margen visual.
+  const scrollToServicesSection = (hash: string) => {
+    const tabsContent = document.getElementById(hash)
+    if (!tabsContent) return
+    const section = tabsContent.closest("section")
+    const target = section ?? tabsContent
+    const HEADER_OFFSET = 96
+    const top =
+      target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" })
+  }
 
-      // Scroll suave a la sección con requestAnimationFrame
+  // Hash → tab: corre en mount Y cada vez que cambia el hash de la URL.
+  // Ejemplos: navegar a /servicios#cloud-infrastructure (load directo o
+  // SPA), click en un anchor interno, back/forward del browser.
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.replace("#", "")
+      if (!hash || !services.some((s) => s.id === hash)) return
+
+      // Activar la pestaña primero — el TabsContent recién se monta cuando
+      // queda activa.
+      setActiveTab(hash)
+
+      // El scroll requiere que el TabsContent ya esté en el DOM. Doble
+      // requestAnimationFrame nos asegura que React terminó la pasada de
+      // render con el nuevo `value` activo antes de buscar el elemento.
       requestAnimationFrame(() => {
-        const element = document.getElementById(hash)
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" })
-        }
+        requestAnimationFrame(() => {
+          scrollToServicesSection(hash)
+        })
       })
     }
+
+    applyHash()
+    window.addEventListener("hashchange", applyHash)
+    return () => window.removeEventListener("hashchange", applyHash)
   }, [])
 
   // Función para cambiar la URL cuando cambia la pestaña
@@ -233,12 +260,10 @@ function ServicesPageContent() {
     setActiveTab(value)
     window.history.pushState({}, "", `/servicios#${value}`)
 
-    // Scroll suave al elemento correspondiente con requestAnimationFrame
+    // Mantener al usuario en la sección de tabs — sin saltar al cuerpo
+    // del case-study cuando alterna entre pestañas.
     requestAnimationFrame(() => {
-      const element = document.getElementById(value)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
-      }
+      scrollToServicesSection(value)
     })
   }
 
@@ -248,68 +273,141 @@ function ServicesPageContent() {
       <SiteHeader />
       <ServicesSeo />
 
-      <main className="container py-12 space-y-24" id="main-content">
-        <PageHeroSplit
-          badge={{ text: "Servicios profesionales" }}
-          title={
-            <>
-              <span className="text-white">Soluciones</span>
-              <br />
-              <span className="text-white">tecnológicas </span>
-              <span className="text-blue-400">de</span>
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                alto impacto
-              </span>
-            </>
-          }
-          description={
-            <p className="text-zinc-300 leading-relaxed">
-              Transformo ideas en soluciones tecnológicas robustas y escalables. Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.
-            </p>
-          }
-          rightContent={
-            <>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="relative z-10 text-center space-y-4 w-full h-full flex flex-col items-center justify-center">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-                  <Code className="w-10 h-10 text-white" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-white">15+ Años</h3>
-                  <p className="text-sm text-zinc-400">de Experiencia</p>
-                </div>
+      <main className="relative z-10 pt-12" id="main-content">
+        {/* Hero editorial — distinto del de sobre-mi: en lugar de retrato,
+            mosaico 2×3 de categorías de servicio con ícono y nombre, que ya
+            insinúa la promesa visual. Mismo layout 7:5 + eyebrow + H1 con
+            acento de color + stats strip + 2 CTAs. */}
+        <div className="container mx-auto px-4">
+        <motion.section
+          className="relative w-full pt-6 md:pt-10 pb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          aria-labelledby="services-hero-heading"
+        >
+          <div className="grid gap-10 lg:gap-14 lg:grid-cols-12 items-center">
+            {/* Columna de copy — 7/12 en lg. */}
+            <motion.div
+              className="space-y-6 lg:col-span-7 order-2 lg:order-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="space-y-3">
+                <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm font-medium py-1.5 px-3 rounded-full backdrop-blur-sm">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    aria-hidden="true"
+                  />
+                  Aceptando proyectos · Consultoría remota
+                </span>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[1px]" />
-            </>
-          }
-          actions={
-            <Button variant="gradient" size="xl" className="w-full sm:w-auto touch-manipulation group" asChild>
-              <Link href="#technical-leadership">
-                Explorar servicios
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-              </Link>
-            </Button>
-          }
-        />
 
-        {/* Services Navigation */}
+              <h1
+                id="services-hero-heading"
+                className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.1] text-white max-w-[28ch]"
+              >
+                Consultoría y liderazgo técnico para
+                <span className="text-blue-400">{" sistemas de pago, banking, fintech y backoffice"}</span>.
+              </h1>
+
+              <p className="text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+                Diseño y construyo{" "}
+                <strong className="font-semibold text-white">
+                  pasarelas de pago, integraciones bancarias y plataformas de
+                  backoffice
+                </strong>
+                . Lidero equipos técnicos en proyectos críticos de LATAM y
+                trabajo con stacks que cumplen PCI DSS e ISO 27001.
+              </p>
+
+              {/* Stats strip — credenciales operacionales. */}
+              <ul
+                className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 max-w-2xl pt-2"
+                aria-label="Credenciales operacionales"
+              >
+                {[
+                  { value: "10+", label: "Años de stack fintech" },
+                  { value: "6", label: "Áreas de especialización" },
+                  { value: "50+", label: "Proyectos completados" },
+                  { value: "PCI · ISO", label: "Compliance" },
+                ].map((stat) => (
+                  <li
+                    key={stat.label}
+                    className="surface-card-subtle px-3 py-3 text-center"
+                  >
+                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
+                      {stat.value}
+                    </div>
+                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
+                      {stat.label}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div
+                className="flex flex-col sm:flex-row gap-3 pt-2"
+                role="group"
+                aria-label="Acciones principales"
+              >
+                <Button
+                  variant="gradient"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation group"
+                  asChild
+                >
+                  <Link href="#technical-leadership">
+                    Explorar áreas
+                    <ArrowRight
+                      className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </Button>
+                <Button
+                  variant="glass"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation"
+                  asChild
+                >
+                  <Link href="/agendamiento">Agendar diagnóstico</Link>
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Globo 3D interactivo — reemplaza al retrato/imagen de
+                sobre-mi. Las 6 categorías de servicio orbitan sobre la
+                superficie y responden al cursor con tilt suave. */}
+            <motion.div
+              className="lg:col-span-5 order-1 lg:order-2"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              <ServiceGlobe />
+            </motion.div>
+          </div>
+        </motion.section>
+
+        </div>
+
+        {/* 01 — Servicios · transparente + parallax brackets. */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
         <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="py-12 space-y-12"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
-          <motion.div variants={itemVariants} className="space-y-6 text-center">
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
+          <motion.div variants={itemVariants} className="space-y-4 text-center">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
               Áreas de especialización
-            </Badge>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Servicios especializados
             </h2>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
@@ -364,18 +462,20 @@ function ServicesPageContent() {
                             className="touch-manipulation"
                             onClick={() => trackCTAClick('Solicitar Consulta', 'primary', `servicios-${service.id}-description`)}
                           >
-                            <Link href={`/contact?service=${service.id}`} className="flex items-center gap-2">
+                            <Link href={`/contacto?service=${service.id}`} className="flex items-center gap-2">
                               Solicitar Consulta
                               <ArrowRight className="w-5 h-5" />
                             </Link>
                           </Button>
                         </div>
-                        <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-zinc-800/50 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-                          <div className="text-center space-y-4">
-                            <IconComponent className="w-16 h-16 text-blue-400 mx-auto" />
-                            <div className="space-y-2">
+                        <div className="surface-card-subtle aspect-video flex items-center justify-center overflow-hidden">
+                          <div className="text-center space-y-4 px-4">
+                            <div className="w-16 h-16 mx-auto rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
+                              <IconComponent className="w-7 h-7 text-blue-400" aria-hidden="true" />
+                            </div>
+                            <div className="space-y-1">
                               <h4 className="text-xl font-semibold text-white">{service.title}</h4>
-                              <p className="text-zinc-300">Solución Especializada</p>
+                              <p className="text-sm text-zinc-300">Solución especializada</p>
                             </div>
                           </div>
                         </div>
@@ -389,10 +489,10 @@ function ServicesPageContent() {
                               <motion.div
                                 key={index}
                                 variants={itemVariants}
-                                className="flex items-center gap-3 p-4 bg-gradient-to-r from-zinc-900/50 to-zinc-800/50 rounded-lg border border-zinc-700/50 backdrop-blur-sm"
+                                className="surface-card-subtle flex items-center gap-3 p-4"
                               >
-                                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                                <span className="text-zinc-300">{benefit}</span>
+                                <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0" aria-hidden="true" />
+                                <span className="text-zinc-200">{benefit}</span>
                               </motion.div>
                             ))}
                           </div>
@@ -406,10 +506,10 @@ function ServicesPageContent() {
                                 <h6 className="text-lg font-medium text-blue-400">{service.caseStudy.title}</h6>
                                 <p className="text-zinc-300 leading-relaxed">{service.caseStudy.description}</p>
                               </div>
-                              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                <Button 
-                                  variant="outline" 
-                                  className="border-blue-500/50 text-blue-400 hover:bg-blue-600/20"
+                              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                                <Button
+                                  variant="glass"
+                                  size="default"
                                   onClick={() => trackButtonClick('Más información', `servicios-${service.id}-case-study`)}
                                 >
                                   Más información
@@ -417,9 +517,10 @@ function ServicesPageContent() {
                                 <Button
                                   variant="gradient"
                                   size="default"
+                                  asChild
                                   onClick={() => trackCTAClick('Contactar', 'primary', `servicios-${service.id}-case-study`)}
                                 >
-                                  <Link href={`/contact?service=${service.id}`}>
+                                  <Link href={`/contacto?service=${service.id}`}>
                                     Contactar
                                   </Link>
                                 </Button>
@@ -436,31 +537,28 @@ function ServicesPageContent() {
           </motion.div>
         </motion.section>
 
-        {/* Enhanced Methodology Section */}
+        </div>
+
+        {/* 02 — Metodología · slate dark + parallax rings · bloque "proceso". */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
         <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="py-20 space-y-16 relative overflow-hidden"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
-          {/* Background Elements */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-          
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center space-y-6 relative z-10">
-            <Badge 
-              variant="outline" 
-              className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/50 text-blue-400 backdrop-blur-sm px-4 py-2"
-            >
+          <motion.div variants={itemVariants} className="text-center space-y-4 relative z-10">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
               Metodología probada
-            </Badge>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Proceso de desarrollo
             </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Un enfoque sistemático y probado que garantiza resultados excepcionales en cada proyecto, de forma clara, medible y escalable.
+            <p className="text-base md:text-lg text-zinc-300 max-w-3xl mx-auto leading-relaxed">
+              Un enfoque sistemático y probado que garantiza resultados
+              excepcionales en cada proyecto: claro, medible y escalable.
             </p>
           </motion.div>
 
@@ -528,54 +626,52 @@ function ServicesPageContent() {
                       <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-zinc-600 to-transparent z-0" />
                     )}
                     
-                    <Card className={`bg-zinc-900/90 ${item.borderColor} backdrop-blur-sm h-full relative overflow-hidden transition-all duration-500 group-hover:bg-zinc-800/90 group-hover:shadow-2xl group-hover:shadow-${item.color.split(' ')[1].split('-')[0]}-500/20`}>
-                      {/* Card Background Gradient */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${item.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                      
-                      <CardContent className="p-8 space-y-6 relative z-10">
-                        {/* Header with Icon and Step */}
+                    <Card className="surface-card h-full relative overflow-hidden">
+                      <CardContent className="p-7 md:p-8 space-y-5">
+                        {/* Header — ícono glass + número de paso. */}
                         <div className="flex items-center justify-between">
-                          <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.bgColor} flex items-center justify-center ${item.borderColor} border-2 group-hover:scale-110 transition-transform duration-300`}>
-                            <IconComponent className={`w-8 h-8 text-transparent bg-gradient-to-r ${item.color} bg-clip-text`} />
+                          <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400/60 transition-colors duration-300">
+                            <IconComponent className="w-6 h-6 text-blue-400" aria-hidden="true" />
                           </div>
-                          <span className={`text-4xl font-black bg-gradient-to-r ${item.color} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-300`}>
+                          <span className="text-5xl font-extrabold text-white/10 tabular-nums leading-none group-hover:text-white/20 transition-colors duration-300">
                             {item.step}
                           </span>
                         </div>
 
-                        {/* Content */}
-                        <div className="space-y-4">
-                          <h4 className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-zinc-300 transition-all duration-300">
+                        {/* Title + descripción. */}
+                        <div className="space-y-3">
+                          <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight">
                             {item.title}
                           </h4>
-                          <p className="text-zinc-300 leading-relaxed text-base group-hover:text-zinc-300 transition-colors duration-300">
+                          <p className="text-zinc-300 leading-relaxed text-base">
                             {item.description}
                           </p>
                         </div>
 
-                        {/* Features List */}
-                        <div className="space-y-3 pt-4 border-t border-zinc-800/50 group-hover:border-zinc-700/50 transition-colors duration-300">
+                        {/* Features — lista con bullets. */}
+                        <ul className="space-y-2 pt-3 border-t border-white/[0.06] list-none p-0 m-0">
                           {item.features.map((feature, featureIndex) => (
-                            <motion.div
+                            <motion.li
                               key={featureIndex}
-                              initial={{ opacity: 0, x: -20 }}
+                              initial={{ opacity: 0, x: -10 }}
                               whileInView={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.2 + featureIndex * 0.1 }}
-                              className="flex items-center gap-3 text-sm"
+                              transition={{ delay: index * 0.15 + featureIndex * 0.05 }}
+                              className="flex items-center gap-2.5 text-sm text-zinc-300"
                             >
-                              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${item.color} flex-shrink-0`} />
-                              <span className="text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300">
-                                {feature}
-                              </span>
-                            </motion.div>
+                              <span
+                                className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"
+                                aria-hidden="true"
+                              />
+                              <span>{feature}</span>
+                            </motion.li>
                           ))}
-                        </div>
+                        </ul>
 
-                        {/* Progress Indicator */}
-                        <div className="pt-4">
-                          <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
+                        {/* Barra de progreso. */}
+                        <div className="pt-3">
+                          <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
                             <motion.div
-                              className={`h-full bg-gradient-to-r ${item.color} rounded-full`}
+                              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
                               initial={{ width: "0%" }}
                               whileInView={{ width: "100%" }}
                               transition={{ duration: 1.5, delay: index * 0.3 }}
@@ -614,27 +710,28 @@ function ServicesPageContent() {
             </motion.div>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Stats Section */}
+        {/* 03 — Stats · transparente + parallax diagonals · números duros. */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="diagonals" position="top-left" speed={0.14} opacityClass="opacity-[0.05]" />
         <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="py-16 space-y-12"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
-          <motion.div variants={itemVariants} className="text-center space-y-6">
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
+          <motion.div variants={itemVariants} className="text-center space-y-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
               Resultados
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Impacto medible
             </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              Cada proyecto está diseñado para generar resultados tangibles y valor real.
+            <p className="text-base md:text-lg text-zinc-300 max-w-3xl mx-auto leading-relaxed">
+              Cada proyecto está diseñado para generar resultados tangibles y
+              valor real.
             </p>
           </motion.div>
 
@@ -668,19 +765,19 @@ function ServicesPageContent() {
               const IconComponent = stat.icon
               return (
                 <motion.div key={index} variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card relative overflow-hidden h-full">
-                    <CardContent className="p-8 space-y-6">
+                  <Card className="surface-card relative overflow-hidden h-full group">
+                    <CardContent className="p-7 md:p-8 space-y-5">
                       <div className="flex items-center justify-between">
-                        <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-white tabular-nums leading-none">
                           {stat.number}
                         </span>
-                        <div className="p-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl border border-purple-500/30">
-                          <IconComponent className="w-6 h-6 text-purple-400" />
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400/60 transition-colors">
+                          <IconComponent className="w-5 h-5 text-blue-400" aria-hidden="true" />
                         </div>
                       </div>
-                      <div className="space-y-3">
-                        <h4 className="text-xl font-semibold text-white">{stat.label}</h4>
-                        <p className="text-zinc-300 leading-relaxed">{stat.description}</p>
+                      <div className="space-y-2">
+                        <h4 className="text-lg md:text-xl font-semibold text-white">{stat.label}</h4>
+                        <p className="text-sm text-zinc-300 leading-relaxed">{stat.description}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -689,27 +786,28 @@ function ServicesPageContent() {
             })}
           </div>
         </motion.section>
+        </div>
 
-        {/* Testimonials Section */}
+        {/* 04 — Testimonios · aurora studio · zona "editorial / social proof". */}
+        <div className="relative overflow-hidden">
+          <AuroraBackdrop tone="studio" intensity={0.6} />
         <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="py-16 space-y-12"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
-          <motion.div variants={itemVariants} className="text-center space-y-6">
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
+          <motion.div variants={itemVariants} className="text-center space-y-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
               Testimonios
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Lo que dicen mis clientes
             </h2>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              La confianza es el mejor indicador del valor que aporto a cada proyecto.
+            <p className="text-base md:text-lg text-zinc-300 max-w-3xl mx-auto leading-relaxed">
+              La confianza es el mejor indicador del valor que aporto a cada
+              proyecto.
             </p>
           </motion.div>
 
@@ -739,24 +837,29 @@ function ServicesPageContent() {
             ].map((testimonial, index) => (
               <motion.div key={index} variants={cardVariants} whileHover="hover">
                 <Card className="surface-card h-full relative overflow-hidden">
-                  <CardContent className="p-8 space-y-6">
-                    <div className="text-4xl text-green-400 font-serif" aria-hidden="true">
-                      "
-                    </div>
-                    <p className="text-zinc-300 italic text-lg leading-relaxed">{testimonial.quote}</p>
-                    <div className="flex items-center gap-4 pt-4">
-                      <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-green-500/30">
+                  <CardContent className="p-7 md:p-8 space-y-5 flex flex-col h-full">
+                    <span
+                      className="text-5xl text-blue-400/40 font-serif leading-none select-none"
+                      aria-hidden="true"
+                    >
+                      «
+                    </span>
+                    <p className="text-zinc-200 text-base md:text-lg leading-relaxed flex-1">
+                      {testimonial.quote}
+                    </p>
+                    <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
+                      <div className="w-12 h-12 rounded-full overflow-hidden border border-blue-500/30 flex-shrink-0">
                         <Image
                           src={testimonial.avatar || "/placeholder.svg"}
                           alt={`Foto de ${testimonial.author}`}
-                          width={56}
-                          height={56}
+                          width={48}
+                          height={48}
                           className="object-cover"
                         />
                       </div>
-                      <div>
-                        <p className="font-bold text-lg text-white">{testimonial.author}</p>
-                        <p className="text-zinc-300">{testimonial.role}</p>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-white truncate">{testimonial.author}</p>
+                        <p className="text-sm text-zinc-400 truncate">{testimonial.role}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -766,27 +869,29 @@ function ServicesPageContent() {
           </div>
         </motion.section>
 
-        {/* CTA Section */}
+        </div>
+
+        {/* 05 — CTA final · slate dark + parallax brackets centrado · cierre. */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="brackets" position="center" speed={0.12} opacityClass="opacity-[0.04]" />
         <motion.section
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="py-20 md:py-32 text-center space-y-12"
+          className="container mx-auto px-4 py-20 md:py-28 text-center space-y-10"
         >
-          <motion.div variants={itemVariants} className="space-y-6">
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
+          <motion.div variants={itemVariants} className="space-y-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
               ¿Listo para comenzar?
-            </Badge>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto">
               Transformemos tu visión en realidad
             </h2>
-            <p className="text-xl text-zinc-400 max-w-4xl mx-auto leading-relaxed">
-              Cada gran proyecto comienza con una conversación. Hablemos sobre cómo puedo ayudarte a
-              alcanzar tus objetivos tecnológicos y de negocio.
+            <p className="text-base md:text-lg text-zinc-300 max-w-3xl mx-auto leading-relaxed">
+              Cada gran proyecto comienza con una conversación. Hablemos sobre
+              cómo puedo ayudarte a alcanzar tus objetivos tecnológicos y de
+              negocio.
             </p>
           </motion.div>
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -816,6 +921,7 @@ function ServicesPageContent() {
             </Button>
           </motion.div>
         </motion.section>
+        </div>
       </main>
 
       <SiteFooter />

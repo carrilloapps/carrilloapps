@@ -44,6 +44,20 @@ export const metadata: Metadata = {
   creator: "José Carrillo",
   publisher: "José Carrillo",
   category: "Technology",
+  // Keywords del home — no son determinantes para Google pero sí para
+  // Bing/DuckDuckGo y para que el documento HTML refleje los términos
+  // por los que queremos rankear. Mantener bajo 10 términos.
+  keywords: [
+    "tech leader colombia",
+    "senior software developer",
+    "consultor sistemas de pago",
+    "desarrollador fintech latam",
+    "arquitecto microservicios",
+    "open banking developer",
+    "líder técnico medellín",
+    "consultoría backoffice",
+    "josé carrillo",
+  ],
   formatDetection: {
     email: true,
     address: true,
@@ -78,6 +92,17 @@ export const metadata: Metadata = {
     firstName: "José",
     lastName: "Carrillo",
     username: "carrilloapps",
+    // Image alt explícita — Next inyecta /opengraph-image automático,
+    // pero el alt text se pierde si no lo declaramos a mano.
+    images: [
+      {
+        url: `${SITE_URL}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: "carrillo.app — José Carrillo, Senior Software Developer & Tech Leader",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -85,6 +110,12 @@ export const metadata: Metadata = {
     creator: "@carrilloapps",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: `${SITE_URL}/opengraph-image`,
+        alt: "carrillo.app — José Carrillo, Senior Software Developer & Tech Leader",
+      },
+    ],
   },
   icons: {
     icon: [
