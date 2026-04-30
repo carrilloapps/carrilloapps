@@ -295,89 +295,92 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              <motion.div 
-                className="space-y-4"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <div className="surface-card-subtle p-4">
-                  <p className="text-sm text-zinc-400 font-medium mb-1">Publicado el</p>
-                  <p className="text-zinc-300 font-medium">{formattedDate}</p>
+            {/* Meta-data grid — definition list pattern, sin cards anidadas.
+                Cada par label/value ocupa una fila con hairline divisor entre
+                rows. Lee como tabla de metadatos en vez de tiled-cards. */}
+            <dl className="grid md:grid-cols-2 gap-x-8 gap-y-4 pt-2 border-t border-white/[0.06]">
+              <div className="flex flex-col gap-0.5 pt-3">
+                <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                  Publicado
+                </dt>
+                <dd className="text-zinc-200 font-medium">{formattedDate}</dd>
+              </div>
+              <div className="flex flex-col gap-0.5 pt-3">
+                <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                  Tiempo de lectura
+                </dt>
+                <dd className="text-zinc-200 font-medium">{readingTime} minutos</dd>
+              </div>
+              <div className="flex flex-col gap-0.5 pt-3">
+                <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                  ID del artículo
+                </dt>
+                <dd className="text-zinc-300 text-sm font-mono truncate">{post.guid}</dd>
+              </div>
+              {post.lastModified && post.lastModified !== post.pubDate && (
+                <div className="flex flex-col gap-0.5 pt-3">
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                    Última actualización
+                  </dt>
+                  <dd className="text-zinc-200 font-medium">{formatDateES(post.lastModified)}</dd>
                 </div>
-                <div className="surface-card-subtle p-4">
-                  <p className="text-sm text-zinc-400 font-medium mb-1">Tiempo de lectura</p>
-                  <p className="text-zinc-300 font-medium">{readingTime} minutos</p>
-                </div>
-                <div className="surface-card-subtle p-4">
-                  <p className="text-sm text-zinc-400 font-medium mb-1">ID del artículo</p>
-                  <p className="text-zinc-300 text-sm truncate font-mono">{post.guid}</p>
-                </div>
-                {post.lastModified && post.lastModified !== post.pubDate && (
-                  <div className="surface-card-subtle p-4">
-                    <p className="text-sm text-zinc-400 font-medium mb-1">Última actualización</p>
-                    <p className="text-zinc-300 font-medium">
-                      {formatDateES(post.lastModified)}
-                    </p>
-                  </div>
-                )}
-              </motion.div>
-              <motion.div 
-                className="space-y-4"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                <div className="surface-card-subtle p-4">
-                  <p className="text-sm text-zinc-400 font-medium mb-2">Categorías</p>
-                  <div className="flex flex-wrap gap-2">
-                    {post.categories.map((category, i) => (
+              )}
+              <div className="flex flex-col gap-2 pt-3 md:col-span-2">
+                <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                  Categorías
+                </dt>
+                <dd className="flex flex-wrap gap-2">
+                  {post.categories.map((category, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.4 + i * 0.05 }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <Link href={`/blog?category=${encodeURIComponent(category)}`}>
+                        <Badge
+                          variant="outline"
+                          className="capitalize bg-blue-500/10 border-blue-500/30 text-blue-300 hover:bg-blue-500/15 transition-colors cursor-pointer"
+                        >
+                          <Tag className="h-3 w-3 mr-1" aria-hidden="true" />
+                          {category}
+                        </Badge>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </dd>
+              </div>
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-col gap-2 pt-3 md:col-span-2">
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                    Etiquetas
+                  </dt>
+                  <dd className="flex flex-wrap gap-2">
+                    {post.tags.map((tag, i) => (
                       <motion.div
                         key={i}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
+                        transition={{ duration: 0.3, delay: 0.4 + i * 0.05 }}
                         whileHover={{ scale: 1.05 }}
                       >
-                        <Link href={`/blog?category=${encodeURIComponent(category)}`}>
-                          <Badge 
-                            variant="outline" 
-                            className="capitalize bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white backdrop-blur-sm shadow-lg shadow-blue-600/10 hover:shadow-blue-600/20 transition-all duration-300 cursor-pointer"
-                          >
-                            <Tag className="h-3 w-3 mr-1" />
-                            {category}
-                          </Badge>
-                        </Link>
+                        <Badge
+                          variant="outline"
+                          className="capitalize bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/15 transition-colors"
+                        >
+                          {tag}
+                        </Badge>
                       </motion.div>
                     ))}
-                  </div>
+                  </dd>
                 </div>
-                {post.tags && post.tags.length > 0 && (
-                  <div className="surface-card-subtle p-4">
-                    <p className="text-sm text-zinc-400 font-medium mb-2">Etiquetas</p>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <Badge 
-                            variant="outline" 
-                            className="capitalize bg-gradient-to-r from-teal-600/20 to-emerald-600/20 border border-teal-600/30 text-white backdrop-blur-sm shadow-lg shadow-teal-600/10 hover:shadow-teal-600/20 transition-all duration-300"
-                          >
-                            {tag}
-                          </Badge>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <div className="surface-card-subtle p-4">
-                  <p className="text-sm text-zinc-400 font-medium mb-2">Estadísticas</p>
+              )}
+              <div className="flex flex-col gap-2 pt-3 md:col-span-2">
+                <dt className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
+                  Estadísticas
+                </dt>
+                <dd>
                   <div className="flex flex-col gap-3 text-zinc-300">
                     <motion.div 
                       className="flex items-center gap-2"
@@ -389,7 +392,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                         {commentLoading ? (
                           <span className="inline-flex items-center gap-2">
                             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                            <span className="text-zinc-400">Sincronizando...</span>
+                            <span className="text-zinc-300">Sincronizando...</span>
                           </span>
                         ) : (
                           <span className="font-medium">{commentCount} {commentCount === 1 ? 'comentario' : 'comentarios'}</span>
@@ -406,7 +409,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                         {reactionsLoading ? (
                           <span className="inline-flex items-center gap-2">
                             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                            <span className="text-zinc-400">Cargando...</span>
+                            <span className="text-zinc-300">Cargando...</span>
                           </span>
                         ) : (
                           <span className={hasReacted ? 'font-medium text-blue-400' : 'font-medium'}>{reactions} me gusta</span>
@@ -423,7 +426,7 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                         {savesLoading ? (
                           <span className="inline-flex items-center gap-2">
                             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                            <span className="text-zinc-400">Cargando...</span>
+                            <span className="text-zinc-300">Cargando...</span>
                           </span>
                         ) : (
                           <span className={hasSaved ? 'font-medium text-emerald-400' : 'font-medium'}>{saves} {saves === 1 ? 'guardado' : 'guardados'}</span>
@@ -431,9 +434,9 @@ export function BlogArticle({ slug, post, relatedPosts, categories }: BlogArticl
                       </span>
                     </motion.div>
                   </div>
-                </div>
-              </motion.div>
-            </div>
+                </dd>
+              </div>
+            </dl>
           </CardContent>
         </Card>
       </motion.div>

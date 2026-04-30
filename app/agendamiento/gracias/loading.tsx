@@ -14,27 +14,27 @@ export default function ThankYouLoading() {
           </div>
 
           <div className="space-y-4">
-            <div className="h-12 w-64 bg-zinc-800 rounded-lg animate-pulse mx-auto"></div>
-            <div className="h-6 w-full bg-zinc-800 rounded-lg animate-pulse mx-auto"></div>
-            <div className="h-6 w-full bg-zinc-800 rounded-lg animate-pulse mx-auto"></div>
+            <div className="h-12 w-64 bg-white/[0.04] border border-white/[0.04] rounded-lg animate-pulse mx-auto"></div>
+            <div className="h-6 w-full bg-white/[0.04] border border-white/[0.04] rounded-lg animate-pulse mx-auto"></div>
+            <div className="h-6 w-full bg-white/[0.04] border border-white/[0.04] rounded-lg animate-pulse mx-auto"></div>
           </div>
 
           <div>
             <div className="bg-zinc-900 border-zinc-800 rounded-lg p-6 space-y-4">
-              <div className="h-6 w-48 bg-zinc-800 rounded animate-pulse"></div>
+              <div className="h-6 w-48 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
               <div className="space-y-3">
                 {Array(4)
                   .fill(0)
                   .map((_, i) => (
-                    <div key={i} className="h-5 w-full bg-zinc-800 rounded animate-pulse"></div>
+                    <div key={i} className="h-5 w-full bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
                   ))}
               </div>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <div className="h-10 w-40 bg-zinc-800 rounded-lg animate-pulse"></div>
-            <div className="h-10 w-40 bg-zinc-800 rounded-lg animate-pulse"></div>
+            <div className="h-10 w-40 bg-white/[0.04] border border-white/[0.04] rounded-lg animate-pulse"></div>
+            <div className="h-10 w-40 bg-white/[0.04] border border-white/[0.04] rounded-lg animate-pulse"></div>
           </div>
         </div>
       </main>

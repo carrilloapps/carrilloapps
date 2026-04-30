@@ -77,11 +77,11 @@ export function LatestPostsSection() {
               >
                 {isPlaceholder ? (
                   <>
-                    <div className="aspect-[16/10] bg-zinc-800/60 animate-pulse" />
+                    <div className="aspect-[16/10] bg-white/[0.04] border border-white/[0.04] animate-pulse" />
                     <div className="px-5 pb-5 space-y-3">
-                      <div className="h-3 w-24 bg-zinc-800 rounded animate-pulse" />
-                      <div className="h-4 w-full bg-zinc-800 rounded animate-pulse" />
-                      <div className="h-4 w-3/4 bg-zinc-800 rounded animate-pulse" />
+                      <div className="h-3 w-24 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse" />
+                      <div className="h-4 w-full bg-white/[0.04] border border-white/[0.04] rounded animate-pulse" />
+                      <div className="h-4 w-3/4 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse" />
                     </div>
                   </>
                 ) : (

@@ -11,8 +11,8 @@ export default function ScheduleLoading() {
       <main className="container py-12 space-y-12" id="main-content">
         <section className="py-12 md:py-24 space-y-8">
           <div className="space-y-4 text-center">
-            <Skeleton className="w-64 h-10 bg-zinc-800 rounded-lg mx-auto" />
-            <Skeleton className="w-full max-w-2xl h-6 bg-zinc-800 rounded-lg mx-auto" />
+            <Skeleton className="w-64 h-10 bg-white/[0.04] border border-white/[0.04] rounded-lg mx-auto" />
+            <Skeleton className="w-full max-w-2xl h-6 bg-white/[0.04] border border-white/[0.04] rounded-lg mx-auto" />
           </div>
 
           <div className="max-w-2xl mx-auto">

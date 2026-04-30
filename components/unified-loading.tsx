@@ -175,19 +175,19 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
   if (type === "blog") {
     return (
       <Card className="surface-card">
-        <div className="aspect-video bg-zinc-800 animate-pulse"></div>
+        <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse"></div>
         <CardContent className="p-6 space-y-4">
-          <Skeleton className="h-6 w-3/4 bg-zinc-800" />
-          <Skeleton className="h-4 w-full bg-zinc-800" />
-          <Skeleton className="h-4 w-full bg-zinc-800" />
+          <Skeleton className="h-6 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
           <div className="flex gap-2 pt-2">
-            <Skeleton className="h-6 w-20 bg-zinc-800" />
-            <Skeleton className="h-6 w-20 bg-zinc-800" />
+            <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
           </div>
         </CardContent>
         <CardFooter className="px-6 pb-6 pt-0 flex justify-between">
-          <Skeleton className="h-4 w-24 bg-zinc-800" />
-          <Skeleton className="h-4 w-24 bg-zinc-800" />
+          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
         </CardFooter>
       </Card>
     );
@@ -198,23 +198,23 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
       <Card className="surface-card">
         <CardHeader>
           <div className="space-y-2">
-            <Skeleton className="h-6 w-2/3 bg-zinc-800" />
-            <Skeleton className="h-4 w-full bg-zinc-800" />
+            <Skeleton className="h-6 w-2/3 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
           </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <Skeleton className="h-4 w-1/4 bg-zinc-800" />
-            <Skeleton className="h-4 w-full bg-zinc-800" />
-            <Skeleton className="h-4 w-full bg-zinc-800" />
+            <Skeleton className="h-4 w-1/4 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
           <div className="flex items-center gap-4">
-            <Skeleton className="h-4 w-16 bg-zinc-800" />
-            <Skeleton className="h-4 w-16 bg-zinc-800" />
+            <Skeleton className="h-4 w-16 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-4 w-16 bg-white/[0.04] border border-white/[0.04]" />
           </div>
-          <Skeleton className="h-9 w-28 bg-zinc-800" />
+          <Skeleton className="h-9 w-28 bg-white/[0.04] border border-white/[0.04]" />
         </CardFooter>
       </Card>
     );
@@ -223,9 +223,9 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
   return (
     <Card className="surface-card">
       <CardContent className="p-6 space-y-4">
-        <Skeleton className="h-6 w-3/4 bg-zinc-800" />
-        <Skeleton className="h-4 w-full bg-zinc-800" />
-        <Skeleton className="h-4 w-2/3 bg-zinc-800" />
+        <Skeleton className="h-6 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
+        <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
+        <Skeleton className="h-4 w-2/3 bg-white/[0.04] border border-white/[0.04]" />
       </CardContent>
     </Card>
   );
@@ -253,7 +253,7 @@ const HeroSkeleton = () => (
         <Skeleton className="w-full h-24 bg-gradient-to-r from-zinc-800 to-zinc-700" />
         <div className="flex gap-4">
           <Skeleton className="w-40 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50" />
-          <Skeleton className="w-40 h-10 bg-zinc-800/50 border border-zinc-700" />
+          <Skeleton className="w-40 h-10 bg-white/[0.04] border border-white/[0.04]/50 border border-zinc-700" />
         </div>
       </div>
       <div className="relative aspect-square rounded-2xl bg-gradient-to-br from-blue-800/20 to-purple-800/20 border border-zinc-800/50 animate-pulse"></div>
@@ -265,30 +265,30 @@ const HeroSkeleton = () => (
 const FormSkeleton = () => (
   <Card className="surface-card">
     <CardHeader>
-      <Skeleton className="h-6 w-48 bg-zinc-800" />
-      <Skeleton className="h-4 w-full bg-zinc-800" />
+      <Skeleton className="h-6 w-48 bg-white/[0.04] border border-white/[0.04]" />
+      <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
     </CardHeader>
     <CardContent>
       <div className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Skeleton className="h-4 w-24 bg-zinc-800" />
-            <Skeleton className="h-10 w-full bg-zinc-800" />
+            <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-10 w-full bg-white/[0.04] border border-white/[0.04]" />
           </div>
           <div className="space-y-2">
-            <Skeleton className="h-4 w-24 bg-zinc-800" />
-            <Skeleton className="h-10 w-full bg-zinc-800" />
+            <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-10 w-full bg-white/[0.04] border border-white/[0.04]" />
           </div>
         </div>
         <div className="space-y-2">
-          <Skeleton className="h-4 w-24 bg-zinc-800" />
-          <Skeleton className="h-10 w-full bg-zinc-800" />
+          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-10 w-full bg-white/[0.04] border border-white/[0.04]" />
         </div>
         <div className="space-y-2">
-          <Skeleton className="h-4 w-24 bg-zinc-800" />
-          <Skeleton className="h-32 w-full bg-zinc-800" />
+          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-32 w-full bg-white/[0.04] border border-white/[0.04]" />
         </div>
-        <Skeleton className="h-10 w-full bg-zinc-800" />
+        <Skeleton className="h-10 w-full bg-white/[0.04] border border-white/[0.04]" />
       </div>
     </CardContent>
   </Card>
@@ -298,17 +298,17 @@ const FormSkeleton = () => (
 const BlogFeaturedSkeleton = () => (
   <Card className="surface-card">
     <div className="grid md:grid-cols-2 gap-6">
-      <div className="aspect-video bg-zinc-800 animate-pulse"></div>
+      <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse"></div>
       <div className="p-6 space-y-4">
-        <Skeleton className="h-6 w-3/4 bg-zinc-800" />
-        <Skeleton className="h-4 w-full bg-zinc-800" />
-        <Skeleton className="h-4 w-full bg-zinc-800" />
-        <Skeleton className="h-4 w-3/4 bg-zinc-800" />
+        <Skeleton className="h-6 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
+        <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
+        <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
+        <Skeleton className="h-4 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
         <div className="flex gap-2 pt-2">
-          <Skeleton className="h-6 w-20 bg-zinc-800" />
-          <Skeleton className="h-6 w-20 bg-zinc-800" />
+          <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
+          <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
         </div>
-        <Skeleton className="h-10 w-40 bg-zinc-800 mt-4" />
+        <Skeleton className="h-10 w-40 bg-white/[0.04] border border-white/[0.04] mt-4" />
       </div>
     </div>
   </Card>
@@ -396,17 +396,17 @@ export function UnifiedLoading({
       return (
         <div className={`space-y-8 ${className}`}>
           <div className="space-y-4">
-            <Skeleton className="h-12 w-3/4 bg-zinc-800" />
-            <Skeleton className="h-6 w-1/2 bg-zinc-800" />
+            <Skeleton className="h-12 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
+            <Skeleton className="h-6 w-1/2 bg-white/[0.04] border border-white/[0.04]" />
             <div className="flex gap-2">
-              <Skeleton className="h-6 w-20 bg-zinc-800" />
-              <Skeleton className="h-6 w-20 bg-zinc-800" />
+              <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
+              <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
             </div>
           </div>
-          <div className="aspect-video bg-zinc-800 animate-pulse rounded-lg"></div>
+          <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse rounded-lg"></div>
           <div className="space-y-4">
             {Array(8).fill(0).map((_, i) => (
-              <Skeleton key={i} className="h-4 w-full bg-zinc-800" />
+              <Skeleton key={i} className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
             ))}
           </div>
         </div>
@@ -415,7 +415,7 @@ export function UnifiedLoading({
     case "blog-related":
       return (
         <div className={`space-y-4 ${className}`}>
-          <Skeleton className="h-8 w-48 bg-zinc-800" />
+          <Skeleton className="h-8 w-48 bg-white/[0.04] border border-white/[0.04]" />
           <GridSkeleton type="blog" itemCount={3} />
         </div>
       );
@@ -428,7 +428,7 @@ export function UnifiedLoading({
             <div className="flex justify-center mt-8">
               <div className="flex gap-2">
                 {Array(5).fill(0).map((_, i) => (
-                  <Skeleton key={i} className="h-9 w-9 bg-zinc-800 rounded-md" />
+                  <Skeleton key={i} className="h-9 w-9 bg-white/[0.04] border border-white/[0.04] rounded-md" />
                 ))}
               </div>
             </div>
