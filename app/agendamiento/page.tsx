@@ -170,12 +170,16 @@ function SchedulePageContent() {
                   <span id="agendar-servicio-desc" className="sr-only">Book a specialized professional service</span>
                 </Button>
                 <Button
-                  variant="outline"
-                  className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-h-[48px]"
+                  variant="glass"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation"
                   aria-describedby="services-desc"
+                  asChild
                 >
-                  Ver servicios
-                  <span id="services-desc" className="sr-only">View my services</span>
+                  <a href="/servicios">
+                    Ver servicios
+                    <span id="services-desc" className="sr-only">Ver mis servicios</span>
+                  </a>
                 </Button>
               </>
             }
@@ -205,7 +209,7 @@ function SchedulePageContent() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative z-10"
             >
-              <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
+              <Card className="surface-card relative overflow-hidden group">
                 {/* Card Background Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 <CardHeader className="relative z-10">
@@ -401,7 +405,7 @@ function SchedulePageContent() {
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
+                <Card className="surface-card relative overflow-hidden group">
                   {/* Card Background Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardHeader className="relative">
@@ -447,7 +451,7 @@ function SchedulePageContent() {
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                <Card className="bg-zinc-900/80 backdrop-blur-sm border-zinc-800/50 hover:border-zinc-700/70 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
+                <Card className="surface-card relative overflow-hidden group">
                   {/* Card Background Effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <CardHeader className="relative">
@@ -646,8 +650,9 @@ function SchedulePageContent() {
               whileTap={{ scale: 0.98 }}
             >
               <Button
-                variant="outline"
-                className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 font-bold py-3 px-8 rounded-lg backdrop-blur-sm transition-all duration-300"
+                variant="glass"
+                size="lg"
+                className="touch-manipulation"
                 onClick={() => setShowDialog(false)}
               >
                 Cancelar

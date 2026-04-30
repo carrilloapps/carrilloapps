@@ -21,7 +21,7 @@ export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | 
 
   if (!featuredPost) {
     return (
-      <Card className="relative bg-gradient-to-br from-zinc-900/80 via-zinc-800/50 to-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm">
+      <Card className="surface-card">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
         <CardContent className="relative z-10 p-6 text-center">
           <p className="text-zinc-300">
@@ -38,7 +38,7 @@ export default function BlogFeatured({ post: featuredPost }: { post: BlogPost | 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Card className="relative bg-gradient-to-br from-zinc-900/90 via-zinc-800/60 to-zinc-900/90 border border-zinc-700/50 backdrop-blur-md overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/25 group">
+      <Card className="surface-card group">
         {/* Enhanced glassmorphism overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         

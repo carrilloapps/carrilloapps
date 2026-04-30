@@ -164,7 +164,7 @@ export function BlogPosts({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <Card className="bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30">
+        <Card className="surface-card">
           <CardContent className="p-12 text-center space-y-4">
             <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-600/30">
               <Sparkles className="h-8 w-8 text-blue-400" />
@@ -238,7 +238,7 @@ export function BlogPosts({
             transition={{ duration: 0.3 }}
             className="text-center"
           >
-            <Card className="bg-gradient-to-br from-zinc-800/30 to-zinc-900/30 backdrop-blur-sm border border-zinc-700/30">
+            <Card className="surface-card">
               <CardContent className="p-6">
                 <p className="text-zinc-400">
                   No se encontraron artículos que coincidan con tu búsqueda.
@@ -263,7 +263,7 @@ export function BlogPosts({
             transition={{ duration: 0.3 }}
           >
             <Link href={`/blog/${post.slug}`} className="block h-full group" onClick={() => handlePostClick(post)}>
-              <Card className="h-full bg-gradient-to-br from-zinc-800/50 to-zinc-900/50 backdrop-blur-sm border border-zinc-700/30 overflow-hidden hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group-hover:scale-[1.02]">
+              <Card className="h-full surface-card">
                 <div className="aspect-video bg-zinc-800 relative overflow-hidden">
                   <Image
                     src={post.thumbnail || "/placeholder.svg"}

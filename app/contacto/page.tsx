@@ -266,7 +266,7 @@ function ContactPageContent() {
             >
               <div className="grid lg:grid-cols-2 gap-12 items-start">
                 <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
+                  <Card className="surface-card relative overflow-hidden group">
                 {/* Card Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -393,7 +393,7 @@ function ContactPageContent() {
 
                 <div className="space-y-8">
                   <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
+                <Card className="surface-card relative overflow-hidden group">
                   {/* Card Background Gradient */}
                   <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -498,7 +498,7 @@ function ContactPageContent() {
               </motion.div>
 
               <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm relative overflow-hidden group">
+                <Card className="surface-card relative overflow-hidden group">
                   {/* Card Background Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -593,7 +593,7 @@ function ContactPageContent() {
 
             <motion.div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto" variants={itemVariants}>
               <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
+                <Card className="surface-card h-full relative overflow-hidden group">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
@@ -612,7 +612,7 @@ function ContactPageContent() {
               </motion.div>
 
               <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
+                <Card className="surface-card h-full relative overflow-hidden group">
                   <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
@@ -630,7 +630,7 @@ function ContactPageContent() {
               </motion.div>
 
               <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
+                <Card className="surface-card h-full relative overflow-hidden group">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">
@@ -649,7 +649,7 @@ function ContactPageContent() {
               </motion.div>
 
               <motion.div variants={cardVariants} whileHover="hover">
-                <Card className="bg-zinc-900/90 border-zinc-800/50 backdrop-blur-sm h-full relative overflow-hidden group">
+                <Card className="surface-card h-full relative overflow-hidden group">
                   <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <CardContent className="p-6 relative z-10">
                     <div className="flex items-start gap-4 mb-4">

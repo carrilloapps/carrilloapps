@@ -141,7 +141,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">oct. 2024 - Presente</Badge>
                   <h3 className="text-xl font-bold">
@@ -189,7 +189,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">mar. 2024 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -237,7 +237,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ago. 2021 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -306,7 +306,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">may. 2023 - mar. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -371,7 +371,7 @@ export default function AboutPage() {
               <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
                 <BookOpen className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
                   <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ene. 2022 - feb. 2024</Badge>
                   <h3 className="text-xl font-bold">
@@ -454,7 +454,7 @@ export default function AboutPage() {
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
@@ -474,7 +474,7 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
@@ -494,7 +494,7 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
@@ -630,7 +630,7 @@ export default function AboutPage() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+                  <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
                       <p className="text-zinc-400">
@@ -699,7 +699,7 @@ export default function AboutPage() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
+                  <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Participación en la comunidad</h3>
                       <p className="text-zinc-400">
@@ -810,11 +810,15 @@ export default function AboutPage() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      size="lg"
-                      className="bg-white hover:bg-white focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-blue-500 font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group"
+                      variant="gradient"
+                      size="xl"
+                      className="w-full sm:w-auto touch-manipulation group"
+                      asChild
                     >
-                      Contáctame
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <Link href="/contacto">
+                        Contáctame
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                      </Link>
                     </Button>
                   </motion.div>
                   <motion.div
@@ -823,11 +827,12 @@ export default function AboutPage() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      size="lg"
-                      variant="outline"
-                      className="bg-transparent border-white/50 border-2 text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+                      variant="glass"
+                      size="xl"
+                      className="w-full sm:w-auto touch-manipulation"
+                      asChild
                     >
-                      Mis proyectos
+                      <Link href="/recursos">Mis proyectos</Link>
                     </Button>
                   </motion.div>
                 </motion.div>
@@ -897,7 +902,7 @@ export default function AboutPage() {
                   aria-spellcheck="false"
                   aria-autocapitalize="words"
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  variant="glass"
                   placeholder="Por favor ingresa tu nombre completo"
                 />
                 {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
@@ -927,29 +932,31 @@ export default function AboutPage() {
                   aria-autocapitalize="none"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  variant="glass"
                   placeholder="Por favor ingrese su correo electrónico"
                 />
                 {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button type="submit" variant="gradient" size="lg" className="w-full touch-manipulation">
                 Acceder al CV
               </Button>
             </form>
           ) : (
             <div className="space-y-4 py-4">
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
-                  className="bg-blue-600 hover:bg-blue-700 flex-1"
+                  variant="gradient"
+                  size="lg"
+                  className="flex-1 touch-manipulation"
                   onClick={() => window.open("/cv.pdf", "_blank")}
                 >
-                  <Eye className="mr-2 h-4 w-4" />
+                  <Eye className="mr-2 h-4 w-4" aria-hidden="true" />
                   Ver el CV
                 </Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 flex-1" asChild>
+                <Button variant="glass" size="lg" className="flex-1 touch-manipulation" asChild>
                   <a href="/cv.pdf" download>
-                    <Download className="mr-2 h-4 w-4" />
+                    <Download className="mr-2 h-4 w-4" aria-hidden="true" />
                     Descargar el CV
                   </a>
                 </Button>

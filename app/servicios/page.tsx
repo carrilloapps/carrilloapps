@@ -399,7 +399,7 @@ function ServicesPageContent() {
                         </div>
 
                         <motion.div variants={cardVariants} whileHover="hover">
-                          <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm">
+                          <Card className="surface-card">
                             <CardContent className="p-8 space-y-6">
                               <div className="space-y-3">
                                 <h5 className="text-xl font-semibold text-white">Caso de éxito</h5>
@@ -668,7 +668,7 @@ function ServicesPageContent() {
               const IconComponent = stat.icon
               return (
                 <motion.div key={index} variants={cardVariants} whileHover="hover">
-                  <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm relative overflow-hidden h-full">
+                  <Card className="surface-card relative overflow-hidden h-full">
                     <CardContent className="p-8 space-y-6">
                       <div className="flex items-center justify-between">
                         <span className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -738,7 +738,7 @@ function ServicesPageContent() {
               },
             ].map((testimonial, index) => (
               <motion.div key={index} variants={cardVariants} whileHover="hover">
-                <Card className="bg-gradient-to-br from-zinc-900/80 to-zinc-800/80 border-zinc-700/50 backdrop-blur-sm h-full relative overflow-hidden">
+                <Card className="surface-card h-full relative overflow-hidden">
                   <CardContent className="p-8 space-y-6">
                     <div className="text-4xl text-green-400 font-serif" aria-hidden="true">
                       "
