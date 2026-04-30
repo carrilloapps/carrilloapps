@@ -117,26 +117,24 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
           </DialogHeader>
 
           {metrics.length > 0 && (
-            <div
-              className="grid grid-cols-3 gap-2 md:gap-3"
-              role="list"
+            <ul
+              className="grid grid-cols-3 gap-2 md:gap-3 list-none p-0 m-0"
               aria-label="Métricas de impacto"
             >
               {metrics.slice(0, 3).map((metric) => (
-                <div
+                <li
                   key={metric.label}
                   className="surface-card-subtle px-3 py-3 md:px-4 md:py-4 text-center"
-                  role="listitem"
                 >
                   <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-white tabular-nums leading-none">
                     {metric.value}
                   </div>
-                  <div className="mt-1.5 text-[11px] md:text-xs text-zinc-400 leading-tight">
+                  <div className="mt-1.5 text-[11px] md:text-xs text-zinc-300 leading-tight">
                     {metric.label}
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
 
           <section className="space-y-2">

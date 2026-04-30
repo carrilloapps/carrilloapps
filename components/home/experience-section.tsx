@@ -221,26 +221,24 @@ export function ExperienceCard({
 
           <div className="mt-auto pt-4 border-t border-white/[0.06] space-y-4">
             {entry.metrics && entry.metrics.length > 0 && (
-              <div
-                className="grid grid-cols-3 gap-2"
-                role="list"
+              <ul
+                className="grid grid-cols-3 gap-2 list-none p-0 m-0"
                 aria-label="Métricas del rol"
               >
                 {entry.metrics.slice(0, 3).map((metric) => (
-                  <div
+                  <li
                     key={metric.label}
                     className="surface-card-subtle px-2.5 py-3 text-center"
-                    role="listitem"
                   >
                     <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
                       {metric.value}
                     </div>
-                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-400 leading-tight">
+                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
                       {metric.label}
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
 
             {entry.technologies?.length > 0 && (

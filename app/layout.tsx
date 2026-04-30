@@ -8,6 +8,7 @@ import { WebsiteJsonLd, OrganizationJsonLd, PersonJsonLd } from "@/components/js
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { SkipLink } from "@/components/skip-link"
 import { PageLoadingProvider } from "@/components/page-loading-context"
+import { MotionPreferencesProvider } from "@/components/motion-preferences-provider"
 import { GlobalPageLoader } from "@/components/global-page-loader"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
 import { DeferCSS } from "@/app/defer-css"
@@ -127,13 +128,15 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <PageLoadingProvider>
-            <SkipLink />
-            <GlobalPageLoader />
-            <ScrollToTop />
-            {children}
-            <DynamicCookieConsent />
-          </PageLoadingProvider>
+          <MotionPreferencesProvider>
+            <PageLoadingProvider>
+              <SkipLink />
+              <GlobalPageLoader />
+              <ScrollToTop />
+              {children}
+              <DynamicCookieConsent />
+            </PageLoadingProvider>
+          </MotionPreferencesProvider>
         </ThemeProvider>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
