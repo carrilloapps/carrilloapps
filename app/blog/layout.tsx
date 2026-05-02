@@ -1,33 +1,8 @@
 import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
-import { buildPageMetadata } from "@/lib/seo"
 
 const SITE_URL = getSiteUrl()
-
-export const metadata = buildPageMetadata({
-  title: "Blog",
-  description:
-    "Insights, artículos y reflexiones de un Tech Leader sobre desarrollo de software, sistemas financieros, pagos y liderazgo técnico.",
-  path: "/blog",
-  keywords: [
-    "blog tecnología",
-    "josé carrillo blog",
-    "tech leader",
-    "yummy inc",
-    "desarrollo software",
-    "sistemas financieros",
-    "open banking",
-    "pagos digitales",
-    "liderazgo técnico",
-    "backoffice financiero",
-    "arquitectura microservicios",
-    "tutoriales programación",
-    "fintech",
-    "sistemas de pago",
-    "mentoría técnica",
-  ],
-})
 
 export default function BlogLayout({
   children,
