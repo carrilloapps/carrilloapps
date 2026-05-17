@@ -16,9 +16,13 @@
 
 ## About
 
-Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Finance, Core Payments, and AI-driven infrastructure for LATAM. 10+ years in banking, retail, and aviation. I build systems that process real money at scale.
+Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — building Open Finance and Core Payments infrastructure for LATAM. 10+ years shipping payment systems at scale across banking, retail, and aviation in Colombia and Chile.
 
-📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 m@carrillo.app &nbsp;·&nbsp; ⚡ Ham Radio **HJ4JPC**
+My focus: distributed systems that move real money reliably. From Colombia's first Open Banking service at Wompi to CQRS architectures processing +150M records, to autonomous AI agents applied to financial operations. I care about systems design, clear architecture decisions, and mentoring engineers who build for scale.
+
+Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
+
+📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 m@carrillo.app
 
 ---
 
@@ -40,7 +44,6 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 - [**hfo**](https://github.com/carrilloapps/hfo) — Fullscreen TUI and headless CLI for Hugging Face GGUF models on Ollama &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/hfo?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 - [**zefer**](https://github.com/carrilloapps/zefer) — End-to-end encrypted, zero-knowledge tool that runs entirely in your browser &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/zefer?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 - [**bcv-exchange-rate**](https://github.com/carrilloapps/bcv-exchange-rate) — Node.js library for BCV Venezuela and TRM Colombia exchange rates &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/bcv-exchange-rate?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
-- [**n8n-nodes-dian-colombia**](https://github.com/carrilloapps/n8n-nodes-dian-colombia) — Custom n8n nodes for DIAN Colombia — automate tax and invoice workflows &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/n8n-nodes-dian-colombia?style=flat&color=10b981) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 - [**ai-sync-cli**](https://github.com/carrilloapps/ai-sync-cli) — Universal sync tool for AI coding agents and IDEs &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/ai-sync-cli?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 - [**web-aprs-passcode**](https://github.com/carrilloapps/web-aprs-passcode) — APRS-IS callsign passcode generator for Ham Radio operators &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/web-aprs-passcode?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 
