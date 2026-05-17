@@ -1,80 +1,103 @@
 "use client"
 
 import { useState } from "react"
+import { Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Mail } from "lucide-react"
+import { SurfaceCard } from "@/components/ui/surface-card"
 import { SpinnerLoading } from "@/components/unified-loading"
+import { toast } from "sonner"
 
+/**
+ * Standalone newsletter capture card. Reusable en cualquier página que quiera
+ * el módulo "suscribite al newsletter" con la estética del home (surface-card
+ * + glass input + gradient button).
+ */
 export function NewsletterForm() {
   const [email, setEmail] = useState("")
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  )
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus("loading")
-
     try {
-      // Aquí irá tu lógica para manejar la suscripción
-      // Por ejemplo, llamar a tu API o servicio de newsletter
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulación
+      // TODO: integrar con servicio real (Mailchimp / Resend / Buttondown).
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       setStatus("success")
       setEmail("")
+      toast.success("¡Gracias por suscribirte!", {
+        description: "Te avisaré cuando publique algo nuevo.",
+      })
     } catch {
       setStatus("error")
+      toast.error("Error al suscribirse", {
+        description: "Por favor intenta nuevamente en un momento.",
+      })
     }
   }
 
   return (
-    <div className="rounded-2xl bg-gradient-to-b from-zinc-900 to-zinc-800 p-8 shadow-lg">
-      <div className="flex flex-col items-center text-center space-y-4 mb-6">
-        <div className="h-12 w-12 rounded-full bg-blue-600/20 flex items-center justify-center">
-          <Mail className="h-6 w-6 text-blue-500" />
+    <SurfaceCard>
+      <div className="p-6 md:p-8 space-y-6">
+        <div className="flex flex-col items-center text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
+            <Mail className="h-5 w-5 text-blue-400" aria-hidden="true" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+              Newsletter
+            </p>
+            <h3 className="text-xl font-bold text-white">
+              Suscríbete al newsletter
+            </h3>
+          </div>
+          <p className="text-sm text-zinc-300 max-w-md leading-relaxed">
+            Recibe las últimas notas sobre desarrollo, fintech y liderazgo
+            técnico directamente en tu correo.
+          </p>
         </div>
-        <h3 className="text-2xl font-bold">Suscríbete al Newsletter</h3>
-        <p className="text-zinc-400 max-w-md">
-          Recibe las últimas actualizaciones sobre desarrollo, fintech y liderazgo técnico directamente en tu inbox.
-        </p>
-      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex gap-3">
-          <Input
-            type="email"
-            placeholder="tu@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="bg-zinc-800/50 border-zinc-700 focus:border-blue-500 focus:ring-blue-500/20"
-          />
-          <Button 
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? (
-              <>
-                <SpinnerLoading className="w-4 h-4" />
-                Suscribiendo...
-              </>
-            ) : (
-              "Suscribirse"
-            )}
-          </Button>
-        </div>
-        
-        {status === "success" && (
-          <p className="text-green-500 text-sm text-center">
-            ¡Gracias por suscribirte! Por favor revisa tu email para confirmar.
-          </p>
-        )}
-        
-        {status === "error" && (
-          <p className="text-red-500 text-sm text-center">
-            Hubo un error. Por favor intenta nuevamente.
-          </p>
-        )}
-      </form>
-    </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <label htmlFor="newsletter-email" className="sr-only">
+            Correo electrónico
+          </label>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Input
+              id="newsletter-email"
+              name="email"
+              variant="glass"
+              type="email"
+              inputMode="email"
+              placeholder="tu@correo.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              autoCapitalize="off"
+              spellCheck={false}
+              disabled={status === "loading"}
+            />
+            <Button
+              type="submit"
+              variant="gradient"
+              size="default"
+              className="touch-manipulation"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? (
+                <>
+                  <SpinnerLoading className="w-4 h-4" />
+                  Suscribiendo…
+                </>
+              ) : (
+                "Suscribirse"
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </SurfaceCard>
   )
 }

@@ -1,42 +1,58 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { BreadcrumbJsonLd } from "@/components/json-ld"
+﻿import type React from "react"
+import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Agenda una Consulta | Servicios de Consultoría | José Carrillo",
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
+  title: "Agenda una Consulta de Liderazgo Técnico",
   description:
     "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
+  path: "/agendamiento",
   keywords: [
     "agendar consulta",
     "consultoría tecnológica",
-    "josé carrillo consulta",
+    "Junior Carrillo consulta",
     "asesoría técnica",
     "desarrollo software",
     "sistemas financieros",
     "backoffice",
   ],
-  alternates: {
-    canonical: "/agendamiento",
-  },
-  openGraph: {
-    title: "Agenda una Consulta | José Carrillo",
-    description:
-      "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
-    url: "https://carrillo.app/agendamiento",
-    images: [
-      {
-        url: "https://carrillo.app/schedule-og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Agenda una Consulta - José Carrillo",
+})
+
+const schedulingJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Agenda una Consulta — Junior Carrillo",
+  description: "Reserva una sesión de consultoría personalizada con Junior Carrillo, Tech Leader especializado en sistemas de pago y liderazgo técnico.",
+  url: `${SITE_URL}/agendamiento`,
+  mainEntity: {
+    "@type": "Person",
+    name: "Junior Carrillo",
+    jobTitle: "Tech Leader & Senior Software Developer",
+    worksFor: { "@type": "Organization", name: "Yummy Inc." },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Support",
+      availableLanguage: ["es", "en"],
+      areaServed: "Global",
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+        timeZone: "America/Bogota",
       },
-    ],
+    },
   },
-  twitter: {
-    title: "Agenda una Consulta | José Carrillo",
-    description:
-      "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Junior Carrillo | Senior Software Developer & Tech Leader",
+    url: SITE_URL,
   },
+  inLanguage: "es-CO",
+  dateModified: new Date("2026-05-16").toISOString(),
 }
 
 export default function ScheduleLayout({
@@ -47,10 +63,11 @@ export default function ScheduleLayout({
   return (
     <>
       {children}
+      <JsonLd data={schedulingJsonLd} />
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Agenda una Consulta", url: "https://carrillo.app/agendamiento" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Agenda una Consulta", url: `${SITE_URL}/agendamiento` },
         ]}
       />
     </>

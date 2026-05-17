@@ -1,11 +1,17 @@
-import type React from "react"
-import type { Metadata } from "next"
+﻿import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { getSiteUrl } from "@/lib/env"
+import { buildPageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "Servicios profesionales de Tech Lead & Arquitecto de Software",
+const SITE_URL = getSiteUrl()
+
+export const metadata = buildPageMetadata({
+  title: "Servicios de Liderazgo Técnico y Consultoría",
   description:
-    "Servicios especializados en liderazgo técnico, sistemas financieros, arquitectura de software, seguridad y compliance, cloud e inteligencia artificial.",
+    "Liderazgo técnico, sistemas financieros, arquitectura de software, seguridad/compliance, cloud e IA. +10 años transformando ideas en soluciones escalables.",
+  path: "/servicios",
+  ogDescription:
+    "Transformo ideas en soluciones tecnológicas robustas y escalables. Sistemas financieros, liderazgo técnico y arquitecturas empresariales.",
   keywords: [
     "consultoría tecnológica",
     "liderazgo técnico",
@@ -28,52 +34,7 @@ export const metadata: Metadata = {
     "detección fraude IA",
     "cumplimiento regulatorio",
   ],
-  authors: [{ name: "José Carrillo", url: "https://carrillo.app" }],
-  creator: "José Carrillo",
-  publisher: "carrilloapps",
-  alternates: {
-    canonical: "/servicios",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "es_ES",
-    title: "Servicios profesionales de Tech Lead & Arquitecto de Software",
-    description:
-      "Transformo ideas en soluciones tecnológicas robustas y escalables. Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales con más de 15 años de experiencia.",
-    url: "https://carrillo.app/servicios",
-    siteName: "José Carrillo - Tech Lead & Full Stack Developer",
-    images: [
-      {
-        url: "https://carrillo.app/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Servicios profesionales de Tech Lead & Arquitecto de Software",
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@carrilloapps",
-    creator: "@carrilloapps",
-    title: "Servicios profesionales de Tech Lead & Arquitecto de Software",
-    description:
-      "Transformo ideas en soluciones tecnológicas robustas y escalables. Especializado en sistemas financieros, liderazgo técnico y arquitecturas empresariales.",
-    images: ["https://carrillo.app/og-servicios.jpg"],
-  },
-  category: "Technology",
-}
+})
 
 // JSON-LD structured data for the services page
 const servicesJsonLd = {
@@ -81,11 +42,11 @@ const servicesJsonLd = {
   "@type": "Service",
   name: "Servicios Profesionales de Consultoría Tecnológica",
   description: "Servicios especializados en liderazgo técnico, sistemas financieros, arquitectura de software, seguridad y compliance, cloud e inteligencia artificial",
-  url: "https://carrillo.app/servicios",
+  url: `${SITE_URL}/servicios`,
   provider: {
     "@type": "Person",
-    name: "José Carrillo",
-    url: "https://carrillo.app",
+    name: "Junior Carrillo",
+    url: SITE_URL,
     jobTitle: "Tech Lead & Full Stack Developer",
     worksFor: {
       "@type": "Organization",
@@ -205,22 +166,22 @@ const servicesJsonLd = {
         "@type": "ListItem",
         position: 1,
         name: "Inicio",
-        item: "https://carrillo.app",
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Servicios",
-        item: "https://carrillo.app/servicios",
+        item: `${SITE_URL}/servicios`,
       },
     ],
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "José Carrillo - Tech Lead & Full Stack Developer",
-    url: "https://carrillo.app",
+    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
+    url: SITE_URL,
   },
-  inLanguage: "es-ES",
+  inLanguage: "es-CO",
   dateModified: new Date().toISOString(),
   keywords: "consultoría tecnológica, liderazgo técnico, sistemas financieros, arquitectura software, seguridad compliance, cloud, inteligencia artificial",
 };
@@ -236,8 +197,8 @@ export default function ServicesLayout({
       <JsonLd data={servicesJsonLd} />
       <BreadcrumbJsonLd
         items={[
-          { name: "Inicio", url: "https://carrillo.app" },
-          { name: "Servicios", url: "https://carrillo.app/servicios" },
+          { name: "Inicio", url: SITE_URL },
+          { name: "Servicios", url: `${SITE_URL}/servicios` },
         ]}
       />
     </>

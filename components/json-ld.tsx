@@ -1,3 +1,5 @@
+﻿import { getSiteUrl } from "@/lib/env"
+
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
@@ -10,6 +12,7 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
 }
 
 export function OrganizationJsonLd() {
+  const url = getSiteUrl()
   return (
     <script
       type="application/ld+json"
@@ -17,9 +20,9 @@ export function OrganizationJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "José Carrillo",
-          url: "https://carrillo.app",
-          logo: "https://carrillo.app/logo.webp",
+          name: "Junior Carrillo",
+          url,
+          logo: `${url}/logo.webp`,
           sameAs: [
             "https://github.com/carrilloapps",
             "https://linkedin.com/in/carrilloapps",
@@ -39,6 +42,7 @@ export function OrganizationJsonLd() {
 }
 
 export function PersonJsonLd() {
+  const url = getSiteUrl()
   return (
     <script
       type="application/ld+json"
@@ -46,9 +50,12 @@ export function PersonJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Person",
-          name: "José Carrillo",
+          name: "Junior Carrillo",
+          givenName: "José",
+          familyName: "Carrillo",
           jobTitle: "Senior Software Developer & Tech Leader",
-          url: "https://carrillo.app",
+          url,
+          image: `${url}/profile.jpg`,
           sameAs: [
             "https://github.com/carrilloapps",
             "https://linkedin.com/in/carrilloapps",
@@ -56,7 +63,8 @@ export function PersonJsonLd() {
           ],
           worksFor: {
             "@type": "Organization",
-            name: "Carrillo.app",
+            name: "Yummy Inc",
+            url: "https://yummysuperapp.com",
           },
           knowsAbout: [
             "Software Development",
@@ -64,6 +72,9 @@ export function PersonJsonLd() {
             "Financial Systems",
             "Backoffice Solutions",
             "Architecture Design",
+            "Payment Systems",
+            "Microservices",
+            "Open Banking",
           ],
         }),
       }}
@@ -72,6 +83,7 @@ export function PersonJsonLd() {
 }
 
 export function ServiceJsonLd({ service }: { service: string }) {
+  const url = getSiteUrl()
   const services = {
     "technical-leadership": {
       name: "Liderazgo Técnico",
@@ -120,8 +132,8 @@ export function ServiceJsonLd({ service }: { service: string }) {
           serviceType: serviceData.name,
           provider: {
             "@type": "Person",
-            name: "José Carrillo",
-            url: "https://carrillo.app",
+            name: "Junior Carrillo",
+            url,
           },
           description: serviceData.description,
           areaServed: {
@@ -135,6 +147,7 @@ export function ServiceJsonLd({ service }: { service: string }) {
 }
 
 export function WebsiteJsonLd() {
+  const url = getSiteUrl()
   return (
     <script
       type="application/ld+json"
@@ -142,12 +155,19 @@ export function WebsiteJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "José Carrillo | Senior Software Developer & Tech Leader",
-          url: "https://carrillo.app",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "https://carrillo.app/search?q={search_term_string}",
-            "query-input": "required name=search_term_string",
+          name: "Junior Carrillo | Senior Software Developer & Tech Leader",
+          alternateName: "Junior Carrillo",
+          url,
+          inLanguage: "es-CO",
+          author: {
+            "@type": "Person",
+            name: "Junior Carrillo",
+            url,
+          },
+          publisher: {
+            "@type": "Person",
+            name: "Junior Carrillo",
+            url,
           },
         }),
       }}

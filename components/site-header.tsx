@@ -2,31 +2,29 @@
 
 import { useState, useEffect, useRef, useCallback, memo } from "react"
 import Link from "next/link"
-import { 
-  Calendar, 
-  ChevronDown, 
-  BookOpen, 
-  FolderOpen, 
-  Mail, 
-  Home, 
-  User, 
-  Briefcase, 
+import {
+  Calendar,
+  ChevronDown,
+  FolderOpen,
+  Mail,
+  Home,
+  User,
+  Briefcase,
   Layers,
   Users,
-  Github,
   LineChart,
   Database,
   Shield,
   Server,
   Cpu
 } from "lucide-react"
+import { Github } from "@/components/icons/social-icons"
 import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { trackNavigation, trackCTAClick } from "@/lib/analytics"
-
 // GitLab icon component
 const GitLabIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -107,12 +105,6 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    href: "/blog",
-    label: "Blog",
-    icon: BookOpen,
-    description: "Artículos y tutoriales",
-  },
-  {
     href: "/recursos",
     label: "Recursos",
     icon: FolderOpen,
@@ -143,16 +135,18 @@ const navItems: NavItem[] = [
 // Memoized navigation item component for performance
 const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
   const Icon = item.icon
-  
+  const isExternal = item.href.startsWith("http")
+
   const handleClick = () => {
     trackNavigation(item.label, item.href, "header")
     onClose?.()
   }
-  
+
   return (
     <Link
       href={item.href}
       onClick={handleClick}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
         isActive
           ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
@@ -286,7 +280,10 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null)
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  // lastScrollY is a ref, not state — the scroll handler reads it
+  // synchronously and updating state on every scroll would re-run the effect
+  // (infinite loop) and trigger React's "Maximum update depth exceeded".
+  const lastScrollY = useRef(0)
   const pathname = usePathname()
   const shouldReduceMotion = useReducedMotion()
   
@@ -314,16 +311,15 @@ export function SiteHeader() {
           // Always show header at the top of the page
           if (currentScrollY < 10) {
             setIsVisible(true)
-          } else if (currentScrollY > lastScrollY && currentScrollY > 50) {
-            // Scrolling down - hide header (reduced threshold from 100 to 50)
+          } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+            // Scrolling down — hide header (threshold 50px)
             setIsVisible(false)
-          } else if (currentScrollY < lastScrollY) {
-            // Scrolling up - show header
+          } else if (currentScrollY < lastScrollY.current) {
+            // Scrolling up — show header
             setIsVisible(true)
           }
-          // If scroll position hasn't changed, maintain current visibility state
 
-          setLastScrollY(currentScrollY)
+          lastScrollY.current = currentScrollY
           ticking.current = false
         })
         ticking.current = true
@@ -332,7 +328,7 @@ export function SiteHeader() {
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   // Handle body scroll lock when mobile menu is open
   useEffect(() => {
@@ -455,23 +451,6 @@ export function SiteHeader() {
 
   return (
     <>
-      {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "CarrilloApps",
-            url: "https://carrillo.app",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: "https://carrillo.app/blog?search={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          }),
-        }}
-      />
 
       <motion.header
         initial={false}
@@ -498,7 +477,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
           >
-            <Logo animationLevel="none" variant="image" />
+            <Logo animationLevel="none" showMark={false} />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -713,7 +692,7 @@ export function SiteHeader() {
 
               {/* Mobile Header */}
               <div className="flex items-center justify-between p-4 border-b border-zinc-800/50 relative z-10">
-                <Logo animationLevel="playful" />
+                <Logo animationLevel="playful" showMark={false} />
                 <Button
                   ref={closeButtonRef}
                   variant="ghost"

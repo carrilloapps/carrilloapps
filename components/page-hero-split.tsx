@@ -123,7 +123,7 @@ export function PageHeroSplit({
 
           {typeof description === "string" ? (
             <motion.p
-              className="text-zinc-400 leading-relaxed"
+              className="text-zinc-300 leading-relaxed"
               variants={itemVariants}
             >
               {description}

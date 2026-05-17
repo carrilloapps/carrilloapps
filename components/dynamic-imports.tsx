@@ -36,7 +36,7 @@ export const DynamicNewsletterForm = dynamic(
   () => import('./newsletter-form').then(mod => ({ default: mod.NewsletterForm })),
   {
     loading: () => (
-      <div className="h-12 bg-zinc-800 rounded animate-pulse"></div>
+      <div className="h-12 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
     ),
     ssr: false
   }

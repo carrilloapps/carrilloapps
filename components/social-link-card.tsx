@@ -1,12 +1,14 @@
 "use client";
 
+import type { ComponentType, SVGProps } from "react";
 import { motion } from "@/lib/motion";
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>;
 
 interface SocialLinkCardProps {
   href: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   label: string;
   iconGradientFrom: string;
   iconGradientTo: string;
@@ -36,7 +38,7 @@ export function SocialLinkCard({
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
       className={cn(
-        "flex flex-col items-center justify-center p-4 rounded-xl bg-zinc-800/30 hover:bg-zinc-800/50 transition-all duration-300 group/social border border-zinc-700/30",
+        "surface-card-subtle flex flex-col items-center justify-center p-4 group/social",
         borderHoverColor
       )}
     >

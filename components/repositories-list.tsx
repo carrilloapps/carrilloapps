@@ -10,7 +10,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { trackProjectView, trackProjectLinkClick, trackSearch } from "@/lib/analytics";
+import { trackProjectView, trackProjectLinkClick, trackSearch } from "@/lib/analytics"
 
 type Repository = {
   id: number
@@ -27,19 +27,30 @@ type Repository = {
 type RepositoriesListProps = {
   source: "github" | "gitlab"
   username: string
+  /** When provided, the component uses this value for search instead of its internal state and hides its own search bar. */
+  externalSearch?: string
+  /** When provided, the component uses this value for language filter instead of its internal state. */
+  externalLanguage?: string
 }
 
-export function RepositoriesList({ source, username }: RepositoriesListProps) {
+export function RepositoriesList({ source, username, externalSearch, externalLanguage }: RepositoriesListProps) {
+  const isControlled = externalSearch !== undefined || externalLanguage !== undefined
+
   const [repositories, setRepositories] = useState<Repository[]>([])
   const [pinnedRepos, setPinnedRepos] = useState<Repository[]>([])
   const [_loading, _setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+
+  // Internal state — only active when not controlled from outside
   const [searchQuery, setSearchQuery] = useState("")
   const [language, setLanguage] = useState("all")
   const [languages, setLanguages] = useState<string[]>([])
   const [searchInput, setSearchInput] = useState("")
+
+  const activeSearch = isControlled ? (externalSearch ?? "") : searchQuery
+  const activeLang = isControlled ? (externalLanguage ?? "all") : language
 
   useEffect(() => {
     async function fetchRepositories() {
@@ -53,33 +64,24 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
         if (source === "github") {
           const response = await fetch(
-            `/api/github-repositories?username=${username}&page=${currentPage}&language=${language}&search=${searchQuery}`,
+            `/api/github-repositories?username=${username}&page=${currentPage}&language=${activeLang}&search=${activeSearch}`,
           )
-
-          if (!response.ok) {
-            throw new Error("Error al obtener los repositorios de GitHub")
-          }
-
+          if (!response.ok) throw new Error("Error al obtener los repositorios de GitHub")
           const result = await response.json()
           data = result.repositories || []
           pinnedData = result.pinnedRepos || []
           setTotalPages(result.totalPages || 1)
         } else if (source === "gitlab") {
           const response = await fetch(
-            `/api/gitlab-repositories?username=${username}&page=${currentPage}&language=${language}&search=${searchQuery}`,
+            `/api/gitlab-repositories?username=${username}&page=${currentPage}&language=${activeLang}&search=${activeSearch}`,
           )
-
-          if (!response.ok) {
-            throw new Error("Error al obtener los repositorios de GitLab")
-          }
-
+          if (!response.ok) throw new Error("Error al obtener los repositorios de GitLab")
           const result = await response.json()
           data = result.repositories || []
           pinnedData = result.pinnedRepos || []
           setTotalPages(result.totalPages || 1)
         }
 
-        // Extract unique languages
         data.forEach((repo) => {
           if (repo.language && !allLanguages.includes(repo.language)) {
             allLanguages.push(repo.language)
@@ -99,7 +101,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
     }
 
     fetchRepositories()
-  }, [source, username, currentPage, searchQuery, language])
+  }, [source, username, currentPage, activeSearch, activeLang])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -109,9 +111,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
   }
 
   const handleSearch = () => {
-    if (searchInput) {
-      trackSearch(searchInput);
-    }
+    if (searchInput) trackSearch(searchInput)
     setSearchQuery(searchInput)
     setCurrentPage(1)
   }
@@ -121,7 +121,7 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
     setCurrentPage(1)
   }
 
-  const getLanguageColor = (language: string) => {
+  const getLanguageColor = (lang: string) => {
     const colors: Record<string, string> = {
       TypeScript: "bg-blue-500",
       JavaScript: "bg-yellow-500",
@@ -134,25 +134,23 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       HTML: "bg-orange-500",
       CSS: "bg-teal-500",
     }
-
-    return colors[language] || "bg-gray-500"
+    return colors[lang] || "bg-gray-500"
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
     return new Intl.DateTimeFormat("es-ES", {
       year: "numeric",
       month: "short",
       day: "numeric",
-    }).format(date)
+    }).format(new Date(dateString))
   }
 
   if (error) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="surface-card">
         <CardContent className="p-6 text-center">
-          <p className="text-red-500">Error: {error}</p>
-          <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
+          <p className="text-red-400">Error: {error}</p>
+          <Button onClick={() => window.location.reload()} variant="glass" className="mt-4">
             Intentar de nuevo
           </Button>
         </CardContent>
@@ -168,30 +166,30 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       transition={{ duration: 0.3 }}
       whileHover={{ y: -5 }}
     >
-      <Card className={`bg-zinc-900 ${isPinned ? "border-blue-800" : "border-zinc-800"}`}>
+      <Card className={`surface-card ${isPinned ? "ring-2 ring-emerald-500/30" : ""}`}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <a
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-500 transition-colors"
+              className="hover:text-emerald-400 transition-colors"
             >
               {repo.name}
             </a>
             {isPinned && (
-                <Badge className="bg-blue-600 ml-2">
+              <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 ml-2 font-medium">
                 <Pin className="h-3 w-3 mr-1" />
                 Destacado
-                </Badge>
+              </Badge>
             )}
           </CardTitle>
-            <CardDescription>{repo.description || "Sin descripción disponible."}</CardDescription>
+          <CardDescription>{repo.description || "Sin descripción disponible."}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-sm text-zinc-400">
-              <div className={`w-3 h-3 rounded-full ${getLanguageColor(repo.language)}`}></div>
+            <div className="flex items-center gap-2 text-sm text-zinc-300">
+              <div className={`w-3 h-3 rounded-full ${getLanguageColor(repo.language)}`} />
               {repo.language}
             </div>
             <div className="flex items-center gap-4 text-sm text-zinc-500">
@@ -213,16 +211,16 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
               {repo.forks}
             </div>
           </div>
-          <a 
-            href={repo.html_url} 
-            target="_blank" 
+          <a
+            href={repo.html_url}
+            target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-              trackProjectView(repo.name, repo.language || 'Unknown');
-              trackProjectLinkClick(repo.name, source as 'github' | 'gitlab');
+              trackProjectView(repo.name, repo.language || "Unknown")
+              trackProjectLinkClick(repo.name, source as "github" | "gitlab")
             }}
           >
-            <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
+            <Button variant="glass" className="gap-2">
               <Code className="h-4 w-4" />
               Ver proyecto
             </Button>
@@ -234,48 +232,53 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row gap-4 w-full">
-        <div className="relative w-full md:w-80">
-          <Input
-            type="search"
-            placeholder="Buscar repositorio..."
-            className="pl-8 bg-zinc-950 border-zinc-800 focus-visible:ring-blue-500 w-full"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          />
-          <Button
-            className="absolute right-0 top-0 h-full px-3 bg-transparent hover:bg-zinc-800"
-            onClick={handleSearch}
-          >
-            Buscar
-          </Button>
+      {/* Internal search bar — only shown when not controlled from outside */}
+      {!isControlled && (
+        <div className="flex flex-col md:flex-row gap-4 w-full">
+          <div className="relative w-full md:w-80">
+            <Input
+              type="search"
+              placeholder="Buscar repositorio..."
+              variant="glass"
+              className="pl-9 w-full"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            />
+            <Button
+              variant="ghost"
+              className="absolute right-0 top-0 h-full px-3 text-zinc-400 hover:text-white hover:bg-zinc-800/60 rounded-r-lg"
+              onClick={handleSearch}
+            >
+              Buscar
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Select onValueChange={handleLanguageChange} defaultValue={language}>
+              <SelectTrigger variant="glass" className="w-full md:w-[180px]">
+                <SelectValue placeholder="Lenguaje" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
+                <SelectItem value="all">Todos los lenguajes</SelectItem>
+                {languages.map((lang) => (
+                  <SelectItem key={lang} value={lang}>
+                    {lang}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Select onValueChange={handleLanguageChange} defaultValue={language}>
-            <SelectTrigger className="w-full md:w-[180px] bg-zinc-950 border-zinc-800 focus:ring-blue-500">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent className="bg-zinc-950 border-zinc-800">
-              <SelectItem value="all">Todos los lenguajes</SelectItem>
-              {languages.map((lang) => (
-                <SelectItem key={lang} value={lang}>
-                  {lang}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      )}
 
       {pinnedRepos.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-bold flex items-center gap-2">
-        <Pin className="h-4 w-4 text-blue-500" />
-        Repositorios destacados
+            <Pin className="h-4 w-4 text-emerald-400" />
+            Repositorios destacados
           </h3>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {pinnedRepos.map((repo) => renderRepository(repo, true))}
+            {pinnedRepos.map((repo) => renderRepository(repo, true))}
           </div>
         </div>
       )}
@@ -283,9 +286,9 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
       <div className="space-y-4">
         <h3 className="text-xl font-bold">Todos los repositorios</h3>
         {repositories.length === 0 ? (
-          <Card className="bg-zinc-900 border-zinc-800">
+          <Card className="surface-card">
             <CardContent className="p-12 text-center">
-              <p className="text-zinc-400 text-lg mb-2">No se encontraron repositorios</p>
+              <p className="text-zinc-300 text-lg mb-2">No se encontraron repositorios</p>
               <p className="text-zinc-500 text-sm">Intenta ajustar los filtros de búsqueda o lenguaje</p>
             </CardContent>
           </Card>
@@ -304,13 +307,10 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
                 <PaginationLink onClick={() => handlePageChange(currentPage - 1)}>Ant.</PaginationLink>
               </PaginationItem>
             )}
-
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const pageNumber =
                 currentPage <= 3 ? i + 1 : currentPage >= totalPages - 2 ? totalPages - 4 + i : currentPage - 2 + i
-
               if (pageNumber <= 0 || pageNumber > totalPages) return null
-
               return (
                 <PaginationItem key={pageNumber}>
                   <PaginationLink onClick={() => handlePageChange(pageNumber)} isActive={currentPage === pageNumber}>
@@ -319,7 +319,6 @@ export function RepositoriesList({ source, username }: RepositoriesListProps) {
                 </PaginationItem>
               )
             })}
-
             {currentPage < totalPages && (
               <PaginationItem>
                 <PaginationLink onClick={() => handlePageChange(currentPage + 1)}>Sig.</PaginationLink>

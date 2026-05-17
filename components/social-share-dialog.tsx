@@ -111,12 +111,12 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-zinc-900 border-zinc-800 text-white">
+      <DialogContent className="sm:max-w-md bg-slate-950/95 backdrop-blur-xl border-white/10 text-white">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
             Compartir artículo
           </DialogTitle>
-          <DialogDescription className="text-zinc-400">
+          <DialogDescription className="text-zinc-300">
             Comparte este artículo en tus redes sociales favoritas
           </DialogDescription>
         </DialogHeader>
@@ -131,7 +131,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 onClick={() => handleShare(social.url)}
-                className={`flex items-center gap-3 p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 transition-all duration-300 ${social.color}`}
+                className={`surface-card-subtle flex items-center gap-3 p-3 ${social.color}`}
               >
                 <div className="flex-shrink-0">{social.icon}</div>
                 <span className="text-sm font-medium">{social.name}</span>

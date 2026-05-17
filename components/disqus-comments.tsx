@@ -46,7 +46,7 @@ export function DisqusComments({
       transition={{ duration: 0.5 }}
       className="mt-12 pt-8"
     >
-      <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden">
+      <Card className="surface-card">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

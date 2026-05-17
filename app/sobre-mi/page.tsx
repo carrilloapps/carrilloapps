@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { ArrowRight, Award, BookOpen, Calendar, User, Download, Eye } from "lucide-react";
@@ -11,7 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { DynamicBackground } from "@/components/dynamic-background";
-import { PageHeroSplit } from "@/components/page-hero-split";
+import { ParallaxBackdrop } from "@/components/parallax-backdrop";
+import { AuroraBackdrop } from "@/components/aurora-backdrop";
 import Link from "next/link";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -50,79 +51,252 @@ export default function AboutPage() {
     <div className="min-h-screen text-white relative overflow-hidden">
       <DynamicBackground />
       <SiteHeader />
-      <main className="relative z-10 container py-12 space-y-24">
-        <PageHeroSplit
-          badge={{ text: "Conóceme" }}
-          title="Hola, soy José Carrillo"
-          subtitle="Mi trayectoria profesional en el mundo del desarrollo"
-          description={
-            <>
-              <p className="text-zinc-400 leading-relaxed pb-4">
-                Con más de 10 años de experiencia en la industria tecnológica,
-                he dedicado mi carrera a construir sistemas financieros robustos
-                y liderar equipos técnicos hacia el éxito. Mi pasión reside en
-                resolver problemas complejos y crear software que genere un
-                impacto real en las operaciones empresariales.
-              </p>
-              <p className="text-zinc-400 leading-relaxed">
-                Como líder técnico, creo en fomentar una cultura de innovación,
-                aprendizaje continuo y colaboración. Estoy comprometido con la
-                mentoría de la nueva generación de desarrolladores y con la
-                creación de soluciones de software sostenibles y escalables.
-              </p>
-            </>
-          }
-          image={{
-            src: "/profile.jpg",
-            alt: "José Carrillo, desarrollador de software senior y líder técnico",
-            width: 600,
-            height: 600,
-            priority: true,
-          }}
-          actions={
-            <>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:from-blue-700 focus:to-purple-700 focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-white font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group" asChild>
-                <Link href="/contacto" aria-describedby="explore-projects-desc">
-                  Contactarme
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:animate-pulse" aria-hidden="true" />
-                  <span id="explore-projects-desc" className="sr-only">Conversemos más a fondo sobre lo que desees</span>
-                </Link>
-              </Button>
-              <Button
-                variant="outline"
-                className="border-zinc-700 text-zinc-300 bg-transparent hover:bg-zinc-800/70 hover:border-zinc-600 hover:text-white focus:bg-zinc-800/70 focus:ring-4 focus:ring-zinc-500/50 w-full sm:w-auto font-bold py-3 px-8 rounded-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
-                onClick={() => setCvModalOpen(true)}
-                aria-describedby="download-cv-desc"
-              >
-                Descargar CV
-                <Download className="ml-2 h-5 w-5" aria-hidden="true" />
-                <span id="download-cv-desc" className="sr-only">Abrir formulario para descargar mi currículum vitae</span>
-              </Button>
-            </>
-          }
-        />
-
-        {/* Sección de Trayectoria Profesional */}
+      <main className="relative z-10 pt-12" id="main-content">
+        {/* Hero editorial — distinto del home: layout 7:5, retrato rectangular,
+            stats strip y chips glass sobre la foto. Lenguaje editorial vs el
+            home, que es más comercial. */}
+        <div className="container mx-auto px-4">
         <motion.section
-          className="py-12 space-y-8"
+          className="relative w-full pt-6 md:pt-10 pb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          aria-labelledby="about-hero-heading"
+        >
+          <div className="grid gap-10 lg:gap-14 lg:grid-cols-12 items-center">
+            {/* Columna de copy — 7/12 en lg para que respire. */}
+            <motion.div
+              className="space-y-6 lg:col-span-7 order-2 lg:order-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="space-y-3">
+                <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm font-medium py-1.5 px-3 rounded-full backdrop-blur-sm">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    aria-hidden="true"
+                  />
+                  Disponible para nuevos proyectos
+                </span>
+              </div>
+
+              <h1
+                id="about-hero-heading"
+                className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-extrabold tracking-tight leading-[1.05] text-white max-w-[20ch]"
+              >
+                +10 años evitando que los sistemas financieros se caigan
+                <span className="text-blue-400">{" a las 3 a. m."}</span>
+              </h1>
+
+              <p className="text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+                Soy <strong className="font-semibold text-white">Tech Leader y Senior Software Developer</strong>,
+                especializado en pagos. Hoy dirijo el equipo de pagos en{" "}
+                <Link
+                  href="https://yummysuperapp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                >
+                  Yummy Inc.
+                </Link>{" "}
+                — antes construí la pasarela B2B de Wompi (Bancolombia) y los
+                módulos de Cencosud que mueven 2{" "}M+ facturas
+                semanales contra SAP.
+              </p>
+
+              {/* Stats strip — credenciales numéricas de un vistazo. Es el
+                  rasgo más distintivo del hero del about respecto al del
+                  home, que no las muestra en el primer fold. */}
+              <ul
+                className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 max-w-2xl pt-2"
+                aria-label="Credenciales profesionales"
+              >
+                {[
+                  { value: "10", label: "Años de carrera" },
+                  { value: "7", label: "Personas en mi equipo" },
+                  { value: "2 M+", label: "Tx/día procesadas" },
+                  { value: "3", label: "Roles de liderazgo" },
+                ].map((stat) => (
+                  <li
+                    key={stat.label}
+                    className="surface-card-subtle px-3 py-3 text-center"
+                  >
+                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
+                      {stat.value}
+                    </div>
+                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
+                      {stat.label}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div
+                className="flex flex-col sm:flex-row gap-3 pt-2"
+                role="group"
+                aria-label="Acciones principales"
+              >
+                <Button
+                  variant="gradient"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation group"
+                  asChild
+                >
+                  <Link href="/contacto">
+                    Conversemos sobre tu sistema
+                    <ArrowRight
+                      className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </Button>
+                <Button
+                  variant="glass"
+                  size="xl"
+                  className="w-full sm:w-auto touch-manipulation"
+                  onClick={() => setCvModalOpen(true)}
+                >
+                  Recibir mi CV
+                  <Download className="ml-2 h-5 w-5" aria-hidden="true" />
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Retrato editorial — rectangular con esquinas suaves (rounded-3xl)
+                para diferenciarlo del avatar circular del home. Dos chips
+                glass superpuestos: ubicación arriba a la izquierda, indicador
+                de status abajo a la derecha. */}
+            <motion.figure
+              className="relative lg:col-span-5 order-1 lg:order-2 mx-auto lg:mx-0 w-full max-w-[360px] lg:max-w-none group"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              <div
+                className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10"
+                style={{
+                  boxShadow:
+                    "0 0 40px rgba(59, 130, 246, 0.18), 0 30px 80px -20px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                <Image
+                  src="/profile.jpg"
+                  alt="Junior Carrillo, Tech Leader y Senior Software Developer en Medellín, Colombia."
+                  width={480}
+                  height={600}
+                  className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-[1.04]"
+                  priority
+                  fetchPriority="high"
+                  loading="eager"
+                  quality={90}
+                  sizes="(max-width: 768px) 360px, (max-width: 1280px) 380px, 440px"
+                />
+
+                {/* Capa de oscurecimiento sutil para legibilidad de chips. */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/30 pointer-events-none"
+                  aria-hidden="true"
+                />
+
+                {/* Chip ubicación — arriba a la izquierda. */}
+                <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/15 rounded-full px-3 py-1.5 text-xs text-white">
+                  <span aria-hidden="true">📍</span>
+                  <span className="font-medium">Medellín, CO</span>
+                </div>
+
+                {/* Chip status — abajo a la derecha. */}
+                <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 bg-black/60 backdrop-blur-md border border-emerald-500/40 rounded-full px-3 py-1.5">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    aria-hidden="true"
+                  />
+                  <span className="text-xs font-semibold text-emerald-300 leading-none">
+                    Disponible
+                  </span>
+                </div>
+              </div>
+
+              <figcaption className="sr-only">
+                Retrato de Junior Carrillo, basado en Medellín, Colombia.
+              </figcaption>
+            </motion.figure>
+          </div>
+        </motion.section>
+        </div>
+
+        {/* 01 — Manifiesto · superficie clara con aurora tono studio · es la
+            "tesis editorial" del about, merece protagonismo visual. */}
+        <div className="relative overflow-hidden">
+          <AuroraBackdrop tone="studio" intensity={0.6} />
+        <motion.section
+          className="relative max-w-3xl mx-auto px-4 py-16 md:py-24"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          aria-labelledby="about-manifesto"
+        >
+          <div className="relative space-y-6">
+            {/* Comilla decorativa de apertura — refuerza el peso editorial. */}
+            <span
+              className="absolute -top-12 -left-2 md:-top-16 md:-left-4 text-[8rem] md:text-[10rem] leading-none text-blue-500/20 font-serif select-none pointer-events-none"
+              aria-hidden="true"
+            >
+              «
+            </span>
+            <p
+              id="about-manifesto"
+              className="text-[11px] uppercase tracking-[0.22em] text-zinc-500 font-medium relative"
+            >
+              El manifiesto
+            </p>
+            <p className="text-2xl md:text-3xl lg:text-4xl text-white leading-tight font-bold tracking-tight max-w-prose relative">
+              Mi trabajo no es escribir el código más bonito; es diseñar el
+              sistema en el que un equipo puede meter cambios{" "}
+              <span className="text-blue-300">sin miedo</span>.
+            </p>
+            <div className="border-l-2 border-blue-500/40 pl-6 md:pl-8 max-w-prose">
+              <p className="text-base md:text-lg text-zinc-300 leading-relaxed">
+                Mentoreo desarrolladores cada semana, escribo sobre arquitectura
+                financiera en{" "}
+                <Link
+                  href="/blog"
+                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                >
+                  mi blog
+                </Link>{" "}
+                y participo en meetups de fintech en Colombia. Si vas a
+                contratarme, lo que se llevan tus equipos no es un{" "}
+                <em className="text-white not-italic font-semibold">dev</em> senior: es un manual de cómo no
+                quemarse construyendo software crítico.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+        </div>
+
+        {/* 02 — Carrera/Timeline · superficie transparente · parallax diagonals
+            (mismo lenguaje que Experience en el home). */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="diagonals" position="top-left" speed={0.14} opacityClass="opacity-[0.05]" />
+        <motion.section
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Timeline
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Trayectoria profesional
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Carrera
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Roles que me formaron
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              De programador entusiasta a líder técnico - los hitos clave que
-              han formado mi carrera
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              De programador entusiasta a Tech Leader — los lugares y proyectos
+              donde aprendí a construir sistemas de dinero que no se rompen.
             </p>
           </motion.div>
 
@@ -137,18 +311,18 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">oct. 2024 - Presente</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">oct. 2024 - Presente</Badge>
                   <h3 className="text-xl font-bold">
                     Tech Leader @ Yummy Inc.
                   </h3>
                 </div>
-                <p className="text-zinc-400">
-                  Lidero dos equipo de desarrolladores con los cuales construyo
+                <p className="text-zinc-300">
+                  Lidero dos equipos de desarrolladores con los cuales construyo
                   las integraciones financieras empresariales y bancarias.
                   Implementé una arquitectura de microservicios que mejoró la
                   fiabilidad del sistema considerablemente. Mentoría a
@@ -185,17 +359,17 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">mar. 2024 - oct. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">mar. 2024 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Developer Leader @ Cencosud S.A.
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Desarrollé módulos e integraciones financieras core junto a un
                   equipo especializado multinacional, e integrando estos con
                   herramientas ERP. Optimicé consultas de base de datos
@@ -233,17 +407,17 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ago. 2021 - oct. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">ago. 2021 - oct. 2024</Badge>
                   <h3 className="text-xl font-bold">
-                    Senior Software Engineering @ Acid Labs
+                    Senior Software Engineer @ Acid Labs
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Construí sistemas de tokenización bajo certificación PCI DSS y
                   aplicaciones móviles para empresas de transporte aéreo.
                   Durante mi tiempo en Acid Labs, una de las empresas líderes en
@@ -302,17 +476,17 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <Calendar className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">may. 2023 - mar. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">may. 2023 - mar. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Senior Developer Full Stack @ Wompi
                   </h3>
                 </div>
-                <p className="text-zinc-400">
+                <p className="text-zinc-300">
                   Como desarrollador senior en Wompi, participé en el desarrollo
                   de la plataforma de pagos, implementando integraciones con
                   múltiples entidades bancarias y financieras, mejorando la
@@ -367,25 +541,25 @@ export default function AboutPage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25">
+              <div className="absolute -left-[42px] md:-left-[50px] flex items-center justify-center w-9 h-9 rounded-full bg-slate-950 border-2 border-blue-500/60 ring-4 ring-blue-500/15 text-blue-300 shadow-lg shadow-blue-500/20">
                 <BookOpen className="w-4 h-4" />
               </div>
-              <div className="space-y-2 p-6 rounded-xl bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-300">
+              <div className="space-y-2 p-6 rounded-xl surface-card">
                 <div className="flex items-center gap-2">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">ene. 2022 - feb. 2024</Badge>
+                  <Badge className="bg-blue-500/15 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20">ene. 2022 - feb. 2024</Badge>
                   <h3 className="text-xl font-bold">
                     Senior Software Engineer (Tech Leader Backup) @ Sky Airline
                   </h3>
                 </div>
-                <p className="text-zinc-400">
-                  Desarrolle y servi como Tech Leader Backup en el desarrollo la
-                  aplicación movil de ventas para la aerolínea, integrando desde
-                  sistemas de prevención del fraude, como sistemas de diseño y
-                  reservas, incluso pasarelas de pago. Rediseñé la arquitectura
+                <p className="text-zinc-300">
+                  Desarrollé y serví como Tech Leader Backup en la construcción
+                  de la aplicación móvil de ventas para la aerolínea, integrando
+                  sistemas de prevención del fraude, módulos de diseño y reservas,
+                  e incluso pasarelas de pago. Rediseñé la arquitectura
                   de microservicios que mejoró la estabilidad de los sistemas de
                   venta en un 45%. Supervisé la implementación de un sistema de
                   perfiles y autenticación, lo que optimizó la experiencia de
-                  usuario en las plataformas de venta de voletos.
+                  usuario en las plataformas de venta de boletos.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   <Badge
@@ -416,35 +590,63 @@ export default function AboutPage() {
                     variant="outline"
                     className="border-zinc-700/50 text-zinc-400 bg-zinc-800/30"
                   >
-                    Prevención del fraude
+                    React Native
                   </Badge>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Philosophy Section */}
+        {/* 03 — Pull quote · superficie limpia, ancho contenido · sirve como
+            "respiro narrativo" entre la carrera y la filosofía. */}
+        <motion.figure
+          className="container mx-auto px-4 py-12 md:py-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <blockquote className="relative max-w-3xl mx-auto px-6 md:px-10">
+            <span
+              className="absolute -top-4 left-0 text-7xl md:text-8xl text-blue-500/30 font-serif leading-none select-none"
+              aria-hidden="true"
+            >
+              «
+            </span>
+            <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-white leading-snug tracking-tight pl-6 md:pl-8">
+              El mejor software de pagos es el que nadie nota. Si tu equipo
+              está apagando incendios todos los lunes, no es problema de
+              código: es problema de arquitectura.
+            </p>
+            <figcaption className="mt-4 pl-6 md:pl-8 text-sm text-zinc-400">
+              — Algo que repito en mentorías más de lo que debería.
+            </figcaption>
+          </blockquote>
+        </motion.figure>
+
+        {/* 04 — Filosofía · superficie oscura sutil + parallax rings ·
+            quiebra la monotonía con un fondo más denso. */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
         <motion.section
-          className="py-12 space-y-8"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Enfoque de desarrollo
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Visión y misión profesional
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              ¿Cómo trabajo?
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Tres reglas que no rompo
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Los principios fundamentales que guían mi trabajo como
-              desarrollador y líder técnico
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              Lo que aprendí en una década construyendo software financiero —
+              compactado en tres principios citables.
             </p>
           </motion.div>
 
@@ -453,92 +655,105 @@ export default function AboutPage() {
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <Award className="w-6 h-6 text-blue-400" />
+                    <Award className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Calidad ante todo</h3>
-                  <p className="text-zinc-400">
-                    Código de calidad significa mantenibilidad, legibilidad y
-                    escalabilidad, no solo funcionalidad. Priorizo escribir
-                    soluciones limpias y bien probadas que resistan el paso del
-                    tiempo y faciliten el crecimiento de los proyectos.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    El código se lee 10 veces más de las que se escribe
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    Por eso me importa más la legibilidad que la cleverness.
+                    Una función obvia que cualquiera puede modificar a las 2 a. m.
+                    vale más que un one-liner brillante que sólo entiende quien
+                    lo escribió. La calidad no es un check de QA — es una
+                    decisión de cada PR.
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <User className="w-6 h-6 text-blue-400" />
+                    <User className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Centrado en el usuario</h3>
-                  <p className="text-zinc-400">
-                    La excelencia técnica debe servir a necesidades reales. En
-                    sistemas financieros y empresariales, siempre busco entender
-                    los requerimientos del negocio para crear soluciones que
-                    resuelvan problemas concretos de manera efectiva.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    Si no entiendo el negocio, no puedo entregar arquitectura
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    En fintech, una decisión técnica equivocada es plata
+                    perdida. Antes de proponer microservicios o un esquema de
+                    eventos, pregunto cómo gana dinero el negocio, qué métrica
+                    rompe primero y qué pasa si el sistema se cae el último día
+                    del mes. La arquitectura sale de ahí, no del libro.
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300 h-full group">
+              <Card className="surface-card h-full group">
                 <CardContent className="p-6 space-y-4">
                   <motion.div
                     className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center group-hover:from-blue-600/30 group-hover:to-purple-600/30 transition-all duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <BookOpen className="w-6 h-6 text-blue-400" />
+                    <BookOpen className="w-6 h-6 text-blue-400" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold">Aprendizaje continuo</h3>
-                  <p className="text-zinc-400">
-                    Estoy comprometo con mantenerme a la vanguardia de la tecnología. Dedico tiempo a explorar nuevas técnicas
-                    y buenas prácticas para desarrollar soluciones innovadoras
-                    ante los desafíos actuales.
+                  <h3 className="text-xl font-bold text-white leading-snug">
+                    El stack que dominabas hace 5 años hoy es deuda técnica
+                  </h3>
+                  <p className="text-zinc-300 leading-relaxed">
+                    Leo, pruebo y me equivoco con tooling nuevo cada semana —
+                    no por moda, sino para saber qué problemas reales resuelve
+                    cada herramienta antes de que llegue al stack de producción.
+                    El día que deje de aprender, dejo de ser útil para mi
+                    equipo.
                   </p>
                 </CardContent>
               </Card>
             </motion.div>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Personal Interests */}
+        {/* 05 — Off-screen · superficie transparente + parallax brackets ·
+            cambio de pulso visual respecto a Filosofía (que va sobre slate). */}
+        <div className="relative overflow-hidden">
+          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
         <motion.section
-          className="py-12 space-y-8"
+          className="container mx-auto px-4 py-16 md:py-24 space-y-10"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <Badge
-              variant="outline"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-600/30 text-white text-sm font-medium py-2 px-4 rounded-full backdrop-blur-sm shadow-lg shadow-blue-600/10"
-            >
-              Más allá del código
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
-              Intereses personales
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+              Off-screen
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+              Lo que hago cuando cierro el editor
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
-              Cuando no estoy programando o liderando equipos técnicos, esto es lo que me mantiene inspirado y me permite recargar energía.
+            <p className="text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+              Caminar Medellín, leer fuera del stack, mentorear y compartir
+              con la comunidad. Lo que me mantiene curioso y me permite volver
+              al código con perspectiva.
             </p>
           </motion.div>
 
           <motion.div variants={itemVariants}>
             <Tabs defaultValue="hobbies" className="w-full">
-              <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-1">
+              <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3 h-auto bg-white/[0.03] backdrop-blur-md border border-white/10 p-1">
                 <TabsTrigger
                   value="hobbies"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white"
@@ -567,7 +782,7 @@ export default function AboutPage() {
                   animate="visible"
                 >
                   <motion.div variants={itemVariants}>
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 group">
+                    <Card className="surface-card group">
                       <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Image
@@ -584,7 +799,7 @@ export default function AboutPage() {
                         <h3 className="text-xl font-bold">
                           Caminatas por la ciudad
                         </h3>
-                        <p className="text-zinc-400">
+                        <p className="text-zinc-300">
                           No todas las formas de conectar son igual, y particularmente en la ciudad,
                           donde hay tantas oportunidades para interactuar con otras personas, es importante
                           dedicar tiempo a conocer la jungla de cemento. Por eso me encanta caminar por la ciudad,
@@ -595,7 +810,7 @@ export default function AboutPage() {
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
-                    <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 overflow-hidden hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/20 transition-all duration-300 group">
+                    <Card className="surface-card group">
                       <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Image
@@ -610,12 +825,12 @@ export default function AboutPage() {
                       </div>
                       <CardContent className="p-6 space-y-4">
                         <h3 className="text-xl font-bold">Tiempo en familia</h3>
-                        <p className="text-zinc-400">
+                        <p className="text-zinc-300">
                           Mi tiempo en familia es fundamental. Me encanta
                           pasar tiempo con mis hijos y esposa, familiares y compañeros de
                           trabajo. Disfruto de momentos de tranquilidad y conexión
                           con las personas que me rodean y aportan valor a lo que soy,
-                          en reuniones o incluso compartido lugares únicos.
+                          en reuniones o incluso compartiendo lugares únicos.
                         </p>
                       </CardContent>
                     </Card>
@@ -629,10 +844,10 @@ export default function AboutPage() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/20 transition-all duration-300">
+                  <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Mi biblioteca personal</h3>
-                      <p className="text-zinc-400">
+                      <p className="text-zinc-300">
                         La lectura es fundamental para mi crecimiento profesional y
                         personal. Estos son algunos libros que han influido significativamente
                         en mi forma de pensar:
@@ -640,7 +855,7 @@ export default function AboutPage() {
 
                       <div className="space-y-4">
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Lecturas técnicas</h4>
@@ -659,7 +874,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Liderazgo y negocios</h4>
@@ -675,7 +890,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Filosofía y pensamiento</h4>
@@ -698,10 +913,10 @@ export default function AboutPage() {
                   initial="hidden"
                   animate="visible"
                 >
-                  <Card className="bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-sm border border-zinc-700/50 hover:bg-gradient-to-br hover:from-zinc-800/90 hover:to-zinc-700/90 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300">
+                  <Card className="surface-card">
                     <CardContent className="p-6 space-y-6">
                       <h3 className="text-xl font-bold">Participación en la comunidad</h3>
-                      <p className="text-zinc-400">
+                      <p className="text-zinc-300">
                         Creo firmemente en retribuir a la comunidad tecnológica y
                         apoyar a la siguiente generación de desarrolladores. Así es
                         como me involucro:
@@ -709,7 +924,7 @@ export default function AboutPage() {
 
                       <div className="grid gap-4 md:grid-cols-2">
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Programa de mentorías</h4>
@@ -721,7 +936,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Contribuciones Open Source</h4>
@@ -734,7 +949,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Charlas técnicas & talleres</h4>
@@ -746,7 +961,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                          className="p-4 bg-gradient-to-br from-zinc-800/70 to-zinc-700/70 backdrop-blur-sm rounded-lg border border-zinc-600/50 hover:bg-gradient-to-br hover:from-zinc-700/80 hover:to-zinc-600/80 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300"
+                          className="border-l-2 border-blue-500/30 pl-5 py-1 hover:border-blue-400/60 transition-colors duration-200"
                           whileHover={{ scale: 1.02 }}
                         >
                           <h4 className="font-bold">Educación tecnológica</h4>
@@ -765,10 +980,14 @@ export default function AboutPage() {
             </Tabs>
           </motion.div>
         </motion.section>
+        </div>
 
-        {/* Llamado a la Acción */}
+        {/* 06 — CTA final · superficie oscura sutil + parallax brackets
+            centrado · cierre del recorrido con peso visual. */}
+        <div className="relative overflow-hidden bg-zinc-950/50 backdrop-blur-sm border-y border-zinc-900/60">
+          <ParallaxBackdrop variant="brackets" position="center" speed={0.12} opacityClass="opacity-[0.04]" />
         <motion.section
-          className="py-12"
+          className="container mx-auto px-4 py-16 md:py-24"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -779,25 +998,30 @@ export default function AboutPage() {
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="bg-gradient-to-br from-blue-600/90 to-purple-600/90 border-0 backdrop-blur-sm shadow-2xl shadow-blue-500/25 relative overflow-hidden">
-              {/* Glassmorphism overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-[1px]" />
+            <Card className="surface-card relative overflow-hidden">
+              {/* Capa de saturación brand — el card sigue siendo glass pero
+                  con un tinte más vivo que el resto, para que la CTA final
+                  destaque visualmente sin romper el sistema. */}
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-purple-600/15 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
 
               <CardContent className="p-8 md:p-12 text-center space-y-6 relative z-10">
                 <motion.h2
-                  className="text-3xl md:text-4xl font-bold text-white"
+                  className="text-3xl md:text-4xl font-extrabold tracking-tight text-white"
                   variants={itemVariants}
                 >
-                  ¿Trabajamos juntos?
+                  ¿Tu próximo proyecto necesita arquitectura?
                 </motion.h2>
                 <motion.p
-                  className="text-white/90 max-w-2xl mx-auto text-lg"
+                  className="text-zinc-200 max-w-2xl mx-auto text-base md:text-lg leading-relaxed"
                   variants={itemVariants}
                 >
-                  Si necesitas liderazgo técnico, experiencia en arquitectura de
-                  software o apoyo en el desarrollo de sistemas financieros o
-                  empresariales, estoy aquí para ayudarte a convertir tu visión en
-                  realidad.
+                  Si tienes un sistema de pagos creciendo más rápido de lo que
+                  aguanta, o un equipo que necesita un Tech Leader que entienda
+                  fintech desde la trinchera — hablemos. Reviso tu contexto en
+                  una llamada de 30 minutos antes de proponer cualquier cosa.
                 </motion.p>
                 <motion.div
                   className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
@@ -809,11 +1033,15 @@ export default function AboutPage() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      size="lg"
-                      className="bg-white hover:bg-white focus:ring-4 focus:ring-blue-500/50 w-full sm:w-auto text-blue-500 font-bold py-3 px-8 rounded-lg shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-all duration-300 group"
+                      variant="gradient"
+                      size="xl"
+                      className="w-full sm:w-auto touch-manipulation group"
+                      asChild
                     >
-                      Contáctame
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <Link href="/contacto">
+                        Conversemos sobre tu sistema
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                      </Link>
                     </Button>
                   </motion.div>
                   <motion.div
@@ -822,11 +1050,12 @@ export default function AboutPage() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      size="lg"
-                      variant="outline"
-                      className="bg-transparent border-white/50 border-2 text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+                      variant="glass"
+                      size="xl"
+                      className="w-full sm:w-auto touch-manipulation"
+                      asChild
                     >
-                      Mis proyectos
+                      <Link href="/recursos">Mis proyectos</Link>
                     </Button>
                   </motion.div>
                 </motion.div>
@@ -834,13 +1063,14 @@ export default function AboutPage() {
             </Card>
           </motion.div>
         </motion.section>
+        </div>
       </main>
       {/* CV Download Modal */}
       <Dialog open={cvModalOpen} onOpenChange={setCvModalOpen}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-md">
+        <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-zinc-300">
               {!cvFormSubmitted
                 ? "Por favor, ingresa tu información para acceder el CV, esperando quizás conocerte mejor en algun momento."
                 : "¡Gracias! Ahora puedes ver o descargar el CV"}
@@ -896,7 +1126,7 @@ export default function AboutPage() {
                   aria-spellcheck="false"
                   aria-autocapitalize="words"
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  variant="glass"
                   placeholder="Por favor ingresa tu nombre completo"
                 />
                 {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
@@ -926,29 +1156,31 @@ export default function AboutPage() {
                   aria-autocapitalize="none"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  variant="glass"
                   placeholder="Por favor ingrese su correo electrónico"
                 />
                 {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
               </div>
 
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button type="submit" variant="gradient" size="lg" className="w-full touch-manipulation">
                 Acceder al CV
               </Button>
             </form>
           ) : (
             <div className="space-y-4 py-4">
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
-                  className="bg-blue-600 hover:bg-blue-700 flex-1"
+                  variant="gradient"
+                  size="lg"
+                  className="flex-1 touch-manipulation"
                   onClick={() => window.open("/cv.pdf", "_blank")}
                 >
-                  <Eye className="mr-2 h-4 w-4" />
+                  <Eye className="mr-2 h-4 w-4" aria-hidden="true" />
                   Ver el CV
                 </Button>
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 flex-1" asChild>
+                <Button variant="glass" size="lg" className="flex-1 touch-manipulation" asChild>
                   <a href="/cv.pdf" download>
-                    <Download className="mr-2 h-4 w-4" />
+                    <Download className="mr-2 h-4 w-4" aria-hidden="true" />
                     Descargar el CV
                   </a>
                 </Button>
