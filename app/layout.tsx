@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import "@/app/globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -27,8 +27,8 @@ const inter = Inter({
 })
 
 const SITE_URL = getSiteUrl()
-const SITE_NAME = "José Carrillo"
-const SITE_TITLE = "José Carrillo | Senior Software Developer & Tech Leader"
+const SITE_NAME = "Junior Carrillo"
+const SITE_TITLE = "Junior Carrillo | Senior Software Developer & Tech Leader"
 const SITE_DESCRIPTION =
   "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables."
 
@@ -36,13 +36,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: "%s | José Carrillo",
+    template: "%s | Junior Carrillo",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  authors: [{ name: "José Carrillo", url: SITE_URL }],
-  creator: "José Carrillo",
-  publisher: "José Carrillo",
+  authors: [{ name: "Junior Carrillo", url: SITE_URL }],
+  creator: "Junior Carrillo",
+  publisher: "Junior Carrillo",
   category: "Technology",
   // Keywords del home — no son determinantes para Google pero sí para
   // Bing/DuckDuckGo y para que el documento HTML refleje los términos
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     "open banking developer",
     "líder técnico medellín",
     "consultoría backoffice",
-    "josé carrillo",
+    "Junior Carrillo",
   ],
   formatDetection: {
     email: true,
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "carrillo.app — José Carrillo, Senior Software Developer & Tech Leader",
+        alt: "carrillo.app — Junior Carrillo, Senior Software Developer & Tech Leader",
         type: "image/png",
       },
     ],
@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${SITE_URL}/opengraph-image`,
-        alt: "carrillo.app — José Carrillo, Senior Software Developer & Tech Leader",
+        alt: "carrillo.app — Junior Carrillo, Senior Software Developer & Tech Leader",
       },
     ],
   },
@@ -154,7 +154,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="carrillo.app" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="José Carrillo" />
+        <meta name="application-name" content="Junior Carrillo" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>

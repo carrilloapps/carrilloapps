@@ -1,6 +1,6 @@
-import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
+﻿import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
 
-export const alt = "Contacto profesional — José Carrillo"
+export const alt = "Contacto profesional — Junior Carrillo"
 export const size = ogSize
 export const contentType = ogContentType
 

@@ -18,7 +18,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'blog.carrillo.app',
+        hostname: 'substackcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'substack-post-media.s3.amazonaws.com',
       },
       {
         protocol: 'https',
@@ -35,10 +39,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'almipro.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'secure.gravatar.com',
       },
     ],
   },

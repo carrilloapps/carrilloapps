@@ -1,7 +1,7 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { getSiteUrl } from "./env"
 
-const SITE_NAME = "José Carrillo"
+const SITE_NAME = "Junior Carrillo"
 const SITE_TWITTER = "@carrilloapps"
 const DEFAULT_LOCALE = "es_CO"
 
@@ -9,7 +9,7 @@ type OgType = "website" | "article" | "profile" | "book"
 
 interface PageMetadataInput {
   /** Page-specific portion of the title — the root layout's template
-   *  appends " | José Carrillo" automatically, so do NOT include it here. */
+   *  appends " | Junior Carrillo" automatically, so do NOT include it here. */
   title: string
   /** SEO description — used for meta description and og/twitter description. */
   description: string

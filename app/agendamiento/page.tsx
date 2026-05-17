@@ -1,12 +1,11 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
-import type { Variants } from "framer-motion"
-import { Calendar, Clock, CheckCircle, AlertCircle, ArrowRight, Briefcase, Info } from "lucide-react"
+import { motion, type Variants } from "@/lib/motion"
+import { Calendar, Clock, CheckCircle, AlertCircle, ArrowRight, Info } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -48,7 +47,6 @@ function SchedulePageContent() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear error when user types
     if (formErrors[name]) {
       setFormErrors((prev) => {
         const newErrors = { ...prev }
@@ -60,7 +58,6 @@ function SchedulePageContent() {
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear error when user selects
     if (formErrors[name]) {
       setFormErrors((prev) => {
         const newErrors = { ...prev }
@@ -95,8 +92,6 @@ function SchedulePageContent() {
 
   const confirmSubmission = () => {
     setShowDialog(false)
-    // Aquí normalmente enviarías los datos al servidor
-    // Por ahora, solo redirigimos a la página de agradecimiento
     router.push("/agendamiento/gracias")
   }
 
@@ -104,22 +99,16 @@ function SchedulePageContent() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   }
 
   const itemVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
-      y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   }
 
@@ -128,29 +117,25 @@ function SchedulePageContent() {
       <PageLoadingOverlay isVisible={isLoading} />
       <div className="min-h-screen text-white relative overflow-hidden">
         <DynamicBackground />
-        
+
         <SiteHeader />
 
         <main className="relative z-10 container py-12 space-y-24" id="main-content">
-          {/* Hero Section */}
           <PageHeroSplit
-            badge={{ 
-              text: "Consultoría Personalizada"
-            }}
+            badge={{ text: "Consultoría Personalizada" }}
             title="Agenda una sesión"
             subtitle="Experto en soluciones bancarias, pagos y finanzas"
             description={
               <p className="text-zinc-300 leading-relaxed">
-                Reserva una consulta personalizada para discutir tu proyecto,
-                resolver dudas técnicas o explorar oportunidades de
-                colaboración. Con más de 10 años de experiencia en el desarrollo
-                de sistemas financieros y liderazgo técnico, puedo ayudarte a
-                encontrar la solución adecuada para tu negocio.
+                Reserva una consulta personalizada para discutir tu proyecto, resolver dudas
+                técnicas o explorar oportunidades de colaboración. Con más de 10 años de
+                experiencia en el desarrollo de sistemas financieros y liderazgo técnico, puedo
+                ayudarte a encontrar la solución adecuada para tu negocio.
               </p>
             }
             image={{
               src: "/profile.jpg",
-              alt: "José Carrillo - Tech Consultant",
+              alt: "Junior Carrillo - Tech Consultant",
               width: 600,
               height: 600,
               priority: true,
@@ -161,12 +146,21 @@ function SchedulePageContent() {
                   variant="gradient"
                   size="xl"
                   className="w-full sm:w-auto touch-manipulation group"
-                  onClick={() => window.requestAnimationFrame(() => window.scrollTo({ top: 800, behavior: "smooth" }))}
+                  onClick={() =>
+                    window.requestAnimationFrame(() =>
+                      window.scrollTo({ top: 800, behavior: "smooth" })
+                    )
+                  }
                   aria-describedby="agendar-servicio-desc"
                 >
                   Agendar servicio
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                  <span id="agendar-servicio-desc" className="sr-only">Book a specialized professional service</span>
+                  <ArrowRight
+                    className="ml-2 h-5 w-5 group-hover:translate-x-0.5 transition-transform"
+                    aria-hidden="true"
+                  />
+                  <span id="agendar-servicio-desc" className="sr-only">
+                    Book a specialized professional service
+                  </span>
                 </Button>
                 <Button
                   variant="glass"
@@ -177,7 +171,9 @@ function SchedulePageContent() {
                 >
                   <a href="/servicios">
                     Ver servicios
-                    <span id="services-desc" className="sr-only">Ver mis servicios</span>
+                    <span id="services-desc" className="sr-only">
+                      Ver mis servicios
+                    </span>
                   </a>
                 </Button>
               </>
@@ -190,498 +186,389 @@ function SchedulePageContent() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
+            aria-labelledby="schedule-form-heading"
           >
-            <motion.div className="space-y-4 text-center relative" variants={itemVariants}>
-              <h2 className="text-4xl md:text-5xl font-bold text-white select-text">
+            <motion.div
+              className="space-y-4 text-center relative"
+              variants={itemVariants}
+            >
+              <h2
+                id="schedule-form-heading"
+                className="text-4xl md:text-5xl font-bold text-white select-text"
+              >
                 Agenda una consulta
               </h2>
               <p className="text-xl md:text-2xl text-zinc-300 max-w-2xl mx-auto leading-relaxed select-text">
-                Completa el formulario para agendar una consulta inicial y
-                discutir cómo puedo ayudarte con tu proyecto.
+                Completa el formulario para agendar una consulta inicial y discutir cómo puedo
+                ayudarte con tu proyecto.
               </p>
             </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-2">
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative z-10"
-            >
-              <Card className="surface-card relative overflow-hidden group">
-                {/* Card Background Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                <CardHeader className="relative z-10">
-                  <CardTitle>Solicitar agendamiento</CardTitle>
-                  <CardDescription>
-                    Completa el formulario y me pondré en contacto contigo para
-                    confirmar la cita.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Nombre completo</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Tu nombre completo"
-                        className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.name ? "border-red-500" : ""
-                          }`}
-                      />
-                      {formErrors.name && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors.name}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="tu@email.com"
-                          className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.email ? "border-red-500" : ""
-                            }`}
-                        />
-                        {formErrors.email && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {formErrors.email}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">Teléfono</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="+1 (555) 123-4567"
-                          className={`bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50 ${formErrors.phone ? "border-red-500" : ""
-                            }`}
-                        />
-                        {formErrors.phone && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {formErrors.phone}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="company">Empresa (opcional)</Label>
-                      <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        placeholder="Nombre de tu empresa"
-                        className="bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="projectType">Tipo de proyecto</Label>
-                      <Select
-                        onValueChange={(value) =>
-                          handleSelectChange("projectType", value)
-                        }
-                        defaultValue={formData.projectType}
-                      >
-                        <SelectTrigger
-                          id="projectType"
-                          variant="glass"
-                          className={formErrors.projectType ? "border-red-500" : ""}
-                        >
-                          <SelectValue placeholder="Selecciona el tipo de proyecto" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
-                          <SelectItem value="financial-system">
-                            Sistema Financiero
-                          </SelectItem>
-                          <SelectItem value="backoffice-solution">
-                            Solución de Backoffice
-                          </SelectItem>
-                          <SelectItem value="technical-leadership">
-                            Liderazgo Técnico
-                          </SelectItem>
-                          <SelectItem value="architecture-design">
-                            Diseño de Arquitectura
-                          </SelectItem>
-                          <SelectItem value="other">Otro</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      {formErrors.projectType && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors.projectType}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Horario preferido para la consulta</Label>
-                      <RadioGroup
-                        defaultValue={formData.preferredTime}
-                        onValueChange={(value) =>
-                          handleSelectChange("preferredTime", value)
-                        }
-                        className={`grid grid-cols-1 md:grid-cols-2 gap-2 ${formErrors.preferredTime
-                            ? "border border-red-500 rounded-md p-2"
-                            : ""
-                          }`}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="morning" id="morning" />
-                          <Label htmlFor="morning" className="cursor-pointer">
-                            Mañana (9AM - 12PM)
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="afternoon" id="afternoon" />
-                          <Label htmlFor="afternoon" className="cursor-pointer">
-                            Tarde (1PM - 5PM)
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="evening" id="evening" />
-                          <Label htmlFor="evening" className="cursor-pointer">
-                            Noche (6PM - 8PM)
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="flexible" id="flexible" />
-                          <Label htmlFor="flexible" className="cursor-pointer">
-                            Flexible
-                          </Label>
-                        </div>
-                      </RadioGroup>
-                      {formErrors.preferredTime && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {formErrors.preferredTime}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Detalles del proyecto</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Cuéntame brevemente sobre tu proyecto y cómo puedo ayudarte..."
-                        rows={5}
-                        className="bg-slate-900/50 border-slate-700/50 focus-visible:ring-blue-500/30 focus-visible:border-blue-500/50"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      variant="gradient"
-                      size="lg"
-                      className="w-full touch-manipulation"
-                    >
-                      Solicitar Agendamiento
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              className="space-y-6"
-              variants={itemVariants}
-            >
+            <div className="grid gap-8 md:grid-cols-2">
               <motion.div
+                variants={itemVariants}
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
+                className="relative z-10"
               >
                 <Card className="surface-card relative overflow-hidden group">
-                  {/* Card Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardHeader className="relative">
-                    <CardTitle className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5 text-emerald-500" />
-                      Disponibilidad
-                    </CardTitle>
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle>Solicitar agendamiento</CardTitle>
                     <CardDescription>
-                      Horarios en los que estoy disponible para consultas
+                      Completa el formulario y me pondré en contacto contigo para confirmar la
+                      cita.
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4 relative">
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-white select-text">Días Laborables</h3>
-                      <p className="text-zinc-300">Lunes a Viernes</p>
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-white select-text">Horario de Trabajo</h3>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="flex items-center gap-2 text-zinc-400">
-                          <Clock className="h-4 w-4 text-emerald-500" />
-                          9:00 AM - 12:00 PM
+                  <CardContent className="relative z-10">
+                    <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Nombre completo</Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Tu nombre completo"
+                          variant="glass"
+                          className={formErrors.name ? "border-red-500" : ""}
+                        />
+                        {formErrors.name && (
+                          <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
+                        )}
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="tu@email.com"
+                            variant="glass"
+                            className={formErrors.email ? "border-red-500" : ""}
+                          />
+                          {formErrors.email && (
+                            <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+                          )}
                         </div>
-                        <div className="flex items-center gap-2 text-zinc-400">
-                          <Clock className="h-4 w-4 text-emerald-500" />
-                          1:00 PM - 5:00 PM
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Teléfono</Label>
+                          <Input
+                            id="phone"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="+57 300 000 0000"
+                            variant="glass"
+                            className={formErrors.phone ? "border-red-500" : ""}
+                          />
+                          {formErrors.phone && (
+                            <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>
+                          )}
                         </div>
                       </div>
-                      <p className="text-zinc-500 text-sm mt-2">
-                        También disponible en horarios nocturnos (6PM - 8PM) con
-                        cita previa.
-                      </p>
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-white select-text">Zona Horaria</h3>
-                      <p className="text-zinc-300">Hora del Este (EST/EDT)</p>
-                    </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="company">Empresa (opcional)</Label>
+                        <Input
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleChange}
+                          placeholder="Nombre de tu empresa"
+                          variant="glass"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="projectType">Tipo de proyecto</Label>
+                        <Select
+                          onValueChange={(value) => handleSelectChange("projectType", value)}
+                          defaultValue={formData.projectType}
+                        >
+                          <SelectTrigger
+                            id="projectType"
+                            variant="glass"
+                            className={formErrors.projectType ? "border-red-500" : ""}
+                            aria-label="Tipo de proyecto"
+                          >
+                            <SelectValue placeholder="Selecciona el tipo de proyecto" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
+                            <SelectItem value="financial-system">Sistema Financiero</SelectItem>
+                            <SelectItem value="backoffice-solution">
+                              Solución de Backoffice
+                            </SelectItem>
+                            <SelectItem value="technical-leadership">
+                              Liderazgo Técnico
+                            </SelectItem>
+                            <SelectItem value="architecture-design">
+                              Diseño de Arquitectura
+                            </SelectItem>
+                            <SelectItem value="other">Otro</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {formErrors.projectType && (
+                          <p className="text-red-500 text-sm mt-1">{formErrors.projectType}</p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label>Horario preferido para la consulta</Label>
+                        <RadioGroup
+                          defaultValue={formData.preferredTime}
+                          onValueChange={(value) => handleSelectChange("preferredTime", value)}
+                          className={`grid grid-cols-1 md:grid-cols-2 gap-2 ${
+                            formErrors.preferredTime
+                              ? "border border-red-500 rounded-md p-2"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="morning" id="morning" />
+                            <Label htmlFor="morning" className="cursor-pointer">
+                              Mañana (9AM - 12PM)
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="afternoon" id="afternoon" />
+                            <Label htmlFor="afternoon" className="cursor-pointer">
+                              Tarde (1PM - 5PM)
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="evening" id="evening" />
+                            <Label htmlFor="evening" className="cursor-pointer">
+                              Noche (6PM - 8PM)
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="flexible" id="flexible" />
+                            <Label htmlFor="flexible" className="cursor-pointer">
+                              Flexible
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                        {formErrors.preferredTime && (
+                          <p className="text-red-500 text-sm mt-1">{formErrors.preferredTime}</p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Detalles del proyecto</Label>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Cuéntame brevemente sobre tu proyecto y cómo puedo ayudarte..."
+                          rows={5}
+                          variant="glass"
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        variant="gradient"
+                        size="lg"
+                        className="w-full touch-manipulation"
+                      >
+                        Solicitar Agendamiento
+                      </Button>
+                    </form>
                   </CardContent>
                 </Card>
               </motion.div>
 
-              <motion.div
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
-                <Card className="surface-card relative overflow-hidden group">
-                  {/* Card Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <CardHeader className="relative">
-                    <CardTitle className="flex items-center gap-2">
-                      <Info className="h-5 w-5 text-purple-500" />
-                      Proceso de Agendamiento
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-5 relative">
-                    {/* Info block — flat, no inner card. Solo border-l de acento. */}
-                    <div className="border-l-2 border-purple-500/40 pl-4 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-purple-400" aria-hidden="true" />
-                        <h3 className="font-semibold text-white">Cómo funciona</h3>
+              <motion.div className="space-y-6" variants={itemVariants}>
+                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3, ease: "easeOut" }}>
+                  <Card className="surface-card relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-cyan-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <CardHeader className="relative">
+                      <CardTitle className="flex items-center gap-2">
+                        <Calendar className="h-5 w-5 text-emerald-500" />
+                        Disponibilidad
+                      </CardTitle>
+                      <CardDescription>
+                        Horarios en los que estoy disponible para consultas
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4 relative">
+                      <div className="space-y-2">
+                        <h3 className="font-semibold text-white select-text">Días Laborables</h3>
+                        <p className="text-zinc-300">Lunes a Viernes</p>
                       </div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">
-                        Una vez que envíes tu solicitud, revisaré los detalles y te contactaré
-                        dentro de 24–48 horas para confirmar la fecha y hora exacta.
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-white">Tipos de consultas</h3>
-                      <ul className="space-y-1.5 text-zinc-300 text-sm">
-                        <li className="flex items-start gap-2">
-                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
-                          Consulta inicial (30 minutos) — Gratuita
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
-                          Asesoría técnica (1 hora)
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
-                          Revisión de arquitectura (1–2 horas)
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
-                          Planificación de proyecto (2+ horas)
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="border-l-2 border-amber-500/40 pl-4 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <AlertCircle className="h-4 w-4 text-amber-400" aria-hidden="true" />
-                        <h3 className="font-semibold text-white">Importante</h3>
+                      <div className="space-y-2">
+                        <h3 className="font-semibold text-white select-text">
+                          Horario de Trabajo
+                        </h3>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="flex items-center gap-2 text-zinc-400">
+                            <Clock className="h-4 w-4 text-emerald-500" />
+                            9:00 AM - 12:00 PM
+                          </div>
+                          <div className="flex items-center gap-2 text-zinc-400">
+                            <Clock className="h-4 w-4 text-emerald-500" />
+                            1:00 PM - 5:00 PM
+                          </div>
+                        </div>
+                        <p className="text-zinc-500 text-sm mt-2">
+                          También disponible en horarios nocturnos (6PM - 8PM) con cita previa.
+                        </p>
                       </div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">
-                        Para cancelaciones o reprogramaciones, por favor notifícame con al
-                        menos 24 horas de anticipación.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
+                      <div className="space-y-2">
+                        <h3 className="font-semibold text-white select-text">Zona Horaria</h3>
+                        <p className="text-zinc-300">Colombia (UTC−5)</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.3, ease: "easeOut" }}>
+                  <Card className="surface-card relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <CardHeader className="relative">
+                      <CardTitle className="flex items-center gap-2">
+                        <Info className="h-5 w-5 text-purple-500" />
+                        Proceso de Agendamiento
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-5 relative">
+                      <div className="border-l-2 border-purple-500/40 pl-4 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle className="h-4 w-4 text-purple-400" aria-hidden="true" />
+                          <h3 className="font-semibold text-white">Cómo funciona</h3>
+                        </div>
+                        <p className="text-zinc-300 text-sm leading-relaxed">
+                          Una vez que envíes tu solicitud, revisaré los detalles y te contactaré
+                          dentro de 24–48 horas para confirmar la fecha y hora exacta.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <h3 className="font-semibold text-white">Tipos de consultas</h3>
+                        <ul className="space-y-1.5 text-zinc-300 text-sm">
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                            Consulta inicial (30 minutos) — Gratuita
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                            Asesoría técnica (1 hora)
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                            Revisión de arquitectura (1–2 horas)
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-purple-400 mt-0.5" aria-hidden="true">•</span>
+                            Planificación de proyecto (2+ horas)
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="border-l-2 border-amber-500/40 pl-4 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <AlertCircle className="h-4 w-4 text-amber-400" aria-hidden="true" />
+                          <h3 className="font-semibold text-white">Importante</h3>
+                        </div>
+                        <p className="text-zinc-300 text-sm leading-relaxed">
+                          Para cancelaciones o reprogramaciones, por favor notifícame con al menos
+                          24 horas de anticipación.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </div>
-        </motion.section>
+            </div>
+          </motion.section>
+        </main>
 
-        {/* Brands Section */}
-        <motion.section
-          className="py-12 space-y-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="space-y-4 text-center">
-            <h2 className="text-2xl font-bold">
-              He trabajado con empresas líderes en la industria
-            </h2>
-            <p className="text-zinc-300 max-w-2xl mx-auto">
-              Ayudando a transformar sus operaciones financieras y de backoffice
-              con soluciones tecnológicas innovadoras
-            </p>
-          </div>
+        <Dialog open={showDialog} onOpenChange={setShowDialog}>
+          <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-2xl overflow-hidden shadow-2xl shadow-blue-500/10">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
-            {/* Logos de marcas - Usando placeholders */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">BBVA</div>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">Santander</div>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">IBM</div>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">Deloitte</div>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">PayPal</div>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="surface-card-subtle p-6 w-full max-w-[150px] h-[80px] flex items-center justify-center"
-            >
-              <div className="text-2xl font-bold text-zinc-300">Visa</div>
-            </motion.div>
-          </div>
+            <DialogHeader className="relative z-10">
+              <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+                Confirmar solicitud
+              </DialogTitle>
+              <DialogDescription className="text-zinc-300">
+                ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
+              </DialogDescription>
+            </DialogHeader>
 
-          <div className="flex justify-center mt-8">
-            <Card className="surface-card max-w-3xl">
-              <CardContent className="p-6 md:p-8">
-                <div className="flex flex-col md:flex-row gap-6 items-center">
-                  <div className="flex-shrink-0">
-                    <Briefcase className="h-12 w-12 text-blue-500" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">
-                      Experiencia en Múltiples Industrias
-                    </h3>
-                    <p className="text-zinc-300">
-                      He colaborado con empresas de diversos sectores, desde
-                      fintech y banca hasta retail y telecomunicaciones,
-                      implementando soluciones tecnológicas que han mejorado su
-                      eficiencia operativa y rentabilidad.
-                    </p>
-                  </div>
+            <div className="space-y-4 py-4 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="surface-card-subtle p-3">
+                  <p className="text-sm font-medium text-zinc-400 mb-1">Nombre:</p>
+                  <p className="truncate text-white font-medium">{formData.name}</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </motion.section>
-      </main>
+                <div className="surface-card-subtle p-3">
+                  <p className="text-sm font-medium text-zinc-400 mb-1">Correo electrónico:</p>
+                  <p className="truncate text-white font-medium">{formData.email}</p>
+                </div>
+                <div className="surface-card-subtle p-3">
+                  <p className="text-sm font-medium text-zinc-400 mb-1">Teléfono:</p>
+                  <p className="truncate text-white font-medium">{formData.phone}</p>
+                </div>
+                <div className="surface-card-subtle p-3">
+                  <p className="text-sm font-medium text-zinc-400 mb-1">Horario preferido:</p>
+                  <p className="text-white font-medium">
+                    {formData.preferredTime === "morning"
+                      ? "Mañana (9AM - 12PM)"
+                      : formData.preferredTime === "afternoon"
+                        ? "Tarde (1PM - 5PM)"
+                        : formData.preferredTime === "evening"
+                          ? "Noche (6PM - 8PM)"
+                          : "Flexible"}
+                  </p>
+                </div>
+              </div>
 
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="bg-slate-950/95 backdrop-blur-xl border-white/10 text-white max-w-2xl overflow-hidden shadow-2xl shadow-blue-500/10">
-          {/* Modal Background Effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 pointer-events-none" />
-
-          <DialogHeader className="relative z-10">
-            <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-              Confirmar solicitud
-            </DialogTitle>
-            <DialogDescription className="text-zinc-300">
-              ¿Estás seguro de que deseas enviar esta solicitud de agendamiento?
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4 py-4 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="surface-card-subtle p-3">
-                <p className="text-sm font-medium text-zinc-400 mb-1">Nombre:</p>
-                <p className="truncate text-white font-medium">{formData.name}</p>
-              </div>
-              <div className="surface-card-subtle p-3">
-                <p className="text-sm font-medium text-zinc-400 mb-1">
-                  Correo electrónico:
-                </p>
-                <p className="truncate text-white font-medium">{formData.email}</p>
-              </div>
-              <div className="surface-card-subtle p-3">
-                <p className="text-sm font-medium text-zinc-400 mb-1">Teléfono:</p>
-                <p className="truncate text-white font-medium">{formData.phone}</p>
-              </div>
-              <div className="surface-card-subtle p-3">
-                <p className="text-sm font-medium text-zinc-400 mb-1">
-                  Horario preferido:
-                </p>
-                <p className="text-white font-medium">
-                  {formData.preferredTime === "morning"
-                    ? "Mañana (9AM - 12PM)"
-                    : formData.preferredTime === "afternoon"
-                      ? "Tarde (1PM - 5PM)"
-                      : formData.preferredTime === "evening"
-                        ? "Noche (6PM - 8PM)"
-                        : "Flexible"}
-                </p>
-              </div>
+              {formData.message && (
+                <div className="surface-card-subtle p-3">
+                  <p className="text-sm font-medium text-zinc-400 mb-2">
+                    Detalles del proyecto:
+                  </p>
+                  <p className="text-white text-sm leading-relaxed">{formData.message}</p>
+                </div>
+              )}
             </div>
 
-            {formData.message && (
-              <div className="surface-card-subtle p-3">
-                <p className="text-sm font-medium text-zinc-400 mb-2">Detalles del proyecto:</p>
-                <p className="text-white text-sm leading-relaxed">{formData.message}</p>
-              </div>
-            )}
-          </div>
+            <DialogFooter className="relative z-10 gap-2">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="glass"
+                  size="lg"
+                  className="touch-manipulation"
+                  onClick={() => setShowDialog(false)}
+                >
+                  Cancelar
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="gradient"
+                  size="lg"
+                  className="touch-manipulation"
+                  onClick={confirmSubmission}
+                >
+                  Confirmar y enviar
+                </Button>
+              </motion.div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
-          <DialogFooter className="relative z-10 gap-2">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button
-                variant="glass"
-                size="lg"
-                className="touch-manipulation"
-                onClick={() => setShowDialog(false)}
-              >
-                Cancelar
-              </Button>
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button
-                variant="gradient"
-                size="lg"
-                className="touch-manipulation"
-                onClick={confirmSubmission}
-              >
-                Confirmar y enviar
-              </Button>
-            </motion.div>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <SiteFooter />
-    </div>
+        <SiteFooter />
+      </div>
     </>
-  );
+  )
 }
 
 export default function SchedulePage() {
@@ -689,5 +576,5 @@ export default function SchedulePage() {
     <PageLoadingProvider>
       <SchedulePageContent />
     </PageLoadingProvider>
-  );
+  )
 }

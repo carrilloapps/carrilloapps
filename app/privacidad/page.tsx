@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+﻿import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { SurfaceCard } from "@/components/ui/surface-card"
@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
       <main className="container py-12 md:py-16 space-y-8 relative z-10" id="main-content">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-3">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
               Legal
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
@@ -33,7 +33,7 @@ export default function PrivacyPolicyPage() {
                 })}
               </p>
               <p className="text-zinc-300">
-                Gracias por visitar mi sitio web profesional. Yo, José Carrillo,
+                Gracias por visitar mi sitio web profesional. Yo, Junior Carrillo,
                 valoro y respeto tu privacidad y me comprometo a proteger tus
                 datos personales en conformidad con la Ley Estatutaria 1581 de
                 2012 y el Decreto 1377 de 2013 de la República de Colombia. Esta
@@ -142,7 +142,7 @@ export default function PrivacyPolicyPage() {
                 utilizo, consulta mi
                 <a
                   href="/cookies"
-                  className="text-blue-500 hover:text-blue-400"
+                  className="text-emerald-400 hover:text-emerald-300"
                 >
                   {" "}
                   Política de Cookies

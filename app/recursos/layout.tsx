@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -13,7 +13,7 @@ export const metadata = buildPageMetadata({
   keywords: [
     "recursos gratuitos desarrolladores",
     "código abierto finanzas",
-    "repositorios github josé carrillo",
+    "repositorios github Junior Carrillo",
     "proyectos gitlab carrilloapps",
     "sistemas financieros open source",
     "medios de pago desarrollo",
@@ -38,7 +38,7 @@ const resourcesJsonLd = {
   url: `${SITE_URL}/recursos`,
   author: {
     "@type": "Person",
-    name: "José Carrillo",
+    name: "Junior Carrillo",
     url: SITE_URL,
     jobTitle: "Tech Lead & Full Stack Developer",
     worksFor: {
@@ -111,7 +111,7 @@ const resourcesJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "José Carrillo - Tech Lead & Full Stack Developer",
+    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
   inLanguage: "es-ES",

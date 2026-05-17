@@ -5,7 +5,6 @@ import Link from "next/link"
 import {
   Calendar,
   ChevronDown,
-  BookOpen,
   FolderOpen,
   Mail,
   Home,
@@ -110,12 +109,6 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    href: "/blog",
-    label: "Blog",
-    icon: BookOpen,
-    description: "Artículos y tutoriales",
-  },
-  {
     href: "/recursos",
     label: "Recursos",
     icon: FolderOpen,
@@ -146,16 +139,18 @@ const navItems: NavItem[] = [
 // Memoized navigation item component for performance
 const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
   const Icon = item.icon
-  
+  const isExternal = item.href.startsWith("http")
+
   const handleClick = () => {
     trackNavigation(item.label, item.href, "header")
     onClose?.()
   }
-  
+
   return (
     <Link
       href={item.href}
       onClick={handleClick}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
         isActive
           ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
@@ -469,11 +464,6 @@ export function SiteHeader() {
             "@type": "WebSite",
             name: "CarrilloApps",
             url: SITE_URL,
-            potentialAction: {
-              "@type": "SearchAction",
-              target: `${SITE_URL}/blog?search={search_term_string}`,
-              "query-input": "required name=search_term_string",
-            },
           }),
         }}
       />

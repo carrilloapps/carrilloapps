@@ -7,12 +7,13 @@ import { ArrowUpRight, BookOpen, Calendar, Clock } from "lucide-react"
 import { formatDateES } from "@/lib/utils"
 import { SectionHeader } from "@/components/section-header"
 import { SurfaceCard } from "@/components/ui/surface-card"
+import { Substack } from "@/components/icons/social-icons"
 
 interface LatestPost {
   title: string
-  slug: string
+  url: string
   pubDate: string
-  readingTime: number
+  readingTime: number | null
   thumbnail: string | null
   thumbnailAlt: string
 }
@@ -38,7 +39,6 @@ export function LatestPostsSection() {
     }
   }, [])
 
-  // Soft-fail: hide section if there are no posts (initial load) or fetch failed.
   if (error || (posts && posts.length === 0)) return null
 
   return (
@@ -49,7 +49,7 @@ export function LatestPostsSection() {
     >
       <div className="container mx-auto px-4 relative z-10">
         <SectionHeader
-          eyebrow="Blog"
+          eyebrow="Substack"
           eyebrowIcon={BookOpen}
           title="Últimos artículos"
           description="Apuntes recientes sobre desarrollo, arquitectura y liderazgo técnico."
@@ -57,10 +57,13 @@ export function LatestPostsSection() {
           align="left"
           trailing={
             <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
+              href="https://carrilloapps.substack.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-orange-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
             >
-              Ver todos
+              <Substack className="w-4 h-4" aria-hidden="true" />
+              Ver en Substack
               <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           }
@@ -72,7 +75,7 @@ export function LatestPostsSection() {
             return (
               <SurfaceCard
                 as="article"
-                key={isPlaceholder ? `skeleton-${index}` : (post as LatestPost).slug}
+                key={isPlaceholder ? `skeleton-${index}` : (post as LatestPost).url}
                 className="group flex flex-col gap-4"
               >
                 {isPlaceholder ? (
@@ -86,8 +89,10 @@ export function LatestPostsSection() {
                   </>
                 ) : (
                   <Link
-                    href={`/blog/${(post as LatestPost).slug}`}
-                    className="flex flex-col gap-4 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    href={(post as LatestPost).url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col gap-4 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden bg-zinc-800">
                       {(post as LatestPost).thumbnail ? (
@@ -118,7 +123,7 @@ export function LatestPostsSection() {
                           </span>
                         ) : null}
                       </div>
-                      <h3 className="text-base md:text-lg font-semibold text-white leading-snug line-clamp-3 group-hover:text-blue-300 transition-colors duration-200">
+                      <h3 className="text-base md:text-lg font-semibold text-white leading-snug line-clamp-3 group-hover:text-orange-300 transition-colors duration-200">
                         {(post as LatestPost).title}
                       </h3>
                     </div>

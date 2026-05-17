@@ -1,9 +1,9 @@
-import { MetadataRoute } from 'next'
+﻿import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'José Carrillo - Tech Lead & Software Architect',
-    short_name: 'José Carrillo',
+    name: 'Junior Carrillo - Tech Lead & Software Architect',
+    short_name: 'Junior Carrillo',
     description: 'Senior Software Developer & Tech Leader especializado en sistemas financieros y liderazgo técnico',
     start_url: '/',
     display: 'standalone',
@@ -39,14 +39,14 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: '1280x720',
         type: 'image/jpeg',
         form_factor: 'wide',
-        label: 'José Carrillo - Página Principal',
+        label: 'Junior Carrillo - Página Principal',
       },
       {
         src: '/placeholder.jpg',
         sizes: '750x1334',
         type: 'image/jpeg',
         form_factor: 'narrow',
-        label: 'José Carrillo - Vista Móvil',
+        label: 'Junior Carrillo - Vista Móvil',
       },
     ],
     shortcuts: [

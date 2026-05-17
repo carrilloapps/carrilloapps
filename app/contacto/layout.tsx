@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -12,7 +12,7 @@ export const metadata = {
       "¿Tienes un proyecto en mente? Conversemos sobre desarrollo de software, liderazgo técnico, consultoría fintech o arquitecturas empresariales.",
     path: "/contacto",
     keywords: [
-      "contacto josé carrillo",
+      "contacto Junior Carrillo",
       "consultoría tecnológica contacto",
       "tech lead disponible",
       "desarrollo software consultor",
@@ -39,12 +39,12 @@ export const metadata = {
 const contactJsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  name: "Contacto Profesional - José Carrillo",
+  name: "Contacto Profesional - Junior Carrillo",
   description: "Página de contacto profesional para consultoría tecnológica y servicios de desarrollo de software",
   url: `${SITE_URL}/contacto`,
   mainEntity: {
     "@type": "Person",
-    name: "José Carrillo",
+    name: "Junior Carrillo",
     jobTitle: "Tech Lead & Full Stack Developer",
     worksFor: {
       "@type": "Organization",
@@ -128,7 +128,7 @@ const contactJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "José Carrillo - Tech Lead & Full Stack Developer",
+    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
   inLanguage: "es-ES",

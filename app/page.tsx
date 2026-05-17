@@ -74,6 +74,8 @@ export default function Home() {
   const [contactFormData, setContactFormData] = useState({
     name: "",
     email: "",
+    whatsapp: "",
+    company: "",
     subject: "",
     message: "",
     honeypot: "",
@@ -148,6 +150,8 @@ export default function Home() {
       setContactFormData({
         name: "",
         email: "",
+        whatsapp: "",
+        company: "",
         subject: contactFormData.subject || "",
         message: "",
         honeypot: "",

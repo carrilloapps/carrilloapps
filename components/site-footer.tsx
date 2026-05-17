@@ -1,9 +1,9 @@
-"use client"
+﻿"use client"
 
 import Link from "next/link"
 import { useState, type FormEvent } from "react"
 import { Code2, Mail, MapPin, ArrowUpRight } from "lucide-react"
-import { Github, Linkedin } from "@/components/icons/social-icons"
+import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Logo } from "@/components/logo"
@@ -22,7 +22,7 @@ const QUICK_LINKS = [
   { label: "Inicio", href: "/" },
   { label: "Sobre mí", href: "/sobre-mi" },
   { label: "Recursos", href: "/recursos" },
-  { label: "Blog", href: "/blog" },
+  { label: "Substack", href: "https://carrilloapps.substack.com/" },
   { label: "Contacto", href: "/contacto" },
 ] as const
 
@@ -48,6 +48,11 @@ const SOCIAL_LINKS = [
     label: "X (Twitter)",
     href: "https://x.com/carrilloapps",
     Icon: XIcon,
+  },
+  {
+    label: "Substack",
+    href: "https://carrilloapps.substack.com/",
+    Icon: Substack,
   },
 ] as const
 
@@ -182,7 +187,7 @@ export function SiteFooter() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${label} de José Carrillo`}
+                  aria-label={`${label} de Junior Carrillo`}
                   onClick={() =>
                     trackSocialClick(label, "profile_visit", href)
                   }
@@ -283,7 +288,7 @@ export function SiteFooter() {
       <div className="container mx-auto px-4 py-6 md:py-7">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-zinc-500 text-center md:text-left">
-            © {currentYear} José Carrillo. Todos los derechos reservados.
+            © {currentYear} Junior Carrillo. Todos los derechos reservados.
           </p>
           <nav
             className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2"

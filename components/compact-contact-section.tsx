@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
+import Link from "next/link";
 import { motion } from "@/lib/motion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,7 +17,7 @@ import {
   Eye,
   type LucideIcon,
 } from "lucide-react";
-import { Github, Linkedin } from "@/components/icons/social-icons";
+import { Github, Linkedin, Substack } from "@/components/icons/social-icons";
 import {
   Select,
   SelectContent,
@@ -40,6 +41,8 @@ interface CompactContactSectionProps {
   formData: {
     name: string;
     email: string;
+    whatsapp: string;
+    company: string;
     subject: string;
     message: string;
     honeypot: string;
@@ -84,6 +87,8 @@ export function CompactContactSection({
   deobfuscateEmail,
   deobfuscatePhone,
 }: CompactContactSectionProps) {
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
   return (
     <div className="grid lg:grid-cols-3 gap-6 w-full">
       {/* Form — spans 2 columns on lg+. */}
@@ -162,6 +167,39 @@ export function CompactContactSection({
                 </Field>
               </div>
 
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field id="contact-whatsapp" label="WhatsApp">
+                  <Input
+                    id="contact-whatsapp"
+                    name="whatsapp"
+                    variant="glass"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="+57 300 000 0000"
+                    value={formData.whatsapp}
+                    onChange={(e) => onInputChange("whatsapp", e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    autoComplete="tel"
+                    spellCheck={false}
+                  />
+                </Field>
+                <Field id="contact-company" label="Empresa" optional>
+                  <Input
+                    id="contact-company"
+                    name="company"
+                    variant="glass"
+                    placeholder="Tu empresa"
+                    value={formData.company}
+                    onChange={(e) => onInputChange("company", e.target.value)}
+                    disabled={isSubmitting}
+                    autoComplete="organization"
+                    autoCapitalize="words"
+                    spellCheck={false}
+                  />
+                </Field>
+              </div>
+
               <Field id="subject-select" label="Asunto">
                 <Select
                   value={formData.subject}
@@ -213,12 +251,47 @@ export function CompactContactSection({
                 </div>
               )}
 
+              <label className="flex items-start gap-3 cursor-pointer group/terms">
+                <input
+                  type="checkbox"
+                  id="terms-accepted"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  disabled={isSubmitting}
+                  required
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border border-zinc-600 bg-zinc-800/60 accent-blue-500 cursor-pointer disabled:opacity-50"
+                  aria-required="true"
+                />
+                <span className="text-sm text-zinc-400 leading-snug group/terms-hover:text-zinc-300 transition-colors">
+                  He leído y acepto los{" "}
+                  <Link
+                    href="/terminos"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Términos y condiciones
+                  </Link>{" "}
+                  y la{" "}
+                  <Link
+                    href="/privacidad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Política de privacidad
+                  </Link>
+                </span>
+              </label>
+
               <Button
                 type="submit"
                 variant="gradient"
                 size="lg"
                 className="w-full min-h-[48px] touch-manipulation"
-                disabled={isSubmitting || isLimited}
+                disabled={isSubmitting || isLimited || !termsAccepted}
                 aria-label="Enviar mensaje de contacto"
               >
                 {isSubmitting ? (
@@ -313,7 +386,7 @@ export function CompactContactSection({
               <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium mb-3">
                 Redes sociales
               </p>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 <SocialLink
                   href="https://github.com/carrilloapps"
                   label="GitHub"
@@ -331,6 +404,12 @@ export function CompactContactSection({
                   label="X / Twitter"
                 >
                   <XIcon className="w-4 h-4" />
+                </SocialLink>
+                <SocialLink
+                  href="https://carrilloapps.substack.com/"
+                  label="Substack"
+                >
+                  <Substack className="w-4 h-4" />
                 </SocialLink>
               </div>
             </div>
@@ -368,19 +447,23 @@ function CardHead({
 function Field({
   id,
   label,
+  optional = false,
   children,
 }: {
   id: string;
   label: string;
+  optional?: boolean;
   children: ReactNode;
 }) {
   return (
     <div className="space-y-2">
-      <label
-        htmlFor={id}
-        className="text-sm font-medium text-zinc-300"
-      >
+      <label htmlFor={id} className="text-sm font-medium text-zinc-300 flex items-center gap-2">
         {label}
+        {optional && (
+          <span className="text-[11px] font-normal text-zinc-500 uppercase tracking-wide">
+            opcional
+          </span>
+        )}
       </label>
       {children}
     </div>

@@ -7,22 +7,18 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
 interface UnifiedLoadingProps {
-  variant: 
+  variant:
     | "page" // Full page loading with header/footer
     | "overlay" // Full screen overlay
     | "spinner" // Simple spinner
     | "card" // Single card skeleton
     | "grid" // Grid of cards
-    | "blog-featured" // Blog featured article
-    | "blog-grid" // Blog posts grid
-    | "blog-article" // Single blog article
-    | "blog-related" // Related articles
     | "repositories" // Repository cards
     | "form" // Form skeleton
     | "hero"; // Hero section skeleton
-  
+
   count?: number; // For grid variants
-  showPagination?: boolean; // For repository/blog grids
+  showPagination?: boolean; // For repository grids
   title?: string; // Custom loading title
   description?: string; // Custom loading description
   className?: string; // Additional CSS classes
@@ -171,28 +167,7 @@ const TechSpinner = () => {
 };
 
 // Card skeleton component - MOVED OUTSIDE COMPONENT
-const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repository" }) => {
-  if (type === "blog") {
-    return (
-      <Card className="surface-card">
-        <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse"></div>
-        <CardContent className="p-6 space-y-4">
-          <Skeleton className="h-6 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
-          <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
-          <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
-          <div className="flex gap-2 pt-2">
-            <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-            <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-          </div>
-        </CardContent>
-        <CardFooter className="px-6 pb-6 pt-0 flex justify-between">
-          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
-          <Skeleton className="h-4 w-24 bg-white/[0.04] border border-white/[0.04]" />
-        </CardFooter>
-      </Card>
-    );
-  }
-  
+const CardSkeleton = ({ type = "default" }: { type?: "default" | "repository" }) => {
   if (type === "repository") {
     return (
       <Card className="surface-card">
@@ -232,7 +207,7 @@ const CardSkeleton = ({ type = "default" }: { type?: "default" | "blog" | "repos
 };
 
 // Grid component - MOVED OUTSIDE COMPONENT
-const GridSkeleton = ({ type, itemCount }: { type: "blog" | "repository" | "default", itemCount: number }) => (
+const GridSkeleton = ({ type, itemCount }: { type: "repository" | "default", itemCount: number }) => (
   <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {Array(itemCount).fill(0).map((_, i) => (
       <CardSkeleton key={i} type={type} />
@@ -291,26 +266,6 @@ const FormSkeleton = () => (
         <Skeleton className="h-10 w-full bg-white/[0.04] border border-white/[0.04]" />
       </div>
     </CardContent>
-  </Card>
-);
-
-// Blog featured skeleton - MOVED OUTSIDE COMPONENT
-const BlogFeaturedSkeleton = () => (
-  <Card className="surface-card">
-    <div className="grid md:grid-cols-2 gap-6">
-      <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse"></div>
-      <div className="p-6 space-y-4">
-        <Skeleton className="h-6 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
-        <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
-        <Skeleton className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
-        <Skeleton className="h-4 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
-        <div className="flex gap-2 pt-2">
-          <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-          <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-        </div>
-        <Skeleton className="h-10 w-40 bg-white/[0.04] border border-white/[0.04] mt-4" />
-      </div>
-    </div>
   </Card>
 );
 
@@ -386,40 +341,6 @@ export function UnifiedLoading({
     case "grid":
       return <GridSkeleton type="default" itemCount={count} />;
 
-    case "blog-featured":
-      return <BlogFeaturedSkeleton />;
-
-    case "blog-grid":
-      return <GridSkeleton type="blog" itemCount={count} />;
-
-    case "blog-article":
-      return (
-        <div className={`space-y-8 ${className}`}>
-          <div className="space-y-4">
-            <Skeleton className="h-12 w-3/4 bg-white/[0.04] border border-white/[0.04]" />
-            <Skeleton className="h-6 w-1/2 bg-white/[0.04] border border-white/[0.04]" />
-            <div className="flex gap-2">
-              <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-              <Skeleton className="h-6 w-20 bg-white/[0.04] border border-white/[0.04]" />
-            </div>
-          </div>
-          <div className="aspect-video bg-white/[0.04] border border-white/[0.04] animate-pulse rounded-lg"></div>
-          <div className="space-y-4">
-            {Array(8).fill(0).map((_, i) => (
-              <Skeleton key={i} className="h-4 w-full bg-white/[0.04] border border-white/[0.04]" />
-            ))}
-          </div>
-        </div>
-      );
-
-    case "blog-related":
-      return (
-        <div className={`space-y-4 ${className}`}>
-          <Skeleton className="h-8 w-48 bg-white/[0.04] border border-white/[0.04]" />
-          <GridSkeleton type="blog" itemCount={3} />
-        </div>
-      );
-
     case "repositories":
       return (
         <div className={`space-y-6 ${className}`}>
@@ -466,18 +387,6 @@ export const CardLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) =>
 
 export const GridLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
   <UnifiedLoading {...props} variant="grid" />;
-
-export const BlogFeaturedLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
-  <UnifiedLoading {...props} variant="blog-featured" />;
-
-export const BlogGridLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
-  <UnifiedLoading {...props} variant="blog-grid" />;
-
-export const BlogArticleLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
-  <UnifiedLoading {...props} variant="blog-article" />;
-
-export const BlogRelatedLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
-  <UnifiedLoading {...props} variant="blog-related" />;
 
 export const RepositoriesLoading = (props: Omit<UnifiedLoadingProps, 'variant'>) => 
   <UnifiedLoading {...props} variant="repositories" />;

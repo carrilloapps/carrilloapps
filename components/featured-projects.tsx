@@ -231,9 +231,9 @@ export function FeaturedProjects() {
                 
                 {/* Action Button - Better spacing and prominence */}
                 <Button
-                  variant="outline"
+                  variant="glass"
                   size="sm"
-                  className={`border-zinc-700 hover:bg-zinc-800 hover:border-${project.icon.color.split('-')[1]}-500 gap-2 transition-all duration-200 px-4`}
+                  className="gap-2 px-4"
                   asChild
                 >
                   <a 

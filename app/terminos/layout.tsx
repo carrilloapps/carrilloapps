@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -8,12 +8,12 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Términos y Condiciones",
   description:
-    "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por José Carrillo, incluyendo derechos de propiedad intelectual.",
+    "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por Junior Carrillo, incluyendo derechos de propiedad intelectual.",
   path: "/terminos",
   keywords: [
     "términos y condiciones",
     "condiciones de uso",
-    "josé carrillo términos",
+    "Junior Carrillo términos",
     "acuerdo legal",
     "derechos de propiedad intelectual",
   ],

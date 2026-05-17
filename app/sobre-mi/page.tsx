@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { ArrowRight, Award, BookOpen, Calendar, User, Download, Eye } from "lucide-react";
@@ -182,7 +182,7 @@ export default function AboutPage() {
               >
                 <Image
                   src="/profile.jpg"
-                  alt="José Carrillo, Tech Leader y Senior Software Developer en Medellín, Colombia."
+                  alt="Junior Carrillo, Tech Leader y Senior Software Developer en Medellín, Colombia."
                   width={480}
                   height={600}
                   className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-[1.04]"
@@ -218,7 +218,7 @@ export default function AboutPage() {
               </div>
 
               <figcaption className="sr-only">
-                Retrato de José Carrillo, basado en Medellín, Colombia.
+                Retrato de Junior Carrillo, basado en Medellín, Colombia.
               </figcaption>
             </motion.figure>
           </div>

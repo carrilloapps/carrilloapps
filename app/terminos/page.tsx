@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+﻿import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { SurfaceCard } from "@/components/ui/surface-card"
@@ -12,7 +12,7 @@ export default function TermsConditionsPage() {
       <main className="container py-12 md:py-16 space-y-8 relative z-10" id="main-content">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-3">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
               Legal
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
@@ -33,14 +33,14 @@ export default function TermsConditionsPage() {
                 })}
               </p>
               <p className="text-zinc-300">
-                Bienvenido al sitio web profesional de José Carrillo. Estos
+                Bienvenido al sitio web profesional de Junior Carrillo. Estos
                 términos y condiciones establecen las reglas y normativas para
                 el uso de mi sitio web, ubicado en carrillo.app, y aplican a
                 todos los usuarios y visitantes.
               </p>
               <p className="text-zinc-300">
                 El presente documento constituye un acuerdo legalmente
-                vinculante entre el usuario y José Carrillo. Al acceder a este
+                vinculante entre el usuario y Junior Carrillo. Al acceder a este
                 sitio web, se asume que aceptas estos términos y condiciones en
                 su totalidad. Si no estás de acuerdo con alguna parte de estos
                 términos y condiciones, no debes utilizar este sitio web.
@@ -57,7 +57,7 @@ export default function TermsConditionsPage() {
                 Derechos de Propiedad Intelectual
               </h2>
               <p className="text-zinc-300">
-                Salvo que se indique lo contrario, José Carrillo posee los
+                Salvo que se indique lo contrario, Junior Carrillo posee los
                 derechos de propiedad intelectual de todo el material en
                 carrillo.app, protegido bajo las leyes colombianas de derechos
                 de autor (Ley 23 de 1982, Ley 44 de 1993, Decisión Andina 351 de
@@ -227,8 +227,8 @@ export default function TermsConditionsPage() {
                 El tratamiento de datos personales relacionados con este sitio
                 web se rige por nuestra
                 <a
-                  href="/privacy-policy"
-                  className="text-blue-500 hover:text-blue-400"
+                  href="/privacidad"
+                  className="text-emerald-400 hover:text-emerald-300"
                 >
                   {" "}
                   Política de Privacidad

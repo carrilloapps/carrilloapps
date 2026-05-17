@@ -59,7 +59,7 @@ export function SectionHeader({
   const stack = (
     <div className={`flex flex-col gap-3 max-w-2xl ${stackByAlign[align]}`}>
       {eyebrow && (
-        <span className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-medium uppercase tracking-[0.18em]">
+        <span className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium uppercase tracking-[0.18em]">
           {EyebrowIcon ? <EyebrowIcon className="w-3 h-3" aria-hidden="true" /> : null}
           {eyebrow}
         </span>
@@ -71,7 +71,7 @@ export function SectionHeader({
         {title}
       </h2>
       {description && (
-        <p className="text-base md:text-lg text-zinc-400 leading-relaxed">
+        <p className="text-base md:text-lg text-zinc-300 leading-relaxed">
           {description}
         </p>
       )}

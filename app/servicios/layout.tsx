@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -45,7 +45,7 @@ const servicesJsonLd = {
   url: `${SITE_URL}/servicios`,
   provider: {
     "@type": "Person",
-    name: "José Carrillo",
+    name: "Junior Carrillo",
     url: SITE_URL,
     jobTitle: "Tech Lead & Full Stack Developer",
     worksFor: {
@@ -178,7 +178,7 @@ const servicesJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "José Carrillo - Tech Lead & Full Stack Developer",
+    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
   inLanguage: "es-ES",

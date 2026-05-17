@@ -3,7 +3,7 @@
 import { motion } from "@/lib/motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Globe } from "lucide-react";
-import { Github, Linkedin } from "@/components/icons/social-icons";
+import { Github, Linkedin, Substack } from "@/components/icons/social-icons";
 import { SocialLinkCard } from "@/components/social-link-card";
 
 export function ContactSocialSection() {
@@ -32,7 +32,7 @@ export function ContactSocialSection() {
           </CardDescription>
         </CardHeader>
         <CardContent className="relative z-10">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <SocialLinkCard
               href="https://github.com/carrilloapps"
               icon={Github}
@@ -62,6 +62,16 @@ export function ContactSocialSection() {
               iconColor="text-cyan-400"
               borderHoverColor="border-cyan-500/30"
               delay={0.3}
+            />
+            <SocialLinkCard
+              href="https://carrilloapps.substack.com/"
+              icon={Substack}
+              label="Substack"
+              iconGradientFrom="from-orange-600/20"
+              iconGradientTo="to-amber-600/20"
+              iconColor="text-orange-400"
+              borderHoverColor="border-orange-500/30"
+              delay={0.4}
             />
           </div>
         </CardContent>

@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "José Carrillo — Tech Leader y Senior Software Developer",
+  title: "Junior Carrillo — Tech Leader y Senior Software Developer",
   description:
     "Tech Leader basado en Medellín con 10 años construyendo sistemas de pago para LATAM. Hoy en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
   path: "/sobre-mi",
@@ -18,20 +18,20 @@ export const metadata = buildPageMetadata({
     "microservicios fintech",
     "consultor desarrollo software",
     "arquitecto de pagos",
-    "josé carrillo",
+    "Junior Carrillo",
   ],
 })
 
 /**
  * Person + ProfilePage schema específico de /sobre-mi. Le dice a Google
- * que esta es la página canónica de la entidad "José Carrillo" — incluye
+ * que esta es la página canónica de la entidad "Junior Carrillo" — incluye
  * los roles del timeline como `hasOccupation` y la geolocalización para
  * SEO local.
  */
 const personProfileSchema = {
   "@context": "https://schema.org",
   "@type": ["Person", "ProfilePage"],
-  name: "José Carrillo",
+  name: "Junior Carrillo",
   givenName: "José",
   familyName: "Carrillo",
   jobTitle: "Tech Leader & Senior Software Developer",

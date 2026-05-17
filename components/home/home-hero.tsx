@@ -1,9 +1,9 @@
-"use client"
+﻿"use client"
 
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Mail, Download } from "lucide-react"
-import { Github, Linkedin } from "@/components/icons/social-icons"
+import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import { Button } from "@/components/ui/button"
 import { AnimatedSection } from "@/components/animated-section"
 import { trackCTAClick, trackButtonClick } from "@/lib/analytics"
@@ -46,7 +46,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight"
             >
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent drop-shadow-lg">
-                José Carrillo
+                Junior Carrillo
               </span>
             </h1>
             <p
@@ -108,7 +108,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
           <div
             className="relative group flex justify-center items-center order-1 md:order-2"
             role="img"
-            aria-label="Foto de perfil de José Carrillo"
+            aria-label="Foto de perfil de Junior Carrillo"
           >
             <div className="relative w-[320px] h-[320px] md:w-[380px] md:h-[380px] lg:w-[420px] lg:h-[420px] rounded-full">
               <div
@@ -120,7 +120,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               >
                 <Image
                   src="/profile.jpg"
-                  alt="José Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
+                  alt="Junior Carrillo, desarrollador de software senior y líder técnico especializado en sistemas financieros"
                   width={420}
                   height={420}
                   className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
@@ -189,7 +189,12 @@ function SocialRow() {
       ),
     },
     {
-      href: "mailto:contacto@carrillo.com",
+      href: "https://carrilloapps.substack.com/",
+      label: "Substack",
+      icon: <Substack className="h-6 w-6 md:h-7 md:w-7" aria-hidden="true" />,
+    },
+    {
+      href: "mailto:m@carrillo.app",
       label: "Email",
       icon: <Mail className="h-6 w-6 md:h-7 md:w-7" aria-hidden="true" />,
     },

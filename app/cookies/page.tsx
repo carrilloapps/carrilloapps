@@ -1,4 +1,4 @@
-import { SiteHeader } from "@/components/site-header"
+﻿import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { SurfaceCard } from "@/components/ui/surface-card"
@@ -12,7 +12,7 @@ export default function CookiePolicyPage() {
       <main className="container py-12 md:py-16 space-y-8 relative z-10" id="main-content">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-3">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
               Legal
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
@@ -29,7 +29,7 @@ export default function CookiePolicyPage() {
                 {new Date(1747346137458).toLocaleDateString("es-CO", { year: "numeric", month: "long", day: "numeric" })}
               </p>
               <p className="text-zinc-300">
-                Esta Política de Cookies explica cómo José Carrillo ("yo", "mi", o "mío") utiliza cookies y tecnologías similares 
+                Esta Política de Cookies explica cómo Junior Carrillo ("yo", "mi", o "mío") utiliza cookies y tecnologías similares 
                 para reconocerte cuando visitas mi sitio web en carrillo.app. En ella se explica qué son estas tecnologías, 
                 por qué las utilizo, así como tus derechos para controlar mi uso de ellas en conformidad con la legislación 
                 colombiana y las mejores prácticas internacionales de privacidad digital.
@@ -44,7 +44,7 @@ export default function CookiePolicyPage() {
                 de manera más eficiente, así como para proporcionar información de reportes.
               </p>
               <p className="text-zinc-300">
-                Las cookies establecidas por el propietario del sitio web (en este caso, José Carrillo) se denominan "cookies de primera parte".
+                Las cookies establecidas por el propietario del sitio web (en este caso, Junior Carrillo) se denominan "cookies de primera parte".
                 Las cookies establecidas por terceros se denominan "cookies de terceros". Las cookies de terceros permiten que funciones
                 o características de terceros se proporcionen en o a través del sitio web (por ejemplo, análisis de uso, contenido interactivo
                 y referencias a redes sociales). Las partes que establecen estas cookies de terceros pueden reconocer tu dispositivo

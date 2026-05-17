@@ -31,3 +31,18 @@ export function Linkedin({ size = 24, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function Substack({ size = 24, ...props }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="none"
+      width={size}
+      height={size}
+      {...props}
+    >
+      <path d="M22.539 8.242H1.46V4.556h21.079v3.686zM1.46 10.958v12.954l10.54-5.797 10.54 5.797V10.958H1.46z" />
+    </svg>
+  );
+}

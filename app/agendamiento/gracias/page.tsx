@@ -74,7 +74,7 @@ export default function ThankYouPage() {
                       className="flex items-start gap-3 text-zinc-300 leading-relaxed"
                     >
                       <span
-                        className="flex-shrink-0 w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-sm font-semibold text-blue-300 tabular-nums"
+                        className="flex-shrink-0 w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-sm font-semibold text-emerald-400 tabular-nums"
                         aria-hidden="true"
                       >
                         {index + 1}

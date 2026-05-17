@@ -1,4 +1,4 @@
-import type React from "react"
+﻿import type React from "react"
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
@@ -13,7 +13,7 @@ export const metadata = buildPageMetadata({
   keywords: [
     "política de cookies",
     "uso de cookies",
-    "josé carrillo cookies",
+    "Junior Carrillo cookies",
     "cookies analíticas",
     "cookies esenciales",
   ],

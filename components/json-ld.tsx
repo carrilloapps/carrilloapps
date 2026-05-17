@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/lib/env"
+﻿import { getSiteUrl } from "@/lib/env"
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -20,7 +20,7 @@ export function OrganizationJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "José Carrillo",
+          name: "Junior Carrillo",
           url,
           logo: `${url}/logo.webp`,
           sameAs: [
@@ -50,7 +50,7 @@ export function PersonJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Person",
-          name: "José Carrillo",
+          name: "Junior Carrillo",
           givenName: "José",
           familyName: "Carrillo",
           jobTitle: "Senior Software Developer & Tech Leader",
@@ -132,7 +132,7 @@ export function ServiceJsonLd({ service }: { service: string }) {
           serviceType: serviceData.name,
           provider: {
             "@type": "Person",
-            name: "José Carrillo",
+            name: "Junior Carrillo",
             url,
           },
           description: serviceData.description,
@@ -155,18 +155,18 @@ export function WebsiteJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "José Carrillo | Senior Software Developer & Tech Leader",
-          alternateName: "José Carrillo",
+          name: "Junior Carrillo | Senior Software Developer & Tech Leader",
+          alternateName: "Junior Carrillo",
           url,
           inLanguage: "es-CO",
           author: {
             "@type": "Person",
-            name: "José Carrillo",
+            name: "Junior Carrillo",
             url,
           },
           publisher: {
             "@type": "Person",
-            name: "José Carrillo",
+            name: "Junior Carrillo",
             url,
           },
         }),

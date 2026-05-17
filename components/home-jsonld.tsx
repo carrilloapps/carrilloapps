@@ -1,4 +1,4 @@
-import { JsonLd } from "@/components/json-ld"
+﻿import { JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 
 const SITE_URL = getSiteUrl()
@@ -19,7 +19,7 @@ const SITE_URL = getSiteUrl()
 const personRef = {
   "@type": "Person",
   "@id": `${SITE_URL}#person`,
-  name: "José Carrillo",
+  name: "Junior Carrillo",
   url: SITE_URL,
 }
 
@@ -28,7 +28,7 @@ const webPageSchema = {
   "@type": "WebPage",
   "@id": `${SITE_URL}#webpage`,
   url: SITE_URL,
-  name: "José Carrillo — Tech Leader & Senior Software Developer",
+  name: "Junior Carrillo — Tech Leader & Senior Software Developer",
   description:
     "Tech Leader basado en Medellín con +10 años construyendo sistemas de pago, fintech y backoffice para LATAM. Hoy en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
   inLanguage: "es-CO",
@@ -53,7 +53,7 @@ const professionalServiceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}#consultancy`,
-  name: "José Carrillo — Consultoría técnica",
+  name: "Junior Carrillo — Consultoría técnica",
   description:
     "Consultoría y liderazgo técnico para sistemas de pago, banking, fintech y backoffice. +10 años en producción con Yummy, Wompi, Cencosud y Sky Airline.",
   url: SITE_URL,
