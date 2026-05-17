@@ -18,7 +18,7 @@
 
 Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — building Open Finance and Core Payments infrastructure for LATAM. 10+ years shipping payment systems at scale across banking, retail, and aviation in Colombia and Chile.
 
-My focus: distributed systems that move real money reliably. From Colombia's first Open Banking service at Wompi to CQRS architectures processing +150M records, to autonomous AI agents applied to financial operations. I care about systems design, clear architecture decisions, and mentoring engineers who build for scale.
+My focus: distributed systems that move real money reliably. From Colombia's first Open Banking service at Wompi, to CQRS architectures processing +150M records at Yummy, to autonomous AI agents applied to financial operations. I care about systems design, clear architecture decisions, and mentoring engineers who build for scale.
 
 Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
 
