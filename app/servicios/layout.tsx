@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Servicios",
+  title: "Servicios de Liderazgo Técnico y Consultoría",
   description:
     "Liderazgo técnico, sistemas financieros, arquitectura de software, seguridad/compliance, cloud e IA. +10 años transformando ideas en soluciones escalables.",
   path: "/servicios",
@@ -181,7 +181,7 @@ const servicesJsonLd = {
     name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
-  inLanguage: "es-ES",
+  inLanguage: "es-CO",
   dateModified: new Date().toISOString(),
   keywords: "consultoría tecnológica, liderazgo técnico, sistemas financieros, arquitectura software, seguridad compliance, cloud, inteligencia artificial",
 };

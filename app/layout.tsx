@@ -30,7 +30,7 @@ const SITE_URL = getSiteUrl()
 const SITE_NAME = "Junior Carrillo"
 const SITE_TITLE = "Junior Carrillo | Senior Software Developer & Tech Leader"
 const SITE_DESCRIPTION =
-  "Desarrollador Senior de Software y Líder Técnico especializado en pagos y finanzas. +10 años de experiencia construyendo sistemas empresariales robustos y escalables."
+  "Desarrollador Senior y Líder Técnico especializado en pagos y finanzas. +10 años construyendo sistemas empresariales robustos y escalables para LATAM."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

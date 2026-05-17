@@ -114,8 +114,8 @@ const resourcesJsonLd = {
     name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
-  inLanguage: "es-ES",
-  dateModified: new Date('2025-09-22').toISOString(),
+  inLanguage: "es-CO",
+  dateModified: new Date('2026-05-16').toISOString(),
   keywords: "recursos gratuitos, código abierto, sistemas financieros, desarrollo web, github, gitlab, react, nextjs, typescript, python",
 };
 

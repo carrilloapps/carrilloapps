@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Junior Carrillo — Tech Leader y Senior Software Developer",
   description:
-    "Tech Leader basado en Medellín con 10 años construyendo sistemas de pago para LATAM. Hoy en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
+    "Tech Leader con 10 años construyendo sistemas de pago en LATAM. Actualmente en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [

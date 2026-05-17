@@ -7,7 +7,7 @@ const SITE_URL = getSiteUrl()
 
 export const metadata = {
   ...buildPageMetadata({
-    title: "Contacto",
+    title: "Contacto — Consultoría Tecnológica",
     description:
       "¿Tienes un proyecto en mente? Conversemos sobre desarrollo de software, liderazgo técnico, consultoría fintech o arquitecturas empresariales.",
     path: "/contacto",
@@ -131,8 +131,8 @@ const contactJsonLd = {
     name: "Junior Carrillo - Tech Lead & Full Stack Developer",
     url: SITE_URL,
   },
-  inLanguage: "es-ES",
-  dateModified: new Date('2025-09-22').toISOString(),
+  inLanguage: "es-CO",
+  dateModified: new Date('2026-05-16').toISOString(),
   keywords: "contacto profesional, consultoría tecnológica, tech lead, desarrollo software, liderazgo técnico",
   // Security measures implemented:
   // 1. No direct email/phone in JSON-LD to prevent automated scraping

@@ -25,10 +25,6 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { trackNavigation, trackCTAClick } from "@/lib/analytics"
-import { getSiteUrl } from "@/lib/env"
-
-const SITE_URL = getSiteUrl()
-
 // GitLab icon component
 const GitLabIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -455,18 +451,6 @@ export function SiteHeader() {
 
   return (
     <>
-      {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "CarrilloApps",
-            url: SITE_URL,
-          }),
-        }}
-      />
 
       <motion.header
         initial={false}
