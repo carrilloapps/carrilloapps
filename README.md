@@ -62,11 +62,19 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 **Databases**
 
-<p><img src="https://skillicons.dev/icons?i=postgresql,mongodb,redis,mysql,dynamodb,cassandra,elasticsearch,clickhouse" alt="PostgreSQL, MongoDB, Redis, MySQL, DynamoDB, Cassandra, Elasticsearch, ClickHouse" /></p>
+<p><img src="https://skillicons.dev/icons?i=postgresql,mongodb,redis,mysql,dynamodb,cassandra,elasticsearch" alt="PostgreSQL, MongoDB, Redis, MySQL, DynamoDB, Cassandra, Elasticsearch" /></p>
 
 **AI & Automation**
 
-<p><img src="https://skillicons.dev/icons?i=anthropic,claude,claudecode,openai,opencode,langchain,huggingface,n8n" alt="Anthropic, Claude, Claude Code, OpenAI, OpenCode, LangChain, Hugging Face, n8n" /></p>
+<p>
+  <img src="https://img.shields.io/badge/Claude-D97757?style=flat&logo=anthropic&logoColor=white" alt="Claude" />
+  <img src="https://img.shields.io/badge/Claude_Code-D97757?style=flat&logo=anthropic&logoColor=white" alt="Claude Code" />
+  <img src="https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white" alt="OpenAI" />
+  <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=flat&logo=langchain&logoColor=white" alt="LangChain" />
+  <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black" alt="Hugging Face" />
+  <img src="https://img.shields.io/badge/n8n-EA4B71?style=flat&logo=n8n&logoColor=white" alt="n8n" />
+  <img src="https://img.shields.io/badge/ClickHouse-FFCC01?style=flat&logo=clickhouse&logoColor=black" alt="ClickHouse" />
+</p>
 
 ---
 
