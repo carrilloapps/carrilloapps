@@ -30,7 +30,7 @@ Outside of code: writing about fintech and engineering on Substack, licensed Ham
 
 | Company                                           | Role                     | Impact                                                                            |
 | ------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------- |
-| **[Yummy (YC S21)](https://yummysuperapp.com)**   | Tech Leader              | Serverless billing 4d→15min for +12M invoices/Q. AI agents. PCI-DSS.              |
+| **[Yummy (YC S21)](https://yummysuperapp.com)**   | Tech Leader              | Billing 4d→15min (+12M invoices/Q). CQRS +150M records, reports <3s. AI agents. PCI-DSS. |
 | **[Wompi](https://wompi.com)** (Bancolombia)      | Senior Full Stack        | First Open Banking in Colombia (Bre-B). 13M payers, 40K merchants, $50B COP/year. |
 | **[Cencosud](https://cencosud.com)** ($17.4B NRF) | Developer Leader         | Payments & Fraud: event-driven architecture + SAP integration.                    |
 | **[SKY Airline](https://skyairline.com)**         | Sr. Engineer & Tech Lead | Mobile sales ecosystem (Kotlin, Swift, RN) for +13.8M passengers/year.            |
