@@ -93,19 +93,6 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=carrilloapps&show_icons=true&hide_border=true&include_all_commits=true&rank_icon=github&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff&cache_seconds=86400" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api?username=carrilloapps&show_icons=true&hide_border=true&include_all_commits=true&rank_icon=github&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937&cache_seconds=86400" />
-    <img src="https://github-readme-stats.vercel.app/api?username=carrilloapps&show_icons=true&hide_border=true&include_all_commits=true&rank_icon=github" height="180" alt="Junior Carrillo GitHub stats" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=carrilloapps&layout=compact&hide_border=true&langs_count=8&bg_color=0d1117&title_color=10b981&text_color=ffffff&cache_seconds=86400" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=carrilloapps&layout=compact&hide_border=true&langs_count=8&bg_color=f6f8fa&title_color=059669&text_color=1f2937&cache_seconds=86400" />
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=carrilloapps&layout=compact&hide_border=true&langs_count=8" height="180" alt="Top programming languages used by Junior Carrillo" />
-  </picture>
-</p>
-
-<p align="center">
-  <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com/?user=carrilloapps&hide_border=true&background=0d1117&ring=10b981&fire=10b981&currStreakLabel=10b981&sideLabels=9ca3af&dates=6b7280&currStreakNum=ffffff&sideNums=ffffff" />
     <source media="(prefers-color-scheme: light)" srcset="https://streak-stats.demolab.com/?user=carrilloapps&hide_border=true&background=f6f8fa&ring=059669&fire=059669&currStreakLabel=059669&sideLabels=374151&dates=6b7280&currStreakNum=1f2937&sideNums=374151" />
     <img src="https://streak-stats.demolab.com/?user=carrilloapps&hide_border=true" height="180" alt="Junior Carrillo GitHub contribution streak" />
