@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Junior Carrillo — Tech Leader y Senior Software Developer",
+  title: "Tech Leader y Senior Software Developer en Medellín",
   description:
     "Tech Leader con 10 años construyendo sistemas de pago en LATAM. Actualmente en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
   path: "/sobre-mi",

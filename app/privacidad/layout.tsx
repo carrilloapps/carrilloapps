@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Política de Privacidad",
+  title: "Política de Privacidad — Protección de Datos en carrillo.app",
   description:
-    "Política de privacidad que describe cómo se recopila, utiliza y protege tu información en carrillo.app, incluyendo derechos GDPR y datos analíticos.",
+    "Cómo se recopila, utiliza y protege tu información en carrillo.app: derechos GDPR, datos analíticos y tratamiento de información personal.",
   path: "/privacidad",
   keywords: [
     "política de privacidad",

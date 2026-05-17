@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Términos y Condiciones",
+  title: "Términos y Condiciones de Uso — carrillo.app",
   description:
-    "Términos y condiciones de uso del sitio web carrillo.app y los servicios ofrecidos por Junior Carrillo, incluyendo derechos de propiedad intelectual.",
+    "Condiciones de uso del sitio web carrillo.app y los servicios de consultoría: derechos de propiedad intelectual, limitaciones y acuerdos legales.",
   path: "/terminos",
   keywords: [
     "términos y condiciones",
