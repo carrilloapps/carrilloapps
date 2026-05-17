@@ -16,20 +16,9 @@
 
 ## About
 
-Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Finance, Core Payments, and AI-driven financial infrastructure for LATAM. 10+ years building systems that process millions of real transactions across banking, retail, and aviation.
+Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Finance, Core Payments, and AI-driven infrastructure for LATAM. 10+ years in banking, retail, and aviation. I build systems that process real money at scale.
 
-**Key achievements:**
-
-- 🏦 Redesigned Yummy's core billing system: cut +12M invoice processing from **4 days → 15 minutes** via serverless architecture
-- ⚡ Built the mass banking dispersion engine handling **+36K operations/month**
-- 🤖 Pioneered **Generative AI** (Autonomous Agents, RAG, LangChain) for financial operations automation
-- 🔐 Led **PCI-DSS compliance**: VGS tokenization migration + OWASP audit remediating +100 security findings
-- 🌐 Open Banking pioneer at **Wompi (Bancolombia)** — co-built Colombia's first payment initiation & account query service (Bre-B precursor), serving **13M+ payers** across **40K+ merchants**
-- 🏗️ Mentored engineers and built independent tech cells across Yummy, Wompi, Cencosud, and Acid Labs
-
-- 📬 Engineering & fintech articles → [carrilloapps.substack.com](https://carrilloapps.substack.com)
-- 🌍 Portfolio & open-source resources → [carrillo.app/recursos](https://carrillo.app/recursos)
-- 📫 m@carrillo.app &nbsp;·&nbsp; ⚡ Ham Radio **HJ4JPC** · Music · Movies · Outdoor walks
+📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 m@carrillo.app &nbsp;·&nbsp; ⚡ Ham Radio **HJ4JPC**
 
 ---
 
@@ -48,44 +37,62 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 ## Featured projects
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=bcv-exchange-rate&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=bcv-exchange-rate&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=bcv-exchange-rate&hide_border=true" alt="bcv-exchange-rate — Node.js library for BCV and TRM Colombia exchange rates" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=n8n-nodes-dian-colombia&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=n8n-nodes-dian-colombia&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=n8n-nodes-dian-colombia&hide_border=true" alt="n8n-nodes-dian-colombia — DIAN Colombia nodes for n8n automation" />
-  </picture>
-</p>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=hfo&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=hfo&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=hfo&hide_border=true" alt="hfo — TUI and CLI for Hugging Face GGUF models on Ollama" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=zefer&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=zefer&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=zefer&hide_border=true" alt="zefer — End-to-end encrypted zero-knowledge browser tool" />
-  </picture>
-</p>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=ai-sync-cli&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=ai-sync-cli&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=ai-sync-cli&hide_border=true" alt="ai-sync-cli — Universal sync tool for AI coding agents and IDEs" />
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=web-aprs-passcode&hide_border=true&bg_color=0d1117&title_color=10b981&icon_color=10b981&text_color=ffffff" />
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=web-aprs-passcode&hide_border=true&bg_color=f6f8fa&title_color=059669&icon_color=059669&text_color=1f2937" />
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=carrilloapps&repo=web-aprs-passcode&hide_border=true" alt="web-aprs-passcode — APRS-IS callsign passcode generator for Ham Radio operators" />
-  </picture>
-</p>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/hfo">🤖 hfo</a></h4>
+      <p>Fullscreen TUI and headless CLI for Hugging Face GGUF models on Ollama.</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/hfo?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/zefer">🔐 zefer</a></h4>
+      <p>End-to-end encrypted, zero-knowledge tool that runs entirely in your browser.</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/zefer?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/bcv-exchange-rate">💱 bcv-exchange-rate</a></h4>
+      <p>Node.js library for BCV Venezuela and TRM Colombia exchange rates.</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/bcv-exchange-rate?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/n8n-nodes-dian-colombia">🇨🇴 n8n-nodes-dian-colombia</a></h4>
+      <p>Custom n8n nodes for DIAN Colombia — automate tax and invoice workflows.</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/n8n-nodes-dian-colombia?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/ai-sync-cli">🔄 ai-sync-cli</a></h4>
+      <p>Universal sync tool for AI coding agents and IDEs — keep context in sync.</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/ai-sync-cli?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      </p>
+    </td>
+    <td width="50%" valign="top">
+      <h4><a href="https://github.com/carrilloapps/web-aprs-passcode">📡 web-aprs-passcode</a></h4>
+      <p>APRS-IS callsign passcode generator for Ham Radio operators (HJ4JPC).</p>
+      <p>
+        <img src="https://img.shields.io/github/stars/carrilloapps/web-aprs-passcode?style=flat&color=10b981" alt="Stars" />
+        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      </p>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -149,9 +156,12 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 <p align="left">
   <a href="https://linkedin.com/in/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="https://github.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
   <a href="https://carrilloapps.substack.com" target="_blank"><img src="https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white" alt="Substack" /></a>
   <a href="https://x.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" alt="X (Twitter)" /></a>
+  <a href="https://bsky.app/profile/carrilloapps.bsky.social" target="_blank"><img src="https://img.shields.io/badge/Bluesky-0085FF?style=for-the-badge&logo=bluesky&logoColor=white" alt="Bluesky" /></a>
   <a href="https://dev.to/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/Dev.to-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" alt="Dev.to" /></a>
+  <a href="https://hashnode.com/@carrilloapps" target="_blank"><img src="https://img.shields.io/badge/Hashnode-2962FF?style=for-the-badge&logo=hashnode&logoColor=white" alt="Hashnode" /></a>
   <a href="https://stackoverflow.com/users/14580648" target="_blank"><img src="https://img.shields.io/badge/Stack_Overflow-F58025?style=for-the-badge&logo=stackoverflow&logoColor=white" alt="Stack Overflow" /></a>
   <a href="https://gitlab.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/GitLab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white" alt="GitLab" /></a>
   <a href="https://www.youtube.com/channel/UCIwxFli0q78RqlMOgByVe-g" target="_blank"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" /></a>
