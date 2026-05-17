@@ -37,62 +37,12 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 ## Featured projects
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/hfo">🤖 hfo</a></h4>
-      <p>Fullscreen TUI and headless CLI for Hugging Face GGUF models on Ollama.</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/hfo?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      </p>
-    </td>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/zefer">🔐 zefer</a></h4>
-      <p>End-to-end encrypted, zero-knowledge tool that runs entirely in your browser.</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/zefer?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/bcv-exchange-rate">💱 bcv-exchange-rate</a></h4>
-      <p>Node.js library for BCV Venezuela and TRM Colombia exchange rates.</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/bcv-exchange-rate?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      </p>
-    </td>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/n8n-nodes-dian-colombia">🇨🇴 n8n-nodes-dian-colombia</a></h4>
-      <p>Custom n8n nodes for DIAN Colombia — automate tax and invoice workflows.</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/n8n-nodes-dian-colombia?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/ai-sync-cli">🔄 ai-sync-cli</a></h4>
-      <p>Universal sync tool for AI coding agents and IDEs — keep context in sync.</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/ai-sync-cli?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      </p>
-    </td>
-    <td width="50%" valign="top">
-      <h4><a href="https://github.com/carrilloapps/web-aprs-passcode">📡 web-aprs-passcode</a></h4>
-      <p>APRS-IS callsign passcode generator for Ham Radio operators (HJ4JPC).</p>
-      <p>
-        <img src="https://img.shields.io/github/stars/carrilloapps/web-aprs-passcode?style=flat&color=10b981" alt="Stars" />
-        <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      </p>
-    </td>
-  </tr>
-</table>
+- [**hfo**](https://github.com/carrilloapps/hfo) — Fullscreen TUI and headless CLI for Hugging Face GGUF models on Ollama &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/hfo?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+- [**zefer**](https://github.com/carrilloapps/zefer) — End-to-end encrypted, zero-knowledge tool that runs entirely in your browser &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/zefer?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+- [**bcv-exchange-rate**](https://github.com/carrilloapps/bcv-exchange-rate) — Node.js library for BCV Venezuela and TRM Colombia exchange rates &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/bcv-exchange-rate?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+- [**n8n-nodes-dian-colombia**](https://github.com/carrilloapps/n8n-nodes-dian-colombia) — Custom n8n nodes for DIAN Colombia — automate tax and invoice workflows &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/n8n-nodes-dian-colombia?style=flat&color=10b981) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+- [**ai-sync-cli**](https://github.com/carrilloapps/ai-sync-cli) — Universal sync tool for AI coding agents and IDEs &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/ai-sync-cli?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+- [**web-aprs-passcode**](https://github.com/carrilloapps/web-aprs-passcode) — APRS-IS callsign passcode generator for Ham Radio operators &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/web-aprs-passcode?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 
 ---
 
@@ -104,7 +54,7 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 **Frameworks & runtimes**
 
-<p><img src="https://skillicons.dev/icons?i=nodejs,react,nextjs,nestjs,spring,expressjs,graphql,tailwindcss" alt="Node.js, React, Next.js, NestJS, Spring, Express, GraphQL, Tailwind CSS" /></p>
+<p><img src="https://skillicons.dev/icons?i=nodejs,react,nextjs,nestjs,spring,expressjs,graphql,tailwindcss,vercel,prisma" alt="Node.js, React, Next.js, NestJS, Spring, Express, GraphQL, Tailwind CSS, Vercel, Prisma" /></p>
 
 **Cloud, DevOps & messaging**
 
@@ -112,7 +62,11 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 
 **Databases**
 
-<p><img src="https://skillicons.dev/icons?i=postgresql,mongodb,redis,mysql,dynamodb,cassandra" alt="PostgreSQL, MongoDB, Redis, MySQL, DynamoDB, Cassandra" /></p>
+<p><img src="https://skillicons.dev/icons?i=postgresql,mongodb,redis,mysql,dynamodb,cassandra,elasticsearch,clickhouse" alt="PostgreSQL, MongoDB, Redis, MySQL, DynamoDB, Cassandra, Elasticsearch, ClickHouse" /></p>
+
+**AI & Automation**
+
+<p><img src="https://skillicons.dev/icons?i=anthropic,claude,claudecode,openai,opencode,langchain,huggingface,n8n" alt="Anthropic, Claude, Claude Code, OpenAI, OpenCode, LangChain, Hugging Face, n8n" /></p>
 
 ---
 
@@ -157,6 +111,7 @@ Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — scaling Open Fi
 <p align="left">
   <a href="https://linkedin.com/in/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
   <a href="https://github.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
+  <a href="https://www.skills.sh/carrilloapps/skills" target="_blank"><img src="https://img.shields.io/badge/skills.sh-AI%20Agent%20Rules-10b981?style=for-the-badge" alt="skills.sh" /></a>
   <a href="https://carrilloapps.substack.com" target="_blank"><img src="https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white" alt="Substack" /></a>
   <a href="https://x.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" alt="X (Twitter)" /></a>
   <a href="https://bsky.app/profile/carrilloapps.bsky.social" target="_blank"><img src="https://img.shields.io/badge/Bluesky-0085FF?style=for-the-badge&logo=bluesky&logoColor=white" alt="Bluesky" /></a>
