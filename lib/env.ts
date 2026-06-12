@@ -8,6 +8,9 @@ export const publicEnv = {
   SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   BASE_URL: process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   DISQUS_SHORTNAME: process.env.NEXT_PUBLIC_DISQUS_SHORTNAME || 'juniorcarrillo',
+  // Destination number for all lead forms (WhatsApp deep links). Digits only;
+  // the whatsapp helper sanitizes any formatting. Defaults to the test number.
+  WHATSAPP_PHONE: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573003328389',
 } as const
 
 // Private environment variables (server-side only)
@@ -15,6 +18,10 @@ export const privateEnv = {
   DISQUS_API_KEY: process.env.DISQUS_API_KEY,
   DISQUS_API_SECRET: process.env.DISQUS_API_SECRET,
   DISQUS_ACCESS_TOKEN: process.env.DISQUS_ACCESS_TOKEN,
+  // Mailchimp Marketing API — drives the newsletter subscription endpoint.
+  MAILCHIMP_API_KEY: process.env.MAILCHIMP_API_KEY,
+  MAILCHIMP_AUDIENCE_ID: process.env.MAILCHIMP_AUDIENCE_ID,
+  MAILCHIMP_SERVER_PREFIX: process.env.MAILCHIMP_SERVER_PREFIX,
 } as const
 
 // Vercel-specific environment variables

@@ -23,6 +23,7 @@ import {
   trackFormFieldInteraction,
   trackButtonClick,
 } from "@/lib/analytics"
+import { buildWhatsAppUrl, buildContactWhatsAppMessage } from "@/lib/whatsapp"
 import { toast } from "sonner"
 
 const obfuscateEmail = (email: string): string =>
@@ -156,7 +157,17 @@ function ContactPageContent() {
     setLastSubmission(Date.now())
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const whatsappUrl = buildWhatsAppUrl(
+        buildContactWhatsAppMessage({
+          name: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          company: formData.company,
+          subject: formData.subject,
+          message: formData.message,
+        })
+      )
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer")
       trackFormSubmit("contact_form", true)
       setFormData({
         name: "",
@@ -168,8 +179,8 @@ function ContactPageContent() {
         honeypot: "",
       })
       setTermsAccepted(false)
-      toast.success("¡Mensaje enviado!", {
-        description: "Te respondo en menos de 24 horas.",
+      toast.success("Abriendo WhatsApp…", {
+        description: "Te llevo a la conversación con tu mensaje ya listo.",
       })
     } catch (error) {
       console.error("Error sending message:", error)
