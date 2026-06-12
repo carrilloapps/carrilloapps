@@ -10,36 +10,11 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Allow images from any host so badges (shields.io), CDNs and external
+    // sources all flow through next/image optimization without per-host config.
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        pathname: '/u/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'substackcdn.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'substack-post-media.s3.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'media.fashionnetwork.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.bancolombia.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.metropolitan-touring.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'almipro.com',
-      },
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
     ],
   },
   

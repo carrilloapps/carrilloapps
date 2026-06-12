@@ -2,18 +2,18 @@
  * Curated open-source work — mixes NPM packages I maintain with GitHub
  * projects that don't ship to NPM but are still useful references.
  *
- * Stats (downloads/week) are illustrative; the live numbers are surfaced at
- * runtime by the home-page section calling the npm registry where applicable.
+ * Versions are NOT hard-coded: for npm packages the card renders a live
+ * shields.io version badge derived from `name`, so the number always tracks
+ * the latest published release (same approach as each project's README).
  */
 export interface OpenSourceProject {
-  /** Display name, ideally the package name. */
+  /** Display name. For npm packages this MUST equal the package slug — the
+   *  live version badge is built from it (`img.shields.io/npm/v/<name>`). */
   name: string
   /** One-line description (≤ 110 chars). */
   description: string
-  /** Public registry — drives the meta strip rendered in the card. */
+  /** Public registry — drives the meta strip + version badge in the card. */
   registry: "npm" | "github"
-  /** Pretty version label shown next to the name (e.g. "v1.1.1"). */
-  version?: string
   /** Primary language (shows as a coloured dot + label). */
   language: string
   /** Hex colour for the language dot. */
@@ -32,7 +32,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     description:
       "CLI para Zefer — cifrado AES-256-GCM de archivos y texto desde la terminal. Zero-knowledge, end-to-end.",
     registry: "npm",
-    version: "v1.1.1",
     language: "TypeScript",
     languageColor: "#3178c6",
     tags: ["Encryption", "CLI", "Security"],
@@ -42,21 +41,41 @@ export const openSourceProjects: OpenSourceProject[] = [
   {
     name: "bcv-exchange-rate",
     description:
-      "Librería Node.js para consultar tasas oficiales del BCV (Venezuela) y la TRM (Colombia). Cache, retries y tipado.",
+      "Librería Node.js + servidor MCP para tasas oficiales del BCV (Venezuela), TRM (Colombia) y PTAX (Brasil).",
     registry: "npm",
-    version: "v1.0.1",
     language: "TypeScript",
     languageColor: "#3178c6",
-    tags: ["Fintech", "Forex", "Node.js"],
+    tags: ["Fintech", "Forex", "MCP"],
     url: "https://www.npmjs.com/package/bcv-exchange-rate",
     repoUrl: "https://github.com/carrilloapps/bcv-exchange-rate",
+  },
+  {
+    name: "skill-rules",
+    description:
+      "Sincroniza skills de agentes IA entre Claude Code, Cursor, Windsurf y más — activa reglas por entorno con un comando.",
+    registry: "npm",
+    language: "JavaScript",
+    languageColor: "#f1e05a",
+    tags: ["AI", "CLI", "DX"],
+    url: "https://www.npmjs.com/package/skill-rules",
+    repoUrl: "https://github.com/carrilloapps/skill-rules",
+  },
+  {
+    name: "ai-sync-cli",
+    description:
+      "Sincroniza configuración, skills y sesiones entre 20+ agentes IA y 12+ IDEs, con soporte MCP nativo.",
+    registry: "npm",
+    language: "TypeScript",
+    languageColor: "#3178c6",
+    tags: ["AI", "Sync", "MCP"],
+    url: "https://www.npmjs.com/package/ai-sync-cli",
+    repoUrl: "https://github.com/carrilloapps/ai-sync-cli",
   },
   {
     name: "hfo-cli",
     description:
       "TUI fullscreen para descubrir, instalar y gestionar modelos GGUF de Hugging Face desde Ollama. Auto-tuned a tu hardware.",
     registry: "npm",
-    version: "v0.1.0",
     language: "TypeScript",
     languageColor: "#3178c6",
     tags: ["LLM", "TUI", "Ollama"],
@@ -72,6 +91,16 @@ export const openSourceProjects: OpenSourceProject[] = [
     languageColor: "#3178c6",
     tags: ["Encryption", "Web", "Privacy"],
     url: "https://github.com/carrilloapps/zefer",
+  },
+  {
+    name: "skills",
+    description:
+      "Compuerta adversarial de riesgo para agentes IA — bloquea acciones hasta que las apruebas. Compatible con 40+ agentes.",
+    registry: "github",
+    language: "Shell",
+    languageColor: "#89e051",
+    tags: ["AI", "Security", "Agents"],
+    url: "https://github.com/carrilloapps/skills",
   },
   {
     name: "evolution-api-on-dokku",

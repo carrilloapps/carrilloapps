@@ -32,19 +32,34 @@ export const featuredProjects: FeaturedProject[] = [
     customDescription: 'Construido con Next.js, usando TailwindCSS y diferentes librerías. Tiene una integración con GitHub y GitLab para mostrar los recursos públicos automáticamente.'
   },
   {
-    id: 'simple-crud-api',
-    name: 'Simple CRUD Api',
-    description: 'Es un CRUD simple pero bastante didáctico hecho en Go, que permite crear, leer, actualizar y eliminar registros en una base de datos.',
+    id: 'hfo',
+    name: 'hfo',
+    description: 'TUI fullscreen y CLI headless para descubrir, instalar y gestionar modelos GGUF de Hugging Face sobre Ollama.',
     platform: 'github',
-    repository: 'carrilloapps/simple-crud-api',
+    repository: 'carrilloapps/hfo',
     icon: {
       type: 'lucide',
       name: 'Code',
-      color: 'text-yellow-500',
-      bgColor: 'bg-yellow-500/10 group-hover:bg-yellow-500/20'
+      color: 'text-cyan-500',
+      bgColor: 'bg-cyan-500/10 group-hover:bg-cyan-500/20'
     },
-    tags: ['Go', 'MongoDB', 'JWT', 'Echo'],
-    customDescription: 'Implementa autenticación JWT, compresión de datos con Snappy, conexión a MongoDB, y manejo de errores robusto. Usado en aplicaciones web de alto rendimiento.'
+    tags: ['TypeScript', 'LLM', 'Ollama', 'TUI'],
+    customDescription: 'Detecta tu hardware y auto-ajusta los parámetros del modelo. Distribuido en npm como hfo-cli, con interfaz interactiva en Ink y modo CLI scripteable.'
+  },
+  {
+    id: 'zefer',
+    name: 'zefer',
+    description: 'Herramienta de cifrado end-to-end y zero-knowledge que corre 100% en tu navegador — el servidor nunca ve tus datos.',
+    platform: 'github',
+    repository: 'carrilloapps/zefer',
+    icon: {
+      type: 'lucide',
+      name: 'Code',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-500/10 group-hover:bg-emerald-500/20'
+    },
+    tags: ['TypeScript', 'Next.js', 'Web Crypto', 'PWA'],
+    customDescription: 'Cifrado AES-256-GCM del lado del cliente con Web Crypto API. Instalable como PWA y acompañada por su CLI oficial (zefer-cli) para flujos desde la terminal.'
   },
   {
     id: 'franchises-api',
