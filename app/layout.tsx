@@ -134,7 +134,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es-CO" suppressHydrationWarning>
       <head>
         {/* DNS prefetch and preconnect for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
