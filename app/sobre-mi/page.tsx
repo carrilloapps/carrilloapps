@@ -96,7 +96,7 @@ export default function AboutPage() {
                   href="https://yummysuperapp.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                  className="text-blue-300 font-semibold hover:text-blue-200"
                 >
                   Yummy Inc.
                 </Link>{" "}
@@ -262,7 +262,7 @@ export default function AboutPage() {
                 financiera en{" "}
                 <Link
                   href="/blog"
-                  className="text-blue-300 font-semibold hover:text-blue-200 underline-offset-4 hover:underline"
+                  className="text-blue-300 font-semibold hover:text-blue-200"
                 >
                   mi blog
                 </Link>{" "}

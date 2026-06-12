@@ -88,7 +88,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               <Button
                 variant="ghost"
                 size="xl"
-                className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent underline-offset-4 hover:underline decoration-zinc-600 touch-manipulation"
+                className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                 onClick={() => {
                   trackButtonClick("Descargar CV", "home-hero")
                   onRequestCv()

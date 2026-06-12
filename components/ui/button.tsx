@@ -17,7 +17,7 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-primary hover:text-primary/80",
         /* Brand primary CTA — blue→purple gradient with a soft glow that
            intensifies on hover. Matches the hero CTA, contact-form submit,
            and any "convert" action across the site. */
@@ -30,7 +30,7 @@ const buttonVariants = cva(
         /* Subtle text link with arrow affordance — replaces the variant=link
            usages scattered across the home. */
         ghostLink:
-          "text-blue-400 hover:text-blue-300 underline-offset-4 hover:underline",
+          "text-blue-400 hover:text-blue-300",
       },
       size: {
         default: "h-10 px-4 py-2",
