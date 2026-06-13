@@ -47,18 +47,18 @@ export const featuredProjects: FeaturedProject[] = [
     customDescription: 'Cifrado AES-256-GCM del lado del cliente con Web Crypto API. Instalable como PWA y acompañada por su CLI oficial (zefer-cli) para flujos desde la terminal.'
   },
   {
-    id: 'franchises-api',
-    name: 'Franchises API',
-    description: 'API REST moderna para gestión de franquicias construida con Kotlin y Spring Boot con PostgreSQL y OpenAPI, completamente contenerizado en Docker.',
+    id: 'bcv-exchange-rate',
+    name: 'bcv-exchange-rate',
+    description: 'Librería Node.js y servidor MCP para consultar tasas oficiales del BCV (Venezuela), TRM (Colombia) y PTAX (Brasil).',
     platform: 'github',
-    repository: 'carrilloapps/franchises-api',
+    repository: 'carrilloapps/bcv-exchange-rate',
     icon: {
       type: 'lucide',
       name: 'Code',
-      color: 'text-green-500',
-      bgColor: 'bg-green-500/10 group-hover:bg-green-500/20'
+      color: 'text-amber-500',
+      bgColor: 'bg-amber-500/10 group-hover:bg-amber-500/20'
     },
-    tags: ['Kotlin', 'Spring Boot', 'PostgreSQL', 'OpenAPI'],
-    customDescription: 'API robusta que aprovecha las características de Kotlin y Spring Boot para ofrecer un sistema completo de gestión de franquicias con autenticación JWT y documentación OpenAPI.'
+    tags: ['TypeScript', 'Fintech', 'MCP', 'Node.js'],
+    customDescription: 'Scraping resiliente con cache, reintentos y tipado estricto. Publicada en npm (~700 descargas/mes) y disponible como servidor MCP para integraciones con IA.'
   }
 ]
