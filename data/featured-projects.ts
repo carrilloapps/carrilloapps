@@ -17,21 +17,6 @@ export interface FeaturedProject {
 
 export const featuredProjects: FeaturedProject[] = [
   {
-    id: 'carrilloapps',
-    name: 'carrilloapps',
-    description: 'Mi sitio web con portafolio, blog, área de recursos, contacto, agendamiento y todo lo que necesita un líder de desarrollo o desarrollador de software.',
-    platform: 'github',
-    repository: 'carrilloapps/carrilloapps',
-    icon: {
-      type: 'lucide',
-      name: 'Code',
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10 group-hover:bg-blue-500/20'
-    },
-    tags: ['Next.js', 'TailwindCSS', 'Vercel'],
-    customDescription: 'Construido con Next.js, usando TailwindCSS y diferentes librerías. Tiene una integración con GitHub y GitLab para mostrar los recursos públicos automáticamente.'
-  },
-  {
     id: 'hfo',
     name: 'hfo',
     description: 'TUI fullscreen y CLI headless para descubrir, instalar y gestionar modelos GGUF de Hugging Face sobre Ollama.',
