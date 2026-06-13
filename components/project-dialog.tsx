@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Github } from "@/components/icons/social-icons"
 import type { Project } from "@/types/project"
+import { StatTiles } from "./ui/stat-tiles";
 
 interface ProjectDialogProps {
   /** Proyecto completo — el dialog deriva todo el contenido de aquí. */
@@ -117,28 +118,11 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
           </DialogHeader>
 
           {metrics.length > 0 && (
-            <ul
-              className="grid grid-cols-3 gap-2 md:gap-3 list-none p-0 m-0"
-              aria-label="Métricas de impacto"
-            >
-              {metrics.slice(0, 3).map((metric) => (
-                <li
-                  key={metric.label}
-                  className="surface-card-subtle px-3 py-3 md:px-4 md:py-4 text-center"
-                >
-                  <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                    {metric.value}
-                  </div>
-                  <div className="mt-1.5 text-[11px] md:text-xs text-zinc-300 leading-tight">
-                    {metric.label}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <StatTiles metrics={metrics} variant="plain" size="md" ariaLabel="Métricas de impacto en la organización" />
           )}
 
           <section className="space-y-2">
-            <h3 className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+            <h3 className="text-[11px] mt-4 uppercase tracking-[0.18em] text-zinc-500 font-medium">
               Resumen
             </h3>
             <p className="text-zinc-300 leading-relaxed">

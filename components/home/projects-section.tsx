@@ -115,7 +115,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <ProjectHero project={project} headline={headline} />
 
           <div className="flex flex-col gap-5 p-6 flex-1">
-            {metrics.length > 0 && <MetricsRow metrics={metrics} />}
+            {metrics.length > 0 && <MetricsRow metrics={metrics} variant="plain" />}
 
             <p className="text-sm md:text-base text-zinc-300 leading-relaxed">
               {project.shortDescription}
@@ -213,9 +213,9 @@ function ProjectHero({
   )
 }
 
-function MetricsRow({ metrics }: { metrics: NonNullable<Project["metrics"]> }) {
+function MetricsRow({ metrics, variant }: { metrics: NonNullable<Project["metrics"]>; variant?: "plain" }) {
   return (
-    <StatTiles metrics={metrics} size="md" ariaLabel="Métricas de impacto" />
+    <StatTiles metrics={metrics} variant={variant} size="md" ariaLabel="Métricas de impacto" />
   )
 }
 

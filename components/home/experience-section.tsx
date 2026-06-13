@@ -43,9 +43,9 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     description:
       "Conduzco un equipo de 7 desarrolladores en el diseño e implementación de herramientas de Pagos y Finanzas. Implementación de medios de pago y arquitectura de microservicios que mejoraron la confiabilidad del sistema en un 40%.",
     metrics: [
-      { value: "7", label: "Personas en el equipo" },
+      { value: "7", label: "Team players" },
       { value: "+40%", label: "Confiabilidad" },
-      { value: "2M", label: "Tx/día procesadas" },
+      { value: "2M", label: "Tx/día" },
     ],
     technologies: ["Node.js", "React", "AWS", "Microservicios"],
   },
@@ -60,8 +60,8 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
       "Desarrollé herramientas y módulos de contabilidad con integración en SAP que gestionan cerca de 2 millones de transacciones semanales. Optimicé consultas de bases de datos y procesos batch, recortando el tiempo de procesamiento en un 60%.",
     metrics: [
       { value: "2M+", label: "Tx/semana" },
-      { value: "−60%", label: "Tiempo proceso" },
-      { value: "SAP", label: "Integración core" },
+      { value: "−60%", label: "Tiempo" },
+      { value: "SAP", label: "Integración" },
     ],
     technologies: ["TypeScript", "Amazon Redshift", "Terraform"],
   },
@@ -211,7 +211,7 @@ export function ExperienceCard({
                     src={entry.logo}
                     alt={`Logo de ${entry.company}`}
                     fill
-                    sizes="88px"
+                    sizes="150px"
                     className="object-contain object-center"
                   />
                 </span>
@@ -229,7 +229,9 @@ export function ExperienceCard({
                 </span>
               </div>
             )}
-            <Pill variant="accent" size="sm">{entry.period}</Pill>
+            <Pill variant="accent" size="sm">
+              {entry.period}
+            </Pill>
           </div>
 
           <div className="space-y-2">
@@ -250,11 +252,16 @@ export function ExperienceCard({
 
           <div className="mt-auto pt-6 border-t border-white/[0.06] space-y-7">
             {entry.metrics && entry.metrics.length > 0 && (
-              <StatTiles metrics={entry.metrics} size="sm" ariaLabel="Métricas del rol" />
+              <StatTiles
+                metrics={entry.metrics}
+                size="sm"
+                ariaLabel="Métricas del rol"
+                variant="plain"
+              />
             )}
 
             {entry.technologies?.length > 0 && (
-              <div className="flex items-center gap-2 text-xs text-zinc-500 flex-wrap">
+              <div className="flex items-center mt-6 gap-2 text-xs text-zinc-500 flex-wrap">
                 <span className="uppercase tracking-[0.14em] font-medium text-zinc-400">
                   Stack
                 </span>
@@ -270,5 +277,5 @@ export function ExperienceCard({
         </div>
       </SurfaceCard>
     </motion.div>
-  )
+  );
 }

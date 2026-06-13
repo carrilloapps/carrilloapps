@@ -303,7 +303,7 @@ function ServicesPageContent() {
                     aria-hidden="true"
                   />
                   <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.18em]">
-                    Aceptando proyectos · Consultoría remota
+                    Aceptando proyectos remotos
                   </span>
                 </span>
               </div>
@@ -328,15 +328,15 @@ function ServicesPageContent() {
 
               {/* Stats strip — credenciales operacionales. */}
               <StatTiles
-                className="max-w-2xl pt-2"
+                className="max-w-2xl pt-2 pb-4"
                 variant="plain"
                 size="md"
                 columns={4}
                 ariaLabel="Credenciales operacionales"
                 metrics={[
-                  { value: "10+", label: "Años de stack fintech" },
-                  { value: "6", label: "Áreas de especialización" },
-                  { value: "50+", label: "Proyectos completados" },
+                  { value: "10+", label: "Años en fintech" },
+                  { value: "6", label: "Sectores TI" },
+                  { value: "50+", label: "Proyectos" },
                   { value: "PCI · ISO", label: "Compliance" },
                 ]}
               />

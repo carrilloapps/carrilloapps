@@ -114,14 +114,14 @@ export default function AboutPage() {
                   rasgo más distintivo del hero del about respecto al del
                   home, que no las muestra en el primer fold. */}
               <StatTiles
-                className="max-w-2xl pt-2"
+                className="max-w-2xl pt-2 pb-4"
                 variant="plain"
                 size="md"
                 columns={4}
                 ariaLabel="Credenciales profesionales"
                 metrics={[
                   { value: "10", label: "Años de carrera" },
-                  { value: "7", label: "Personas en mi equipo" },
+                  { value: "7", label: "Team players" },
                   { value: "2 M+", label: "Tx/día procesadas" },
                   { value: "3", label: "Roles de liderazgo" },
                 ]}
