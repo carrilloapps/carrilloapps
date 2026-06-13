@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, Briefcase } from "lucide-react"
 import { motion } from "@/lib/motion"
 import { Button } from "@/components/ui/button"
@@ -17,6 +18,9 @@ export interface ExperienceEntry {
   period: string
   role: string
   company: string
+  /** Optional brand logo (committed under /public/brands). Rendered on a light
+   *  plate inside the card header. */
+  logo?: string
   /** Headline orientado a outcome — protagonista visual de la card. */
   outcome: string
   /** Descripción rica de lo que hiciste / contexto. */
@@ -33,6 +37,7 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2024 — Presente",
     role: "Tech Leader",
     company: "Yummy Inc.",
+    logo: "/brands/yummy.png",
     outcome: "Liderando pagos para una super-app de LATAM",
     description:
       "Conduzco un equipo de 7 desarrolladores en el diseño e implementación de herramientas de Pagos y Finanzas. Implementación de medios de pago y arquitectura de microservicios que mejoraron la confiabilidad del sistema en un 40%.",
@@ -48,6 +53,7 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2022 — 2023",
     role: "Developer Lead",
     company: "Cencosud S.A.",
+    logo: "/brands/cencosud.png",
     outcome: "2M+ transacciones semanales conciliadas con SAP",
     description:
       "Desarrollé herramientas y módulos de contabilidad con integración en SAP que gestionan cerca de 2 millones de transacciones semanales. Optimicé consultas de bases de datos y procesos batch, recortando el tiempo de procesamiento en un 60%.",
@@ -63,6 +69,7 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2021 — 2022",
     role: "Sr. Software Engineer",
     company: "Sky Airline",
+    logo: "/brands/sky.png",
     outcome: "1M+ transacciones mensuales en mobile",
     description:
       "Construí varios microservicios — entre ellos la gestión de perfiles — y escalé hasta Tech Leader Backup. Junto a mi equipo desarrollé la nueva versión de AppSales mientras se sostenía la versión anterior con más de 1 millón de transacciones mensuales en Android e iOS.",
@@ -180,6 +187,14 @@ export function ExperienceCard({
   index = 0,
   wide = false,
 }: ExperienceCardProps) {
+  const initials = entry.company
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
+
   return (
     <motion.div
       initial={{ y: 20 }}
@@ -194,12 +209,34 @@ export function ExperienceCard({
         aria-labelledby={`exp-${entry.id}-title`}
       >
         <div className="flex flex-col gap-5 p-6 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+          <div className="flex items-center justify-between gap-3">
+            {entry.logo ? (
+              <div className="inline-flex items-center rounded-lg bg-white px-3 h-10 shadow-sm ring-1 ring-black/5 transition-transform duration-300 group-hover:scale-105">
+                <span className="relative block h-5 w-28">
+                  <Image
+                    src={entry.logo}
+                    alt={`Logo de ${entry.company}`}
+                    fill
+                    sizes="112px"
+                    className="object-contain object-left"
+                  />
+                </span>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2.5 rounded-lg bg-white/[0.06] border border-white/10 px-3 h-10 transition-transform duration-300 group-hover:scale-105">
+                <span
+                  className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-blue-500/30 to-purple-500/30 border border-white/10 text-[11px] font-bold text-white"
+                  aria-hidden="true"
+                >
+                  {initials}
+                </span>
+                <span className="text-sm font-semibold text-white whitespace-nowrap">
+                  {entry.company}
+                </span>
+              </div>
+            )}
+            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-blue-300 bg-blue-500/10 border border-blue-500/30 whitespace-nowrap">
               {entry.period}
-            </span>
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-300 bg-white/5 border border-white/10">
-              {entry.company}
             </span>
           </div>
 
@@ -211,7 +248,7 @@ export function ExperienceCard({
               {entry.outcome}
             </h3>
             <p className="text-sm text-zinc-400 font-medium">
-              {entry.role}
+              {entry.role} · {entry.company}
             </p>
           </div>
 

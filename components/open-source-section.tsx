@@ -1,12 +1,40 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowUpRight, Package } from "lucide-react"
 import { Github } from "@/components/icons/social-icons"
 import { openSourceProjects, type OpenSourceProject } from "@/data/open-source"
 import { trackButtonClick } from "@/lib/analytics"
 import { SectionHeader } from "@/components/section-header"
 import { SurfaceCard } from "@/components/ui/surface-card"
+
+/**
+ * Live npm version badge. The version is resolved by shields.io at request
+ * time from the package slug, so it always tracks the latest published
+ * release without us redeploying — mirroring each project's own README.
+ */
+function NpmVersionBadge({ name }: { name: string }) {
+  const src = `https://img.shields.io/npm/v/${encodeURIComponent(
+    name
+  )}?style=flat&label=&color=10b981&labelColor=18181b`
+  // width/height set the intrinsic aspect ratio; the className scales it to a
+  // consistent 18px height while letting the width follow the version string.
+  // `unoptimized` is intentional ONLY here: the optimizer would cache this SVG
+  // for minimumCacheTTL (1y) and freeze the version. It's a ~1KB SVG, so there
+  // is no real optimization to lose, and the badge stays live. Every other
+  // image in the app stays optimized via next/image.
+  return (
+    <Image
+      src={src}
+      alt={`Última versión de ${name} en npm`}
+      width={56}
+      height={20}
+      unoptimized
+      className="h-[18px] w-auto"
+    />
+  )
+}
 
 function RegistryGlyph({ registry }: { registry: OpenSourceProject["registry"] }) {
   if (registry === "npm") {
@@ -58,8 +86,8 @@ function ProjectCard({ project }: { project: OpenSourceProject }) {
           <h3 className="text-lg font-semibold text-white font-mono tracking-tight">
             {project.name}
           </h3>
-          {project.version && (
-            <span className="text-xs font-mono text-zinc-500">{project.version}</span>
+          {project.registry === "npm" && (
+            <NpmVersionBadge name={project.packageName ?? project.name} />
           )}
         </div>
         <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">

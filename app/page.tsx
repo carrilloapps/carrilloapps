@@ -17,6 +17,7 @@ import { ExperienceSection } from "@/components/home/experience-section"
 import { ProjectsSection } from "@/components/home/projects-section"
 import { CvDownloadModal } from "@/components/cv-download-modal"
 import { DynamicCompactContactSection as CompactContactSection } from "@/components/dynamic-imports"
+import { buildWhatsAppUrl, buildContactWhatsAppMessage } from "@/lib/whatsapp"
 import { AnimatedSection } from "@/components/animated-section"
 import { SectionHeader } from "@/components/section-header"
 import { MessageCircle } from "lucide-react"
@@ -146,7 +147,17 @@ export default function Home() {
     setLastSubmission(Date.now())
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const whatsappUrl = buildWhatsAppUrl(
+        buildContactWhatsAppMessage({
+          name: contactFormData.name,
+          email: contactFormData.email,
+          whatsapp: contactFormData.whatsapp,
+          company: contactFormData.company,
+          subject: contactFormData.subject,
+          message: contactFormData.message,
+        })
+      )
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer")
       setContactFormData({
         name: "",
         email: "",
@@ -156,8 +167,8 @@ export default function Home() {
         message: "",
         honeypot: "",
       })
-      toast.success("¡Mensaje enviado!", {
-        description: "Te respondo en menos de 24 horas.",
+      toast.success("Abriendo WhatsApp…", {
+        description: "Te llevo a la conversación con tu mensaje ya listo.",
       })
     } catch (error) {
       console.error("Error sending message:", error)

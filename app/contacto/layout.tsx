@@ -2,6 +2,7 @@
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
+import { contactFaq } from "@/data/contact-faq"
 
 const SITE_URL = getSiteUrl()
 
@@ -141,6 +142,24 @@ const contactJsonLd = {
   // 4. Limited address information for privacy
 };
 
+// FAQPage structured data — built from the same source the page renders, so
+// the schema always matches the visible content. Boosts eligibility for rich
+// results and citations in AI Overviews / answer engines.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${SITE_URL}/contacto#faq`,
+  inLanguage: "es-CO",
+  mainEntity: contactFaq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+}
+
 export default function ContactLayout({
   children,
 }: {
@@ -150,6 +169,7 @@ export default function ContactLayout({
     <>
       {children}
       <JsonLd data={contactJsonLd} />
+      <JsonLd data={faqJsonLd} />
       <BreadcrumbJsonLd
         items={[
           { name: "Inicio", url: SITE_URL },

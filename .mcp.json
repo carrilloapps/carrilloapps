@@ -4,6 +4,16 @@
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "chrome-devtools-mcp@latest"]
+    },
+    "opengraph": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "opengraph-mcp"]
+    },
+    "skill-rules": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "skill-rules", "mcp"]
     }
   }
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,18 +18,53 @@ export function NewsletterForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   )
+  // null = checking, true = Mailchimp wired up, false = not configured yet.
+  const [available, setAvailable] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let active = true
+    fetch("/api/newsletter")
+      .then((res) => (res.ok ? res.json() : { configured: false }))
+      .then((data: { configured?: boolean }) => {
+        if (active) setAvailable(Boolean(data?.configured))
+      })
+      .catch(() => {
+        if (active) setAvailable(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (available === false) return
     setStatus("loading")
     try {
-      // TODO: integrar con servicio real (Mailchimp / Resend / Buttondown).
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setStatus("success")
-      setEmail("")
-      toast.success("¡Gracias por suscribirte!", {
-        description: "Te avisaré cuando publique algo nuevo.",
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       })
+
+      if (res.ok) {
+        setStatus("success")
+        setEmail("")
+        toast.success("¡Gracias por suscribirte!", {
+          description: "Te avisaré cuando publique algo nuevo.",
+        })
+        return
+      }
+
+      const data = (await res.json().catch(() => ({}))) as { error?: string }
+      setStatus("error")
+      toast.error(
+        res.status === 503 ? "Newsletter no disponible" : "Error al suscribirse",
+        {
+          description:
+            data?.error ?? "Por favor intenta nuevamente en un momento.",
+        }
+      )
     } catch {
       setStatus("error")
       toast.error("Error al suscribirse", {
@@ -77,16 +112,18 @@ export function NewsletterForm() {
               autoComplete="email"
               autoCapitalize="off"
               spellCheck={false}
-              disabled={status === "loading"}
+              disabled={status === "loading" || available === false}
             />
             <Button
               type="submit"
               variant="gradient"
               size="default"
               className="touch-manipulation"
-              disabled={status === "loading"}
+              disabled={status === "loading" || available === false}
             >
-              {status === "loading" ? (
+              {available === false ? (
+                "Muy pronto disponible"
+              ) : status === "loading" ? (
                 <>
                   <SpinnerLoading className="w-4 h-4" />
                   Suscribiendo…
@@ -96,6 +133,11 @@ export function NewsletterForm() {
               )}
             </Button>
           </div>
+          {available === false && (
+            <p className="text-xs text-zinc-400 text-center">
+              El newsletter estará disponible muy pronto. ¡Vuelve pronto!
+            </p>
+          )}
         </form>
       </div>
     </SurfaceCard>
