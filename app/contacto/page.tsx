@@ -1,6 +1,6 @@
 "use client"
 
-import { Mail, MapPin, Phone, Send, Clock, Globe, MessageSquare, Eye } from "lucide-react"
+import { Mail, MapPin, Phone, Send, Clock, Globe, MessageSquare, Eye, Briefcase, CreditCard, CalendarClock, Wallet } from "lucide-react"
 import { motion, type Variants } from "@/lib/motion"
 import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
@@ -24,7 +24,18 @@ import {
   trackButtonClick,
 } from "@/lib/analytics"
 import { buildWhatsAppUrl, buildContactWhatsAppMessage } from "@/lib/whatsapp"
+import { contactFaq, type ContactFaqIcon } from "@/data/contact-faq"
 import { toast } from "sonner"
+
+/** Maps each FAQ item's icon key to its lucide component. */
+const FAQ_ICONS: Record<ContactFaqIcon, typeof Globe> = {
+  services: Briefcase,
+  payments: CreditCard,
+  schedule: CalendarClock,
+  remote: Globe,
+  pricing: Wallet,
+  timeline: Clock,
+}
 
 const obfuscateEmail = (email: string): string =>
   btoa(email).split("").reverse().join("")
@@ -673,91 +684,27 @@ function ContactPageContent() {
                 className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto"
                 variants={itemVariants}
               >
-                <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card h-full relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6 relative z-10">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                          <Globe className="w-5 h-5 text-blue-400" />
-                        </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                          ¿Qué servicios ofreces?
-                        </h3>
-                      </div>
-                      <p className="text-zinc-300 leading-relaxed">
-                        Me especializo en desarrollo de software financiero, liderazgo técnico,
-                        diseño de arquitectura y soluciones de automatización de backoffice. Puedo
-                        ayudarte tanto con el desarrollo como con la orientación técnica estratégica.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card h-full relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6 relative z-10">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                          <Globe className="w-5 h-5 text-emerald-400" />
-                        </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                          ¿Trabajas con clientes internacionales?
-                        </h3>
-                      </div>
-                      <p className="text-zinc-300 leading-relaxed">
-                        Sí, trabajo con clientes de todo el mundo. Gracias a las herramientas
-                        modernas de colaboración y una programación flexible, puedo adaptarme a
-                        diferentes zonas horarias y modalidades de trabajo.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card h-full relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6 relative z-10">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                          <Clock className="w-5 h-5 text-blue-400" />
-                        </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                          ¿Cuál es tu cronograma típico de proyecto?
-                        </h3>
-                      </div>
-                      <p className="text-zinc-300 leading-relaxed">
-                        Los tiempos varían según el alcance y la complejidad. Proyectos pequeños
-                        pueden tomar de 2 a 4 semanas, mientras que soluciones empresariales más
-                        grandes pueden extenderse varios meses. Proporciono cronogramas detallados
-                        durante las consultas iniciales.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card h-full relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6 relative z-10">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300">
-                          <Send className="w-5 h-5 text-cyan-400" />
-                        </div>
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-                          ¿Cómo manejas la gestión de proyectos?
-                        </h3>
-                      </div>
-                      <p className="text-zinc-300 leading-relaxed">
-                        Utilizo metodologías ágiles con seguimientos regulares y actualizaciones de
-                        progreso. Me adapto a herramientas como Jira, Trello o Asana según tus
-                        preferencias, garantizando una comunicación transparente durante todo el
-                        proceso.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                {contactFaq.map((item) => {
+                  const Icon = FAQ_ICONS[item.icon]
+                  return (
+                    <motion.div key={item.question} variants={cardVariants} whileHover="hover">
+                      <Card className="surface-card h-full relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <CardContent className="p-6 relative z-10">
+                          <div className="flex items-start gap-4 mb-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                              <Icon className="w-5 h-5 text-blue-400" />
+                            </div>
+                            <h3 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
+                              {item.question}
+                            </h3>
+                          </div>
+                          <p className="text-zinc-300 leading-relaxed">{item.answer}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             </div>
           </motion.section>
