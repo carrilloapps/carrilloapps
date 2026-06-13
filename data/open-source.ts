@@ -3,13 +3,16 @@
  * projects that don't ship to NPM but are still useful references.
  *
  * Versions are NOT hard-coded: for npm packages the card renders a live
- * shields.io version badge derived from `name`, so the number always tracks
- * the latest published release (same approach as each project's README).
+ * shields.io version badge derived from the package slug, so the number always
+ * tracks the latest published release (same approach as each project's README).
  */
 export interface OpenSourceProject {
-  /** Display name. For npm packages this MUST equal the package slug — the
-   *  live version badge is built from it (`img.shields.io/npm/v/<name>`). */
+  /** Display name shown on the card. */
   name: string
+  /** Optional npm package slug when it differs from the display `name`
+   *  (e.g. the "zefer" product whose package is "zefer-cli"). The live version
+   *  badge is built from this when present, otherwise from `name`. */
+  packageName?: string
   /** One-line description (≤ 110 chars). */
   description: string
   /** Public registry — drives the meta strip + version badge in the card. */
@@ -28,15 +31,16 @@ export interface OpenSourceProject {
 
 export const openSourceProjects: OpenSourceProject[] = [
   {
-    name: "zefer-cli",
+    name: "zefer",
+    packageName: "zefer-cli",
     description:
-      "CLI para Zefer — cifrado AES-256-GCM de archivos y texto desde la terminal. Zero-knowledge, end-to-end.",
+      "Cifrado AES-256-GCM zero-knowledge end-to-end: app web + CLI en zefer.carrillo.app. El servidor nunca ve tus datos.",
     registry: "npm",
     language: "TypeScript",
     languageColor: "#3178c6",
-    tags: ["Encryption", "CLI", "Security"],
+    tags: ["Encryption", "Web", "CLI"],
     url: "https://www.npmjs.com/package/zefer-cli",
-    repoUrl: "https://github.com/carrilloapps/zefer-cli",
+    repoUrl: "https://github.com/carrilloapps/zefer",
   },
   {
     name: "bcv-exchange-rate",
@@ -72,27 +76,6 @@ export const openSourceProjects: OpenSourceProject[] = [
     repoUrl: "https://github.com/carrilloapps/ai-sync-cli",
   },
   {
-    name: "hfo-cli",
-    description:
-      "TUI fullscreen para descubrir, instalar y gestionar modelos GGUF de Hugging Face desde Ollama. Auto-tuned a tu hardware.",
-    registry: "npm",
-    language: "TypeScript",
-    languageColor: "#3178c6",
-    tags: ["LLM", "TUI", "Ollama"],
-    url: "https://www.npmjs.com/package/hfo-cli",
-    repoUrl: "https://github.com/carrilloapps/hfo",
-  },
-  {
-    name: "zefer",
-    description:
-      "App web de cifrado end-to-end zero-knowledge. Toda la operación corre en tu navegador — el servidor nunca ve tus datos.",
-    registry: "github",
-    language: "TypeScript",
-    languageColor: "#3178c6",
-    tags: ["Encryption", "Web", "Privacy"],
-    url: "https://github.com/carrilloapps/zefer",
-  },
-  {
     name: "skills",
     description:
       "Compuerta adversarial de riesgo para agentes IA — bloquea acciones hasta que las apruebas. Compatible con 40+ agentes.",
@@ -103,23 +86,14 @@ export const openSourceProjects: OpenSourceProject[] = [
     url: "https://github.com/carrilloapps/skills",
   },
   {
-    name: "evolution-api-on-dokku",
+    name: "hfo-cli",
     description:
-      "Deployment production-ready de Evolution API (WhatsApp REST) en Dokku. PostgreSQL, Redis y persistencia incluidos.",
-    registry: "github",
-    language: "Docker",
-    languageColor: "#2496ed",
-    tags: ["WhatsApp", "Dokku", "DevOps"],
-    url: "https://github.com/carrilloapps/evolution-api-on-dokku",
-  },
-  {
-    name: "picoclaw-dotfiles",
-    description:
-      "Convierte un Android viejo en un asistente IA 24/7. Setup one-click con Termux, modelos locales y acceso remoto.",
-    registry: "github",
-    language: "Shell",
-    languageColor: "#89e051",
-    tags: ["AI", "Mobile", "Self-hosted"],
-    url: "https://github.com/carrilloapps/picoclaw-dotfiles",
+      "TUI fullscreen para descubrir, instalar y gestionar modelos GGUF de Hugging Face desde Ollama. Auto-tuned a tu hardware.",
+    registry: "npm",
+    language: "TypeScript",
+    languageColor: "#3178c6",
+    tags: ["LLM", "TUI", "Ollama"],
+    url: "https://www.npmjs.com/package/hfo-cli",
+    repoUrl: "https://github.com/carrilloapps/hfo",
   },
 ]

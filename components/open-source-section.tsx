@@ -86,7 +86,9 @@ function ProjectCard({ project }: { project: OpenSourceProject }) {
           <h3 className="text-lg font-semibold text-white font-mono tracking-tight">
             {project.name}
           </h3>
-          {project.registry === "npm" && <NpmVersionBadge name={project.name} />}
+          {project.registry === "npm" && (
+            <NpmVersionBadge name={project.packageName ?? project.name} />
+          )}
         </div>
         <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
           {project.description}
