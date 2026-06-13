@@ -10,6 +10,8 @@ import { ArrowRight, Code, Database, LineChart, Users, Layers, Shield, Server, C
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
+import { StatTiles } from "@/components/ui/stat-tiles"
+import { Pill } from "@/components/ui/pill"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ServicesSeo } from "@/components/services-seo"
@@ -218,7 +220,7 @@ function ServicesPageContent() {
   //
   // El offset ~96px compensa el header sticky (~65px) + margen visual.
   const scrollToServicesSection = (hash: string) => {
-    const tabsContent = document.getElementById(hash)
+    const tabsContent = document.querySelector(`[data-service="${hash}"]`)
     if (!tabsContent) return
     const section = tabsContent.closest("section")
     const target = section ?? tabsContent
@@ -295,12 +297,14 @@ function ServicesPageContent() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <div className="space-y-3">
-                <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm font-medium py-1.5 px-3 rounded-full backdrop-blur-sm">
+                <span className="inline-flex items-center gap-2.5 text-emerald-400">
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20"
                     aria-hidden="true"
                   />
-                  Aceptando proyectos · Consultoría remota
+                  <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.18em]">
+                    Aceptando proyectos · Consultoría remota
+                  </span>
                 </span>
               </div>
 
@@ -323,32 +327,22 @@ function ServicesPageContent() {
               </p>
 
               {/* Stats strip — credenciales operacionales. */}
-              <ul
-                className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 max-w-2xl pt-2"
-                aria-label="Credenciales operacionales"
-              >
-                {[
+              <StatTiles
+                className="max-w-2xl pt-2"
+                variant="plain"
+                size="md"
+                columns={4}
+                ariaLabel="Credenciales operacionales"
+                metrics={[
                   { value: "10+", label: "Años de stack fintech" },
                   { value: "6", label: "Áreas de especialización" },
                   { value: "50+", label: "Proyectos completados" },
                   { value: "PCI · ISO", label: "Compliance" },
-                ].map((stat) => (
-                  <li
-                    key={stat.label}
-                    className="surface-card-subtle px-3 py-3 text-center"
-                  >
-                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                      {stat.value}
-                    </div>
-                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
-                      {stat.label}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                ]}
+              />
 
               <div
-                className="flex flex-col sm:flex-row gap-3 pt-2"
+                className="flex flex-col sm:flex-row gap-3 pt-6"
                 role="group"
                 aria-label="Acciones principales"
               >
@@ -367,9 +361,9 @@ function ServicesPageContent() {
                   </Link>
                 </Button>
                 <Button
-                  variant="glass"
+                  variant="ghost"
                   size="xl"
-                  className="w-full sm:w-auto touch-manipulation"
+                  className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                   asChild
                 >
                   <Link href="/agendamiento">Agendar diagnóstico</Link>
@@ -404,9 +398,9 @@ function ServicesPageContent() {
           className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-4 text-center">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Áreas de especialización
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Servicios especializados
             </h2>
@@ -425,6 +419,7 @@ function ServicesPageContent() {
                       <TabsTrigger
                         key={service.id}
                         value={service.id}
+                        aria-label={service.title}
                         className="flex items-center gap-2 px-4 py-3 rounded-lg bg-transparent border-0 text-zinc-400 hover:text-white hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 whitespace-nowrap"
                       >
                         <IconComponent className="w-4 h-4" />
@@ -438,7 +433,7 @@ function ServicesPageContent() {
               {services.map((service) => {
                 const IconComponent = service.icon
                 return (
-                  <TabsContent key={service.id} value={service.id} className="mt-12" id={service.id}>
+                  <TabsContent key={service.id} value={service.id} className="mt-12" data-service={service.id}>
                     <motion.div
                       variants={containerVariants}
                       initial="hidden"
@@ -550,9 +545,9 @@ function ServicesPageContent() {
           className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
           <motion.div variants={itemVariants} className="text-center space-y-4 relative z-10">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Metodología probada
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Proceso de desarrollo
             </h2>
@@ -640,9 +635,9 @@ function ServicesPageContent() {
 
                         {/* Title + descripción. */}
                         <div className="space-y-3">
-                          <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+                          <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">
                             {item.title}
-                          </h4>
+                          </h3>
                           <p className="text-zinc-300 leading-relaxed text-base">
                             {item.description}
                           </p>
@@ -723,9 +718,9 @@ function ServicesPageContent() {
           className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
           <motion.div variants={itemVariants} className="text-center space-y-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Resultados
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Impacto medible
             </h2>
@@ -776,7 +771,7 @@ function ServicesPageContent() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <h4 className="text-lg md:text-xl font-semibold text-white">{stat.label}</h4>
+                        <h3 className="text-lg md:text-xl font-semibold text-white">{stat.label}</h3>
                         <p className="text-sm text-zinc-300 leading-relaxed">{stat.description}</p>
                       </div>
                     </CardContent>
@@ -799,9 +794,9 @@ function ServicesPageContent() {
           className="container mx-auto px-4 py-16 md:py-24 space-y-12"
         >
           <motion.div variants={itemVariants} className="text-center space-y-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Testimonios
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
               Lo que dicen mis clientes
             </h2>
@@ -882,9 +877,9 @@ function ServicesPageContent() {
           className="container mx-auto px-4 py-20 md:py-28 text-center space-y-10"
         >
           <motion.div variants={itemVariants} className="space-y-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               ¿Listo para comenzar?
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white max-w-3xl mx-auto">
               Transformemos tu visión en realidad
             </h2>
@@ -908,9 +903,9 @@ function ServicesPageContent() {
               </Link>
             </Button>
             <Button
-              variant="glass"
+              variant="ghost"
               size="xl"
-              className="touch-manipulation"
+              className="text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
               asChild
               onClick={() => trackButtonClick('Ver otros proyectos', 'servicios-final-cta')}
             >

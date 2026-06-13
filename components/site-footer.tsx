@@ -143,7 +143,7 @@ export function SiteFooter() {
               <Code2 className="w-4 h-4 text-blue-400" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
                 Stack
               </p>
               <h2
@@ -176,7 +176,7 @@ export function SiteFooter() {
               Tech Leader & Senior Full Stack — especializado en sistemas de
               pago, microservicios y plataformas críticas.
             </p>
-            <div className="flex items-center gap-3 text-xs text-zinc-500">
+            <div className="flex items-center gap-3 text-xs text-zinc-400">
               <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Medellín, CO · Remoto disponible</span>
             </div>
@@ -217,7 +217,7 @@ export function SiteFooter() {
           {/* Newsletter */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
                 Boletín
               </p>
               <h3
@@ -287,7 +287,7 @@ export function SiteFooter() {
       </div>
       <div className="container mx-auto px-4 py-6 md:py-7">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-zinc-500 text-center md:text-left">
+          <p className="text-xs text-zinc-400 text-center md:text-left">
             © {currentYear} Junior Carrillo. Todos los derechos reservados.
           </p>
           <nav
@@ -299,7 +299,7 @@ export function SiteFooter() {
                 key={label}
                 href={href}
                 onClick={() => trackNavigation(label, href, "footer")}
-                className="text-xs text-zinc-500 hover:text-zinc-200 transition-colors"
+                className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 {label}
               </Link>
@@ -325,7 +325,7 @@ function FooterColumn({
   return (
     <div className="space-y-4">
       <p
-        className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium"
+        className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 font-medium"
         id={id}
       >
         {title}

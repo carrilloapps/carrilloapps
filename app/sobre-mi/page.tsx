@@ -6,6 +6,9 @@ import { motion, type Variants } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { MediaCard } from "@/components/ui/media-card";
+import { StatTiles } from "@/components/ui/stat-tiles";
+import { Pill } from "@/components/ui/pill";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteHeader } from "@/components/site-header";
@@ -72,12 +75,14 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
             >
               <div className="space-y-3">
-                <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs md:text-sm font-medium py-1.5 px-3 rounded-full backdrop-blur-sm">
+                <span className="inline-flex items-center gap-2.5 text-emerald-400">
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
+                    className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20"
                     aria-hidden="true"
                   />
-                  Disponible para nuevos proyectos
+                  <span className="text-[11px] md:text-xs font-semibold uppercase tracking-[0.18em]">
+                    Disponible para nuevos proyectos
+                  </span>
                 </span>
               </div>
 
@@ -108,32 +113,22 @@ export default function AboutPage() {
               {/* Stats strip — credenciales numéricas de un vistazo. Es el
                   rasgo más distintivo del hero del about respecto al del
                   home, que no las muestra en el primer fold. */}
-              <ul
-                className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3 max-w-2xl pt-2"
-                aria-label="Credenciales profesionales"
-              >
-                {[
+              <StatTiles
+                className="max-w-2xl pt-2"
+                variant="plain"
+                size="md"
+                columns={4}
+                ariaLabel="Credenciales profesionales"
+                metrics={[
                   { value: "10", label: "Años de carrera" },
                   { value: "7", label: "Personas en mi equipo" },
                   { value: "2 M+", label: "Tx/día procesadas" },
                   { value: "3", label: "Roles de liderazgo" },
-                ].map((stat) => (
-                  <li
-                    key={stat.label}
-                    className="surface-card-subtle px-3 py-3 text-center"
-                  >
-                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                      {stat.value}
-                    </div>
-                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
-                      {stat.label}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                ]}
+              />
 
               <div
-                className="flex flex-col sm:flex-row gap-3 pt-2"
+                className="flex flex-col sm:flex-row gap-3 pt-6"
                 role="group"
                 aria-label="Acciones principales"
               >
@@ -152,9 +147,9 @@ export default function AboutPage() {
                   </Link>
                 </Button>
                 <Button
-                  variant="glass"
+                  variant="ghost"
                   size="xl"
-                  className="w-full sm:w-auto touch-manipulation"
+                  className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                   onClick={() => setCvModalOpen(true)}
                 >
                   Recibir mi CV
@@ -288,9 +283,9 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Carrera
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
               Roles que me formaron
             </h2>
@@ -638,9 +633,9 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               ¿Cómo trabajo?
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
               Tres reglas que no rompo
             </h2>
@@ -738,9 +733,9 @@ export default function AboutPage() {
           variants={containerVariants}
         >
           <motion.div className="space-y-4 text-center" variants={itemVariants}>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+            <Pill variant="eyebrow" size="md">
               Off-screen
-            </span>
+            </Pill>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
               Lo que hago cuando cierro el editor
             </h2>
@@ -782,58 +777,30 @@ export default function AboutPage() {
                   animate="visible"
                 >
                   <motion.div variants={itemVariants}>
-                    <Card className="surface-card group">
-                      <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Image
-                            src="https://www.metropolitan-touring.com/wp-content/uploads/2024/11/el-poblado-discrict.webp"
-                            alt="Caminatas por la ciudad de Medellín"
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                      <CardContent className="p-6 space-y-4">
-                        <h3 className="text-xl font-bold">
-                          Caminatas por la ciudad
-                        </h3>
-                        <p className="text-zinc-300">
-                          No todas las formas de conectar son igual, y particularmente en la ciudad,
-                          donde hay tantas oportunidades para interactuar con otras personas, es importante
-                          dedicar tiempo a conocer la jungla de cemento. Por eso me encanta caminar por la ciudad,
-                          explorar las calles y encontrar nuevos lugares ocultos.
-                        </p>
-                      </CardContent>
-                    </Card>
+                    <MediaCard
+                      image="https://www.metropolitan-touring.com/wp-content/uploads/2024/11/el-poblado-discrict.webp"
+                      alt="Caminatas por la ciudad de Medellín"
+                      title="Caminatas por la ciudad"
+                    >
+                      No todas las formas de conectar son igual, y particularmente en la ciudad,
+                      donde hay tantas oportunidades para interactuar con otras personas, es importante
+                      dedicar tiempo a conocer la jungla de cemento. Por eso me encanta caminar por la ciudad,
+                      explorar las calles y encontrar nuevos lugares ocultos.
+                    </MediaCard>
                   </motion.div>
 
                   <motion.div variants={itemVariants}>
-                    <Card className="surface-card group">
-                      <div className="aspect-video bg-zinc-800 relative" role="img" aria-label="">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Image
-                            src="https://almipro.com/wp-content/uploads/2019/01/parquedelcafe.jpg"
-                            alt="Me encanta el tiempo en familia"
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover"
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                      <CardContent className="p-6 space-y-4">
-                        <h3 className="text-xl font-bold">Tiempo en familia</h3>
-                        <p className="text-zinc-300">
-                          Mi tiempo en familia es fundamental. Me encanta
-                          pasar tiempo con mis hijos y esposa, familiares y compañeros de
-                          trabajo. Disfruto de momentos de tranquilidad y conexión
-                          con las personas que me rodean y aportan valor a lo que soy,
-                          en reuniones o incluso compartiendo lugares únicos.
-                        </p>
-                      </CardContent>
-                    </Card>
+                    <MediaCard
+                      image="https://almipro.com/wp-content/uploads/2019/01/parquedelcafe.jpg"
+                      alt="Me encanta el tiempo en familia"
+                      title="Tiempo en familia"
+                    >
+                      Mi tiempo en familia es fundamental. Me encanta
+                      pasar tiempo con mis hijos y esposa, familiares y compañeros de
+                      trabajo. Disfruto de momentos de tranquilidad y conexión
+                      con las personas que me rodean y aportan valor a lo que soy,
+                      en reuniones o incluso compartiendo lugares únicos.
+                    </MediaCard>
                   </motion.div>
                 </motion.div>
               </TabsContent>

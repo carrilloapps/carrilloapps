@@ -6,8 +6,9 @@ import { ArrowRight, Briefcase } from "lucide-react"
 import { motion } from "@/lib/motion"
 import { Button } from "@/components/ui/button"
 import { SurfaceCard } from "@/components/ui/surface-card"
-import { SectionHeader } from "@/components/section-header"
-import { AnimatedSection } from "@/components/animated-section"
+import { Section } from "@/components/ui/section"
+import { Pill } from "@/components/ui/pill"
+import { StatTiles } from "@/components/ui/stat-tiles"
 import { useIsMobile } from "@/hooks/use-media-query"
 import { trackButtonClick } from "@/lib/analytics"
 import type { ProjectMetric } from "@/types/project"
@@ -102,26 +103,18 @@ export function ExperienceSection({
   const isMobile = useIsMobile()
 
   return (
-    <AnimatedSection
-      className="py-16 md:py-24 relative"
-      delay={0.1}
-      role="region"
-      aria-labelledby="experience-heading"
+    <Section
+      header={{
+        eyebrow: "Trayectoria",
+        eyebrowIcon: Briefcase,
+        title: "Roles que dejaron huella",
+        description:
+          "Más de una década construyendo plataformas críticas para banca, pagos y fintech — con números reales detrás de cada rol.",
+        headingId: "experience-heading",
+        align: "left",
+      }}
     >
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeader
-          eyebrow="Trayectoria"
-          eyebrowIcon={Briefcase}
-          title="Roles que dejaron huella"
-          description="Más de una década construyendo plataformas críticas para banca, pagos y fintech — con números reales detrás de cada rol."
-          headingId="experience-heading"
-          align="left"
-        />
-
-        <div
-          className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          aria-label="Experiencia laboral"
-        >
+      <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {entries.map((entry, index) => (
             <ExperienceCard
               key={entry.id}
@@ -138,7 +131,6 @@ export function ExperienceSection({
               <Link
                 href="/sobre-mi"
                 className="inline-flex items-center gap-2 min-h-[48px] touch-manipulation"
-                aria-label="Ver toda mi experiencia laboral"
                 onClick={() =>
                   trackButtonClick(
                     "Ver más experiencia",
@@ -155,8 +147,7 @@ export function ExperienceSection({
             </Button>
           </div>
         )}
-      </div>
-    </AnimatedSection>
+    </Section>
   )
 }
 
@@ -211,21 +202,24 @@ export function ExperienceCard({
         <div className="flex flex-col gap-5 p-6 flex-1">
           <div className="flex items-center justify-between gap-3">
             {entry.logo ? (
-              <div className="inline-flex items-center rounded-lg bg-white px-3 h-10 shadow-sm ring-1 ring-black/5 transition-transform duration-300 group-hover:scale-105">
-                <span className="relative block h-5 w-28">
+              // Brand logo on a uniform, centered light chip — consistent size
+              // across companies and a soft ring/shadow so it reads as an
+              // intentional lockup, not a stark sticker.
+              <div className="inline-flex h-9 items-center justify-center rounded-xl bg-white px-3.5 ring-1 ring-black/[0.06] shadow-md shadow-black/20 transition-transform duration-300 group-hover:scale-105">
+                <span className="relative block h-5 w-[5.5rem]">
                   <Image
                     src={entry.logo}
                     alt={`Logo de ${entry.company}`}
                     fill
-                    sizes="112px"
-                    className="object-contain object-left"
+                    sizes="88px"
+                    className="object-contain object-center"
                   />
                 </span>
               </div>
             ) : (
-              <div className="inline-flex items-center gap-2.5 rounded-lg bg-white/[0.06] border border-white/10 px-3 h-10 transition-transform duration-300 group-hover:scale-105">
+              <div className="inline-flex items-center gap-2.5 rounded-xl bg-white/[0.06] border border-white/10 px-3 h-9 transition-transform duration-300 group-hover:scale-105">
                 <span
-                  className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-blue-500/30 to-purple-500/30 border border-white/10 text-[11px] font-bold text-white"
+                  className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-emerald-500/30 to-teal-500/30 border border-white/10 text-[11px] font-bold text-white"
                   aria-hidden="true"
                 >
                   {initials}
@@ -235,9 +229,7 @@ export function ExperienceCard({
                 </span>
               </div>
             )}
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-blue-300 bg-blue-500/10 border border-blue-500/30 whitespace-nowrap">
-              {entry.period}
-            </span>
+            <Pill variant="accent" size="sm">{entry.period}</Pill>
           </div>
 
           <div className="space-y-2">
@@ -256,26 +248,9 @@ export function ExperienceCard({
             {entry.description}
           </p>
 
-          <div className="mt-auto pt-4 border-t border-white/[0.06] space-y-4">
+          <div className="mt-auto pt-6 border-t border-white/[0.06] space-y-7">
             {entry.metrics && entry.metrics.length > 0 && (
-              <ul
-                className="grid grid-cols-3 gap-2 list-none p-0 m-0"
-                aria-label="Métricas del rol"
-              >
-                {entry.metrics.slice(0, 3).map((metric) => (
-                  <li
-                    key={metric.label}
-                    className="surface-card-subtle px-2.5 py-3 text-center"
-                  >
-                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                      {metric.value}
-                    </div>
-                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
-                      {metric.label}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <StatTiles metrics={entry.metrics} size="sm" ariaLabel="Métricas del rol" />
             )}
 
             {entry.technologies?.length > 0 && (

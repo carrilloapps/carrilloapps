@@ -7,8 +7,8 @@ import { motion } from "@/lib/motion"
 import { type Project } from "@/types/project"
 import { Button } from "@/components/ui/button"
 import { SurfaceCard } from "@/components/ui/surface-card"
-import { SectionHeader } from "@/components/section-header"
-import { AnimatedSection } from "@/components/animated-section"
+import { Section } from "@/components/ui/section"
+import { StatTiles } from "@/components/ui/stat-tiles"
 import { DynamicProjectDialog as ProjectDialog } from "@/components/dynamic-imports"
 import { trackButtonClick, trackProjectView } from "@/lib/analytics"
 import { projects as defaultProjects } from "@/data/projects"
@@ -32,26 +32,18 @@ export function ProjectsSection({
   showCta = true,
 }: ProjectsSectionProps) {
   return (
-    <AnimatedSection
-      className="py-16 md:py-24 relative"
-      delay={0.3}
-      role="region"
-      aria-labelledby="projects-heading"
+    <Section
+      header={{
+        eyebrow: "Portafolio",
+        eyebrowIcon: FolderKanban,
+        title: "Casos de impacto",
+        description:
+          "Sistemas financieros y de pagos que diseñé y operé en producción — con métricas reales detrás.",
+        headingId: "projects-heading",
+        align: "left",
+      }}
     >
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeader
-          eyebrow="Portafolio"
-          eyebrowIcon={FolderKanban}
-          title="Casos de impacto"
-          description="Sistemas financieros y de pagos que diseñé y operé en producción — con métricas reales detrás."
-          headingId="projects-heading"
-          align="left"
-        />
-
-        <div
-          className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2"
-          aria-label="Lista de proyectos destacados"
-        >
+      <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
@@ -63,7 +55,6 @@ export function ProjectsSection({
               <Link
                 href="/recursos"
                 className="inline-flex items-center gap-2 min-h-[48px] touch-manipulation"
-                aria-label="Ver todos los proyectos en la página de recursos"
                 onClick={() =>
                   trackButtonClick("Ver otros proyectos", "home-projects-section")
                 }
@@ -77,8 +68,7 @@ export function ProjectsSection({
             </Button>
           </div>
         )}
-      </div>
-    </AnimatedSection>
+    </Section>
   )
 }
 
@@ -139,7 +129,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                   variant="glass"
                   size="sm"
                   className="touch-manipulation"
-                  aria-label={`Ver detalles del caso ${project.shortTitle}`}
                   onClick={() =>
                     trackProjectView(project.shortTitle, project.category ?? "")
                   }
@@ -226,24 +215,7 @@ function ProjectHero({
 
 function MetricsRow({ metrics }: { metrics: NonNullable<Project["metrics"]> }) {
   return (
-    <ul
-      className="grid grid-cols-3 gap-2 md:gap-3 list-none p-0 m-0"
-      aria-label="Métricas de impacto"
-    >
-      {metrics.slice(0, 3).map((metric) => (
-        <li
-          key={metric.label}
-          className="surface-card-subtle px-3 py-3 md:px-4 md:py-4 text-center"
-        >
-          <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-            {metric.value}
-          </div>
-          <div className="mt-1.5 text-[11px] md:text-xs text-zinc-300 leading-tight">
-            {metric.label}
-          </div>
-        </li>
-      ))}
-    </ul>
+    <StatTiles metrics={metrics} size="md" ariaLabel="Métricas de impacto" />
   )
 }
 

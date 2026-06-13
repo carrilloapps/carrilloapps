@@ -273,10 +273,10 @@ export function RepositoriesList({ source, username, externalSearch, externalLan
 
       {pinnedRepos.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-xl font-bold flex items-center gap-2">
+          <h2 className="text-xl font-bold flex items-center gap-2">
             <Pin className="h-4 w-4 text-emerald-400" />
             Repositorios destacados
-          </h3>
+          </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {pinnedRepos.map((repo) => renderRepository(repo, true))}
           </div>

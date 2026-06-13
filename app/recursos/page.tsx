@@ -7,6 +7,7 @@ import { Search, ArrowRight } from "lucide-react";
 import { Github } from "@/components/icons/social-icons";
 
 import { Button } from "@/components/ui/button";
+import { Pill } from "@/components/ui/pill";
 import { Input } from "@/components/ui/input";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -85,6 +86,7 @@ function ResourcesPageContent() {
 
         <main className="relative z-10 container py-12 space-y-24" id="main-content">
           <PageHero
+            className="!mb-0 !pb-4 md:!pb-8"
             badge={{ text: "Recursos" }}
             title="Gratuitos & código abierto"
             description="Proyectos de software, sistemas enfocados en finanzas y medios de pago, todos recursos para desarrolladores."
@@ -92,7 +94,7 @@ function ResourcesPageContent() {
 
           {/* Repositories Section */}
           <motion.section
-            className="pt-6 pb-12 space-y-8"
+            className="pt-2 pb-12 space-y-8 !mt-5 md:!mt-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -109,16 +111,16 @@ function ResourcesPageContent() {
                   <TabsList className="inline-flex h-auto bg-white/[0.04] backdrop-blur-md border border-white/[0.08] p-1 rounded-xl gap-1 w-full md:w-auto">
                     <TabsTrigger
                       value="github"
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-zinc-400 text-sm font-medium transition-all duration-200
-                                 data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-sm"
+                      className="flex flex-1 justify-center md:flex-none items-center gap-2 px-4 py-2 rounded-lg text-zinc-400 text-sm font-medium transition-all duration-200
+                                 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm"
                     >
                       <Github className="h-4 w-4" />
                       GitHub
                     </TabsTrigger>
                     <TabsTrigger
                       value="gitlab"
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-zinc-400 text-sm font-medium transition-all duration-200
-                                 data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-sm"
+                      className="flex flex-1 justify-center md:flex-none items-center gap-2 px-4 py-2 rounded-lg text-zinc-400 text-sm font-medium transition-all duration-200
+                                 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm"
                     >
                       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
@@ -231,9 +233,9 @@ function ResourcesPageContent() {
               <SurfaceCard className="text-center">
                 <div className="p-8 md:p-12 space-y-8">
                   <div className="space-y-4">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
+                    <Pill variant="eyebrow" size="md">
                       Trabajemos juntos
-                    </span>
+                    </Pill>
                     <h2
                       id="recursos-cta-heading"
                       className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white"
@@ -258,9 +260,9 @@ function ResourcesPageContent() {
                       </Link>
                     </Button>
                     <Button
-                      variant="glass"
+                      variant="ghost"
                       size="lg"
-                      className="w-full sm:w-auto touch-manipulation"
+                      className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                       asChild
                       onClick={() => trackCTAClick("Agendar reunión", "secondary", "recursos-cta-section")}
                     >

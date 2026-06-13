@@ -175,9 +175,9 @@ function SchedulePageContent() {
                   </span>
                 </Button>
                 <Button
-                  variant="glass"
+                  variant="ghost"
                   size="xl"
-                  className="w-full sm:w-auto touch-manipulation"
+                  className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                   aria-describedby="services-desc"
                   asChild
                 >

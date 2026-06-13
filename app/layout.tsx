@@ -69,6 +69,9 @@ export const metadata: Metadata = {
       "es-CO": "/",
       "x-default": "/",
     },
+    types: {
+      "application/rss+xml": "/rss.xml",
+    },
   },
   robots: {
     index: true,

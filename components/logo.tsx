@@ -53,7 +53,6 @@ export const Logo = memo(function Logo({
         <Link
           href={href}
           className={`${linkClassName} inline-flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black rounded-md`}
-          aria-label="Ir a la página de inicio — carrillo.app"
         >
           {inner}
         </Link>
@@ -72,7 +71,6 @@ export const Logo = memo(function Logo({
       <Link
         href={href}
         className={`${linkClassName} inline-flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black rounded-md`}
-        aria-label="Ir a la página de inicio — carrillo.app"
       >
         {inner}
       </Link>
