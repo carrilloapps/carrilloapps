@@ -1,6 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Star, GitFork, Calendar, Code } from "lucide-react"
 import { motion } from "@/lib/motion"
 
@@ -8,66 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { SpinnerLoading } from "@/components/unified-loading"
-
-type Repository = {
-  id: number
-  name: string
-  description: string
-  language: string
-  stars: number
-  forks: number
-  updated_at: string
-  html_url: string
-  pinned?: boolean
-  source: "github" | "gitlab"
-}
+import { usePinnedRepositories } from "@/lib/queries"
 
 export function FeaturedRepositories() {
-  const [repositories, setRepositories] = useState<Repository[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function fetchPinnedRepositories() {
-      setLoading(true)
-      setError(null)
-
-      try {
-        // Fetch pinned repositories from GitHub
-        const githubResponse = await fetch(`/api/github-repositories?username=carrilloapps&pinned_only=true`)
-        if (!githubResponse.ok) {
-          throw new Error("Failed to fetch GitHub repositories")
-        }
-        const githubResult = await githubResponse.json()
-        const githubPinned = (githubResult.pinnedRepos || []).map((repo: Repository) => ({
-          ...repo,
-          source: "github" as const,
-        }))
-
-        // Fetch pinned repositories from GitLab
-        const gitlabResponse = await fetch(`/api/gitlab-repositories?username=carrilloapps&pinned_only=true`)
-        if (!gitlabResponse.ok) {
-          throw new Error("Failed to fetch GitLab repositories")
-        }
-        const gitlabResult = await gitlabResponse.json()
-        const gitlabPinned = (gitlabResult.pinnedRepos || []).map((repo: Repository) => ({
-          ...repo,
-          source: "gitlab" as const,
-        }))
-
-        // Combine and sort by stars
-        const allPinned = [...githubPinned, ...gitlabPinned].sort((a, b) => b.stars - a.stars)
-        setRepositories(allPinned)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred")
-        setRepositories([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchPinnedRepositories()
-  }, [])
+  const { data: repositories = [], isLoading: loading, error } = usePinnedRepositories()
 
   const getLanguageColor = (language: string) => {
     const colors: Record<string, string> = {
@@ -88,7 +31,7 @@ export function FeaturedRepositories() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("es-ES", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -107,9 +50,9 @@ export function FeaturedRepositories() {
     return (
       <Card className="surface-card">
         <CardContent className="p-6 text-center">
-          <p className="text-red-500">Error: {error}</p>
-          <Button onClick={() => window.location.reload()} className="mt-4 bg-blue-600 hover:bg-blue-700">
-            Try Again
+          <p className="text-red-400">Error: {error.message}</p>
+          <Button onClick={() => window.location.reload()} variant="glass" className="mt-4">
+            Intentar de nuevo
           </Button>
         </CardContent>
       </Card>
@@ -120,7 +63,7 @@ export function FeaturedRepositories() {
     return (
       <Card className="surface-card">
         <CardContent className="p-6 text-center">
-          <p className="text-zinc-300">No pinned repositories found.</p>
+          <p className="text-zinc-300">No se encontraron repositorios destacados.</p>
         </CardContent>
       </Card>
     )
@@ -136,33 +79,39 @@ export function FeaturedRepositories() {
           transition={{ duration: 0.3 }}
           whileHover={{ y: -5 }}
         >
-          <Card className="surface-card h-full flex flex-col">
-            <div className="aspect-video bg-zinc-800 relative">
+          <Card className="surface-card flex h-full flex-col">
+            <div className="relative aspect-video bg-zinc-800">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-4xl">
-                  {repo.language === "JavaScript" ? "🟨" : repo.language === "TypeScript" ? "🔵" : "📦"}
+                  {repo.language === "JavaScript"
+                    ? "🟨"
+                    : repo.language === "TypeScript"
+                      ? "🔵"
+                      : "📦"}
                 </div>
               </div>
             </div>
-            <CardContent className="p-6 space-y-4 flex-grow">
+            <CardContent className="grow space-y-4 p-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl font-bold">{repo.name}</h3>
-                  <Badge className={`${repo.source === "github" ? "bg-purple-600" : "bg-orange-600"}`}>
+                  <Badge
+                    className={`${repo.source === "github" ? "bg-purple-600" : "bg-orange-600"}`}
+                  >
                     {repo.source === "github" ? "GitHub" : "GitLab"}
                   </Badge>
                 </div>
-                <p className="text-zinc-300">{repo.description || "No description provided."}</p>
+                <p className="text-zinc-300">{repo.description || "Sin descripción disponible."}</p>
               </div>
-              <div className="space-y-4 mt-auto">
+              <div className="mt-auto space-y-4">
                 <div className="flex items-center gap-2 text-sm text-zinc-400">
-                  <div className={`w-3 h-3 rounded-full ${getLanguageColor(repo.language)}`}></div>
+                  <div className={`h-3 w-3 rounded-full ${getLanguageColor(repo.language)}`}></div>
                   {repo.language}
                 </div>
                 <div className="flex items-center gap-4 text-sm text-zinc-500">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    Updated on {formatDate(repo.updated_at)}
+                    Actualizado el {formatDate(repo.updated_at)}
                   </div>
                 </div>
               </div>
@@ -179,9 +128,9 @@ export function FeaturedRepositories() {
                 </div>
               </div>
               <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-zinc-700 hover:bg-zinc-800 gap-2">
+                <Button variant="glass" className="gap-2">
                   <Code className="h-4 w-4" />
-                  View Code
+                  Ver código
                 </Button>
               </a>
             </CardFooter>

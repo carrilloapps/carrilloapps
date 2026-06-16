@@ -33,17 +33,15 @@ export default function TermsConditionsPage() {
                 })}
               </p>
               <p className="text-zinc-300">
-                Bienvenido al sitio web profesional de Junior Carrillo. Estos
-                términos y condiciones establecen las reglas y normativas para
-                el uso de mi sitio web, ubicado en carrillo.app, y aplican a
-                todos los usuarios y visitantes.
+                Bienvenido al sitio web profesional de José Porfirio Carrillo Echenique, quien opera públicamente bajo el nombre de
+                Junior Carrillo. Estos términos y condiciones establecen las reglas y normativas para el uso de mi sitio web,
+                ubicado en carrillo.app, y aplican a todos los usuarios y visitantes.
               </p>
               <p className="text-zinc-300">
-                El presente documento constituye un acuerdo legalmente
-                vinculante entre el usuario y Junior Carrillo. Al acceder a este
-                sitio web, se asume que aceptas estos términos y condiciones en
-                su totalidad. Si no estás de acuerdo con alguna parte de estos
-                términos y condiciones, no debes utilizar este sitio web.
+                El presente documento constituye un acuerdo legalmente vinculante entre el usuario y José Porfirio Carrillo
+                Echenique, quien opera públicamente como Junior Carrillo. Al acceder a este sitio web, se asume que aceptas estos
+                términos y condiciones en su totalidad. Si no estás de acuerdo con alguna parte de estos términos y condiciones,
+                no debes utilizar este sitio web.
               </p>
               <p className="text-zinc-300">
                 Este sitio web se rige por las leyes de la República de
@@ -57,14 +55,11 @@ export default function TermsConditionsPage() {
                 Derechos de Propiedad Intelectual
               </h2>
               <p className="text-zinc-300">
-                Salvo que se indique lo contrario, Junior Carrillo posee los
-                derechos de propiedad intelectual de todo el material en
-                carrillo.app, protegido bajo las leyes colombianas de derechos
-                de autor (Ley 23 de 1982, Ley 44 de 1993, Decisión Andina 351 de
-                1993, y demás normas complementarias). Todos los derechos de
-                propiedad intelectual están reservados. Puedes acceder a este
-                sitio web para tu uso personal, sujeto a las restricciones
-                establecidas en estos términos y condiciones.
+                Salvo que se indique lo contrario, José Porfirio Carrillo Echenique, quien opera públicamente como Junior
+                Carrillo, posee los derechos de propiedad intelectual de todo el material en carrillo.app, protegido bajo las
+                leyes colombianas de derechos de autor (Ley 23 de 1982, Ley 44 de 1993, Decisión Andina 351 de 1993, y demás
+                normas complementarias). Todos los derechos de propiedad intelectual están reservados. Puedes acceder a este sitio
+                web para tu uso personal, sujeto a las restricciones establecidas en estos términos y condiciones.
               </p>
               <p className="text-zinc-300">
                 No debes, sin mi autorización expresa por escrito:

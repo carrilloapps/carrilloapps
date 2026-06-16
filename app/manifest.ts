@@ -8,10 +8,10 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/',
     display: 'standalone',
     background_color: '#000000',
-    theme_color: '#3b82f6',
+    theme_color: '#000000',
     orientation: 'portrait',
     scope: '/',
-    lang: 'es-ES',
+    lang: 'es-CO',
     categories: ['business', 'technology', 'finance', 'education', 'payments'],
     icons: [
       {
@@ -50,19 +50,6 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     shortcuts: [
-      {
-        name: 'Blog',
-        short_name: 'Blog',
-        description: 'Artículos sobre tecnología y desarrollo',
-        url: '/blog',
-        icons: [
-          {
-            src: '/icons/96.png',
-            sizes: '96x96',
-            type: 'image/png',
-          },
-        ],
-      },
       {
         name: 'Servicios',
         short_name: 'Servicios',

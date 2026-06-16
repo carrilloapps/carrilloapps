@@ -116,12 +116,7 @@ export function SkillsMarquee() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <MarqueeRow
-        skills={ROW_TOP}
-        direction="ltr"
-        duration={70}
-        state={animationState}
-      />
+      <MarqueeRow skills={ROW_TOP} direction="ltr" duration={70} state={animationState} />
       <MarqueeRow
         skills={ROW_BOTTOM}
         direction="rtl"
@@ -142,11 +137,11 @@ export function SkillsMarquee() {
 export function SkillsHorizontalSection() {
   return (
     <section
-      className="py-16 md:py-24 relative w-full"
+      className="relative w-full py-16 md:py-24"
       role="region"
       aria-labelledby="skills-heading"
     >
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="relative z-10 container mx-auto px-4">
         <SectionHeader
           eyebrow="Stack"
           eyebrowIcon={Code2}
@@ -168,15 +163,13 @@ export function SkillsHorizontalSection() {
 
 function Legend() {
   return (
-    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs uppercase tracking-[0.18em] text-zinc-500">
-      {(Object.entries(dotByGroup) as [Skill["group"], string][]).map(
-        ([group, color]) => (
-          <span key={group} className="inline-flex items-center gap-2">
-            <span className={`w-2 h-2 rounded-full ${color}`} aria-hidden="true" />
-            {labelByGroup[group]}
-          </span>
-        )
-      )}
+    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs tracking-[0.18em] text-zinc-500 uppercase">
+      {(Object.entries(dotByGroup) as [Skill["group"], string][]).map(([group, color]) => (
+        <span key={group} className="inline-flex items-center gap-2">
+          <span className={`h-2 w-2 rounded-full ${color}`} aria-hidden="true" />
+          {labelByGroup[group]}
+        </span>
+      ))}
     </div>
   )
 }
@@ -224,21 +217,9 @@ function MarqueeRow({
 
 function SkillChip({ skill }: { skill: Skill }) {
   return (
-    <span
-      className="
-        group/chip relative inline-flex items-center gap-2.5
-        px-4 py-2.5 rounded-full
-        bg-white/[0.03] border border-white/10 backdrop-blur-md
-        text-zinc-100 text-sm md:text-[15px] font-medium tracking-tight
-        shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]
-        transition-all duration-200
-        hover:bg-white/[0.07] hover:border-white/20
-        hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_22px_-6px_rgba(59,130,246,0.22)]
-        select-none
-      "
-    >
+    <span className="group/chip relative inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-medium tracking-tight text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md transition-all duration-200 select-none hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_22px_-6px_rgba(59,130,246,0.22)] md:text-[15px]">
       <span
-        className={`w-2 h-2 rounded-full flex-shrink-0 ${dotByGroup[skill.group]} ${dotGlowByGroup[skill.group]}`}
+        className={`h-2 w-2 shrink-0 rounded-full ${dotByGroup[skill.group]} ${dotGlowByGroup[skill.group]}`}
         aria-hidden="true"
       />
       {skill.name}

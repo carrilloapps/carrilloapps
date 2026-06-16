@@ -9,6 +9,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { SkipLink } from "@/components/skip-link"
 import { PageLoadingProvider } from "@/components/page-loading-context"
 import { MotionPreferencesProvider } from "@/components/motion-preferences-provider"
+import { Providers } from "@/components/providers"
 import { GlobalPageLoader } from "@/components/global-page-loader"
 import { Toaster } from "@/components/ui/sonner"
 import { DynamicCookieConsent } from "@/components/dynamic-imports"
@@ -16,7 +17,7 @@ import { DeferCSS } from "@/app/defer-css"
 import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
 import { getSiteUrl } from "@/lib/env"
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true, // Enable preloading for optimal font loading
@@ -69,6 +70,9 @@ export const metadata: Metadata = {
       "es-CO": "/",
       "x-default": "/",
     },
+    types: {
+      "application/rss+xml": "/rss.xml",
+    },
   },
   robots: {
     index: true,
@@ -120,6 +124,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/icons/192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/512.png", sizes: "512x512", type: "image/png" },
     ],
@@ -134,7 +141,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es-CO" suppressHydrationWarning>
       <head>
         {/* DNS prefetch and preconnect for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -142,12 +149,12 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://blog.carrillo.app" />
         <link rel="dns-prefetch" href="https://api.github.com" />
-        
+
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -159,18 +166,25 @@ export default function RootLayout({
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <MotionPreferencesProvider>
-            <PageLoadingProvider>
-              <SkipLink />
-              <GlobalPageLoader />
-              <ScrollToTop />
-              {children}
-              <DynamicCookieConsent />
-              <Toaster richColors closeButton position="bottom-right" theme="dark" />
-            </PageLoadingProvider>
-          </MotionPreferencesProvider>
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <MotionPreferencesProvider>
+              <PageLoadingProvider>
+                <SkipLink />
+                <GlobalPageLoader />
+                <ScrollToTop />
+                {children}
+                <DynamicCookieConsent />
+                <Toaster richColors closeButton position="bottom-right" theme="dark" />
+              </PageLoadingProvider>
+            </MotionPreferencesProvider>
+          </ThemeProvider>
+        </Providers>
         <WebsiteJsonLd />
         <OrganizationJsonLd />
         <PersonJsonLd />

@@ -348,4 +348,4 @@ if (domNode.children && domNode.children.length > 0) {
 ---
 
 **Última actualización**: Enero 7, 2026  
-**Mantenido por**: José Carrillo (junior@carrillo.app)
+**Mantenido por**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)

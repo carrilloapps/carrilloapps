@@ -24,11 +24,19 @@ yarn-error.log*
 # vercel
 .vercel
 
+# testing
+/coverage
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # skills (regenerated from skills-lock.json via `npm run skills:sync`)
 /.agents/skills/
+/.agents/settings.local.json
 /.claude/skills/
 /.claude/settings.local.json

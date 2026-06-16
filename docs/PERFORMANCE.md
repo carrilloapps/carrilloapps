@@ -506,4 +506,4 @@ npx lighthouse https://carrillo.app --preset=perf --view  # Audit
 
 ---
 
-**Version**: 3.0.0 | **Updated**: Jan 7, 2026 | **By**: José Carrillo
+**Version**: 3.0.0 | **Updated**: Jan 7, 2026 | **By**: José Porfirio Carrillo Echenique (Junior Carrillo)

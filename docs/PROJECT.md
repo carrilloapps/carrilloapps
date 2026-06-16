@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-carrillo.app is a personal portfolio and professional website for José Carrillo, Tech Lead of the Financial Backoffice team at Yummy Inc. The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
+carrillo.app is a personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Tech Lead of the Financial Backoffice team at Yummy Inc. The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
 
 ## Technology Stack
 
@@ -177,4 +177,4 @@ Blog content is fetched from Medium using the Medium API. New articles published
 
 ## Contact and Support
 
-For questions or support regarding this project, please contact José Carrillo at junior@carrillo.app.
+For questions or support regarding this project, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at junior@carrillo.app.

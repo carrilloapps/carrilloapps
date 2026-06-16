@@ -1,6 +1,6 @@
-# José Carrillo License
+# José Porfirio Carrillo Echenique - License
 
-Copyright (c) 2025 José Carrillo
+Copyright (c) 2025 José Porfirio Carrillo Echenique
 
 ## Permissions
 
@@ -11,7 +11,7 @@ Copyright (c) 2025 José Carrillo
 
 ## Limitations
 
-- ❌ Commercial use by third parties: Only the original author (José Carrillo) has the right to use this software for commercial purposes or profit from it.
+- ❌ Commercial use by third parties: Only the original author (José Porfirio Carrillo Echenique, operating publicly as Junior Carrillo) has the right to use this software for commercial purposes or profit from it.
 - ❌ Liability: This software is provided "as is" without warranty of any kind. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability.
 - ❌ Sublicensing: You may not grant a sublicense to modify and distribute this software to third parties not covered by this license.
 
@@ -23,7 +23,7 @@ Copyright (c) 2025 José Carrillo
 
 ## Additional Terms
 
-1. **Attribution**: Any distribution or public use of the software must include proper attribution to José Carrillo and reference to the original source repository.
+1. **Attribution**: Any distribution or public use of the software must include proper attribution to José Porfirio Carrillo Echenique (Junior Carrillo) and reference to the original source repository.
 
 2. **Contributions**: By contributing to this project, you agree that your contributions will be licensed under the same license as the original project.
 

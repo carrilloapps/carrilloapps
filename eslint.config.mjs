@@ -1,9 +1,10 @@
-import js from "@eslint/js";
-import tsParser from "@typescript-eslint/parser";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import reactPlugin from "eslint-plugin-react";
-import reactHooksPlugin from "eslint-plugin-react-hooks";
-import globals from "globals";
+import js from "@eslint/js"
+import tsParser from "@typescript-eslint/parser"
+import tsPlugin from "@typescript-eslint/eslint-plugin"
+import reactPlugin from "eslint-plugin-react"
+import reactHooksPlugin from "eslint-plugin-react-hooks"
+import betterTailwind from "eslint-plugin-better-tailwindcss"
+import globals from "globals"
 
 export default [
   {
@@ -58,4 +59,21 @@ export default [
       "no-undef": "off",
     },
   },
-];
+  {
+    // Tailwind class linting (v4). Only high-value, low-noise rules are enabled:
+    // unknown-classes is intentionally OFF so custom utilities (surface-card,
+    // glass variants) are not flagged, and class ordering is left to Prettier.
+    files: ["**/*.{jsx,tsx}"],
+    plugins: { "better-tailwindcss": betterTailwind },
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "app/globals.css",
+      },
+    },
+    rules: {
+      "better-tailwindcss/no-duplicate-classes": "warn",
+      "better-tailwindcss/no-conflicting-classes": "warn",
+      "better-tailwindcss/no-deprecated-classes": "warn",
+    },
+  },
+]

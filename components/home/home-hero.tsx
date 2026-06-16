@@ -2,8 +2,8 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Mail, Download } from "lucide-react"
-import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
+import { ArrowRight, Download } from "lucide-react"
+import { Github, Linkedin, Substack, Mail } from "@/components/icons/social-icons"
 import { Button } from "@/components/ui/button"
 import { AnimatedSection } from "@/components/animated-section"
 import { trackCTAClick, trackButtonClick } from "@/lib/analytics"
@@ -88,7 +88,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               <Button
                 variant="ghost"
                 size="xl"
-                className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent underline-offset-4 hover:underline decoration-zinc-600 touch-manipulation"
+                className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                 onClick={() => {
                   trackButtonClick("Descargar CV", "home-hero")
                   onRequestCv()
@@ -202,7 +202,7 @@ function SocialRow() {
 
   return (
     <div
-      className="flex gap-4 md:gap-8 justify-center md:justify-start pt-8"
+      className="flex items-center gap-4 md:gap-8 justify-center md:justify-start pt-8"
       aria-label="Enlaces de redes sociales"
     >
       {links.map((link) => {

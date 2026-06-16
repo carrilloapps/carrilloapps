@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SurfaceCard } from "@/components/ui/surface-card"
 import { SpinnerLoading } from "@/components/unified-loading"
+import { useNewsletterStatus, useNewsletterSubscribe } from "@/lib/queries"
 import { toast } from "sonner"
 
 /**
@@ -15,47 +16,47 @@ import { toast } from "sonner"
  */
 export function NewsletterForm() {
   const [email, setEmail] = useState("")
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  )
+  // available: true = Mailchimp wired up, false = not configured yet,
+  // undefined = still checking.
+  const { data: available } = useNewsletterStatus()
+  const subscribe = useNewsletterSubscribe()
+  const isSubmitting = subscribe.isPending
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setStatus("loading")
-    try {
-      // TODO: integrar con servicio real (Mailchimp / Resend / Buttondown).
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setStatus("success")
-      setEmail("")
-      toast.success("¡Gracias por suscribirte!", {
-        description: "Te avisaré cuando publique algo nuevo.",
-      })
-    } catch {
-      setStatus("error")
-      toast.error("Error al suscribirse", {
-        description: "Por favor intenta nuevamente en un momento.",
-      })
-    }
+    if (available === false) return
+    subscribe.mutate(email, {
+      onSuccess: () => {
+        setEmail("")
+        toast.success("¡Gracias por suscribirte!", {
+          description: "Te avisaré cuando publique algo nuevo.",
+        })
+      },
+      onError: (error) => {
+        const status = (error as Error & { status?: number }).status
+        toast.error(status === 503 ? "Newsletter no disponible" : "Error al suscribirse", {
+          description: error.message,
+        })
+      },
+    })
   }
 
   return (
     <SurfaceCard>
-      <div className="p-6 md:p-8 space-y-6">
-        <div className="flex flex-col items-center text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center">
+      <div className="space-y-6 p-6 md:p-8">
+        <div className="flex flex-col items-center space-y-3 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-500/30 bg-blue-500/10">
             <Mail className="h-5 w-5 text-blue-400" aria-hidden="true" />
           </div>
           <div className="space-y-1">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+            <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
               Newsletter
             </p>
-            <h3 className="text-xl font-bold text-white">
-              Suscríbete al newsletter
-            </h3>
+            <h3 className="text-xl font-bold text-white">Suscríbete al newsletter</h3>
           </div>
-          <p className="text-sm text-zinc-300 max-w-md leading-relaxed">
-            Recibe las últimas notas sobre desarrollo, fintech y liderazgo
-            técnico directamente en tu correo.
+          <p className="max-w-md text-sm leading-relaxed text-zinc-300">
+            Recibe las últimas notas sobre desarrollo, fintech y liderazgo técnico directamente en
+            tu correo.
           </p>
         </div>
 
@@ -63,7 +64,7 @@ export function NewsletterForm() {
           <label htmlFor="newsletter-email" className="sr-only">
             Correo electrónico
           </label>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               id="newsletter-email"
               name="email"
@@ -77,18 +78,20 @@ export function NewsletterForm() {
               autoComplete="email"
               autoCapitalize="off"
               spellCheck={false}
-              disabled={status === "loading"}
+              disabled={isSubmitting || available === false}
             />
             <Button
               type="submit"
               variant="gradient"
               size="default"
               className="touch-manipulation"
-              disabled={status === "loading"}
+              disabled={isSubmitting || available === false}
             >
-              {status === "loading" ? (
+              {available === false ? (
+                "Muy pronto disponible"
+              ) : isSubmitting ? (
                 <>
-                  <SpinnerLoading className="w-4 h-4" />
+                  <SpinnerLoading className="h-4 w-4" />
                   Suscribiendo…
                 </>
               ) : (
@@ -96,6 +99,11 @@ export function NewsletterForm() {
               )}
             </Button>
           </div>
+          {available === false && (
+            <p className="text-center text-xs text-zinc-400">
+              El newsletter estará disponible muy pronto. ¡Vuelve pronto!
+            </p>
+          )}
         </form>
       </div>
     </SurfaceCard>

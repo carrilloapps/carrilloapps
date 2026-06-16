@@ -1,6 +1,6 @@
 # carrillo.app Documentation
 
-Personal portfolio and professional website for José Carrillo, Tech Lead at Yummy Inc.
+Personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Tech Lead at Yummy Inc.
 
 ## ⚠️ Documentation Guidelines
 
@@ -145,6 +145,6 @@ Contributions are welcome! See [Contributing Guidelines](../CONTRIBUTING.md) for
 ---
 
 **Version**: 2.0.0 (Jan 2026)  
-**Maintained by**: José Carrillo (junior@carrillo.app)  
+**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)  
 **Last Updated**: January 7, 2026
 

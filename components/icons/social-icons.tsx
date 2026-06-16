@@ -33,9 +33,11 @@ export function Linkedin({ size = 24, ...props }: IconProps) {
 }
 
 export function Substack({ size = 24, ...props }: IconProps) {
+  // viewBox shifted on Y so the glyph (whose ink sits low, ~4.5→24) is
+  // optically centered in the box and aligns with the other social icons.
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 2.2 24 24"
       fill="currentColor"
       stroke="none"
       width={size}
@@ -43,6 +45,18 @@ export function Substack({ size = 24, ...props }: IconProps) {
       {...props}
     >
       <path d="M22.539 8.242H1.46V4.556h21.079v3.686zM1.46 10.958v12.954l10.54-5.797 10.54 5.797V10.958H1.46z" />
+    </svg>
+  );
+}
+
+export function Mail({ size = 24, ...props }: IconProps) {
+  // Stroke envelope matching the GitHub/LinkedIn weight, centered in the box,
+  // so the email link aligns with the rest of the row (lucide's Mail read as
+  // a lighter, slightly off outlier next to the filled brand marks).
+  return (
+    <svg {...baseSvgProps} width={size} height={size} {...props}>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m2.5 6.5 8.4 6a2 2 0 0 0 2.2 0l8.4-6" />
     </svg>
   );
 }

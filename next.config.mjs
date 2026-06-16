@@ -1,118 +1,102 @@
+import bundleAnalyzer from "@next/bundle-analyzer"
+
+const withBundleAnalyzer = bundleAnalyzer({
+  // Run `npm run analyze` to emit the interactive bundle report.
+  enabled: process.env.ANALYZE === "true",
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Image optimization for Next.js 16 + Vercel
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year in seconds
     qualities: [75, 90], // Support both default and high quality
     dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
+    contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Allow images from any host so badges (shields.io), CDNs and external
+    // sources all flow through next/image optimization without per-host config.
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        pathname: '/u/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'substackcdn.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'substack-post-media.s3.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'media.fashionnetwork.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.bancolombia.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.metropolitan-touring.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'almipro.com',
-      },
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
     ],
   },
-  
+
   // Performance optimizations for Next.js 16
   experimental: {
     // Optimize package imports to reduce bundle size
     optimizePackageImports: [
-      'framer-motion',
-      'lucide-react',
-      '@radix-ui/react-icons',
-      '@radix-ui/react-avatar',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
-      '@radix-ui/react-select',
-      '@radix-ui/react-tabs',
-      'recharts',
+      "framer-motion",
+      "lucide-react",
+      "@radix-ui/react-icons",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-select",
+      "@radix-ui/react-tabs",
     ],
     // Web Vitals attribution for debugging (Vercel Analytics compatible)
-    webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
+    webVitalsAttribution: ["CLS", "LCP", "FCP", "FID", "TTFB", "INP"],
     // Aggressive CSS optimization - inline critical CSS
     optimizeCss: true, // Enable automatic CSS optimization
-    cssChunking: 'strict', // Strict CSS chunking for optimal loading
+    cssChunking: "strict", // Strict CSS chunking for optimal loading
     // Optimize server actions
     serverActions: {
-      bodySizeLimit: '1mb',
+      bodySizeLimit: "1mb",
     },
   },
-  
+
   // Cache components - Disabled due to strict prerendering requirements
   // Causes errors with Date.now(), fetch() timing, and RSS client
   // cacheComponents: true,
-  
+
   // React Compiler optimization (Next.js 16+)
   // Disabled - requires babel-plugin-react-compiler
   reactCompiler: false,
-  
+
   // Transpile packages for better compatibility
-  transpilePackages: ['framer-motion'],
-  
+  transpilePackages: ["framer-motion"],
+
   // Module optimization - use native ESM when possible
   modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+    "lucide-react": {
+      transform: "lucide-react/dist/esm/icons/{{kebabCase member}}",
     },
   },
-  
+
   // Compiler optimizations
   compiler: {
     // Remove console logs in production
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? {
+            exclude: ["error", "warn"],
+          }
+        : false,
     // Remove React props in production for smaller bundle
-    reactRemoveProperties: process.env.NODE_ENV === 'production',
+    reactRemoveProperties: process.env.NODE_ENV === "production",
   },
-  
+
   // Production optimizations
   compress: true,
   poweredByHeader: false,
   generateEtags: true,
-  
+
   // Output configuration for Vercel
-  output: 'standalone',
-  
+  output: "standalone",
+
   // Security and performance headers
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           // Content Security Policy - Comprehensive security configuration
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://connect.facebook.net https://apis.google.com https://www.google.com https://www.gstatic.com",
@@ -126,164 +110,109 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self' https://forms.hsforms.com",
               "frame-ancestors 'none'",
-              "upgrade-insecure-requests"
-            ].join('; ')
+              "upgrade-insecure-requests",
+            ].join("; "),
           },
           // Security headers
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), serial=(), bluetooth=()',
+            key: "Permissions-Policy",
+            value:
+              "camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), serial=(), bluetooth=()",
           },
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
           },
         ],
       },
       {
-        source: '/sitemap.xml',
+        source: "/sitemap.xml",
         headers: [
           {
-            key: 'Content-Type',
-            value: 'application/xml',
+            key: "Content-Type",
+            value: "application/xml",
           },
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+            key: "Cache-Control",
+            value: "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
           },
         ],
       },
       {
-        source: '/robots.txt',
+        source: "/robots.txt",
         headers: [
           {
-            key: 'Content-Type',
-            value: 'text/plain',
+            key: "Content-Type",
+            value: "text/plain",
           },
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, s-maxage=86400',
+            key: "Cache-Control",
+            value: "public, max-age=86400, s-maxage=86400",
           },
         ],
       },
       {
-        source: '/manifest.webmanifest',
+        source: "/manifest.webmanifest",
         headers: [
           {
-            key: 'Content-Type',
-            value: 'application/manifest+json',
+            key: "Content-Type",
+            value: "application/manifest+json",
           },
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
-      // CSS files - specific pattern for app router
-      {
-        source: '/_next/static/css/app/:path*.css',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'CDN-Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      // CSS files - general pattern
-      {
-        source: '/_next/static/css/:path*.css',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'CDN-Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      // All other static files
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'CDN-Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      // Next.js optimized images
-      {
-        source: '/_next/image',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
-          },
-          {
-            key: 'CDN-Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      // NOTE: Do NOT override Content-Type or Cache-Control on /_next/static/*
+      // or /_next/image. Next.js + Vercel already serve content-hashed assets
+      // as `immutable` with the correct MIME type. Overriding them here caused
+      // stale HTML↔chunk mismatches across deploys: the document referenced a
+      // chunk the new deploy no longer had, the 404 came back as text/plain,
+      // and the browser refused to execute it ("Refused to execute script …"),
+      // killing hydration site-wide (dead menu, etc.).
       // Static images from public folder
       {
-        source: '/profile.jpg',
+        source: "/profile.jpg",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable',
+            key: "Cache-Control",
+            value:
+              "public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=86400, immutable",
           },
         ],
       },
       {
-        source: '/icons/:path*',
+        source: "/icons/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
       {
-        source: '/:path*.{jpg,jpeg,png,gif,webp,avif,ico,svg}',
+        source: "/:path*.{jpg,jpeg,png,gif,webp,avif,ico,svg}",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -293,17 +222,17 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: "/home",
+        destination: "/",
         permanent: true,
       },
       {
-        source: '/index',
-        destination: '/',
+        source: "/index",
+        destination: "/",
         permanent: true,
       },
     ]
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

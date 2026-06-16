@@ -7,16 +7,7 @@ import {
   type ComponentType,
   type PointerEvent as ReactPointerEvent,
 } from "react"
-import {
-  Users,
-  Database,
-  Server,
-  Layers,
-  Shield,
-  Cpu,
-  X,
-  type LucideProps,
-} from "lucide-react"
+import { Users, Database, Server, Layers, Shield, Cpu, X, type LucideProps } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 /**
@@ -176,8 +167,7 @@ export function ServiceGlobe() {
 
     const step = () => {
       const v = velocityRef.current
-      const hasInertia =
-        Math.abs(v.x) > VELOCITY_EPSILON || Math.abs(v.y) > VELOCITY_EPSILON
+      const hasInertia = Math.abs(v.x) > VELOCITY_EPSILON || Math.abs(v.y) > VELOCITY_EPSILON
 
       if (dragRef.current) {
         // Modo drag — el loop no aplica rotación, pero resetea la rampa
@@ -192,10 +182,7 @@ export function ServiceGlobe() {
         velocityRef.current = { x: v.x * FRICTION, y: v.y * FRICTION }
         setRotation({ ...rotationRef.current })
         autoSpeed = 0
-      } else if (
-        !reduceMotion &&
-        Date.now() - idleSinceRef.current > RESUME_DELAY_MS
-      ) {
+      } else if (!reduceMotion && Date.now() - idleSinceRef.current > RESUME_DELAY_MS) {
         // Modo auto — rotación de showcase lenta sobre Y, con rampa
         // suave para que no se sienta un arranque abrupto.
         autoSpeed += (AUTO_TARGET_SPEED - autoSpeed) * AUTO_RAMP
@@ -271,7 +258,7 @@ export function ServiceGlobe() {
   return (
     <div
       ref={stageRef}
-      className="relative mx-auto lg:mx-0 lg:ml-auto w-full max-w-[460px] aspect-square select-none"
+      className="relative mx-auto aspect-square w-full max-w-[460px] select-none lg:mx-0 lg:ml-auto"
       style={{ perspective: "1400px", perspectiveOrigin: "50% 50%" }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -283,7 +270,7 @@ export function ServiceGlobe() {
       {/* CAPA 1 — halo de acreción exterior. Pulsa lento; en reduce-motion
            queda estático. */}
       <motion.div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         animate={
           reduceMotion
             ? {}
@@ -303,7 +290,7 @@ export function ServiceGlobe() {
 
       {/* CAPA 2 — anillos orbitales (sugieren rutas de las partículas). */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
         aria-hidden="true"
         style={{
           transform: `rotateX(${65 + rotation.x * 0.3}deg) rotateZ(${rotation.y * 0.2}deg)`,
@@ -326,7 +313,7 @@ export function ServiceGlobe() {
 
       {/* CAPA 3 — singularidad central. Núcleo oscuro con anillo brillante. */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
         aria-hidden="true"
       >
         <div
@@ -346,9 +333,7 @@ export function ServiceGlobe() {
             style={{
               background:
                 "radial-gradient(circle at 50% 50%, transparent 60%, rgba(168, 85, 247, 0.5) 75%, transparent 85%)",
-              animation: reduceMotion
-                ? undefined
-                : "globePulse 4s ease-in-out infinite",
+              animation: reduceMotion ? undefined : "globePulse 4s ease-in-out infinite",
             }}
           />
         </div>
@@ -393,11 +378,7 @@ export function ServiceGlobe() {
             tile={tile}
             index={idx}
             isActive={activeTile?.label === tile.label}
-            onSelect={() =>
-              setActiveTile((cur) =>
-                cur?.label === tile.label ? null : tile
-              )
-            }
+            onSelect={() => setActiveTile((cur) => (cur?.label === tile.label ? null : tile))}
           />
         ))}
       </div>
@@ -411,35 +392,30 @@ export function ServiceGlobe() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute left-1/2 -translate-x-1/2 bottom-2 md:bottom-4 w-[88%] max-w-[360px] z-20"
+            className="absolute bottom-2 left-1/2 z-20 w-[88%] max-w-[360px] -translate-x-1/2 md:bottom-4"
             role="tooltip"
           >
-            <div className="surface-card p-4 md:p-5 relative">
+            <div className="surface-card relative p-4 md:p-5">
               <button
                 type="button"
                 onClick={() => setActiveTile(null)}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/40 border border-white/15 flex items-center justify-center text-zinc-300 hover:text-white hover:bg-black/60 transition-colors"
+                className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-black/40 text-zinc-300 transition-colors hover:bg-black/60 hover:text-white"
                 aria-label="Cerrar detalle"
               >
-                <X className="w-3.5 h-3.5" aria-hidden="true" />
+                <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
               <div className="flex items-start gap-3 pr-7">
-                <div className="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-500/40 flex items-center justify-center flex-shrink-0">
-                  <activeTile.icon
-                    className="w-4 h-4 text-blue-300"
-                    aria-hidden="true"
-                  />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-blue-500/40 bg-blue-500/15">
+                  <activeTile.icon className="h-4 w-4 text-blue-300" aria-hidden="true" />
                 </div>
-                <div className="space-y-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-blue-300 font-medium">
+                <div className="min-w-0 space-y-1">
+                  <p className="text-[10px] font-medium tracking-[0.18em] text-blue-300 uppercase">
                     Servicio
                   </p>
-                  <h3 className="text-base font-bold text-white leading-tight">
+                  <h3 className="text-base leading-tight font-bold text-white">
                     {activeTile.label}
                   </h3>
-                  <p className="text-sm text-zinc-300 leading-relaxed">
-                    {activeTile.description}
-                  </p>
+                  <p className="text-sm leading-relaxed text-zinc-300">{activeTile.description}</p>
                 </div>
               </div>
             </div>
@@ -450,10 +426,10 @@ export function ServiceGlobe() {
       {/* Hint de interacción — chip flotante en la esquina superior. */}
       {!activeTile && (
         <div
-          className="absolute top-2 right-2 z-10 inline-flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/10 rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-zinc-400 pointer-events-none"
+          className="pointer-events-none absolute top-2 right-2 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 text-[10px] tracking-[0.14em] text-zinc-400 uppercase backdrop-blur-md"
           aria-hidden="true"
         >
-          <span className="w-1 h-1 rounded-full bg-blue-400 animate-pulse" />
+          <span className="h-1 w-1 animate-pulse rounded-full bg-blue-400" />
           Arrastrá · Click
         </div>
       )}
@@ -484,7 +460,7 @@ function GlobeTile({
   const Icon = tile.icon
   return (
     <div
-      className="absolute top-1/2 left-1/2 group/tile"
+      className="group/tile absolute top-1/2 left-1/2"
       style={{
         transform: `translate(-50%, -50%) rotateY(${tile.lng}deg) rotateX(${tile.lat}deg) translateZ(${SPHERE_RADIUS}px)`,
         transformStyle: "preserve-3d",
@@ -499,9 +475,9 @@ function GlobeTile({
           e.stopPropagation()
           onSelect()
         }}
-        className={`relative w-[92px] h-[92px] md:w-[100px] md:h-[100px] flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl bg-slate-950/85 backdrop-blur-md border transition-all duration-200 cursor-pointer ${
+        className={`relative flex h-[92px] w-[92px] cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border bg-slate-950/85 p-3 backdrop-blur-md transition-all duration-200 md:h-[100px] md:w-[100px] ${
           isActive
-            ? "border-blue-400/80 bg-slate-900/90 scale-110 shadow-[0_0_0_2px_rgba(96,165,250,0.3),0_18px_40px_-10px_rgba(59,130,246,0.6)]"
+            ? "scale-110 border-blue-400/80 bg-slate-900/90 shadow-[0_0_0_2px_rgba(96,165,250,0.3),0_18px_40px_-10px_rgba(59,130,246,0.6)]"
             : "border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_8px_24px_-12px_rgba(0,0,0,0.6)] hover:border-blue-400/60 hover:bg-slate-900/85 hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_12px_28px_-8px_rgba(59,130,246,0.4)]"
         }`}
         style={{ transitionDelay: `${index * 20}ms` }}
@@ -509,11 +485,11 @@ function GlobeTile({
         aria-pressed={isActive}
       >
         <div
-          className={`w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center transition-colors ${isActive ? "border-blue-400/60 bg-blue-500/20" : "group-hover/tile:border-blue-400/50"}`}
+          className={`flex h-9 w-9 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 transition-colors ${isActive ? "border-blue-400/60 bg-blue-500/20" : "group-hover/tile:border-blue-400/50"}`}
         >
-          <Icon className="w-4 h-4 text-blue-300" aria-hidden="true" />
+          <Icon className="h-4 w-4 text-blue-300" aria-hidden="true" />
         </div>
-        <span className="text-[10px] md:text-[11px] font-semibold text-zinc-100 leading-tight text-center">
+        <span className="text-center text-[10px] leading-tight font-semibold text-zinc-100 md:text-[11px]">
           {tile.label}
         </span>
       </button>

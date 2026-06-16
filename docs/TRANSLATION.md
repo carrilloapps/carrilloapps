@@ -165,4 +165,4 @@ To add support for a new language:
 
 ## Contact for Translation Issues
 
-For questions or issues related to translations, please contact José Carrillo at junior@carrillo.app.
+For questions or issues related to translations, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at junior@carrillo.app.
