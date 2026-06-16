@@ -43,20 +43,32 @@ const PaginationLink = ({
   className,
   isActive,
   size = "icon",
+  href,
   ...props
-}: PaginationLinkProps) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(
-      buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
-      }),
-      className
-    )}
-    {...props}
-  />
-)
+}: PaginationLinkProps) => {
+  const classes = cn(
+    buttonVariants({
+      variant: isActive ? "outline" : "ghost",
+      size,
+    }),
+    className
+  )
+  // Client-side pagination (no href) must be a <button>, not a hash-less <a>:
+  // anchors without href aren't crawlable and hurt SEO.
+  if (href) {
+    return (
+      <a href={href} aria-current={isActive ? "page" : undefined} className={classes} {...props} />
+    )
+  }
+  return (
+    <button
+      type="button"
+      aria-current={isActive ? "page" : undefined}
+      className={classes}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    />
+  )
+}
 PaginationLink.displayName = "PaginationLink"
 
 const PaginationPrevious = ({

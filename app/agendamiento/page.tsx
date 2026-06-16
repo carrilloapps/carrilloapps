@@ -20,6 +20,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { buildWhatsAppUrl, buildScheduleWhatsAppMessage } from "@/lib/whatsapp"
 import {
   Dialog,
   DialogContent,
@@ -92,6 +93,17 @@ function SchedulePageContent() {
 
   const confirmSubmission = () => {
     setShowDialog(false)
+    const whatsappUrl = buildWhatsAppUrl(
+      buildScheduleWhatsAppMessage({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        projectType: formData.projectType,
+        preferredTime: formData.preferredTime,
+        message: formData.message,
+      })
+    )
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer")
     router.push("/agendamiento/gracias")
   }
 
@@ -163,9 +175,9 @@ function SchedulePageContent() {
                   </span>
                 </Button>
                 <Button
-                  variant="glass"
+                  variant="ghost"
                   size="xl"
-                  className="w-full sm:w-auto touch-manipulation"
+                  className="w-full sm:w-auto text-zinc-400 hover:text-white hover:bg-transparent touch-manipulation"
                   aria-describedby="services-desc"
                   asChild
                 >

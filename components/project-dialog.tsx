@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Github } from "@/components/icons/social-icons"
 import type { Project } from "@/types/project"
+import { StatTiles } from "./ui/stat-tiles"
 
 interface ProjectDialogProps {
   /** Proyecto completo — el dialog deriva todo el contenido de aquí. */
@@ -47,32 +48,16 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
   const headline = project.outcome ?? project.shortTitle
   const metrics = project.metrics ?? []
-  const chips = [project.type, project.role, project.year].filter(
-    (chip): chip is string => Boolean(chip)
+  const chips = [project.type, project.role, project.year].filter((chip): chip is string =>
+    Boolean(chip),
   )
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent
-        className="
-          flex flex-col
-          bg-slate-950/95 border-white/10 backdrop-blur-xl
-          text-white sm:max-w-[680px] max-h-[92vh]
-          overflow-hidden p-0 gap-0
-          [&>button[type='button']]:bg-black/60
-          [&>button[type='button']]:border [&>button[type='button']]:border-white/20
-          [&>button[type='button']]:backdrop-blur-md
-          [&>button[type='button']]:rounded-full
-          [&>button[type='button']]:p-1.5 [&>button[type='button']]:opacity-100
-          [&>button[type='button']]:text-white
-          [&>button[type='button']]:hover:bg-black/80
-          [&>button[type='button']]:transition-colors
-          [&>button[type='button']]:z-20
-        "
-      >
+      <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden border-white/10 bg-slate-950/95 p-0 text-white backdrop-blur-xl sm:max-w-[680px] [&>button[type='button']]:z-20 [&>button[type='button']]:rounded-full [&>button[type='button']]:border [&>button[type='button']]:border-white/20 [&>button[type='button']]:bg-black/60 [&>button[type='button']]:p-1.5 [&>button[type='button']]:text-white [&>button[type='button']]:opacity-100 [&>button[type='button']]:backdrop-blur-md [&>button[type='button']]:transition-colors [&>button[type='button']]:hover:bg-black/80">
         {/* Hero — imagen con gradient overlay + chips encima. */}
-        <div className="relative aspect-[16/9] overflow-hidden bg-slate-900 flex-shrink-0">
+        <div className="relative aspect-[16/9] shrink-0 overflow-hidden bg-slate-900">
           {project.image ? (
             <Image
               src={project.image}
@@ -88,15 +73,15 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
             </div>
           )}
           <div
-            className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-slate-950/10 pointer-events-none"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-slate-950/10"
             aria-hidden="true"
           />
           {chips.length > 0 && (
-            <div className="absolute left-6 right-6 bottom-5 flex flex-wrap items-center gap-1.5">
+            <div className="absolute right-6 bottom-5 left-6 flex flex-wrap items-center gap-1.5">
               {chips.map((chip, idx) => (
                 <span
                   key={`${chip}-${idx}`}
-                  className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-100 bg-black/50 backdrop-blur-md border border-white/15"
+                  className="inline-flex items-center rounded-full border border-white/15 bg-black/50 px-2.5 py-1 text-[11px] font-medium tracking-[0.14em] text-zinc-100 uppercase backdrop-blur-md"
                 >
                   {chip}
                 </span>
@@ -106,70 +91,50 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
         </div>
 
         {/* Cuerpo scrollable — titular + métricas + resumen + stack + CTAs. */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+        <div className="flex-1 space-y-6 overflow-y-auto p-6 md:p-8">
           <DialogHeader className="space-y-2 text-left">
-            <DialogTitle className="text-2xl md:text-3xl font-bold text-white leading-tight tracking-tight">
+            <DialogTitle className="text-2xl leading-tight font-bold tracking-tight text-white md:text-3xl">
               {headline}
             </DialogTitle>
-            <DialogDescription className="text-sm text-zinc-400">
-              {project.title}
-            </DialogDescription>
+            <DialogDescription className="text-sm text-zinc-400">{project.title}</DialogDescription>
           </DialogHeader>
 
           {metrics.length > 0 && (
-            <ul
-              className="grid grid-cols-3 gap-2 md:gap-3 list-none p-0 m-0"
-              aria-label="Métricas de impacto"
-            >
-              {metrics.slice(0, 3).map((metric) => (
-                <li
-                  key={metric.label}
-                  className="surface-card-subtle px-3 py-3 md:px-4 md:py-4 text-center"
-                >
-                  <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                    {metric.value}
-                  </div>
-                  <div className="mt-1.5 text-[11px] md:text-xs text-zinc-300 leading-tight">
-                    {metric.label}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <StatTiles
+              metrics={metrics}
+              variant="plain"
+              size="md"
+              ariaLabel="Métricas de impacto en la organización"
+            />
           )}
 
           <section className="space-y-2">
-            <h3 className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+            <h3 className="mt-4 text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
               Resumen
             </h3>
-            <p className="text-zinc-300 leading-relaxed">
-              {project.fullDescription}
-            </p>
+            <p className="leading-relaxed text-zinc-300">{project.fullDescription}</p>
           </section>
 
           {project.technologies?.length > 0 && (
             <section className="space-y-2">
-              <h3 className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
+              <h3 className="text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
                 Stack
               </h3>
-              <p className="font-mono text-sm text-zinc-300 leading-relaxed">
+              <p className="font-mono text-sm leading-relaxed text-zinc-300">
                 {project.technologies.join(" · ")}
               </p>
             </section>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col gap-3 pt-2 sm:flex-row">
             {project.demoUrl && (
               <Button
                 variant="gradient"
                 size="lg"
-                className="w-full sm:w-auto touch-manipulation"
+                className="w-full touch-manipulation sm:w-auto"
                 asChild
               >
-                <a
-                  href={project.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
                   Ir al sitio
                 </a>
@@ -179,14 +144,10 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
               <Button
                 variant="glass"
                 size="lg"
-                className="w-full sm:w-auto touch-manipulation"
+                className="w-full touch-manipulation sm:w-auto"
                 asChild
               >
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-4 w-4" aria-hidden="true" />
                   Ver documentación
                 </a>
@@ -195,7 +156,7 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
             <Button
               variant="ghostLink"
               size="lg"
-              className="w-full sm:w-auto touch-manipulation justify-start sm:justify-center"
+              className="w-full touch-manipulation justify-start sm:w-auto sm:justify-center"
               asChild
               onClick={() => setIsOpen(false)}
             >

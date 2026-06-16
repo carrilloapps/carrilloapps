@@ -1,6 +1,8 @@
 import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 
+import { Pill } from "@/components/ui/pill"
+
 type Align = "left" | "center" | "right"
 
 interface SectionHeaderProps {
@@ -59,10 +61,10 @@ export function SectionHeader({
   const stack = (
     <div className={`flex flex-col gap-3 max-w-2xl ${stackByAlign[align]}`}>
       {eyebrow && (
-        <span className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium uppercase tracking-[0.18em]">
+        <Pill variant="eyebrow" size="md">
           {EyebrowIcon ? <EyebrowIcon className="w-3 h-3" aria-hidden="true" /> : null}
           {eyebrow}
-        </span>
+        </Pill>
       )}
       <h2
         id={headingId}

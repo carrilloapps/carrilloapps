@@ -1,65 +1,51 @@
-"use client";
+"use client"
 
-import { type ReactNode, useState } from "react";
-import Link from "next/link";
-import { motion } from "@/lib/motion";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { SurfaceCard } from "@/components/ui/surface-card";
-import {
-  Send,
-  Mail,
-  Phone,
-  MapPin,
-  Clock,
-  Globe,
-  Eye,
-  type LucideIcon,
-} from "lucide-react";
-import { Github, Linkedin, Substack } from "@/components/icons/social-icons";
+import { type ReactNode, useState } from "react"
+import Link from "next/link"
+import { motion } from "@/lib/motion"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { SurfaceCard } from "@/components/ui/surface-card"
+import { Send, Mail, Phone, MapPin, Clock, Globe, Eye, type LucideIcon } from "lucide-react"
+import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 
 const XIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    aria-hidden="true"
-  >
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
-);
+)
 
 interface CompactContactSectionProps {
   formData: {
-    name: string;
-    email: string;
-    whatsapp: string;
-    company: string;
-    subject: string;
-    message: string;
-    honeypot: string;
-  };
-  onInputChange: (field: string, value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  isSubmitting: boolean;
-  isLimited: boolean;
-  formRef: React.RefObject<HTMLFormElement | null>;
-  emailRevealed: boolean;
-  phoneRevealed: boolean;
-  onRevealEmail: () => void;
-  onRevealPhone: () => void;
-  obfuscatedEmail: string;
-  obfuscatedPhone: string;
-  deobfuscateEmail: (value: string) => string;
-  deobfuscatePhone: (value: string) => string;
+    name: string
+    email: string
+    whatsapp: string
+    company: string
+    subject: string
+    message: string
+    honeypot: string
+  }
+  onInputChange: (field: string, value: string) => void
+  onSubmit: (e: React.FormEvent) => void
+  isSubmitting: boolean
+  isLimited: boolean
+  formRef: React.RefObject<HTMLFormElement | null>
+  emailRevealed: boolean
+  phoneRevealed: boolean
+  onRevealEmail: () => void
+  onRevealPhone: () => void
+  obfuscatedEmail: string
+  obfuscatedPhone: string
+  deobfuscateEmail: (value: string) => string
+  deobfuscatePhone: (value: string) => string
 }
 
 /**
@@ -87,10 +73,10 @@ export function CompactContactSection({
   deobfuscateEmail,
   deobfuscatePhone,
 }: CompactContactSectionProps) {
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6 w-full">
+    <div className="grid w-full gap-6 lg:grid-cols-3">
       {/* Form — spans 2 columns on lg+. */}
       <motion.div
         initial={{ y: 20 }}
@@ -100,7 +86,7 @@ export function CompactContactSection({
         className="group lg:col-span-2"
       >
         <SurfaceCard className="h-full">
-          <div className="p-6 md:p-8 space-y-6">
+          <div className="space-y-6 p-6 md:p-8">
             <CardHead
               icon={Send}
               title="Envíame un mensaje"
@@ -128,11 +114,8 @@ export function CompactContactSection({
                 aria-hidden="true"
               />
 
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Field
-                  id="contact-name"
-                  label="Nombre"
-                >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field id="contact-name" label="Nombre">
                   <Input
                     id="contact-name"
                     name="name"
@@ -167,7 +150,7 @@ export function CompactContactSection({
                 </Field>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Field id="contact-whatsapp" label="WhatsApp">
                   <Input
                     id="contact-whatsapp"
@@ -209,13 +192,9 @@ export function CompactContactSection({
                   <SelectTrigger id="subject-select" variant="glass">
                     <SelectValue placeholder="Selecciona un asunto" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-950/95 backdrop-blur-xl border-white/10">
-                    <SelectItem value="consulta-general">
-                      Consulta general
-                    </SelectItem>
-                    <SelectItem value="proyecto-nuevo">
-                      Nuevo proyecto
-                    </SelectItem>
+                  <SelectContent className="border-white/10 bg-slate-950/95 backdrop-blur-xl">
+                    <SelectItem value="consulta-general">Consulta general</SelectItem>
+                    <SelectItem value="proyecto-nuevo">Nuevo proyecto</SelectItem>
                     <SelectItem value="colaboracion">Colaboración</SelectItem>
                     <SelectItem value="consultoria">Consultoría</SelectItem>
                     <SelectItem value="otro">Otro</SelectItem>
@@ -240,18 +219,15 @@ export function CompactContactSection({
               </Field>
 
               {isLimited && (
-                <div
-                  className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg"
-                  role="alert"
-                >
-                  <p className="text-red-400 text-sm">
-                    Has alcanzado el límite de envíos. Espera un momento antes
-                    de intentar nuevamente.
+                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3" role="alert">
+                  <p className="text-sm text-red-400">
+                    Has alcanzado el límite de envíos. Espera un momento antes de intentar
+                    nuevamente.
                   </p>
                 </div>
               )}
 
-              <label className="flex items-start gap-3 cursor-pointer group/terms">
+              <label className="group/terms flex cursor-pointer items-start gap-3">
                 <input
                   type="checkbox"
                   id="terms-accepted"
@@ -259,16 +235,16 @@ export function CompactContactSection({
                   onChange={(e) => setTermsAccepted(e.target.checked)}
                   disabled={isSubmitting}
                   required
-                  className="mt-0.5 h-4 w-4 shrink-0 rounded border border-zinc-600 bg-zinc-800/60 accent-blue-500 cursor-pointer disabled:opacity-50"
+                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-sm border border-zinc-600 bg-zinc-800/60 accent-blue-500 disabled:opacity-50"
                   aria-required="true"
                 />
-                <span className="text-sm text-zinc-400 leading-snug group/terms-hover:text-zinc-300 transition-colors">
+                <span className="group/terms-hover:text-zinc-300 text-sm leading-snug text-zinc-400 transition-colors">
                   He leído y acepto los{" "}
                   <Link
                     href="/terminos"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
+                    className="text-blue-400 underline underline-offset-2 hover:text-blue-300"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Términos y condiciones
@@ -278,7 +254,7 @@ export function CompactContactSection({
                     href="/privacidad"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
+                    className="text-blue-400 underline underline-offset-2 hover:text-blue-300"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Política de privacidad
@@ -290,18 +266,18 @@ export function CompactContactSection({
                 type="submit"
                 variant="gradient"
                 size="lg"
-                className="w-full min-h-[48px] touch-manipulation"
+                className="min-h-[48px] w-full touch-manipulation"
                 disabled={isSubmitting || isLimited || !termsAccepted}
                 aria-label="Enviar mensaje de contacto"
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-4 h-4 mr-2 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                     Enviando...
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4 mr-2" aria-hidden="true" />
+                    <Send className="mr-2 h-4 w-4" aria-hidden="true" />
                     Enviar mensaje
                   </>
                 )}
@@ -320,7 +296,7 @@ export function CompactContactSection({
         className="group"
       >
         <SurfaceCard className="h-full">
-          <div className="p-6 md:p-8 flex flex-col gap-6 h-full">
+          <div className="flex h-full flex-col gap-6 p-6 md:p-8">
             <CardHead
               icon={Mail}
               title="Contacto directo"
@@ -328,45 +304,35 @@ export function CompactContactSection({
             />
 
             <div className="space-y-3">
-              <ContactRow
-                icon={Mail}
-                label="Email"
-                infoIcon={Clock}
-                infoText="Respuesta en 24h"
-              >
+              <ContactRow icon={Mail} label="Email" infoIcon={Clock} infoText="Respuesta en 24h">
                 {emailRevealed ? (
-                  <p className="text-zinc-200 font-mono text-sm select-all break-all">
+                  <p className="font-mono text-sm break-all text-zinc-200 select-all">
                     {deobfuscateEmail(obfuscatedEmail)}
                   </p>
                 ) : (
                   <button
                     type="button"
                     onClick={onRevealEmail}
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 transition-colors hover:text-blue-300"
                   >
-                    <Eye className="w-3.5 h-3.5" aria-hidden="true" />
+                    <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                     Revelar email
                   </button>
                 )}
               </ContactRow>
 
-              <ContactRow
-                icon={Phone}
-                label="Teléfono"
-                infoIcon={Clock}
-                infoText="Lun–Vie 9–18h"
-              >
+              <ContactRow icon={Phone} label="Teléfono" infoIcon={Clock} infoText="Lun–Vie 9–18h">
                 {phoneRevealed ? (
-                  <p className="text-zinc-200 font-mono text-sm select-all">
+                  <p className="font-mono text-sm text-zinc-200 select-all">
                     {deobfuscatePhone(obfuscatedPhone)}
                   </p>
                 ) : (
                   <button
                     type="button"
                     onClick={onRevealPhone}
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 transition-colors hover:text-blue-300"
                   >
-                    <Eye className="w-3.5 h-3.5" aria-hidden="true" />
+                    <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                     Revelar teléfono
                   </button>
                 )}
@@ -378,38 +344,26 @@ export function CompactContactSection({
                 infoIcon={Globe}
                 infoText="Remoto disponible"
               >
-                <p className="text-zinc-200 text-sm">Medellín, CO</p>
+                <p className="text-sm text-zinc-200">Medellín, CO</p>
               </ContactRow>
             </div>
 
-            <div className="mt-auto pt-5 border-t border-zinc-800/60">
-              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 font-medium mb-3">
+            <div className="mt-auto border-t border-zinc-800/60 pt-5">
+              <p className="mb-3 text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
                 Redes sociales
               </p>
               <div className="grid grid-cols-2 gap-2">
-                <SocialLink
-                  href="https://github.com/carrilloapps"
-                  label="GitHub"
-                >
-                  <Github className="w-4 h-4" />
+                <SocialLink href="https://github.com/carrilloapps" label="GitHub">
+                  <Github className="h-4 w-4" />
                 </SocialLink>
-                <SocialLink
-                  href="https://linkedin.com/in/carrilloapps"
-                  label="LinkedIn"
-                >
-                  <Linkedin className="w-4 h-4" />
+                <SocialLink href="https://linkedin.com/in/carrilloapps" label="LinkedIn">
+                  <Linkedin className="h-4 w-4" />
                 </SocialLink>
-                <SocialLink
-                  href="https://x.com/carrilloapps"
-                  label="X / Twitter"
-                >
-                  <XIcon className="w-4 h-4" />
+                <SocialLink href="https://x.com/carrilloapps" label="X / Twitter">
+                  <XIcon className="h-4 w-4" />
                 </SocialLink>
-                <SocialLink
-                  href="https://carrilloapps.substack.com/"
-                  label="Substack"
-                >
-                  <Substack className="w-4 h-4" />
+                <SocialLink href="https://carrilloapps.substack.com/" label="Substack">
+                  <Substack className="h-4 w-4" />
                 </SocialLink>
               </div>
             </div>
@@ -417,7 +371,7 @@ export function CompactContactSection({
         </SurfaceCard>
       </motion.div>
     </div>
-  );
+  )
 }
 
 function CardHead({
@@ -425,23 +379,21 @@ function CardHead({
   title,
   description,
 }: {
-  icon: LucideIcon;
-  title: string;
-  description: string;
+  icon: LucideIcon
+  title: string
+  description: string
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-        <Icon className="w-5 h-5 text-blue-400" aria-hidden="true" />
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
+        <Icon className="h-5 w-5 text-blue-400" aria-hidden="true" />
       </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="text-lg font-semibold text-white leading-tight">
-          {title}
-        </h3>
-        <p className="text-sm text-zinc-400 mt-0.5">{description}</p>
+      <div className="min-w-0 flex-1">
+        <h3 className="text-lg leading-tight font-semibold text-white">{title}</h3>
+        <p className="mt-0.5 text-sm text-zinc-400">{description}</p>
       </div>
     </div>
-  );
+  )
 }
 
 function Field({
@@ -450,24 +402,24 @@ function Field({
   optional = false,
   children,
 }: {
-  id: string;
-  label: string;
-  optional?: boolean;
-  children: ReactNode;
+  id: string
+  label: string
+  optional?: boolean
+  children: ReactNode
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="text-sm font-medium text-zinc-300 flex items-center gap-2">
+      <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-zinc-300">
         {label}
         {optional && (
-          <span className="text-[11px] font-normal text-zinc-500 uppercase tracking-wide">
+          <span className="text-[11px] font-normal tracking-wide text-zinc-500 uppercase">
             opcional
           </span>
         )}
       </label>
       {children}
     </div>
-  );
+  )
 }
 
 function ContactRow({
@@ -477,31 +429,29 @@ function ContactRow({
   infoText,
   children,
 }: {
-  icon: LucideIcon;
-  label: string;
-  infoIcon?: LucideIcon;
-  infoText?: string;
-  children: ReactNode;
+  icon: LucideIcon
+  label: string
+  infoIcon?: LucideIcon
+  infoText?: string
+  children: ReactNode
 }) {
   return (
     <div className="surface-card-subtle flex items-start gap-3 p-3">
-      <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-500/30 bg-blue-500/10">
         <Icon className="h-4 w-4 text-blue-400" aria-hidden="true" />
       </div>
-      <div className="flex-1 min-w-0 space-y-1">
-        <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 font-medium">
-          {label}
-        </p>
+      <div className="min-w-0 flex-1 space-y-1">
+        <p className="text-[11px] font-medium tracking-[0.14em] text-zinc-500 uppercase">{label}</p>
         {children}
         {infoText && (
           <div className="flex items-center gap-1.5 text-xs text-zinc-500">
-            {InfoIcon && <InfoIcon className="w-3 h-3" aria-hidden="true" />}
+            {InfoIcon && <InfoIcon className="h-3 w-3" aria-hidden="true" />}
             <span>{infoText}</span>
           </div>
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function SocialLink({
@@ -509,9 +459,9 @@ function SocialLink({
   label,
   children,
 }: {
-  href: string;
-  label: string;
-  children: ReactNode;
+  href: string
+  label: string
+  children: ReactNode
 }) {
   return (
     <motion.a
@@ -526,5 +476,5 @@ function SocialLink({
       {children}
       <span className="text-[11px] font-medium">{label}</span>
     </motion.a>
-  );
+  )
 }

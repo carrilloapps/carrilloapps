@@ -1,0 +1,24 @@
+# Junior Carrillo — Senior Software Developer & Tech Leader
+
+> Sitio profesional de José "Junior" Carrillo, Senior Software Developer y Tech Leader basado en Medellín, Colombia, con más de 10 años construyendo sistemas de pago, fintech y software empresarial escalable para LATAM.
+
+Junior Carrillo lidera equipos de ingeniería y diseña arquitecturas de alta transaccionalidad. Hoy dirige el equipo de pagos en Yummy Inc.; antes trabajó en Wompi (Grupo Bancolombia), Cencosud y Sky Airline. Especialidades: liderazgo técnico, sistemas financieros, arquitectura de software, cloud, seguridad y compliance (PCI-DSS) e inteligencia artificial. El sitio está en español y su contenido editorial proviene de Substack.
+
+## Páginas principales
+
+- [Inicio](https://carrillo.app/): perfil, experiencia y proyectos destacados de un Senior Software Developer y Tech Leader.
+- [Sobre mí](https://carrillo.app/sobre-mi): trayectoria como Tech Leader y Senior Software Developer en Medellín, con foco en sistemas de pago para LATAM.
+- [Servicios](https://carrillo.app/servicios): servicios de liderazgo técnico y consultoría — sistemas financieros, arquitectura de software, cloud e IA.
+- [Recursos](https://carrillo.app/recursos): recursos gratuitos y de código abierto — repositorios destacados de GitHub y GitLab.
+- [Contacto](https://carrillo.app/contacto): contacto para consultoría tecnológica, desarrollo de software y liderazgo técnico.
+- [Agendamiento](https://carrillo.app/agendamiento): agenda una consulta de liderazgo técnico para revisar tu proyecto.
+
+## Recursos del sitio
+
+- [Mapa del sitio (sitemap)](https://carrillo.app/sitemap.xml)
+- [Feed RSS](https://carrillo.app/rss.xml)
+
+## Contacto
+
+- Web: https://carrillo.app
+- Ubicación: Medellín, Colombia

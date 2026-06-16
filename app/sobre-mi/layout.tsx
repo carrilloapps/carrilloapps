@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Tech Leader y Senior Software Developer en Medellín",
   description:
-    "Tech Leader con 10 años construyendo sistemas de pago en LATAM. Actualmente en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
+    "Tech Leader y Senior Software Developer en Medellín con +10 años creando sistemas de pago para LATAM. Hoy en Yummy; antes Wompi.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [

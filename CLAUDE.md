@@ -10,11 +10,15 @@ npm run build        # Production build
 npm run start        # Serve production build
 npm run lint         # ESLint check (must be 0 errors / 0 warnings before commit)
 npm run lint:fix     # Auto-fix ESLint issues
+npm test             # Vitest unit tests (run once); test:watch for watch mode
+npm run test:e2e     # Playwright end-to-end tests
 ```
 
-There is **no test runner configured** — `package.json` exposes no `test` script and no test framework is installed. `docs/DEVELOPMENT.md` references Jest / `pnpm test`, but that is aspirational. Don't try to run tests; quality gating is via `npm run lint` + `npm run build`.
+Tests run on **Vitest** (`npm test`, config in `vitest.config.ts` + `vitest.setup.ts`, specs under `tests/`) with **Playwright** for e2e (`npm run test:e2e`, `playwright.config.ts`). Quality gating before commit is `npm run lint` (0 errors / 0 warnings) + `npm run build`; run the relevant tests when touching covered code.
 
 The project uses **npm** (`package-lock.json` is the lockfile), even though `docs/DEVELOPMENT.md` mentions pnpm. Use `npm`.
+
+**Deploys:** Vercel builds from the `main` branch (push to `main` → production). `.vercelignore` excludes `.agents` (a local dev symlink → `.claude` that is broken on Vercel's build machine and crashes `next build` tracing if uploaded), `.claude`, `.github`, and `docs`. Don't remove those entries.
 
 ## Stack & Conventions
 
@@ -22,7 +26,7 @@ The project uses **npm** (`package-lock.json` is the lockfile), even though `doc
 - **Tailwind 3.4** + **shadcn/ui** (Radix primitives in `components/ui/`) + **Framer Motion**
 - Path alias: `@/*` → repo root (e.g., `@/components/page-hero`)
 - **Tilde versioning (`~`) is intentional and load-bearing** — every dependency in `package.json` uses `~` to allow only patch updates. Do not change to `^` or pin exact. This is enforced by `AGENTS.md` to prevent breaking minor/major bumps.
-- Routes use **Spanish slugs**: `agendamiento`, `contacto`, `cookies`, `privacidad`, `recursos` (resources), `servicios` (services), `sobre-mi` (about), `terminos`. The `blog/` route is bilingual content.
+- Routes use **Spanish slugs**: `agendamiento`, `contacto`, `cookies`, `privacidad`, `recursos` (resources), `servicios` (services), `sobre-mi` (about), `terminos`. There is **no `blog/` route** — Substack posts are surfaced on the home page (see Architecture).
 
 ## Architecture
 
@@ -30,14 +34,14 @@ This is a single-site personal portfolio (carrillo.app) with no backend database
 
 1. **Static data** in `data/` — hand-maintained TypeScript arrays (`projects.ts`, `featured-projects.ts`).
 2. **External APIs proxied through `app/api/*/route.ts`** — `github-repositories`, `gitlab-repositories`, `repository-details`. These are server route handlers that fetch + cache upstream data; never call GitHub/GitLab directly from client components, go through these routes.
-3. **Blog content from WordPress + WooCommerce** — `lib/wordpress-service.ts` and `lib/woocommerce-service.ts`. The blog (`app/blog/`) and resources (`app/recursos/`) pages consume these services. Note: copilot-instructions.md references a Medium RSS service (`lib/rss-service.ts`); that file no longer exists — the WordPress service is the current source.
+3. **Blog posts from Substack** — `lib/substack-service.ts`, proxied through `app/api/latest-posts/route.ts` and consumed via `lib/queries.ts` (TanStack Query `latestPosts`). Posts are surfaced on the home page and `app/rss.xml/route.ts` / `app/contacto/page.tsx`; there is **no `app/blog/` route**. The `app/recursos/` page is unrelated to posts — it lists GitHub/GitLab repositories via the repo API routes. (Historical note: the former WordPress/WooCommerce services — `lib/wordpress-service.ts`, `lib/woocommerce-service.ts` — and a Medium `lib/rss-service.ts` no longer exist; don't reintroduce references to them.)
 
 ### Mandatory page shell
 
 Every page under `app/*/page.tsx` must follow this composition (enforced by `AGENTS.md` and `.github/copilot-instructions.md`):
 
 ```tsx
-"use client";
+"use client"
 // PageLoadingProvider wraps PageContent
 // PageContent renders:
 //   <PageLoadingOverlay isVisible={isLoading} />   // from components/unified-loading

@@ -1,12 +1,14 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, Briefcase } from "lucide-react"
 import { motion } from "@/lib/motion"
 import { Button } from "@/components/ui/button"
 import { SurfaceCard } from "@/components/ui/surface-card"
-import { SectionHeader } from "@/components/section-header"
-import { AnimatedSection } from "@/components/animated-section"
+import { Section } from "@/components/ui/section"
+import { Pill } from "@/components/ui/pill"
+import { StatTiles } from "@/components/ui/stat-tiles"
 import { useIsMobile } from "@/hooks/use-media-query"
 import { trackButtonClick } from "@/lib/analytics"
 import type { ProjectMetric } from "@/types/project"
@@ -17,6 +19,9 @@ export interface ExperienceEntry {
   period: string
   role: string
   company: string
+  /** Optional brand logo (committed under /public/brands). Rendered on a light
+   *  plate inside the card header. */
+  logo?: string
   /** Headline orientado a outcome — protagonista visual de la card. */
   outcome: string
   /** Descripción rica de lo que hiciste / contexto. */
@@ -33,13 +38,14 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2024 — Presente",
     role: "Tech Leader",
     company: "Yummy Inc.",
+    logo: "/brands/yummy.png",
     outcome: "Liderando pagos para una super-app de LATAM",
     description:
       "Conduzco un equipo de 7 desarrolladores en el diseño e implementación de herramientas de Pagos y Finanzas. Implementación de medios de pago y arquitectura de microservicios que mejoraron la confiabilidad del sistema en un 40%.",
     metrics: [
-      { value: "7", label: "Personas en el equipo" },
+      { value: "7", label: "Team players" },
       { value: "+40%", label: "Confiabilidad" },
-      { value: "2M", label: "Tx/día procesadas" },
+      { value: "2M", label: "Tx/día" },
     ],
     technologies: ["Node.js", "React", "AWS", "Microservicios"],
   },
@@ -48,13 +54,14 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2022 — 2023",
     role: "Developer Lead",
     company: "Cencosud S.A.",
+    logo: "/brands/cencosud.png",
     outcome: "2M+ transacciones semanales conciliadas con SAP",
     description:
       "Desarrollé herramientas y módulos de contabilidad con integración en SAP que gestionan cerca de 2 millones de transacciones semanales. Optimicé consultas de bases de datos y procesos batch, recortando el tiempo de procesamiento en un 60%.",
     metrics: [
       { value: "2M+", label: "Tx/semana" },
-      { value: "−60%", label: "Tiempo proceso" },
-      { value: "SAP", label: "Integración core" },
+      { value: "−60%", label: "Tiempo" },
+      { value: "SAP", label: "Integración" },
     ],
     technologies: ["TypeScript", "Amazon Redshift", "Terraform"],
   },
@@ -63,6 +70,7 @@ const DEFAULT_ENTRIES: ExperienceEntry[] = [
     period: "2021 — 2022",
     role: "Sr. Software Engineer",
     company: "Sky Airline",
+    logo: "/brands/sky.png",
     outcome: "1M+ transacciones mensuales en mobile",
     description:
       "Construí varios microservicios — entre ellos la gestión de perfiles — y escalé hasta Tech Leader Backup. Junto a mi equipo desarrollé la nueva versión de AppSales mientras se sostenía la versión anterior con más de 1 millón de transacciones mensuales en Android e iOS.",
@@ -95,26 +103,18 @@ export function ExperienceSection({
   const isMobile = useIsMobile()
 
   return (
-    <AnimatedSection
-      className="py-16 md:py-24 relative"
-      delay={0.1}
-      role="region"
-      aria-labelledby="experience-heading"
+    <Section
+      header={{
+        eyebrow: "Trayectoria",
+        eyebrowIcon: Briefcase,
+        title: "Roles que dejaron huella",
+        description:
+          "Más de una década construyendo plataformas críticas para banca, pagos y fintech — con números reales detrás de cada rol.",
+        headingId: "experience-heading",
+        align: "left",
+      }}
     >
-      <div className="container mx-auto px-4 relative z-10">
-        <SectionHeader
-          eyebrow="Trayectoria"
-          eyebrowIcon={Briefcase}
-          title="Roles que dejaron huella"
-          description="Más de una década construyendo plataformas críticas para banca, pagos y fintech — con números reales detrás de cada rol."
-          headingId="experience-heading"
-          align="left"
-        />
-
-        <div
-          className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          aria-label="Experiencia laboral"
-        >
+      <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {entries.map((entry, index) => (
             <ExperienceCard
               key={entry.id}
@@ -131,7 +131,6 @@ export function ExperienceSection({
               <Link
                 href="/sobre-mi"
                 className="inline-flex items-center gap-2 min-h-[48px] touch-manipulation"
-                aria-label="Ver toda mi experiencia laboral"
                 onClick={() =>
                   trackButtonClick(
                     "Ver más experiencia",
@@ -148,8 +147,7 @@ export function ExperienceSection({
             </Button>
           </div>
         )}
-      </div>
-    </AnimatedSection>
+    </Section>
   )
 }
 
@@ -180,6 +178,14 @@ export function ExperienceCard({
   index = 0,
   wide = false,
 }: ExperienceCardProps) {
+  const initials = entry.company
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
+
   return (
     <motion.div
       initial={{ y: 20 }}
@@ -194,13 +200,38 @@ export function ExperienceCard({
         aria-labelledby={`exp-${entry.id}-title`}
       >
         <div className="flex flex-col gap-5 p-6 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-blue-300 bg-blue-500/10 border border-blue-500/30">
+          <div className="flex items-center justify-between gap-3">
+            {entry.logo ? (
+              // Brand logo on a uniform, centered light chip — consistent size
+              // across companies and a soft ring/shadow so it reads as an
+              // intentional lockup, not a stark sticker.
+              <div className="inline-flex h-9 items-center justify-center rounded-xl bg-white px-3.5 ring-1 ring-black/[0.06] shadow-md shadow-black/20 transition-transform duration-300 group-hover:scale-105">
+                <span className="relative block h-5 w-[5.5rem]">
+                  <Image
+                    src={entry.logo}
+                    alt={`Logo de ${entry.company}`}
+                    fill
+                    sizes="150px"
+                    className="object-contain object-center"
+                  />
+                </span>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2.5 rounded-xl bg-white/[0.06] border border-white/10 px-3 h-9 transition-transform duration-300 group-hover:scale-105">
+                <span
+                  className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-emerald-500/30 to-teal-500/30 border border-white/10 text-[11px] font-bold text-white"
+                  aria-hidden="true"
+                >
+                  {initials}
+                </span>
+                <span className="text-sm font-semibold text-white whitespace-nowrap">
+                  {entry.company}
+                </span>
+              </div>
+            )}
+            <Pill variant="accent" size="sm">
               {entry.period}
-            </span>
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-300 bg-white/5 border border-white/10">
-              {entry.company}
-            </span>
+            </Pill>
           </div>
 
           <div className="space-y-2">
@@ -211,7 +242,7 @@ export function ExperienceCard({
               {entry.outcome}
             </h3>
             <p className="text-sm text-zinc-400 font-medium">
-              {entry.role}
+              {entry.role} · {entry.company}
             </p>
           </div>
 
@@ -219,30 +250,18 @@ export function ExperienceCard({
             {entry.description}
           </p>
 
-          <div className="mt-auto pt-4 border-t border-white/[0.06] space-y-4">
+          <div className="mt-auto pt-6 border-t border-white/[0.06] space-y-7">
             {entry.metrics && entry.metrics.length > 0 && (
-              <ul
-                className="grid grid-cols-3 gap-2 list-none p-0 m-0"
-                aria-label="Métricas del rol"
-              >
-                {entry.metrics.slice(0, 3).map((metric) => (
-                  <li
-                    key={metric.label}
-                    className="surface-card-subtle px-2.5 py-3 text-center"
-                  >
-                    <div className="text-xl md:text-2xl font-extrabold tracking-tight text-white tabular-nums leading-none">
-                      {metric.value}
-                    </div>
-                    <div className="mt-1.5 text-[10px] md:text-[11px] text-zinc-300 leading-tight">
-                      {metric.label}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <StatTiles
+                metrics={entry.metrics}
+                size="sm"
+                ariaLabel="Métricas del rol"
+                variant="plain"
+              />
             )}
 
             {entry.technologies?.length > 0 && (
-              <div className="flex items-center gap-2 text-xs text-zinc-500 flex-wrap">
+              <div className="flex items-center mt-6 gap-2 text-xs text-zinc-500 flex-wrap">
                 <span className="uppercase tracking-[0.14em] font-medium text-zinc-400">
                   Stack
                 </span>
@@ -258,5 +277,5 @@ export function ExperienceCard({
         </div>
       </SurfaceCard>
     </motion.div>
-  )
+  );
 }

@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Servicios de Liderazgo Técnico y Consultoría",
   description:
-    "Liderazgo técnico, sistemas financieros, arquitectura de software, seguridad/compliance, cloud e IA. +10 años transformando ideas en soluciones escalables.",
+    "Servicios de liderazgo técnico y consultoría: sistemas financieros, arquitectura de software, cloud e IA. +10 años de experiencia.",
   path: "/servicios",
   ogDescription:
     "Transformo ideas en soluciones tecnológicas robustas y escalables. Sistemas financieros, liderazgo técnico y arquitecturas empresariales.",
@@ -41,7 +41,8 @@ const servicesJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Servicios Profesionales de Consultoría Tecnológica",
-  description: "Servicios especializados en liderazgo técnico, sistemas financieros, arquitectura de software, seguridad y compliance, cloud e inteligencia artificial",
+  description:
+    "Servicios especializados en liderazgo técnico, sistemas financieros, arquitectura de software, seguridad y compliance, cloud e inteligencia artificial",
   url: `${SITE_URL}/servicios`,
   provider: {
     "@type": "Person",
@@ -77,7 +78,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Liderazgo Técnico",
-          description: "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos",
+          description:
+            "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos",
           serviceType: "Technical Leadership",
         },
       },
@@ -86,7 +88,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Sistemas Financieros y Fintech",
-          description: "Desarrollo e implementación de soluciones tecnológicas para el sector financiero y bancario",
+          description:
+            "Desarrollo e implementación de soluciones tecnológicas para el sector financiero y bancario",
           serviceType: "Financial Technology",
         },
       },
@@ -95,7 +98,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Soluciones Backoffice",
-          description: "Automatización y optimización de procesos internos y operaciones de backoffice empresarial",
+          description:
+            "Automatización y optimización de procesos internos y operaciones de backoffice empresarial",
           serviceType: "Business Process Automation",
         },
       },
@@ -104,7 +108,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Arquitectura de Software",
-          description: "Diseño de arquitecturas de software escalables, resilientes y mantenibles para sistemas empresariales",
+          description:
+            "Diseño de arquitecturas de software escalables, resilientes y mantenibles para sistemas empresariales",
           serviceType: "Software Architecture",
         },
       },
@@ -113,7 +118,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Seguridad y Compliance",
-          description: "Implementación de soluciones de seguridad y cumplimiento normativo para sistemas financieros",
+          description:
+            "Implementación de soluciones de seguridad y cumplimiento normativo para sistemas financieros",
           serviceType: "Security Consulting",
         },
       },
@@ -122,7 +128,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Infraestructura Cloud",
-          description: "Diseño e implementación de infraestructuras cloud escalables, seguras y optimizadas en costos",
+          description:
+            "Diseño e implementación de infraestructuras cloud escalables, seguras y optimizadas en costos",
           serviceType: "Cloud Infrastructure",
         },
       },
@@ -131,7 +138,8 @@ const servicesJsonLd = {
         itemOffered: {
           "@type": "Service",
           name: "Inteligencia Artificial",
-          description: "Incorporación de soluciones de inteligencia artificial y machine learning en sistemas financieros",
+          description:
+            "Incorporación de soluciones de inteligencia artificial y machine learning en sistemas financieros",
           serviceType: "Artificial Intelligence",
         },
       },
@@ -156,7 +164,8 @@ const servicesJsonLd = {
         "@type": "Organization",
         name: "Institución Financiera Líder",
       },
-      reviewBody: "Desarrolló una plataforma de pagos que procesa más de 2 millones de transacciones diarias con detección de fraude en tiempo real.",
+      reviewBody:
+        "Desarrolló una plataforma de pagos que procesa más de 2 millones de transacciones diarias con detección de fraude en tiempo real.",
     },
   ],
   breadcrumb: {
@@ -183,8 +192,9 @@ const servicesJsonLd = {
   },
   inLanguage: "es-CO",
   dateModified: new Date().toISOString(),
-  keywords: "consultoría tecnológica, liderazgo técnico, sistemas financieros, arquitectura software, seguridad compliance, cloud, inteligencia artificial",
-};
+  keywords:
+    "consultoría tecnológica, liderazgo técnico, sistemas financieros, arquitectura software, seguridad compliance, cloud, inteligencia artificial",
+}
 
 export default function ServicesLayout({
   children,

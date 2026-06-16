@@ -2,6 +2,7 @@
 import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
+import { contactFaq } from "@/data/contact-faq"
 
 const SITE_URL = getSiteUrl()
 
@@ -9,7 +10,7 @@ export const metadata = {
   ...buildPageMetadata({
     title: "Contacto — Consultoría Tecnológica",
     description:
-      "¿Tienes un proyecto en mente? Conversemos sobre desarrollo de software, liderazgo técnico, consultoría fintech o arquitecturas empresariales.",
+      "Contacto para consultoría tecnológica: hablemos de desarrollo de software, liderazgo técnico, fintech y arquitectura cloud.",
     path: "/contacto",
     keywords: [
       "contacto Junior Carrillo",
@@ -40,7 +41,8 @@ const contactJsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Contacto Profesional - Junior Carrillo",
-  description: "Página de contacto profesional para consultoría tecnológica y servicios de desarrollo de software",
+  description:
+    "Página de contacto profesional para consultoría tecnológica y servicios de desarrollo de software",
   url: `${SITE_URL}/contacto`,
   mainEntity: {
     "@type": "Person",
@@ -132,24 +134,40 @@ const contactJsonLd = {
     url: SITE_URL,
   },
   inLanguage: "es-CO",
-  dateModified: new Date('2026-05-16').toISOString(),
-  keywords: "contacto profesional, consultoría tecnológica, tech lead, desarrollo software, liderazgo técnico",
+  dateModified: new Date("2026-05-16").toISOString(),
+  keywords:
+    "contacto profesional, consultoría tecnológica, tech lead, desarrollo software, liderazgo técnico",
   // Security measures implemented:
   // 1. No direct email/phone in JSON-LD to prevent automated scraping
   // 2. Generic contact types instead of specific personal details
   // 3. Professional focus rather than personal information
   // 4. Limited address information for privacy
-};
+}
 
-export default function ContactLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+// FAQPage structured data — built from the same source the page renders, so
+// the schema always matches the visible content. Boosts eligibility for rich
+// results and citations in AI Overviews / answer engines.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${SITE_URL}/contacto#faq`,
+  inLanguage: "es-CO",
+  mainEntity: contactFaq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+}
+
+export default function ContactLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
       <JsonLd data={contactJsonLd} />
+      <JsonLd data={faqJsonLd} />
       <BreadcrumbJsonLd
         items={[
           { name: "Inicio", url: SITE_URL },

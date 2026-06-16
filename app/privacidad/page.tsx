@@ -33,12 +33,11 @@ export default function PrivacyPolicyPage() {
                 })}
               </p>
               <p className="text-zinc-300">
-                Gracias por visitar mi sitio web profesional. Yo, Junior Carrillo,
-                valoro y respeto tu privacidad y me comprometo a proteger tus
-                datos personales en conformidad con la Ley Estatutaria 1581 de
-                2012 y el Decreto 1377 de 2013 de la República de Colombia. Esta
-                política de privacidad te informará sobre cómo protejo tus datos
-                personales, tus derechos de privacidad y cómo la ley te protege.
+                Gracias por visitar mi sitio web profesional. Yo, José Porfirio Carrillo Echenique, quien opera públicamente bajo
+                el nombre de Junior Carrillo, valoro y respeto tu privacidad y me comprometo a proteger tus datos personales en
+                conformidad con la Ley Estatutaria 1581 de 2012 y el Decreto 1377 de 2013 de la República de Colombia. Esta
+                política de privacidad te informará sobre cómo protejo tus datos personales, tus derechos de privacidad y cómo la
+                ley te protege.
               </p>
               <p className="text-zinc-300">
                 Esta política se aplica a la información que recopilo a través

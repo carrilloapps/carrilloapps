@@ -9,11 +9,11 @@ export default function ContactLoading() {
     <div className="min-h-screen bg-slate-950 text-white">
       <SiteHeader />
 
-      <main className="container py-12 space-y-12" id="main-content">
-        <section className="py-12 md:py-24 space-y-8">
+      <main className="container space-y-12 py-12" id="main-content">
+        <section className="space-y-8 py-12 md:py-24">
           <div className="space-y-4 text-center">
-            <Skeleton className="w-64 h-10 bg-white/[0.04] border border-white/[0.04] rounded-lg mx-auto" />
-            <Skeleton className="w-full max-w-2xl h-6 bg-white/[0.04] border border-white/[0.04] rounded-lg mx-auto" />
+            <Skeleton className="mx-auto h-10 w-64 rounded-lg border border-white/[0.04] bg-white/[0.04]" />
+            <Skeleton className="mx-auto h-6 w-full max-w-2xl rounded-lg border border-white/[0.04] bg-white/[0.04]" />
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
@@ -22,19 +22,19 @@ export default function ContactLoading() {
             <div className="space-y-8">
               <Card className="surface-card">
                 <CardHeader>
-                  <div className="h-6 w-48 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-full bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
+                  <div className="mb-2 h-6 w-48 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
+                  <div className="h-4 w-full animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {Array(3)
                     .fill(0)
                     .map((_, i) => (
                       <div key={i} className="flex items-start space-x-4">
-                        <div className="h-5 w-5 bg-white/[0.04] border border-white/[0.04] rounded-full animate-pulse mt-0.5"></div>
-                        <div className="space-y-1 flex-1">
-                          <div className="h-5 w-24 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
-                          <div className="h-4 w-48 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
-                          <div className="h-4 w-64 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
+                        <div className="mt-0.5 h-5 w-5 animate-pulse rounded-full border border-white/[0.04] bg-white/[0.04]"></div>
+                        <div className="flex-1 space-y-1">
+                          <div className="h-5 w-24 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
+                          <div className="h-4 w-48 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
+                          <div className="h-4 w-64 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
                         </div>
                       </div>
                     ))}
@@ -43,15 +43,18 @@ export default function ContactLoading() {
 
               <Card className="surface-card">
                 <CardHeader>
-                  <div className="h-6 w-48 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-full bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
+                  <div className="mb-2 h-6 w-48 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
+                  <div className="h-4 w-full animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-3 gap-4">
                     {Array(3)
                       .fill(0)
                       .map((_, i) => (
-                        <div key={i} className="h-24 bg-white/[0.04] border border-white/[0.04] rounded animate-pulse"></div>
+                        <div
+                          key={i}
+                          className="h-24 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"
+                        ></div>
                       ))}
                   </div>
                 </CardContent>

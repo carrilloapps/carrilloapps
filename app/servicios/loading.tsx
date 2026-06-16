@@ -8,58 +8,64 @@ export default function ServicesLoading() {
     <div className="min-h-screen bg-slate-950 text-white">
       <SiteHeader />
 
-      <main className="container py-12 space-y-24" id="main-content">
+      <main className="container space-y-24 py-12" id="main-content">
         {/* Hero Section Skeleton */}
         <HeroLoading />
 
         {/* Services Navigation Skeleton */}
-        <section className="py-12 space-y-8">
+        <section className="space-y-8 py-12">
           <div className="space-y-4 text-center">
-            <div className="w-40 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded-full mx-auto animate-pulse"></div>
-            <div className="w-64 h-10 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg mx-auto animate-pulse"></div>
-            <div className="w-full max-w-2xl h-6 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg mx-auto animate-pulse"></div>
+            <div className="mx-auto h-6 w-40 animate-pulse rounded-full bg-gradient-to-r from-blue-800/50 to-purple-800/50"></div>
+            <div className="mx-auto h-10 w-64 animate-pulse rounded-lg bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
+            <div className="mx-auto h-6 w-full max-w-2xl animate-pulse rounded-lg bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:flex lg:flex-wrap gap-2 h-auto bg-zinc-900/50 backdrop-blur-sm border border-zinc-800/50 p-2 mb-8 rounded-xl">
+          <div className="mb-8 grid h-auto grid-cols-2 gap-2 rounded-xl border border-zinc-800/50 bg-zinc-900/50 p-2 backdrop-blur-sm md:grid-cols-4 lg:flex lg:flex-wrap">
             {Array(7)
               .fill(0)
               .map((_, i) => (
-                <div key={i} className="h-10 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded-lg animate-pulse flex-1"></div>
+                <div
+                  key={i}
+                  className="h-10 flex-1 animate-pulse rounded-lg bg-gradient-to-r from-zinc-800 to-zinc-700"
+                ></div>
               ))}
           </div>
 
           <div className="grid gap-8 md:grid-cols-2">
             <Card className="surface-card">
-              <CardContent className="p-6 space-y-6">
+              <CardContent className="space-y-6 p-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-blue-800/50 to-purple-800/50 animate-pulse"></div>
+                  <div className="h-16 w-16 animate-pulse rounded-xl bg-gradient-to-r from-blue-800/50 to-purple-800/50"></div>
                   <div className="space-y-2">
-                    <div className="w-40 h-6 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
-                    <div className="w-64 h-4 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
+                    <div className="h-6 w-40 animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
+                    <div className="h-4 w-64 animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="w-32 h-6 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
+                  <div className="h-6 w-32 animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
                   <div className="space-y-2">
                     {Array(5)
                       .fill(0)
                       .map((_, i) => (
-                        <div key={i} className="w-full h-5 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
+                        <div
+                          key={i}
+                          className="h-5 w-full animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"
+                        ></div>
                       ))}
                   </div>
                 </div>
-                <div className="w-48 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded animate-pulse"></div>
+                <div className="h-10 w-48 animate-pulse rounded-sm bg-gradient-to-r from-blue-800/50 to-purple-800/50"></div>
               </CardContent>
             </Card>
 
             <Card className="surface-card">
-              <CardContent className="p-6 space-y-6">
+              <CardContent className="space-y-6 p-6">
                 <div className="space-y-2">
-                  <div className="w-24 h-6 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded animate-pulse"></div>
-                  <div className="w-48 h-6 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
+                  <div className="h-6 w-24 animate-pulse rounded-sm bg-gradient-to-r from-blue-800/50 to-purple-800/50"></div>
+                  <div className="h-6 w-48 animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
                 </div>
-                <div className="w-full h-24 bg-gradient-to-r from-zinc-800 to-zinc-700 rounded animate-pulse"></div>
-                <div className="w-48 h-10 bg-gradient-to-r from-blue-800/50 to-purple-800/50 rounded animate-pulse"></div>
+                <div className="h-24 w-full animate-pulse rounded-sm bg-gradient-to-r from-zinc-800 to-zinc-700"></div>
+                <div className="h-10 w-48 animate-pulse rounded-sm bg-gradient-to-r from-blue-800/50 to-purple-800/50"></div>
               </CardContent>
             </Card>
           </div>

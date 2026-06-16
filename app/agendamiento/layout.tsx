@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Agenda una Consulta de Liderazgo Técnico",
   description:
-    "Agenda una consulta personalizada para discutir tu proyecto, resolver dudas técnicas o explorar oportunidades de colaboración en desarrollo de software.",
+    "Agenda una consulta de liderazgo técnico: revisamos tu proyecto, resolvemos dudas y exploramos opciones de colaboración técnica.",
   path: "/agendamiento",
   keywords: [
     "agendar consulta",
@@ -25,7 +25,8 @@ const schedulingJsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Agenda una Consulta — Junior Carrillo",
-  description: "Reserva una sesión de consultoría personalizada con Junior Carrillo, Tech Leader especializado en sistemas de pago y liderazgo técnico.",
+  description:
+    "Reserva una sesión de consultoría personalizada con Junior Carrillo, Tech Leader especializado en sistemas de pago y liderazgo técnico.",
   url: `${SITE_URL}/agendamiento`,
   mainEntity: {
     "@type": "Person",

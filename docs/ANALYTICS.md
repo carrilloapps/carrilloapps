@@ -260,4 +260,4 @@ npm run lint
 ---
 
 **Version**: 2.1.0 (Jan 2026)  
-**Maintained by**: José Carrillo (junior@carrillo.app)
+**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)

@@ -16,7 +16,7 @@ import {
   Database,
   Shield,
   Server,
-  Cpu
+  Cpu,
 } from "lucide-react"
 import { Github } from "@/components/icons/social-icons"
 import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
@@ -130,148 +130,167 @@ const navItems: NavItem[] = [
     icon: Mail,
     description: "Ponte en contacto",
   },
-];
+]
 
 // Memoized navigation item component for performance
-const NavLink = memo(({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
-  const Icon = item.icon
-  const isExternal = item.href.startsWith("http")
+const NavLink = memo(
+  ({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
+    const Icon = item.icon
+    const isExternal = item.href.startsWith("http")
 
-  const handleClick = () => {
-    trackNavigation(item.label, item.href, "header")
-    onClose?.()
-  }
+    const handleClick = () => {
+      trackNavigation(item.label, item.href, "header")
+      onClose?.()
+    }
 
-  return (
-    <Link
-      href={item.href}
-      onClick={handleClick}
-      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
-        isActive
-          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
-          : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
-      }`}
-      aria-current={isActive ? "page" : undefined}
-    >
-      {Icon && <Icon className="w-4 h-4 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />}
-      <span>{item.label}</span>
-    </Link>
-  )
-})
+    return (
+      <Link
+        href={item.href}
+        onClick={handleClick}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className={`group relative flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black focus:outline-none ${
+          isActive
+            ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
+            : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
+        }`}
+        aria-current={isActive ? "page" : undefined}
+      >
+        {Icon && (
+          <Icon
+            className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110"
+            aria-hidden="true"
+          />
+        )}
+        <span>{item.label}</span>
+      </Link>
+    )
+  },
+)
 NavLink.displayName = "NavLink"
 
 // Mega menu component
-const MegaMenu = memo(({ item, isOpen, onClose, onKeepOpen }: { item: NavItem; isOpen: boolean; onClose: () => void; onKeepOpen?: () => void }) => {
-  const shouldReduceMotion = useReducedMotion()
-  const menuRef = useRef<HTMLDivElement>(null)
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+const MegaMenu = memo(
+  ({
+    item,
+    isOpen,
+    onClose,
+    onKeepOpen,
+  }: {
+    item: NavItem
+    isOpen: boolean
+    onClose: () => void
+    onKeepOpen?: () => void
+  }) => {
+    const shouldReduceMotion = useReducedMotion()
+    const menuRef = useRef<HTMLDivElement>(null)
+    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  useEffect(() => {
-    if (isOpen && menuRef.current) {
-      const handleClickOutside = (e: MouseEvent) => {
-        if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-          onClose()
+    useEffect(() => {
+      if (isOpen && menuRef.current) {
+        const handleClickOutside = (e: MouseEvent) => {
+          if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+            onClose()
+          }
         }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
       }
-      document.addEventListener("mousedown", handleClickOutside)
-      return () => document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen, onClose])
+    }, [isOpen, onClose])
 
-  const handleMouseLeave = useCallback(() => {
-    closeTimeoutRef.current = setTimeout(() => {
-      onClose()
-    }, 150)
-  }, [onClose])
+    const handleMouseLeave = useCallback(() => {
+      closeTimeoutRef.current = setTimeout(() => {
+        onClose()
+      }, 150)
+    }, [onClose])
 
-  const handleMouseEnter = useCallback(() => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current)
-      closeTimeoutRef.current = null
-    }
-    onKeepOpen?.()
-  }, [onKeepOpen])
+    const handleMouseEnter = useCallback(() => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current)
+        closeTimeoutRef.current = null
+      }
+      onKeepOpen?.()
+    }, [onKeepOpen])
 
-  if (!item.children || item.children.length === 0) return null
+    if (!item.children || item.children.length === 0) return null
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          ref={menuRef}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
-          className="absolute top-full left-0 mt-2 w-[560px] bg-black/95 backdrop-blur-2xl rounded-xl shadow-2xl shadow-black/50 z-50 overflow-hidden border border-zinc-800/50"
-          style={{
-            backdropFilter: 'blur(32px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-          }}
-        >
-          {/* Subtle glassmorphism overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
-          
-          <div 
-            className="relative z-10 p-5"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+    return (
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
+            className="absolute top-full left-0 z-50 mt-2 w-[560px] overflow-hidden rounded-xl border border-zinc-800/50 bg-black/95 shadow-2xl shadow-black/50 backdrop-blur-2xl"
+            style={{
+              backdropFilter: "blur(32px) saturate(180%)",
+              WebkitBackdropFilter: "blur(32px) saturate(180%)",
+            }}
           >
-            <div className="space-y-0">
-              {item.children?.map((child, index) => {
-                const ChildIcon = child.icon
-                return (
-                  <div key={child.href}>
-                    <motion.div
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.03, duration: 0.15 }}
-                    >
-                      <Link
-                        href={child.href}
-                        onClick={() => {
-                          trackNavigation(child.label, child.href, "header")
-                          onClose()
-                        }}
-                        className="group flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-zinc-800/40 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative"
+            {/* Subtle glassmorphism overlay */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5" />
+
+            <div
+              className="relative z-10 p-5"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="space-y-0">
+                {item.children?.map((child, index) => {
+                  const ChildIcon = child.icon
+                  return (
+                    <div key={child.href}>
+                      <motion.div
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.03, duration: 0.15 }}
                       >
-                        {/* Icon */}
-                        {ChildIcon && (
-                          <div className="flex-shrink-0">
-                            <ChildIcon className="w-5 h-5 text-zinc-400 group-hover:text-blue-400 transition-colors duration-300" />
-                          </div>
-                        )}
-                        
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-white font-medium group-hover:text-blue-400 transition-colors duration-300 text-sm">
-                            {child.label}
-                          </h3>
-                          {child.description && (
-                            <p className="text-zinc-500 text-xs group-hover:text-zinc-400 transition-colors duration-300 leading-relaxed mt-0.5 line-clamp-2">
-                              {child.description}
-                            </p>
+                        <Link
+                          href={child.href}
+                          onClick={() => {
+                            trackNavigation(child.label, child.href, "header")
+                            onClose()
+                          }}
+                          className="group relative flex items-center gap-3 rounded-lg px-4 py-3 transition-all duration-300 ease-out hover:bg-zinc-800/40 focus:ring-2 focus:ring-blue-500/50 focus:outline-none"
+                        >
+                          {/* Icon */}
+                          {ChildIcon && (
+                            <div className="shrink-0">
+                              <ChildIcon className="h-5 w-5 text-zinc-400 transition-colors duration-300 group-hover:text-blue-400" />
+                            </div>
                           )}
-                        </div>
-                        
-                        {/* Subtle arrow indicator */}
-                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <ChevronDown className="w-4 h-4 text-blue-400 rotate-[-90deg]" />
-                        </div>
-                      </Link>
-                    </motion.div>
-                  </div>
-                )
-              })}
+
+                          {/* Content */}
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-sm font-medium text-white transition-colors duration-300 group-hover:text-blue-400">
+                              {child.label}
+                            </h3>
+                            {child.description && (
+                              <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-zinc-500 transition-colors duration-300 group-hover:text-zinc-400">
+                                {child.description}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Subtle arrow indicator */}
+                          <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <ChevronDown className="h-4 w-4 rotate-[-90deg] text-blue-400" />
+                          </div>
+                        </Link>
+                      </motion.div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  )
-})
+          </motion.div>
+        )}
+      </AnimatePresence>
+    )
+  },
+)
 MegaMenu.displayName = "MegaMenu"
 
 export function SiteHeader() {
@@ -286,7 +305,7 @@ export function SiteHeader() {
   const lastScrollY = useRef(0)
   const pathname = usePathname()
   const shouldReduceMotion = useReducedMotion()
-  
+
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const firstMenuItemRef = useRef<HTMLAnchorElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -304,7 +323,7 @@ export function SiteHeader() {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY
           const isScrolled = currentScrollY > 10
-          
+
           setScrolled(isScrolled)
 
           // Hide header when scrolling down, show when scrolling up
@@ -379,7 +398,7 @@ export function SiteHeader() {
     const handleTabKey = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return
 
-      const menuItems = mobileMenuRef.current?.querySelectorAll<HTMLElement>('a[href], button')
+      const menuItems = mobileMenuRef.current?.querySelectorAll<HTMLElement>("a[href], button")
       if (!menuItems || menuItems.length === 0) return
 
       const firstItem = menuItems[0]
@@ -428,30 +447,36 @@ export function SiteHeader() {
   }, [])
 
   // Check if pathname matches item or any child
-  const isItemActive = useCallback((item: NavItem): boolean => {
-    if (pathname === item.href) return true
-    if (item.children) {
-      return item.children.some((child) => pathname === child.href || pathname.startsWith(child.href))
-    }
-    return false
-  }, [pathname])
+  const isItemActive = useCallback(
+    (item: NavItem): boolean => {
+      if (pathname === item.href) return true
+      if (item.children) {
+        return item.children.some(
+          (child) => pathname === child.href || pathname.startsWith(child.href),
+        )
+      }
+      return false
+    },
+    [pathname],
+  )
 
   if (!mounted)
     return (
       <header
-        className="sticky top-0 z-50 w-full border-b border-zinc-800/50 bg-black/80 backdrop-blur-md h-16"
+        className="sticky top-0 z-50 h-16 w-full border-b border-zinc-800/50 bg-black/80 backdrop-blur-md"
         role="banner"
         aria-label="Cargando encabezado"
       >
         <div className="container flex h-16 items-center justify-between">
-          <div className="opacity-0" aria-hidden="true">Loading...</div>
+          <div className="opacity-0" aria-hidden="true">
+            Loading...
+          </div>
         </div>
       </header>
     )
 
   return (
     <>
-
       <motion.header
         initial={false}
         animate={{
@@ -459,18 +484,18 @@ export function SiteHeader() {
           opacity: isVisible ? 1 : 0,
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 right-0 left-0 z-50 w-full transition-all duration-300 ${
           scrolled
-            ? "bg-black/20 backdrop-blur-2xl border-b border-white/10 shadow-lg shadow-black/20"
-            : "bg-black/10 backdrop-blur-xl border-b border-white/5"
+            ? "border-b border-white/10 bg-black/20 shadow-lg shadow-black/20 backdrop-blur-2xl"
+            : "border-b border-white/5 bg-black/10 backdrop-blur-xl"
         }`}
         role="banner"
         itemScope
         itemType="https://schema.org/WPHeader"
       >
         {/* Subtle glassmorphism overlay effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent pointer-events-none" />
-        <div className="container flex h-16 items-center justify-between relative z-10">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent" />
+        <div className="relative z-10 container flex h-16 items-center justify-between">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -483,15 +508,15 @@ export function SiteHeader() {
           {/* Desktop Navigation */}
           <nav
             ref={navRef}
-            className="hidden lg:flex items-center gap-1"
+            className="hidden items-center gap-1 lg:flex"
             aria-label="Navegación principal"
             itemScope
             itemType="https://schema.org/SiteNavigationElement"
           >
             {navItems.map((item) => {
-              const isActive = isItemActive(item);
-              const hasChildren = item.children && item.children.length > 0;
-              const isMegaMenuOpen = openMegaMenu === item.href;
+              const isActive = isItemActive(item)
+              const hasChildren = item.children && item.children.length > 0
+              const isMegaMenuOpen = openMegaMenu === item.href
 
               return (
                 <div
@@ -518,17 +543,17 @@ export function SiteHeader() {
                     <button
                       type="button"
                       onClick={() => handleMegaMenuToggle(item.href)}
-                      className={`group relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black ${
+                      className={`group relative flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black focus:outline-none ${
                         isActive
-                          ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
-                          : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
+                          ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
+                          : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
                       }`}
                       aria-expanded={isMegaMenuOpen}
                       aria-haspopup="true"
                     >
                       <span>{item.label}</span>
                       <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                        className={`h-3.5 w-3.5 transition-transform duration-300 ${
                           isMegaMenuOpen ? "rotate-180" : ""
                         }`}
                         aria-hidden="true"
@@ -546,7 +571,7 @@ export function SiteHeader() {
                     />
                   )}
                 </div>
-              );
+              )
             })}
           </nav>
 
@@ -565,18 +590,15 @@ export function SiteHeader() {
               <Button
                 variant="outline"
                 size="sm"
-                className="relative overflow-hidden bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30 text-white hover:from-blue-500/30 hover:to-purple-500/30 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 group"
+                className="group relative overflow-hidden border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm transition-all duration-200 hover:border-blue-500/40 hover:from-blue-500/30 hover:to-purple-500/30 hover:shadow-lg hover:shadow-blue-500/20"
                 asChild
               >
-                <Link 
+                <Link
                   href="/agendamiento"
                   onClick={() => trackCTAClick("Agéndame", "primary", "header-desktop")}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300" />
-                  <Calendar
-                    className="h-4 w-4 mr-2 relative z-10"
-                    aria-hidden="true"
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/10 group-hover:to-purple-500/10" />
+                  <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
                   <span className="relative z-10">Agéndame</span>
                 </Link>
               </Button>
@@ -587,11 +609,11 @@ export function SiteHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-zinc-800/50 transition-colors"
+                className="text-white transition-colors hover:bg-zinc-800/50"
                 asChild
               >
-                <Link 
-                  href="/agendamiento" 
+                <Link
+                  href="/agendamiento"
                   aria-label="Agendar cita"
                   onClick={() => trackCTAClick("Agéndame", "primary", "header-mobile-icon")}
                 >
@@ -609,7 +631,7 @@ export function SiteHeader() {
                 aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
-                className="text-white hover:bg-zinc-800/50 transition-colors"
+                className="text-white transition-colors hover:bg-zinc-800/50"
               >
                 <motion.div
                   animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
@@ -664,7 +686,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 lg:hidden"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md lg:hidden"
             onClick={closeMobileMenu}
             role="dialog"
             aria-modal="true"
@@ -682,16 +704,16 @@ export function SiteHeader() {
                 stiffness: 300,
                 duration: shouldReduceMotion ? 0 : undefined,
               }}
-              className="fixed right-0 top-0 h-full w-full max-w-sm bg-black/20 backdrop-blur-2xl border-l border-white/20 flex flex-col overflow-hidden"
+              className="fixed top-0 right-0 flex h-full w-full max-w-sm flex-col overflow-hidden border-l border-white/20 bg-black/20 backdrop-blur-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Enhanced glassmorphism overlay for mobile menu */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10 pointer-events-none" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent" />
 
               {/* Mobile Header */}
-              <div className="flex items-center justify-between p-4 border-b border-zinc-800/50 relative z-10">
+              <div className="relative z-10 flex items-center justify-between border-b border-zinc-800/50 p-4">
                 <Logo animationLevel="playful" showMark={false} />
                 <Button
                   ref={closeButtonRef}
@@ -720,30 +742,29 @@ export function SiteHeader() {
               </div>
 
               {/* Mobile Navigation */}
-              <div className="flex-1 overflow-y-auto py-6 px-4 relative z-10">
+              <div className="relative z-10 flex-1 overflow-y-auto px-4 py-6">
                 <nav className="space-y-1" aria-label="Navegación móvil">
                   {navItems.map((item, index) => {
-                    const isActive = isItemActive(item);
-                    const hasChildren =
-                      item.children && item.children.length > 0;
-                    const isExpanded = openMegaMenu === item.href;
-                    const isFirstItem = index === 0;
+                    const isActive = isItemActive(item)
+                    const hasChildren = item.children && item.children.length > 0
+                    const isExpanded = openMegaMenu === item.href
+                    const isFirstItem = index === 0
 
                     return (
                       <div key={item.href}>
                         <Link
                           ref={isFirstItem ? firstMenuItemRef : undefined}
                           href={item.href}
-                          className={`flex items-center justify-between py-3 px-4 rounded-lg transition-all duration-300 ease-out group focus:outline-none focus:ring-2 focus:ring-blue-500/50 relative ${
+                          className={`group relative flex items-center justify-between rounded-lg px-4 py-3 transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:outline-none ${
                             isActive
-                              ? "text-white bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-blue-500/30"
-                              : "text-zinc-400 hover:text-white hover:bg-zinc-800/40"
+                              ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
+                              : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
                           }`}
                           onClick={
                             hasChildren
                               ? (e) => {
-                                  e.preventDefault();
-                                  handleMegaMenuToggle(item.href);
+                                  e.preventDefault()
+                                  handleMegaMenuToggle(item.href)
                                 }
                               : () => {
                                   trackNavigation(item.label, item.href, "header")
@@ -755,7 +776,7 @@ export function SiteHeader() {
                           <div className="flex items-center gap-3">
                             {item.icon && (
                               <item.icon
-                                className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                                className="h-5 w-5 transition-transform duration-300 group-hover:scale-110"
                                 aria-hidden="true"
                               />
                             )}
@@ -763,7 +784,7 @@ export function SiteHeader() {
                           </div>
                           {hasChildren && (
                             <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-300 ${
+                              className={`h-4 w-4 transition-transform duration-300 ${
                                 isExpanded ? "rotate-180" : ""
                               }`}
                               aria-hidden="true"
@@ -782,7 +803,7 @@ export function SiteHeader() {
                                 }}
                                 className="overflow-hidden"
                               >
-                                <div className="py-2 pl-12 space-y-1">
+                                <div className="space-y-1 py-2 pl-12">
                                   {item.children?.map((child) => (
                                     <Link
                                       key={child.href}
@@ -791,25 +812,25 @@ export function SiteHeader() {
                                         trackNavigation(child.label, child.href, "header")
                                         closeMobileMenu()
                                       }}
-                                      className="group/item flex items-center gap-3 py-3 px-4 text-sm rounded-lg transition-all duration-300 ease-out hover:bg-zinc-800/40"
+                                      className="group/item flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-all duration-300 ease-out hover:bg-zinc-800/40"
                                     >
                                       {child.icon && (
-                                        <div className="flex-shrink-0">
-                                          <child.icon className="w-5 h-5 text-zinc-400 group-hover/item:text-blue-400 transition-colors duration-300" />
+                                        <div className="shrink-0">
+                                          <child.icon className="h-5 w-5 text-zinc-400 transition-colors duration-300 group-hover/item:text-blue-400" />
                                         </div>
                                       )}
-                                      <div className="flex-1 min-w-0">
-                                        <div className="font-medium text-white group-hover/item:text-blue-400 transition-colors duration-300">
+                                      <div className="min-w-0 flex-1">
+                                        <div className="font-medium text-white transition-colors duration-300 group-hover/item:text-blue-400">
                                           {child.label}
                                         </div>
                                         {child.description && (
-                                          <div className="text-xs text-zinc-500 group-hover/item:text-zinc-400 transition-colors duration-300 leading-relaxed mt-0.5 line-clamp-2">
+                                          <div className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-zinc-500 transition-colors duration-300 group-hover/item:text-zinc-400">
                                             {child.description}
                                           </div>
                                         )}
                                       </div>
-                                      <div className="flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                                        <ChevronDown className="w-4 h-4 text-blue-400 rotate-[-90deg]" />
+                                      <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover/item:opacity-100">
+                                        <ChevronDown className="h-4 w-4 rotate-[-90deg] text-blue-400" />
                                       </div>
                                     </Link>
                                   ))}
@@ -819,29 +840,26 @@ export function SiteHeader() {
                           </AnimatePresence>
                         )}
                       </div>
-                    );
+                    )
                   })}
                 </nav>
               </div>
 
               {/* Mobile Footer */}
-              <div className="p-4 border-t border-zinc-800/50 relative z-10">
+              <div className="relative z-10 border-t border-zinc-800/50 p-4">
                 <Button
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 transition-all duration-200 relative overflow-hidden group/btn backdrop-blur-sm border border-blue-500/30 shadow-lg shadow-blue-500/20"
+                  className="group/btn relative w-full overflow-hidden border border-blue-500/30 bg-gradient-to-r from-blue-500 to-purple-600 py-3 font-medium text-white shadow-lg shadow-blue-500/20 backdrop-blur-sm transition-all duration-200 hover:from-blue-600 hover:to-purple-700"
                   asChild
                 >
-                  <Link 
-                    href="/agendamiento" 
+                  <Link
+                    href="/agendamiento"
                     onClick={() => {
                       trackCTAClick("Agéndame", "primary", "mobile-menu-footer")
                       closeMobileMenu()
                     }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 group-hover/btn:via-white/20 transition-all duration-300" />
-                    <Calendar
-                      className="h-4 w-4 mr-2 relative z-10"
-                      aria-hidden="true"
-                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transition-all duration-300 group-hover/btn:via-white/20" />
+                    <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
                     <span className="relative z-10">Agéndame</span>
                   </Link>
                 </Button>
@@ -851,5 +869,5 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }

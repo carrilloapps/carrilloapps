@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Recursos gratuitos & código abierto",
   description:
-    "Proyectos de software gratuitos y de código abierto con tecnologías modernas: React, Next.js, Go, TypeScript, Python. Repositorios destacados de GitHub y GitLab.",
+    "Recursos gratuitos y de código abierto: repositorios destacados de GitHub y GitLab en React, Next.js, Go, TypeScript y Python.",
   path: "/recursos",
   keywords: [
     "recursos gratuitos desarrolladores",
@@ -34,7 +34,8 @@ const resourcesJsonLd = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "Recursos Gratuitos & Código Abierto",
-  description: "Colección de proyectos de software gratuitos y de código abierto especializados en sistemas financieros y medios de pago",
+  description:
+    "Colección de proyectos de software gratuitos y de código abierto especializados en sistemas financieros y medios de pago",
   url: `${SITE_URL}/recursos`,
   author: {
     "@type": "Person",
@@ -69,7 +70,8 @@ const resourcesJsonLd = {
       {
         "@type": "SoftwareSourceCode",
         name: "Repositorios GitHub",
-        description: "Proyectos de código abierto en GitHub especializados en desarrollo web y sistemas financieros",
+        description:
+          "Proyectos de código abierto en GitHub especializados en desarrollo web y sistemas financieros",
         codeRepository: "https://github.com/carrilloapps",
         programmingLanguage: ["JavaScript", "TypeScript", "React", "Next.js", "Python", "Go"],
         runtimePlatform: "Web Browser",
@@ -81,7 +83,8 @@ const resourcesJsonLd = {
       {
         "@type": "SoftwareSourceCode",
         name: "Repositorios GitLab",
-        description: "Proyectos de código abierto en GitLab enfocados en sistemas financieros y medios de pago",
+        description:
+          "Proyectos de código abierto en GitLab enfocados en sistemas financieros y medios de pago",
         codeRepository: "https://gitlab.com/carrilloapps",
         programmingLanguage: ["Java", "Python", "JavaScript", "TypeScript", "Go"],
         runtimePlatform: "Cross Platform",
@@ -115,9 +118,10 @@ const resourcesJsonLd = {
     url: SITE_URL,
   },
   inLanguage: "es-CO",
-  dateModified: new Date('2026-05-16').toISOString(),
-  keywords: "recursos gratuitos, código abierto, sistemas financieros, desarrollo web, github, gitlab, react, nextjs, typescript, python",
-};
+  dateModified: new Date("2026-05-16").toISOString(),
+  keywords:
+    "recursos gratuitos, código abierto, sistemas financieros, desarrollo web, github, gitlab, react, nextjs, typescript, python",
+}
 
 export default function ResourcesLayout({
   children,

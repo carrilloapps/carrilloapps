@@ -1,0 +1,8 @@
+# Local dev tooling & symlinks (the .agents symlink targets .claude locally and
+# is a broken link on Vercel's build machine — it crashes `next build` tracing).
+.agents
+.claude
+
+# Repo meta & documentation — not part of the Next.js app build/runtime.
+.github
+docs

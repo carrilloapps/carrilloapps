@@ -3,6 +3,7 @@
 import { motion, type Variants } from "@/lib/motion";
 import { Badge } from "@/components/ui/badge";
 import { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -39,9 +40,12 @@ export interface PageHeroProps {
   title: string;
   description: string;
   children?: React.ReactNode;
+  /** Extra classes for the hero <section> — e.g. to tune its spacing on a
+   *  specific page (the section's bottom gap comes from the parent space-y). */
+  className?: string;
 }
 
-export function PageHero({ badge, title, description, children }: PageHeroProps) {
+export function PageHero({ badge, title, description, children, className }: PageHeroProps) {
   const {
     text: badgeText,
     icon: BadgeIcon,
@@ -53,8 +57,8 @@ export function PageHero({ badge, title, description, children }: PageHeroProps)
   } = badge;
 
   return (
-    <motion.section 
-      className="py-8 md:py-16 space-y-6"
+    <motion.section
+      className={cn("py-8 md:py-16 space-y-6", className)}
       initial="hidden"
       animate="visible"
       variants={containerVariants}
