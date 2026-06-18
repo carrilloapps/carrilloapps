@@ -30,67 +30,82 @@ export const metadata = buildPageMetadata({
  */
 const personProfileSchema = {
   "@context": "https://schema.org",
-  "@type": ["Person", "ProfilePage"],
-  name: "Junior Carrillo",
-  givenName: "José",
-  familyName: "Carrillo",
-  jobTitle: "Tech Leader & Senior Software Developer",
-  description:
-    "Tech Leader y Senior Software Developer con 10 años construyendo sistemas de pago en LATAM.",
+  "@type": "ProfilePage",
   url: `${SITE_URL}/sobre-mi`,
-  mainEntityOfPage: `${SITE_URL}/sobre-mi`,
-  image: `${SITE_URL}/profile.jpg`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Medellín",
-    addressRegion: "Antioquia",
-    addressCountry: "CO",
-  },
-  knowsLanguage: ["es", "en"],
-  knowsAbout: [
-    "Software Development",
-    "Technical Leadership",
-    "Payment Systems",
-    "Open Banking",
-    "Financial Systems",
-    "Microservices Architecture",
-    "Backoffice Solutions",
-    "Software Mentoring",
-  ],
-  worksFor: {
-    "@type": "Organization",
-    name: "Yummy Inc.",
-    url: "https://yummysuperapp.com",
-  },
-  hasOccupation: [
-    {
-      "@type": "Occupation",
-      name: "Tech Leader",
-      description:
-        "Lidero el equipo de pagos en Yummy Inc. — diseño e implementación de medios de pago y arquitectura de microservicios.",
-      occupationLocation: {
-        "@type": "City",
-        name: "Medellín, Colombia",
+  name: "Sobre Junior Carrillo",
+  // ProfilePage requires `mainEntity` pointing to the profiled entity.
+  mainEntity: {
+    "@type": "Person",
+    name: "Junior Carrillo",
+    givenName: "José",
+    familyName: "Carrillo",
+    jobTitle: "Tech Leader & Senior Software Developer",
+    description:
+      "Tech Leader y Senior Software Developer con 10 años construyendo sistemas de pago en LATAM.",
+    url: `${SITE_URL}/sobre-mi`,
+    mainEntityOfPage: `${SITE_URL}/sobre-mi`,
+    image: `${SITE_URL}/profile.jpg`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Cra. 42b #107e-46, Santo Domingo Savio I",
+      addressLocality: "Medellín",
+      addressRegion: "Antioquia",
+      postalCode: "050034",
+      addressCountry: "CO",
+    },
+    knowsLanguage: ["es", "en"],
+    knowsAbout: [
+      "Software Development",
+      "Technical Leadership",
+      "Payment Systems",
+      "Open Banking",
+      "Financial Systems",
+      "Microservices Architecture",
+      "Backoffice Solutions",
+      "Software Mentoring",
+    ],
+    worksFor: {
+      "@type": "Organization",
+      name: "Yummy Inc.",
+      url: "https://yummysuperapp.com",
+    },
+    alumniOf: [
+      { "@type": "Organization", name: "Wompi", url: "https://wompi.co" },
+      { "@type": "Organization", name: "Falabella", url: "https://www.falabella.com" },
+      { "@type": "Organization", name: "Cencosud S.A.", url: "https://www.cencosud.com" },
+      { "@type": "Organization", name: "Sky Airline", url: "https://www.skyairline.com" },
+      { "@type": "Organization", name: "Acid Labs", url: "https://acidlabs.com" },
+    ],
+    hasOccupation: [
+      {
+        "@type": "Occupation",
+        name: "Tech Leader",
+        description:
+          "Lidero el equipo de pagos en Yummy Inc. — diseño e implementación de medios de pago y arquitectura de microservicios.",
+        occupationLocation: {
+          "@type": "City",
+          name: "Medellín, Colombia",
+        },
       },
-    },
-    {
-      "@type": "Occupation",
-      name: "Developer Lead",
-      description:
-        "En Cencosud lideré el desarrollo de módulos contables con integración SAP que mueven 2M+ transacciones semanales.",
-    },
-    {
-      "@type": "Occupation",
-      name: "Senior Software Engineer",
-      description:
-        "En Sky Airline construí microservicios mobile que soportaron 1M+ transacciones mensuales en iOS y Android.",
-    },
-  ],
-  sameAs: [
-    "https://github.com/carrilloapps",
-    "https://linkedin.com/in/carrilloapps",
-    "https://twitter.com/carrilloapps",
-  ],
+      {
+        "@type": "Occupation",
+        name: "Developer Lead",
+        description:
+          "En Cencosud lideré el desarrollo de módulos contables con integración SAP que mueven 2M+ transacciones semanales.",
+      },
+      {
+        "@type": "Occupation",
+        name: "Senior Software Engineer",
+        description:
+          "En Sky Airline construí microservicios mobile que soportaron 1M+ transacciones mensuales en iOS y Android.",
+      },
+    ],
+    sameAs: [
+      "https://github.com/carrilloapps",
+      "https://linkedin.com/in/carrilloapps",
+      "https://twitter.com/carrilloapps",
+    ],
+  },
 }
 
 export default function AboutLayout({

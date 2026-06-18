@@ -151,6 +151,8 @@ const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "@id": `${SITE_URL}/contacto#faq`,
+  name: "Preguntas frecuentes — Contacto | Junior Carrillo",
+  url: `${SITE_URL}/contacto`,
   inLanguage: "es-CO",
   mainEntity: contactFaq.map((item) => ({
     "@type": "Question",

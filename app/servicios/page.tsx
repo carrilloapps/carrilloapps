@@ -297,7 +297,7 @@ function ServicesPageContent() {
             acento de color + stats strip + 2 CTAs. */}
         <div className="container mx-auto px-4">
           <motion.section
-            className="relative w-full pt-6 pb-4 md:pt-10"
+            className="relative flex min-h-[calc(100svh-112px)] w-full flex-col justify-center pt-6 pb-4 md:pt-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}

@@ -1,5 +1,6 @@
 ﻿import { JsonLd } from "@/components/json-ld"
 import { getSiteUrl } from "@/lib/env"
+import { openSourceProjects } from "@/data/open-source"
 
 const SITE_URL = getSiteUrl()
 
@@ -58,6 +59,8 @@ const professionalServiceSchema = {
     "Consultoría y liderazgo técnico para sistemas de pago, banking, fintech y backoffice. +10 años en producción con Yummy, Wompi, Cencosud y Sky Airline.",
   url: SITE_URL,
   image: `${SITE_URL}/profile.jpg`,
+  telephone: "+57-300-332-8389",
+  email: "m@carrillo.app",
   founder: personRef,
   provider: personRef,
   priceRange: "$$$",
@@ -71,8 +74,10 @@ const professionalServiceSchema = {
   ],
   address: {
     "@type": "PostalAddress",
+    streetAddress: "Cra. 42b #107e-46, Santo Domingo Savio I",
     addressLocality: "Medellín",
     addressRegion: "Antioquia",
+    postalCode: "050034",
     addressCountry: "CO",
   },
   knowsAbout: [
@@ -188,12 +193,37 @@ const servicesItemList = {
   ],
 }
 
+// Real open-source work shown in the "Herramientas que mantengo" section.
+// Imported from the same data the UI renders, so the markup always matches
+// visible content. SoftwareSourceCode has no rich-result field requirements.
+const openSourceItemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${SITE_URL}#open-source`,
+  name: "Herramientas open-source que mantengo",
+  description:
+    "Paquetes npm y proyectos en GitHub de código abierto: cifrado, fintech y herramientas para desarrolladores e IA.",
+  numberOfItems: openSourceProjects.length,
+  itemListElement: openSourceProjects.map((project, index) => ({
+    "@type": "SoftwareSourceCode",
+    position: index + 1,
+    name: project.name,
+    description: project.description,
+    url: project.url,
+    codeRepository: project.repoUrl || project.url,
+    programmingLanguage: project.language,
+    keywords: project.tags.join(", "),
+    author: personRef,
+  })),
+}
+
 export function HomeJsonLd() {
   return (
     <>
       <JsonLd data={webPageSchema} />
       <JsonLd data={professionalServiceSchema} />
       <JsonLd data={servicesItemList} />
+      <JsonLd data={openSourceItemList} />
     </>
   )
 }

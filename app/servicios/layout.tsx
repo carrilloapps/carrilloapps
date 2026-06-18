@@ -145,29 +145,6 @@ const servicesJsonLd = {
       },
     ],
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5.0",
-    reviewCount: "50",
-    bestRating: "5",
-    worstRating: "1",
-  },
-  review: [
-    {
-      "@type": "Review",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: "5",
-        bestRating: "5",
-      },
-      author: {
-        "@type": "Organization",
-        name: "Institución Financiera Líder",
-      },
-      reviewBody:
-        "Desarrolló una plataforma de pagos que procesa más de 2 millones de transacciones diarias con detección de fraude en tiempo real.",
-    },
-  ],
   breadcrumb: {
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -191,7 +168,6 @@ const servicesJsonLd = {
     url: SITE_URL,
   },
   inLanguage: "es-CO",
-  dateModified: new Date().toISOString(),
   keywords:
     "consultoría tecnológica, liderazgo técnico, sistemas financieros, arquitectura software, seguridad compliance, cloud, inteligencia artificial",
 }

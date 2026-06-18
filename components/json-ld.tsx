@@ -23,6 +23,14 @@ export function OrganizationJsonLd() {
           name: "Junior Carrillo",
           url,
           logo: `${url}/logo.webp`,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Cra. 42b #107e-46, Santo Domingo Savio I",
+            addressLocality: "Medellín",
+            addressRegion: "Antioquia",
+            postalCode: "050034",
+            addressCountry: "CO",
+          },
           sameAs: [
             "https://github.com/carrilloapps",
             "https://linkedin.com/in/carrilloapps",
@@ -66,6 +74,13 @@ export function PersonJsonLd() {
             name: "Yummy Inc",
             url: "https://yummysuperapp.com",
           },
+          alumniOf: [
+            { "@type": "Organization", name: "Wompi", url: "https://wompi.co" },
+            { "@type": "Organization", name: "Falabella", url: "https://www.falabella.com" },
+            { "@type": "Organization", name: "Cencosud S.A.", url: "https://www.cencosud.com" },
+            { "@type": "Organization", name: "Sky Airline", url: "https://www.skyairline.com" },
+            { "@type": "Organization", name: "Acid Labs", url: "https://acidlabs.com" },
+          ],
           knowsAbout: [
             "Software Development",
             "Technical Leadership",
@@ -87,15 +102,18 @@ export function ServiceJsonLd({ service }: { service: string }) {
   const services = {
     "technical-leadership": {
       name: "Liderazgo Técnico",
-      description: "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos.",
+      description:
+        "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos.",
     },
     "financial-systems": {
       name: "Sistemas Financieros",
-      description: "Desarrollo e implementación de soluciones tecnológicas para el sector financiero y bancario.",
+      description:
+        "Desarrollo e implementación de soluciones tecnológicas para el sector financiero y bancario.",
     },
     "backoffice-solutions": {
       name: "Soluciones de Backoffice",
-      description: "Automatización y optimización de procesos internos y operaciones de backoffice empresarial.",
+      description:
+        "Automatización y optimización de procesos internos y operaciones de backoffice empresarial.",
     },
     "architecture-design": {
       name: "Diseño de Arquitectura",
@@ -104,11 +122,13 @@ export function ServiceJsonLd({ service }: { service: string }) {
     },
     "security-compliance": {
       name: "Seguridad y Cumplimiento",
-      description: "Implementación de soluciones de seguridad y cumplimiento normativo para sistemas financieros.",
+      description:
+        "Implementación de soluciones de seguridad y cumplimiento normativo para sistemas financieros.",
     },
     "cloud-infrastructure": {
       name: "Infraestructura Cloud",
-      description: "Diseño e implementación de infraestructuras cloud escalables, seguras y optimizadas en costos.",
+      description:
+        "Diseño e implementación de infraestructuras cloud escalables, seguras y optimizadas en costos.",
     },
     "ai-integration": {
       name: "Integración de IA",
@@ -129,6 +149,7 @@ export function ServiceJsonLd({ service }: { service: string }) {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Service",
+          name: serviceData.name,
           serviceType: serviceData.name,
           provider: {
             "@type": "Person",

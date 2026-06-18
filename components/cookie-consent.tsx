@@ -25,13 +25,13 @@ export function CookieConsent() {
     const consent = {
       analytics: true,
       functional: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
     localStorage.setItem("cookieConsent", JSON.stringify(consent))
-    
+
     // Dispatch event to notify analytics components to load immediately
     window.dispatchEvent(new Event("cookieConsentChange"))
-    
+
     setIsVisible(false)
   }
 
@@ -49,47 +49,51 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed bottom-4 left-4 right-4 md:left-4 md:right-auto md:max-w-md z-50"
+          className="fixed right-4 bottom-4 left-4 z-50 md:right-auto md:left-4 md:max-w-md"
           role="dialog"
           aria-modal="false"
           aria-labelledby="cookie-consent-title"
           aria-describedby="cookie-consent-description"
         >
-          <div className="surface-card p-5">
+          {/* Opaque base so the banner is fully legible over page content —
+              surface-card alone is translucent (slate 55–70% + blur). */}
+          <div className="surface-card p-5" style={{ backgroundColor: "rgb(2 6 23 / 0.98)" }}>
             {/* Gradient accent border effect */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10 pointer-events-none" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10" />
 
             <div className="relative">
               <div className="mb-4">
-                <h2 className="text-base font-bold mb-2 text-white" id="cookie-consent-title">
+                <h2 className="mb-2 text-base font-bold text-white" id="cookie-consent-title">
                   Uso de Cookies
                 </h2>
-                <p className="text-zinc-300 text-sm leading-relaxed" id="cookie-consent-description">
-                  Utilizamos cookies para mejorar tu experiencia y analizar el uso del sitio. Consulta nuestra{" "}
-                  <Link href="/cookies" className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors">
+                <p
+                  className="text-sm leading-relaxed text-zinc-300"
+                  id="cookie-consent-description"
+                >
+                  Utilizamos cookies para mejorar tu experiencia y analizar el uso del sitio.
+                  Consulta nuestra{" "}
+                  <Link
+                    href="/cookies"
+                    className="text-emerald-400 underline underline-offset-2 transition-colors hover:text-emerald-300"
+                  >
                     política de cookies
-                  </Link>
-                  {" "}y{" "}
-                  <Link href="/privacidad" className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors">
+                  </Link>{" "}
+                  y{" "}
+                  <Link
+                    href="/privacidad"
+                    className="text-emerald-400 underline underline-offset-2 transition-colors hover:text-emerald-300"
+                  >
                     privacidad
                   </Link>
                   .
                 </p>
               </div>
 
-              <div className="flex gap-3 w-full">
-                <Button
-                  variant="glass"
-                  className="flex-1"
-                  onClick={rejectCookies}
-                >
+              <div className="flex w-full gap-3">
+                <Button variant="glass" className="flex-1" onClick={rejectCookies}>
                   Rechazar
                 </Button>
-                <Button
-                  variant="gradient"
-                  className="flex-1"
-                  onClick={acceptCookies}
-                >
+                <Button variant="gradient" className="flex-1" onClick={acceptCookies}>
                   Aceptar
                 </Button>
               </div>
