@@ -12,13 +12,89 @@
     "docs/README.md"
   ],
   "mcp": {
+    "codegraph": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "@colbymchenry/codegraph", "serve", "--mcp"],
+      "cwd": ".",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "ai-sync": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "-p", "ai-sync-cli", "ai-sync-mcp"],
+      "enabled": true,
+      "timeout": 30000
+    },
+    "docgraph": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "@carrilloapps/docgraph", "mcp", ".", "--read-only"],
+      "cwd": ".",
+      "environment": {
+        "DOCGRAPH_READ_ONLY": "1"
+      },
+      "enabled": true,
+      "timeout": 30000
+    },
+    "skill-rules": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "skill-rules", "mcp"],
+      "enabled": true,
+      "timeout": 30000
+    },
     "chrome-devtools": {
       "type": "local",
-      "command": ["npx", "-y", "chrome-devtools-mcp@0.23.0"],
-      "enabled": true
+      "command": ["cmd", "/c", "npx", "-y", "chrome-devtools-mcp@1.6.0"],
+      "enabled": true,
+      "timeout": 60000
+    },
+    "opengraph": {
+      "type": "local",
+      "command": ["node", "scripts/mcp-servers/opengraph-mcp.mjs"],
+      "cwd": ".",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
+      },
+      "oauth": false,
+      "enabled": true,
+      "timeout": 30000
+    },
+    "cloudflare-api": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "cloudflare-docs": {
+      "type": "remote",
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "cloudflare-dns-analytics": {
+      "type": "remote",
+      "url": "https://dns-analytics.mcp.cloudflare.com/mcp",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "openseo": {
+      "type": "remote",
+      "url": "https://app.openseo.so/mcp",
+      "enabled": true,
+      "timeout": 30000
     }
   },
   "skills": {
-    "directory": ".agents/skills"
+    "paths": [".agents/skills"]
+  },
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
   }
 }

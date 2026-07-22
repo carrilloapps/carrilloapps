@@ -3,37 +3,16 @@
     "codegraph": {
       "type": "stdio",
       "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "@colbymchenry/codegraph",
-        "serve",
-        "--mcp"
-      ]
+      "args": ["/c", "npx", "-y", "@colbymchenry/codegraph", "serve", "--mcp"]
     },
     "ai-sync": {
       "type": "stdio",
       "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "-p",
-        "ai-sync-cli",
-        "ai-sync-mcp"
-      ]
+      "args": ["/c", "npx", "-y", "-p", "ai-sync-cli", "ai-sync-mcp"]
     },
     "docgraph": {
-      "type": "stdio",
-      "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "@carrilloapps/docgraph",
-        "mcp"
-      ]
+      "command": "npx",
+      "args": ["-y", "-p", "@carrilloapps/docgraph", "docgraph-mcp", "serve"]
     },
     "stitch": {
       "type": "http",

@@ -14,9 +14,9 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "analyze": "cross-env ANALYZE=true next build",
-    "skills:sync": "node scripts/sync-skills.mjs",
-    "skills:update": "node scripts/sync-skills.mjs --update",
-    "skills:verify": "node scripts/sync-skills.mjs --verify",
+    "skills:sync": "node scripts/maintenance/sync-skills.mjs",
+    "skills:update": "node scripts/maintenance/sync-skills.mjs --update",
+    "skills:verify": "node scripts/maintenance/sync-skills.mjs --verify",
     "prepare": "husky || true"
   },
   "lint-staged": {
@@ -112,6 +112,7 @@
     "husky": "~9.1.7",
     "jsdom": "~29.1.1",
     "lint-staged": "~17.0.7",
+    "opengraph-mcp": "~1.0.0",
     "postcss": "~8.5.12",
     "prettier": "~3.8.4",
     "prettier-plugin-tailwindcss": "~0.8.0",

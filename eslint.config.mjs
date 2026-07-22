@@ -15,6 +15,8 @@ export default [
       "build/**",
       ".agents/**",
       ".claude/**",
+      ".opencode/**",
+      ".docgraph/**",
       "next-env.d.ts",
       "scripts/**",
     ],
