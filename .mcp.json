@@ -1,5 +1,59 @@
 {
   "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@colbymchenry/codegraph",
+        "serve",
+        "--mcp"
+      ]
+    },
+    "ai-sync": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "-p",
+        "ai-sync-cli",
+        "ai-sync-mcp"
+      ]
+    },
+    "docgraph": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@carrilloapps/docgraph",
+        "mcp"
+      ]
+    },
+    "stitch": {
+      "type": "http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "${STITCH_API_KEY}"
+      }
+    },
+    "cloudflare-api": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-docs": {
+      "type": "http",
+      "url": "https://docs.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-dns-analytics": {
+      "type": "http",
+      "url": "https://dns-analytics.mcp.cloudflare.com/mcp"
+    },
     "chrome-devtools": {
       "type": "stdio",
       "command": "npx",
@@ -14,6 +68,10 @@
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "skill-rules", "mcp"]
+    },
+    "openseo": {
+      "type": "http",
+      "url": "https://app.openseo.so/mcp"
     }
   }
 }
