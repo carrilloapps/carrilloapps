@@ -2,7 +2,6 @@
 const CACHE_NAME = 'carrillo-app'
 const STATIC_ASSETS = [
   '/',
-  '/blog',
   '/servicios',
   '/sobre-mi',
   '/contacto',

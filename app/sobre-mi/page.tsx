@@ -261,8 +261,13 @@ export default function AboutPage() {
               <div className="max-w-prose border-l-2 border-blue-500/40 pl-6 md:pl-8">
                 <p className="text-base leading-relaxed text-zinc-300 md:text-lg">
                   Mentoreo desarrolladores cada semana, escribo sobre arquitectura financiera en{" "}
-                  <Link href="/blog" className="font-semibold text-blue-300 hover:text-blue-200">
-                    mi blog
+                  <Link
+                    href="https://carrilloapps.substack.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-blue-300 hover:text-blue-200"
+                  >
+                    mi newsletter
                   </Link>{" "}
                   y participo en meetups de fintech en Colombia. Si vas a contratarme, lo que se
                   llevan tus equipos no es un{" "}

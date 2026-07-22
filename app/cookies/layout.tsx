@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Política de Cookies — Uso y Tipos en carrillo.app",
+  title: "Política de Cookies",
   description:
     "Cómo se utilizan las cookies en carrillo.app: cookies analíticas, técnicas y de terceros, y cómo gestionar tu consentimiento.",
   path: "/cookies",

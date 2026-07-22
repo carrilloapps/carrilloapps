@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Tech Leader y Senior Software Developer en Medellín",
+  title: "Tech Leader en Medellín",
   description:
     "Tech Leader y Senior Software Developer en Medellín con +10 años creando sistemas de pago para LATAM. Hoy en Yummy; antes Wompi.",
   path: "/sobre-mi",

@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Servicios de Liderazgo Técnico y Consultoría",
+  title: "Servicios de Consultoría",
   description:
     "Servicios de liderazgo técnico y consultoría: sistemas financieros, arquitectura de software, cloud e IA. +10 años de experiencia.",
   path: "/servicios",
