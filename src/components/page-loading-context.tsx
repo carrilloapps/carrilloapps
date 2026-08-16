@@ -1,7 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { usePathname } from "next/navigation"
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react"
 
 interface PageLoadingContextType {
   isLoading: boolean
@@ -10,60 +9,34 @@ interface PageLoadingContextType {
 
 const PageLoadingContext = createContext<PageLoadingContextType | undefined>(undefined)
 
+/**
+ * Holds the state of a deliberate, app-driven loading overlay.
+ *
+ * It used to drive one itself, and that was the single worst thing about moving
+ * around this site: a `useEffect` on `pathname` forced `isLoading` true on every
+ * route change and cleared it on a hard-coded 2000ms `setTimeout`, with another
+ * 100ms fade after it. Navigation cost 2.1 seconds of full-screen overlay
+ * whether the route was ready in 50ms or not — invented latency, on top of a
+ * first load that sat behind the same overlay for another second.
+ *
+ * Route-level waiting is the framework's job and it was already doing it: seven
+ * `loading.tsx` files cover the routes through Suspense, and they show only when
+ * a route genuinely suspends. So this provider no longer invents anything. It is
+ * a plain state container for the cases where the app itself wants to block the
+ * screen, and `isLoading` stays false until something calls `setLoading(true)`.
+ */
 export function PageLoadingProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true)
-  const pathname = usePathname()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const setLoading = (loading: boolean) => {
+  const setLoading = useCallback((loading: boolean) => {
     setIsLoading(loading)
-  }
-
-  // Reset loading state on route change
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoading(true)
-
-    // Auto-hide after exactly 2 second as requested
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000) // Exactly 2 second as requested by user
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [pathname]) // Trigger on pathname change
-
-  // Also handle initial page load
-  useEffect(() => {
-    const handleLoad = () => {
-      // Still respect the 1 second minimum, but hide if page loads after 1 second
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 100) // Small delay to ensure smooth transition
-
-      return () => clearTimeout(timer)
-    }
-
-    // Check if page is already loaded
-    if (document.readyState === "complete") {
-      // If already loaded, still show for 1 second
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
-      return () => clearTimeout(timer)
-    } else {
-      window.addEventListener("load", handleLoad)
-      return () => {
-        window.removeEventListener("load", handleLoad)
-      }
-    }
   }, [])
 
-  return (
-    <PageLoadingContext.Provider value={{ isLoading, setLoading }}>
-      {children}
-    </PageLoadingContext.Provider>
-  )
+  // Memoised so consumers do not re-render on every parent render — the root
+  // layout wraps the whole tree in this.
+  const value = useMemo(() => ({ isLoading, setLoading }), [isLoading, setLoading])
+
+  return <PageLoadingContext.Provider value={value}>{children}</PageLoadingContext.Provider>
 }
 
 export function usePageLoading() {

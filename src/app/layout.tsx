@@ -157,20 +157,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // `data-scroll-behavior` is not decoration: globals.css sets
+  // `scroll-behavior: smooth` on <html>, and without this attribute Next cannot
+  // tell that a route transition's jump-to-top is being animated — so every
+  // navigation smooth-scrolls the whole page instead of landing at the top.
+  // Declaring it lets Next suppress the animation for that one jump while
+  // in-page anchors keep gliding.
   return (
-    <html lang="es-CO" suppressHydrationWarning>
+    <html lang="es-CO" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        {/* DNS prefetch and preconnect for external resources */}
+        {/*
+          dns-prefetch only. Every origin here is contacted *after* load —
+          analytics are deferred, Substack and GitHub are fetched by route
+          handlers on interaction — so resolving DNS early is the whole benefit
+          and a preconnect would hold open a socket nothing uses in the load
+          window. Lighthouse flagged all four preconnects as unused.
+
+          The two Google Fonts origins are gone entirely: `next/font/google`
+          self-hosts Archivo and JetBrains Mono from /_next/static at build
+          time, so the browser never talks to fonts.googleapis.com or
+          fonts.gstatic.com at all.
+        */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://carrilloapps.substack.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
-
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
         {/* Meta tags para PWA */}
         <meta name="theme-color" content="#0b0c0e" />

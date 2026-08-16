@@ -26,8 +26,6 @@ import { Separator } from "@/components/ui/separator"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
 import { PageHero } from "@/components/page-hero"
 import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import {
@@ -113,8 +111,7 @@ const cardVariants: Variants = {
   },
 }
 
-function ContactPageContent() {
-  const { isLoading } = usePageLoading()
+export default function ContactPage() {
   const [emailRevealed, setEmailRevealed] = useState(false)
   const [phoneRevealed, setPhoneRevealed] = useState(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
@@ -227,7 +224,6 @@ function ContactPageContent() {
 
   return (
     <>
-      <PageLoadingOverlay isVisible={isLoading} />
       <div className="relative min-h-screen text-white">
         <DynamicBackground />
         <SiteHeader />
@@ -732,13 +728,5 @@ function ContactPageContent() {
         <SiteFooter />
       </div>
     </>
-  )
-}
-
-export default function ContactPage() {
-  return (
-    <PageLoadingProvider>
-      <ContactPageContent />
-    </PageLoadingProvider>
   )
 }

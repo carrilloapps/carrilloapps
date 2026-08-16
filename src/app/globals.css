@@ -303,8 +303,19 @@ html :focus-visible {
   outline-offset: 3px;
 }
 
+/* Paired with `data-scroll-behavior="smooth"` on <html> in layout.tsx, which is
+   what tells Next to skip the animation on a route transition's jump to top.
+   Anchor jumps within a page still glide — except for readers who asked not to
+   be moved: smooth scrolling is the exact motion `prefers-reduced-motion`
+   exists to stop, and it is a vestibular trigger, not a decoration. */
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Only the gutter belongs here. The heading sizes that used to live in this

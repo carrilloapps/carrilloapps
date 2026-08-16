@@ -25,8 +25,6 @@ import { RepositoriesList } from "@/components/repositories-list"
 import { RepositoriesLoading } from "@/components/unified-loading"
 import { FeaturedProjects } from "@/components/featured-projects"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
 import { PageHero } from "@/components/page-hero"
 import Link from "next/link"
 import { trackCTAClick, trackSearch } from "@/lib/analytics"
@@ -54,8 +52,6 @@ const itemVariants: Variants = {
 }
 
 function ResourcesPageContent() {
-  const { isLoading } = usePageLoading()
-
   // URL-driven state (shareable, navigable, SSR-friendly) via nuqs.
   const [activeTab, setActiveTab] = useQueryState(
     "tab",
@@ -81,7 +77,6 @@ function ResourcesPageContent() {
 
   return (
     <>
-      <PageLoadingOverlay isVisible={isLoading} />
       <div className="relative min-h-screen text-white">
         <DynamicBackground />
         <SiteHeader />
@@ -309,10 +304,8 @@ function ResourcesPageContent() {
 
 export default function ResourcesPage() {
   return (
-    <PageLoadingProvider>
-      <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
-        <ResourcesPageContent />
-      </Suspense>
-    </PageLoadingProvider>
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <ResourcesPageContent />
+    </Suspense>
   )
 }
