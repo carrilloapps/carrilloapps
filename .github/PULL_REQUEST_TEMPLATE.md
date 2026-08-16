@@ -1,11 +1,13 @@
 # Pull Request
 
 ## Description
+
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
 
 Fixes # (issue number)
 
 ## Type of Change
+
 Please delete options that are not relevant.
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
@@ -17,12 +19,14 @@ Please delete options that are not relevant.
 - [ ] Tests (adding missing tests or correcting existing tests)
 
 ## How Has This Been Tested?
+
 Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce.
 
 - [ ] Test A
 - [ ] Test B
 
 ## Checklist
+
 Before submitting your PR, please review the following:
 
 - [ ] My code follows the style guidelines of this project
@@ -35,7 +39,9 @@ Before submitting your PR, please review the following:
 - [ ] Any dependent changes have been merged and published in downstream modules
 
 ## Screenshots (if appropriate)
+
 Add screenshots to help explain your changes.
 
 ## Additional Information
+
 Any additional information about the PR.

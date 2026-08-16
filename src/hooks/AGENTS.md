@@ -4,7 +4,7 @@ This directory contains custom React hooks for the carrillo.app project.
 
 ## Directory Structure
 
-```
+```text
 hooks/
 ├── use-disqus-comments.tsx   # Disqus comments integration
 ├── use-media-query.tsx        # Media query hook

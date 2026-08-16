@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Performance Optimizations - 2026-01-06
 
 #### Added
+
 - **CSS Optimization**: Implemented strict CSS chunking for better loading performance
 - **Font Optimization**: Added adjustFontFallback and preload headers for Inter font
 - **Forced Reflow Fix**: Implemented requestAnimationFrame for all scroll operations
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Polyfill Elimination**: Upgraded to ES2022 target, saving ~13.9 KiB
 
 #### Changed
+
 - **Site Header**: Optimized scroll handler with RAF batching (~57ms improvement)
 - **Scroll Actions**: All scrollTo/scrollIntoView now use requestAnimationFrame
 - **DNS Prefetch**: Moved Medium preconnects to blog page only (reduced global preconnects)
@@ -26,21 +28,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Browserslist**: Targets modern browsers only (Chrome 90+, Safari 14+)
 
 #### Fixed
+
 - Forced reflow causing 57ms blocking in site-header scroll handler
 - CSS blocking render (23.2 KiB → optimized with strict chunking)
 - Font loading causing FOUT (added adjustFontFallback)
 - Unused variable warning in repositories-list component
 
 #### Documentation
+
 - docs/CSS_OPTIMIZATION.md: Complete guide for CSS optimizations and Cloudflare config
 - docs/PERFORMANCE_OPTIMIZATIONS.md: Updated with forced reflow fixes
 
 ### Enhanced Documentation
+
 - Enhanced project documentation
 - Added comprehensive GitHub workflow documentation
 
 ## [0.1.0] - 2025-05-15
+
 ### Added
+
 - Initial project setup with Next.js 15.2.4
 - Complete portfolio website structure
 - Blog functionality
@@ -56,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Newsletter subscription form
 
 ### Technologies
+
 - Next.js 15.2.4
 - React 19
 - TypeScript
@@ -66,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recharts for data visualization
 
 ### Security
+
 - Implemented best practices for form validation
 - Added privacy policy and terms & conditions pages
 - Cookie policy implementation

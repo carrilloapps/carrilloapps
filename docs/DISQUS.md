@@ -291,7 +291,7 @@ if (window.gtag) {
 
 ## File Structure
 
-```
+```text
 hooks/
   └── use-disqus-comments.tsx     # Comment count hook
 
@@ -333,4 +333,4 @@ Returns comment count directly (0 if loading/error).
 ---
 
 **Version**: 1.0.0 (Jan 2026)  
-**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)
+**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (<junior@carrillo.app>)

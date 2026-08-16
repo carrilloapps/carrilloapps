@@ -26,10 +26,12 @@ Asegúrate de que tu sitio esté configurado correctamente en Disqus:
 
 1. En Disqus Admin, ve a **Settings** → **Advanced**
 2. En **Trusted Domains**, agrega:
-   ```
+
+   ```text
    carrillo.app
    localhost
    ```
+
 3. Guarda los cambios
 
 ### 4. Verificar la Variable de Entorno
@@ -87,13 +89,13 @@ Agrega `localhost` a los Trusted Domains en Disqus Admin.
 
 Abre las DevTools (F12) y ve a la pestaña Console. Busca mensajes como:
 
-```
+```text
 Disqus script loaded successfully
 ```
 
 O errores como:
 
-```
+```text
 Error loading Disqus script
 Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
 ```

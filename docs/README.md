@@ -107,7 +107,7 @@ Before writing any new doc:
 2. Check whether root or a directory `AGENTS.md` already covers it.
 3. Check this index.
 
-```
+```text
 ❌ BAD:  CACHE_OPTIMIZATION.md when PERFORMANCE.md has a Cache Strategy section
 ✅ GOOD: extend PERFORMANCE.md
 ```

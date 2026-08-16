@@ -19,7 +19,7 @@ line-numbered source of the relevant symbols, the call paths between them, and
 a blast-radius summary. It replaces a grep + read loop with a single
 round-trip and far fewer tokens.
 
-```
+```text
 codegraph_explore(query: "getSiteUrl publicEnv env configuration",
                   projectPath: "/abs/path/to/carrilloapps")
 ```
@@ -186,7 +186,7 @@ directory the installer creates. Keep that cleanup step if you edit the script.
 `.specify/` holds the spec-kit 0.16.3 toolchain that drives the `speckit-*`
 skills: bash scripts, templates, integration manifests, workflow registry.
 
-```
+```text
 .specify/
   memory/constitution.md   ← VERSIONED. The project's binding rules.
   templates/               spec, plan, tasks, checklist, constitution
@@ -210,7 +210,7 @@ planning work, not after being told a plan violates it. It supersedes
 
 ### Workflow
 
-```
+```text
 /speckit-constitution   create or amend the constitution
 /speckit-specify        spec.md — what and why, no implementation detail
 /speckit-clarify        (optional) resolve ambiguity before planning

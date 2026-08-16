@@ -200,4 +200,4 @@ The repository is integrated with:
 
 ## Contact
 
-For questions about GitHub integration or repository management, contact José Porfirio Carrillo Echenique (Junior Carrillo) at junior@carrillo.app.
+For questions about GitHub integration or repository management, contact José Porfirio Carrillo Echenique (Junior Carrillo) at <junior@carrillo.app>.

@@ -11,7 +11,7 @@ Update this file, never fork it.
 
 ## 0. Before you touch anything
 
-### Use the context MCPs. This is mandatory.
+### Use the context MCPs. This is mandatory
 
 Constitution Principle I. Grep-and-open is the fallback, never the opening move.
 
@@ -27,13 +27,13 @@ callers before editing. `getSiteUrl` has 28 of them and no test coverage.
 Reindex when they go stale: `npx -y @colbymchenry/codegraph@latest init`, and
 docgraph's `index_project`.
 
-### Read the constitution.
+### Read the constitution
 
 [`.specify/memory/constitution.md`](.specify/memory/constitution.md) — five
 binding principles. It supersedes this file and everything in `docs/`.
 `/speckit-analyze` and `/speckit-implement` check work against it.
 
-### Then load only the doc your task needs.
+### Then load only the doc your task needs
 
 [`docs/README.md`](docs/README.md) maps task → document.
 
@@ -147,7 +147,7 @@ Directory-scoped rules: `src/app/AGENTS.md`, `src/components/AGENTS.md`,
 
 ---
 
-**Version**: 4.0.0 · **Last updated**: 16 August 2026 · **Maintained by**: José Carrillo (junior@carrillo.app)
+**Version**: 4.0.0 · **Last updated**: 16 August 2026 · **Maintained by**: José Carrillo (<junior@carrillo.app>)
 
 <!-- BEGIN:nextjs-agent-rules -->
 

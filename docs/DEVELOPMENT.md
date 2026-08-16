@@ -117,6 +117,7 @@ boundary recovery.
    - Use the environment utility (`@/lib/env`) for type-safe access
 
 4. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -253,7 +254,7 @@ export const Component: FC<ComponentProps> = ({ prop1, prop2 = 0 }) => {
 
 Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
-```
+```text
 <type>(<scope>): <description>
 
 [optional body]
@@ -276,7 +277,7 @@ Types:
 
 Example:
 
-```
+```text
 feat(blog): add pagination to blog list
 
 - Added pagination component
@@ -340,7 +341,7 @@ npm test -- --coverage
 
 ## Project Structure
 
-```
+```text
 /app                    # Next.js pages and routes
 /components             # React components
   /ui                   # UI components

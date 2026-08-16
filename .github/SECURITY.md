@@ -12,7 +12,7 @@ Use this section to tell people about which versions of your project are current
 
 The carrillo.app team takes security bugs seriously. We appreciate your efforts to responsibly disclose your findings and will make every effort to acknowledge your contributions.
 
-To report a security issue, please email [m@carrillo.app](mailto:m@carrillo.app) with a description of the issue, the steps you took to create the issue, affected versions, and, if known, mitigations for the issue. 
+To report a security issue, please email [m@carrillo.app](mailto:m@carrillo.app) with a description of the issue, the steps you took to create the issue, affected versions, and, if known, mitigations for the issue.
 
 Our security team will respond within 72 hours to acknowledge your report and provide an estimated timeline for a fix. We'll keep you updated as we work through the issue resolution process.
 
@@ -50,7 +50,7 @@ This project uses several third-party libraries and services. Always check for a
 
 ## Vulnerability Disclosure Process
 
-1. **Report**: Security issue is reported to junior@carrillo.app
+1. **Report**: Security issue is reported to <junior@carrillo.app>
 2. **Acknowledge**: Our team acknowledges receipt within 72 hours
 3. **Investigate**: We investigate the issue and determine its impact
 4. **Fix**: We develop and test a fix for the vulnerability

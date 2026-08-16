@@ -22,20 +22,20 @@ My focus: distributed systems that move real money reliably. From Colombia's fir
 
 Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
 
-📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 m@carrillo.app
+📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 <m@carrillo.app>
 
 ---
 
 ## Experience
 
-| Company                                           | Role                     | Impact                                                                            |
-| ------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------- |
+| Company                                           | Role                     | Impact                                                                                   |
+| ------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
 | **[Yummy (YC S21)](https://yummysuperapp.com)**   | Tech Leader              | Billing 4d→15min (+12M invoices/Q). CQRS +150M records, reports <3s. AI agents. PCI-DSS. |
-| **[Wompi](https://wompi.com)** (Bancolombia)      | Senior Full Stack        | First Open Banking in Colombia (Bre-B). 13M payers, 40K merchants, $50B COP/year. |
-| **[Cencosud](https://cencosud.com)** ($17.4B NRF) | Developer Leader         | Payments & Fraud: event-driven architecture + SAP integration.                    |
-| **[SKY Airline](https://skyairline.com)**         | Sr. Engineer & Tech Lead | Mobile sales ecosystem (Kotlin, Swift, RN) for +13.8M passengers/year.            |
-| **[Falabella](https://falabella.com)** ($14.7B)   | Mid. Backend Developer   | High-concurrency payment microservices. Kafka, RabbitMQ, Circuit Breaker.         |
-| **[Acid Labs](https://acidlabs.com)**             | Sr. Engineer → Tech Lead | 3 years: Retail, Banking & Aviation (~$32B combined revenue).                     |
+| **[Wompi](https://wompi.com)** (Bancolombia)      | Senior Full Stack        | First Open Banking in Colombia (Bre-B). 13M payers, 40K merchants, $50B COP/year.        |
+| **[Cencosud](https://cencosud.com)** ($17.4B NRF) | Developer Leader         | Payments & Fraud: event-driven architecture + SAP integration.                           |
+| **[SKY Airline](https://skyairline.com)**         | Sr. Engineer & Tech Lead | Mobile sales ecosystem (Kotlin, Swift, RN) for +13.8M passengers/year.                   |
+| **[Falabella](https://falabella.com)** ($14.7B)   | Mid. Backend Developer   | High-concurrency payment microservices. Kafka, RabbitMQ, Circuit Breaker.                |
+| **[Acid Labs](https://acidlabs.com)**             | Sr. Engineer → Tech Lead | 3 years: Retail, Banking & Aviation (~$32B combined revenue).                            |
 
 ---
 

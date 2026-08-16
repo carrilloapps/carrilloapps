@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:md": "markdownlint-cli2 --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
@@ -29,7 +30,11 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,css,md,mdx}": [
+    "*.md": [
+      "markdownlint-cli2 --fix",
+      "prettier --write"
+    ],
+    "*.{json,jsonc,css,mdx}": [
       "prettier --write"
     ]
   },
@@ -118,6 +123,7 @@
     "husky": "~9.1.7",
     "jsdom": "~30.0.1",
     "lint-staged": "~17.3.0",
+    "markdownlint-cli2": "~0.23.2",
     "opengraph-mcp": "~1.0.0",
     "postcss": "~8.5.26",
     "prettier": "~3.9.6",

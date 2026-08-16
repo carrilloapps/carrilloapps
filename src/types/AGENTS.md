@@ -4,7 +4,7 @@ This directory contains TypeScript type definitions for the carrillo.app project
 
 ## Directory Structure
 
-```
+```text
 types/
 ├── medium.ts     # Medium/RSS feed types
 └── project.ts    # Project-related types

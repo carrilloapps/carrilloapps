@@ -4,7 +4,7 @@ This directory contains all React components used throughout the CarrilloApps pr
 
 ## Directory Structure
 
-```
+```text
 components/
 ├── animated-section.tsx          # Animated section wrapper
 ├── blog-article.tsx              # Blog post article display
@@ -206,13 +206,13 @@ export const DynamicMyHeavyComponent = dynamic(
 )
 ```
 
-2. **Import as alias in your page:**
+1. **Import as alias in your page:**
 
 ```tsx
 import { DynamicMyHeavyComponent as MyHeavyComponent } from "@/components/dynamic-imports"
 ```
 
-3. **Use normally:**
+1. **Use normally:**
 
 ```tsx
 <MyHeavyComponent {...props} />
@@ -558,7 +558,7 @@ import { SiteFooter } from "@/components/site-footer"
 
 Lazy-loaded components for code splitting.
 
-#### Available Exports
+### Available Exports
 
 ```tsx
 export const DynamicDisqusComments = dynamic(...)  // Comments
@@ -587,7 +587,7 @@ import { DynamicCookieConsent } from "@/components/dynamic-imports"
 
 SEO structured data components.
 
-#### Available Components
+### Available Components
 
 ```tsx
 import {

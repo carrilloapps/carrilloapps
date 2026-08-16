@@ -132,6 +132,7 @@ const handleSubmit = async (data) => {
    - Scripts load **dynamically after consent** (not on page load)
 
 5. **Test tracking**:
+
    ```javascript
    // In browser console (after accepting cookies)
    window.gtag("event", "test", { test_param: "test" })
@@ -270,4 +271,4 @@ npm run lint
 ---
 
 **Version**: 2.1.0 (Jan 2026)  
-**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)
+**Maintained by**: José Porfirio Carrillo Echenique (Junior Carrillo) (<junior@carrillo.app>)

@@ -4,7 +4,7 @@ This directory contains all pages, layouts, and API routes for the CarrilloApps 
 
 ## Directory Structure
 
-```
+```text
 app/
 ├── page.tsx                  # Home page (root /)
 ├── layout.tsx                # Root layout (wraps all pages)
@@ -330,7 +330,7 @@ const getCachedData = unstable_cache(
 
 ### Blog Posts
 
-```
+```text
 app/blog/[slug]/page.tsx
 ```
 

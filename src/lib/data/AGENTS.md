@@ -4,7 +4,7 @@ This directory contains static data, configuration, and content for the carrillo
 
 ## Directory Structure
 
-```
+```text
 lib/data/
 ├── featured-projects.ts   # Featured projects configuration
 └── projects.ts            # Complete projects portfolio

@@ -15,7 +15,7 @@ This guide outlines the process for managing translations and ensuring a consist
 
 Translations are stored in JSON files under the `/public/locales` directory:
 
-```
+```text
 /public/locales/
   /en-US/
     common.json
@@ -167,4 +167,4 @@ To add support for a new language:
 
 ## Contact for Translation Issues
 
-For questions or issues related to translations, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at junior@carrillo.app.
+For questions or issues related to translations, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at <junior@carrillo.app>.

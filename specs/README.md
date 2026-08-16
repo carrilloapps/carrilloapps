@@ -4,7 +4,7 @@ Feature specifications produced by the `speckit-*` skills. One directory per
 feature, created by `.specify/scripts/bash/create-new-feature.sh` (invoked by
 `/speckit-specify`), numbered sequentially:
 
-```
+```text
 specs/001-<feature-slug>/
   spec.md        # /speckit-specify  — what and why, no implementation detail
   plan.md        # /speckit-plan     — technical approach and design artifacts

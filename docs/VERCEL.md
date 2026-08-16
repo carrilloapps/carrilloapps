@@ -49,7 +49,7 @@ Agent tooling directories — `.agents`, `.claude`, `.opencode`, `.codegraph`,
 
 These variables are exposed to the browser and included in the JavaScript bundle:
 
-```
+```text
 NEXT_PUBLIC_SITE_URL=https://carrillo.app
 NEXT_PUBLIC_BASE_URL=https://carrillo.app
 NEXT_PUBLIC_DISQUS_SHORTNAME=carrilloapps
@@ -59,7 +59,7 @@ NEXT_PUBLIC_DISQUS_SHORTNAME=carrilloapps
 
 These variables are only available on the server:
 
-```
+```text
 DISQUS_API_KEY=your_disqus_api_key_here
 DISQUS_API_SECRET=your_disqus_api_secret_here
 DISQUS_ACCESS_TOKEN=your_disqus_access_token_here
@@ -73,7 +73,7 @@ Vercel allows you to configure environment-specific variables:
 - **Preview**: For preview deployments (branches)
 - **Production**: For production deployment
 
-#### Recommended Configuration:
+#### Recommended Configuration
 
 | Variable                       | Development             | Preview                                        | Production             |
 | ------------------------------ | ----------------------- | ---------------------------------------------- | ---------------------- |

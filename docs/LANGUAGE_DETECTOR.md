@@ -322,7 +322,7 @@ if (/patron_especifico/.test(code) || /patron_unico/.test(code)) {
 }
 ```
 
-2. Agregar extensión en `getFileExtension()`:
+1. Agregar extensión en `getFileExtension()`:
 
 ```typescript
 const extensions: Record<string, string> = {
@@ -333,13 +333,13 @@ const extensions: Record<string, string> = {
 
 ## Mantenimiento
 
-### Cuándo actualizar:
+### Cuándo actualizar
 
 - Nuevos lenguajes populares emergen
 - Falsos positivos detectados en producción
 - Nuevas sintaxis de lenguajes existentes
 
-### Cómo probar cambios:
+### Cómo probar cambios
 
 1. Crear casos de prueba en `/tests/language-detector.test.ts`
 2. Ejecutar con código real de blog posts
@@ -377,4 +377,4 @@ if (domNode.children && domNode.children.length > 0) {
 ---
 
 **Última actualización**: Enero 7, 2026  
-**Mantenido por**: José Porfirio Carrillo Echenique (Junior Carrillo) (junior@carrillo.app)
+**Mantenido por**: José Porfirio Carrillo Echenique (Junior Carrillo) (<junior@carrillo.app>)

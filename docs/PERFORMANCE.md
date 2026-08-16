@@ -9,8 +9,8 @@ Optimizaciones de rendimiento en carrillo.app con mejoras significativas en desk
 ## Índice
 
 1. [Cache Strategy](#cache-strategy)
-2. [JavaScript Optimization](#javascript-optimization)
-3. [LCP Optimization](#lcp-optimization)
+2. [Desktop Optimizations](#desktop-optimizations)
+3. [Universal Optimizations](#universal-optimizations)
 4. [Mobile Optimization](#mobile-optimization)
 5. [Verification](#verification)
 
@@ -272,7 +272,9 @@ experimental: {
 }
 ```
 
-**Impacto**: 114.3 KiB → ~70 KiB (-38%) | Sin usar: 41.5 KiB → <10 KiB (-75%)tsx
+**Impacto**: 114.3 KiB → ~70 KiB (-38%) | Sin usar: 41.5 KiB → <10 KiB (-75%)
+
+```tsx
 // app/page.tsx
 import { useIsMobile } from "@/hooks/use-mobile"
 
@@ -286,7 +288,7 @@ transition={{ delay: isMobile ? 0 : 0.2, duration: isMobile ? 0 : 0.5 }}
 
 >
 
-// Title  
+// Title
 <motion.h1
 initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
 animate={{ opacity: 1, y: 0 }}
@@ -310,9 +312,10 @@ transition={{ delay: isMobile ? 0 : 0.5, duration: isMobile ? 0 : 0.8 }}
 
 >
 
-````
+```
 
 **Impact:**
+
 - **Initial Render Mobile**: -500ms to -1s
 - **Desktop**: No changes
 - **Visual**: Identical on both platforms
@@ -321,6 +324,7 @@ transition={{ delay: isMobile ? 0 : 0.5, duration: isMobile ? 0 : 0.8 }}
 ### 3. Responsive Image Sizes
 
 **Configuration:**
+
 ```tsx
 // Mobile downloads correct size (320px, not 420px)
 sizes="(max-width: 768px) 320px, (max-width: 1024px) 380px, 420px"
@@ -332,7 +336,7 @@ loading="eager"
 
 // Optimized quality
 quality={90}  // Balance between quality and file size
-````
+```
 
 **Results:**
 
@@ -387,7 +391,7 @@ const inter = Inter({
 
 ---
 
-## Performance Metrics
+## Universal Performance Metrics
 
 ### Before Optimization
 
@@ -520,34 +524,28 @@ sizes = "(max-width: 768px) 320px, 420px"
 | FCP         | 2.1s          | 0.9s          | 3.5s         | 2.0s         |
 | TBT         | 320ms         | 80ms          | 250ms        | 150ms        |
 
-## Verification```bash
+## Verification
 
+```bash
 # Build local
-
 npm run build && npm run start
 
 # Lighthouse
-
 npx lighthouse https://carrillo.app --preset=perf --view
 
-# Verificar
-
+# Verificar:
 # - CSS: Content-Type correcto
-
 # - Fonts: sin 404
-
 # - Images: next/image + cache headers
-
 # - profile.jpg: desde /public
-
-````
+```
 
 ## Comandos
 
 ```bash
 npm run build && npm run start  # Test local
 npx lighthouse https://carrillo.app --preset=perf --view  # Audit
-````
+```
 
 ---
 

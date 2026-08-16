@@ -4,7 +4,7 @@ This directory contains utility functions, services, and helper modules for the 
 
 ## Directory Structure
 
-```
+```text
 lib/
 ├── analytics.ts          # Analytics tracking functions (GA4, Clarity)
 ├── env.ts                # Environment variable handling

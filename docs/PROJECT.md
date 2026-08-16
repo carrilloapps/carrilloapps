@@ -24,7 +24,7 @@ carrillo.app is a personal portfolio and professional website for José Porfirio
 Application code lives under `src/` (the Next.js `src` folder convention);
 configuration, assets and project material stay in the root.
 
-```
+```text
 src/
   app/          route segments, layouts, route handlers, globals.css
   components/   reusable UI (components/ui/ = shadcn + Radix primitives)
@@ -54,14 +54,14 @@ The `@/*` path alias resolves to `src/*`, so imports read `@/components/...`,
 
 ### Technical Features
 
-8. **SEO Optimization**: Complete metadata, structured data (JSON-LD), sitemap, robots.txt
-9. **Analytics Tracking**: Comprehensive GA4 and Clarity integration (25+ event types)
-10. **Performance Optimized**: LCP < 2.5s, lighthouse score 95+/100
-11. **Responsive Design**: Mobile-first approach with breakpoints for all devices
-12. **Accessibility**: WCAG 2.1 AA compliance, keyboard navigation, screen reader support
-13. **Dark Theme**: Glassmorphism effects with animated backgrounds
-14. **Cookie Consent**: GDPR-compliant consent management
-15. **Progressive Enhancement**: Works without JavaScript for core content
+1. **SEO Optimization**: Complete metadata, structured data (JSON-LD), sitemap, robots.txt
+2. **Analytics Tracking**: Comprehensive GA4 and Clarity integration (25+ event types)
+3. **Performance Optimized**: LCP < 2.5s, lighthouse score 95+/100
+4. **Responsive Design**: Mobile-first approach with breakpoints for all devices
+5. **Accessibility**: WCAG 2.1 AA compliance, keyboard navigation, screen reader support
+6. **Dark Theme**: Glassmorphism effects with animated backgrounds
+7. **Cookie Consent**: GDPR-compliant consent management
+8. **Progressive Enhancement**: Works without JavaScript for core content
 
 ## Build and Development
 
@@ -88,7 +88,7 @@ npm install
 npm run dev
 ```
 
-The site will be available at http://localhost:3000.
+The site will be available at <http://localhost:3000>.
 
 ### Build for Production
 
@@ -187,4 +187,4 @@ Blog content is fetched from Medium using the Medium API. New articles published
 
 ## Contact and Support
 
-For questions or support regarding this project, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at junior@carrillo.app.
+For questions or support regarding this project, please contact José Porfirio Carrillo Echenique (Junior Carrillo) at <junior@carrillo.app>.

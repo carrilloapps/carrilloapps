@@ -35,7 +35,7 @@ Never hardcode `https://carrillo.app` in a metadata object.
 Each route that needs a social preview has an `opengraph-image` route segment
 rendering an image at build time:
 
-```
+```text
 app/opengraph-image.tsx
 app/servicios/opengraph-image.tsx
 app/sobre-mi/opengraph-image.tsx
@@ -49,7 +49,7 @@ files in `public/` — the generated route wins and the static file rots.
 
 Verify the result with the `opengraph` MCP:
 
-```
+```text
 inspect_og(url: "https://carrillo.app")
 ```
 
