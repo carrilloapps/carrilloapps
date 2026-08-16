@@ -36,3 +36,22 @@
     animation: none;
   }
 }
+
+/* The dwell bar on the experience timeline's open stop: the stamp fills the
+   stop's own top rule over the time the entry stays open, so the reader can see
+   how long is left instead of being surprised by the change. Linear on purpose
+   — it is a clock, not a transition. Paused by `animation-play-state`, which
+   freezes it exactly where it is rather than resetting. */
+@keyframes ledger-dwell {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-dwell {
+  transform-origin: left center;
+  animation: ledger-dwell var(--dwell, 7000ms) linear forwards;
+}

@@ -50,26 +50,23 @@ export const EXPERIENCE: ExperienceEntry[] = [
     technologies: ["Node.js", "React", "AWS", "Microservicios"],
   },
   {
-    /**
-     * TODO(josé): confirm the period and add the figures.
-     *
-     * The old /sobre-mi listed "Senior Developer Full Stack @ Wompi" with no
-     * dates and no metrics, and the site's own meta description says "antes en
-     * Wompi". The period below is inferred from the gap between Cencosud and
-     * Yummy — it is the only span consistent with the other three entries, not
-     * something on record. `metrics` is deliberately absent rather than
-     * invented; the timeline renders the entry without a figure table until
-     * there are real numbers to put in it.
-     */
+    // Recovered verbatim from the pre-redesign /sobre-mi (commit 6402124),
+    // which dated it "may. 2023 - mar. 2024" and carried all three figures.
+    // Shown as years here only to match the axis format of the other stops.
     id: "wompi",
     period: "2023 — 2024",
     since: "2023",
     role: "Sr. Developer Full Stack",
     company: "Wompi",
-    outcome: "Pasarela de pagos para el mercado colombiano",
+    outcome: "Open Banking con 99,9% de disponibilidad",
     description:
-      "Desarrollo full stack sobre la pasarela de pagos: integración de medios de pago, flujos de checkout y los servicios que los sostienen. Es el contexto donde el cumplimiento PCI-DSS deja de ser un documento y pasa a ser una restricción de cada decisión de diseño.",
-    technologies: ["TypeScript", "Node.js", "React", "PostgreSQL"],
+      "Participé en el desarrollo de la plataforma de pagos: integraciones con múltiples entidades bancarias y financieras, y mejoras de experiencia en checkout, dashboard y un flujo completo del panel administrativo. Ayudé a rediseñar la arquitectura del backend para soportar transacciones de Open Banking como iniciadores de pago, y trabajé con producto y UX en soluciones de pago que subieron la conversión de los comercios.",
+    metrics: [
+      { value: "99,9%", label: "Disponibilidad" },
+      { value: "−35%", label: "Tiempo de proceso" },
+      { value: "+28%", label: "Conversión" },
+    ],
+    technologies: ["Open Banking", "Pasarelas de pago", "Backend", "UI/UX"],
   },
   {
     id: "cencosud",

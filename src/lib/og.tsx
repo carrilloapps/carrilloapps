@@ -10,7 +10,6 @@ export const ogContentType = "image/png"
 /* -------------------------------------------------------------------------- */
 
 const INK = "#0b0c0e"
-const INK_RAISED = "#101216"
 const PAPER = "#e8e6e1"
 const PAPER_DIM = "#a2a6ad"
 const PAPER_FAINT = "#868b93"

@@ -146,10 +146,20 @@ function OpeningEntry() {
       aria-labelledby="about-heading"
     >
       <div className="container mx-auto px-4">
-        <div className="grid items-start gap-10 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] md:gap-14 lg:gap-20">
-          <PortraitPlate />
+        {/*
+          Three items, placed rather than nested. On a phone they read in DOM
+          order — exhibit, statement, addresses — which keeps the heading inside
+          the first viewport; wrapping the exhibit and the addresses together
+          pushed it 250px down. On a wide screen explicit row/column placement
+          rebuilds the identification column on the left with the statement
+          spanning both rows beside it.
+        */}
+        <div className="grid items-start gap-y-10 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] md:grid-rows-[auto_1fr] md:gap-x-14 md:gap-y-8 lg:gap-x-20">
+          <div className="md:col-start-1 md:row-start-1">
+            <PortraitPlate />
+          </div>
 
-          <div>
+          <div className="md:col-start-2 md:row-span-2 md:row-start-1">
             <h1
               id="about-heading"
               className="font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
@@ -178,13 +188,7 @@ function OpeningEntry() {
               </p>
             </div>
 
-            {/* The addresses, in the same place the home prints them: after the
-                statement, before the actions. */}
-            <div className="mt-8 border-t border-rule pt-4">
-              <SocialRow />
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
               <CalPopupButton source="about-hero" aria-label="Agendar una asesoría" className="cta">
                 Agendar una asesoría
                 <CalendarDays className="h-4 w-4" aria-hidden="true" />
@@ -197,6 +201,14 @@ function OpeningEntry() {
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             </div>
+          </div>
+
+          {/* The marks close the identification column, under the exhibit.
+              The wrapper carries the plate's own width cap so the row centres on
+              the photograph rather than on the grid column, which is wider than
+              the plate on phones. */}
+          <div className="w-full max-w-[16rem] md:col-start-1 md:row-start-2 md:max-w-none">
+            <SocialRow variant="marks" className="justify-center" />
           </div>
         </div>
       </div>
