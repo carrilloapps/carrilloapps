@@ -1,14 +1,89 @@
 # Development Guide
 
-This guide provides an overview of development practices and standards for the carrillo.app project.
+Setup, commands, the quality gate and the testing workflow.
+
+## Quick start
+
+```bash
+npm install          # dependencies
+npm run skills:all   # agent skills (see AGENT_TOOLING.md)
+npm run dev          # http://localhost:3000
+```
+
+## Commands
+
+```bash
+npm run dev            # dev server
+npm run build          # production build — must succeed before commit
+npm run start          # serve the production build
+npm run lint           # ESLint — must be 0 errors / 0 warnings
+npm run lint:fix       # auto-fix
+npm run format         # Prettier write
+npm run format:check   # Prettier check
+npm test               # Vitest, single run
+npm run test:watch     # Vitest watch
+npm run test:e2e       # Playwright
+npm run analyze        # bundle analyzer (ANALYZE=true next build)
+npm run mcp:check      # verify .mcp.json and opencode.json agree
+```
+
+Agent tooling commands (`skills:*`) are documented in
+[AGENT_TOOLING.md](AGENT_TOOLING.md).
+
+## The quality gate (non-negotiable)
+
+Constitution Principle IV. Run before every commit:
+
+```bash
+npm run lint     # 0 errors AND 0 warnings
+npm run build    # must succeed, TypeScript is strict
+npm test         # when touching covered code
+```
+
+- ✅ 0 ESLint errors, 0 ESLint warnings — "only warnings" is a failing state
+- ✅ Build succeeds, TypeScript clean
+- ✅ No unused imports, no unused variables
+- ✅ No `any` — use a specific type or `unknown`
+
+Husky + lint-staged run `eslint --fix` and `prettier --write` on staged files,
+but they are a convenience, not the gate. Commits that do not meet the bar are
+rejected.
+
+### Pre-merge checklist
+
+1. `npm run build` succeeds
+2. `npm run lint` reports 0 / 0
+3. `npm test` and `npm run test:e2e` pass
+4. Lighthouse accessibility ≥ 95 and performance ≥ 90, mobile **and** desktop
+5. Every page has metadata and structured data ([SEO.md](SEO.md))
+
+Lighthouse can be driven headlessly through the `chrome-devtools` MCP
+(`lighthouse_audit`) instead of opening DevTools by hand.
+
+### Accessibility testing
+
+The rules themselves are in [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md#5-accessibility-floor).
+To verify:
+
+- Chrome DevTools Accessibility panel; axe DevTools or WAVE extensions
+- Screen reader: NVDA (Windows) / VoiceOver (macOS) — every control must announce
+- Keyboard: tab through the whole page; everything reachable, focus always visible
+- Contrast: 4.5:1 minimum
+
+### Manual scenarios worth running
+
+Real mobile devices when possible, touch response without delay, every form
+error state, `PageLoadingOverlay` appearing during navigation, and error
+boundary recovery.
 
 ## Development Environment Setup
 
 ### Prerequisites
 
-- Node.js 20.x or later
-- pnpm 8.x or later
+- Node.js 22.x or later (24.x in use locally; `skills:sync` needs ≥ 22)
+- npm — this project uses `package-lock.json`, not pnpm
 - Git
+- `uv` / `uvx` — only for `npm run skills:speckit`
 - Visual Studio Code (recommended)
 
 ### Recommended VS Code Extensions
@@ -23,14 +98,16 @@ This guide provides an overview of development practices and standards for the c
 ### Initial Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/carrilloapps/carrilloapps.git
    cd carrilloapps
    ```
 
 2. Install dependencies:
+
    ```bash
-   pnpm install
+   npm install
    ```
 
 3. Set up environment variables:
@@ -41,7 +118,7 @@ This guide provides an overview of development practices and standards for the c
 
 4. Start the development server:
    ```bash
-   pnpm dev
+   npm run dev
    ```
 
 ## Environment Variables
@@ -58,7 +135,7 @@ The project uses a centralized environment configuration in `@/lib/env.ts` that 
 ### Usage
 
 ```typescript
-import { env, getSiteUrl, isProduction } from '@/lib/env'
+import { env, getSiteUrl, isProduction } from "@/lib/env"
 
 // Get site URL (handles different environments)
 const siteUrl = getSiteUrl()
@@ -86,6 +163,7 @@ const disqusShortname = env.DISQUS_SHORTNAME
 ### Vercel Deployment
 
 For Vercel deployment:
+
 1. Configure variables in Project Settings
 2. Use different values for Development/Preview/Production
 3. Leverage automatic Vercel variables (`VERCEL_URL`, `VERCEL_ENV`)
@@ -107,35 +185,35 @@ See `docs/VERCEL.md` for detailed deployment instructions.
 React components should follow this structure:
 
 ```tsx
-"use client"; // If component uses client-side features
+"use client" // If component uses client-side features
 
-import { useState, useEffect } from "react";
-import type { FC } from "react";
+import { useState, useEffect } from "react"
+import type { FC } from "react"
 
 // Define prop types
 interface ComponentProps {
-  prop1: string;
-  prop2?: number;
+  prop1: string
+  prop2?: number
 }
 
 export const Component: FC<ComponentProps> = ({ prop1, prop2 = 0 }) => {
   // State and hooks
-  const [state, setState] = useState<string>("");
+  const [state, setState] = useState<string>("")
 
   // Side effects
   useEffect(() => {
     // Effect logic
-  }, []);
+  }, [])
 
   // Event handlers
   const handleClick = () => {
-    setState("New state");
-  };
+    setState("New state")
+  }
 
   // Helper functions
   const formatData = (data: string) => {
-    return data.toUpperCase();
-  };
+    return data.toUpperCase()
+  }
 
   // Render
   return (
@@ -144,8 +222,8 @@ export const Component: FC<ComponentProps> = ({ prop1, prop2 = 0 }) => {
       <p>{prop2}</p>
       <button onClick={handleClick}>Click me</button>
     </div>
-  );
-};
+  )
+}
 ```
 
 ### CSS/Styling
@@ -184,6 +262,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) specific
 ```
 
 Types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -196,6 +275,7 @@ Types:
 - `chore`: Other changes that don't modify src or test files
 
 Example:
+
 ```
 feat(blog): add pagination to blog list
 
@@ -221,14 +301,14 @@ Closes #123
 ### Development Build
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 ### Production Build
 
 ```bash
-pnpm build
-pnpm start
+npm run build
+npm run start
 ```
 
 ### Deployment
@@ -241,13 +321,13 @@ The project is automatically deployed using GitHub Actions when changes are merg
 
 ```bash
 # Run all tests
-pnpm test
+npm test
 
 # Run tests in watch mode
-pnpm test:watch
+npm run test:watch
 
 # Run tests with coverage
-pnpm test:coverage
+npm test -- --coverage
 ```
 
 ### Writing Tests

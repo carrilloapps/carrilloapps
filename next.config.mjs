@@ -42,7 +42,9 @@ const nextConfig = {
     webVitalsAttribution: ["CLS", "LCP", "FCP", "FID", "TTFB", "INP"],
     // Aggressive CSS optimization - inline critical CSS
     optimizeCss: true, // Enable automatic CSS optimization
-    cssChunking: "strict", // Strict CSS chunking for optimal loading
+    // NOTE: `cssChunking` was removed here — since Next.js 16.3 it is a
+    // webpack-only option and hard-fails the build under Turbopack, which is
+    // the bundler this project uses.
     // Optimize server actions
     serverActions: {
       bodySizeLimit: "1mb",

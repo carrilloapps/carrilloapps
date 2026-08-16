@@ -1,6 +1,41 @@
 # Vercel Deployment Guide
 
-This document explains how to correctly configure environment variables for deployment on Vercel.
+Deployment pipeline, build configuration and environment variables.
+
+## Deployment pipeline
+
+- **Production** — push to `main` auto-deploys. Domain: `carrillo.app`.
+- **Preview** — every branch and PR gets its own URL.
+- **Rollback** — Deployments → pick a known-good one → `…` → **Promote to
+  Production**. Instant, no rebuild.
+
+### Build configuration (`vercel.json`)
+
+```jsonc
+{
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "regions": ["iad1"], // US East, closest to the audience
+  "functions": {
+    "src/app/api/**/*.ts": { "maxDuration": 10, "memory": 512 },
+  },
+  "headers": [/* security headers */],
+}
+```
+
+### What is excluded from the build (`.vercelignore`)
+
+Agent tooling directories — `.agents`, `.claude`, `.opencode`, `.codegraph`,
+`.docgraph`, `.specify`, `.skill-rules`, `.impeccable` — plus `.github` and
+`docs`. None of them are part of the app, and uploading them has crashed
+`next build` tracing before. Do not remove those entries.
+
+### After deploying
+
+1. Load the production URL and confirm it renders.
+2. Exercise the critical flows: navigation, contact form, latest posts.
+3. Confirm analytics events fire (GA4 real-time).
+4. Read the deployment log for warnings, not just for failures.
 
 ## Environment Variables in Vercel
 
@@ -40,11 +75,11 @@ Vercel allows you to configure environment-specific variables:
 
 #### Recommended Configuration:
 
-| Variable | Development | Preview | Production |
-|----------|-------------|---------|------------|
-| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
-| `NEXT_PUBLIC_BASE_URL` | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
-| `NEXT_PUBLIC_DISQUS_SHORTNAME` | `carrilloapps` | `carrilloapps` | `carrilloapps` |
+| Variable                       | Development             | Preview                                        | Production             |
+| ------------------------------ | ----------------------- | ---------------------------------------------- | ---------------------- |
+| `NEXT_PUBLIC_SITE_URL`         | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
+| `NEXT_PUBLIC_BASE_URL`         | `http://localhost:3000` | `https://carrilloapps-git-[branch].vercel.app` | `https://carrillo.app` |
+| `NEXT_PUBLIC_DISQUS_SHORTNAME` | `carrilloapps`          | `carrilloapps`                                 | `carrilloapps`         |
 
 ## Automatic Vercel Variables
 
@@ -59,7 +94,7 @@ Vercel automatically provides these variables:
 
 ```typescript
 // Detect if we're on Vercel
-const isVercel = process.env.VERCEL === '1'
+const isVercel = process.env.VERCEL === "1"
 
 // Get the deployment URL
 const deploymentUrl = process.env.VERCEL_URL
@@ -68,8 +103,9 @@ const deploymentUrl = process.env.VERCEL_URL
 const environment = process.env.VERCEL_ENV
 
 // Use the correct URL according to the environment
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
 ```
 
 ## Best Practices
@@ -94,16 +130,16 @@ const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL
   }
-  
+
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`
   }
-  
-  return 'http://localhost:3000'
+
+  return "http://localhost:3000"
 }
 
 // ❌ Bad practice: Hardcoded URL
-const baseUrl = 'https://carrillo.app'
+const baseUrl = "https://carrillo.app"
 ```
 
 ### 4. Variable Validation
@@ -111,14 +147,14 @@ const baseUrl = 'https://carrillo.app'
 ```typescript
 // utils/env.ts
 export const env = {
-  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-  NEXT_PUBLIC_DISQUS_SHORTNAME: process.env.NEXT_PUBLIC_DISQUS_SHORTNAME || 'carrilloapps',
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  NEXT_PUBLIC_DISQUS_SHORTNAME: process.env.NEXT_PUBLIC_DISQUS_SHORTNAME || "carrilloapps",
   DISQUS_API_KEY: process.env.DISQUS_API_KEY,
 } as const
 
 // Validate required variables
 if (!env.NEXT_PUBLIC_DISQUS_SHORTNAME) {
-  throw new Error('NEXT_PUBLIC_DISQUS_SHORTNAME is required')
+  throw new Error("NEXT_PUBLIC_DISQUS_SHORTNAME is required")
 }
 ```
 
@@ -150,7 +186,7 @@ vercel dev
 npm run dev
 ```
 
-## Troubleshooting
+## Environment variable troubleshooting
 
 ### Variables not updating
 
@@ -169,6 +205,22 @@ npm run dev
 - Variables in `.env*` files are not available in Edge Runtime
 - Configure all variables in Vercel Dashboard
 - Use variables with `NEXT_PUBLIC_` prefix for the client
+
+## Build and runtime troubleshooting
+
+| Symptom                            | First thing to check                                                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Build fails                        | Reproduce with `npm run build` locally; then delete `.next`; then `node_modules` + `package-lock.json` and reinstall           |
+| `only supported with webpack`      | A `next.config.mjs` option that Turbopack rejects. `experimental.cssChunking` was removed for exactly this reason in Next 16.3 |
+| Hydration error                    | Client-only code running in a server component                                                                                 |
+| Image not optimizing               | Asset must be in `public/` or match a `remotePatterns` entry                                                                   |
+| API route 404/500                  | Handler must export named `GET`/`POST` functions                                                                               |
+| Function timeout                   | `vercel.json` caps `src/app/api/**` at 10s — redesign, do not raise blindly                                                    |
+| Variables undefined in the browser | Missing `NEXT_PUBLIC_` prefix                                                                                                  |
+| Low contrast flagged by Lighthouse | Text below `text-zinc-300`                                                                                                     |
+| Missing form label                 | `htmlFor` on the label must match the input `id`                                                                               |
+
+---
 
 ## Resources
 

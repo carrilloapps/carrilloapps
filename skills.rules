@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "stages": {
+    "design": [
+      "apple-design",
+      "design-taste-frontend",
+      "emil-design-eng",
+      "high-end-visual-design",
+      "minimalist-ui",
+      "industrial-brutalist-ui",
+      "stitch-design-taste",
+      "gpt-taste",
+      "pick-ui-library",
+      "interface-design",
+      "impeccable"
+    ],
+    "motion": [
+      "animate",
+      "motion-framer",
+      "animation-vocabulary",
+      "find-animation-opportunities",
+      "improve-animations",
+      "review-animations",
+      "impeccable"
+    ],
+    "build": [
+      "image-to-code",
+      "prototype",
+      "ask-sonner",
+      "full-output-enforcement",
+      "redesign-existing-projects",
+      "vercel-react-best-practices",
+      "impeccable"
+    ],
+    "brand": [
+      "brandkit",
+      "imagegen-frontend-web",
+      "imagegen-frontend-mobile",
+      "impeccable"
+    ],
+    "marketing": [
+      "seo-audit",
+      "competitor-alternatives",
+      "changelog-generator"
+    ],
+    "review": [
+      "devils-advocate",
+      "sar-cybersecurity",
+      "brainstorming"
+    ],
+    "spec": [
+      "speckit-constitution",
+      "speckit-specify",
+      "speckit-clarify",
+      "speckit-plan",
+      "speckit-tasks",
+      "speckit-analyze",
+      "speckit-checklist",
+      "speckit-implement",
+      "speckit-converge",
+      "speckit-taskstoissues",
+      "impeccable"
+    ]
+  }
+}

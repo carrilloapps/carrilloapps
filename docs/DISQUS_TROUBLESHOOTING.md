@@ -41,6 +41,7 @@ NEXT_PUBLIC_DISQUS_SHORTNAME=juniorcarrillo
 ```
 
 **IMPORTANTE**: Después de cambiar cualquier variable de entorno, debes:
+
 1. Detener el servidor de desarrollo (`Ctrl+C`)
 2. Reiniciar con `npm run dev`
 
@@ -49,12 +50,14 @@ NEXT_PUBLIC_DISQUS_SHORTNAME=juniorcarrillo
 #### Error: "We were unable to load Disqus"
 
 **Causas posibles:**
+
 - El shortname es incorrecto
 - El dominio no está en la lista de Trusted Domains
 - El navegador está bloqueando scripts de terceros
 - Ad blockers o extensiones de privacidad están bloqueando Disqus
 
 **Soluciones:**
+
 1. Verifica el shortname en Disqus Admin
 2. Agrega el dominio a Trusted Domains
 3. Desactiva temporalmente ad blockers
@@ -63,11 +66,13 @@ NEXT_PUBLIC_DISQUS_SHORTNAME=juniorcarrillo
 #### Error: "Error loading Disqus script"
 
 **Causas posibles:**
+
 - Problemas de conectividad
 - Firewall o antivirus bloqueando Disqus
 - DNS no resuelve correctamente disqus.com
 
 **Soluciones:**
+
 1. Verifica tu conexión a internet
 2. Intenta acceder a `https://disqus.com` directamente
 3. Desactiva temporalmente firewall/antivirus
@@ -127,6 +132,7 @@ Para funcionalidades avanzadas como conteo de comentarios desde el servidor:
    - Access Token
 
 4. Agrégalas a `.env.local`:
+
 ```env
 DISQUS_API_KEY=tu_api_key
 DISQUS_API_SECRET=tu_api_secret
@@ -136,6 +142,7 @@ DISQUS_ACCESS_TOKEN=tu_access_token
 ### 10. Información de Depuración
 
 El componente ahora muestra información útil cuando hay un error:
+
 - **Shortname**: El shortname configurado
 - **URL**: La URL que Disqus está intentando usar
 - **Detalles**: Mensaje de error específico

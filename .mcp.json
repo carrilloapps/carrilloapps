@@ -2,17 +2,18 @@
   "mcpServers": {
     "codegraph": {
       "type": "stdio",
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@colbymchenry/codegraph", "serve", "--mcp"]
+      "command": "npx",
+      "args": ["-y", "@colbymchenry/codegraph@latest", "serve", "--mcp"]
     },
     "ai-sync": {
       "type": "stdio",
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "-p", "ai-sync-cli", "ai-sync-mcp"]
+      "command": "npx",
+      "args": ["-y", "-p", "ai-sync-cli@latest", "ai-sync-mcp"]
     },
     "docgraph": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["-y", "-p", "@carrilloapps/docgraph", "docgraph-mcp", "serve"]
+      "args": ["-y", "-p", "@carrilloapps/docgraph@latest", "docgraph-mcp", "serve"]
     },
     "stitch": {
       "type": "http",
@@ -36,17 +37,29 @@
     "chrome-devtools": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--headless",
+        "--isolated",
+        "--executablePath",
+        "${CHROME_PATH:-chrome}",
+        "--chromeArg=--no-sandbox"
+      ]
     },
     "opengraph": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "opengraph-mcp"]
+      "command": "node",
+      "args": [
+        "--input-type=module",
+        "-e",
+        "import{createRequire}from'node:module';globalThis.require=createRequire(process.cwd()+'/');await import('opengraph-mcp/dist/server.mjs')"
+      ]
     },
     "skill-rules": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "skill-rules", "mcp"]
+      "args": ["-y", "skill-rules@latest", "mcp"]
     },
     "openseo": {
       "type": "http",

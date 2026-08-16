@@ -38,6 +38,7 @@ Translation keys should:
 3. Group related content together
 
 Example:
+
 ```json
 {
   "header": {
@@ -68,17 +69,17 @@ When adding new content:
 Translations are accessed using the `useTranslation` hook:
 
 ```tsx
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from "next-i18next"
 
 export function MyComponent() {
-  const { t } = useTranslation('common');
-  
+  const { t } = useTranslation("common")
+
   return (
     <div>
-      <h1>{t('header.home')}</h1>
-      <p>{t('welcomeMessage')}</p>
+      <h1>{t("header.home")}</h1>
+      <p>{t("welcomeMessage")}</p>
     </div>
-  );
+  )
 }
 ```
 
@@ -91,25 +92,26 @@ Always use localized formatting for:
 3. **Currency**: Use `Intl.NumberFormat` with currency option
 
 Example:
+
 ```tsx
-import { format } from 'date-fns';
-import { enUS, es } from 'date-fns/locale';
+import { format } from "date-fns"
+import { enUS, es } from "date-fns/locale"
 
 // Select locale based on current language
-const locales = { 'en-US': enUS, 'es-ES': es };
-const currentLocale = locales[router.locale || 'en-US'];
+const locales = { "en-US": enUS, "es-ES": es }
+const currentLocale = locales[router.locale || "en-US"]
 
 // Format date
-const formattedDate = format(new Date(), 'PPP', { locale: currentLocale });
+const formattedDate = format(new Date(), "PPP", { locale: currentLocale })
 
 // Format number
-const formattedNumber = new Intl.NumberFormat(router.locale || 'en-US').format(1000);
+const formattedNumber = new Intl.NumberFormat(router.locale || "en-US").format(1000)
 
 // Format currency
-const formattedCurrency = new Intl.NumberFormat(router.locale || 'en-US', {
-  style: 'currency',
-  currency: 'USD'
-}).format(19.99);
+const formattedCurrency = new Intl.NumberFormat(router.locale || "en-US", {
+  style: "currency",
+  currency: "USD",
+}).format(19.99)
 ```
 
 ## Right-to-Left (RTL) Support

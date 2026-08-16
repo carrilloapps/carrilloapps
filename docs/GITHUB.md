@@ -15,6 +15,7 @@ The carrillo.app project is hosted on GitHub at [https://github.com/carrilloapps
 ### Branch Protection
 
 The `main` branch is protected with the following rules:
+
 - Require pull request reviews before merging
 - Require status checks to pass before merging
 - Require branches to be up to date before merging
@@ -39,6 +40,7 @@ The repository uses GitHub Actions for automation. The workflows are defined in 
 ### Issue Templates
 
 The repository includes templates for different types of issues:
+
 - Bug reports: `.github/ISSUE_TEMPLATE/bug_report.md`
 - Feature requests: `.github/ISSUE_TEMPLATE/feature_request.md`
 - Documentation updates: `.github/ISSUE_TEMPLATE/documentation.md`
@@ -46,6 +48,7 @@ The repository includes templates for different types of issues:
 ### Issue Labels
 
 Issues are categorized with labels:
+
 - `bug`: Something isn't working
 - `enhancement`: New feature or request
 - `documentation`: Documentation improvements
@@ -56,6 +59,7 @@ Issues are categorized with labels:
 ### Project Boards
 
 GitHub Projects is used to track the progress of issues and pull requests. The main project board has the following columns:
+
 - To Do: Not started
 - In Progress: Currently being worked on
 - Review: Ready for review
@@ -74,6 +78,7 @@ GitHub Projects is used to track the progress of issues and pull requests. The m
 ### Pull Request Template
 
 A template for pull requests is provided at `.github/PULL_REQUEST_TEMPLATE.md`. It includes:
+
 - Description of changes
 - Related issue(s)
 - Type of change
@@ -92,6 +97,7 @@ A template for pull requests is provided at `.github/PULL_REQUEST_TEMPLATE.md`. 
 ### Release Notes
 
 Release notes should include:
+
 - Summary of the release
 - New features
 - Bug fixes
@@ -104,6 +110,7 @@ Release notes should include:
 ### Discussions
 
 GitHub Discussions is enabled for:
+
 - Q&A
 - Ideas and feedback
 - General community discussions
@@ -111,6 +118,7 @@ GitHub Discussions is enabled for:
 ### Wiki
 
 The GitHub Wiki contains supplementary documentation:
+
 - User guides
 - FAQs
 - Troubleshooting
@@ -118,6 +126,7 @@ The GitHub Wiki contains supplementary documentation:
 ### GitHub Pages
 
 GitHub Pages is used to host:
+
 - API documentation
 - Code coverage reports
 - Other static documentation
@@ -137,6 +146,7 @@ GitHub Pages is used to host:
 ### Security Policy
 
 The security policy is defined in `SECURITY.md` and outlines:
+
 - Supported versions
 - Reporting a vulnerability
 - Expected response time
@@ -155,6 +165,7 @@ Community contributions are welcome. The process is outlined in `CONTRIBUTING.md
 ## Continuous Integration
 
 The CI workflow includes:
+
 1. Installing dependencies
 2. Linting code
 3. Building the project
@@ -164,6 +175,7 @@ The CI workflow includes:
 ## Continuous Deployment
 
 The CD workflow includes:
+
 1. Building the project
 2. Running tests
 3. Deploying to staging environment
@@ -172,6 +184,7 @@ The CD workflow includes:
 ## GitHub Integrations
 
 The repository is integrated with:
+
 - Vercel for deployments
 - CodeCov for test coverage reporting
 - Snyk for security vulnerability scanning

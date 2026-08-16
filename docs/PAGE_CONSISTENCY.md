@@ -1,113 +1,59 @@
 # Page Consistency Guide
 
-This guide documents the design and structure standards that should be followed when creating new pages in the project to maintain visual and functional consistency with the blog and other main pages.
+The shared page shell, the hero components, the design tokens and the
+accessibility floor. Constitution Principle II — "the shared shell is the
+product" — is enforced here.
 
-## PageHero Component
+Read this before creating or restructuring any page.
 
-**IMPORTANT**: Use the `PageHero` component for the hero section of all pages. This component abstracts all animation and structure logic, maintaining consistency automatically.
+---
 
-### Basic Usage
+## 1. Mandatory page shell
 
-```tsx
-import { PageHero } from "@/components/page-hero";
-
-<PageHero
-  badge={{ text: "Nombre de la Página" }}
-  title="Título Principal"
-  description="Descripción breve de la página."
-/>
-```
-
-### With Icon and Custom Colors
+Every `src/app/*/page.tsx` follows this composition. No exceptions.
 
 ```tsx
-import { PageHero } from "@/components/page-hero";
-import { Mail } from "lucide-react";
+"use client"
 
-<PageHero
-  badge={{
-    text: "Available for new projects",
-    icon: Mail,
-    gradientFrom: "from-emerald-600/20",
-    gradientTo: "to-teal-600/20",
-    borderColor: "border-emerald-500/30",
-    textColor: "text-emerald-400",
-    shadowColor: "shadow-emerald-600/10",
-  }}
-  title="Let's Talk"
-  description="Do you have a project in mind? I'd love to learn more about your vision."
-/>
-```
-
-### With Additional Content
-
-```tsx
-<PageHero
-  badge={{ text: "Blog" }}
-  title="Insights & Experiences"
-  description="Articles about software development..."
->
-  <Suspense fallback={<Loading />}>
-    <FeaturedContent />
-  </Suspense>
-</PageHero>
-```
-
-## Base Structure
-
-All pages must follow this base structure:
-
-```tsx
-"use client";
-
-import { Suspense } from "react";
-import { motion, Variants } from "framer-motion";
-// ... otros imports
-
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
-import { PageHero } from "@/components/page-hero";
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+import { DynamicBackground } from "@/components/dynamic-background"
+import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
+import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
+import { PageHero } from "@/components/page-hero"
 
 function PageContent() {
-  const { isLoading } = usePageLoading();
+  const { isLoading } = usePageLoading()
 
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      <div className="min-h-screen bg-black text-white relative overflow-hidden">
-        <ParticleHeroBackground />
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-        
+      <div className="relative min-h-screen overflow-hidden text-white">
+        <DynamicBackground />
         <SiteHeader />
 
-        <main className="relative z-10 container py-12 space-y-24" id="main-content">
+        <main className="relative z-10 container space-y-24 py-12" id="main-content">
           <PageHero
-            badge={{ text: "Nombre de la Página" }}
-            title="Título Principal"
-            description="Descripción breve de la página."
+            badge={{ text: "Page Name" }}
+            title="Main Title"
+            description="Page description."
           />
 
-          {/* Additional sections */}
-          <motion.section 
-            className="py-12 space-y-8"
+          <motion.section
+            className="space-y-8 pt-6 pb-12" // first section after hero: pt-6, not py-12
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
           >
-            {/* Section content */}
+            {/* content */}
           </motion.section>
         </main>
 
         <SiteFooter />
       </div>
     </>
-  );
+  )
 }
 
 export default function Page() {
@@ -115,216 +61,220 @@ export default function Page() {
     <PageLoadingProvider>
       <PageContent />
     </PageLoadingProvider>
-  );
+  )
 }
 ```
 
-## Required Components
+Metadata and JSON-LD do **not** go here — pages are `"use client"`. See
+[SEO.md](SEO.md).
 
-### 1. PageLoadingProvider y PageLoadingOverlay
+### Checklist
 
-All pages must use the consistent loading system:
+- [ ] `PageLoadingProvider` + `PageLoadingOverlay`
+- [ ] `DynamicBackground` (never `ParticleHeroBackground` — removed)
+- [ ] Container: `relative min-h-screen overflow-hidden text-white`
+- [ ] `PageHero` or `PageHeroSplit` — never a hand-rolled hero
+- [ ] `main` uses `container py-12 space-y-24` and keeps `id="main-content"`
+- [ ] First section after hero uses `pt-6 pb-12`
+- [ ] Sections animate with `whileInView` + the standard variants
+- [ ] No visual breadcrumbs — JSON-LD only, in `layout.tsx`
+- [ ] Analytics tracking on every interactive element
+- [ ] Touch targets ≥ 48×48px
 
-```tsx
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context";
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading";
+---
 
-function PageContent() {
-  const { isLoading } = usePageLoading();
-  
-  return (
-    <>
-      <PageLoadingOverlay isVisible={isLoading} />
-      {/* rest of content */}
-    </>
-  );
-}
+## 2. Hero components
 
-export default function Page() {
-  return (
-    <PageLoadingProvider>
-      <PageContent />
-    </PageLoadingProvider>
-  );
-}
-```
+### PageHero — centered, the default
 
-### 2. ParticleHeroBackground
-
-All pages must include the animated particle background:
+`src/components/page-hero.tsx`
 
 ```tsx
-import { ParticleHeroBackground } from "@/components/particle-hero-background";
-
-<div className="min-h-screen bg-black text-white relative overflow-hidden">
-  <ParticleHeroBackground />
-  {/* resto del contenido */}
-</div>
-```
-
-### 3. Gradient Overlay
-
-The gradient overlay must be consistent across all pages:
-
-```tsx
-<div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-black/50 pointer-events-none" />
-```
-
-## Hero Section Structure
-
-**Always use the `PageHero` component**. Do not create hero sections manually. The component automatically handles:
-- Consistent animations
-- Structure and spacing
-- Responsive design
-- Animation variants
-
-### PageHero Props
-
-- `badge`: Object with badge configuration
-  - `text` (required): Badge text
-  - `icon` (optional): Lucide React icon
-  - `gradientFrom` (optional): Initial gradient class (default: `"from-emerald-600/20"`)
-  - `gradientTo` (optional): Final gradient class (default: `"to-teal-600/20"`)
-  - `borderColor` (optional): Border color class (default: `"border-emerald-500/30"`)
-  - `textColor` (optional): Text color class (default: `"text-emerald-400"`)
-  - `shadowColor` (optional): Shadow color class (default: `"shadow-emerald-600/10"`)
-
-**Note on default colors**: Badges use green (emerald/teal) colors by default to differentiate from active menu items that use blue/purple. If you need a different color, you can customize it using the optional props.
-- `title` (required): Main title
-- `description` (required): Page description
-- `children` (optional): Additional content after the hero (e.g., featured content)
-
-## Main Structure
-
-The `<main>` element must have these classes and structure:
-
-```tsx
-<main className="relative z-10 container py-12 space-y-24" id="main-content">
-  {/* Sections with space-y-24 between them */}
-</main>
-```
-
-## Additional Sections
-
-For sections that appear after the hero, use `whileInView`:
-
-```tsx
-<motion.section 
-  className="py-12 space-y-8"
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, margin: "-100px" }}
-  variants={containerVariants}
+<PageHero
+  badge={{ text: "Available for new projects", icon: Mail }}
+  title="Let's Talk"
+  description="Do you have a project in mind?"
 >
-  {/* Content */}
-</motion.section>
+  {/* optional children, rendered after an h-6 spacer */}
+</PageHero>
 ```
 
-## Animation Variants
+```typescript
+interface PageHeroProps {
+  badge: {
+    text: string
+    icon?: LucideIcon
+    gradientFrom?: string // default "from-emerald-600/20"
+    gradientTo?: string // default "to-teal-600/20"
+    borderColor?: string // default "border-emerald-500/30"
+    textColor?: string // default "text-emerald-400"
+    shadowColor?: string // default "shadow-emerald-600/10"
+  }
+  title: string
+  description: string
+  children?: React.ReactNode
+}
+```
 
-**The `PageHero` component automatically handles animations**. For additional sections, use these variants:
+Spacing: section `py-8 md:py-16`, internal `space-y-6`, `h-6` spacer before
+children.
+
+### PageHeroSplit — content left, visual right
+
+`src/components/page-hero-split.tsx`
+
+```typescript
+interface PageHeroSplitProps {
+  badge: {/* same shape as PageHero */}
+  title: string | ReactNode // ReactNode enables partial gradients
+  subtitle?: string
+  description: string | ReactNode
+  image?: {
+    src: string
+    alt: string
+    width?: number // default 600
+    height?: number // default 600
+    priority?: boolean // default true
+  }
+  rightContent?: ReactNode // alternative to `image` (icons, stats)
+  actions?: ReactNode // buttons under the description
+  additionalContent?: ReactNode
+}
+```
+
+- Desktop: 2-column grid, `gap-12`, content left / visual right.
+- Mobile: visual first, then content.
+- Alignment is always `items-start`; badge margin `mt-4 md:mt-28`.
+- Images get `absolute inset-0 object-cover w-full h-full`, `rounded-2xl`,
+  `border border-zinc-800/50`, gradient overlays, glassmorphism.
+- Section padding `py-12 md:py-0`.
+
+A title built from `ReactNode` is how partial gradients are done:
+
+```tsx
+title={
+  <>
+    <span className="text-white">Soluciones tecnológicas </span>
+    <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+      de alto impacto
+    </span>
+  </>
+}
+```
+
+---
+
+## 3. DynamicBackground
+
+`src/components/dynamic-background.tsx` — required on every page.
+
+- Four animated gradient orbs — blue top-left, purple bottom-right, cyan-blue
+  center at 2s delay, purple-pink bottom-center at 0.5s delay. Layer `-z-50`.
+- Radial overlay `zinc-900/30 → zinc-950/60 → black`. Layer `-z-40`.
+- Animated 50×50px grid, `rgba(59,130,246,0.1)`,
+  `gridMove 20s linear infinite` (keyframes in `src/app/globals.css`). Layer `-z-30`.
+
+Why it is built this way: CSS animations are GPU-accelerated, `fixed`
+positioning avoids re-render on scroll, low opacity keeps content readable, and
+`blur-3xl` is cheaper than a larger blur radius.
+
+Do not stack extra gradient overlays on top — this component owns the
+background. The old `ParticleHeroBackground` and its manual
+`bg-gradient-to-br` overlay are gone; if you find that pattern in old code,
+replace the whole block with `<DynamicBackground />`.
+
+---
+
+## 4. Design tokens
+
+### Colors
+
+| Element             | Value                                   |
+| ------------------- | --------------------------------------- |
+| Hero badge gradient | `from-emerald-600/20 to-teal-600/20`    |
+| Hero badge border   | `border-emerald-500/30`                 |
+| Hero badge text     | `text-emerald-400`                      |
+| Hero badge shadow   | `shadow-emerald-600/10`                 |
+| Main title          | `from-white via-blue-100 to-purple-200` |
+| Section titles      | `from-white via-blue-100 to-blue-300`   |
+
+**Why emerald badges?** Active nav items use blue/purple. A blue or purple badge
+reads as navigation.
+
+### Spacing
+
+| Element                     | Value                     |
+| --------------------------- | ------------------------- |
+| Main container              | `py-12 space-y-24`        |
+| Hero section                | `py-8 md:py-16 space-y-6` |
+| Regular sections            | `py-12 space-y-8`         |
+| First section after hero    | `pt-6 pb-12 space-y-8`    |
+| Spacer before hero children | `h-6`                     |
+
+### Typography
+
+- Hero title: `text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter`
+- Hero description: `text-xl text-zinc-400 max-w-2xl mx-auto`
+- Section titles: `text-2xl md:text-3xl font-bold`
+
+### Motion
+
+Copy these variants; do not invent new ones.
 
 ```tsx
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+}
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+}
 ```
 
-## Breadcrumbs
+Shared helpers live in `src/lib/motion.ts`. Respect
+`src/components/motion-preferences-provider.tsx` for reduced-motion.
 
-**IMPORTANT**: Do not include visual breadcrumbs in the UI. Breadcrumbs should only be in the layout's JSON-LD for SEO:
+---
 
-```tsx
-// ❌ DO NOT do this in page.tsx
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">Home</BreadcrumbLink>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>
+## 5. Accessibility floor
 
-// ✅ Do this in layout.tsx
-<BreadcrumbJsonLd
-  items={[
-    { name: "Home", url: "https://carrillo.app" },
-    { name: "Page", url: "https://carrillo.app/page" },
-  ]}
-/>
-```
+Constitution Principle III. These are gates, not polish.
 
-## Colors and Gradients
+- Touch targets ≥ 48×48px — `min-h-[48px]` + `touch-manipulation`.
+- Body text no lighter than `text-zinc-300`. Avoid `zinc-400`/`zinc-500` for
+  primary text.
+- Form inputs: `htmlFor` on `<label>` paired with `id` on the input;
+  `aria-label` on every `SelectTrigger`.
+- **Never** put `role="listitem"` on `<a>`, `<button>`, `<Card>` or `<Badge>` —
+  it breaks assistive-tech semantics.
+- Keep `src/components/skip-link.tsx` working: `main` must keep `id="main-content"`.
+- Every interactive element reachable by keyboard with a visible focus state.
+- Contrast 4.5:1 minimum.
 
-### Hero Badge (Default)
-Badges use green colors by default to differentiate from active menu items:
-- Gradient: `bg-gradient-to-r from-emerald-600/20 to-teal-600/20`
-- Border: `border-emerald-500/30`
-- Text: `text-emerald-400`
-- Shadow: `shadow-lg shadow-emerald-600/10`
+Testing tools and the pre-merge bar are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
-**Reason for green color**: Active menu items use blue/purple, so green badges provide better visual contrast and avoid confusion with navigation.
+---
 
-### Main Title
-- Class: `bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent`
+## 6. Component inventory
 
-### Section Titles
-- Class: `bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent`
+Layout and chrome: `site-header`, `site-footer`, `skip-link`, `scroll-to-top`,
+`section-divider`, `section-header`.
 
-## Spacing
+Page-level: `page-hero`, `page-hero-split`, `dynamic-background`,
+`unified-loading`, `page-loading-context`, `global-page-loader`.
 
-- Between main sections: `space-y-24`
-- Main padding: `py-12`
-- Hero padding: `py-12 md:py-24`
-- Section padding: `py-12`
+Content: `featured-projects`, `featured-repositories`, `repositories-list`,
+`latest-posts-section`, `open-source-section`, `stats-section`,
+`skills-horizontal-section`, `service-globe`, `project-dialog`.
 
-## Reference Examples
+Interaction: `newsletter-form`, `cv-download-modal`, `cookie-consent`,
+`social-share-dialog`, `social-share-buttons`, `compact-contact-section`.
 
-Pages that correctly follow these standards:
-- `app/blog/page.tsx` - Blog page
-- `app/recursos/page.tsx` - Resources page
-- `app/contacto/page.tsx` - Contact page
+Infrastructure: `providers`, `theme-provider`, `motion-preferences-provider`,
+`json-ld`, `dynamic-imports`, `src/components/analytics/` (GA4 + Clarity),
+`src/components/ui/` (48 shadcn/Radix primitives).
 
-## Checklist for New Pages
-
-When creating a new page, verify:
-
-- [ ] Uses `PageLoadingProvider` and `PageLoadingOverlay`
-- [ ] Includes `ParticleHeroBackground`
-- [ ] Has the correct gradient overlay
-- [ ] **Uses the `PageHero` component for the hero section**
-- [ ] Main has `space-y-24` between sections
-- [ ] Additional sections use `whileInView`
-- [ ] No visual breadcrumbs (only JSON-LD in layout)
-- [ ] Badge, titles and colors are consistent (handled by `PageHero`)
-- [ ] Spacing is consistent with other pages
-
-## Important Notes
-
-1. **Do not use visual breadcrumbs**: The project does not use breadcrumbs in the UI, only in JSON-LD for SEO.
-
-2. **Animation consistency**: All pages should use the same animation variants for a uniform experience.
-
-3. **Particle background**: Always include `ParticleHeroBackground` to maintain visual identity.
-
-4. **Loading system**: Always use `PageLoadingProvider` for smooth transitions between pages.
-
-5. **Spacing**: Maintain `space-y-24` in main for visual consistency between sections.
-
+Reference pages: `src/app/sobre-mi/page.tsx` uses `PageHeroSplit`;
+`src/app/recursos/page.tsx` and `src/app/contacto/page.tsx` use `PageHero`.

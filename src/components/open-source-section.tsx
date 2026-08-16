@@ -1,0 +1,149 @@
+"use client"
+
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowUpRight, Package } from "lucide-react"
+import { Github } from "@/components/icons/social-icons"
+import { openSourceProjects, type OpenSourceProject } from "@/lib/data/open-source"
+import { trackButtonClick } from "@/lib/analytics"
+import { Section } from "@/components/ui/section"
+import { Pill } from "@/components/ui/pill"
+import { SurfaceCard } from "@/components/ui/surface-card"
+
+/**
+ * Live npm version badge. The version is resolved by shields.io at request
+ * time from the package slug, so it always tracks the latest published
+ * release without us redeploying — mirroring each project's own README.
+ */
+function NpmVersionBadge({ name }: { name: string }) {
+  const src = `https://img.shields.io/npm/v/${encodeURIComponent(
+    name,
+  )}?style=flat&label=&color=10b981&labelColor=18181b`
+  // width/height set the intrinsic aspect ratio; the className scales it to a
+  // consistent 18px height while letting the width follow the version string.
+  // `unoptimized` is intentional ONLY here: the optimizer would cache this SVG
+  // for minimumCacheTTL (1y) and freeze the version. It's a ~1KB SVG, so there
+  // is no real optimization to lose, and the badge stays live. Every other
+  // image in the app stays optimized via next/image.
+  return (
+    <Image
+      src={src}
+      alt={`Última versión de ${name} en npm`}
+      width={56}
+      height={20}
+      unoptimized
+      className="h-[18px] w-auto"
+    />
+  )
+}
+
+function RegistryGlyph({ registry }: { registry: OpenSourceProject["registry"] }) {
+  if (registry === "npm") {
+    return (
+      <span
+        className="inline-flex items-center gap-1.5 text-[11px] font-medium tracking-[0.18em] text-zinc-400 uppercase"
+        aria-label="Publicado en npm"
+      >
+        <Package className="h-3 w-3" aria-hidden="true" />
+        npm
+      </span>
+    )
+  }
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 text-[11px] font-medium tracking-[0.18em] text-zinc-400 uppercase"
+      aria-label="Publicado en GitHub"
+    >
+      <Github className="h-3 w-3" aria-hidden="true" />
+      github
+    </span>
+  )
+}
+
+function ProjectCard({ project }: { project: OpenSourceProject }) {
+  return (
+    <SurfaceCard as="div" className="group h-full">
+      <Link
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackButtonClick(`open-source: ${project.name}`, "home-open-source")}
+        className="flex h-full flex-col gap-4 rounded-2xl p-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+      >
+        <div className="flex items-center justify-between">
+          <RegistryGlyph registry={project.registry} />
+          <ArrowUpRight
+            className="h-4 w-4 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-blue-400"
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-baseline gap-2">
+            <h3 className="font-mono text-lg font-semibold tracking-tight text-white">
+              {project.name}
+            </h3>
+            {project.registry === "npm" && (
+              <NpmVersionBadge name={project.packageName ?? project.name} />
+            )}
+          </div>
+          <p className="line-clamp-3 text-sm leading-relaxed text-zinc-400">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-zinc-800/60 pt-3">
+          <div className="flex items-center gap-1.5">
+            <span
+              className="h-2 w-2 shrink-0 rounded-full"
+              style={{ backgroundColor: project.languageColor }}
+              aria-hidden="true"
+            />
+            <span className="text-xs text-zinc-500">{project.language}</span>
+          </div>
+          <div className="flex flex-wrap justify-end gap-1.5">
+            {project.tags.slice(0, 3).map((tag) => (
+              <Pill key={tag} variant="tag" size="sm">
+                {tag}
+              </Pill>
+            ))}
+          </div>
+        </div>
+      </Link>
+    </SurfaceCard>
+  )
+}
+
+export function OpenSourceSection() {
+  return (
+    <Section
+      header={{
+        eyebrow: "Open source",
+        eyebrowIcon: Package,
+        title: "Herramientas que mantengo",
+        description:
+          "Librerías y CLIs publicados en npm + proyectos en GitHub que uso a diario y comparto con la comunidad.",
+        headingId: "open-source-heading",
+        align: "left",
+        trailing: (
+          <Link
+            href="https://github.com/carrilloapps?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackButtonClick("ver todos repos", "home-open-source")}
+            className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium text-zinc-400 transition-colors duration-200 hover:text-white focus:ring-2 focus:ring-blue-500/40 focus:ring-offset-2 focus:ring-offset-black focus:outline-none"
+          >
+            Ver todos
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        ),
+      }}
+    >
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+        {openSourceProjects.map((project) => (
+          <ProjectCard key={project.name} project={project} />
+        ))}
+      </div>
+    </Section>
+  )
+}

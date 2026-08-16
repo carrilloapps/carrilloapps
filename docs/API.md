@@ -1,224 +1,167 @@
 # API Documentation
 
-This document outlines the API endpoints available in the carrillo.app project.
+Five route handlers under `src/app/api/`. They exist for one reason: **no client
+component may call a third-party API directly** (Constitution, Technology
+Constraints). Every upstream call, its cache window and its error shape live
+here.
 
-## Base URL
+There is **no authentication layer** — every endpoint is public and read-mostly.
+Secrets stay server-side, read through `privateEnv` from `src/lib/env.ts`.
 
-All API endpoints are prefixed with:
+Base URL: `https://carrillo.app/api` (locally `http://localhost:3000/api`).
 
-```
-https://carrillo.app/api
-```
+---
 
-## Authentication
+## Conventions
 
-Some API endpoints may require authentication. Authentication is handled via JWT tokens that should be included in the Authorization header:
+Follow these on any new handler.
 
-```
-Authorization: Bearer YOUR_JWT_TOKEN
-```
+**Always return structured JSON plus a real status code.** Never a bare string,
+never a naked `throw`.
 
-## Error Handling
-
-All API endpoints return standard HTTP status codes:
-
-- `200 OK`: The request was successful
-- `400 Bad Request`: The request was invalid
-- `401 Unauthorized`: Authentication is required or failed
-- `403 Forbidden`: The authenticated user does not have access
-- `404 Not Found`: The requested resource does not exist
-- `500 Server Error`: An internal server error occurred
-
-Error responses include a JSON body with error details:
-
-```json
-{
-  "error": {
-    "code": "ERROR_CODE",
-    "message": "Human-readable error message"
-  }
-}
+```ts
+return NextResponse.json({ error: "Correo electrónico inválido." }, { status: 422 })
 ```
 
-## Available Endpoints
+**Declare the cache window explicitly.**
 
-### GitHub Repositories
+| Mechanism                                        | Where                       | Example                       |
+| ------------------------------------------------ | --------------------------- | ----------------------------- |
+| `export const revalidate`                        | route-level, whole response | `latest-posts` → 1800s        |
+| `unstable_cache(fn, keys, { revalidate, tags })` | per upstream call           | `github-repositories` → 3600s |
 
-#### GET /api/github-repositories
+Tagged caches (`tags: ['github-repositories']`) can be invalidated
+selectively — prefer them over a blanket route revalidate when a handler makes
+several upstream calls with different volatility.
 
-Fetches repositories from GitHub for the carrillo.app account.
+**Pick the runtime deliberately.** `newsletter` sets `export const runtime = "nodejs"`
+because Mailchimp needs `crypto` and `Buffer`. Handlers that do not need Node
+APIs should leave the default.
 
-**Parameters:**
-- `limit` (optional): Number of repositories to return (default: 10)
-- `sort` (optional): Sort field (default: "updated")
-- `direction` (optional): Sort direction, "asc" or "desc" (default: "desc")
+**Degrade instead of failing.** `latest-posts` returns `{ posts: [] }` on error
+so the home page renders without the section rather than exploding.
+`newsletter` returns 503 when unconfigured so the UI can show "coming soon".
 
-**Response:**
-```json
-{
-  "repositories": [
-    {
-      "id": "12345678",
-      "name": "repository-name",
-      "description": "Repository description",
-      "url": "https://github.com/carrilloapps/repository-name",
-      "language": "TypeScript",
-      "stars": 123,
-      "forks": 45,
-      "updatedAt": "2025-01-15T12:30:45Z"
-    }
-  ],
-  "total": 1
-}
-```
+**Respect the Vercel limits.** `vercel.json` caps `src/app/api/**` at
+`maxDuration: 10` seconds and `memory: 512`. A handler that can exceed 10s
+needs a different design, not a bigger timeout.
 
-### GitLab Repositories
+---
 
-#### GET /api/gitlab-repositories
+## Endpoints
 
-Fetches repositories from GitLab for the carrillo.app account.
+### `GET /api/github-repositories`
 
-**Parameters:**
-- `limit` (optional): Number of repositories to return (default: 10)
-- `sort` (optional): Sort field (default: "updated")
-- `direction` (optional): Sort direction, "asc" or "desc" (default: "desc")
+Repositories for a GitHub user, filtered, searched and paginated server-side.
 
-**Response:**
+| Param         | Default        | Notes                       |
+| ------------- | -------------- | --------------------------- |
+| `username`    | `carrilloapps` |                             |
+| `page`        | `1`            | 6 per page                  |
+| `language`    | `all`          | case-insensitive match      |
+| `search`      | —              | matches name or description |
+| `pinned_only` | `false`        | returns only the pinned set |
+
+"Pinned" is synthesized: the top 6 repos by star count, since the REST API does
+not expose GitHub's pinned selection.
+
 ```json
 {
   "repositories": [
     {
-      "id": "12345678",
-      "name": "repository-name",
-      "description": "Repository description",
-      "url": "https://gitlab.com/carrilloapps/repository-name",
+      "id": 1,
+      "name": "repo",
+      "description": "",
       "language": "TypeScript",
-      "stars": 123,
-      "forks": 45,
-      "updatedAt": "2025-01-15T12:30:45Z"
+      "stars": 0,
+      "forks": 0,
+      "updated_at": "…",
+      "html_url": "…",
+      "pinned": false
     }
   ],
-  "total": 1
+  "totalCount": 42,
+  "totalPages": 7,
+  "pinnedRepos": []
 }
 ```
 
-### Contact Form
+Cache 3600s via `unstable_cache`, tags `github-repositories` / `github-user-info`.
+Errors return `{ "error": "Failed to fetch repositories" }` with 500.
 
-#### POST /api/contact
+### `GET /api/gitlab-repositories`
 
-Submits a contact form message.
+GitLab equivalent, same response shape so `src/components/repositories-list.tsx`
+can consume either source.
 
-**Request Body:**
+### `GET /api/repository-details`
+
+Detail view for a single repository. Cache 1800s.
+
+### `GET /api/latest-posts`
+
+The four most recent Substack posts via `getSubstackPosts(4)` from
+`src/lib/substack-service.ts`. `export const revalidate = 1800`.
+
+Consumed through TanStack Query (`latestPosts` in `src/lib/queries.ts`), rendered by
+`src/components/latest-posts-section.tsx`. Also feeds `src/app/rss.xml/route.ts`.
+
+Returns `{ posts: [] }` on any upstream failure — never an error status.
+
+### `GET /api/newsletter`
+
+Configuration probe. Returns `{ "configured": true | false }` so the form can
+render a disabled "coming soon" state without leaking whether credentials exist.
+
+### `POST /api/newsletter`
+
+Mailchimp Marketing API subscription. Runtime `nodejs`.
+
 ```json
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "subject": "Project Inquiry",
-  "message": "I'd like to discuss a potential project with you."
-}
+{ "email": "someone@example.com" }
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Your message has been sent successfully."
-}
-```
+| Status | Body                                                    | Meaning                           |
+| ------ | ------------------------------------------------------- | --------------------------------- |
+| 200    | `{ "ok": true }`                                        | Subscribed                        |
+| 200    | `{ "ok": true, "alreadySubscribed": true }`             | Member already existed            |
+| 400    | `{ "error": "Solicitud inválida." }`                    | Malformed JSON                    |
+| 422    | `{ "error": "Correo electrónico inválido." }`           | Failed `EMAIL_RE`                 |
+| 503    | `{ "error": "El newsletter aún no está configurado." }` | Missing credentials               |
+| 502    | `{ "error": "No pudimos completar la suscripción." }`   | Mailchimp rejected or unreachable |
 
-### Newsletter Subscription
+Requires `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID`, `MAILCHIMP_SERVER_PREFIX`.
 
-#### POST /api/newsletter
+Implementation notes worth preserving: Mailchimp addresses members by the MD5
+hash of the lowercased email, and `PUT` on that resource upserts idempotently —
+resubmitting the same address never creates a duplicate. `status_if_new:
+"subscribed"` only affects brand-new members; switch it to `"pending"` for
+double opt-in.
 
-Subscribes an email to the newsletter.
+---
 
-**Request Body:**
-```json
-{
-  "email": "john.doe@example.com",
-  "name": "John Doe"
-}
-```
+## Form security
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "You have been subscribed to the newsletter."
-}
-```
+Contact and scheduling forms (`src/app/contacto/page.tsx`, `src/app/page.tsx`,
+`src/components/compact-contact-section.tsx`) submit through WhatsApp deep links
+(`src/lib/whatsapp.ts`), not through an API route. They still carry three defenses.
+Reuse all three on any new form:
 
-### Appointment Scheduling
+1. **Email obfuscation** — `obfuscateEmail()` / `deobfuscateEmail()` so the
+   address is never in the DOM in plain text for scrapers.
+2. **Honeypot field** — a hidden input real users never fill. Any value means
+   a bot.
+3. **Rate limiting + time-based validation** — `useRateLimit()` plus a minimum
+   elapsed time between render and submit, which rejects instant bot posts.
 
-#### GET /api/appointments/available
+Server-side, `newsletter` validates with `EMAIL_RE` before touching Mailchimp
+and never echoes upstream error details to the client — failures are logged
+with `console.error` and returned as a generic message.
 
-Fetches available appointment slots.
+---
 
-**Parameters:**
-- `startDate`: Start date for available slots (ISO format)
-- `endDate`: End date for available slots (ISO format)
+## Related
 
-**Response:**
-```json
-{
-  "availableSlots": [
-    {
-      "date": "2025-05-20",
-      "slots": [
-        {
-          "id": "slot-123",
-          "startTime": "10:00",
-          "endTime": "11:00",
-          "available": true
-        },
-        {
-          "id": "slot-124",
-          "startTime": "14:00",
-          "endTime": "15:00",
-          "available": true
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### POST /api/appointments/book
-
-Books an appointment slot.
-
-**Request Body:**
-```json
-{
-  "slotId": "slot-123",
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "+1234567890",
-  "subject": "Project Discussion",
-  "message": "I'd like to discuss my project requirements."
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "appointment": {
-    "id": "appt-456",
-    "date": "2025-05-20",
-    "startTime": "10:00",
-    "endTime": "11:00",
-    "confirmationCode": "CONF123456"
-  },
-  "message": "Your appointment has been scheduled successfully."
-}
-```
-
-## Rate Limiting
-
-API endpoints are subject to rate limiting to prevent abuse. The current limits are:
-
-- Public endpoints: 60 requests per minute
-- Authenticated endpoints: 100 requests per minute
-
-When a rate limit is exceeded, the API will return a `429 Too Many Requests` status code with a `Retry-After` header indicating how many seconds to wait before retrying.
+- Caching and performance budgets → [PERFORMANCE.md](PERFORMANCE.md)
+- Environment variables → [VERCEL.md](VERCEL.md), `.env.example`
+- Data flow overview → [PROJECT.md](PROJECT.md)

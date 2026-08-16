@@ -1,8 +1,13 @@
-# Local dev tooling & symlinks (the .agents symlink targets .claude locally and
-# is a broken link on Vercel's build machine — it crashes `next build` tracing).
+# Local agent tooling — regenerated from skills-lock.json / .mcp.json, never
+# part of the Next.js build. Uploading these has crashed `next build` tracing.
 .agents
 .claude
 .opencode
+.codegraph
+.docgraph
+.specify
+.skill-rules
+.impeccable
 
 # Repo meta & documentation — not part of the Next.js app build/runtime.
 .github

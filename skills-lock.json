@@ -1,46 +1,246 @@
 {
   "version": 1,
   "skills": {
+    "animate": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/animate",
+      "computedHash": "e820bb26fb8b88986249cb10fac42f4d68e23294270cea60af944b496ef772b6"
+    },
+    "animation-vocabulary": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/animation-vocabulary",
+      "computedHash": "16bfb5a10b42c4c2dfeb15c3705f9a2de774b33bf4ae055305130d4abff4b16b"
+    },
+    "apple-design": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/apple-design",
+      "computedHash": "8d5d6949abe176aed835dc259e91470b6ee219f2bc2af92784a7f072a2e50ed0"
+    },
+    "ask-sonner": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/ask-sonner",
+      "computedHash": "923a4588f0b268dedab5f0477204db492e25d9c85dc520b5ec64469d493135a7"
+    },
     "brainstorming": {
       "source": "obra/superpowers",
       "sourceType": "github",
-      "computedHash": "3f22629ed4f1cde4cf5f263a1778fc205d88fa12a5702029df2c62440f98281d"
+      "path": "skills/brainstorming",
+      "computedHash": "b29f0c4068279fb924ef3a467682d23be68700f90ca59990bba35c24088fd55e"
+    },
+    "brandkit": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/brandkit",
+      "computedHash": "66c068d44001b4e6354c09e4b799f908ed1a7003211c7e7295331c122bea9f02"
     },
     "changelog-generator": {
       "source": "composiohq/awesome-claude-skills",
       "sourceType": "github",
-      "computedHash": "dec1f54cca47b266bf66d57f701669752ef4fc521bb8b3d8b7db41d33b0ac168"
+      "path": "changelog-generator",
+      "computedHash": "00344e3228f526718eadbdd606e09e726b1242ea0d362b41f26af1c3f69c0178"
     },
     "competitor-alternatives": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
-      "computedHash": "390802ba5da3498e8aa238f54c2fbc79dc61094ac16c91d875b3acf4623b3d1c"
+      "path": "skills/competitors",
+      "computedHash": "c3f6dade5d6ab4666c504a30a6392fd74adb98e7919be01e07444ce8b69934ab"
+    },
+    "design-taste-frontend": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/taste-skill",
+      "computedHash": "32134157d57314d41e794e71014c853b24f16f20e396944e47ccc76f96fa01b0"
     },
     "devils-advocate": {
       "source": "carrilloapps/skills",
       "sourceType": "github",
-      "computedHash": "e05174e173253b72f229f95fe16e24577c5c9805d5dd6cd554b1bccc43837373"
+      "path": "skills/devils-advocate",
+      "computedHash": "bd13be26471c6098d1c122d9f15887af5f144b6bba7356b3bcfbeb08643239ec"
+    },
+    "emil-design-eng": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/emil-design-eng",
+      "computedHash": "3e4c7e2b34a2fef2f972c1836d3d7925e39875623a76ee1b7a2026a5b32c1454"
+    },
+    "find-animation-opportunities": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/find-animation-opportunities",
+      "computedHash": "83a8d4767cad74886eca6f621793a777ae8079018482e25aea1be9254650a961"
+    },
+    "full-output-enforcement": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/output-skill",
+      "computedHash": "933b89da884015e2a4189417fd2dad62610c9aeb1c80d0166567354594836b1c"
+    },
+    "gpt-taste": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/gpt-tasteskill",
+      "computedHash": "2699f333a4cf2c43ef49b7cdf66674b5a19d05c1ca6a9a848dd4ec0acc41984d"
+    },
+    "high-end-visual-design": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/soft-skill",
+      "computedHash": "49c7b83a53374522fc0603e5b0d8bd2eadc1ad819356f4b56f08f5e73d91ee2d"
+    },
+    "image-to-code": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/image-to-code-skill",
+      "computedHash": "ce9e7282b05e6cf247352c0f68953b943755899eb14a2198d72c97c6e5ffa807"
+    },
+    "imagegen-frontend-mobile": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/imagegen-frontend-mobile",
+      "computedHash": "9d08a2fd4f71d9fa9f6808506fed4a8231ab451e2016570ab80514074571c64a"
+    },
+    "imagegen-frontend-web": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/imagegen-frontend-web",
+      "computedHash": "d5215faecc59120b499726e2c0d6fd802d47f7f69c9243e328120b4759ed8f60"
+    },
+    "impeccable": {
+      "source": "claude-code-plugin:impeccable",
+      "sourceType": "local",
+      "path": ".claude/skills/impeccable"
+    },
+    "improve-animations": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/improve-animations",
+      "computedHash": "2a371396644801d45c708e95cbff02cf1b0f2dca238abbdbb0abb09d5a42974e"
+    },
+    "industrial-brutalist-ui": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/brutalist-skill",
+      "computedHash": "d915c228e1fd8ff18f9f417ddfff605f045a15acb85e15906dcb347ba6e2c941"
     },
     "interface-design": {
       "source": "dammyjay93/interface-design",
       "sourceType": "github",
-      "computedHash": "b0428aa98108d9cecb207f4166beb322bfa33250c759db048cbd837c9a593208"
+      "path": ".claude/skills/interface-design",
+      "computedHash": "557eda80351ef7622405e000b1199a3b154b3247301ac1397c17fef72957622b"
+    },
+    "minimalist-ui": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/minimalist-skill",
+      "computedHash": "0b63afb03f68657b51042d075b0a7f8c2362bdb5bb1f77caab99693e90c91e21"
+    },
+    "motion-framer": {
+      "source": "freshtechbro/claudedesignskills",
+      "sourceType": "github",
+      "path": ".claude/skills/motion-framer",
+      "computedHash": "a3f4ee40b05fa8051fa91cf3595eb2d66f1270b692181847861faa5f2d7d9ed0"
+    },
+    "pick-ui-library": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/pick-ui-library",
+      "computedHash": "033f55aab3e6495ccb703f043215910c043415cd7889ada884e993f7aedaa061"
+    },
+    "prototype": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/prototype",
+      "computedHash": "58eca2dad19ae8ee5d9bb3116ae2c5a272841cdf4083abb930d7226aa4d0d22b"
+    },
+    "redesign-existing-projects": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/redesign-skill",
+      "computedHash": "f6b0637adf3481f0fbd23a365a8e0773ed82b322c1df78a40d7a8b4cda65c9e3"
+    },
+    "review-animations": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "path": "skills/review-animations",
+      "computedHash": "abe6b4b12653e48de5669c73b46b007855e872458d0ae232e24753c2eca909f2"
     },
     "sar-cybersecurity": {
       "source": "carrilloapps/skills",
       "sourceType": "github",
-      "computedHash": "ca3294b2d2b06ed09a26e4c3b6761d7e25f898a622b013edfc87733807f78071"
+      "path": "skills/sar-cybersecurity",
+      "computedHash": "03b767eaf60fedf6310f0bfcfb8d34310ce468d805765ac9bc4455e214992153"
     },
     "seo-audit": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
-      "computedHash": "f284918800782643bca229ee1d1c2fb185f125cc96d650b1e2d59ba766f7b3a4"
+      "path": "skills/seo-audit",
+      "computedHash": "38b0a8a95b2e41dc360dc44bbe89700750ed8cac41d290160054cab842dab432"
+    },
+    "speckit-analyze": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-analyze"
+    },
+    "speckit-checklist": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-checklist"
+    },
+    "speckit-clarify": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-clarify"
+    },
+    "speckit-constitution": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-constitution"
+    },
+    "speckit-converge": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-converge"
+    },
+    "speckit-implement": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-implement"
+    },
+    "speckit-plan": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-plan"
+    },
+    "speckit-specify": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-specify"
+    },
+    "speckit-tasks": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-tasks"
+    },
+    "speckit-taskstoissues": {
+      "source": "github/spec-kit:specify-cli",
+      "sourceType": "local",
+      "path": ".claude/skills/speckit-taskstoissues"
+    },
+    "stitch-design-taste": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "path": "skills/stitch-skill",
+      "computedHash": "e37419c24236cf2d983dcd39feb1907733a43f9567f8e5ad095d4c539ed851ba"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
       "path": "skills/react-best-practices",
-      "computedHash": "cb8bf8eeb0b2a0b9a9c6493a936823a235b534cb639d8a55449a139d4abebfd2"
+      "computedHash": "e3f2294574b469c7c198373a443a86571012769d0bbeed68854bd55642ec0d7b"
     }
   }
 }

@@ -6,35 +6,44 @@ carrillo.app is a personal portfolio and professional website for José Porfirio
 
 ## Technology Stack
 
-- **Frontend Framework**: Next.js 16.1.1 (App Router + Turbopack)
-- **UI Library**: React 19.2.3
-- **Language**: TypeScript 5.9.3
-- **Styling**: Tailwind CSS 3.4.19
+- **Frontend Framework**: Next.js 16.3.1 (App Router + Turbopack)
+- **UI Library**: React 19.2.8
+- **Language**: TypeScript 6.0.3 (strict)
+- **Styling**: Tailwind CSS 4.3.3 — v4, CSS-first, no `tailwind.config.*`
 - **Component Library**: Radix UI primitives + shadcn/ui
-- **Animations**: Framer Motion 12.24.7
+- **Animations**: Framer Motion 13.1.0
+- **Testing**: Vitest (unit) + Playwright (e2e)
 - **Form Handling**: React Hook Form with Zod validation
 - **Analytics**: Google Analytics 4 + Microsoft Clarity
 - **Comments**: Disqus integration
-- **Package Manager**: npm
+- **Package Manager**: npm — all deps pinned with `~` (patch updates only)
 - **Deployment**: Vercel
 
 ## Project Structure
 
-The project follows a standard Next.js application structure:
+Application code lives under `src/` (the Next.js `src` folder convention);
+configuration, assets and project material stay in the root.
 
-- `/app`: Contains all page components organized by route
-- `/components`: Reusable UI components
-- `/components/ui`: Shadcn UI component library implementations
-- `/data`: Static data files
-- `/hooks`: Custom React hooks
-- `/lib`: Utility functions and libraries
-- `/public`: Static assets
-- `/styles`: Global styles
-- `/types`: TypeScript type definitions
+```
+src/
+  app/          route segments, layouts, route handlers, globals.css
+  components/   reusable UI (components/ui/ = shadcn + Radix primitives)
+  hooks/        custom React hooks
+  lib/          utilities, services, and static data in lib/data/
+  types/        shared TypeScript types
+public/         static assets — must stay in the root (Next requirement)
+docs/           documentation
+specs/          spec-kit feature specs
+tests/          unit (Vitest) and e2e (Playwright)
+```
+
+The `@/*` path alias resolves to `src/*`, so imports read `@/components/...`,
+`@/lib/env`, `@/types/project`.
 
 ## Key Features
 
 ### Core Features
+
 1. **Portfolio Showcase**: Professional skills and experience display with project galleries
 2. **Blog**: Articles on technology and development (Medium RSS integration)
 3. **Services**: Professional services offered with detailed descriptions
@@ -44,6 +53,7 @@ The project follows a standard Next.js application structure:
 7. **Repository Integration**: Display of repositories and contributions from GitHub and GitLab
 
 ### Technical Features
+
 8. **SEO Optimization**: Complete metadata, structured data (JSON-LD), sitemap, robots.txt
 9. **Analytics Tracking**: Comprehensive GA4 and Clarity integration (25+ event types)
 10. **Performance Optimized**: LCP < 2.5s, lighthouse score 95+/100
@@ -58,7 +68,7 @@ The project follows a standard Next.js application structure:
 ### Prerequisites
 
 - Node.js 20.x or later
-- pnpm 8.x or later
+- npm 10.x or later (this project uses package-lock.json)
 
 ### Installation
 
@@ -68,14 +78,14 @@ git clone https://github.com/carrilloapps/carrilloapps.git
 cd carrilloapps
 
 # Install dependencies
-pnpm install
+npm install
 ```
 
 ### Development
 
 ```bash
 # Start development server
-pnpm dev
+npm run dev
 ```
 
 The site will be available at http://localhost:3000.
@@ -84,17 +94,17 @@ The site will be available at http://localhost:3000.
 
 ```bash
 # Create optimized production build
-pnpm build
+npm run build
 
 # Start production server
-pnpm start
+npm run start
 ```
 
 ## Testing
 
 ```bash
 # Run linting
-pnpm lint
+npm run lint
 ```
 
 ## Deployment
