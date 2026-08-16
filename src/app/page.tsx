@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import Link from "next/link"
 import { ArrowUpRight, CalendarDays } from "lucide-react"
 
@@ -11,7 +11,6 @@ import { HomeJsonLd } from "@/components/home-jsonld"
 import { LatestPostsAside } from "@/components/latest-posts-section"
 import { HomeHero } from "@/components/home/home-hero"
 import { HomeStats } from "@/components/home/home-stats"
-import { CvDownloadModal } from "@/components/cv-download-modal"
 import { CalPopupButton } from "@/components/cal-booking"
 import { AnimatedSection } from "@/components/animated-section"
 import { SectionHeader } from "@/components/section-header"
@@ -41,8 +40,6 @@ import { trackScrollDepth, trackCTAClick } from "@/lib/analytics"
  *     the entry that makes their case.
  */
 export default function Home() {
-  const [cvModalOpen, setCvModalOpen] = useState(false)
-
   // Scroll depth tracking — fires once per quartile.
   useEffect(() => {
     const scrollDepths = [25, 50, 75, 100] as const
@@ -71,14 +68,12 @@ export default function Home() {
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
-        <HomeHero onRequestCv={() => setCvModalOpen(true)} />
+        <HomeHero />
 
         <HomeStats />
 
         <ClosingEntry />
       </main>
-
-      <CvDownloadModal open={cvModalOpen} onOpenChange={setCvModalOpen} />
 
       <SiteFooter />
       <HomeJsonLd />

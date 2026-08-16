@@ -11,3 +11,28 @@
 .animate-tilt {
   animation: tilt 10s infinite linear;
 }
+
+/* The one authored moment on the experience timeline: the open entry arrives
+   from the direction the axis reads. Exponential ease-out from an
+   already-legible default — the content is never invisible for long enough to
+   feel like a load, and there is no scale or blur competing with it. */
+@keyframes ledger-entry {
+  from {
+    opacity: 0;
+    transform: translate3d(-0.75rem, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-entry {
+  animation: ledger-entry 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-entry {
+    animation: none;
+  }
+}

@@ -2,17 +2,13 @@
 
 import { useCallback, useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Check, Copy, Download } from "lucide-react"
-
-import { Github, Linkedin, Mail, Substack } from "@/components/icons/social-icons"
+import { ArrowUpRight, Check, Copy } from "lucide-react"
 
 import { AnimatedSection } from "@/components/animated-section"
 import { useNpmDownloads, type NpmDownloads } from "@/lib/queries"
-import { trackButtonClick, trackCTAClick, trackSocialClick } from "@/lib/analytics"
-
-interface HomeHeroProps {
-  onRequestCv: () => void
-}
+import { CvDownloadButton } from "@/components/cv-download-button"
+import { SocialRow } from "@/components/social-row"
+import { trackButtonClick, trackCTAClick } from "@/lib/analytics"
 
 /**
  * The ledger's opening entry.
@@ -61,7 +57,7 @@ const ENTRIES: LedgerEntry[] = [
 
 const PACKAGES = ENTRIES.map((e) => e.packageName)
 
-export function HomeHero({ onRequestCv }: HomeHeroProps) {
+export function HomeHero() {
   const { data: downloads, isPending } = useNpmDownloads(PACKAGES)
 
   return (
@@ -114,7 +110,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               Construyo sistemas de pago de alta transaccionalidad en LATAM. Lo que aprendo
               operándolos lo publico como herramientas instalables y como texto.
             </p>
-            <SocialRow />
+            <SocialRow className="md:justify-end" />
           </div>
         </header>
 
@@ -162,17 +158,7 @@ export function HomeHero({ onRequestCv }: HomeHeroProps) {
               Suscribirse al boletín
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </Link>
-            <button
-              type="button"
-              onClick={() => {
-                trackButtonClick("Descargar CV", "home-hero")
-                onRequestCv()
-              }}
-              className="cta-quiet"
-            >
-              Descargar CV
-              <Download className="h-3.5 w-3.5" aria-hidden="true" />
-            </button>
+            <CvDownloadButton source="home-hero" />
             <Link
               href="/herramientas"
               onClick={() => trackCTAClick("Ver herramientas", "secondary", "home-hero")}
@@ -285,61 +271,5 @@ function LedgerRow({
         </div>
       </div>
     </li>
-  )
-}
-
-/**
- * The correspondence line.
- *
- * Where a letterhead prints its addresses, this ledger prints where to find
- * the same person. It sits between the name and the summary because that is
- * the order a document states its identity: who, where to reach them, then
- * what they do. Labels in mono, hairline separators, no icon tiles — the
- * marks are drawn at text size and inherit the entry's colour.
- */
-function SocialRow() {
-  const links = [
-    { href: "https://github.com/carrilloapps", label: "GitHub", icon: Github },
-    { href: "https://linkedin.com/in/carrilloapps", label: "LinkedIn", icon: Linkedin },
-    { href: "https://x.com/carrilloapps", label: "X / Twitter", icon: XMark },
-    { href: "https://carrilloapps.substack.com/", label: "Substack", icon: Substack },
-    { href: "mailto:m@carrillo.app", label: "Email", icon: Mail },
-  ]
-
-  return (
-    <ul
-      className="flex flex-wrap items-center gap-x-6 gap-y-1 md:justify-end"
-      aria-label="Perfiles y contacto"
-    >
-      {links.map(({ href, label, icon: Icon }) => {
-        const external = href.startsWith("http")
-        return (
-          <li key={label}>
-            <Link
-              href={href}
-              target={external ? "_blank" : undefined}
-              rel={external ? "noopener noreferrer" : undefined}
-              onClick={() => trackSocialClick(label, "profile_visit", href)}
-              className="group inline-flex min-h-[48px] touch-manipulation items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-paper focus-visible:text-paper"
-            >
-              <Icon
-                className="h-3.5 w-3.5 shrink-0 transition-colors group-hover:text-stamp-text"
-                aria-hidden="true"
-              />
-              {label}
-            </Link>
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
-
-/** X / Twitter — not in the shared icon set, drawn here at the same weight. */
-function XMark({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
   )
 }

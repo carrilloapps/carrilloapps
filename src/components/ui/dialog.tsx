@@ -44,7 +44,14 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute top-3 right-3 inline-flex h-10 w-10 touch-manipulation items-center justify-center border border-transparent text-paper-faint transition-colors hover:border-rule hover:text-paper focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp disabled:pointer-events-none">
+      {/*
+        No box. The control used to draw a 40px bordered square on hover, and
+        every dialog in this system opens on a ruled header — so the box landed
+        straight on top of that hairline and read as a rendering fault. Nothing
+        else in this world is a boxed button either. Hover moves the icon to the
+        stamp instead, and the 40px hit area stays for touch.
+      */}
+      <DialogPrimitive.Close className="absolute top-3 right-3 inline-flex h-10 w-10 touch-manipulation items-center justify-center text-paper-faint transition-colors hover:text-stamp-text focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp disabled:pointer-events-none">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
@@ -53,8 +60,12 @@ const DialogContent = React.forwardRef<
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
+/* Left-aligned at every width. The shadcn default centres this on phones, which
+   put the title and description on a different axis from the ruled header row
+   above them and the form below — and this system's authority comes from every
+   entry starting at the same edge. */
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)} {...props} />
+  <div className={cn("flex flex-col space-y-1.5 text-left", className)} {...props} />
 )
 DialogHeader.displayName = "DialogHeader"
 
