@@ -47,7 +47,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
       { value: "+40%", label: "Confiabilidad" },
       { value: "2M", label: "Tx/día" },
     ],
-    technologies: ["Node.js", "React", "AWS", "Microservicios"],
+    technologies: ["Node.js", "React", "Azure", "AWS", "Microservicios"],
   },
   {
     // Recovered verbatim from the pre-redesign /sobre-mi (commit 6402124),
@@ -66,7 +66,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
       { value: "−35%", label: "Tiempo de proceso" },
       { value: "+28%", label: "Conversión" },
     ],
-    technologies: ["Open Banking", "Pasarelas de pago", "Backend", "UI/UX"],
+    technologies: ["Open Banking", "Pasarelas de pago", "Azure", "AWS", "Backend"],
   },
   {
     id: "cencosud",

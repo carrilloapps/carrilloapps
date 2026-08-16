@@ -13,7 +13,7 @@ const SITE_URL = getSiteUrl()
  *      mainEntity (le dice a Google que el sitio es sobre esta persona).
  *   2. ProfessionalService — la práctica de consultoría unipersonal,
  *      con áreas de servicio y rango geográfico (LATAM + remote-global).
- *   3. ItemList — las 6 áreas de servicio con deep-links a /servicios#<id>
+ *   3. ItemList — las áreas de servicio con deep-links a /servicios/<slug>
  *      para habilitar resultados enriquecidos en SERPs.
  */
 
@@ -100,7 +100,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Liderazgo técnico",
-          url: `${SITE_URL}/servicios#technical-leadership`,
+          url: `${SITE_URL}/servicios/liderazgo-tecnico`,
         },
       },
       {
@@ -108,7 +108,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Sistemas financieros y fintech",
-          url: `${SITE_URL}/servicios#financial-systems`,
+          url: `${SITE_URL}/servicios/fintech-y-banca`,
         },
       },
       {
@@ -116,7 +116,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Soluciones de backoffice",
-          url: `${SITE_URL}/servicios#backoffice-solutions`,
+          url: `${SITE_URL}/servicios/backoffice`,
         },
       },
       {
@@ -124,7 +124,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Diseño de arquitectura",
-          url: `${SITE_URL}/servicios#architecture-design`,
+          url: `${SITE_URL}/servicios/arquitectura-de-software`,
         },
       },
       {
@@ -132,7 +132,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Seguridad y cumplimiento",
-          url: `${SITE_URL}/servicios#security-compliance`,
+          url: `${SITE_URL}/servicios/seguridad-y-compliance`,
         },
       },
       {
@@ -140,7 +140,7 @@ const professionalServiceSchema = {
         itemOffered: {
           "@type": "Service",
           name: "Infraestructura cloud",
-          url: `${SITE_URL}/servicios#cloud-infrastructure`,
+          url: `${SITE_URL}/servicios/infraestructura-cloud`,
         },
       },
     ],
@@ -158,37 +158,37 @@ const servicesItemList = {
       "@type": "ListItem",
       position: 1,
       name: "Liderazgo técnico",
-      url: `${SITE_URL}/servicios#technical-leadership`,
+      url: `${SITE_URL}/servicios/liderazgo-tecnico`,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Sistemas financieros y fintech",
-      url: `${SITE_URL}/servicios#financial-systems`,
+      url: `${SITE_URL}/servicios/fintech-y-banca`,
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Backoffice y operaciones",
-      url: `${SITE_URL}/servicios#backoffice-solutions`,
+      url: `${SITE_URL}/servicios/backoffice`,
     },
     {
       "@type": "ListItem",
       position: 4,
       name: "Diseño de arquitectura",
-      url: `${SITE_URL}/servicios#architecture-design`,
+      url: `${SITE_URL}/servicios/arquitectura-de-software`,
     },
     {
       "@type": "ListItem",
       position: 5,
       name: "Seguridad y cumplimiento",
-      url: `${SITE_URL}/servicios#security-compliance`,
+      url: `${SITE_URL}/servicios/seguridad-y-compliance`,
     },
     {
       "@type": "ListItem",
       position: 6,
       name: "Infraestructura cloud",
-      url: `${SITE_URL}/servicios#cloud-infrastructure`,
+      url: `${SITE_URL}/servicios/infraestructura-cloud`,
     },
   ],
 }

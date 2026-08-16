@@ -59,46 +59,50 @@ const navItems: NavItem[] = [
     icon: Briefcase,
     description: "Soluciones tecnológicas",
     children: [
+      // One entry per route now that each service has its own page. These used
+      // to be fragment links into a tab strip on /servicios — the tab they
+      // pointed at was not even the one that opened, since the anchor scrolled
+      // but did not select.
       {
-        href: "/servicios#technical-leadership",
-        label: "Liderazgo Técnico",
+        href: "/servicios/liderazgo-tecnico",
+        label: "Liderazgo técnico",
         description: "Dirección estratégica de equipos",
         icon: Users,
       },
       {
-        href: "/servicios#financial-systems",
-        label: "Fintech & Banking",
+        href: "/servicios/fintech-y-banca",
+        label: "Fintech y banca",
         description: "Soluciones financieras avanzadas",
         icon: LineChart,
       },
       {
-        href: "/servicios#backoffice-solutions",
+        href: "/servicios/backoffice",
         label: "Backoffice",
         description: "Automatización de procesos internos",
         icon: Database,
       },
       {
-        href: "/servicios#architecture-design",
-        label: "Arquitectura de Software",
+        href: "/servicios/arquitectura-de-software",
+        label: "Arquitectura",
         description: "Diseño de sistemas escalables",
         icon: Layers,
       },
       {
-        href: "/servicios#security-compliance",
-        label: "Seguridad & Compliance",
+        href: "/servicios/seguridad-y-compliance",
+        label: "Seguridad y compliance",
         description: "Protección y cumplimiento normativo",
         icon: Shield,
       },
       {
-        href: "/servicios#cloud-infrastructure",
-        label: "Cloud Infrastructure",
+        href: "/servicios/infraestructura-cloud",
+        label: "Infraestructura cloud",
         description: "Infraestructuras cloud optimizadas",
         icon: Server,
       },
       {
-        href: "/servicios#ai-integration",
-        label: "Inteligencia Artificial",
-        description: "IA y Machine Learning",
+        href: "/servicios/inteligencia-artificial",
+        label: "Inteligencia artificial",
+        description: "IA aplicada a sistemas financieros",
         icon: Cpu,
       },
     ],
@@ -315,7 +319,6 @@ export function SiteHeader() {
 
   // Handle scroll effect - hide/show header based on scroll direction
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
 
     const handleScroll = () => {

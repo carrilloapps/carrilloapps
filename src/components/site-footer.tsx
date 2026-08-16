@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState, type FormEvent } from "react"
 import { Mail, MapPin, ArrowUpRight } from "lucide-react"
+import { SERVICES as SERVICE_CATALOGUE } from "@/lib/data/services"
 import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,12 +23,12 @@ const QUICK_LINKS = [
   { label: "Contacto", href: "/contacto" },
 ] as const
 
-const SERVICES = [
-  { label: "Liderazgo técnico", href: "/servicios#technical-leadership" },
-  { label: "Sistemas financieros", href: "/servicios#financial-systems" },
-  { label: "Soluciones de backoffice", href: "/servicios#backoffice-solutions" },
-  { label: "Diseño de arquitectura", href: "/servicios#architecture-design" },
-] as const
+// Derived from the catalogue rather than hand-kept: this list held four of the
+// seven services, pointing at fragments of a page that no longer has them.
+const SERVICE_LINKS = SERVICE_CATALOGUE.slice(0, 4).map((service) => ({
+  label: service.title,
+  href: `/servicios/${service.slug}`,
+}))
 
 const SOCIAL_LINKS = [
   {
@@ -158,7 +159,7 @@ export function SiteFooter() {
           <FooterColumn id="footer-quick-links" title="Navega" links={QUICK_LINKS} />
 
           {/* Servicios */}
-          <FooterColumn id="footer-services" title="Servicios" links={SERVICES} />
+          <FooterColumn id="footer-services" title="Servicios" links={SERVICE_LINKS} />
 
           {/* Newsletter */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">

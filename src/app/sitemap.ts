@@ -1,11 +1,12 @@
 import { MetadataRoute } from "next"
 import { getSiteUrl } from "@/lib/env"
+import { SERVICES } from "@/lib/data/services"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl()
   // Bumped after the OG/icon/metadata rebuild so Google is prompted to recrawl
   // the rewritten titles, descriptions and social cards.
-  const lastModified = new Date("2026-08-16")
+  const lastModified = new Date("2026-08-17")
 
   return [
     {
@@ -33,6 +34,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: { "es-CO": `${baseUrl}/servicios`, "x-default": `${baseUrl}/servicios` },
       },
     },
+    // One entry per service. They used to be fragments of /servicios, which a
+    // crawler treats as the same URL — seven pages' worth of copy competing for
+    // one listing. Spread from the same catalogue the pages render, so adding a
+    // service can never leave it out of the sitemap.
+    ...SERVICES.map((service) => {
+      const url = `${baseUrl}/servicios/${service.slug}`
+      return {
+        url,
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+        alternates: { languages: { "es-CO": url, "x-default": url } },
+      }
+    }),
     {
       url: `${baseUrl}/herramientas`,
       lastModified,

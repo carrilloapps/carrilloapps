@@ -161,7 +161,14 @@ export function UnifiedLoading({
     return (
       <div className={`relative min-h-screen text-paper ${className}`}>
         <SiteHeader />
-        <main className="relative z-10 container mx-auto px-4 py-16" id="main-content">
+        {/*
+          A div, not <main id="main-content">. This is a Suspense fallback: the
+          page it stands in for opens its own main landmark, and both end up in
+          the same static HTML — three copies of that id on a service page, so
+          the skip link jumped to a skeleton. A placeholder does not own the
+          landmark it is holding space for.
+        */}
+        <div className="relative z-10 container mx-auto px-4 py-16">
           <TravellingRule />
           <div className="mt-6 space-y-3">
             <PendingCell className="h-14 w-2/3 max-w-[28ch]" />
@@ -172,7 +179,7 @@ export function UnifiedLoading({
               <PendingRow key={i} />
             ))}
           </ul>
-        </main>
+        </div>
         <SiteFooter />
       </div>
     )
