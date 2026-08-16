@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Una década en dinero que se mueve",
+  title: "Diez años en dinero que se mueve",
   description:
-    "De programador a Tech Leader en Medellín: pasarelas de pago, conciliación de alto volumen y core bancario en producción. Hoy en Yummy; antes en Wompi.",
+    "De programador a Tech Leader en Medellín: pasarelas de pago, conciliación y core bancario. Hoy en Yummy; antes en Wompi.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [

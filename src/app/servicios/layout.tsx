@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Arquitectura de pagos y liderazgo técnico",
+  title: "Arquitectura de pagos y liderazgo",
   description:
-    "Consultoría, auditoría y liderazgo técnico para plataformas financieras: microservicios, conciliación, observabilidad y cumplimiento desde el diseño.",
+    "Consultoría y auditoría de arquitectura de pagos: microservicios, conciliación, observabilidad y cumplimiento desde el diseño.",
   path: "/servicios",
   keywords: [
     "consultoría arquitectura de pagos",

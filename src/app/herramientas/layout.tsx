@@ -7,7 +7,7 @@ import { getSiteUrl } from "@/lib/env"
 export const metadata = buildPageMetadata({
   title: "Herramientas de código abierto",
   description:
-    "Librerías, CLIs y servidores MCP publicados en npm y GitHub: tasas oficiales BCV/TRM/PTAX, cifrado zero-knowledge y sincronización de skills para agentes de IA.",
+    "Librerías, CLIs y servidores MCP en npm: tasas oficiales BCV/TRM/PTAX, cifrado zero-knowledge y sincronización de skills para IA.",
   path: "/herramientas",
 })
 

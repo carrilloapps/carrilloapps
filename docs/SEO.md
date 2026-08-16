@@ -30,6 +30,36 @@ previews and production without per-environment branching.
 
 Never hardcode `https://carrillo.app` in a metadata object.
 
+### Budget titles and descriptions in pixels, never in characters
+
+Google truncates a snippet by **rendered width**, not by length:
+
+| Field       | Font            | Desktop | Mobile |
+| ----------- | --------------- | ------- | ------ |
+| Title       | Arial bold 20px | 580px   | 545px  |
+| Description | Arial 13px      | 920px   | 680px  |
+
+Spanish runs wide — accents, long compounds, no short Anglo-Saxon words — so a
+character count lies here. Every description on this site once sat at 138–160
+characters, comfortably inside the "160 character" rule of thumb, and **all
+seven measured 943–1053px**: every one truncated with an ellipsis.
+
+Measure before shipping copy. In a browser console:
+
+```js
+const ctx = document.createElement("canvas").getContext("2d")
+ctx.font = "13px Arial" // "bold 20px Arial" for titles
+ctx.measureText("your description here").width
+```
+
+Two things this catches that counting does not: the `%s | Junior Carrillo`
+template adds ~185px to every page title, and a title that already names the
+site (`… — carrillo.app`) then gets the name appended twice.
+
+Target the desktop budget and front-load, so the mobile cut lands after a
+complete first clause rather than mid-thought. Fitting 680px would mean ~100
+characters, which is not enough to say anything.
+
 ## 2. OG images are generated, not stored
 
 Each route that needs a social preview has an `opengraph-image` route segment

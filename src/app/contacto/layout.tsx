@@ -10,7 +10,7 @@ export const metadata = {
   ...buildPageMetadata({
     title: "Conversemos sobre tu proyecto",
     description:
-      "Cuéntame qué estás construyendo y dónde se está atascando: pagos, conciliación o liderazgo técnico. Respondo en menos de 24 horas hábiles.",
+      "Cuéntame qué construyes y dónde se atasca: pagos, conciliación o liderazgo técnico. Respondo en menos de 24 horas hábiles.",
     path: "/contacto",
     keywords: [
       "contacto Junior Carrillo",

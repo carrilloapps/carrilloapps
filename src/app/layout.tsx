@@ -42,11 +42,13 @@ const jetbrainsMono = JetBrains_Mono({
 
 const SITE_URL = getSiteUrl()
 const SITE_NAME = "Junior Carrillo"
-// Both stay inside what Google renders: ~60 characters of title, ~160 of
-// description. Longer copy is not penalised, it is simply cut mid-sentence.
-const SITE_TITLE = "Junior Carrillo | Tech Leader en pagos y fintech LATAM"
+// Google measures snippets in pixels, not characters: ~580px of title in Arial
+// bold 20 and ~920px of description in Arial 13. Spanish runs wide — accents,
+// long words — so a 155-character description that looks safe by count lands at
+// 1024px and gets cut mid-sentence. Measure, do not count. See docs/SEO.md.
+const SITE_TITLE = "Junior Carrillo | Tech Leader en pagos y fintech"
 const SITE_DESCRIPTION =
-  "Herramientas de código abierto y escritura técnica sobre pagos de alta transaccionalidad y conciliación en LATAM. Librerías en npm que puedes instalar hoy."
+  "Tech Leader en pagos de alta transaccionalidad en LATAM. Herramientas de código abierto en npm y escritura técnica."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

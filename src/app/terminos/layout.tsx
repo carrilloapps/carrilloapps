@@ -6,9 +6,11 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Términos y Condiciones de Uso — carrillo.app",
+  // The title carried "— carrillo.app" before the template appended
+  // "| Junior Carrillo" too, which put it 108px past what Google renders.
+  title: "Términos y condiciones de uso",
   description:
-    "Condiciones de uso del sitio web carrillo.app y los servicios de consultoría: derechos de propiedad intelectual, limitaciones y acuerdos legales.",
+    "Condiciones de uso de carrillo.app y los servicios de consultoría: propiedad intelectual, limitaciones y acuerdos legales.",
   path: "/terminos",
   keywords: [
     "términos y condiciones",
