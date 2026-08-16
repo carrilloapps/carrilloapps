@@ -44,10 +44,7 @@ export default function ThankYouPage() {
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
-        <section
-          className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
-          aria-labelledby="thanks-heading"
-        >
+        <section className="relative w-full pt-6 md:pt-10" aria-labelledby="thanks-heading">
           <div className="container mx-auto px-4">
             <p className="font-mono text-[11px] tracking-[0.16em] text-settled uppercase">
               Reserva confirmada
@@ -67,7 +64,7 @@ export default function ThankYouPage() {
           </div>
         </section>
 
-        <section className="relative pb-16 md:pb-24" aria-labelledby="thanks-next">
+        <section className="relative pt-10 md:pt-16" aria-labelledby="thanks-next">
           <div className="container mx-auto px-4">
             <h2
               id="thanks-next"

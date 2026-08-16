@@ -91,38 +91,10 @@ const NAV: NavEntry[] = [
       cta: "Agendar",
     },
   },
-  {
-    href: "/recursos",
-    label: "Recursos",
-    // No group heads: "Código" over two rows and "Escritura" over one labelled
-    // a split that was not worth the reader's attention. Three destinations
-    // side by side are already sorted, under a single head.
-    itemsLabel: "Publicado",
-    items: [
-      {
-        href: "/recursos#open-source-heading",
-        label: "Herramientas que mantengo",
-        description: "Librerías, CLIs y servidores MCP publicados en npm.",
-      },
-      {
-        href: "/recursos#repositories-heading",
-        label: "Repositorios públicos",
-        description: "Todo lo abierto en GitHub y GitLab, traído en vivo.",
-      },
-      {
-        href: "https://carrilloapps.substack.com/",
-        label: "Substack",
-        description: "Qué se rompió en producción y cómo se arregló.",
-      },
-    ],
-    aside: {
-      label: "Directo",
-      title: "¿No está lo que buscas?",
-      body: "Si una de estas herramientas casi resuelve tu caso, dime qué le falta.",
-      href: "/contacto",
-      cta: "Escribirme",
-    },
-  },
+  // Plain links, no panel. A two-item mega menu costs a hover, a click target
+  // and a whole surface to say what the destination already says.
+  { href: "/recursos", label: "Recursos" },
+  { href: "/blog", label: "Blog" },
   {
     href: "/contacto",
     label: "Contacto",
@@ -179,11 +151,28 @@ export function SiteHeader() {
     [pathname],
   )
 
-  // One scroll listener for both the density switch and the progress rule.
+  /*
+    One scroll listener for both the density switch and the progress rule.
+
+    The density switch needs hysteresis, and not as a nicety. The bar is
+    `sticky`, so it sits in flow: growing it from 56px back to 80px adds 24px of
+    content above the viewport, and the browser's scroll anchoring compensates
+    by adding those 24px to `scrollY` to keep what you were looking at still.
+    With a single 8px threshold that lands you back above it, the bar shrinks,
+    anchoring removes the 24px, you fall below the threshold again — and the
+    header judders between the two heights forever. Measured at the boundary:
+    `scrollY` bouncing 6 ↔ 17 and the height 56 ↔ 67, never settling.
+
+    Two thresholds, 48px apart, make that impossible: the 24px the header can
+    move you is not enough to cross back over the one you just left.
+  */
   useEffect(() => {
+    const SHRINK_AT = 72
+    const GROW_AT = 24
+
     const onScroll = () => {
       const y = window.scrollY
-      setScrolled(y > 8)
+      setScrolled((prev) => (prev ? y > GROW_AT : y > SHRINK_AT))
       const total = document.documentElement.scrollHeight - window.innerHeight
       setProgress(total > 0 ? Math.min(1, y / total) : 0)
     }
@@ -301,7 +290,7 @@ export function SiteHeader() {
               <CalPopupButton
                 source="header"
                 aria-label="Agendar una asesoría"
-                className="cta hidden lg:inline-flex"
+                className="cta-stamp ml-2 hidden lg:inline-flex"
               >
                 Agéndame
                 <CalendarDays className="h-4 w-4" aria-hidden="true" />
@@ -691,7 +680,7 @@ function MobileDrawer({
 
         <div className="shrink-0 border-t-2 border-rule-strong px-4 py-4">
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            <CalPopupButton source="header" aria-label="Agendar una asesoría" className="cta">
+            <CalPopupButton source="header" aria-label="Agendar una asesoría" className="cta-stamp">
               Agendar una asesoría
               <CalendarDays className="h-4 w-4" aria-hidden="true" />
             </CalPopupButton>

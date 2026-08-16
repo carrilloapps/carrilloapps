@@ -52,7 +52,7 @@ function ProjectRow({ project }: { project: OpenSourceProject }) {
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackButtonClick(`open-source: ${project.name}`, "home-open-source")}
-        className="grid min-h-[48px] grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-2 py-5 md:grid-cols-[minmax(0,1fr)_10rem_6rem] md:py-6"
+        className="grid min-h-[48px] items-baseline gap-x-10 gap-y-2 py-4 md:grid-cols-[minmax(0,1fr)_auto] md:py-5"
       >
         <div className="min-w-0">
           <span className="inline-flex items-baseline gap-2 font-sans text-lg font-medium text-paper transition-colors group-hover:text-stamp-text md:text-xl">
@@ -62,25 +62,32 @@ function ProjectRow({ project }: { project: OpenSourceProject }) {
               aria-hidden="true"
             />
           </span>
-          <p className="mt-1 max-w-[64ch] font-sans text-sm leading-relaxed text-paper-dim">
+          <p className="mt-1 max-w-[82ch] font-sans text-sm leading-relaxed text-paper-dim">
             {project.description}
           </p>
         </div>
 
-        <div className="font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase">
-          <span>{project.registry}</span>
-          <span aria-hidden="true"> · </span>
-          <span>{project.language}</span>
-        </div>
+        {/* Registry and version as one right-pinned group: as separate grid
+            columns they opened a second void in the middle of every row. */}
+        <div className="flex items-baseline justify-between gap-8 md:justify-end">
+          <span className="font-mono text-[11px] tracking-[0.1em] whitespace-nowrap text-paper-faint uppercase">
+            {project.registry}
+            <span aria-hidden="true"> · </span>
+            {project.language}
+          </span>
 
-        <div className="text-right">
-          {project.registry === "npm" ? (
-            <NpmVersionBadge name={packageSlug} />
-          ) : (
-            <span className="font-mono text-sm text-rule-strong" aria-label="Sin versión publicada">
-              ——
-            </span>
-          )}
+          <span className="flex w-[4rem] justify-end">
+            {project.registry === "npm" ? (
+              <NpmVersionBadge name={packageSlug} />
+            ) : (
+              <span
+                className="font-mono text-sm text-rule-strong"
+                aria-label="Sin versión publicada"
+              >
+                ——
+              </span>
+            )}
+          </span>
         </div>
       </Link>
     </li>
@@ -98,6 +105,9 @@ export function OpenSourceSection({ showHeading = true }: OpenSourceSectionProps
       header={
         showHeading
           ? {
+              // Without a label the rule row had an empty left half and the
+              // "Ver todos" link floated alone on its own line.
+              columnLabel: "Publicado",
               title: "Herramientas que mantengo",
               description:
                 "Librerías y CLIs publicados en npm, más proyectos en GitHub que uso a diario y comparto con la comunidad.",

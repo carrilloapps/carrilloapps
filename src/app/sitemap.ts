@@ -57,6 +57,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: { "es-CO": `${baseUrl}/recursos`, "x-default": `${baseUrl}/recursos` },
       },
     },
+    // The writing index. Weekly because the feed it renders changes on its own,
+    // without a deploy.
+    {
+      url: `${baseUrl}/blog`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: {
+        languages: { "es-CO": `${baseUrl}/blog`, "x-default": `${baseUrl}/blog` },
+      },
+    },
     {
       url: `${baseUrl}/contacto`,
       lastModified,

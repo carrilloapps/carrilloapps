@@ -73,8 +73,19 @@ export function LegalDocument({
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
+        {/*
+          One section, one grid — not a masthead section stacked on a body
+          section.
+
+          Split in two, the boundary between them cost 80px of section padding
+          plus the height difference between a three-line summary and a
+          four-row particulars table: a dead band across the page before the
+          first clause. Merged, the right rail runs continuously from the
+          particulars into the index, and the prose starts one rule below the
+          summary.
+        */}
         <section
-          className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+          className="relative w-full pt-6 pb-16 md:pt-10 md:pb-20"
           aria-labelledby="legal-heading"
         >
           <div className="container mx-auto px-4">
@@ -89,116 +100,118 @@ export function LegalDocument({
               {title}
             </h1>
 
-            <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-              <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-                {summary}
-              </p>
+            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,17rem)] lg:items-start">
+              {/* Source order puts the prose first for reading, but on a phone
+                  the rail stacks below it — and the particulars (updated, legal
+                  framework, contact) are what a reader checks *before* the
+                  clauses, not after ten of them. `order` flips only the stack. */}
+              <div className="order-2 lg:order-1">
+                <p className="max-w-[80ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+                  {summary}
+                </p>
 
-              <dl className="self-start border-y border-rule">
-                <div className="flex items-baseline justify-between gap-4 border-b border-rule py-3">
-                  <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                    Actualizado
-                  </dt>
-                  <dd className="text-right font-sans text-base text-paper">
-                    <time dateTime={updated}>{updatedLabel}</time>
-                  </dd>
+                <div className="mt-8 border-t-2 border-rule-strong">
+                  {sections.map((section, i) => (
+                    <article
+                      key={section.id}
+                      id={section.id}
+                      className="scroll-mt-28 border-b border-rule py-6"
+                    >
+                      <div className="flex items-baseline gap-4">
+                        <span
+                          className="font-mono text-[11px] text-paper-faint tabular-nums"
+                          aria-hidden="true"
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <h2 className="font-sans text-xl leading-tight tracking-[-0.02em] text-paper md:text-2xl">
+                          {section.heading}
+                        </h2>
+                      </div>
+
+                      <div className="mt-3 max-w-[86ch] space-y-3.5 md:pl-[calc(1.5rem+8px)]">
+                        {section.blocks.map((block, j) => (
+                          <Block key={j} block={block} />
+                        ))}
+                      </div>
+                    </article>
+                  ))}
                 </div>
-                {particulars.map(({ term, value }) => (
-                  <div
-                    key={term}
-                    className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-                  >
-                    <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                      {term}
-                    </dt>
-                    <dd className="text-right font-sans text-base text-paper">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </section>
-
-        <section className="relative pb-20 md:pb-28">
-          <div className="container mx-auto px-4">
-            <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,16rem)] lg:items-start">
-              <div className="max-w-[72ch] border-t-2 border-rule-strong">
-                {sections.map((section, i) => (
-                  <article
-                    key={section.id}
-                    id={section.id}
-                    className="scroll-mt-28 border-b border-rule py-8"
-                  >
-                    <div className="flex items-baseline gap-4">
-                      <span
-                        className="font-mono text-[11px] text-paper-faint tabular-nums"
-                        aria-hidden="true"
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <h2 className="font-sans text-xl leading-tight tracking-[-0.02em] text-paper md:text-2xl">
-                        {section.heading}
-                      </h2>
-                    </div>
-
-                    <div className="mt-4 space-y-4 md:pl-[calc(1.5rem+8px)]">
-                      {section.blocks.map((block, j) => (
-                        <Block key={j} block={block} />
-                      ))}
-                    </div>
-                  </article>
-                ))}
               </div>
 
               {/*
-                The index. `position: sticky` keeps it beside the clause you are
-                reading, which is the only reason a document this long needs one
-                at all — a list that scrolls away with the text is a table of
-                contents you have to go back for.
+                One rail: the particulars, then the index, then the sibling
+                documents. `sticky` keeps it beside the clause you are reading —
+                an index that scrolls away with the text is a table of contents
+                you have to go back for.
               */}
-              <nav aria-labelledby="legal-index" className="hidden lg:sticky lg:top-28 lg:block">
-                <p
-                  id="legal-index"
-                  className="border-b border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase"
-                >
-                  Índice
-                </p>
-                <ol>
-                  {sections.map((section, i) => (
-                    <li key={section.id} className="border-b border-rule">
-                      <a
-                        href={`#${section.id}`}
-                        className="flex gap-3 py-2.5 font-sans text-[13px] leading-snug text-paper-dim transition-colors hover:text-paper"
-                      >
-                        <span className="font-mono text-[11px] text-paper-faint tabular-nums">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="min-w-0">{section.heading}</span>
-                      </a>
-                    </li>
+              <aside className="order-1 lg:sticky lg:top-24 lg:order-2">
+                <dl className="border-y border-rule">
+                  <div className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5">
+                    <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                      Actualizado
+                    </dt>
+                    <dd className="text-right font-sans text-[15px] text-paper">
+                      <time dateTime={updated}>{updatedLabel}</time>
+                    </dd>
+                  </div>
+                  {particulars.map(({ term, value }) => (
+                    <div
+                      key={term}
+                      className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
+                    >
+                      <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                        {term}
+                      </dt>
+                      <dd className="text-right font-sans text-[15px] text-paper">{value}</dd>
+                    </div>
                   ))}
-                </ol>
+                </dl>
 
-                <p className="mt-6 border-b border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  Otros documentos
-                </p>
-                <ul>
-                  {RELATED.filter((doc) => doc.href !== path).map((doc) => (
-                    <li key={doc.href} className="border-b border-rule">
-                      <Link
-                        href={doc.href}
-                        className="group flex items-center justify-between gap-3 py-2.5 font-sans text-[13px] text-paper-dim transition-colors hover:text-paper"
-                      >
-                        {doc.label}
-                        <ArrowUpRight
-                          className="h-3.5 w-3.5 text-paper-faint transition-colors group-hover:text-stamp-text"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+                <nav aria-labelledby="legal-index" className="mt-8 hidden lg:block">
+                  <p
+                    id="legal-index"
+                    className="border-b border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase"
+                  >
+                    Índice
+                  </p>
+                  <ol>
+                    {sections.map((section, i) => (
+                      <li key={section.id} className="border-b border-rule">
+                        <a
+                          href={`#${section.id}`}
+                          className="flex gap-3 py-2 font-sans text-[13px] leading-snug text-paper-dim transition-colors hover:text-paper"
+                        >
+                          <span className="font-mono text-[11px] text-paper-faint tabular-nums">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="min-w-0">{section.heading}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <p className="mt-6 border-b border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                    Otros documentos
+                  </p>
+                  <ul>
+                    {RELATED.filter((doc) => doc.href !== path).map((doc) => (
+                      <li key={doc.href} className="border-b border-rule">
+                        <Link
+                          href={doc.href}
+                          className="group flex items-center justify-between gap-3 py-2 font-sans text-[13px] text-paper-dim transition-colors hover:text-paper"
+                        >
+                          {doc.label}
+                          <ArrowUpRight
+                            className="h-3.5 w-3.5 text-paper-faint transition-colors group-hover:text-stamp-text"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </aside>
             </div>
           </div>
         </section>

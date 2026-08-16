@@ -243,18 +243,17 @@ const nextConfig = {
         destination: "/recursos",
         permanent: true,
       },
-      // Blog migrado temporalmente a Substack — todo lo que apuntaba a /blog
-      // (incluido el backlink roto desde github.com/carrilloapps) ahora
-      // redirige al newsletter mientras se construye el blog propio en /blog.
-      // 307 temporal: cuando /blog vuelva, basta con eliminar estas reglas
-      // y los navegadores/crawlers no conservarán la redirección cacheada.
+      // /blog is a real page again: it renders the Substack feed as an index.
+      // The temporary redirect that sent it to the newsletter is gone — it was
+      // a 307 precisely so no browser or crawler cached it.
+      //
+      // The wildcard stays, but as `:path+` — `:path*` matches zero segments,
+      // so it swallowed /blog itself and the new page 307'd to Substack. There
+      // are no per-post routes here (the articles live on Substack), so an old
+      // deep link like /blog/2024/algo has nowhere to land and Substack is the
+      // right destination for it.
       {
-        source: "/blog",
-        destination: "https://carrilloapps.substack.com",
-        permanent: false,
-      },
-      {
-        source: "/blog/:path*",
+        source: "/blog/:path+",
         destination: "https://carrilloapps.substack.com",
         permanent: false,
       },

@@ -62,7 +62,7 @@ export function HomeStats({
   ariaLabel = "Cifras de producción",
 }: HomeStatsProps) {
   return (
-    <section className="relative py-14 md:py-20" aria-labelledby="figures-heading">
+    <section className="relative pt-10 md:pt-16" aria-labelledby="figures-heading">
       <div className="relative z-10 container mx-auto px-4">
         <div className="flex items-baseline justify-between border-b border-rule-strong pb-2">
           <h2

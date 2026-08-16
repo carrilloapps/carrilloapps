@@ -46,7 +46,7 @@ export default function ServicePage() {
       <main id="main-content" role="main" className="relative z-10">
         {/* Opening entry: where this sits in the schedule, then the claim. */}
         <AnimatedSection
-          className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+          className="relative w-full pt-6 md:pt-10"
           role="region"
           aria-labelledby="service-heading"
         >
@@ -342,7 +342,7 @@ export default function ServicePage() {
 
         {/* The rest of the schedule, so the page is not a dead end. */}
         <AnimatedSection
-          className="relative pb-20 md:pb-28"
+          className="relative pt-10 pb-16 md:pt-16 md:pb-20"
           role="region"
           aria-labelledby="others-heading"
         >

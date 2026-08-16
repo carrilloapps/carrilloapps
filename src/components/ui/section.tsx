@@ -14,12 +14,22 @@ import { cn } from "@/lib/utils"
  */
 export type SectionSpacing = "default" | "compact" | "spacious" | "hero"
 
+/*
+  Top-only padding, deliberately.
+
+  With `py-*` every boundary between two sections carried two paddings: a
+  `pb-16 md:pb-24` closing one section and a `py-12 md:py-16` opening the next
+  measured 160px of nothing on a 1440px screen — the single largest source of
+  dead space on the site. One section owns the gap above it and nothing below,
+  so a boundary is one value, not the sum of two. The last section on a page
+  adds its own bottom padding before the footer.
+*/
 const SPACING: Record<SectionSpacing, string> = {
-  // First section under a PageHero — tighter top, normal bottom.
-  hero: "pt-6 pb-12 md:pt-8 md:pb-16",
-  compact: "py-12 md:py-16",
-  default: "py-16 md:py-24",
-  spacious: "py-20 md:py-28",
+  // First section under an opening entry — the entry already left room.
+  hero: "pt-6 md:pt-8",
+  compact: "pt-8 md:pt-12",
+  default: "pt-10 md:pt-16",
+  spacious: "pt-12 md:pt-20",
 }
 
 interface SectionProps {

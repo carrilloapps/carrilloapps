@@ -40,10 +40,7 @@ export default function NotFound() {
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
-        <section
-          className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
-          aria-labelledby="notfound-heading"
-        >
+        <section className="relative w-full pt-6 md:pt-10" aria-labelledby="notfound-heading">
           <div className="container mx-auto px-4">
             <p className="font-mono text-[11px] tracking-[0.16em] text-stamp-text uppercase">
               Error 404 · Sin registro
@@ -75,7 +72,10 @@ export default function NotFound() {
           </div>
         </section>
 
-        <section className="relative pb-20 md:pb-28" aria-labelledby="notfound-index">
+        <section
+          className="relative pt-10 pb-16 md:pt-16 md:pb-20"
+          aria-labelledby="notfound-index"
+        >
           <div className="container mx-auto px-4">
             <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-start">
               <nav aria-labelledby="notfound-index">

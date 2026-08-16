@@ -52,7 +52,7 @@ function RepositoryRow({
           trackProjectView(repo.name, repo.language || "Unknown")
           trackProjectLinkClick(repo.name, source)
         }}
-        className="group grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-8 gap-y-2 py-4 md:grid-cols-[minmax(0,1fr)_12rem_7rem]"
+        className="group grid items-baseline gap-x-10 gap-y-2 py-4 md:grid-cols-[minmax(0,1fr)_auto]"
       >
         <div className="min-w-0">
           <span className="inline-flex items-baseline gap-2 font-sans text-lg leading-tight text-paper transition-colors group-hover:text-stamp-text">
@@ -67,25 +67,33 @@ function RepositoryRow({
               aria-hidden="true"
             />
           </span>
-          <p className="mt-1 max-w-[68ch] font-sans text-sm leading-relaxed text-paper-dim">
+          <p className="mt-1 max-w-[82ch] font-sans text-sm leading-relaxed text-paper-dim">
             {repo.description || "Sin descripción."}
           </p>
         </div>
 
-        <div className="font-mono text-[11px] tracking-[0.1em] whitespace-nowrap text-paper-faint uppercase">
-          <span>{repo.language}</span>
-          <span aria-hidden="true"> · </span>
-          <span>{formatDate(repo.updated_at)}</span>
-        </div>
-
-        <div className="flex items-baseline justify-end gap-4 font-mono text-sm text-paper-dim tabular-nums">
-          <span className="inline-flex items-center gap-1.5" title={`${repo.stars} estrellas`}>
-            <Star className="h-3.5 w-3.5 text-paper-faint" aria-hidden="true" />
-            {repo.stars}
+        {/*
+          Metadata and figures travel together, pinned to the right edge. As
+          three separate grid columns they left two voids on a wide screen — one
+          after the description, another between the language and the counts —
+          roughly 450px of nothing per row. One group means one gutter.
+        */}
+        <div className="flex items-baseline justify-between gap-8 md:justify-end">
+          <span className="font-mono text-[11px] tracking-[0.1em] whitespace-nowrap text-paper-faint uppercase">
+            {repo.language}
+            <span aria-hidden="true"> · </span>
+            {formatDate(repo.updated_at)}
           </span>
-          <span className="inline-flex items-center gap-1.5" title={`${repo.forks} forks`}>
-            <GitFork className="h-3.5 w-3.5 text-paper-faint" aria-hidden="true" />
-            {repo.forks}
+
+          <span className="flex w-[5.5rem] items-baseline justify-end gap-4 font-mono text-sm text-paper-dim tabular-nums">
+            <span className="inline-flex items-center gap-1.5" title={`${repo.stars} estrellas`}>
+              <Star className="h-3.5 w-3.5 text-paper-faint" aria-hidden="true" />
+              {repo.stars}
+            </span>
+            <span className="inline-flex items-center gap-1.5" title={`${repo.forks} forks`}>
+              <GitFork className="h-3.5 w-3.5 text-paper-faint" aria-hidden="true" />
+              {repo.forks}
+            </span>
           </span>
         </div>
       </a>

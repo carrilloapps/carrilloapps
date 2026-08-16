@@ -62,7 +62,7 @@ export function HomeHero() {
 
   return (
     <AnimatedSection
-      className="relative w-full pt-6 pb-12 md:pt-10 md:pb-16"
+      className="relative w-full pt-6 md:pt-10"
       role="banner"
       aria-labelledby="hero-heading"
     >

@@ -120,7 +120,7 @@ export default function AgendamientoPage() {
 function OpeningEntry() {
   return (
     <AnimatedSection
-      className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+      className="relative w-full pt-6 md:pt-10"
       role="region"
       aria-labelledby="booking-heading"
     >
@@ -179,9 +179,14 @@ function OpeningEntry() {
  */
 function Booking() {
   return (
-    <AnimatedSection className="relative pb-16 md:pb-24" aria-labelledby="booking-calendar">
+    <AnimatedSection className="relative pt-10 md:pt-16" aria-labelledby="booking-calendar">
       <div className="container mx-auto px-4">
-        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,23rem)] lg:items-start">
+        {/* 53rem is not arbitrary: below ~830px Cal drops its two-pane layout
+            and stacks the time slots under the month, which doubles the height of
+            the embed. Pinning the column just above that threshold keeps the
+            compact layout and hands the leftover width to the agenda, which was
+            being squeezed for space the embed never used. */}
+        <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,53rem)_minmax(0,1fr)] lg:items-start">
           <div>
             <h2
               id="booking-calendar"
@@ -194,7 +199,7 @@ function Booking() {
 
           <aside>
             <h2 className="border-b-2 border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-              Qué cubrimos
+              ¿Qué cubrimos?
             </h2>
             <ul className="divide-y divide-rule">
               {AGENDA.map(({ heading, body }) => (
@@ -229,7 +234,7 @@ function Booking() {
 
 function HowItWorks() {
   return (
-    <AnimatedSection className="relative pb-16 md:pb-24" aria-labelledby="booking-steps">
+    <AnimatedSection className="relative pt-10 md:pt-16" aria-labelledby="booking-steps">
       <div className="container mx-auto px-4">
         <SectionHeader
           columnLabel="Cómo funciona"
@@ -267,7 +272,7 @@ function HowItWorks() {
  */
 function Fit() {
   return (
-    <AnimatedSection className="relative pb-16 md:pb-24" aria-labelledby="booking-fit">
+    <AnimatedSection className="relative pt-10 md:pt-16" aria-labelledby="booking-fit">
       <div className="container mx-auto px-4">
         <SectionHeader
           columnLabel="Encaje"
@@ -314,7 +319,10 @@ function Fit() {
 
 function ClosingEntry() {
   return (
-    <AnimatedSection className="relative pb-20 md:pb-28" aria-labelledby="booking-closing">
+    <AnimatedSection
+      className="relative pt-10 pb-16 md:pt-16 md:pb-20"
+      aria-labelledby="booking-closing"
+    >
       <div className="container mx-auto px-4">
         <SectionHeader
           columnLabel="Antes de reservar"

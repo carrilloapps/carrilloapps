@@ -258,6 +258,54 @@
     border-bottom-color: var(--ledger-rule);
   }
 
+  /* The one loud action.
+     `.cta` is a label over a hairline — right for an action inside a page that
+     is already made of rules, wrong for the single thing the header is there to
+     sell, where it read as one more underlined word among four nav items. This
+     is the rubber stamp the whole design world is named after: a filled block
+     of ink with no radius, no gradient and no shadow. It inverts on hover — the
+     fill drops out and the outline stays — which is the same gesture as a stamp
+     lifting off paper, and it keeps the footprint identical so nothing shifts.
+
+     Reserved for one element per view. A second filled stamp on a page and
+     neither of them is the primary action any more. */
+  .cta-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding-inline: 1rem;
+    border: 1px solid var(--ledger-stamp);
+    background-color: var(--ledger-stamp);
+    font-family: var(--font-archivo), system-ui, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ledger-paper);
+    touch-action: manipulation;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .cta-stamp:hover,
+  .cta-stamp:focus-visible {
+    background-color: transparent;
+    border-color: var(--ledger-stamp-text);
+    color: var(--ledger-stamp-text);
+  }
+  .cta-stamp:focus-visible {
+    outline: 1px solid var(--ledger-stamp-text);
+    outline-offset: 2px;
+  }
+  .cta-stamp:disabled,
+  .cta-stamp[aria-disabled="true"] {
+    border-color: var(--ledger-rule);
+    background-color: transparent;
+    color: var(--ledger-paper-faint);
+    cursor: not-allowed;
+  }
+
   /* The secondary action. Not a box: boxing every link turned the page into
      a field of buttons and fought a world made of rules. What marks it as
      actionable is the register — mono, uppercase, tracked — plus a required

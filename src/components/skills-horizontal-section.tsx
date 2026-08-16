@@ -135,7 +135,7 @@ export function SkillsMarquee() {
 export function SkillsHorizontalSection() {
   return (
     <section
-      className="relative w-full py-16 md:py-24"
+      className="relative w-full pt-10 md:pt-16"
       role="region"
       aria-labelledby="skills-heading"
     >

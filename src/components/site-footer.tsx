@@ -19,7 +19,10 @@ const QUICK_LINKS = [
   // pages merged, and pointing both at /recursos left the column with the same
   // destination twice — and React with a duplicate key.
   { label: "Recursos", href: "/recursos" },
-  { label: "Substack", href: "https://carrilloapps.substack.com/" },
+  // Points at the on-site index now that /blog exists, not straight out to
+  // Substack: the index links every post there anyway, and keeping the first
+  // hop internal means the footer no longer leaks every visitor off-site.
+  { label: "Blog", href: "/blog" },
   { label: "Contacto", href: "/contacto" },
 ] as const
 

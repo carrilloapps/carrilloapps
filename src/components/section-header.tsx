@@ -42,7 +42,7 @@ export function SectionHeader({
   description,
   headingId,
   trailing,
-  className = "mb-8 md:mb-10",
+  className = "mb-6 md:mb-8",
 }: SectionHeaderProps) {
   const label = columnLabel ?? eyebrow
 
@@ -61,7 +61,7 @@ export function SectionHeader({
         </div>
       )}
 
-      <div className="mt-6 flex max-w-3xl flex-col gap-3">
+      <div className="mt-5 flex max-w-3xl flex-col gap-2.5">
         <h2
           id={headingId}
           className="font-sans text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance text-paper"

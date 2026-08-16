@@ -121,7 +121,7 @@ export function CalInline({ className = "" }: { className?: string }) {
       own height (570px for a month view) and never grows to fill a taller box.
     */
     <div
-      className={`relative border border-rule bg-ink-raised ${className}`}
+      className={`relative mx-auto w-full ${ready ? "" : "border border-rule bg-ink-raised"} ${className}`}
       style={ready ? undefined : { minHeight: 640 }}
     >
       {!ready ? (
@@ -137,7 +137,12 @@ export function CalInline({ className = "" }: { className?: string }) {
         </div>
       ) : null}
       {/*
-        No `overflow: scroll` and no fixed height: the embed reports its own
+        The frame is only for the loading state. Cal renders its own bordered
+        card inside the iframe and centres it, so our border drew a second frame
+        around the first with a 50px gutter between them — the empty band that
+        made the embed look broken rather than embedded.
+
+        No `overflow: scroll` and no fixed height either: the embed reports its own
         size and grows the container. Forcing 640px with an inner scrollbar put
         a second scroll region inside the page, so picking a slot near the
         bottom of the month meant scrolling a box inside a box.

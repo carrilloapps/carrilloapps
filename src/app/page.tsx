@@ -92,7 +92,7 @@ function ClosingEntry() {
   return (
     <AnimatedSection
       id="contact"
-      className="relative py-16 md:py-24"
+      className="relative pt-10 md:pt-16"
       role="region"
       aria-labelledby="closing-heading"
     >

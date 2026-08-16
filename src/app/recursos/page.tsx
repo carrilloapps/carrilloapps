@@ -68,7 +68,7 @@ export default function ResourcesPage() {
 function OpeningEntry() {
   return (
     <AnimatedSection
-      className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+      className="relative w-full pt-6 md:pt-10"
       role="region"
       aria-labelledby="resources-heading"
     >
@@ -300,7 +300,7 @@ function RepositoryFeed() {
 function ClosingEntry() {
   return (
     <AnimatedSection
-      className="relative pb-20 md:pb-28"
+      className="relative pt-10 pb-16 md:pt-16 md:pb-20"
       role="region"
       aria-labelledby="resources-closing"
     >

@@ -30,7 +30,7 @@ export function LatestPostsSection() {
   const [lead, ...rest] = posts ?? []
 
   return (
-    <section className="relative py-16 md:py-24" aria-labelledby="latest-posts-heading">
+    <section className="relative pt-10 md:pt-16" aria-labelledby="latest-posts-heading">
       <div className="relative z-10 container mx-auto px-4">
         <SectionHeader
           title="Últimos artículos"
