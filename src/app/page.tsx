@@ -36,7 +36,7 @@ import { trackScrollDepth, trackCTAClick } from "@/lib/analytics"
  *     both use it.
  *   - The full open-source register and the role history. Both were long
  *     enough to deserve their own page and short-changed here: the tools now
- *     live at /herramientas and the roles at /sobre-mi, each reachable from
+ *     live at /recursos and the roles at /sobre-mi, each reachable from
  *     the entry that makes their case.
  */
 export default function Home() {

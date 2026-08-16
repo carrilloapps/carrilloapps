@@ -109,7 +109,9 @@ export default function ServicesPage() {
 
       <main id="main-content" role="main" className="relative z-10">
         <OpeningEntry />
+        <Discipline />
         <Catalogue />
+        <Agentic />
         <Method />
         <Questions />
         <ClosingEntry />
@@ -147,6 +149,16 @@ function OpeningEntry() {
         </h1>
 
         <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+          {/*
+            Two paragraphs, not four.
+
+            The opening used to carry the whole argument — the domain, the three
+            ways in, the method, and the AI stance — in one 300-word column, and
+            it read like the first page of a book. The rest now lives where it
+            belongs: the method under its own heading, the AI stance in its own
+            band before the catalogue. Same words for a crawler, four places to
+            meet them instead of one wall.
+          */}
           <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
             <p>
               Trabajo con equipos que operan dinero: pasarelas de pago, conciliación de alto
@@ -158,31 +170,7 @@ function OpeningEntry() {
               Entro de tres maneras, según lo que haga falta: como consultor que diseña la
               arquitectura, como auditor que revisa la que ya existe, o como liderazgo técnico
               acompañando al equipo que la va a mantener. Casi siempre empieza por un diagnóstico de
-              una hora, porque hasta no ver el repositorio y la conciliación de ayer cualquier
-              recomendación sería una hipótesis.
-            </p>
-            <p>
-              El método no cambia entre frentes. Se especifica antes de construir —Spec-Driven
-              Development, con cada decisión estructural registrada como ADR fechado— y se prueba
-              primero donde el error cuesta dinero: cálculo de comisiones, idempotencia de
-              reintentos, conciliación. En el resto, pruebas de contrato e integración, que son las
-              que atrapan regresiones reales. Después se despliega de forma progresiva y reversible,
-              y se mide en producción con indicadores sobre el dinero, no sobre la CPU.
-            </p>
-            <p>
-              Lo mismo aplica cuando entra IA. Un agente en producción no se distingue de cualquier
-              otra integración crítica: herramientas acotadas con contrato a través de MCP,
-              evaluaciones con casos reales antes de tocar nada, y aprobación humana donde hay
-              efecto contable. Y cuando el que inicia el pago es el propio agente —{" "}
-              <Link
-                href="/servicios/inteligencia-artificial"
-                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
-              >
-                finanzas agénticas
-              </Link>{" "}
-              — hacen falta identidad propia, mandatos con límite y caducidad, y una traza que
-              responda quién autorizó cada movimiento. Puedo integrarlo porque vengo del lado de los
-              pagos, no del lado de las demos.
+              una hora.
             </p>
           </div>
 
@@ -276,6 +264,78 @@ function Catalogue() {
           </li>
         ))}
       </ol>
+    </Section>
+  )
+}
+
+/**
+ * The method, as a claim with its own rule.
+ *
+ * Displaced from the opening column, where it was the third of four paragraphs
+ * nobody reaches. Set as a wide statement with the practices beside it: the
+ * same content in a shape that can be skimmed.
+ */
+function Discipline() {
+  return (
+    <Section spacing="compact">
+      <div className="grid gap-x-14 gap-y-8 border-y border-rule py-10 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+        <p className="max-w-[46ch] font-sans text-[clamp(1.375rem,2.6vw,1.875rem)] leading-[1.2] tracking-[-0.02em] text-balance text-paper">
+          Se especifica antes de construir, y se prueba primero donde el error cuesta dinero.
+        </p>
+
+        <div className="space-y-4 font-sans text-base leading-relaxed text-paper-dim">
+          <p>
+            Spec-Driven Development, con cada decisión estructural registrada como ADR fechado. TDD
+            en cálculo de comisiones, idempotencia de reintentos y conciliación; pruebas de contrato
+            en el resto, que son las que atrapan regresiones reales.
+          </p>
+          <p>
+            Después se despliega de forma progresiva y reversible, y se mide en producción con
+            indicadores sobre el dinero, no sobre la CPU.
+          </p>
+        </div>
+      </div>
+    </Section>
+  )
+}
+
+/**
+ * Where AI enters, stated once and linked. It used to be the fourth paragraph
+ * of the opening; here it is a band that can be read on its own.
+ */
+function Agentic() {
+  return (
+    <Section spacing="compact">
+      <div className="grid gap-x-14 gap-y-8 border-t-2 border-rule-strong pt-8 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+        <div>
+          <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+            IA y finanzas agénticas
+          </p>
+          <p className="mt-4 max-w-[22ch] font-sans text-2xl leading-[1.15] tracking-[-0.02em] text-paper">
+            Un agente en producción es una integración crítica más.
+          </p>
+        </div>
+
+        <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+          <p>
+            Herramientas acotadas con contrato a través de MCP, evaluaciones con casos reales antes
+            de tocar nada, y aprobación humana donde hay efecto contable. Nada de acceso general a
+            la base de datos porque sea más cómodo.
+          </p>
+          <p>
+            Y cuando el que inicia el pago es el propio agente —{" "}
+            <Link
+              href="/servicios/inteligencia-artificial"
+              className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+            >
+              finanzas agénticas
+            </Link>{" "}
+            — hacen falta identidad propia, mandatos con límite y caducidad, y una traza que
+            responda quién autorizó cada movimiento. Puedo integrarlo porque vengo del lado de los
+            pagos, no del lado de las demos.
+          </p>
+        </div>
+      </div>
     </Section>
   )
 }

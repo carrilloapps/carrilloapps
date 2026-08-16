@@ -125,6 +125,9 @@
 :root {
   --ledger-ink: #0b0c0e;
   --ledger-ink-raised: #101216;
+  /* Field surfaces. A focused field lifts instead of growing a ring. */
+  --ledger-field: #14171c;
+  --ledger-field-focus: #1c2027;
   --ledger-paper: #e8e6e1;
   --ledger-paper-dim: #a2a6ad;
   --ledger-paper-faint: #868b93;
@@ -148,6 +151,8 @@
 
   --color-ink: var(--ledger-ink);
   --color-ink-raised: var(--ledger-ink-raised);
+  --color-field: var(--ledger-field);
+  --color-field-focus: var(--ledger-field-focus);
   --color-paper: var(--ledger-paper);
   --color-paper-dim: var(--ledger-paper-dim);
   --color-paper-faint: var(--ledger-paper-faint);
@@ -236,6 +241,23 @@
     border-bottom-color: var(--ledger-stamp-text);
   }
 
+  /* Disabled was missing from both CTA classes, and they are used on real
+     <button> elements — the contact form's submit sits disabled until the terms
+     are accepted and looked exactly like the enabled one, stamp rule and all.
+     The rule goes neutral, the label drops to the faint ink, and hover stops
+     answering, which is the whole signal. */
+  .cta:disabled,
+  .cta[aria-disabled="true"] {
+    color: var(--ledger-paper-faint);
+    border-bottom-color: var(--ledger-rule);
+    cursor: not-allowed;
+  }
+  .cta:disabled:hover,
+  .cta[aria-disabled="true"]:hover {
+    color: var(--ledger-paper-faint);
+    border-bottom-color: var(--ledger-rule);
+  }
+
   /* The secondary action. Not a box: boxing every link turned the page into
      a field of buttons and fought a world made of rules. What marks it as
      actionable is the register — mono, uppercase, tracked — plus a required
@@ -262,6 +284,20 @@
   .cta-quiet:focus-visible {
     color: var(--ledger-paper);
     border-bottom-color: var(--ledger-stamp);
+  }
+  .cta-quiet:disabled,
+  .cta-quiet[aria-disabled="true"] {
+    color: var(--ledger-paper-faint);
+    cursor: not-allowed;
+  }
+  .cta-quiet:disabled:hover,
+  .cta-quiet[aria-disabled="true"]:hover {
+    color: var(--ledger-paper-faint);
+    border-bottom-color: transparent;
+  }
+  .cta-quiet:disabled:hover svg,
+  .cta-quiet[aria-disabled="true"]:hover svg {
+    transform: none;
   }
   /* The icon leans in the direction the action goes. */
   .cta-quiet svg {
@@ -301,6 +337,45 @@
 html :focus-visible {
   outline: 2px solid var(--ledger-stamp-text);
   outline-offset: 3px;
+}
+
+/* Fields are the exception, and they answer focus with themselves.
+   An offset outline around a field reads as a second border floating off the
+   one already drawn — the "ring" this system exists to avoid. A field instead
+   lifts its surface and stamps its rule, which says "you are editing this" with
+   the two properties the field already owns. Both change together, so the
+   indicator survives a forced-colors mode that drops backgrounds. */
+html
+  :is(input:not([type="checkbox"]):not([type="radio"]), textarea, [data-field]):not(
+    [data-bare-field]
+  ):focus-visible {
+  outline: none;
+  border-color: var(--ledger-stamp);
+  background-color: var(--ledger-field-focus);
+}
+
+/* `data-bare-field` marks an input that is not the field — it sits inside one.
+   The phone number lives in a group that paints the focus for it, and the
+   country filter lives in an open popup that is already the focus indicator.
+   Without this they lit their own surface inside another lit surface, which is
+   the lighter rectangle that made both look pasted on. */
+[data-bare-field] {
+  border-width: 0;
+  background-color: transparent;
+}
+[data-bare-field]:focus-visible {
+  outline: none;
+  background-color: transparent;
+}
+
+/* The wrapper of a composed field (the phone control) carries the same states,
+   because there the border lives on the wrapper and not on the input. */
+[data-field-group]:focus-within {
+  border-color: var(--ledger-stamp);
+  background-color: var(--ledger-field-focus);
+}
+[data-field-group] :is(input, button):focus-visible {
+  outline: none;
 }
 
 /* Paired with `data-scroll-behavior="smooth"` on <html> in layout.tsx, which is

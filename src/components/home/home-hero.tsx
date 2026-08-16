@@ -160,7 +160,7 @@ export function HomeHero() {
             </Link>
             <CvDownloadButton source="home-hero" />
             <Link
-              href="/herramientas"
+              href="/recursos"
               onClick={() => trackCTAClick("Ver herramientas", "secondary", "home-hero")}
               className="cta-quiet"
             >

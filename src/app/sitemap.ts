@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl()
   // Bumped after the OG/icon/metadata rebuild so Google is prompted to recrawl
   // the rewritten titles, descriptions and social cards.
-  const lastModified = new Date("2026-08-17")
+  const lastModified = new Date("2026-08-18")
 
   return [
     {
@@ -48,18 +48,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: { languages: { "es-CO": url, "x-default": url } },
       }
     }),
-    {
-      url: `${baseUrl}/herramientas`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          "es-CO": `${baseUrl}/herramientas`,
-          "x-default": `${baseUrl}/herramientas`,
-        },
-      },
-    },
     {
       url: `${baseUrl}/recursos`,
       lastModified,

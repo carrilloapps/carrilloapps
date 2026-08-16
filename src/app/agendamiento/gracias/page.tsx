@@ -1,108 +1,110 @@
-"use client"
-
 import Link from "next/link"
-import { motion } from "@/lib/motion"
-import { CheckCircle, ArrowLeft, Calendar } from "lucide-react"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { Button } from "@/components/ui/button"
-import { SurfaceCard } from "@/components/ui/surface-card"
 
-const STEPS = [
-  "Recibirás un email de confirmación con un resumen de tu solicitud.",
-  "Te contactaré para proponer una fecha y hora específica.",
-  "Una vez confirmada, recibirás los detalles de la reunión (enlace de contacto).",
-  "¡Nos reuniremos para discutir tu proyecto y cómo puedo ayudarte!",
-] as const
+/**
+ * The receipt.
+ *
+ * Its copy described a flow that no longer exists: "te contactaré para proponer
+ * una fecha" was true when this page followed a form that emailed availability
+ * in prose. Cal.com confirms the slot itself, so the page now states what
+ * actually happened — the appointment is booked — and what happens next, which
+ * is preparation rather than negotiation.
+ */
+const NEXT = [
+  {
+    n: "01",
+    heading: "Confirmación en tu correo",
+    body: "Con el enlace de la videollamada y el archivo para tu calendario. Si no aparece en unos minutos, revisa el correo no deseado.",
+  },
+  {
+    n: "02",
+    heading: "Mándame contexto",
+    body: "Responde a ese correo con lo que tengas: un repositorio, un diagrama, el hilo de un incidente. Lo reviso antes de la sesión.",
+  },
+  {
+    n: "03",
+    heading: "Hablamos una hora",
+    body: "Sin presentación comercial. El tiempo se va en tu problema, no en mi trayectoria.",
+  },
+  {
+    n: "04",
+    heading: "Resumen escrito",
+    body: "Dentro de las 48 horas siguientes: riesgos priorizados y siguientes pasos. Tuyo, haya continuidad o no.",
+  },
+]
 
 export default function ThankYouPage() {
   return (
-    <div className="relative min-h-screen text-white">
+    <div className="relative min-h-screen text-paper">
       <DynamicBackground />
       <SiteHeader />
 
-      <main className="relative z-10 container mx-auto px-4 py-16 md:py-24" id="main-content">
-        <motion.div
-          className="mx-auto max-w-2xl space-y-8 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+      <main id="main-content" role="main" className="relative z-10">
+        <section
+          className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+          aria-labelledby="thanks-heading"
         >
-          <div className="space-y-5">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-green-500 shadow-2xl shadow-emerald-500/30"
+          <div className="container mx-auto px-4">
+            <p className="font-mono text-[11px] tracking-[0.16em] text-settled uppercase">
+              Reserva confirmada
+            </p>
+
+            <h1
+              id="thanks-heading"
+              className="mt-3 max-w-[16ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
             >
-              <CheckCircle className="h-8 w-8 text-white" aria-hidden="true" />
-            </motion.div>
-            <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium tracking-[0.18em] text-emerald-300 uppercase">
-              Solicitud recibida
-            </span>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">
-              ¡Gracias por agendar conmigo!
+              Listo, queda agendado
             </h1>
-            <p className="text-lg leading-relaxed text-zinc-300">
-              Voy a revisar tu solicitud y te respondo en menos de 24 horas con una propuesta de
-              fecha.
+
+            <p className="mt-6 max-w-[60ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+              Gracias por reservar. El espacio ya está bloqueado en mi calendario y la confirmación
+              va camino a tu correo con el enlace de la llamada.
             </p>
           </div>
+        </section>
 
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            whileHover={{ y: -4 }}
-            className="group"
-          >
-            <SurfaceCard className="text-left">
-              <div className="space-y-5 p-6 md:p-8">
-                <div className="space-y-1">
-                  <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
-                    Próximos pasos
+        <section className="relative pb-16 md:pb-24" aria-labelledby="thanks-next">
+          <div className="container mx-auto px-4">
+            <h2
+              id="thanks-next"
+              className="border-b-2 border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase"
+            >
+              Qué sigue
+            </h2>
+
+            <ol className="grid md:grid-cols-2 lg:grid-cols-4">
+              {NEXT.map(({ n, heading, body }, i) => (
+                <li
+                  key={n}
+                  className={`border-b border-rule py-6 md:px-6 ${
+                    i > 0 ? "md:border-l md:border-l-rule" : "md:pl-0"
+                  } ${i === NEXT.length - 1 ? "md:pr-0" : ""}`}
+                >
+                  <p className="font-mono text-[11px] text-stamp-text tabular-nums">{n}</p>
+                  <p className="mt-3 font-sans text-lg leading-tight tracking-[-0.02em] text-paper">
+                    {heading}
                   </p>
-                  <h2 className="text-lg font-bold text-white md:text-xl">Cómo seguimos</h2>
-                </div>
-                <ol className="m-0 list-none space-y-3 p-0">
-                  {STEPS.map((step, index) => (
-                    <li key={step} className="flex items-start gap-3 leading-relaxed text-zinc-300">
-                      <span
-                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-sm font-semibold text-emerald-400 tabular-nums"
-                        aria-hidden="true"
-                      >
-                        {index + 1}
-                      </span>
-                      <span className="pt-0.5">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </SurfaceCard>
-          </motion.div>
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-paper-dim">{body}</p>
+                </li>
+              ))}
+            </ol>
 
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col justify-center gap-3 pt-2 sm:flex-row"
-          >
-            <Button variant="glass" size="lg" className="touch-manipulation" asChild>
-              <Link href="/">
-                <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-                Volver al inicio
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t-2 border-rule-strong pt-5">
+              <Link href="/recursos" className="cta">
+                Ver lo que publico
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-            </Button>
-            <Button variant="gradient" size="lg" className="touch-manipulation" asChild>
-              <Link href="/recursos">
-                <Calendar className="mr-2 h-4 w-4" aria-hidden="true" />
-                Explorar recursos
+              <Link href="/contacto" className="cta-quiet">
+                Escribirme antes de la sesión
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
-            </Button>
-          </motion.div>
-        </motion.div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <SiteFooter />

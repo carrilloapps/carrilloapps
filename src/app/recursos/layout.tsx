@@ -12,12 +12,12 @@ const SITE_URL = getSiteUrl()
 const KNOWN_LANGUAGES = ["TypeScript", "JavaScript", "Go", "Python", "Java", "Shell", "Kotlin"]
 
 export const metadata = buildPageMetadata({
-  title: "Casos de impacto y repositorios",
+  title: "Herramientas y repositorios",
   description:
-    "Sistemas financieros que diseñé y operé, con sus métricas reales, más mis repositorios públicos de GitHub y GitLab.",
+    "Librerías, CLIs y servidores MCP que mantengo en npm, más todos mis repositorios públicos de GitHub y GitLab, en vivo.",
   path: "/recursos",
   keywords: [
-    "casos de impacto fintech",
+    "herramientas de código abierto",
     "repositorios github carrilloapps",
     "proyectos gitlab carrilloapps",
     "sistemas financieros open source",

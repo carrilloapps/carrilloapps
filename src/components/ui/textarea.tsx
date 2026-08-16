@@ -4,10 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textareaVariants = cva(
-  "focus:outline-none2 flex w-full text-base transition-all placeholder:text-muted-foreground focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+  "flex w-full text-base transition-all placeholder:text-muted-foreground focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
   {
     variants: {
       variant: {
+        /**
+         * Ledger — the field as this system draws one: square, a hairline rule,
+         * raised ink, and 48px tall so it meets the touch target the rest of
+         * the site holds to. It is the default because every form on this site
+         * is on the ledger; `default` below was shadcn's light-surface field at
+         * 40px, which was neither.
+         */
+        ledger:
+          "min-h-[7rem] border border-rule bg-field px-3 py-2.5 font-sans text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong",
         default: "min-h-[80px] rounded-md border border-input bg-background px-3 py-2",
         /** Glass — espejo del `<Input variant="glass">`. */
         glass:
@@ -15,7 +24,7 @@ const textareaVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "ledger",
     },
   },
 )

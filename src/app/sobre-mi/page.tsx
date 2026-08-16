@@ -76,7 +76,7 @@ const COMMUNITY: {
     term: "Código abierto",
     detail:
       "Publico y mantengo librerías, CLIs y servidores MCP en npm y GitHub. Todo lo que resuelvo dos veces en el trabajo termina siendo un paquete instalable.",
-    link: { label: "Ver herramientas", href: "/herramientas" },
+    link: { label: "Ver herramientas", href: "/recursos" },
   },
   {
     term: "Escritura técnica",

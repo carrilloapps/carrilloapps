@@ -235,6 +235,14 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      // /herramientas merged into /recursos: the two pages listed the same
+      // packages under different names and split one idea across two URLs.
+      // Permanent, so the link equity moves rather than being duplicated.
+      {
+        source: "/herramientas",
+        destination: "/recursos",
+        permanent: true,
+      },
       // Blog migrado temporalmente a Substack — todo lo que apuntaba a /blog
       // (incluido el backlink roto desde github.com/carrilloapps) ahora
       // redirige al newsletter mientras se construye el blog propio en /blog.

@@ -24,6 +24,8 @@ export type SourcedRepository = Repository & { source: "github" | "gitlab" }
 export type RepositoriesResponse = {
   repositories: Repository[]
   pinnedRepos: Repository[]
+  /** Matches after filtering, across every page. Both handlers already send it. */
+  totalCount: number
   totalPages: number
 }
 

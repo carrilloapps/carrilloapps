@@ -38,7 +38,13 @@ const CAL_UI = {
     },
     light: {},
   },
-  hideEventTypeDetails: false,
+  /*
+    Cal's own event header — avatar, title, "60m", the timezone picker — repeats
+    what the appointment slip on the page already states, in Cal's typography
+    rather than this one's. Hiding it leaves the embed doing the one thing only
+    it can do: show real availability.
+  */
+  hideEventTypeDetails: true,
   layout: "month_view" as const,
 }
 
@@ -109,9 +115,17 @@ export function CalInline({ className = "" }: { className?: string }) {
   }, [])
 
   return (
-    <div className={`border border-rule bg-ink-raised ${className}`}>
+    /*
+      The reserved height applies only while Cal boots. Keeping it afterwards
+      left ~110px of empty ink under the calendar, because the embed reports its
+      own height (570px for a month view) and never grows to fill a taller box.
+    */
+    <div
+      className={`relative border border-rule bg-ink-raised ${className}`}
+      style={ready ? undefined : { minHeight: 640 }}
+    >
       {!ready ? (
-        <div className="flex h-full min-h-[640px] items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           <span className="inline-flex items-center gap-2.5" role="status" aria-live="polite">
             <span className="relative block h-px w-10 overflow-hidden bg-rule" aria-hidden="true">
               <span className="absolute inset-y-0 block w-1/3 animate-pulse bg-stamp" />
@@ -122,10 +136,16 @@ export function CalInline({ className = "" }: { className?: string }) {
           </span>
         </div>
       ) : null}
+      {/*
+        No `overflow: scroll` and no fixed height: the embed reports its own
+        size and grows the container. Forcing 640px with an inner scrollbar put
+        a second scroll region inside the page, so picking a slot near the
+        bottom of the month meant scrolling a box inside a box.
+      */}
       <Cal
         namespace={NAMESPACE}
         calLink={CAL_LINK}
-        style={{ width: "100%", height: "100%", overflow: "scroll" }}
+        style={{ width: "100%", height: "100%" }}
         config={{ layout: "month_view", theme: "dark" }}
       />
     </div>

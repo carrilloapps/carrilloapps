@@ -81,13 +81,9 @@ export async function GET(request: Request) {
       getCachedGitHubUserInfo(username),
     ])
 
-    // Get pinned repositories (simulate by taking top starred repos)
-    const pinnedRepos = data
-      .filter((repo: GitHubRepo) => repo.stargazers_count > 0)
-      .sort((a: GitHubRepo, b: GitHubRepo) => b.stargazers_count - a.stargazers_count)
-      .slice(0, 6)
-
-    // Apply filters
+    // Apply filters first. Pinned repos are derived from the *filtered* set:
+    // choosing them from the full list meant a search for "mcp" still returned
+    // six unrelated repos in the featured block, which reads as a broken filter.
     let filteredData = data
 
     if (language !== "all") {
@@ -104,6 +100,13 @@ export async function GET(request: Request) {
           (repo.description && repo.description.toLowerCase().includes(search.toLowerCase())),
       )
     }
+
+    // "Pinned" is simulated by top-starred, since the REST API does not expose
+    // the profile pins.
+    const pinnedRepos = filteredData
+      .filter((repo: GitHubRepo) => repo.stargazers_count > 0)
+      .sort((a: GitHubRepo, b: GitHubRepo) => b.stargazers_count - a.stargazers_count)
+      .slice(0, 6)
 
     // Apply pagination
     const startIndex = (page - 1) * perPage

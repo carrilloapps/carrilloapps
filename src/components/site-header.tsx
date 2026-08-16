@@ -1,856 +1,711 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback, memo } from "react"
+import { useCallback, useEffect, useId, useRef, useState } from "react"
 import Link from "next/link"
-import {
-  Wrench,
-  Calendar,
-  ChevronDown,
-  FolderOpen,
-  Mail,
-  User,
-  Briefcase,
-  Layers,
-  Users,
-  LineChart,
-  Database,
-  Shield,
-  Server,
-  Cpu,
-} from "lucide-react"
-import { Github } from "@/components/icons/social-icons"
-import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
+import { ArrowUpRight, CalendarDays, ChevronDown, Menu, X } from "lucide-react"
 
-import { CalPopupButton } from "@/components/cal-booking"
-
-import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
+import { CalPopupButton } from "@/components/cal-booking"
+import { SocialRow } from "@/components/social-row"
+import { SERVICES } from "@/lib/data/services"
 import { trackNavigation } from "@/lib/analytics"
-// GitLab icon component
-const GitLabIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
-  </svg>
-)
 
-// Navigation structure with mega menu support
-interface NavItem {
+/* -------------------------------------------------------------------------- */
+/*  The map                                                                   */
+/* -------------------------------------------------------------------------- */
+
+interface NavChild {
   href: string
   label: string
-  icon?: React.ComponentType<{ className?: string }>
-  description?: string
-  children?: NavItem[]
+  description: string
 }
 
-// No "Inicio" entry: the letterhead is the way home, the way it works on every
-// modern site. A nav item pointing at the page you are already on spends the
-// most valuable slot in the bar restating the logo.
-const navItems: NavItem[] = [
-  {
-    href: "/sobre-mi",
-    label: "Sobre mí",
-    icon: User,
-    description: "Conoce mi experiencia y trayectoria",
-  },
+interface NavGroup {
+  /** What these have in common, from the client's side of the table. */
+  title: string
+  items: NavChild[]
+}
+
+interface NavEntry {
+  href: string
+  label: string
+  /** Grouped children. A flat list of seven asks the reader to sort them. */
+  groups?: NavGroup[]
+  /** Children that need no grouping — three destinations sort themselves. */
+  items?: NavChild[]
+  /** One head over the ungrouped row, so it aligns with the aside's. */
+  itemsLabel?: string
+  /** Right-hand column of the panel: one thing worth doing from here. */
+  aside?: { label: string; title: string; body: string; href: string; cta: string }
+}
+
+/** Pull a service straight from the catalogue so the menu cannot drift. */
+const service = (slug: string): NavChild => {
+  const found = SERVICES.find((s) => s.slug === slug)
+  return {
+    href: `/servicios/${slug}`,
+    label: found?.title ?? slug,
+    description: found?.summary ?? "",
+  }
+}
+
+/**
+ * The site map as a tree, not a list.
+ *
+ * Seven services in one column is a list the reader has to sort themselves.
+ * They group cleanly by what the client is actually trying to do — build
+ * something, keep it running, or change how the team works — so the panel says
+ * that out loud and the scan becomes three short reads instead of one long one.
+ *
+ * Every service is read from `SERVICES`, so adding one adds it here.
+ */
+const NAV: NavEntry[] = [
+  { href: "/sobre-mi", label: "Sobre mí" },
   {
     href: "/servicios",
     label: "Servicios",
-    icon: Briefcase,
-    description: "Soluciones tecnológicas",
-    children: [
-      // One entry per route now that each service has its own page. These used
-      // to be fragment links into a tab strip on /servicios — the tab they
-      // pointed at was not even the one that opened, since the anchor scrolled
-      // but did not select.
+    groups: [
       {
-        href: "/servicios/liderazgo-tecnico",
-        label: "Liderazgo técnico",
-        description: "Dirección estratégica de equipos",
-        icon: Users,
+        title: "Construir",
+        items: [
+          service("fintech-y-banca"),
+          service("arquitectura-de-software"),
+          service("backoffice"),
+        ],
       },
       {
-        href: "/servicios/fintech-y-banca",
-        label: "Fintech y banca",
-        description: "Soluciones financieras avanzadas",
-        icon: LineChart,
+        title: "Operar",
+        items: [service("infraestructura-cloud"), service("seguridad-y-compliance")],
       },
       {
-        href: "/servicios/backoffice",
-        label: "Backoffice",
-        description: "Automatización de procesos internos",
-        icon: Database,
-      },
-      {
-        href: "/servicios/arquitectura-de-software",
-        label: "Arquitectura",
-        description: "Diseño de sistemas escalables",
-        icon: Layers,
-      },
-      {
-        href: "/servicios/seguridad-y-compliance",
-        label: "Seguridad y compliance",
-        description: "Protección y cumplimiento normativo",
-        icon: Shield,
-      },
-      {
-        href: "/servicios/infraestructura-cloud",
-        label: "Infraestructura cloud",
-        description: "Infraestructuras cloud optimizadas",
-        icon: Server,
-      },
-      {
-        href: "/servicios/inteligencia-artificial",
-        label: "Inteligencia artificial",
-        description: "IA aplicada a sistemas financieros",
-        icon: Cpu,
+        title: "Evolucionar",
+        items: [service("liderazgo-tecnico"), service("inteligencia-artificial")],
       },
     ],
+    aside: {
+      label: "Empezar",
+      title: "Un diagnóstico de una hora",
+      body: "El problema concreto, los riesgos priorizados y siguientes pasos accionables.",
+      href: "/agendamiento",
+      cta: "Agendar",
+    },
   },
   {
     href: "/recursos",
     label: "Recursos",
-    icon: FolderOpen,
-    description: "Herramientas y repositorios",
-    children: [
+    // No group heads: "Código" over two rows and "Escritura" over one labelled
+    // a split that was not worth the reader's attention. Three destinations
+    // side by side are already sorted, under a single head.
+    itemsLabel: "Publicado",
+    items: [
       {
-        href: "/herramientas",
-        label: "Herramientas",
-        description: "Librerías y CLIs que mantengo",
-        icon: Wrench,
+        href: "/recursos#open-source-heading",
+        label: "Herramientas que mantengo",
+        description: "Librerías, CLIs y servidores MCP publicados en npm.",
       },
       {
-        href: "/recursos?tab=github",
-        label: "Repositorios GitHub",
-        description: "Proyectos open source en GitHub",
-        icon: Github,
+        href: "/recursos#repositories-heading",
+        label: "Repositorios públicos",
+        description: "Todo lo abierto en GitHub y GitLab, traído en vivo.",
       },
       {
-        href: "/recursos?tab=gitlab",
-        label: "Repositorios GitLab",
-        description: "Proyectos privados y corporativos",
-        icon: GitLabIcon,
+        href: "https://carrilloapps.substack.com/",
+        label: "Substack",
+        description: "Qué se rompió en producción y cómo se arregló.",
       },
     ],
+    aside: {
+      label: "Directo",
+      title: "¿No está lo que buscas?",
+      body: "Si una de estas herramientas casi resuelve tu caso, dime qué le falta.",
+      href: "/contacto",
+      cta: "Escribirme",
+    },
   },
   {
     href: "/contacto",
     label: "Contacto",
-    icon: Mail,
-    description: "Ponte en contacto",
+    itemsLabel: "Hablemos",
+    items: [
+      {
+        href: "/contacto",
+        label: "Escribirme",
+        description: "Cuéntame qué construyes y dónde se atasca.",
+      },
+      {
+        href: "/agendamiento",
+        label: "Agendar una hora",
+        description: "Calendario en vivo, confirmación inmediata.",
+      },
+    ],
+    aside: {
+      label: "Respuesta",
+      title: "Menos de 24 horas hábiles",
+      body: "El formulario abre WhatsApp con el mensaje ya redactado; nada se guarda en el sitio.",
+      href: "/agendamiento",
+      cta: "Ver calendario",
+    },
   },
 ]
 
-// Memoized navigation item component for performance
-const NavLink = memo(
-  ({ item, isActive, onClose }: { item: NavItem; isActive: boolean; onClose?: () => void }) => {
-    const Icon = item.icon
-    const isExternal = item.href.startsWith("http")
+/* -------------------------------------------------------------------------- */
 
-    const handleClick = () => {
-      trackNavigation(item.label, item.href, "header")
-      onClose?.()
-    }
-
-    return (
-      <Link
-        href={item.href}
-        onClick={handleClick}
-        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
-          isActive
-            ? "border-b-2 border-stamp text-paper"
-            : "text-paper-dim hover:bg-rule/40 hover:text-paper"
-        }`}
-        aria-current={isActive ? "page" : undefined}
-      >
-        {Icon && (
-          <Icon
-            className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110"
-            aria-hidden="true"
-          />
-        )}
-        <span>{item.label}</span>
-      </Link>
-    )
-  },
-)
-NavLink.displayName = "NavLink"
-
-// Mega menu component
-const MegaMenu = memo(
-  ({
-    item,
-    isOpen,
-    onClose,
-    onKeepOpen,
-  }: {
-    item: NavItem
-    isOpen: boolean
-    onClose: () => void
-    onKeepOpen?: () => void
-  }) => {
-    const shouldReduceMotion = useReducedMotion()
-    const menuRef = useRef<HTMLDivElement>(null)
-    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-    useEffect(() => {
-      if (isOpen && menuRef.current) {
-        const handleClickOutside = (e: MouseEvent) => {
-          if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-            onClose()
-          }
-        }
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => document.removeEventListener("mousedown", handleClickOutside)
-      }
-    }, [isOpen, onClose])
-
-    const handleMouseLeave = useCallback(() => {
-      closeTimeoutRef.current = setTimeout(() => {
-        onClose()
-      }, 150)
-    }, [onClose])
-
-    const handleMouseEnter = useCallback(() => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current)
-        closeTimeoutRef.current = null
-      }
-      onKeepOpen?.()
-    }, [onKeepOpen])
-
-    if (!item.children || item.children.length === 0) return null
-
-    return (
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={menuRef}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
-            className="absolute top-full left-0 z-50 mt-2 w-[560px] overflow-hidden border border-rule bg-ink-raised shadow-[0_24px_48px_-24px_rgba(0,0,0,0.9)]"
-            style={{
-              backdropFilter: "blur(32px) saturate(180%)",
-              WebkitBackdropFilter: "blur(32px) saturate(180%)",
-            }}
-          >
-            {/* Subtle glassmorphism overlay */}
-
-            <div
-              className="relative z-10 p-5"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <div className="space-y-0">
-                {item.children?.map((child, index) => {
-                  const ChildIcon = child.icon
-                  return (
-                    <div key={child.href}>
-                      <motion.div
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.03, duration: 0.15 }}
-                      >
-                        <Link
-                          href={child.href}
-                          onClick={() => {
-                            trackNavigation(child.label, child.href, "header")
-                            onClose()
-                          }}
-                          className="group relative flex items-center gap-3 px-4 py-3 transition-all duration-300 ease-out hover:bg-rule/40 focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp"
-                        >
-                          {/* Icon */}
-                          {ChildIcon && (
-                            <div className="shrink-0">
-                              <ChildIcon className="h-5 w-5 text-paper-dim transition-colors duration-300 group-hover:text-stamp-text" />
-                            </div>
-                          )}
-
-                          {/* Content */}
-                          <div className="min-w-0 flex-1">
-                            <h3 className="text-sm font-medium text-paper transition-colors duration-300 group-hover:text-stamp-text">
-                              {child.label}
-                            </h3>
-                            {child.description && (
-                              <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-paper-faint transition-colors duration-300 group-hover:text-paper-dim">
-                                {child.description}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Subtle arrow indicator */}
-                          <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <ChevronDown className="h-4 w-4 rotate-[-90deg] text-stamp-text" />
-                          </div>
-                        </Link>
-                      </motion.div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    )
-  },
-)
-MegaMenu.displayName = "MegaMenu"
-
+/**
+ * The letterhead bar.
+ *
+ * Rebuilt from an 854-line component that carried three overlapping menu
+ * implementations, a hand-kept copy of the service list, and deep links into
+ * query parameters that had been renamed. What it keeps: real `position: sticky`
+ * (no scroll listener repositioning it), two densities, and the reading-progress
+ * hairline. What it gains: one panel implementation for both breakpoints, the
+ * keyboard contract a disclosure menu owes (Escape, outside click, focus
+ * return), and a current-section mark that follows the route rather than being
+ * set by hand.
+ */
 export function SiteHeader() {
-  const [mounted, setMounted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  /** 0–1 position through the document, drawn as the bar's bottom rule. */
-  const [progress, setProgress] = useState(0)
-  const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null)
   const pathname = usePathname()
-  const shouldReduceMotion = useReducedMotion()
+  const [scrolled, setScrolled] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [openPanel, setOpenPanel] = useState<string | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const firstMenuItemRef = useRef<HTMLAnchorElement>(null)
-  const closeButtonRef = useRef<HTMLButtonElement>(null)
-  const navRef = useRef<HTMLElement>(null)
-  const ticking = useRef(false)
-  const menuCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const headerRef = useRef<HTMLElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const panelId = useId()
 
-  // Handle scroll effect - hide/show header based on scroll direction
-  useEffect(() => {
-    setMounted(true)
-
-    const handleScroll = () => {
-      if (!ticking.current) {
-        window.requestAnimationFrame(() => {
-          // The bar stays put — it used to translate off-screen on scroll-down,
-          // which fought sticky positioning and left a dead band behind. What
-          // changes with scroll is its density and its progress mark.
-          const y = window.scrollY
-          const scrollable = document.documentElement.scrollHeight - window.innerHeight
-          setScrolled(y > 10)
-          setProgress(scrollable > 0 ? Math.min(y / scrollable, 1) : 0)
-          ticking.current = false
-        })
-        ticking.current = true
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  // Handle body scroll lock when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden"
-      const mainContent = document.getElementById("main-content")
-      if (mainContent) {
-        mainContent.setAttribute("aria-hidden", "true")
-      }
-    } else {
-      document.body.style.overflow = ""
-      const mainContent = document.getElementById("main-content")
-      if (mainContent) {
-        mainContent.removeAttribute("aria-hidden")
-      }
-    }
-
-    return () => {
-      document.body.style.overflow = ""
-      const mainContent = document.getElementById("main-content")
-      if (mainContent) {
-        mainContent.removeAttribute("aria-hidden")
-      }
-    }
-  }, [mobileMenuOpen])
-
-  // Handle Escape key to close mobile menu
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (mobileMenuOpen) {
-          setMobileMenuOpen(false)
-        }
-        if (openMegaMenu) {
-          setOpenMegaMenu(null)
-        }
-      }
-    }
-
-    document.addEventListener("keydown", handleEscape)
-    return () => document.removeEventListener("keydown", handleEscape)
-  }, [mobileMenuOpen, openMegaMenu])
-
-  // Focus trap for mobile menu
-  useEffect(() => {
-    if (!mobileMenuOpen) return
-
-    const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return
-
-      const menuItems = mobileMenuRef.current?.querySelectorAll<HTMLElement>("a[href], button")
-      if (!menuItems || menuItems.length === 0) return
-
-      const firstItem = menuItems[0]
-      const lastItem = menuItems[menuItems.length - 1]
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstItem) {
-          e.preventDefault()
-          lastItem.focus()
-        }
-      } else {
-        if (document.activeElement === lastItem) {
-          e.preventDefault()
-          firstItem.focus()
-        }
-      }
-    }
-
-    document.addEventListener("keydown", handleTabKey)
-    return () => document.removeEventListener("keydown", handleTabKey)
-  }, [mobileMenuOpen])
-
-  // Focus first menu item when mobile menu opens
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      setTimeout(() => {
-        firstMenuItemRef.current?.focus()
-      }, 100)
-    }
-  }, [mobileMenuOpen])
-
-  const toggleMobileMenu = useCallback(() => {
-    setMobileMenuOpen((prev) => !prev)
-  }, [])
-
-  const closeMobileMenu = useCallback(() => {
-    setMobileMenuOpen(false)
-  }, [])
-
-  const handleMegaMenuToggle = useCallback((href: string) => {
-    setOpenMegaMenu((prev) => (prev === href ? null : href))
-  }, [])
-
-  const handleMegaMenuClose = useCallback(() => {
-    setOpenMegaMenu(null)
-  }, [])
-
-  // Check if pathname matches item or any child
-  const isItemActive = useCallback(
-    (item: NavItem): boolean => {
-      if (pathname === item.href) return true
-      if (item.children) {
-        return item.children.some(
-          (child) => pathname === child.href || pathname.startsWith(child.href),
-        )
-      }
-      return false
-    },
+  const isCurrent = useCallback(
+    (href: string) => pathname === href || (href !== "/" && pathname.startsWith(`${href}/`)),
     [pathname],
   )
 
-  if (!mounted)
-    return (
-      <header
-        className="sticky top-0 z-50 h-16 w-full border-b border-rule bg-ink"
-        role="banner"
-        aria-label="Cargando encabezado"
-      >
-        <div className="container flex h-16 items-center justify-between">
-          <div className="opacity-0" aria-hidden="true">
-            Loading...
-          </div>
-        </div>
-      </header>
-    )
+  // One scroll listener for both the density switch and the progress rule.
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? Math.min(1, y / total) : 0)
+    }
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Any navigation closes whatever is open.
+  useEffect(() => {
+    setOpenPanel(null)
+    setMobileOpen(false)
+  }, [pathname])
+
+  // Escape closes; a click outside the header closes; the body stops scrolling
+  // while the mobile sheet is up. Escape also puts focus back on the trigger —
+  // dismissing a disclosure and leaving focus on the document body strands a
+  // keyboard user at the top of the page.
+  useEffect(() => {
+    if (!openPanel && !mobileOpen) return
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return
+      if (openPanel) {
+        headerRef.current
+          ?.querySelector<HTMLButtonElement>(`[data-panel-trigger="${openPanel}"]`)
+          ?.focus()
+      }
+      setOpenPanel(null)
+      setMobileOpen(false)
+    }
+    const onPointerDown = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setOpenPanel(null)
+    }
+
+    document.addEventListener("keydown", onKey)
+    document.addEventListener("pointerdown", onPointerDown)
+    return () => {
+      document.removeEventListener("keydown", onKey)
+      document.removeEventListener("pointerdown", onPointerDown)
+    }
+  }, [openPanel, mobileOpen])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileOpen])
+  const panels = NAV.filter((entry) => entry.groups || entry.items)
 
   return (
     <>
       <header
-        data-scrolled={scrolled ? "true" : "false"}
-        className={`sticky top-0 z-50 w-full border-b transition-[background-color,border-color] duration-200 ${
-          scrolled
-            ? "border-rule-strong bg-ink/95 supports-[backdrop-filter]:bg-ink/85 supports-[backdrop-filter]:backdrop-blur-sm"
-            : "border-rule bg-ink"
-        }`}
+        ref={headerRef}
         role="banner"
-        itemScope
-        itemType="https://schema.org/WPHeader"
+        className="sticky top-0 z-50 border-b border-rule bg-ink/95 backdrop-blur-sm"
+        onMouseLeave={() => setOpenPanel(null)}
       >
-        {/* Reading progress: the ledger's travelling rule, reporting position
-            in the document rather than an indeterminate wait. */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-[-1px] block h-px origin-left bg-stamp transition-opacity duration-200"
-          style={{ transform: `scaleX(${progress})`, opacity: scrolled ? 1 : 0 }}
-        />
-        {/* Subtle glassmorphism overlay effect */}
-        <div
-          className={`relative z-10 container flex items-center justify-between gap-6 transition-[height] duration-200 ${
-            scrolled ? "h-14" : "h-20"
-          }`}
-        >
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+        <div className="container mx-auto px-4">
+          <div
+            className={`flex items-center justify-between transition-[height] duration-200 ${
+              scrolled ? "h-14" : "h-16 lg:h-20"
+            }`}
           >
-            <Logo showMark size={scrolled ? 26 : 30} />
-          </motion.div>
+            <Logo showMark size={scrolled ? 26 : 28} />
 
-          {/* Desktop Navigation */}
-          <nav
-            ref={navRef}
-            className="hidden items-center gap-1 lg:flex"
-            aria-label="Navegación principal"
-            itemScope
-            itemType="https://schema.org/SiteNavigationElement"
-          >
-            {navItems.map((item) => {
-              const isActive = isItemActive(item)
-              const hasChildren = item.children && item.children.length > 0
-              const isMegaMenuOpen = openMegaMenu === item.href
+            <nav aria-label="Navegación principal" className="hidden lg:block">
+              <ul className="flex items-center gap-1">
+                {NAV.map((entry) => {
+                  const current = isCurrent(entry.href)
+                  const open = openPanel === entry.href
+                  const expandable = Boolean(entry.groups || entry.items)
+                  const shared = `inline-flex min-h-[44px] items-center gap-2 px-3 font-sans text-[15px] transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp ${
+                    current || open ? "text-paper" : "text-paper-dim hover:text-paper"
+                  }`
 
-              return (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => {
-                    if (hasChildren) {
-                      if (menuCloseTimeoutRef.current) {
-                        clearTimeout(menuCloseTimeoutRef.current)
-                        menuCloseTimeoutRef.current = null
-                      }
-                      setOpenMegaMenu(item.href)
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (hasChildren) {
-                      menuCloseTimeoutRef.current = setTimeout(() => {
-                        setOpenMegaMenu(null)
-                      }, 150)
-                    }
-                  }}
-                >
-                  {hasChildren ? (
-                    <button
-                      type="button"
-                      onClick={() => handleMegaMenuToggle(item.href)}
-                      className={`group relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
-                        isActive
-                          ? "border-b-2 border-stamp text-paper"
-                          : "text-paper-dim hover:bg-rule/40 hover:text-paper"
-                      }`}
-                      aria-expanded={isMegaMenuOpen}
-                      aria-haspopup="true"
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown
-                        className={`h-3.5 w-3.5 transition-transform duration-300 ${
-                          isMegaMenuOpen ? "rotate-180" : ""
-                        }`}
-                        aria-hidden="true"
-                      />
-                    </button>
-                  ) : (
-                    <NavLink item={item} isActive={isActive} />
-                  )}
-                  {hasChildren && (
-                    <MegaMenu
-                      item={item}
-                      isOpen={isMegaMenuOpen}
-                      onClose={handleMegaMenuClose}
-                      onKeepOpen={() => setOpenMegaMenu(item.href)}
-                    />
-                  )}
-                </div>
-              )
-            })}
-          </nav>
+                  return (
+                    <li key={entry.href} className="relative">
+                      {expandable ? (
+                        <button
+                          type="button"
+                          data-panel-trigger={entry.href}
+                          aria-expanded={open}
+                          aria-controls={`${panelId}-${entry.href}`}
+                          onClick={() => setOpenPanel(open ? null : entry.href)}
+                          onMouseEnter={() => setOpenPanel(entry.href)}
+                          className={`${shared} cursor-pointer`}
+                        >
+                          <CurrentMark on={current} />
+                          {entry.label}
+                          <ChevronDown
+                            className={`h-3.5 w-3.5 text-paper-faint transition-transform ${open ? "rotate-180" : ""}`}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      ) : (
+                        <Link
+                          href={entry.href}
+                          aria-current={current ? "page" : undefined}
+                          onClick={() => trackNavigation(entry.label, entry.href, "header")}
+                          className={shared}
+                        >
+                          <CurrentMark on={current} />
+                          {entry.label}
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-2">
-            {/* Desktop CTA */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: shouldReduceMotion ? 0 : 0.3,
-                delay: 0.1,
-              }}
-              className="hidden lg:block"
-            >
-              <Button
-                variant="outline"
-                size="sm"
-                className="group relative border-b-2 border-stamp text-paper transition-all duration-200 hover:border-stamp"
-                asChild
+            <div className="flex items-center gap-1">
+              <CalPopupButton
+                source="header"
+                aria-label="Agendar una asesoría"
+                className="cta hidden lg:inline-flex"
               >
-                <CalPopupButton source="header-desktop" aria-label="Agendar una asesoría">
-                  <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
-                  <span className="relative z-10">Agéndame</span>
-                </CalPopupButton>
-              </Button>
-            </motion.div>
+                Agéndame
+                <CalendarDays className="h-4 w-4" aria-hidden="true" />
+              </CalPopupButton>
 
-            {/* Mobile CTA */}
-            <div className="lg:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-paper transition-colors hover:bg-rule/50"
-                asChild
+              {/*
+                On a phone the primary action moves into the drawer, where it
+                sits within thumb reach at the bottom. A second button up here
+                competes with the menu for the same corner and gets neither.
+              */}
+              <button
+                ref={menuButtonRef}
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                aria-expanded={mobileOpen}
+                aria-controls={`${panelId}-mobile`}
+                aria-label="Abrir menú"
+                className="inline-flex h-12 w-12 cursor-pointer items-center justify-center text-paper-dim transition-colors hover:text-paper focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp lg:hidden"
               >
-                <CalPopupButton source="header-mobile-icon" aria-label="Agendar una asesoría">
-                  <Calendar className="h-5 w-5" aria-hidden="true" />
-                </CalPopupButton>
-              </Button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleMobileMenu}
-                aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-                aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-menu"
-                className="text-paper transition-colors hover:bg-rule/50"
-              >
-                <motion.div
-                  animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
-                  transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-                >
-                  {mobileMenuOpen ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M18 6 6 18"></path>
-                      <path d="m6 6 12 12"></path>
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <line x1="4" x2="20" y1="12" y2="12"></line>
-                      <line x1="4" x2="20" y1="6" y2="6"></line>
-                      <line x1="4" x2="20" y1="18" y2="18"></line>
-                    </svg>
-                  )}
-                </motion.div>
-              </Button>
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              </button>
             </div>
           </div>
         </div>
+
+        {panels.map((entry) => (
+          <div
+            key={entry.href}
+            id={`${panelId}-${entry.href}`}
+            hidden={openPanel !== entry.href}
+            className="absolute inset-x-0 top-full hidden border-b border-rule-strong bg-ink shadow-[0_24px_48px_-16px_rgba(0,0,0,0.95)] lg:block"
+          >
+            <div
+              className={`container mx-auto grid gap-x-12 gap-y-8 px-4 py-8 ${
+                entry.aside ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]" : ""
+              }`}
+            >
+              {entry.groups ? (
+                <div
+                  className="grid gap-x-10 gap-y-8"
+                  style={{
+                    // A fixed measure, not 1fr: two groups stretched across the
+                    // full bar put 700px between the first and the second.
+                    gridTemplateColumns: `repeat(${entry.groups.length}, minmax(0, 18rem))`,
+                  }}
+                >
+                  {entry.groups.map((group) => (
+                    <div key={group.title}>
+                      <PanelHead>{group.title}</PanelHead>
+                      <ul>
+                        {group.items.map((item) => (
+                          <li key={item.href} className="border-b border-rule">
+                            <PanelLink item={item} onNavigate={() => setOpenPanel(null)} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <PanelHead>{entry.itemsLabel}</PanelHead>
+                  <ul
+                    className="grid gap-x-10"
+                    style={{
+                      gridTemplateColumns: `repeat(${Math.min(entry.items?.length ?? 1, 3)}, minmax(0, 18rem))`,
+                    }}
+                  >
+                    {entry.items?.map((item) => (
+                      <li key={item.href} className="border-b border-rule">
+                        <PanelLink item={item} onNavigate={() => setOpenPanel(null)} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* The aside carries the same head as the groups — label, then
+                  rule — so all four columns share one horizontal line instead
+                  of it starting 18px above the rest. */}
+              {entry.aside ? (
+                <aside>
+                  <PanelHead>{entry.aside.label}</PanelHead>
+                  <p className="mt-4 font-sans text-lg leading-tight tracking-[-0.02em] text-paper">
+                    {entry.aside.title}
+                  </p>
+                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-paper-faint">
+                    {entry.aside.body}
+                  </p>
+                  <Link
+                    href={entry.aside.href}
+                    onClick={() => setOpenPanel(null)}
+                    className="cta-quiet mt-3"
+                  >
+                    {entry.aside.cta}
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Link>
+                </aside>
+              ) : null}
+            </div>
+          </div>
+        ))}
+
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px origin-left bg-stamp transition-transform duration-100"
+          style={{ transform: `scaleX(${progress})` }}
+        />
       </header>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-            className="fixed inset-0 z-50 bg-ink/95 lg:hidden"
-            onClick={closeMobileMenu}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menú de navegación móvil"
-          >
-            <motion.div
-              ref={mobileMenuRef}
-              id="mobile-menu"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{
-                type: "spring",
-                damping: 30,
-                stiffness: 300,
-                duration: shouldReduceMotion ? 0 : undefined,
-              }}
-              className="fixed top-0 right-0 flex h-full w-full max-w-sm flex-col overflow-hidden border-l border-rule-strong bg-ink"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Enhanced glassmorphism overlay for mobile menu */}
-
-              {/* Mobile Header */}
-              <div className="relative z-10 flex items-center justify-between border-b border-rule p-4">
-                <Logo showMark markOnly={false} />
-                <Button
-                  ref={closeButtonRef}
-                  variant="ghost"
-                  size="icon"
-                  onClick={closeMobileMenu}
-                  aria-label="Cerrar menú"
-                  className="text-paper hover:bg-rule/50"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                  </svg>
-                </Button>
-              </div>
-
-              {/* Mobile Navigation */}
-              <div className="relative z-10 flex-1 overflow-y-auto px-4 py-6">
-                <nav className="space-y-1" aria-label="Navegación móvil">
-                  {navItems.map((item, index) => {
-                    const isActive = isItemActive(item)
-                    const hasChildren = item.children && item.children.length > 0
-                    const isExpanded = openMegaMenu === item.href
-                    const isFirstItem = index === 0
-
-                    return (
-                      <div key={item.href}>
-                        <Link
-                          ref={isFirstItem ? firstMenuItemRef : undefined}
-                          href={item.href}
-                          className={`group relative flex items-center justify-between px-4 py-3 transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
-                            isActive
-                              ? "border-b-2 border-stamp text-paper"
-                              : "text-paper-dim hover:bg-rule/40 hover:text-paper"
-                          }`}
-                          onClick={
-                            hasChildren
-                              ? (e) => {
-                                  e.preventDefault()
-                                  handleMegaMenuToggle(item.href)
-                                }
-                              : () => {
-                                  trackNavigation(item.label, item.href, "header")
-                                  closeMobileMenu()
-                                }
-                          }
-                          aria-current={isActive ? "page" : undefined}
-                        >
-                          <div className="flex items-center gap-3">
-                            {item.icon && (
-                              <item.icon
-                                className="h-5 w-5 transition-transform duration-300 group-hover:scale-110"
-                                aria-hidden="true"
-                              />
-                            )}
-                            <span className="font-medium">{item.label}</span>
-                          </div>
-                          {hasChildren && (
-                            <ChevronDown
-                              className={`h-4 w-4 transition-transform duration-300 ${
-                                isExpanded ? "rotate-180" : ""
-                              }`}
-                              aria-hidden="true"
-                            />
-                          )}
-                        </Link>
-                        {hasChildren && (
-                          <AnimatePresence>
-                            {isExpanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{
-                                  duration: shouldReduceMotion ? 0 : 0.2,
-                                }}
-                                className="overflow-hidden"
-                              >
-                                <div className="space-y-1 py-2 pl-12">
-                                  {item.children?.map((child) => (
-                                    <Link
-                                      key={child.href}
-                                      href={child.href}
-                                      onClick={() => {
-                                        trackNavigation(child.label, child.href, "header")
-                                        closeMobileMenu()
-                                      }}
-                                      className="group/item flex items-center gap-3 px-4 py-3 text-sm transition-all duration-300 ease-out hover:bg-rule/40"
-                                    >
-                                      {child.icon && (
-                                        <div className="shrink-0">
-                                          <child.icon className="h-5 w-5 text-paper-dim transition-colors duration-300 group-hover/item:text-stamp-text" />
-                                        </div>
-                                      )}
-                                      <div className="min-w-0 flex-1">
-                                        <div className="font-medium text-paper transition-colors duration-300 group-hover/item:text-stamp-text">
-                                          {child.label}
-                                        </div>
-                                        {child.description && (
-                                          <div className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-paper-faint transition-colors duration-300 group-hover/item:text-paper-dim">
-                                            {child.description}
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover/item:opacity-100">
-                                        <ChevronDown className="h-4 w-4 rotate-[-90deg] text-stamp-text" />
-                                      </div>
-                                    </Link>
-                                  ))}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        )}
-                      </div>
-                    )
-                  })}
-                </nav>
-              </div>
-
-              {/* Mobile Footer */}
-              <div className="relative z-10 border-t border-rule p-4">
-                <Button
-                  className="group/btn relative w-full border border-stamp bg-transparent py-3 font-mono text-xs tracking-[0.08em] text-paper uppercase transition-colors duration-200 hover:bg-stamp hover:text-ink"
-                  asChild
-                >
-                  <CalPopupButton
-                    source="mobile-menu-footer"
-                    aria-label="Agendar una asesoría"
-                    className="inline-flex w-full items-center justify-center"
-                  >
-                    <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
-                    <span className="relative z-10">Agéndame</span>
-                  </CalPopupButton>
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <MobileDrawer
+        id={`${panelId}-mobile`}
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        isCurrent={isCurrent}
+        returnFocusTo={menuButtonRef}
+      />
     </>
+  )
+}
+
+/** One child row in the drawer — a plain 46px target, no description. */
+function DrawerChild({ item, onClose }: { item: NavChild; onClose: () => void }) {
+  const external = item.href.startsWith("http")
+  return (
+    <li>
+      <Link
+        href={item.href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        onClick={onClose}
+        className="flex min-h-[46px] items-center font-sans text-base text-paper-dim transition-colors active:text-paper"
+      >
+        {item.label}
+      </Link>
+    </li>
+  )
+}
+
+/** Column head: the mono label plus the rule every panel column shares. */
+function PanelHead({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="border-b border-rule-strong pb-2 font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+      {children}
+    </p>
+  )
+}
+
+/** One destination: what it is, then what you get there. */
+function PanelLink({ item, onNavigate }: { item: NavChild; onNavigate: () => void }) {
+  const external = item.href.startsWith("http")
+  return (
+    <Link
+      href={item.href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      onClick={() => {
+        trackNavigation(item.label, item.href, "header")
+        onNavigate()
+      }}
+      className="group flex flex-col gap-1 py-3"
+    >
+      <span className="font-sans text-[15px] leading-tight text-paper transition-colors group-hover:text-stamp-text">
+        {item.label}
+      </span>
+      <span className="max-w-[38ch] font-sans text-[13px] leading-snug text-paper-faint">
+        {item.description}
+      </span>
+    </Link>
+  )
+}
+
+/**
+ * The current-page mark.
+ *
+ * An underline was the wrong signal: `.cta` already owns a rule under a label
+ * as "this is an action", so the same shape under a nav item said the wrong
+ * thing twice. A filled stamp square before the label is how a register marks
+ * the row you are on, and it costs no vertical space in a bar that changes
+ * height on scroll. The slot is always rendered so nothing shifts when the
+ * current section changes.
+ */
+function CurrentMark({ on }: { on: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-block h-1.5 w-1.5 shrink-0 transition-colors ${
+        on ? "bg-stamp" : "bg-transparent"
+      }`}
+    />
+  )
+}
+
+/**
+ * The phone drawer.
+ *
+ * Built for the thumb, not scaled down from the desktop menu. It opens over the
+ * page rather than pushing it, and the two things a visitor most often wants —
+ * book, or write — are pinned at the bottom where the thumb already rests.
+ *
+ * The tree is an accordion with one section open at a time, and it opens on the
+ * section you are already in. Rendering the whole tree expanded was the first
+ * attempt: it put four top-level destinations and twelve children in one column
+ * that ran 1900px, so "Contacto" — the shortest path to the point of the site —
+ * sat three screens below the fold. One section at a time keeps every top-level
+ * choice in the first viewport, and the row splits the two intents: the label is
+ * a link to the section, the control beside it only expands.
+ */
+function MobileDrawer({
+  id,
+  open,
+  onClose,
+  isCurrent,
+  returnFocusTo,
+}: {
+  id: string
+  open: boolean
+  onClose: () => void
+  isCurrent: (href: string) => boolean
+  returnFocusTo: React.RefObject<HTMLButtonElement | null>
+}) {
+  const expandable = NAV.filter((entry) => entry.groups || entry.items)
+  const [expanded, setExpanded] = useState<string | null>(
+    () => expandable.find((entry) => isCurrent(entry.href))?.href ?? null,
+  )
+
+  const sheetRef = useRef<HTMLDivElement>(null)
+  const closeRef = useRef<HTMLButtonElement>(null)
+
+  // The header outlives client navigations, so the section chosen at mount goes
+  // stale. Re-derive it each time the drawer opens.
+  useEffect(() => {
+    if (open) setExpanded(expandable.find((entry) => isCurrent(entry.href))?.href ?? null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
+
+  /*
+    `aria-modal` is a promise about focus, not just a label: while the sheet is
+    up, Tab must stay inside it, and dismissing it must hand focus back to the
+    control that opened it. Without this the next Tab after opening lands on the
+    page behind the overlay, which a screen reader user cannot see is covered.
+  */
+  useEffect(() => {
+    if (!open) return
+    const opener = returnFocusTo.current
+    closeRef.current?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !sheetRef.current) return
+      const focusable = sheetRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      const list = [...focusable].filter((el) => el.offsetParent !== null)
+      if (!list.length) return
+
+      const first = list[0]
+      const last = list[list.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown)
+    return () => {
+      document.removeEventListener("keydown", onKeyDown)
+      opener?.focus()
+    }
+  }, [open, returnFocusTo])
+
+  if (!open) return null
+
+  return (
+    <div className="fixed inset-0 z-[60] lg:hidden">
+      <button
+        type="button"
+        aria-label="Cerrar menú"
+        onClick={onClose}
+        className="absolute inset-0 cursor-default bg-ink/80 backdrop-blur-sm"
+      />
+
+      <div
+        ref={sheetRef}
+        id={id}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú"
+        className="absolute inset-x-0 top-0 flex max-h-full flex-col border-b border-rule-strong bg-ink"
+      >
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-rule px-4">
+          <Logo showMark size={26} />
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Cerrar menú"
+            className="inline-flex h-12 w-12 cursor-pointer items-center justify-center text-paper-faint transition-colors hover:text-stamp-text focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+
+        <nav aria-label="Navegación principal" className="min-h-0 flex-1 overflow-y-auto px-4">
+          <ul>
+            {NAV.map((entry) => {
+              const current = isCurrent(entry.href)
+              const hasChildren = Boolean(entry.groups || entry.items)
+              const isOpen = expanded === entry.href
+              const sectionId = `${id}-${entry.href}`
+
+              return (
+                <li key={entry.href} className="border-b border-rule">
+                  <div className="flex items-stretch">
+                    <Link
+                      href={entry.href}
+                      aria-current={current ? "page" : undefined}
+                      onClick={onClose}
+                      className="flex min-h-[60px] flex-1 items-center gap-2.5"
+                    >
+                      <CurrentMark on={current} />
+                      <span
+                        className={`font-sans text-xl tracking-[-0.02em] ${
+                          current ? "text-paper" : "text-paper-dim"
+                        }`}
+                      >
+                        {entry.label}
+                      </span>
+                    </Link>
+
+                    {hasChildren ? (
+                      <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={sectionId}
+                        aria-label={`${isOpen ? "Contraer" : "Desplegar"} ${entry.label}`}
+                        onClick={() => setExpanded(isOpen ? null : entry.href)}
+                        className="-mr-3 inline-flex w-12 shrink-0 cursor-pointer items-center justify-center text-paper-faint transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp"
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-200 ${
+                            isOpen ? "rotate-180 text-paper" : ""
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {/* Children indent to the parent label's text edge — the mark
+                      and its gap measure 16px, so they line up under the word
+                      rather than to the left of it. */}
+                  {hasChildren ? (
+                    <div id={sectionId} hidden={!isOpen} className="pb-3 pl-4">
+                      {entry.groups ? (
+                        entry.groups.map((group) => (
+                          <div
+                            key={group.title}
+                            className="border-t border-rule pt-2 first:border-t-0"
+                          >
+                            <p className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                              {group.title}
+                            </p>
+                            <ul>
+                              {group.items.map((item) => (
+                                <DrawerChild key={item.href} item={item} onClose={onClose} />
+                              ))}
+                            </ul>
+                          </div>
+                        ))
+                      ) : (
+                        <ul>
+                          {entry.items?.map((item) => (
+                            <DrawerChild key={item.href} item={item} onClose={onClose} />
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ) : null}
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+
+        <div className="shrink-0 border-t-2 border-rule-strong px-4 py-4">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            <CalPopupButton source="header" aria-label="Agendar una asesoría" className="cta">
+              Agendar una asesoría
+              <CalendarDays className="h-4 w-4" aria-hidden="true" />
+            </CalPopupButton>
+            <Link href="/contacto" onClick={onClose} className="cta-quiet">
+              Escribirme
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <div className="mt-3 border-t border-rule pt-1">
+            <SocialRow variant="marks" className="-ml-3" />
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,156 +1,249 @@
 "use client"
 
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  Clock,
-  Globe,
-  MessageSquare,
-  Eye,
-  Briefcase,
-  CreditCard,
-  CalendarClock,
-  Wallet,
-} from "lucide-react"
-import { motion, type Variants } from "@/lib/motion"
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { ArrowRight, ArrowUpRight, CalendarDays, Check, Send } from "lucide-react"
+import { toast } from "sonner"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { PageHero } from "@/components/page-hero"
-import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
+import { AnimatedSection } from "@/components/animated-section"
+import { Section } from "@/components/ui/section"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import { EMPTY_PHONE, PhoneField, type PhoneValue } from "@/components/ui/phone-field"
+import { ConsentCheck } from "@/components/ui/consent-check"
+import { Turnstile, isTurnstileEnabled } from "@/components/turnstile"
+import { CalPopupButton } from "@/components/cal-booking"
+import { contactFaq } from "@/lib/data/contact-faq"
+import { buildContactWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp"
 import {
+  trackButtonClick,
+  trackFormFieldInteraction,
   trackFormStart,
   trackFormSubmit,
-  trackFormFieldInteraction,
-  trackButtonClick,
 } from "@/lib/analytics"
-import { buildWhatsAppUrl, buildContactWhatsAppMessage } from "@/lib/whatsapp"
-import { contactFaq, type ContactFaqIcon } from "@/lib/data/contact-faq"
-import { toast } from "sonner"
 
-/** Maps each FAQ item's icon key to its lucide component. */
-const FAQ_ICONS: Record<ContactFaqIcon, typeof Globe> = {
-  services: Briefcase,
-  payments: CreditCard,
-  schedule: CalendarClock,
-  remote: Globe,
-  pricing: Wallet,
-  timeline: Clock,
-}
+/* -------------------------------------------------------------------------- */
+/*  Contact details, obfuscated at rest                                       */
+/* -------------------------------------------------------------------------- */
 
+/**
+ * The address and the number are not in the markup in readable form. They are
+ * encoded here and decoded only when the visitor asks, which keeps them out of
+ * the reach of the scrapers that harvest `mailto:` and `tel:` from static HTML.
+ * It is not security — anyone determined can read the bundle — it is the same
+ * reason a printed form does not list a direct line in the footer.
+ *
+ * Worth knowing before trusting it too far: the site-wide `Organization`
+ * JSON-LD in `json-ld.tsx` publishes both values in plain text on every page,
+ * deliberately, because that is what makes them eligible for rich results. So
+ * this encoding raises the cost for a naive scraper and nothing more.
+ */
 const obfuscateEmail = (email: string): string => btoa(email).split("").reverse().join("")
-
-const deobfuscateEmail = (obfuscated: string): string =>
-  atob(obfuscated.split("").reverse().join(""))
+const deobfuscateEmail = (o: string): string => atob(o.split("").reverse().join(""))
 
 const obfuscatePhone = (phone: string): string =>
   phone
     .split("")
-    .map((char, index) => (index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) + 1)))
+    .map((c, i) => (i % 2 === 0 ? c : String.fromCharCode(c.charCodeAt(0) + 1)))
     .join("")
-
-const deobfuscatePhone = (obfuscated: string): string =>
-  obfuscated
+const deobfuscatePhone = (o: string): string =>
+  o
     .split("")
-    .map((char, index) => (index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) - 1)))
+    .map((c, i) => (i % 2 === 0 ? c : String.fromCharCode(c.charCodeAt(0) - 1)))
     .join("")
 
-const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
+const OBFUSCATED_EMAIL = obfuscateEmail("m@carrillo.app")
+const OBFUSCATED_PHONE = obfuscatePhone("+57 (300) 332 8389")
+
+/** The particulars of the channel, stated before the form asks for anything. */
+const PARTICULARS = [
+  { term: "Respuesta", value: "< 24 h hábiles" },
+  { term: "Base", value: "Medellín, CO" },
+  { term: "Horario", value: "Lun–Vie · 9:00–18:00" },
+  { term: "Idiomas", value: "Español · Inglés" },
+]
+
+/** Simple client-side throttle: three attempts a minute. */
+const useRateLimit = (limit = 3, windowMs = 60_000) => {
   const [attempts, setAttempts] = useState<number[]>([])
 
-  const isLimited = useCallback(() => {
-    const now = Date.now()
-    return attempts.filter((time) => now - time < windowMs).length >= limit
-  }, [attempts, limit, windowMs])
-
-  const recordAttempt = useCallback(() => {
-    const now = Date.now()
-    setAttempts((prev) => [...prev.filter((time) => now - time < windowMs), now])
-  }, [windowMs])
+  const isLimited = useCallback(
+    () => attempts.filter((t) => Date.now() - t < windowMs).length >= limit,
+    [attempts, limit, windowMs],
+  )
+  const recordAttempt = useCallback(
+    () => setAttempts((prev) => [...prev.filter((t) => Date.now() - t < windowMs), Date.now()]),
+    [windowMs],
+  )
 
   return { isLimited: isLimited(), recordAttempt }
 }
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
+/* -------------------------------------------------------------------------- */
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-}
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
-  hover: {
-    y: -8,
-    transition: { duration: 0.3, ease: "easeOut" },
-  },
-}
-
+/**
+ * The contact page as a form on a ruled sheet.
+ *
+ * The previous one was the old world entire: an emerald pill badge over a
+ * gradient title, two glass cards with blue-to-purple washes, and inputs that
+ * lifted on hover. Underneath, the behaviour was and remains the same — the
+ * form composes a WhatsApp message rather than posting to a backend, because
+ * there is no backend. The one thing that changes besides the surface is that
+ * the page now says so: the submit used to read "Enviar mensaje" and then
+ * opened WhatsApp, which is not what that label promises.
+ */
 export default function ContactPage() {
-  const [emailRevealed, setEmailRevealed] = useState(false)
-  const [phoneRevealed, setPhoneRevealed] = useState(false)
-  const [termsAccepted, setTermsAccepted] = useState(false)
-  const [formData, setFormData] = useState({
+  return (
+    <div className="relative min-h-screen text-paper">
+      <DynamicBackground />
+      <SiteHeader />
+
+      <main id="main-content" role="main" className="relative z-10">
+        <OpeningEntry />
+        <ContactForm />
+        <Questions />
+      </main>
+
+      <SiteFooter />
+    </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+function OpeningEntry() {
+  return (
+    <AnimatedSection
+      className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+      role="region"
+      aria-labelledby="contact-heading"
+    >
+      <div className="container mx-auto px-4">
+        <h1
+          id="contact-heading"
+          className="max-w-[16ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
+        >
+          Conversemos sobre tu proyecto
+        </h1>
+
+        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+            <p>
+              Cuéntame qué estás construyendo y dónde se está atascando. Cuanto más concreto sea el
+              problema —el volumen que manejas, qué se rompe, qué fecha tienes encima— más útil será
+              la primera respuesta.
+            </p>
+            <p>
+              Si prefieres hablarlo directamente,{" "}
+              <Link
+                href="/agendamiento"
+                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+              >
+                agenda una hora
+              </Link>{" "}
+              y lo revisamos en vivo. Y si aún estás mirando qué necesitas, el{" "}
+              <Link
+                href="/servicios"
+                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+              >
+                catálogo de servicios
+              </Link>{" "}
+              lo detalla frente por frente.
+            </p>
+          </div>
+
+          <dl className="self-start border-y border-rule">
+            {PARTICULARS.map(({ term, value }) => (
+              <div
+                key={term}
+                className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
+              >
+                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                  {term}
+                </dt>
+                <dd className="text-right font-sans text-base text-paper">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+          <CalPopupButton source="contact-hero" aria-label="Agendar una asesoría" className="cta">
+            Agendar una asesoría
+            <CalendarDays className="h-4 w-4" aria-hidden="true" />
+          </CalPopupButton>
+
+          <Link href="/servicios" className="cta-quiet">
+            Ver servicios
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </AnimatedSection>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+const FIELD_LABEL = "font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase"
+
+function ContactForm() {
+  const [data, setData] = useState({
     name: "",
     email: "",
-    whatsapp: "",
     company: "",
     subject: "",
     message: "",
     honeypot: "",
   })
-
-  const { isLimited, recordAttempt } = useRateLimit(3, 60000)
+  const [phone, setPhone] = useState<PhoneValue>(EMPTY_PHONE)
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  // Opted in by default, and trivially opted out: someone writing to ask about
+  // a project is the reader the newsletter is for. Terms stay unchecked — that
+  // one has to be an actual decision.
+  const [subscribe, setSubscribe] = useState(true)
+  const [captchaToken, setCaptchaToken] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [lastSubmission, setLastSubmission] = useState<number>(0)
-  const formRef = useRef<HTMLFormElement>(null)
-  const startTime = useRef<number>(0)
-
-  const obfuscatedEmail = obfuscateEmail("m@carrillo.app")
-  const obfuscatedPhone = obfuscatePhone("+57 (300) 332 8389")
+  const [lastSubmission, setLastSubmission] = useState(0)
+  const { isLimited, recordAttempt } = useRateLimit()
+  const startTime = useRef(0)
 
   useEffect(() => {
     startTime.current = Date.now()
     trackFormStart("contact_form")
   }, [])
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-    if (value && !formData[field as keyof typeof formData]) {
-      trackFormFieldInteraction("contact_form", field)
-    }
+  const setField = (field: keyof typeof data, value: string) => {
+    setData((prev) => ({ ...prev, [field]: value }))
+    if (value && !data[field]) trackFormFieldInteraction("contact_form", field)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (formData.honeypot) return
+    // Honeypot, minimum dwell and throttle: three cheap filters that stop the
+    // bulk of automated submissions without asking a person to prove anything.
+    if (data.honeypot) return
     if (!termsAccepted) return
+    if (Date.now() - startTime.current < 1000) return
+
+    if (isTurnstileEnabled() && !captchaToken) {
+      toast.error("Falta la verificación", {
+        description: "Completa el desafío para continuar.",
+      })
+      return
+    }
+
+    if (!phone.isValid) {
+      toast.error("Revisa el número", {
+        description: "Elige el país y escribe un número válido para WhatsApp.",
+      })
+      return
+    }
 
     if (isLimited) {
       toast.error("Demasiados intentos", {
@@ -158,13 +251,8 @@ export default function ContactPage() {
       })
       return
     }
-
-    if (Date.now() - startTime.current < 1000) return
-
     if (Date.now() - lastSubmission < 5000) {
-      toast.warning("Espera un momento", {
-        description: "Por favor, espera antes de enviar otro mensaje.",
-      })
+      toast.warning("Espera un momento", { description: "Aún estoy procesando el anterior." })
       return
     }
 
@@ -173,560 +261,481 @@ export default function ContactPage() {
     setLastSubmission(Date.now())
 
     try {
-      const whatsappUrl = buildWhatsAppUrl(
-        buildContactWhatsAppMessage({
-          name: formData.name,
-          email: formData.email,
-          whatsapp: formData.whatsapp,
-          company: formData.company,
-          subject: formData.subject,
-          message: formData.message,
-        }),
+      window.open(
+        // E.164 travels, not what was typed: the message is read by a person on
+        // the other side who may be in another country.
+        buildWhatsAppUrl(
+          buildContactWhatsAppMessage({
+            ...data,
+            whatsapp: phone.e164,
+            // Stated in the message so the intent is on the record, not only in
+            // a checkbox nobody can see once the form is gone.
+            subject: subscribe ? `${data.subject} · Quiere suscribirse al boletín` : data.subject,
+          }),
+        ),
+        "_blank",
+        "noopener,noreferrer",
       )
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer")
       trackFormSubmit("contact_form", true)
-      setFormData({
+      setData({
         name: "",
         email: "",
-        whatsapp: "",
         company: "",
         subject: "",
         message: "",
         honeypot: "",
       })
+      setPhone(EMPTY_PHONE)
       setTermsAccepted(false)
+      setSubscribe(false)
       toast.success("Abriendo WhatsApp…", {
-        description: "Te llevo a la conversación con tu mensaje ya listo.",
+        description: "Tu mensaje va redactado; solo tienes que enviarlo.",
       })
     } catch (error) {
-      console.error("Error sending message:", error)
       trackFormSubmit(
         "contact_form",
         false,
         error instanceof Error ? error.message : "Unknown error",
       )
-      toast.error("Error al enviar el mensaje", {
-        description: "Por favor, inténtalo nuevamente en un momento.",
+      toast.error("No se pudo abrir WhatsApp", {
+        description: "Escríbeme directamente a m@carrillo.app.",
       })
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const revealEmail = () => {
-    setEmailRevealed(true)
-    trackButtonClick("Reveal Email", "contact_page", { action: "reveal_contact_info" })
-  }
+  return (
+    <Section
+      spacing="compact"
+      header={{
+        columnLabel: "Formulario",
+        title: "Escríbeme",
+        description:
+          "No hay servidor detrás de este formulario: al enviarlo se abre WhatsApp con el mensaje ya redactado, y tú decides si lo mandas. Nada se guarda aquí.",
+        headingId: "form-heading",
+      }}
+    >
+      {/*
+        Two columns. The form used to run to a 52rem measure and leave the rest
+        of the sheet empty, which read as an unfinished page — and the direct
+        lines sat in a section of their own further down, where someone who
+        just wanted the address had to scroll past the whole form to find it.
+        Now they are beside each other: write, or take the line.
+      */}
+      <div className="grid gap-x-14 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+        <form onSubmit={handleSubmit} noValidate>
+          {/* Bots fill anything with a name field. People never see this one. */}
+          <input
+            type="text"
+            name="website"
+            value={data.honeypot}
+            onChange={(e) => setField("honeypot", e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="pointer-events-none absolute h-px w-px opacity-0"
+          />
 
-  const revealPhone = () => {
-    setPhoneRevealed(true)
-  }
+          <div className="grid gap-x-10 gap-y-6 border-t border-rule-strong pt-6 md:grid-cols-2">
+            <Field id="name" label="Nombre completo" required>
+              <Input
+                id="name"
+                value={data.name}
+                onChange={(e) => setField("name", e.target.value)}
+                placeholder="Tu nombre"
+                autoComplete="name"
+                required
+                disabled={isSubmitting}
+              />
+            </Field>
+
+            <Field id="email" label="Correo electrónico" required>
+              <Input
+                id="email"
+                type="email"
+                inputMode="email"
+                value={data.email}
+                onChange={(e) => setField("email", e.target.value)}
+                placeholder="tu@correo.com"
+                autoComplete="email"
+                spellCheck={false}
+                required
+                disabled={isSubmitting}
+              />
+            </Field>
+
+            <Field id="whatsapp" label="WhatsApp" required>
+              <PhoneField
+                id="whatsapp"
+                value={phone}
+                onChange={setPhone}
+                required
+                disabled={isSubmitting}
+              />
+            </Field>
+
+            <Field id="company" label="Empresa" hint="Opcional">
+              <Input
+                id="company"
+                value={data.company}
+                onChange={(e) => setField("company", e.target.value)}
+                placeholder="¿Dónde trabajas?"
+                autoComplete="organization"
+                disabled={isSubmitting}
+              />
+            </Field>
+
+            <div className="md:col-span-2">
+              <Field id="subject" label="Asunto" required>
+                <Input
+                  id="subject"
+                  value={data.subject}
+                  onChange={(e) => setField("subject", e.target.value)}
+                  placeholder="¿En qué puedo ayudarte?"
+                  required
+                  disabled={isSubmitting}
+                />
+              </Field>
+            </div>
+
+            <div className="md:col-span-2">
+              <Field
+                id="message"
+                label="Mensaje"
+                required
+                hint="Qué construyes, qué volumen manejas, qué se rompe"
+              >
+                <Textarea
+                  id="message"
+                  rows={6}
+                  value={data.message}
+                  onChange={(e) => setField("message", e.target.value)}
+                  placeholder="Cuéntame el problema concreto…"
+                  required
+                  disabled={isSubmitting}
+                />
+              </Field>
+            </div>
+          </div>
+
+          {isLimited && (
+            <p role="alert" className="mt-6 font-mono text-xs text-stamp-text">
+              Has alcanzado el límite de envíos. Espera un momento antes de intentarlo de nuevo.
+            </p>
+          )}
+
+          <div className="mt-8 border-t border-rule-strong pt-2">
+            <ConsentCheck
+              id="terms"
+              checked={termsAccepted}
+              onChange={setTermsAccepted}
+              disabled={isSubmitting}
+              required
+              note="Sin esto no puedo procesar el mensaje."
+            >
+              Acepto los{" "}
+              <Link
+                href="/terminos"
+                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+              >
+                términos y condiciones
+              </Link>{" "}
+              y la{" "}
+              <Link
+                href="/privacidad"
+                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+              >
+                política de privacidad
+              </Link>
+            </ConsentCheck>
+
+            <ConsentCheck
+              id="subscribe"
+              checked={subscribe}
+              onChange={setSubscribe}
+              disabled={isSubmitting}
+              note="Escribo sobre pagos, conciliación y arquitectura. Un correo cada tanto, y te das de baja en un clic."
+            >
+              Quiero suscribirme al boletín
+            </ConsentCheck>
+          </div>
+
+          {/* Renders only once NEXT_PUBLIC_TURNSTILE_SITE_KEY exists. */}
+          <Turnstile onVerify={setCaptchaToken} className="mt-6" />
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+            <button
+              type="submit"
+              className="cta"
+              disabled={isSubmitting || isLimited || !termsAccepted || !phone.isValid}
+            >
+              {isSubmitting ? "Abriendo WhatsApp…" : "Enviar por WhatsApp"}
+              <Send className="h-4 w-4" aria-hidden="true" />
+            </button>
+
+            <CalPopupButton
+              source="contact-form"
+              aria-label="Agendar una asesoría"
+              className="cta-quiet"
+            >
+              Prefiero agendar una hora
+              <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+            </CalPopupButton>
+          </div>
+        </form>
+
+        <DirectChannels />
+      </div>
+    </Section>
+  )
+}
+
+/** One ruled field: mono term, optional hint, then the control. */
+function Field({
+  id,
+  label,
+  hint,
+  required = false,
+  children,
+}: {
+  id: string
+  label: string
+  hint?: string
+  required?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div className="space-y-2">
+      {/* Wraps: the longest hint reaches the right edge on a 390px screen,
+          and a hint pinned to the label's line has nowhere to go. */}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <Label htmlFor={id} className={FIELD_LABEL}>
+          {label}
+          {required ? <span className="ml-1 text-stamp-text">*</span> : null}
+        </Label>
+        {hint ? <span className="font-sans text-[11px] text-paper-faint">{hint}</span> : null}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The direct lines, revealed on request.
+ *
+ * A ruled record rather than a card: term on the left, the value in the middle
+ * once asked for, the condition on the right. The reveal is the whole reason
+ * the values are encoded, so the control has to be part of the row and not a
+ * decoration next to it.
+ */
+/**
+ * The direct lines, in the rail beside the form.
+ *
+ * A stacked record rather than the wide three-column one it was: at 20rem a row
+ * of term, value and condition would have wrapped into a mess. Same content,
+ * one column, and the reveal control sits in the row it belongs to — the reveal
+ * is the whole reason the values are encoded, so it cannot be a decoration next
+ * to them.
+ */
+function DirectChannels() {
+  const [emailShown, setEmailShown] = useState(false)
+  const [phoneShown, setPhoneShown] = useState(false)
+
+  const email = deobfuscateEmail(OBFUSCATED_EMAIL)
+  const phone = deobfuscatePhone(OBFUSCATED_PHONE)
 
   return (
-    <>
-      <div className="relative min-h-screen text-white">
-        <DynamicBackground />
-        <SiteHeader />
-
-        <main className="relative z-10 container space-y-24 py-12" id="main-content">
-          <PageHero
-            badge={{
-              text: "Disponible para nuevos proyectos",
-              icon: Mail,
-              gradientFrom: "from-emerald-600/20",
-              gradientTo: "to-teal-600/20",
-              borderColor: "border-emerald-500/30",
-              textColor: "text-emerald-400",
-              shadowColor: "shadow-emerald-600/10",
-            }}
-            title="Hablemos"
-            description="¿Tienes un proyecto en mente? Conversemos sobre consultoría tecnológica, desarrollo de software y liderazgo técnico para hacer realidad tu visión."
-          >
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.6, ease: "easeOut" },
-                },
-              }}
-            >
-              <div className="grid items-start gap-12 lg:grid-cols-2">
-                {/* Contact form */}
-                <motion.div variants={cardVariants} whileHover="hover">
-                  <Card className="surface-card group relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                    <CardHeader className="relative z-10">
-                      <div className="mb-2 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-500/30 bg-gradient-to-r from-blue-600/20 to-purple-600/20">
-                          <Send className="h-5 w-5 text-blue-400" />
-                        </div>
-                        <CardTitle className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-2xl text-transparent">
-                          Envíame un mensaje
-                        </CardTitle>
-                      </div>
-                      <CardDescription className="text-zinc-400">
-                        Completa el formulario y te responderé lo antes posible.
-                      </CardDescription>
-                    </CardHeader>
-
-                    <CardContent className="relative z-10 space-y-6">
-                      <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                        <input
-                          type="text"
-                          name="website"
-                          value={formData.honeypot}
-                          onChange={(e) => handleInputChange("honeypot", e.target.value)}
-                          style={{
-                            position: "absolute",
-                            left: "-9999px",
-                            width: "1px",
-                            height: "1px",
-                            opacity: 0,
-                            pointerEvents: "none",
-                            visibility: "hidden",
-                          }}
-                          tabIndex={-1}
-                          autoComplete="off"
-                          aria-hidden="true"
-                        />
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label
-                              htmlFor="contact-name"
-                              className="text-sm font-medium text-zinc-300"
-                            >
-                              Nombre
-                            </label>
-                            <Input
-                              id="contact-name"
-                              placeholder="Tu nombre"
-                              value={formData.name}
-                              onChange={(e) => handleInputChange("name", e.target.value)}
-                              variant="glass"
-                              required
-                              disabled={isSubmitting}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label
-                              htmlFor="contact-email"
-                              className="text-sm font-medium text-zinc-300"
-                            >
-                              Email
-                            </label>
-                            <Input
-                              id="contact-email"
-                              type="email"
-                              placeholder="tu@email.com"
-                              value={formData.email}
-                              onChange={(e) => handleInputChange("email", e.target.value)}
-                              variant="glass"
-                              required
-                              disabled={isSubmitting}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label
-                              htmlFor="contact-whatsapp"
-                              className="text-sm font-medium text-zinc-300"
-                            >
-                              WhatsApp
-                            </label>
-                            <Input
-                              id="contact-whatsapp"
-                              type="tel"
-                              placeholder="+57 300 000 0000"
-                              value={formData.whatsapp}
-                              onChange={(e) => handleInputChange("whatsapp", e.target.value)}
-                              variant="glass"
-                              required
-                              disabled={isSubmitting}
-                              autoComplete="tel"
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label
-                              htmlFor="contact-company"
-                              className="inline-flex items-center gap-2 text-sm font-medium text-zinc-300"
-                            >
-                              Empresa
-                              <span className="rounded-sm bg-zinc-800/80 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-zinc-500 uppercase">
-                                opcional
-                              </span>
-                            </label>
-                            <Input
-                              id="contact-company"
-                              placeholder="Tu empresa"
-                              value={formData.company}
-                              onChange={(e) => handleInputChange("company", e.target.value)}
-                              variant="glass"
-                              disabled={isSubmitting}
-                              autoComplete="organization"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="space-y-2">
-                          <label
-                            htmlFor="contact-subject"
-                            className="text-sm font-medium text-zinc-300"
-                          >
-                            Asunto
-                          </label>
-                          <Input
-                            id="contact-subject"
-                            placeholder="¿En qué puedo ayudarte?"
-                            value={formData.subject}
-                            onChange={(e) => handleInputChange("subject", e.target.value)}
-                            variant="glass"
-                            required
-                            disabled={isSubmitting}
-                          />
-                        </div>
-
-                        <div className="space-y-2">
-                          <label
-                            htmlFor="contact-message"
-                            className="text-sm font-medium text-zinc-300"
-                          >
-                            Mensaje
-                          </label>
-                          <Textarea
-                            id="contact-message"
-                            placeholder="Cuéntame más sobre tu proyecto..."
-                            value={formData.message}
-                            onChange={(e) => handleInputChange("message", e.target.value)}
-                            variant="glass"
-                            rows={5}
-                            required
-                            disabled={isSubmitting}
-                          />
-                        </div>
-
-                        {isLimited && (
-                          <div className="rounded-lg border border-red-500/30 bg-red-900/20 p-3">
-                            <p className="text-sm text-red-400">
-                              Has alcanzado el límite de envíos. Por favor, espera un momento antes
-                              de intentar nuevamente.
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="flex items-start gap-3">
-                          <input
-                            id="contact-terms"
-                            type="checkbox"
-                            checked={termsAccepted}
-                            onChange={(e) => setTermsAccepted(e.target.checked)}
-                            className="mt-0.5 h-4 w-4 cursor-pointer rounded-sm border-zinc-600 bg-zinc-900/50 accent-emerald-500"
-                            disabled={isSubmitting}
-                          />
-                          <label
-                            htmlFor="contact-terms"
-                            className="cursor-pointer text-sm leading-snug text-zinc-400"
-                          >
-                            Acepto los{" "}
-                            <Link
-                              href="/terminos"
-                              target="_blank"
-                              className="text-blue-400 underline underline-offset-2 transition-colors hover:text-blue-300"
-                            >
-                              términos y condiciones
-                            </Link>{" "}
-                            y la{" "}
-                            <Link
-                              href="/privacidad"
-                              target="_blank"
-                              className="text-blue-400 underline underline-offset-2 transition-colors hover:text-blue-300"
-                            >
-                              política de privacidad
-                            </Link>
-                          </label>
-                        </div>
-
-                        <motion.div
-                          whileHover={{ scale: isSubmitting || isLimited ? 1 : 1.02 }}
-                          whileTap={{ scale: isSubmitting || isLimited ? 1 : 0.98 }}
-                        >
-                          <Button
-                            type="submit"
-                            variant="gradient"
-                            size="lg"
-                            className="w-full touch-manipulation"
-                            disabled={isSubmitting || isLimited || !termsAccepted}
-                          >
-                            {isSubmitting ? (
-                              <>
-                                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                                Enviando...
-                              </>
-                            ) : (
-                              <>
-                                <Send className="mr-2 h-4 w-4" />
-                                Enviar mensaje
-                              </>
-                            )}
-                          </Button>
-                        </motion.div>
-                      </form>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                {/* Contact info + social */}
-                <div className="space-y-8">
-                  <motion.div variants={cardVariants} whileHover="hover">
-                    <Card className="surface-card group relative overflow-hidden">
-                      <div className="absolute inset-0 bg-blue-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                      <CardHeader className="relative z-10">
-                        <div className="mb-2 flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
-                            <Phone className="h-5 w-5 text-emerald-400" />
-                          </div>
-                          <CardTitle className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-2xl text-transparent">
-                            Información de contacto
-                          </CardTitle>
-                        </div>
-                        <CardDescription className="text-zinc-400">
-                          Estoy disponible para ti a través de cualquiera de estos canales.
-                        </CardDescription>
-                      </CardHeader>
-
-                      <CardContent className="relative z-10 space-y-6">
-                        <motion.div
-                          className="surface-card-subtle group/item flex items-start space-x-4 p-4"
-                          whileHover={{ x: 4 }}
-                        >
-                          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 transition-transform duration-300 group-hover/item:scale-110">
-                            <Mail className="h-6 w-6 text-blue-400" />
-                          </div>
-                          <div className="flex-1 space-y-1">
-                            <p className="font-semibold text-white">Correo electrónico</p>
-                            <div className="flex items-center gap-2">
-                              {emailRevealed ? (
-                                <p className="font-mono text-zinc-300 select-all">
-                                  {deobfuscateEmail(obfuscatedEmail)}
-                                </p>
-                              ) : (
-                                <button
-                                  onClick={revealEmail}
-                                  className="flex items-center gap-2 text-blue-400 transition-colors duration-200 hover:text-blue-300"
-                                >
-                                  <Eye className="h-4 w-4" />
-                                  <span className="text-sm">Hacer clic para revelar email</span>
-                                </button>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-zinc-500">
-                              <Clock className="h-3 w-3" />
-                              <span>Respuesta garantizada en menos de 24 horas</span>
-                            </div>
-                          </div>
-                        </motion.div>
-
-                        <Separator className="my-6 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
-
-                        <motion.div
-                          className="surface-card-subtle group/item flex items-start space-x-4 p-4"
-                          whileHover={{ x: 4 }}
-                        >
-                          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 transition-transform duration-300 group-hover/item:scale-110">
-                            <Phone className="h-6 w-6 text-emerald-400" />
-                          </div>
-                          <div className="flex-1 space-y-1">
-                            <p className="font-semibold text-white">Teléfono</p>
-                            <div className="flex items-center gap-2">
-                              {phoneRevealed ? (
-                                <p className="font-mono text-zinc-300 select-all">
-                                  {deobfuscatePhone(obfuscatedPhone)}
-                                </p>
-                              ) : (
-                                <button
-                                  onClick={revealPhone}
-                                  className="flex items-center gap-2 text-emerald-400 transition-colors duration-200 hover:text-emerald-300"
-                                >
-                                  <Eye className="h-4 w-4" />
-                                  <span className="text-sm">Hacer clic para revelar teléfono</span>
-                                </button>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2 text-sm text-zinc-500">
-                              <Clock className="h-3 w-3" />
-                              <span>Disponible Lun-Vie, 9:00-18:00 Colombia</span>
-                            </div>
-                          </div>
-                        </motion.div>
-
-                        <Separator className="my-6 bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
-
-                        <motion.div
-                          className="surface-card-subtle group/item flex items-start space-x-4 p-4"
-                          whileHover={{ x: 4 }}
-                        >
-                          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 transition-transform duration-300 group-hover/item:scale-110">
-                            <MapPin className="h-6 w-6 text-blue-400" />
-                          </div>
-                          <div className="flex-1 space-y-1">
-                            <p className="font-semibold text-white">Ubicación</p>
-                            <p className="text-zinc-300">Medellín, Colombia</p>
-                            <div className="flex items-center gap-2 text-sm text-zinc-500">
-                              <Globe className="h-3 w-3" />
-                              <span>Disponible para trabajo remoto internacional</span>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  <motion.div variants={cardVariants} whileHover="hover">
-                    <Card className="surface-card group relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                      <CardHeader className="relative z-10">
-                        <div className="mb-2 flex items-center gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/30 bg-gradient-to-r from-purple-600/20 to-pink-600/20">
-                            <Globe className="h-5 w-5 text-purple-400" />
-                          </div>
-                          <CardTitle className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-2xl text-transparent">
-                            Mis redes sociales
-                          </CardTitle>
-                        </div>
-                        <CardDescription className="text-zinc-300">
-                          Conéctate conmigo o explora mi trabajo en línea.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="relative z-10">
-                        <div className="flex flex-wrap gap-3">
-                          {[
-                            {
-                              href: "https://github.com/carrilloapps",
-                              label: "GitHub",
-                              icon: (
-                                <Github className="h-4 w-4 text-purple-400" aria-hidden="true" />
-                              ),
-                              hover: "hover:border-purple-500/50",
-                            },
-                            {
-                              href: "https://linkedin.com/in/carrilloapps",
-                              label: "LinkedIn",
-                              icon: (
-                                <Linkedin className="h-4 w-4 text-blue-400" aria-hidden="true" />
-                              ),
-                              hover: "hover:border-blue-500/50",
-                            },
-                            {
-                              href: "https://x.com/carrilloapps",
-                              label: "Twitter",
-                              icon: (
-                                <svg
-                                  className="h-4 w-4 text-cyan-400"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  aria-hidden="true"
-                                >
-                                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                </svg>
-                              ),
-                              hover: "hover:border-cyan-500/50",
-                            },
-                            {
-                              href: "https://carrilloapps.substack.com/",
-                              label: "Substack",
-                              icon: (
-                                <Substack className="h-4 w-4 text-orange-400" aria-hidden="true" />
-                              ),
-                              hover: "hover:border-orange-500/50",
-                            },
-                          ].map(({ href, label, icon, hover }) => (
-                            <a
-                              key={label}
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${label} (se abre en nueva ventana)`}
-                              className={`surface-card-subtle inline-flex items-center gap-2 rounded-xl border border-white/[0.06] px-4 py-2.5 text-sm font-medium text-zinc-300 hover:text-white ${hover} min-h-[44px] touch-manipulation transition-all duration-200`}
-                            >
-                              {icon}
-                              {label}
-                            </a>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          </PageHero>
-
-          {/* FAQ Section */}
-          <motion.section
-            className="space-y-8 py-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            aria-labelledby="faq-heading"
-          >
-            <div className="container mx-auto px-4">
-              <motion.div className="mb-12 text-center" variants={itemVariants}>
-                <div className="mb-4 flex items-center justify-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
-                    <MessageSquare className="h-6 w-6 text-emerald-400" />
-                  </div>
-                  <h2
-                    id="faq-heading"
-                    className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-4xl font-bold text-transparent"
-                  >
-                    Preguntas frecuentes
-                  </h2>
-                </div>
-                <p className="mx-auto max-w-2xl text-lg text-zinc-300">
-                  Aquí encontrarás respuestas a las dudas más comunes. Si tienes alguna pregunta
-                  adicional, no dudes en contactarme directamente.
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2"
-                variants={itemVariants}
-              >
-                {contactFaq.map((item) => {
-                  const Icon = FAQ_ICONS[item.icon]
-                  return (
-                    <motion.div key={item.question} variants={cardVariants} whileHover="hover">
-                      <Card className="surface-card group relative h-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                        <CardContent className="relative z-10 p-6">
-                          <div className="mb-4 flex items-start gap-4">
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 transition-transform duration-300 group-hover:scale-110">
-                              <Icon className="h-5 w-5 text-blue-400" />
-                            </div>
-                            <h3 className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-xl font-bold text-transparent">
-                              {item.question}
-                            </h3>
-                          </div>
-                          <p className="leading-relaxed text-zinc-300">{item.answer}</p>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  )
-                })}
-              </motion.div>
-            </div>
-          </motion.section>
-        </main>
-
-        <SiteFooter />
+    /*
+      The rail opens on the same rule as the form, at the same height.
+      It used to start with its own bottom-ruled heading while the form started
+      with a top rule — two columns beginning on two different lines, which is
+      exactly the misalignment you see before you can name it. Now both open
+      with `border-t border-rule-strong pt-6`, and the first label in each
+      column sits on the same baseline.
+    */
+    <aside
+      aria-labelledby="channels-heading"
+      className="border-t border-rule-strong pt-6 lg:sticky lg:top-28 lg:self-start"
+    >
+      <div className="flex items-baseline justify-between gap-4">
+        <h3
+          id="channels-heading"
+          className="font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase"
+        >
+          Línea directa
+        </h3>
+        <span className="font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase">
+          24 h
+        </span>
       </div>
-    </>
+
+      <p className="mt-4 font-sans text-sm leading-relaxed text-paper-faint">
+        El correo y el teléfono están codificados en el marcado para que no los recojan los
+        rastreadores más simples. Un clic los muestra.
+      </p>
+
+      <dl className="mt-6 border-t border-rule">
+        <ChannelRow
+          term="Correo"
+          note="Respuesta en menos de 24 h hábiles"
+          shown={emailShown}
+          onReveal={() => {
+            setEmailShown(true)
+            trackButtonClick("Revelar email", "contact-channels")
+          }}
+          value={email}
+          href={`mailto:${email}`}
+        />
+        <ChannelRow
+          term="Teléfono"
+          note="Lun–Vie, 9:00–18:00 · America/Bogotá"
+          shown={phoneShown}
+          onReveal={() => {
+            setPhoneShown(true)
+            trackButtonClick("Revelar teléfono", "contact-channels")
+          }}
+          value={phone}
+          href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+        />
+
+        <div className="border-b border-rule py-4">
+          <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+            Ubicación
+          </dt>
+          <dd className="mt-2 font-sans text-base text-paper">Medellín, Colombia</dd>
+          <dd className="mt-1 font-sans text-sm text-paper-faint">
+            Remoto, con clientes en LATAM y EE. UU.
+          </dd>
+        </div>
+
+        <div className="border-b border-rule py-4">
+          <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+            ¿Qué ayuda a responder rápido?
+          </dt>
+          <dd className="mt-2">
+            <ul className="space-y-1.5 font-sans text-sm leading-relaxed text-paper-dim">
+              {[
+                "El volumen que manejas hoy",
+                "Qué se rompe, o qué no escala",
+                "Si hay una fecha externa que cumplir",
+              ].map((item) => (
+                <li key={item} className="flex gap-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="mt-[0.5rem] inline-block h-1 w-1 shrink-0 bg-stamp"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      </dl>
+
+      <div className="mt-6 border-t border-rule-strong pt-4">
+        <Link href="/servicios" className="cta-quiet">
+          Ver los siete frentes
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </Link>
+      </div>
+
+      {/*
+        No SocialRow here. Its Email entry renders a plain `mailto:` right under
+        the row that goes to the trouble of encoding the same address — the page
+        would be undoing its own work in the same column. The other profiles are
+        in the footer on every page anyway.
+      */}
+    </aside>
+  )
+}
+
+/** One line of the record: term, then either the reveal or the value. */
+function ChannelRow({
+  term,
+  note,
+  value,
+  href,
+  shown,
+  onReveal,
+}: {
+  term: string
+  note: string
+  value: string
+  href: string
+  shown: boolean
+  onReveal: () => void
+}) {
+  return (
+    <div className="border-b border-rule py-4">
+      <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">{term}</dt>
+      <dd className="mt-2">
+        {shown ? (
+          <a
+            href={href}
+            className="inline-flex items-center gap-2 font-mono text-[15px] break-all text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+          >
+            <Check className="h-3.5 w-3.5 shrink-0 text-settled" aria-hidden="true" />
+            {value}
+          </a>
+        ) : (
+          <button type="button" onClick={onReveal} className="cta-quiet">
+            Mostrar {term.toLowerCase()}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        )}
+      </dd>
+      <dd className="mt-1 font-sans text-sm text-paper-faint">{note}</dd>
+    </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+/** The same ruled question shape the service pages use. */
+function Questions() {
+  return (
+    <AnimatedSection
+      className="relative pb-20 md:pb-28"
+      role="region"
+      aria-labelledby="contact-faq"
+    >
+      <div className="container mx-auto px-4">
+        <div className="mb-8 md:mb-10">
+          <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
+            <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+              Preguntas
+            </span>
+            <span className="font-mono text-[11px] text-paper-faint tabular-nums">
+              {contactFaq.length}
+            </span>
+          </div>
+          <h2
+            id="contact-faq"
+            className="mt-6 font-sans text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance text-paper"
+          >
+            Antes de escribir
+          </h2>
+        </div>
+
+        <dl className="border-t border-rule-strong">
+          {contactFaq.map((item, i) => (
+            <div
+              key={`${item.question}-${i}`}
+              className="grid gap-x-12 gap-y-2 border-b border-rule py-6 md:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]"
+            >
+              <dt className="font-sans text-lg leading-snug tracking-[-0.01em] text-paper">
+                {item.question}
+              </dt>
+              <dd className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim">
+                {item.answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </AnimatedSection>
   )
 }

@@ -1,311 +1,333 @@
 "use client"
 
-import { Suspense, useState } from "react"
-import { useQueryState, parseAsString, parseAsStringLiteral } from "nuqs"
-import { motion, type Variants } from "@/lib/motion"
-import { Search, ArrowRight } from "lucide-react"
-import { Github } from "@/components/icons/social-icons"
+import { Suspense, useEffect, useState } from "react"
+import { debounce, parseAsString, parseAsStringLiteral, useQueryState } from "nuqs"
+import Link from "next/link"
+import { ArrowRight, ArrowUpRight, CalendarDays, Search, X } from "lucide-react"
+import { Github, GitLabIcon } from "@/components/icons/social-icons"
+import { CountrySelect } from "@/components/ui/country-select"
 
-import { Button } from "@/components/ui/button"
-import { Pill } from "@/components/ui/pill"
-import { Input } from "@/components/ui/input"
-import { SurfaceCard } from "@/components/ui/surface-card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SectionHeader } from "@/components/section-header"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { DynamicBackground } from "@/components/dynamic-background"
+import { AnimatedSection } from "@/components/animated-section"
+import { Section } from "@/components/ui/section"
+import { SectionHeader } from "@/components/section-header"
+import { OpenSourceSection } from "@/components/open-source-section"
 import { RepositoriesList } from "@/components/repositories-list"
 import { RepositoriesLoading } from "@/components/unified-loading"
-import { FeaturedProjects } from "@/components/featured-projects"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { PageHero } from "@/components/page-hero"
-import Link from "next/link"
-import { trackCTAClick, trackSearch } from "@/lib/analytics"
+import { CalPopupButton } from "@/components/cal-booking"
+import { openSourceProjects } from "@/lib/data/open-source"
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-}
-
-function ResourcesPageContent() {
-  // URL-driven state (shareable, navigable, SSR-friendly) via nuqs.
-  const [activeTab, setActiveTab] = useQueryState(
-    "tab",
-    parseAsStringLiteral(["github", "gitlab"] as const).withDefault("github"),
-  )
-  const [searchQuery, setSearchQuery] = useQueryState("q", parseAsString.withDefault(""))
-  const [language, setLanguage] = useQueryState("lang", parseAsString.withDefault("all"))
-
-  // Uncommitted text in the search box (committed to the URL on submit).
-  const [searchInput, setSearchInput] = useState("")
-
-  const handleTabChange = (value: string) => {
-    setActiveTab(value as "github" | "gitlab", { scroll: false })
-    setSearchInput("")
-    setSearchQuery(null)
-    setLanguage(null)
-  }
-
-  const handleSearch = () => {
-    if (searchInput) trackSearch(searchInput)
-    setSearchQuery(searchInput || null)
-  }
-
-  return (
-    <>
-      <div className="relative min-h-screen text-white">
-        <DynamicBackground />
-        <SiteHeader />
-
-        <main className="relative z-10 container space-y-24 py-12" id="main-content">
-          <PageHero
-            className="!mb-0 !pb-4 md:!pb-8"
-            badge={{ text: "Recursos" }}
-            title="Gratuitos & código abierto"
-            description="Proyectos de software, sistemas enfocados en finanzas y medios de pago, todos recursos para desarrolladores."
-          />
-
-          {/* Repositories Section */}
-          <motion.section
-            className="!mt-5 space-y-8 pt-2 pb-12 md:!mt-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-          >
-            <motion.div variants={itemVariants} className="w-full">
-              <Tabs
-                value={activeTab}
-                onValueChange={handleTabChange}
-                className="w-full"
-                suppressHydrationWarning
-              >
-                {/* Control bar: tabs left, search+filter right */}
-                <motion.div
-                  className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
-                  variants={itemVariants}
-                >
-                  <TabsList className="inline-flex h-auto w-full gap-1 rounded-xl border border-white/[0.08] bg-white/[0.04] p-1 backdrop-blur-md md:w-auto">
-                    <TabsTrigger
-                      value="github"
-                      className="flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 transition-all duration-200 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm md:flex-none"
-                    >
-                      <Github className="h-4 w-4" />
-                      GitHub
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="gitlab"
-                      className="flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 transition-all duration-200 data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm md:flex-none"
-                    >
-                      <svg
-                        className="h-4 w-4"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
-                      </svg>
-                      GitLab
-                    </TabsTrigger>
-                  </TabsList>
-
-                  <div className="flex w-full flex-col gap-3 sm:flex-row md:w-auto">
-                    <div className="relative w-full sm:w-72">
-                      <Search
-                        className="pointer-events-none absolute top-1/2 left-3.5 z-10 h-4 w-4 -translate-y-1/2 text-zinc-500"
-                        aria-hidden="true"
-                      />
-                      <Input
-                        variant="glass"
-                        type="search"
-                        placeholder="Buscar repositorio…"
-                        className="w-full pr-20 pl-10"
-                        aria-label="Buscar repositorio"
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                      />
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="absolute top-1/2 right-1 h-7 -translate-y-1/2 rounded-lg px-3 text-xs text-zinc-400 hover:bg-zinc-700/60 hover:text-white"
-                        onClick={handleSearch}
-                      >
-                        Buscar
-                      </Button>
-                    </div>
-                    <Select
-                      value={language}
-                      onValueChange={(v) => setLanguage(v === "all" ? null : v)}
-                    >
-                      <SelectTrigger
-                        variant="glass"
-                        className="w-full sm:w-[180px]"
-                        aria-label="Filtrar por lenguaje"
-                      >
-                        <SelectValue placeholder="Lenguaje" />
-                      </SelectTrigger>
-                      <SelectContent className="border-white/10 bg-slate-950/95 backdrop-blur-xl">
-                        <SelectItem value="all">Todos los lenguajes</SelectItem>
-                        <SelectItem value="TypeScript">TypeScript</SelectItem>
-                        <SelectItem value="JavaScript">JavaScript</SelectItem>
-                        <SelectItem value="Go">Go</SelectItem>
-                        <SelectItem value="Kotlin">Kotlin</SelectItem>
-                        <SelectItem value="Python">Python</SelectItem>
-                        <SelectItem value="Shell">Shell</SelectItem>
-                        <SelectItem value="Java">Java</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </motion.div>
-
-                <TabsContent value="github" className="mt-0">
-                  <Suspense fallback={<RepositoriesLoading />}>
-                    <RepositoriesList
-                      key={`github-${searchQuery}-${language}`}
-                      source="github"
-                      username="carrilloapps"
-                      externalSearch={searchQuery}
-                      externalLanguage={language}
-                    />
-                  </Suspense>
-                </TabsContent>
-
-                <TabsContent value="gitlab" className="mt-0">
-                  <Suspense fallback={<RepositoriesLoading />}>
-                    <RepositoriesList
-                      key={`gitlab-${searchQuery}-${language}`}
-                      source="gitlab"
-                      username="carrilloapps"
-                      externalSearch={searchQuery}
-                      externalLanguage={language}
-                    />
-                  </Suspense>
-                </TabsContent>
-              </Tabs>
-            </motion.div>
-          </motion.section>
-
-          {/* Featured Projects Section */}
-          <motion.section
-            className="space-y-8 py-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            aria-labelledby="featured-projects-heading"
-          >
-            <motion.div variants={itemVariants}>
-              <SectionHeader
-                columnLabel="Portafolio"
-                title="Proyectos destacados"
-                description="Mis proyectos personales y contribuciones de código abierto más significativas, construidos con las tecnologías más estables del momento."
-                headingId="featured-projects-heading"
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <FeaturedProjects />
-            </motion.div>
-          </motion.section>
-
-          {/* CTA Section */}
-          <motion.section
-            className="py-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            aria-labelledby="recursos-cta-heading"
-          >
-            <motion.div variants={itemVariants}>
-              <SurfaceCard className="text-center">
-                <div className="space-y-8 p-8 md:p-12">
-                  <div className="space-y-4">
-                    <Pill variant="eyebrow" size="md">
-                      Trabajemos juntos
-                    </Pill>
-                    <h2
-                      id="recursos-cta-heading"
-                      className="text-3xl font-extrabold tracking-tight text-white md:text-4xl lg:text-5xl"
-                    >
-                      ¿Quieres colaborar?
-                    </h2>
-                    <p className="mx-auto max-w-3xl text-base leading-relaxed text-zinc-300 md:text-lg">
-                      Siempre estoy abierto a proyectos interesantes — desarrollo web, aplicaciones
-                      móviles y sistemas financieros. Si tienes una idea, hablemos.
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-                    <Button
-                      variant="gradient"
-                      size="lg"
-                      className="group w-full touch-manipulation sm:w-auto"
-                      asChild
-                      onClick={() =>
-                        trackCTAClick("Contactarme", "primary", "recursos-cta-section")
-                      }
-                    >
-                      <Link href="/contacto">
-                        Contactarme
-                        <ArrowRight
-                          className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="lg"
-                      className="w-full touch-manipulation text-zinc-400 hover:bg-transparent hover:text-white sm:w-auto"
-                      asChild
-                      onClick={() =>
-                        trackCTAClick("Agendar reunión", "secondary", "recursos-cta-section")
-                      }
-                    >
-                      <Link href="/agendamiento">Agendar reunión</Link>
-                    </Button>
-                  </div>
-                </div>
-              </SurfaceCard>
-            </motion.div>
-          </motion.section>
-        </main>
-
-        <SiteFooter />
-      </div>
-    </>
-  )
-}
-
+/**
+ * Everything published, on one page.
+ *
+ * This used to be two: `/herramientas` listed the maintained packages in the
+ * current design, and `/recursos` listed featured projects plus the live
+ * repository feed in the old one. They overlapped — zefer, bcv-exchange-rate
+ * and hfo appeared on both, described twice and drifting apart — and split a
+ * single idea across two URLs competing for the same queries.
+ *
+ * `/recursos` is the survivor because its name covers both halves (a repository
+ * is not a tool) and it carried the stronger link graph. `/herramientas` now
+ * redirects here permanently.
+ *
+ * The two halves stay distinct because they are different claims: the packages
+ * are maintained and installable, the repositories are simply public. Static
+ * first, live second.
+ */
 export default function ResourcesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
-      <ResourcesPageContent />
-    </Suspense>
+    <div className="relative min-h-screen text-paper">
+      <DynamicBackground />
+      <SiteHeader />
+
+      <main id="main-content" role="main" className="relative z-10">
+        <OpeningEntry />
+
+        {/*
+          The maintained packages, with their own heading. On the old
+          /herramientas the page title said it, so the section suppressed it;
+          here it is one section among several and an unlabelled block has no
+          place in the document outline.
+        */}
+        <OpenSourceSection />
+
+        <Repositories />
+
+        <ClosingEntry />
+      </main>
+
+      <SiteFooter />
+    </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+
+function OpeningEntry() {
+  return (
+    <AnimatedSection
+      className="relative w-full pt-6 pb-10 md:pt-10 md:pb-14"
+      role="region"
+      aria-labelledby="resources-heading"
+    >
+      <div className="container mx-auto px-4">
+        <h1
+          id="resources-heading"
+          className="max-w-[17ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
+        >
+          Lo que publico, en abierto
+        </h1>
+
+        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+            <p>
+              Todo lo que resuelvo dos veces en el trabajo termina siendo un paquete instalable.
+              Tasas oficiales de banca central, cifrado que el servidor no puede leer, compuertas de
+              aprobación para agentes de IA: herramientas que uso a diario y que están publicadas
+              para que cualquiera las audite.
+            </p>
+            <p>
+              Debajo está el resto — los repositorios públicos de GitHub y GitLab, traídos en vivo
+              desde sus APIs. Lo primero lo mantengo; lo segundo simplemente está ahí, y esa
+              distinción importa lo suficiente como para no mezclarlos.
+            </p>
+          </div>
+
+          <dl className="self-start border-y border-rule">
+            {[
+              { term: "Paquetes", value: `${openSourceProjects.length} mantenidos` },
+              { term: "Registro", value: "npm · GitHub" },
+              { term: "Licencia", value: "MIT" },
+              { term: "Repositorios", value: "En vivo" },
+            ].map(({ term, value }) => (
+              <div
+                key={term}
+                className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
+              >
+                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+                  {term}
+                </dt>
+                <dd className="text-right font-sans text-base text-paper">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+          <Link
+            href="https://github.com/carrilloapps"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta"
+          >
+            Ver GitHub
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+
+          <Link href="/servicios" className="cta-quiet">
+            Ver servicios
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </AnimatedSection>
+  )
+}
+
+/**
+ * The live half. Kept behind Suspense because the list reads `useSearchParams`
+ * through nuqs for its shareable filters.
+ */
+function Repositories() {
+  return (
+    <Section
+      spacing="compact"
+      header={{
+        columnLabel: "Repositorios",
+        title: "Todo lo público",
+        description:
+          "Traído en vivo desde GitHub y GitLab. Busca por nombre o filtra por lenguaje; la URL guarda el filtro, así que se puede compartir.",
+        headingId: "repositories-heading",
+      }}
+    >
+      <Suspense fallback={<RepositoriesLoading />}>
+        <RepositoryFeed />
+      </Suspense>
+    </Section>
+  )
+}
+
+/**
+ * The whole feed's state, owned by the page and kept in the URL.
+ *
+ * The source used to be a `?tab=` the header deep-linked into, and the search
+ * and language filter lived inside `RepositoriesList` as component state — so
+ * two of the three controls could not be shared, bookmarked or restored.
+ *
+ * nuqs now holds all three, with two options that matter:
+ *
+ *   `scroll: false` — without it every keystroke scrolled the document back to
+ *   the top, so you could not read the results while typing.
+ *
+ *   `limitUrlUpdates: debounce(350)` — the field stays instant because it is
+ *   local state; only the URL and the fetch wait. Writing a history entry and
+ *   firing a request per character was the other half of the jitter.
+ */
+const SOURCES = [
+  { id: "github", label: "GitHub", Icon: Github },
+  { id: "gitlab", label: "GitLab", Icon: GitLabIcon },
+] as const
+
+const LANGUAGES = ["TypeScript", "JavaScript", "Go", "Python", "Shell", "Dockerfile"] as const
+
+function RepositoryFeed() {
+  const [tab, setTab] = useQueryState(
+    "src",
+    parseAsStringLiteral(["github", "gitlab"] as const)
+      .withDefault("github")
+      .withOptions({ scroll: false, shallow: true }),
+  )
+  const [query, setQuery] = useQueryState(
+    "q",
+    parseAsString.withDefault("").withOptions({
+      scroll: false,
+      shallow: true,
+      limitUrlUpdates: debounce(350),
+    }),
+  )
+  const [language, setLanguage] = useQueryState(
+    "lang",
+    parseAsString.withDefault("all").withOptions({ scroll: false, shallow: true }),
+  )
+
+  // The field is uncontrolled by the URL: it echoes the keystroke immediately
+  // and lets the debounced writer catch up.
+  const [draft, setDraft] = useState(query)
+
+  useEffect(() => {
+    setDraft(query)
+  }, [query])
+
+  const languageOptions = [
+    { code: "all", name: "Todos los lenguajes" },
+    ...LANGUAGES.map((l) => ({ code: l, name: l })),
+  ]
+
+  return (
+    <div>
+      <div
+        role="tablist"
+        aria-label="Origen de los repositorios"
+        className="flex border-b border-rule-strong"
+      >
+        {SOURCES.map(({ id, label, Icon }) => {
+          const selected = tab === id
+          return (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              onClick={() => setTab(id === "github" ? null : id)}
+              className={`-mb-px inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 border-b-2 px-1 pr-8 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
+                selected
+                  ? "border-stamp text-paper"
+                  : "border-transparent text-paper-faint hover:text-paper"
+              }`}
+            >
+              <Icon className="h-4 w-4" aria-hidden="true" />
+              {label}
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto]">
+        <div
+          data-field-group
+          className="group flex items-center gap-2.5 border border-rule bg-field px-3 transition-colors hover:border-rule-strong"
+        >
+          <Search className="h-4 w-4 shrink-0 text-paper-faint" aria-hidden="true" />
+          <input
+            type="search"
+            value={draft}
+            onChange={(e) => {
+              setDraft(e.target.value)
+              setQuery(e.target.value || null)
+            }}
+            placeholder="Buscar por nombre o descripción"
+            aria-label="Buscar repositorio"
+            data-bare-field
+            className="min-h-[48px] w-full border-0 bg-transparent p-0 font-sans text-base text-paper placeholder:text-paper-faint focus:border-0 focus:ring-0 focus:outline-none"
+          />
+          {draft ? (
+            <button
+              type="button"
+              onClick={() => {
+                setDraft("")
+                setQuery(null)
+              }}
+              aria-label="Limpiar búsqueda"
+              className="inline-flex h-11 w-8 shrink-0 cursor-pointer items-center justify-center text-paper-faint transition-colors hover:text-paper focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </button>
+          ) : null}
+        </div>
+
+        {/* Seven options, so no filter appears — the component only adds one
+            past ten, which is the line between scanning and searching. */}
+        <CountrySelect
+          label="Lenguaje"
+          value={language}
+          options={languageOptions}
+          onChange={(code) => setLanguage(code === "all" ? null : code)}
+          renderIcon={undefined}
+          triggerClassName="w-full border bg-field sm:w-[15rem]"
+          triggerLabel={(option) => option.name}
+        />
+      </div>
+
+      <div className="mt-10">
+        <RepositoriesList source={tab} username="carrilloapps" search={query} language={language} />
+      </div>
+    </div>
+  )
+}
+
+function ClosingEntry() {
+  return (
+    <AnimatedSection
+      className="relative pb-20 md:pb-28"
+      role="region"
+      aria-labelledby="resources-closing"
+    >
+      <div className="container mx-auto px-4">
+        <SectionHeader
+          columnLabel="Siguiente paso"
+          title="¿Necesitas algo que no está aquí?"
+          description="Si una de estas herramientas casi resuelve tu problema pero no del todo, o si lo que necesitas es la arquitectura alrededor, hablemos una hora."
+          headingId="resources-closing"
+        />
+
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-4 border-t-2 border-rule-strong pt-5">
+          <CalPopupButton
+            source="resources-closing"
+            aria-label="Agendar una asesoría"
+            className="cta"
+          >
+            Agendar una asesoría
+            <CalendarDays className="h-4 w-4" aria-hidden="true" />
+          </CalPopupButton>
+
+          <Link href="/contacto" className="cta-quiet">
+            Escribirme
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    </AnimatedSection>
   )
 }

@@ -326,7 +326,33 @@ grep -rnE ":focus[^-]" src --include="*.css"            # prefer :focus-visible
 
 ---
 
-## 5. Accessibility floor
+## 5. Form fields
+
+One surface, one rule, one focus treatment. `Input` and `Textarea` default to
+the `ledger` variant: 48px minimum, square, `border-rule` on `bg-field`. The
+older `default` (shadcn's light 40px field) and `glass` variants are deprecated
+and only still exist so old call sites compile.
+
+**Focus is not a ring.** The site-wide `:focus-visible` outline is deliberately
+turned off for fields, because an offset outline around a field reads as a
+second border floating off the one already drawn. A focused field instead
+raises its surface to `--ledger-field-focus` and stamps its rule — both change
+together, so the indicator survives a forced-colors mode that drops
+backgrounds. A composed control (the phone field) carries `data-field-group`
+and gets the same states through `:focus-within`.
+
+**Any picker with more than ten options must offer a filter.** Below ten a list
+is scanned; above it, it is searched. `CountrySelect` enforces this itself: the
+search box appears past `SEARCH_THRESHOLD` and the keyboard handler lives on the
+popup, not on the filter, so the arrows still work when it is hidden.
+
+**Consent uses `ConsentCheck`, never a bare checkbox.** The native control with
+`accent-color` was a 16px rounded browser box that matched nothing and missed
+the touch target. `ConsentCheck` keeps the real `<input>` for semantics and
+keyboard, visually hides it, and paints a square mark; the whole row is the
+label, so the hit area is the sentence.
+
+## 6. Accessibility floor
 
 Constitution Principle III. These are gates, not polish.
 
@@ -345,7 +371,7 @@ Testing tools and the pre-merge bar are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ---
 
-## 6. Component inventory
+## 7. Component inventory
 
 Layout and chrome: `site-header`, `site-footer`, `skip-link`, `scroll-to-top`,
 `section-divider`, `section-header`.
