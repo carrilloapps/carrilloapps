@@ -87,8 +87,10 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: true,
 
-  // Output configuration for Vercel
-  output: "standalone",
+  // NOTE: do NOT set `output: "standalone"` here. That mode is for self-hosting
+  // (Docker, a plain Node server) — it reorganizes the build output so Vercel's
+  // builder cannot find `.next/next-server.js.nft.json` and the deploy dies with
+  // an ENOENT on that path. Vercel runs its own output file tracing.
 
   // Security and performance headers
   async headers() {

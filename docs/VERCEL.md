@@ -208,17 +208,18 @@ npm run dev
 
 ## Build and runtime troubleshooting
 
-| Symptom                            | First thing to check                                                                                                           |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Build fails                        | Reproduce with `npm run build` locally; then delete `.next`; then `node_modules` + `package-lock.json` and reinstall           |
-| `only supported with webpack`      | A `next.config.mjs` option that Turbopack rejects. `experimental.cssChunking` was removed for exactly this reason in Next 16.3 |
-| Hydration error                    | Client-only code running in a server component                                                                                 |
-| Image not optimizing               | Asset must be in `public/` or match a `remotePatterns` entry                                                                   |
-| API route 404/500                  | Handler must export named `GET`/`POST` functions                                                                               |
-| Function timeout                   | `vercel.json` caps `src/app/api/**` at 10s — redesign, do not raise blindly                                                    |
-| Variables undefined in the browser | Missing `NEXT_PUBLIC_` prefix                                                                                                  |
-| Low contrast flagged by Lighthouse | Text below `text-zinc-300`                                                                                                     |
-| Missing form label                 | `htmlFor` on the label must match the input `id`                                                                               |
+| Symptom                              | First thing to check                                                                                                                                                                             |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Build fails                          | Reproduce with `npm run build` locally; then delete `.next`; then `node_modules` + `package-lock.json` and reinstall                                                                             |
+| `ENOENT ... next-server.js.nft.json` | `output: "standalone"` in `next.config.mjs`. That mode is for self-hosting; it moves the build output so Vercel cannot find its trace files. Remove it — Vercel does its own output file tracing |
+| `only supported with webpack`        | A `next.config.mjs` option that Turbopack rejects. `experimental.cssChunking` was removed for exactly this reason in Next 16.3                                                                   |
+| Hydration error                      | Client-only code running in a server component                                                                                                                                                   |
+| Image not optimizing                 | Asset must be in `public/` or match a `remotePatterns` entry                                                                                                                                     |
+| API route 404/500                    | Handler must export named `GET`/`POST` functions                                                                                                                                                 |
+| Function timeout                     | `vercel.json` caps `src/app/api/**` at 10s — redesign, do not raise blindly                                                                                                                      |
+| Variables undefined in the browser   | Missing `NEXT_PUBLIC_` prefix                                                                                                                                                                    |
+| Low contrast flagged by Lighthouse   | Text below `text-zinc-300`                                                                                                                                                                       |
+| Missing form label                   | `htmlFor` on the label must match the input `id`                                                                                                                                                 |
 
 ---
 
