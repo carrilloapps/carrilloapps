@@ -205,3 +205,29 @@ export function useNewsletterSubscribe() {
     },
   })
 }
+
+/**
+ * Monthly npm downloads for the packages on the home ledger.
+ *
+ * A package the registry could not answer for comes back `null`, which the
+ * ledger renders as an unlit cell rather than a zero.
+ */
+export interface NpmDownloads {
+  month: number | null
+  total: number | null
+}
+
+export function useNpmDownloads(packages: string[]) {
+  const key = [...packages].sort().join(",")
+  return useQuery({
+    queryKey: ["npm-downloads", key],
+    queryFn: async (): Promise<Record<string, NpmDownloads>> => {
+      const res = await fetch(`/api/npm-downloads?packages=${encodeURIComponent(key)}`)
+      if (!res.ok) return {}
+      const data: { downloads?: Record<string, NpmDownloads> } = await res.json()
+      return data.downloads ?? {}
+    },
+    staleTime: 60 * 60 * 1000,
+    enabled: packages.length > 0,
+  })
+}

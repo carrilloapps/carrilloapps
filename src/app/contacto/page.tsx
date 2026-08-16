@@ -228,7 +228,7 @@ function ContactPageContent() {
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      <div className="relative min-h-screen overflow-hidden text-white">
+      <div className="relative min-h-screen text-white">
         <DynamicBackground />
         <SiteHeader />
 

@@ -36,16 +36,97 @@ Each route that needs a social preview has an `opengraph-image` route segment
 rendering an image at build time:
 
 ```text
-app/opengraph-image.tsx
-app/servicios/opengraph-image.tsx
-app/sobre-mi/opengraph-image.tsx
-app/recursos/opengraph-image.tsx
-app/contacto/opengraph-image.tsx
-app/agendamiento/opengraph-image.tsx
+src/app/opengraph-image.tsx
+src/app/servicios/opengraph-image.tsx
+src/app/sobre-mi/opengraph-image.tsx
+src/app/recursos/opengraph-image.tsx
+src/app/contacto/opengraph-image.tsx
+src/app/agendamiento/opengraph-image.tsx
+src/app/herramientas/opengraph-image.tsx
 ```
 
-Shared rendering helpers live in `src/lib/og.tsx`. Do not hand-place static OG
-files in `public/` — the generated route wins and the static file rots.
+Every one of them is four lines: it calls `renderPageOg()` from `src/lib/og.tsx`
+with `eyebrow`, `title`, `subtitle` and `particulars`. Do not hand-place static
+OG files in `public/` — a file-convention `opengraph-image` route beats the
+`openGraph.images` entry `buildPageMetadata` declares, so the per-route card
+always wins and a static file would rot unnoticed.
+
+### The card is the home page's document header
+
+Nothing on the card is invented for the card. Each element has a counterpart in
+the running site, so someone who saw the preview recognises the page:
+
+| On the card                       | In the app                                                     |
+| --------------------------------- | -------------------------------------------------------------- |
+| Prompt mark                       | `BrandMark` in `src/components/brand-mark.tsx`                 |
+| `carrillo` + faint `.app`         | `BrandWordmark`, TLD in `text-paper-faint`                     |
+| Column rules + stamp margin rule  | The ledger sheet behind every page                             |
+| Section head, mono 0.14em         | `HomeHero`'s `Herramientas publicadas` head                    |
+| Title at -0.045em / 0.88 leading  | `h1#hero-heading`                                              |
+| Particulars, ruled top and bottom | The `<dl>` under the name (Rol · Base · Trayectoria · Enfoque) |
+
+`particulars` takes up to four `{ term, value }` pairs and carries real facts —
+`$50B COP/año`, `13M`, `MIT`, `America/Bogotá` — never a keyword list dressed up
+as data. **Keep every `value` to one line:** the cells are equal-width flex
+columns, so a value that wraps drops its own cell's baseline out of line with
+the other three.
+
+### Two constraints the renderer will not forgive
+
+Satori is not a browser:
+
+- **No variable fonts, no woff2.** `Archivo[wdth,wght].ttf` throws
+  `Cannot read properties of undefined (reading '256')` and takes the build
+  down. Only a _static_ TTF instance works, which is why two of them are
+  committed under `src/lib/fonts/` — see the README there.
+- **Fonts are read from disk, never fetched.** They used to come from the
+  Google Fonts API at build time, until a build lost the network and shipped
+  every card in a system fallback stack: no error, no failed deploy, just the
+  wrong typeface everywhere. If a card ever renders in the wrong face, that is
+  the failure mode to suspect.
+- **No `inset` shorthand.** A container styled `position: absolute; inset: 0`
+  collapses to zero and silently swallows its children. Spell out
+  `top`/`left`/`width`/`height`.
+
+### Icons and PWA assets
+
+The mark is a **prompt**: a chevron, a block cursor, and the validation stamp as
+the rule beneath them. It replaced boxed `JC` initials, which mushed into their
+own frame at 16px and named the person without naming the trade. The identity
+still lands — in the wordmark beside it, and in the page title.
+
+The same 64-unit geometry is written out in three places, and changing one means
+changing all three:
+
+1. `src/components/brand-mark.tsx` — the header and footer
+2. `src/app/icon.svg` — the SVG favicon
+3. the generator behind `public/icons` — every raster
+4. `BrandCell` in `src/lib/og.tsx` — the social card
+
+Nothing uses `<text>`: a browser rendering an SVG favicon has no access to
+Archivo and would substitute Helvetica, breaking the family.
+
+**Every default coordinate is a multiple of 4.** A tab renders the mark at 16px
+and a retina tab at 32 — both exact divisions of the 64-unit canvas — so
+whole-unit geometry lands on whole pixels. The first version used 7-unit strokes:
+the chevron hid the half-pixel in its diagonal antialiasing, but the axis-aligned
+cursor and rule could not, and came out grey and misshapen beside it. If a shape
+ever looks deformed next to the chevron, check that its coordinates still divide
+by 4.
+
+Two variants:
+
+| Variant  | Sizes                        | Why                                                                                                                                                                                                     |
+| -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default  | 16, 32, `.ico`, 48–144       | The stamp rule bleeds off the bottom edge, the way a ruled sheet ends                                                                                                                                   |
+| `padded` | 192+, `apple-touch-icon.png` | Everything inside the maskable safe circle (radius 25.6 from centre), **rule included** — a bar low in the frame pokes out of a circular mask at both ends, so it is cut back to the mark's own measure |
+
+`manifest.ts` declares 192 and 512 twice, `purpose: "any"` and
+`purpose: "maskable"`, which is why the padded variant exists. Its
+`screenshots` are real captures of the home at 1280×720 and 750×1334 in
+`public/screenshots/` — never `placeholder.jpg`. When recapturing, remove the
+`nextjs-portal` node and dismiss the cookie banner first, or both ship inside
+the PWA install prompt.
 
 Verify the result with the `opengraph` MCP:
 

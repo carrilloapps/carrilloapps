@@ -6,33 +6,19 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Servicios de Consultoría",
+  title: "Arquitectura de pagos y liderazgo técnico",
   description:
-    "Servicios de liderazgo técnico y consultoría: sistemas financieros, arquitectura de software, cloud e IA. +10 años de experiencia.",
+    "Consultoría, auditoría y liderazgo técnico para plataformas financieras: microservicios, conciliación, observabilidad y cumplimiento desde el diseño.",
   path: "/servicios",
-  ogDescription:
-    "Transformo ideas en soluciones tecnológicas robustas y escalables. Sistemas financieros, liderazgo técnico y arquitecturas empresariales.",
   keywords: [
-    "consultoría tecnológica",
-    "liderazgo técnico",
-    "tech lead servicios",
-    "arquitectura software empresarial",
-    "sistemas financieros desarrollo",
-    "fintech consultoría",
-    "soluciones backoffice",
-    "seguridad compliance PCI DSS",
-    "infraestructura cloud AWS",
-    "inteligencia artificial finanzas",
-    "microservicios arquitectura",
-    "transformación digital",
-    "automatización procesos",
-    "desarrollo sistemas bancarios",
-    "consultor senior tecnología",
-    "arquitecto soluciones empresariales",
-    "optimización sistemas",
-    "migración cloud",
-    "detección fraude IA",
-    "cumplimiento regulatorio",
+    "consultoría arquitectura de pagos",
+    "auditoría sistemas financieros",
+    "tech lead fintech",
+    "conciliación alto volumen",
+    "microservicios pagos",
+    "compliance PCI DSS",
+    "consultor fintech latam",
+    "Junior Carrillo",
   ],
 })
 

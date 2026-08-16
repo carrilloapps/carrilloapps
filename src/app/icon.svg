@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" aria-label="carrillo" role="img" viewBox="0 0 64 64"><defs><linearGradient id="brand-grad" x1="0" x2="64" y1="0" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563eb"/><stop offset="100%" stop-color="#9333ea"/></linearGradient><linearGradient id="brand-sheen" x1="0" x2="0" y1="0" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff" stop-opacity=".18"/><stop offset="55%" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><rect width="64" height="64" fill="url(#brand-grad)" rx="14" ry="14"/><rect width="64" height="64" fill="url(#brand-sheen)" rx="14" ry="14"/><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" d="M 28 18 L 18 32 L 28 46"/><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" d="M 36 18 L 46 32 L 36 46"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="carrillo.app">
+  <!--
+    The prompt mark: a chevron, a block cursor, and the validation stamp as the
+    rule they sit on.
+
+    Every coordinate is a multiple of 4. A browser tab renders this at 16px and
+    a retina tab at 32, both exact divisions of the 64-unit canvas, so whole-unit
+    geometry lands on whole pixels. The earlier mark used 7-unit strokes: the
+    chevron hid the resulting half-pixel in its diagonal antialiasing, but the
+    axis-aligned cursor and rule could not, and came out grey and misshapen
+    beside it.
+
+    Drawn as strokes and rects, never <text> — a browser rendering an SVG
+    favicon has no access to Archivo and would substitute Helvetica, breaking
+    the family in public/icons.
+  -->
+  <rect width="64" height="64" fill="#0b0c0e"/>
+  <g fill="none" stroke="#e8e6e1" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M 16 16 L 28 28 L 16 40"/>
+  </g>
+  <rect x="36" y="32" width="16" height="8" fill="#e8e6e1"/>
+  <rect x="0" y="56" width="64" height="8" fill="#c4362f"/>
+</svg>

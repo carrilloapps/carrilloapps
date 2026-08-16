@@ -1,89 +1,79 @@
 import type { ReactNode } from "react"
 import type { LucideIcon } from "lucide-react"
 
-import { Pill } from "@/components/ui/pill"
-
-type Align = "left" | "center" | "right"
-
 interface SectionHeaderProps {
-  /** Optional small uppercase label above the title (e.g. "Experiencia"). */
+  /**
+   * @deprecated Eyebrows are banned in this design system — the heading carries
+   * its own weight. Kept in the signature so existing call sites keep compiling;
+   * the value is used as the column label when `columnLabel` is absent, which is
+   * where that text actually belongs.
+   */
   eyebrow?: string
-  /** Lucide icon shown inside the eyebrow chip. */
+  /** @deprecated No icon renders in the ledger's section rule. */
   eyebrowIcon?: LucideIcon
+  /** The ledger column label: small, mono, uppercase, on the section rule. */
+  columnLabel?: string
   /** Main heading text. Renders as `<h2>` with the supplied id. */
   title: string
-  /** Sub-headline / supporting text. */
+  /** Supporting text under the heading. */
   description?: string
   /** Anchor id for the heading (used by `aria-labelledby`). */
   headingId?: string
-  /** Heading text alignment + flex distribution of the wrapper. */
-  align?: Align
-  /** Slot rendered on the opposite side of the title (only honoured when
-   *  align is "left" or "right"). Useful for a "Ver todos" link. */
+  /** Right-hand slot on the section rule — a link, a count, a period. */
   trailing?: ReactNode
   /** Override the bottom margin between header and content. */
   className?: string
 }
 
-const wrapperByAlign: Record<Align, string> = {
-  left: "flex-col md:flex-row md:items-end md:justify-between",
-  center: "flex-col items-center text-center",
-  right: "flex-col md:flex-row-reverse md:items-end md:justify-between text-right md:text-right",
-}
-
-const stackByAlign: Record<Align, string> = {
-  left: "items-start",
-  center: "items-center text-center",
-  right: "items-end md:items-end text-right",
-}
-
 /**
- * A single source for section headers across the home.
+ * One section header for the whole ledger.
  *
- * Each section can pick a different `align` to break the rhythm — alternating
- * left / center / right across the page is what gives the page editorial
- * variation instead of a wall of identical sections.
+ * Every section opens the same way a statement's section opens: a strong rule
+ * carrying a small mono column label on the left and its counterpart on the
+ * right, then the heading beneath it. The previous version stacked a pill
+ * eyebrow over a centred display heading and let each section pick its own
+ * alignment; alternating alignment reads as variety for its own sake, and the
+ * ledger's authority comes from every entry starting at the same edge.
  */
 export function SectionHeader({
   eyebrow,
-  eyebrowIcon: EyebrowIcon,
+  columnLabel,
   title,
   description,
   headingId,
-  align = "left",
   trailing,
-  className = "mb-10 md:mb-12",
+  className = "mb-8 md:mb-10",
 }: SectionHeaderProps) {
-  // Render badge as an `<inline-flex>` *without* `self-start` so it inherits
-  // the parent's `align-items` rule. This is what keeps badge + title +
-  // description visually anchored to the same edge instead of the previous
-  // bug where the badge was always left-aligned even on centred sections.
-  const stack = (
-    <div className={`flex max-w-2xl flex-col gap-3 ${stackByAlign[align]}`}>
-      {eyebrow && (
-        <Pill variant="eyebrow" size="md">
-          {EyebrowIcon ? <EyebrowIcon className="h-3 w-3" aria-hidden="true" /> : null}
-          {eyebrow}
-        </Pill>
-      )}
-      <h2
-        id={headingId}
-        className="text-3xl font-extrabold tracking-tight text-white md:text-4xl lg:text-5xl"
-      >
-        {title}
-      </h2>
-      {description && (
-        <p className="text-base leading-relaxed text-zinc-300 md:text-lg">{description}</p>
-      )}
-    </div>
-  )
+  const label = columnLabel ?? eyebrow
 
   return (
-    <div className={`flex gap-6 ${wrapperByAlign[align]} ${className}`}>
-      {stack}
-      {trailing && align !== "center" && (
-        <div className="shrink-0 self-start md:self-end">{trailing}</div>
+    <div className={className}>
+      {(label || trailing) && (
+        <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
+          {label ? (
+            <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+              {label}
+            </span>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {trailing ? <div className="shrink-0">{trailing}</div> : null}
+        </div>
       )}
+
+      <div className="mt-6 flex max-w-3xl flex-col gap-3">
+        <h2
+          id={headingId}
+          className="font-sans text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance text-paper"
+        >
+          {title}
+        </h2>
+        {description && (
+          <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+            {description}
+          </p>
+        )}
+      </div>
     </div>
   )
 }

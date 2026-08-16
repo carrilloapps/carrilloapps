@@ -236,6 +236,94 @@ const itemVariants: Variants = {
 Shared helpers live in `src/lib/motion.ts`. Respect
 `src/components/motion-preferences-provider.tsx` for reduced-motion.
 
+### Calls to action: two levels, never bare text
+
+An action that looks like a sentence does not get clicked. Two classes carry
+every CTA on the site, both defined in `src/app/globals.css`:
+
+| Class        | Use                                        | Looks like                                 |
+| ------------ | ------------------------------------------ | ------------------------------------------ |
+| `.cta`       | The one action a section exists to produce | Sans at reading size over a 2px stamp rule |
+| `.cta-quiet` | Every secondary path                       | Mono uppercase inside a 1px ruled plate    |
+
+Both are 48px tall, both carry `touch-action: manipulation`, and both state
+their hover and focus. Never ship an action as plain mono text with only a
+colour change — that was how "Descargar CV", "Escribirme" and "Ver servicios"
+shipped, and they read as captions.
+
+**Neither level is boxed.** Enclosing every secondary link turned the page into
+a field of buttons and fought a world built from rules. What marks a quiet CTA
+as actionable is the register plus the icon: `ArrowUpRight` for navigation,
+`Download` for a file, `CalendarDays` for booking. An icon is not decoration
+here, it is the affordance — a `.cta-quiet` without one is incomplete.
+
+Cursor: **Tailwind v4 removed `cursor: pointer` from its button reset.** The
+base layer restores it for `button`, `[role="button"]`, `summary` and
+`label[for]`, and sets `not-allowed` on disabled controls. If you add a new
+kind of clickable element, confirm it points.
+
+### Focus: outline, never ring
+
+**No component may use Tailwind's `ring-*` utilities.** Not `focus:ring-2`, not
+`focus-visible:ring-ring`, not `ring-offset-*`. This is a system rule, and it is
+enforced per component rather than by a global override — the utilities stay
+available in Tailwind, we simply never reach for them.
+
+A `ring` is a `box-shadow`. It paints a soft, offset, coloured glow that belongs
+to the elevated-card language this site replaced, it stacks badly against a 1px
+hairline, and it needs a `ring-offset-color` matching the local background,
+which silently breaks the moment a component moves onto a different surface.
+
+The ledger focuses with the browser's own outline, themed once in
+`src/app/globals.css`:
+
+```css
+:focus-visible {
+  outline: 1px solid var(--ledger-stamp-text);
+  outline-offset: 3px;
+}
+```
+
+Anything needing a local focus treatment writes it explicitly:
+
+```tsx
+// ✅ the stamp outline, offset from the hairline
+className =
+  "focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp focus:outline-none"
+
+// ✅ a control whose own border carries the state
+className = "focus-visible:border-stamp"
+
+// ❌ never
+className = "focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black"
+```
+
+**A hand-written ring counts too.** The utility is only one way to spell it; a
+`box-shadow` with no offset and no blur is the same device:
+
+```css
+/* ❌ this is a ring, and it fired on every mouse click because :focus — not
+   :focus-visible — matches pointer interaction */
+a:focus,
+button:focus {
+  box-shadow:
+    0 0 0 2px rgb(0 0 0),
+    0 0 0 4px var(--ledger-stamp-text);
+}
+```
+
+Use `:focus-visible`, never bare `:focus`, for any focus affordance: `:focus`
+matches mouse clicks, so a styled `:focus` leaves a mark behind every time the
+user clicks a button.
+
+Check before shipping:
+
+```bash
+grep -rE "\bring-|ring-offset" src --include="*.tsx"   # no matches
+grep -rnE "0 0 0 [0-9]+px" src --include="*.css"        # no focus rings
+grep -rnE ":focus[^-]" src --include="*.css"            # prefer :focus-visible
+```
+
 ---
 
 ## 5. Accessibility floor

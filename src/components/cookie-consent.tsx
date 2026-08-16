@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "@/lib/motion"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 
 export function CookieConsent() {
   const [isVisible, setIsVisible] = useState(false)
@@ -45,58 +44,62 @@ export function CookieConsent() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
+          initial={{ y: 60 }}
+          animate={{ y: 0 }}
+          exit={{ y: 60 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          className="fixed right-4 bottom-4 left-4 z-50 md:right-auto md:left-4 md:max-w-md"
+          className="fixed inset-x-0 bottom-0 z-50 border-t border-rule-strong bg-ink"
           role="dialog"
           aria-modal="false"
           aria-labelledby="cookie-consent-title"
           aria-describedby="cookie-consent-description"
         >
-          {/* Opaque base so the banner is fully legible over page content —
-              surface-card alone is translucent (slate 55–70% + blur). */}
-          <div className="surface-card p-5" style={{ backgroundColor: "rgb(2 6 23 / 0.98)" }}>
-            {/* Gradient accent border effect */}
-            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/10" />
-
-            <div className="relative">
-              <div className="mb-4">
-                <h2 className="mb-2 text-base font-bold text-white" id="cookie-consent-title">
-                  Uso de Cookies
-                </h2>
-                <p
-                  className="text-sm leading-relaxed text-zinc-300"
-                  id="cookie-consent-description"
+          {/* A footing bar, not a card. A card at bottom-left covered a whole
+              row of the tools ledger on a 390px screen — the one entry the
+              first viewport exists to show. A single-line bar sits under the
+              page instead of on top of it. */}
+          <div className="container mx-auto flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+            <div>
+              <h2 className="sr-only" id="cookie-consent-title">
+                Uso de cookies
+              </h2>
+              <p
+                className="max-w-[70ch] font-sans text-sm leading-snug text-paper-dim"
+                id="cookie-consent-description"
+              >
+                Uso cookies para medir el tráfico del sitio. Consulta la{" "}
+                <Link
+                  href="/cookies"
+                  className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
                 >
-                  Utilizamos cookies para mejorar tu experiencia y analizar el uso del sitio.
-                  Consulta nuestra{" "}
-                  <Link
-                    href="/cookies"
-                    className="text-emerald-400 underline underline-offset-2 transition-colors hover:text-emerald-300"
-                  >
-                    política de cookies
-                  </Link>{" "}
-                  y{" "}
-                  <Link
-                    href="/privacidad"
-                    className="text-emerald-400 underline underline-offset-2 transition-colors hover:text-emerald-300"
-                  >
-                    privacidad
-                  </Link>
-                  .
-                </p>
-              </div>
+                  política de cookies
+                </Link>{" "}
+                y la{" "}
+                <Link
+                  href="/privacidad"
+                  className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+                >
+                  privacidad
+                </Link>
+                .
+              </p>
+            </div>
 
-              <div className="flex w-full gap-3">
-                <Button variant="glass" className="flex-1" onClick={rejectCookies}>
-                  Rechazar
-                </Button>
-                <Button variant="gradient" className="flex-1" onClick={acceptCookies}>
-                  Aceptar
-                </Button>
-              </div>
+            <div className="flex shrink-0 items-center gap-5">
+              <button
+                type="button"
+                onClick={rejectCookies}
+                className="min-h-[48px] touch-manipulation font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-paper-dim focus-visible:text-paper-dim"
+              >
+                Rechazar
+              </button>
+              <button
+                type="button"
+                onClick={acceptCookies}
+                className="min-h-[48px] touch-manipulation border-b-2 border-stamp px-1 font-mono text-[11px] tracking-[0.1em] text-paper uppercase transition-colors hover:text-stamp-text focus-visible:text-stamp-text"
+              >
+                Aceptar
+              </button>
             </div>
           </div>
         </motion.div>

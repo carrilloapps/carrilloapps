@@ -192,7 +192,7 @@ export function CompactContactSection({
                   <SelectTrigger id="subject-select" variant="glass">
                     <SelectValue placeholder="Selecciona un asunto" />
                   </SelectTrigger>
-                  <SelectContent className="border-white/10 bg-slate-950/95 backdrop-blur-xl">
+                  <SelectContent className="border-rule bg-slate-950/95">
                     <SelectItem value="consulta-general">Consulta general</SelectItem>
                     <SelectItem value="proyecto-nuevo">Nuevo proyecto</SelectItem>
                     <SelectItem value="colaboracion">Colaboración</SelectItem>
@@ -219,7 +219,7 @@ export function CompactContactSection({
               </Field>
 
               {isLimited && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3" role="alert">
+                <div className="border border-red-500/30 bg-red-500/10 p-3" role="alert">
                   <p className="text-sm text-red-400">
                     Has alcanzado el límite de envíos. Espera un momento antes de intentar
                     nuevamente.
@@ -235,16 +235,16 @@ export function CompactContactSection({
                   onChange={(e) => setTermsAccepted(e.target.checked)}
                   disabled={isSubmitting}
                   required
-                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-sm border border-zinc-600 bg-zinc-800/60 accent-blue-500 disabled:opacity-50"
+                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer border border-rule-strong bg-rule/40 accent-blue-500 disabled:opacity-50"
                   aria-required="true"
                 />
-                <span className="group/terms-hover:text-zinc-300 text-sm leading-snug text-zinc-400 transition-colors">
+                <span className="group/terms-hover:text-paper-dim text-sm leading-snug text-paper-dim transition-colors">
                   He leído y acepto los{" "}
                   <Link
                     href="/terminos"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline underline-offset-2 hover:text-blue-300"
+                    className="text-stamp-text underline underline-offset-2 hover:text-stamp-text"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Términos y condiciones
@@ -254,7 +254,7 @@ export function CompactContactSection({
                     href="/privacidad"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline underline-offset-2 hover:text-blue-300"
+                    className="text-stamp-text underline underline-offset-2 hover:text-stamp-text"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Política de privacidad
@@ -272,7 +272,7 @@ export function CompactContactSection({
               >
                 {isSubmitting ? (
                   <>
-                    <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-rule border-t-white" />
                     Enviando...
                   </>
                 ) : (
@@ -313,7 +313,7 @@ export function CompactContactSection({
                   <button
                     type="button"
                     onClick={onRevealEmail}
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 transition-colors hover:text-blue-300"
+                    className="inline-flex items-center gap-1.5 text-sm text-stamp-text transition-colors hover:text-stamp-text"
                   >
                     <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                     Revelar email
@@ -330,7 +330,7 @@ export function CompactContactSection({
                   <button
                     type="button"
                     onClick={onRevealPhone}
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-400 transition-colors hover:text-blue-300"
+                    className="inline-flex items-center gap-1.5 text-sm text-stamp-text transition-colors hover:text-stamp-text"
                   >
                     <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                     Revelar teléfono
@@ -348,8 +348,8 @@ export function CompactContactSection({
               </ContactRow>
             </div>
 
-            <div className="mt-auto border-t border-zinc-800/60 pt-5">
-              <p className="mb-3 text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
+            <div className="mt-auto border-t border-rule pt-5">
+              <p className="mb-3 text-[11px] font-medium tracking-[0.18em] text-paper-faint uppercase">
                 Redes sociales
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -385,12 +385,12 @@ function CardHead({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
-        <Icon className="h-5 w-5 text-blue-400" aria-hidden="true" />
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-rule-strong bg-blue-500/10">
+        <Icon className="h-5 w-5 text-stamp-text" aria-hidden="true" />
       </div>
       <div className="min-w-0 flex-1">
-        <h3 className="text-lg leading-tight font-semibold text-white">{title}</h3>
-        <p className="mt-0.5 text-sm text-zinc-400">{description}</p>
+        <h3 className="text-lg leading-tight font-semibold text-paper">{title}</h3>
+        <p className="mt-0.5 text-sm text-paper-dim">{description}</p>
       </div>
     </div>
   )
@@ -409,10 +409,10 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-zinc-300">
+      <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-paper-dim">
         {label}
         {optional && (
-          <span className="text-[11px] font-normal tracking-wide text-zinc-500 uppercase">
+          <span className="text-[11px] font-normal tracking-wide text-paper-faint uppercase">
             opcional
           </span>
         )}
@@ -437,14 +437,16 @@ function ContactRow({
 }) {
   return (
     <div className="surface-card-subtle flex items-start gap-3 p-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-500/30 bg-blue-500/10">
-        <Icon className="h-4 w-4 text-blue-400" aria-hidden="true" />
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-rule-strong bg-blue-500/10">
+        <Icon className="h-4 w-4 text-stamp-text" aria-hidden="true" />
       </div>
       <div className="min-w-0 flex-1 space-y-1">
-        <p className="text-[11px] font-medium tracking-[0.14em] text-zinc-500 uppercase">{label}</p>
+        <p className="text-[11px] font-medium tracking-[0.14em] text-paper-faint uppercase">
+          {label}
+        </p>
         {children}
         {infoText && (
-          <div className="flex items-center gap-1.5 text-xs text-zinc-500">
+          <div className="flex items-center gap-1.5 text-xs text-paper-faint">
             {InfoIcon && <InfoIcon className="h-3 w-3" aria-hidden="true" />}
             <span>{infoText}</span>
           </div>
@@ -470,7 +472,7 @@ function SocialLink({
       rel="noopener noreferrer"
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.96 }}
-      className="surface-card-subtle flex flex-col items-center justify-center gap-1.5 p-3 text-zinc-400 hover:text-blue-300"
+      className="surface-card-subtle flex flex-col items-center justify-center gap-1.5 p-3 text-paper-dim hover:text-stamp-text"
       aria-label={`Visitar mi perfil de ${label} (se abre en nueva ventana)`}
     >
       {children}

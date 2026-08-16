@@ -41,7 +41,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      color: "hover:bg-black hover:text-white",
+      color: "hover:bg-black hover:text-paper",
     },
     {
       name: "Facebook",
@@ -51,7 +51,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      color: "hover:bg-[#1877F2] hover:text-white",
+      color: "hover:bg-[#1877F2] hover:text-paper",
     },
     {
       name: "LinkedIn",
@@ -61,7 +61,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      color: "hover:bg-[#0A66C2] hover:text-white",
+      color: "hover:bg-[#0A66C2] hover:text-paper",
     },
     {
       name: "WhatsApp",
@@ -71,7 +71,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://wa.me/?text=${encodeURIComponent(title + " " + url)}`,
-      color: "hover:bg-[#25D366] hover:text-white",
+      color: "hover:bg-[#25D366] hover:text-paper",
     },
     {
       name: "Telegram",
@@ -81,7 +81,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-      color: "hover:bg-[#0088cc] hover:text-white",
+      color: "hover:bg-[#0088cc] hover:text-paper",
     },
     {
       name: "Reddit",
@@ -91,7 +91,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
-      color: "hover:bg-[#FF4500] hover:text-white",
+      color: "hover:bg-[#FF4500] hover:text-paper",
     },
     {
       name: "Email",
@@ -106,7 +106,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
         </svg>
       ),
       url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
-      color: "hover:bg-zinc-700 hover:text-white",
+      color: "hover:bg-rule hover:text-paper",
     },
   ]
 
@@ -116,12 +116,12 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-white/10 bg-slate-950/95 text-white backdrop-blur-xl sm:max-w-md">
+      <DialogContent className="border-rule-strong bg-ink text-paper sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-xl font-bold text-transparent">
             Compartir artículo
           </DialogTitle>
-          <DialogDescription className="text-zinc-300">
+          <DialogDescription className="text-paper-dim">
             Comparte este artículo en tus redes sociales favoritas
           </DialogDescription>
         </DialogHeader>
@@ -136,7 +136,7 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 onClick={() => handleShare(social.url)}
-                className={`surface-card-subtle flex items-center gap-3 p-3 ${social.color}`}
+                className={`flex items-center gap-3 border border-rule bg-ink-raised p-3 ${social.color}`}
               >
                 <div className="shrink-0">{social.icon}</div>
                 <span className="text-sm font-medium">{social.name}</span>
@@ -145,14 +145,14 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
           </div>
 
           {/* Copiar enlace */}
-          <div className="border-t border-zinc-800 pt-4">
-            <p className="mb-2 text-sm text-zinc-400">O copia el enlace</p>
+          <div className="border-t border-rule pt-4">
+            <p className="mb-2 text-sm text-paper-dim">O copia el enlace</p>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={url}
                 readOnly
-                className="flex-1 rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300 focus:ring-2 focus:ring-blue-500/50 focus:outline-none"
+                className="flex-1 border border-rule-strong bg-rule/40 px-3 py-2 text-sm text-paper-dim focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp"
               />
               <Button
                 onClick={handleCopyLink}

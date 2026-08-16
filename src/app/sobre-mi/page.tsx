@@ -9,13 +9,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MediaCard } from "@/components/ui/media-card"
 import { StatTiles } from "@/components/ui/stat-tiles"
 import { Pill } from "@/components/ui/pill"
+import { ExperienceSection } from "@/components/home/experience-section"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { ParallaxBackdrop } from "@/components/parallax-backdrop"
-import { AuroraBackdrop } from "@/components/aurora-backdrop"
 import Link from "next/link"
 import { useState } from "react"
 import {
@@ -57,7 +56,7 @@ export default function AboutPage() {
   const [formErrors, setFormErrors] = useState({ name: "", email: "" })
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
+    <div className="relative min-h-screen text-white">
       <DynamicBackground />
       <SiteHeader />
       <main className="relative z-10 pt-12" id="main-content">
@@ -83,7 +82,7 @@ export default function AboutPage() {
                 <div className="space-y-3">
                   <span className="inline-flex items-center gap-2.5 text-emerald-400">
                     <span
-                      className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20"
+                      className="border-rule400/20 h-1.5 w-1.5 rounded-full border bg-emerald-400"
                       aria-hidden="true"
                     />
                     <span className="text-[11px] font-semibold tracking-[0.18em] uppercase md:text-xs">
@@ -231,7 +230,6 @@ export default function AboutPage() {
         {/* 01 — Manifiesto · superficie clara con aurora tono studio · es la
             "tesis editorial" del about, merece protagonismo visual. */}
         <div className="relative overflow-hidden">
-          <AuroraBackdrop tone="studio" intensity={0.6} />
           <motion.section
             className="relative mx-auto max-w-3xl px-4 py-16 md:py-24"
             initial={{ opacity: 0, y: 20 }}
@@ -279,15 +277,15 @@ export default function AboutPage() {
           </motion.section>
         </div>
 
+        {/* 02a — Trayectoria con cifras. Vive aquí desde que el home dejó de
+            listar los roles: el home enlaza, esta página los sostiene. Los tres
+            roles con outcome, métricas de producción y stack; el timeline
+            narrativo que sigue cuenta la historia completa. */}
+        <ExperienceSection showCta={false} />
+
         {/* 02 — Carrera/Timeline · superficie transparente · parallax diagonals
             (mismo lenguaje que Experience en el home). */}
         <div className="relative overflow-hidden">
-          <ParallaxBackdrop
-            variant="diagonals"
-            position="top-left"
-            speed={0.14}
-            opacityClass="opacity-[0.05]"
-          />
           <motion.section
             className="container mx-auto space-y-10 px-4 py-16 md:py-24"
             initial="hidden"
@@ -319,7 +317,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg ring-4 shadow-blue-500/20 ring-blue-500/15 md:-left-[50px]">
+                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg shadow-blue-500/20 md:-left-[50px]">
                   <Calendar className="h-4 w-4" />
                 </div>
                 <div className="surface-card space-y-2 rounded-xl p-6">
@@ -366,7 +364,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg ring-4 shadow-blue-500/20 ring-blue-500/15 md:-left-[50px]">
+                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg shadow-blue-500/20 md:-left-[50px]">
                   <Calendar className="h-4 w-4" />
                 </div>
                 <div className="surface-card space-y-2 rounded-xl p-6">
@@ -413,7 +411,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg ring-4 shadow-blue-500/20 ring-blue-500/15 md:-left-[50px]">
+                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg shadow-blue-500/20 md:-left-[50px]">
                   <Calendar className="h-4 w-4" />
                 </div>
                 <div className="surface-card space-y-2 rounded-xl p-6">
@@ -480,7 +478,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg ring-4 shadow-blue-500/20 ring-blue-500/15 md:-left-[50px]">
+                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg shadow-blue-500/20 md:-left-[50px]">
                   <Calendar className="h-4 w-4" />
                 </div>
                 <div className="surface-card space-y-2 rounded-xl p-6">
@@ -543,7 +541,7 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg ring-4 shadow-blue-500/20 ring-blue-500/15 md:-left-[50px]">
+                <div className="absolute -left-[42px] flex h-9 w-9 items-center justify-center rounded-full border-2 border-blue-500/60 bg-slate-950 text-blue-300 shadow-lg shadow-blue-500/20 md:-left-[50px]">
                   <BookOpen className="h-4 w-4" />
                 </div>
                 <div className="surface-card space-y-2 rounded-xl p-6">
@@ -631,7 +629,6 @@ export default function AboutPage() {
         {/* 04 — Filosofía · superficie oscura sutil + parallax rings ·
             quiebra la monotonía con un fondo más denso. */}
         <div className="relative overflow-hidden border-y border-zinc-900/60 bg-zinc-950/50 backdrop-blur-sm">
-          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
           <motion.section
             className="container mx-auto space-y-10 px-4 py-16 md:py-24"
             initial="hidden"
@@ -725,7 +722,6 @@ export default function AboutPage() {
         {/* 05 — Off-screen · superficie transparente + parallax brackets ·
             cambio de pulso visual respecto a Filosofía (que va sobre slate). */}
         <div className="relative overflow-hidden">
-          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
           <motion.section
             className="container mx-auto space-y-10 px-4 py-16 md:py-24"
             initial="hidden"
@@ -942,12 +938,6 @@ export default function AboutPage() {
         {/* 06 — CTA final · superficie oscura sutil + parallax brackets
             centrado · cierre del recorrido con peso visual. */}
         <div className="relative overflow-hidden border-y border-zinc-900/60 bg-zinc-950/50 backdrop-blur-sm">
-          <ParallaxBackdrop
-            variant="brackets"
-            position="center"
-            speed={0.12}
-            opacityClass="opacity-[0.04]"
-          />
           <motion.section
             className="container mx-auto px-4 py-16 md:py-24"
             initial="hidden"

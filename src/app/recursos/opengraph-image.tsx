@@ -1,15 +1,20 @@
-﻿import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
+import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
 
-export const alt = "Recursos — Junior Carrillo"
+export const alt = "Recursos y casos de impacto — Junior Carrillo"
 export const size = ogSize
 export const contentType = ogContentType
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
   return renderPageOg({
     eyebrow: "Recursos",
-    title: "Código abierto & herramientas",
+    title: "Casos de impacto y repositorios",
     subtitle:
-      "Repositorios destacados de GitHub y GitLab. Proyectos modernos en React, Next.js, Go, TypeScript y Python.",
-    tags: ["GitHub", "GitLab", "Open Source", "React", "Go"],
+      "Sistemas financieros que diseñé y operé, con las métricas reales detrás, más los repositorios públicos de GitHub y GitLab.",
+    particulars: [
+      { term: "Fuentes", value: "GitHub · GitLab" },
+      { term: "Lenguajes", value: "TS · Go · Python" },
+      { term: "Métricas", value: "Reales" },
+      { term: "Datos", value: "En vivo" },
+    ],
   })
 }

@@ -2,12 +2,11 @@
 
 import Link from "next/link"
 import { useState, type FormEvent } from "react"
-import { Code2, Mail, MapPin, ArrowUpRight } from "lucide-react"
+import { Mail, MapPin, ArrowUpRight } from "lucide-react"
 import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Logo } from "@/components/logo"
-import { SkillsMarquee } from "@/components/skills-horizontal-section"
 import { trackSocialClick, trackNavigation, trackNewsletterSignup } from "@/lib/analytics"
 import { toast } from "sonner"
 
@@ -17,6 +16,7 @@ const currentYear = new Date().getFullYear()
 const QUICK_LINKS = [
   { label: "Inicio", href: "/" },
   { label: "Sobre mí", href: "/sobre-mi" },
+  { label: "Herramientas", href: "/herramientas" },
   { label: "Recursos", href: "/recursos" },
   { label: "Substack", href: "https://carrilloapps.substack.com/" },
   { label: "Contacto", href: "/contacto" },
@@ -61,22 +61,17 @@ const LEGAL_LINKS = [
 /**
  * Footer del sitio — pieza estructurada en tres bandas:
  *
- *   1. Skills band (top) — el `<SkillsMarquee>` (los dos marquees contra-
- *      rotativos del home) actúa como "identity strip" del footer, con un
- *      pequeño header editorial encima. Heredado de la sección de skills
- *      que vivía en el home, ahora reubicado aquí para liberar peso del
- *      main y darle al footer un visual hook propio.
- *
+ *   1. Columnas de navegación y newsletter.
  *   2. Columns band — 4 columnas en lg, 2 en sm, 1 en mobile:
  *        Brand + tagline + social  ·  Navega  ·  Servicios  ·  Newsletter
- *      Newsletter usa `<Button variant="gradient">` (mismo CTA que el hero)
+ *      Newsletter usa `<Button variant="outline">` (mismo CTA que el hero)
  *      y `<Input>` con el palette slate del home.
  *
  *   3. Bottom band — copyright a la izquierda, legales a la derecha.
  *
- * Cada banda está separada por un hairline gradient (`from-transparent via-X
+ * Cada banda está separada por un regla hairline (`bg-rule`)
  * to-transparent`) en vez de borders flat — coherente con el lenguaje del
- * `surface-card`. Base `bg-slate-950` con un wash radial superior tenue para
+ * `surface-card`. Base `bg-ink` con una regla de sello arriba, sin wash radial:
  * "firmar" el inicio del footer sin pelear con la última sección del home.
  */
 export function SiteFooter() {
@@ -108,52 +103,23 @@ export function SiteFooter() {
 
   return (
     <footer
-      className="relative isolate overflow-hidden bg-slate-950 text-zinc-300"
+      className="relative isolate overflow-hidden border-t border-rule-strong bg-ink text-paper-dim"
       role="contentinfo"
     >
       {/* Glow ambiental — un wash sutil del azul/violeta del sistema en el
           tope del footer, para que la transición desde la última sección
           del home (Casos de impacto / Contacto) se sienta lograda. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-blue-600/15 blur-[120px]" />
-        <div className="absolute top-10 right-1/4 h-[320px] w-[520px] rounded-full bg-purple-600/10 blur-[120px]" />
-      </div>
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-64"
+        aria-hidden="true"
+      ></div>
 
       {/* Hairline superior — firma del inicio del footer. */}
-      <div
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"
-        aria-hidden="true"
-      />
-
-      {/* ── Banda 1 · Skills marquee ─────────────────────────────────── */}
-      <section
-        className="relative pt-12 pb-10 md:pt-16 md:pb-14"
-        aria-labelledby="footer-skills-heading"
-      >
-        <div className="container mx-auto mb-8 px-4 md:mb-10">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
-              <Code2 className="h-4 w-4 text-blue-400" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-400 uppercase">
-                Stack
-              </p>
-              <h2
-                id="footer-skills-heading"
-                className="text-lg leading-tight font-bold text-white md:text-xl"
-              >
-                Habilidades técnicas
-              </h2>
-            </div>
-          </div>
-        </div>
-        <SkillsMarquee />
-      </section>
+      <div className="absolute inset-x-0 top-0 h-px bg-stamp/50" aria-hidden="true" />
 
       {/* Hairline divisor entre skills y columnas. */}
       <div className="container mx-auto px-4" aria-hidden="true">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="h-px bg-rule" />
       </div>
 
       {/* ── Banda 2 · Columnas (Brand · Navega · Servicios · Newsletter) ─ */}
@@ -162,11 +128,11 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="space-y-5 sm:col-span-2 lg:col-span-1">
             <Logo />
-            <p className="max-w-xs text-sm leading-relaxed text-zinc-400">
+            <p className="max-w-xs text-sm leading-relaxed text-paper-dim">
               Tech Leader & Senior Full Stack — especializado en sistemas de pago, microservicios y
               plataformas críticas.
             </p>
-            <div className="flex items-center gap-3 text-xs text-zinc-400">
+            <div className="flex items-center gap-3 text-xs text-paper-dim">
               <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Medellín, CO · Remoto disponible</span>
             </div>
@@ -179,7 +145,7 @@ export function SiteFooter() {
                   rel="noopener noreferrer"
                   aria-label={`${label} de Junior Carrillo`}
                   onClick={() => trackSocialClick(label, "profile_visit", href)}
-                  className="surface-card-subtle inline-flex h-10 w-10 items-center justify-center text-zinc-400 transition-colors hover:text-white"
+                  className="inline-flex h-10 w-10 items-center justify-center border border-rule bg-ink-raised text-paper-dim transition-colors hover:text-paper"
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
                   <span className="sr-only">{label}</span>
@@ -197,14 +163,14 @@ export function SiteFooter() {
           {/* Newsletter */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1">
             <div className="space-y-1">
-              <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-400 uppercase">
+              <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
                 Boletín
               </p>
-              <h3 className="text-base font-bold text-white" id="footer-newsletter">
+              <h3 className="text-base font-bold text-paper" id="footer-newsletter">
                 Conversemos por correo
               </h3>
             </div>
-            <p className="text-sm leading-relaxed text-zinc-400">
+            <p className="text-sm leading-relaxed text-paper-dim">
               Notas ocasionales sobre arquitectura, fintech y liderazgo técnico. Sin spam.
             </p>
             <form
@@ -232,14 +198,14 @@ export function SiteFooter() {
               />
               <Button
                 type="submit"
-                variant="gradient"
+                variant="outline"
                 size="default"
                 className="w-full touch-manipulation"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-rule border-t-white" />
                     Suscribiendo…
                   </>
                 ) : (
@@ -256,11 +222,11 @@ export function SiteFooter() {
 
       {/* ── Banda 3 · Copyright + legales ───────────────────────────── */}
       <div className="container mx-auto px-4" aria-hidden="true">
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="h-px bg-rule" />
       </div>
       <div className="container mx-auto px-4 py-6 md:py-7">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-center text-xs text-zinc-400 md:text-left">
+          <p className="text-center text-xs text-paper-dim md:text-left">
             © {currentYear} Junior Carrillo. Todos los derechos reservados.
           </p>
           <nav
@@ -272,7 +238,7 @@ export function SiteFooter() {
                 key={label}
                 href={href}
                 onClick={() => trackNavigation(label, href, "footer")}
-                className="text-xs text-zinc-400 transition-colors hover:text-zinc-200"
+                className="text-xs text-paper-dim transition-colors hover:text-zinc-200"
               >
                 {label}
               </Link>
@@ -297,7 +263,7 @@ function FooterColumn({
 }) {
   return (
     <div className="space-y-4">
-      <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-400 uppercase" id={id}>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase" id={id}>
         {title}
       </p>
       <nav className="flex flex-col space-y-2.5" aria-labelledby={id}>
@@ -306,7 +272,7 @@ function FooterColumn({
             key={href}
             href={href}
             onClick={() => trackNavigation(label, href, "footer")}
-            className="group inline-flex w-fit items-center gap-1.5 text-sm text-zinc-400 transition-colors hover:text-white"
+            className="group inline-flex w-fit items-center gap-1.5 text-sm text-paper-dim transition-colors hover:text-paper"
           >
             <span>{label}</span>
             <ArrowUpRight

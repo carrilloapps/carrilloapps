@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Eye, Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ArrowUpRight, Check, Download, Eye } from "lucide-react"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -12,6 +13,7 @@ import {
   DynamicDialogHeader as DialogHeader,
   DynamicDialogTitle as DialogTitle,
 } from "@/components/dynamic-imports"
+import { trackButtonClick } from "@/lib/analytics"
 
 interface CvDownloadModalProps {
   open: boolean
@@ -31,13 +33,22 @@ interface FormErrors {
 }
 
 /**
- * Self-contained CV download flow. Renders a two-step dialog:
- *   1. Capture name + email (lightweight gating so we know who downloaded)
- *   2. Reveal "Ver el CV" / "Descargar el CV" buttons
+ * The CV request slip.
  *
- * Owns its own form state so any page can drop in `<CvDownloadModal />` next
- * to a trigger button without copy-pasting the wiring.
+ * Two steps: state who is asking, then collect the document. The previous
+ * version asked for a name and an email behind one line of copy and, on
+ * success, told the visitor "se ha enviado también a tu correo" — which was
+ * never true, since the form has no backend. A document counter says what it
+ * holds, why it needs the detail, and exactly what happens next.
  */
+
+/** What the visitor is actually getting. Stated before they hand over a detail. */
+const CONTENTS = [
+  { term: "Formato", value: "PDF · 2 páginas" },
+  { term: "Idioma", value: "Español" },
+  { term: "Incluye", value: "Trayectoria, stack y referencias" },
+]
+
 export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDownloadModalProps) {
   const [submitted, setSubmitted] = useState(false)
   const [data, setData] = useState<FormState>({ name: "", email: "" })
@@ -46,42 +57,65 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const validation: FormErrors = {
-      name: data.name ? "" : "El nombre es requerido",
-      email: !data.email
-        ? "El correo electrónico es requerido"
-        : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
-          ? "Por favor ingresa un correo electrónico válido"
-          : "",
+      name: data.name.trim().length < 2 ? "Escribe tu nombre completo." : "",
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
+        ? ""
+        : "Escribe un correo electrónico válido.",
     }
     setErrors(validation)
     if (!validation.name && !validation.email) {
-      // TODO: wire to backend / analytics endpoint when ready.
+      trackButtonClick("CV solicitado", "cv-modal")
       setSubmitted(true)
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md border-white/10 bg-slate-950/95 text-white backdrop-blur-xl">
+      <DialogContent className="max-w-lg border-rule-strong bg-ink text-paper">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Descargar CV</DialogTitle>
-          <DialogDescription className="text-zinc-300">
-            {!submitted
-              ? "Por favor, ingresa tu información para acceder al CV, esperando quizás conocerte mejor en algún momento."
-              : "¡Gracias! Ahora puedes ver o descargar el CV."}
+          <div className="flex items-baseline justify-between gap-4 border-b border-rule-strong pr-10 pb-2">
+            <span className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+              {submitted ? "Documento listo" : "Solicitud de documento"}
+            </span>
+            <span className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
+              CV · 2026
+            </span>
+          </div>
+
+          <DialogTitle className="pt-4">
+            {submitted ? "Tu copia está lista" : "Currículum vitae"}
+          </DialogTitle>
+          <DialogDescription>
+            {submitted
+              ? `Gracias, ${data.name.split(" ")[0]}. Puedes abrirlo en el navegador o guardarlo.`
+              : "Te pido nombre y correo para saber quién lo consulta — nada más. Sin lista de correo, sin seguimiento comercial."}
           </DialogDescription>
         </DialogHeader>
 
+        {/* The particulars of the document, stated up front. */}
+        <dl className="divide-y divide-rule border-y border-rule">
+          {CONTENTS.map(({ term, value }) => (
+            <div key={term} className="flex items-baseline justify-between gap-4 py-2.5">
+              <dt className="font-mono text-[10px] tracking-[0.12em] text-paper-faint uppercase">
+                {term}
+              </dt>
+              <dd className="text-right font-sans text-sm text-paper-dim">{value}</dd>
+            </div>
+          ))}
+        </dl>
+
         {!submitted ? (
-          <form onSubmit={handleSubmit} className="space-y-4 py-2">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <div className="space-y-2">
-              <Label htmlFor="cv-name" className="text-white">
+              <Label
+                htmlFor="cv-name"
+                className="font-mono text-[10px] tracking-[0.12em] text-paper-faint uppercase"
+              >
                 Nombre completo
               </Label>
               <Input
                 id="cv-name"
                 name="name"
-                variant="glass"
                 value={data.name}
                 onChange={(e) => setData({ ...data, name: e.target.value })}
                 autoCapitalize="words"
@@ -94,20 +128,22 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
                 placeholder="Tu nombre completo"
               />
               {errors.name && (
-                <p id="cv-name-error" className="text-sm text-red-500">
+                <p id="cv-name-error" className="font-mono text-xs text-stamp-text" role="alert">
                   {errors.name}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="cv-email" className="text-white">
+              <Label
+                htmlFor="cv-email"
+                className="font-mono text-[10px] tracking-[0.12em] text-paper-faint uppercase"
+              >
                 Correo electrónico
               </Label>
               <Input
                 id="cv-email"
                 name="email"
-                variant="glass"
                 type="email"
                 inputMode="email"
                 value={data.email}
@@ -121,50 +157,74 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
                 placeholder="tu@correo.com"
               />
               {errors.email && (
-                <p id="cv-email-error" className="text-sm text-red-500">
+                <p id="cv-email-error" className="font-mono text-xs text-stamp-text" role="alert">
                   {errors.email}
                 </p>
               )}
             </div>
 
-            <Button
-              type="submit"
-              variant="gradient"
-              size="lg"
-              className="min-h-[48px] w-full touch-manipulation"
-            >
+            <button type="submit" className="cta w-full justify-center">
               Acceder al CV
-            </Button>
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+
+            <p className="font-sans text-xs leading-relaxed text-paper-faint">
+              Tus datos no se comparten con terceros. Consulta la{" "}
+              <Link
+                href="/privacidad"
+                className="text-paper-dim underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+              >
+                política de privacidad
+              </Link>
+              .
+            </p>
           </form>
         ) : (
-          <div className="space-y-4 py-4">
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button
-                variant="gradient"
-                size="lg"
-                className="min-h-[48px] flex-1 touch-manipulation"
-                onClick={() => window.open(cvUrl, "_blank")}
+          <div className="space-y-5">
+            <p className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-settled uppercase">
+              <Check className="h-3.5 w-3.5" aria-hidden="true" />
+              Registrado
+            </p>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackButtonClick("Ver CV", "cv-modal")}
+                className="cta flex-1 justify-center"
               >
-                <Eye className="mr-2 h-4 w-4" />
+                <Eye className="h-4 w-4" aria-hidden="true" />
                 Ver el CV
-              </Button>
-              <Button
-                variant="glass"
-                size="lg"
-                className="min-h-[48px] flex-1 touch-manipulation"
-                asChild
+              </a>
+              <a
+                href={cvUrl}
+                download
+                onClick={() => trackButtonClick("Descargar CV", "cv-modal")}
+                className="cta-quiet flex-1 justify-center"
               >
-                <a href={cvUrl} download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Descargar el CV
-                </a>
-              </Button>
+                <Download className="h-3.5 w-3.5" aria-hidden="true" />
+                Descargar
+              </a>
             </div>
 
-            <div className="text-center text-sm text-zinc-300">
-              <p>¡Gracias por el interés, {data.name}!</p>
-              <p>Se ha enviado también a {data.email}.</p>
-            </div>
+            <p className="font-sans text-xs leading-relaxed text-paper-faint">
+              ¿Prefieres conversarlo? Puedes{" "}
+              <Link
+                href="/agendamiento"
+                className="text-paper-dim underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+              >
+                agendar una asesoría
+              </Link>{" "}
+              o{" "}
+              <Link
+                href="/contacto"
+                className="text-paper-dim underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+              >
+                escribirme
+              </Link>
+              .
+            </p>
           </div>
         )}
       </DialogContent>

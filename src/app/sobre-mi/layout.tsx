@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Tech Leader en Medellín",
+  title: "Una década en dinero que se mueve",
   description:
-    "Tech Leader y Senior Software Developer en Medellín con +10 años creando sistemas de pago para LATAM. Hoy en Yummy; antes Wompi.",
+    "De programador a Tech Leader en Medellín: pasarelas de pago, conciliación de alto volumen y core bancario en producción. Hoy en Yummy; antes en Wompi.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [
@@ -16,7 +16,6 @@ export const metadata = buildPageMetadata({
     "desarrollador senior medellín",
     "open banking developer",
     "microservicios fintech",
-    "consultor desarrollo software",
     "arquitecto de pagos",
     "Junior Carrillo",
   ],

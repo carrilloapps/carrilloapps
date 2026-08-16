@@ -70,7 +70,7 @@ export default [
     plugins: { "better-tailwindcss": betterTailwind },
     settings: {
       "better-tailwindcss": {
-        entryPoint: "app/globals.css",
+        entryPoint: "src/app/globals.css",
       },
     },
     rules: {

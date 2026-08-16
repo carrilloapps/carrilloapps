@@ -1,16 +1,20 @@
-﻿import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
+import { renderPageOg, ogSize, ogContentType } from "@/lib/og"
 
-export const alt = "Agenda una consulta — Junior Carrillo"
+export const alt = "Agendar una asesoría — Junior Carrillo"
 export const size = ogSize
 export const contentType = ogContentType
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
   return renderPageOg({
-    eyebrow: "Agenda",
-    title: "Agenda una consulta",
+    eyebrow: "Agendamiento",
+    title: "Agendar una asesoría",
     subtitle:
-      "Discutamos tu proyecto, resolvemos dudas técnicas o exploramos oportunidades de colaboración.",
-    tags: ["Discovery", "Consultoría", "Sin compromiso"],
-    accent: "Slots semanales",
+      "60 minutos sobre tu arquitectura de pagos: el problema concreto, los riesgos que veo priorizados, y siguientes pasos accionables.",
+    particulars: [
+      { term: "Duración", value: "60 minutos" },
+      { term: "Formato", value: "Videollamada" },
+      { term: "Zona", value: "America/Bogotá" },
+      { term: "Agenda", value: "Cal.com" },
+    ],
   })
 }

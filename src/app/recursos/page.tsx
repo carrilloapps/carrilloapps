@@ -82,7 +82,7 @@ function ResourcesPageContent() {
   return (
     <>
       <PageLoadingOverlay isVisible={isLoading} />
-      <div className="relative min-h-screen overflow-hidden text-white">
+      <div className="relative min-h-screen text-white">
         <DynamicBackground />
         <SiteHeader />
 
@@ -226,11 +226,10 @@ function ResourcesPageContent() {
           >
             <motion.div variants={itemVariants}>
               <SectionHeader
-                eyebrow="Portafolio"
+                columnLabel="Portafolio"
                 title="Proyectos destacados"
                 description="Mis proyectos personales y contribuciones de código abierto más significativas, construidos con las tecnologías más estables del momento."
                 headingId="featured-projects-heading"
-                align="left"
               />
             </motion.div>
 

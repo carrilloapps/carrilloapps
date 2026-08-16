@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo"
 const SITE_URL = getSiteUrl()
 
 export const metadata = buildPageMetadata({
-  title: "Agenda una Consulta",
+  title: "Agendar una asesoría",
   description:
-    "Agenda una consulta de liderazgo técnico: revisamos tu proyecto, resolvemos dudas y exploramos opciones de colaboración técnica.",
+    "Reserva 60 minutos sobre tu arquitectura de pagos: el problema concreto, los riesgos que veo priorizados y siguientes pasos accionables. Calendario en vivo.",
   path: "/agendamiento",
   keywords: [
     "agendar consulta",

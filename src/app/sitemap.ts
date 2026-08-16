@@ -3,9 +3,9 @@ import { getSiteUrl } from "@/lib/env"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl()
-  // Bumped after the structured-data / SEO overhaul so Google is prompted to
-  // recrawl the updated pages.
-  const lastModified = new Date("2026-06-18")
+  // Bumped after the OG/icon/metadata rebuild so Google is prompted to recrawl
+  // the rewritten titles, descriptions and social cards.
+  const lastModified = new Date("2026-08-16")
 
   return [
     {
@@ -31,6 +31,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: {
         languages: { "es-CO": `${baseUrl}/servicios`, "x-default": `${baseUrl}/servicios` },
+      },
+    },
+    {
+      url: `${baseUrl}/herramientas`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
+      alternates: {
+        languages: {
+          "es-CO": `${baseUrl}/herramientas`,
+          "x-default": `${baseUrl}/herramientas`,
+        },
       },
     },
     {

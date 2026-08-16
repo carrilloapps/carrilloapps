@@ -31,7 +31,7 @@
 }
 
 .dark {
-  --background: 0 0% 0%;
+  --background: 220 11% 4%;
   --foreground: 0 0% 98%;
   --card: 240 10% 3.9%;
   --card-foreground: 0 0% 98%;
@@ -117,6 +117,47 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   The settlement ledger
+   Ink ground, inverted-paper text, hairline rules, one validation-stamp red.
+   Color lives only in rules and state marks; the text field stays achromatic.
+   --------------------------------------------------------------------------- */
+:root {
+  --ledger-ink: #0b0c0e;
+  --ledger-ink-raised: #101216;
+  --ledger-paper: #e8e6e1;
+  --ledger-paper-dim: #a2a6ad;
+  --ledger-paper-faint: #868b93;
+  --ledger-rule: #2a2d33;
+  --ledger-rule-strong: #3d424a;
+  --ledger-stamp: #c4362f;
+  /* The stamp at text size: the seal red is a 3.65:1 mark, fine for a rule or
+     an icon but below the 4.5:1 floor for small copy, so type gets this one. */
+  --ledger-stamp-text: #e0574e;
+  --ledger-stamp-dim: #7a2420;
+  --ledger-settled: #3f8f6f;
+
+  /* One column rhythm for every entry across the site. */
+  --ledger-gutter: 1.5rem;
+  --ledger-rule-width: 1px;
+}
+
+@theme inline {
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-mono-ledger), ui-monospace, monospace;
+
+  --color-ink: var(--ledger-ink);
+  --color-ink-raised: var(--ledger-ink-raised);
+  --color-paper: var(--ledger-paper);
+  --color-paper-dim: var(--ledger-paper-dim);
+  --color-paper-faint: var(--ledger-paper-faint);
+  --color-rule: var(--ledger-rule);
+  --color-rule-strong: var(--ledger-rule-strong);
+  --color-stamp: var(--ledger-stamp);
+  --color-stamp-text: var(--ledger-stamp-text);
+  --color-settled: var(--ledger-settled);
+}
+
 @layer base {
   * {
     border-color: hsl(var(--border));
@@ -125,9 +166,111 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
+
+  /* Every figure in this world is tabular: columns must align down the page
+     regardless of which digits land in them. */
+  .font-mono,
+  [class*="tabular"],
+  table {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings:
+      "tnum" 1,
+      "zero" 1;
+  }
+
+  /* Browser surfaces belong to the design system too. */
+  ::selection {
+    background-color: var(--ledger-stamp);
+    color: var(--ledger-paper);
+  }
+  html {
+    scrollbar-color: var(--ledger-rule-strong) var(--ledger-ink);
+    scrollbar-width: thin;
+    accent-color: var(--ledger-stamp);
+    caret-color: var(--ledger-stamp);
+  }
+  a {
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: from-font;
+  }
 }
 
 @layer components {
+  /* Tailwind v4 dropped `cursor: pointer` from its button reset, so every
+     <button> in the app pointed a default arrow. Anything that acts on click
+     says so under the cursor. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  /* ── Calls to action ──────────────────────────────────────────────────
+     Two levels, both readable as actions rather than as prose. The primary
+     carries the stamp rule under it; the secondary is a ruled plate. Neither
+     is bare text: an action that looks like a sentence does not get clicked. */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding-inline: 0.25rem;
+    border-bottom: 2px solid var(--ledger-stamp);
+    font-family: var(--font-archivo), system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ledger-paper);
+    touch-action: manipulation;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .cta:hover,
+  .cta:focus-visible {
+    color: var(--ledger-stamp-text);
+    border-bottom-color: var(--ledger-stamp-text);
+  }
+
+  /* The secondary action. Not a box: boxing every link turned the page into
+     a field of buttons and fought a world made of rules. What marks it as
+     actionable is the register — mono, uppercase, tracked — plus a required
+     icon and a rule that draws itself under the label on hover. */
+  .cta-quiet {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding-inline: 0.125rem;
+    border-bottom: 1px solid transparent;
+    background-color: transparent;
+    font-family: var(--font-mono-ledger), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ledger-paper-dim);
+    touch-action: manipulation;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease;
+  }
+  .cta-quiet:hover,
+  .cta-quiet:focus-visible {
+    color: var(--ledger-paper);
+    border-bottom-color: var(--ledger-stamp);
+  }
+  /* The icon leans in the direction the action goes. */
+  .cta-quiet svg {
+    transition: transform 150ms ease;
+  }
+  .cta-quiet:hover svg {
+    transform: translate(1px, -1px);
+  }
+
   .container {
     width: 100%;
     margin-inline: auto;
@@ -151,48 +294,28 @@
   }
 }
 
+/* One focus treatment for the whole site: an outline, never a ring.
+   Deliberately unlayered — inside @layer base, Tailwind base reset is emitted
+   after this file and wins on source order, which left every outline painted
+   in currentColor instead of the stamp. */
+html :focus-visible {
+  outline: 2px solid var(--ledger-stamp-text);
+  outline-offset: 3px;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
+/* Only the gutter belongs here. The heading sizes that used to live in this
+   block were unlayered, so they outranked every Tailwind utility: the hero's
+   clamp() collapsed to 30px on phones while 11px mono column labels — which
+   are h2 elements — inflated to 24px and became the loudest type on screen.
+   Type scale is set per component. */
 @media (max-width: 640px) {
-  h1 {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-  }
-  h2 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-  h3 {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
   .container {
     padding-inline: 1rem;
   }
-}
-
-@media (min-width: 641px) and (max-width: 1023px) {
-  h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-  }
-  h2 {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-  }
-  h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-}
-
-:focus-visible {
-  outline-width: 2px;
-  outline-style: solid;
-  outline-color: rgb(59 130 246);
-  outline-offset: 2px;
 }
 
 ::-webkit-scrollbar {
@@ -205,12 +328,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(63 63 70);
+  background-color: var(--ledger-rule);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(82 82 91);
+  background-color: var(--ledger-rule-strong);
 }
 
 @keyframes marqueeScroll {
@@ -352,60 +475,23 @@ html {
  */
 .surface-card {
   position: relative;
-  /* New stacking context so ::before glow can sit at z:-1 behind content
-     without bleeding past the card. */
   isolation: isolate;
-  overflow: hidden;
-  border-radius: 1rem;
-  background:
-    linear-gradient(180deg, rgb(255 255 255 / 0.04) 0%, transparent 40%),
-    linear-gradient(180deg, rgb(30 41 59 / 0.55), rgb(15 23 42 / 0.7));
-  border: 1px solid rgb(255 255 255 / 0.08);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.07),
-    0 1px 0 0 rgb(0 0 0 / 0.4),
-    0 12px 32px -14px rgb(0 0 0 / 0.7);
+  background-color: var(--ledger-ink-raised);
+  border: 1px solid var(--ledger-rule);
   transition:
-    border-color 300ms ease,
-    background 300ms ease,
-    box-shadow 300ms ease;
+    border-color 200ms ease,
+    background-color 200ms ease;
 }
 
 .surface-card:hover,
 .surface-card:focus-within,
 .group:hover .surface-card,
 .group:focus-within .surface-card {
-  border-color: rgb(96 165 250 / 0.45);
-  background:
-    linear-gradient(180deg, rgb(96 165 250 / 0.06) 0%, transparent 40%),
-    linear-gradient(180deg, rgb(30 41 59 / 0.7), rgb(15 23 42 / 0.78));
-  box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.12),
-    0 1px 0 0 rgb(0 0 0 / 0.4),
-    0 24px 48px -16px rgb(59 130 246 / 0.28),
-    0 6px 24px -8px rgb(0 0 0 / 0.6);
+  border-color: var(--ledger-rule-strong);
 }
 
 .surface-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(900px circle at 50% -10%, rgb(96 165 250 / 0.12), transparent 45%),
-    radial-gradient(600px circle at 50% 110%, rgb(168 85 247 / 0.06), transparent 50%);
-  opacity: 0;
-  transition: opacity 500ms ease;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.surface-card:hover::before,
-.surface-card:focus-within::before,
-.group:hover .surface-card::before,
-.group:focus-within .surface-card::before {
-  opacity: 1;
+  content: none;
 }
 
 .surface-card::after {
@@ -415,7 +501,7 @@ html {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgb(255 255 255 / 0.14), transparent);
+  background-color: var(--ledger-rule);
   pointer-events: none;
   z-index: 1;
 }
@@ -426,7 +512,7 @@ html {
 .surface-card-subtle {
   position: relative;
   border-radius: 0.75rem;
-  background: linear-gradient(180deg, rgb(15 23 42 / 0.5), rgb(2 6 23 / 0.4));
+  background-color: var(--ledger-ink-raised);
   border: 1px solid rgb(255 255 255 / 0.06);
   transition:
     border-color 200ms ease,
@@ -436,7 +522,7 @@ html {
 .surface-card-subtle:hover,
 .surface-card-subtle:focus-within {
   border-color: rgb(96 165 250 / 0.3);
-  background: linear-gradient(180deg, rgb(15 23 42 / 0.6), rgb(2 6 23 / 0.5));
+  background-color: var(--ledger-ink-raised);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -473,15 +559,28 @@ html {
   }
 }
 
-a:focus,
-button:focus,
+/* This used to paint a two-layer box-shadow ring on `:focus` for links,
+   buttons and fields. Two things were wrong with it: a hand-written box-shadow
+   is still a ring — the banned device, just not spelled with a Tailwind
+   utility — and `:focus` fires on mouse clicks, so every click left a ring
+   behind. Focus is the themed outline from the base layer; fields only widen
+   the offset so the outline clears their own 1px rule. */
+/* @tailwindcss/forms paints its own blue focus border and shadow on fields.
+   The ledger focuses with the stamp outline like everything else. */
 input:focus,
 select:focus,
-textarea:focus {
-  outline: none;
-  box-shadow:
-    0 0 0 2px rgb(0 0 0),
-    0 0 0 4px rgb(59 130 246);
+textarea:focus,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--ledger-rule-strong);
+  box-shadow: none;
+}
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid var(--ledger-stamp-text);
+  outline-offset: 2px;
 }
 
 @media (max-width: 640px) {

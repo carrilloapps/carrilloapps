@@ -2,21 +2,21 @@
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Junior Carrillo - Tech Lead & Software Architect",
-    short_name: "Junior Carrillo",
+    name: "carrillo.app — Junior Carrillo, Tech Leader en pagos",
+    short_name: "carrillo.app",
     description:
-      "Senior Software Developer & Tech Leader especializado en sistemas financieros y liderazgo técnico",
+      "Herramientas de código abierto y escritura técnica de Junior Carrillo, Tech Leader en pagos e infraestructura financiera en LATAM.",
     start_url: "/",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#000000",
+    background_color: "#0b0c0e",
+    theme_color: "#0b0c0e",
     orientation: "portrait",
     scope: "/",
     lang: "es-CO",
     categories: ["business", "technology", "finance", "education", "payments"],
     icons: [
       {
-        src: "icons/1024.png",
+        src: "/icons/1024.png",
         sizes: "any",
         type: "image/png",
         purpose: "any",
@@ -33,21 +33,35 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
         purpose: "any",
       },
+      // 192 and 512 are generated inside the 80% safe zone, so Android can
+      // crop them to any mask shape without cutting into the stamp frame.
+      {
+        src: "/icons/192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/icons/512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
     ],
     screenshots: [
       {
-        src: "/placeholder.jpg",
+        src: "/screenshots/wide.png",
         sizes: "1280x720",
-        type: "image/jpeg",
+        type: "image/png",
         form_factor: "wide",
-        label: "Junior Carrillo - Página Principal",
+        label: "Portada de carrillo.app: el encabezado del documento y las herramientas publicadas",
       },
       {
-        src: "/placeholder.jpg",
+        src: "/screenshots/narrow.png",
         sizes: "750x1334",
-        type: "image/jpeg",
+        type: "image/png",
         form_factor: "narrow",
-        label: "Junior Carrillo - Vista Móvil",
+        label: "carrillo.app en móvil: identificación, rol, base y trayectoria",
       },
     ],
     shortcuts: [

@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback, memo } from "react"
 import Link from "next/link"
 import {
+  Wrench,
   Calendar,
   ChevronDown,
   FolderOpen,
   Mail,
-  Home,
   User,
   Briefcase,
   Layers,
@@ -22,9 +22,11 @@ import { Github } from "@/components/icons/social-icons"
 import { motion, AnimatePresence, useReducedMotion } from "@/lib/motion"
 import { usePathname } from "next/navigation"
 
+import { CalPopupButton } from "@/components/cal-booking"
+
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
-import { trackNavigation, trackCTAClick } from "@/lib/analytics"
+import { trackNavigation } from "@/lib/analytics"
 // GitLab icon component
 const GitLabIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -41,13 +43,10 @@ interface NavItem {
   children?: NavItem[]
 }
 
+// No "Inicio" entry: the letterhead is the way home, the way it works on every
+// modern site. A nav item pointing at the page you are already on spends the
+// most valuable slot in the bar restating the logo.
 const navItems: NavItem[] = [
-  {
-    href: "/",
-    label: "Inicio",
-    icon: Home,
-    description: "Página principal",
-  },
   {
     href: "/sobre-mi",
     label: "Sobre mí",
@@ -111,6 +110,12 @@ const navItems: NavItem[] = [
     description: "Herramientas y repositorios",
     children: [
       {
+        href: "/herramientas",
+        label: "Herramientas",
+        description: "Librerías y CLIs que mantengo",
+        icon: Wrench,
+      },
+      {
         href: "/recursos?tab=github",
         label: "Repositorios GitHub",
         description: "Proyectos open source en GitHub",
@@ -148,10 +153,10 @@ const NavLink = memo(
         href={item.href}
         onClick={handleClick}
         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        className={`group relative flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black focus:outline-none ${
+        className={`group relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
           isActive
-            ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
-            : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
+            ? "border-b-2 border-stamp text-paper"
+            : "text-paper-dim hover:bg-rule/40 hover:text-paper"
         }`}
         aria-current={isActive ? "page" : undefined}
       >
@@ -222,15 +227,13 @@ const MegaMenu = memo(
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
-            className="absolute top-full left-0 z-50 mt-2 w-[560px] overflow-hidden rounded-xl border border-zinc-800/50 bg-black/95 shadow-2xl shadow-black/50 backdrop-blur-2xl"
+            className="absolute top-full left-0 z-50 mt-2 w-[560px] overflow-hidden border border-rule bg-ink-raised shadow-[0_24px_48px_-24px_rgba(0,0,0,0.9)]"
             style={{
               backdropFilter: "blur(32px) saturate(180%)",
               WebkitBackdropFilter: "blur(32px) saturate(180%)",
             }}
           >
             {/* Subtle glassmorphism overlay */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5" />
 
             <div
               className="relative z-10 p-5"
@@ -253,22 +256,22 @@ const MegaMenu = memo(
                             trackNavigation(child.label, child.href, "header")
                             onClose()
                           }}
-                          className="group relative flex items-center gap-3 rounded-lg px-4 py-3 transition-all duration-300 ease-out hover:bg-zinc-800/40 focus:ring-2 focus:ring-blue-500/50 focus:outline-none"
+                          className="group relative flex items-center gap-3 px-4 py-3 transition-all duration-300 ease-out hover:bg-rule/40 focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp"
                         >
                           {/* Icon */}
                           {ChildIcon && (
                             <div className="shrink-0">
-                              <ChildIcon className="h-5 w-5 text-zinc-400 transition-colors duration-300 group-hover:text-blue-400" />
+                              <ChildIcon className="h-5 w-5 text-paper-dim transition-colors duration-300 group-hover:text-stamp-text" />
                             </div>
                           )}
 
                           {/* Content */}
                           <div className="min-w-0 flex-1">
-                            <h3 className="text-sm font-medium text-white transition-colors duration-300 group-hover:text-blue-400">
+                            <h3 className="text-sm font-medium text-paper transition-colors duration-300 group-hover:text-stamp-text">
                               {child.label}
                             </h3>
                             {child.description && (
-                              <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-zinc-500 transition-colors duration-300 group-hover:text-zinc-400">
+                              <p className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-paper-faint transition-colors duration-300 group-hover:text-paper-dim">
                                 {child.description}
                               </p>
                             )}
@@ -276,7 +279,7 @@ const MegaMenu = memo(
 
                           {/* Subtle arrow indicator */}
                           <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <ChevronDown className="h-4 w-4 rotate-[-90deg] text-blue-400" />
+                            <ChevronDown className="h-4 w-4 rotate-[-90deg] text-stamp-text" />
                           </div>
                         </Link>
                       </motion.div>
@@ -297,12 +300,9 @@ export function SiteHeader() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  /** 0–1 position through the document, drawn as the bar's bottom rule. */
+  const [progress, setProgress] = useState(0)
   const [openMegaMenu, setOpenMegaMenu] = useState<string | null>(null)
-  const [isVisible, setIsVisible] = useState(true)
-  // lastScrollY is a ref, not state — the scroll handler reads it
-  // synchronously and updating state on every scroll would re-run the effect
-  // (infinite loop) and trigger React's "Maximum update depth exceeded".
-  const lastScrollY = useRef(0)
   const pathname = usePathname()
   const shouldReduceMotion = useReducedMotion()
 
@@ -321,24 +321,13 @@ export function SiteHeader() {
     const handleScroll = () => {
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY
-          const isScrolled = currentScrollY > 10
-
-          setScrolled(isScrolled)
-
-          // Hide header when scrolling down, show when scrolling up
-          // Always show header at the top of the page
-          if (currentScrollY < 10) {
-            setIsVisible(true)
-          } else if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
-            // Scrolling down — hide header (threshold 50px)
-            setIsVisible(false)
-          } else if (currentScrollY < lastScrollY.current) {
-            // Scrolling up — show header
-            setIsVisible(true)
-          }
-
-          lastScrollY.current = currentScrollY
+          // The bar stays put — it used to translate off-screen on scroll-down,
+          // which fought sticky positioning and left a dead band behind. What
+          // changes with scroll is its density and its progress mark.
+          const y = window.scrollY
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight
+          setScrolled(y > 10)
+          setProgress(scrollable > 0 ? Math.min(y / scrollable, 1) : 0)
           ticking.current = false
         })
         ticking.current = true
@@ -463,7 +452,7 @@ export function SiteHeader() {
   if (!mounted)
     return (
       <header
-        className="sticky top-0 z-50 h-16 w-full border-b border-zinc-800/50 bg-black/80 backdrop-blur-md"
+        className="sticky top-0 z-50 h-16 w-full border-b border-rule bg-ink"
         role="banner"
         aria-label="Cargando encabezado"
       >
@@ -477,32 +466,37 @@ export function SiteHeader() {
 
   return (
     <>
-      <motion.header
-        initial={false}
-        animate={{
-          y: isVisible ? 0 : -100,
-          opacity: isVisible ? 1 : 0,
-        }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className={`sticky top-0 right-0 left-0 z-50 w-full transition-all duration-300 ${
+      <header
+        data-scrolled={scrolled ? "true" : "false"}
+        className={`sticky top-0 z-50 w-full border-b transition-[background-color,border-color] duration-200 ${
           scrolled
-            ? "border-b border-white/10 bg-black/20 shadow-lg shadow-black/20 backdrop-blur-2xl"
-            : "border-b border-white/5 bg-black/10 backdrop-blur-xl"
+            ? "border-rule-strong bg-ink/95 supports-[backdrop-filter]:bg-ink/85 supports-[backdrop-filter]:backdrop-blur-sm"
+            : "border-rule bg-ink"
         }`}
         role="banner"
         itemScope
         itemType="https://schema.org/WPHeader"
       >
+        {/* Reading progress: the ledger's travelling rule, reporting position
+            in the document rather than an indeterminate wait. */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-[-1px] block h-px origin-left bg-stamp transition-opacity duration-200"
+          style={{ transform: `scaleX(${progress})`, opacity: scrolled ? 1 : 0 }}
+        />
         {/* Subtle glassmorphism overlay effect */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent" />
-        <div className="relative z-10 container flex h-16 items-center justify-between">
+        <div
+          className={`relative z-10 container flex items-center justify-between gap-6 transition-[height] duration-200 ${
+            scrolled ? "h-14" : "h-20"
+          }`}
+        >
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
           >
-            <Logo animationLevel="none" showMark={false} />
+            <Logo showMark size={scrolled ? 26 : 30} />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -543,10 +537,10 @@ export function SiteHeader() {
                     <button
                       type="button"
                       onClick={() => handleMegaMenuToggle(item.href)}
-                      className={`group relative flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:ring-offset-2 focus:ring-offset-black focus:outline-none ${
+                      className={`group relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
                         isActive
-                          ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
-                          : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
+                          ? "border-b-2 border-stamp text-paper"
+                          : "text-paper-dim hover:bg-rule/40 hover:text-paper"
                       }`}
                       aria-expanded={isMegaMenuOpen}
                       aria-haspopup="true"
@@ -590,17 +584,13 @@ export function SiteHeader() {
               <Button
                 variant="outline"
                 size="sm"
-                className="group relative overflow-hidden border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm transition-all duration-200 hover:border-blue-500/40 hover:from-blue-500/30 hover:to-purple-500/30 hover:shadow-lg hover:shadow-blue-500/20"
+                className="group relative border-b-2 border-stamp text-paper transition-all duration-200 hover:border-stamp"
                 asChild
               >
-                <Link
-                  href="/agendamiento"
-                  onClick={() => trackCTAClick("Agéndame", "primary", "header-desktop")}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 transition-all duration-300 group-hover:from-blue-500/10 group-hover:to-purple-500/10" />
+                <CalPopupButton source="header-desktop" aria-label="Agendar una asesoría">
                   <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
                   <span className="relative z-10">Agéndame</span>
-                </Link>
+                </CalPopupButton>
               </Button>
             </motion.div>
 
@@ -609,16 +599,12 @@ export function SiteHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white transition-colors hover:bg-zinc-800/50"
+                className="text-paper transition-colors hover:bg-rule/50"
                 asChild
               >
-                <Link
-                  href="/agendamiento"
-                  aria-label="Agendar cita"
-                  onClick={() => trackCTAClick("Agéndame", "primary", "header-mobile-icon")}
-                >
+                <CalPopupButton source="header-mobile-icon" aria-label="Agendar una asesoría">
                   <Calendar className="h-5 w-5" aria-hidden="true" />
-                </Link>
+                </CalPopupButton>
               </Button>
             </div>
 
@@ -631,7 +617,7 @@ export function SiteHeader() {
                 aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
-                className="text-white transition-colors hover:bg-zinc-800/50"
+                className="text-paper transition-colors hover:bg-rule/50"
               >
                 <motion.div
                   animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
@@ -676,7 +662,7 @@ export function SiteHeader() {
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -686,7 +672,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md lg:hidden"
+            className="fixed inset-0 z-50 bg-ink/95 lg:hidden"
             onClick={closeMobileMenu}
             role="dialog"
             aria-modal="true"
@@ -704,24 +690,21 @@ export function SiteHeader() {
                 stiffness: 300,
                 duration: shouldReduceMotion ? 0 : undefined,
               }}
-              className="fixed top-0 right-0 flex h-full w-full max-w-sm flex-col overflow-hidden border-l border-white/20 bg-black/20 backdrop-blur-2xl"
+              className="fixed top-0 right-0 flex h-full w-full max-w-sm flex-col overflow-hidden border-l border-rule-strong bg-ink"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Enhanced glassmorphism overlay for mobile menu */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-purple-500/10" />
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent" />
 
               {/* Mobile Header */}
-              <div className="relative z-10 flex items-center justify-between border-b border-zinc-800/50 p-4">
-                <Logo animationLevel="playful" showMark={false} />
+              <div className="relative z-10 flex items-center justify-between border-b border-rule p-4">
+                <Logo showMark markOnly={false} />
                 <Button
                   ref={closeButtonRef}
                   variant="ghost"
                   size="icon"
                   onClick={closeMobileMenu}
                   aria-label="Cerrar menú"
-                  className="text-white hover:bg-zinc-800/50"
+                  className="text-paper hover:bg-rule/50"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -755,10 +738,10 @@ export function SiteHeader() {
                         <Link
                           ref={isFirstItem ? firstMenuItemRef : undefined}
                           href={item.href}
-                          className={`group relative flex items-center justify-between rounded-lg px-4 py-3 transition-all duration-300 ease-out focus:ring-2 focus:ring-blue-500/50 focus:outline-none ${
+                          className={`group relative flex items-center justify-between px-4 py-3 transition-all duration-300 ease-out focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
                             isActive
-                              ? "border border-blue-500/30 bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white backdrop-blur-sm"
-                              : "text-zinc-400 hover:bg-zinc-800/40 hover:text-white"
+                              ? "border-b-2 border-stamp text-paper"
+                              : "text-paper-dim hover:bg-rule/40 hover:text-paper"
                           }`}
                           onClick={
                             hasChildren
@@ -812,25 +795,25 @@ export function SiteHeader() {
                                         trackNavigation(child.label, child.href, "header")
                                         closeMobileMenu()
                                       }}
-                                      className="group/item flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition-all duration-300 ease-out hover:bg-zinc-800/40"
+                                      className="group/item flex items-center gap-3 px-4 py-3 text-sm transition-all duration-300 ease-out hover:bg-rule/40"
                                     >
                                       {child.icon && (
                                         <div className="shrink-0">
-                                          <child.icon className="h-5 w-5 text-zinc-400 transition-colors duration-300 group-hover/item:text-blue-400" />
+                                          <child.icon className="h-5 w-5 text-paper-dim transition-colors duration-300 group-hover/item:text-stamp-text" />
                                         </div>
                                       )}
                                       <div className="min-w-0 flex-1">
-                                        <div className="font-medium text-white transition-colors duration-300 group-hover/item:text-blue-400">
+                                        <div className="font-medium text-paper transition-colors duration-300 group-hover/item:text-stamp-text">
                                           {child.label}
                                         </div>
                                         {child.description && (
-                                          <div className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-zinc-500 transition-colors duration-300 group-hover/item:text-zinc-400">
+                                          <div className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-paper-faint transition-colors duration-300 group-hover/item:text-paper-dim">
                                             {child.description}
                                           </div>
                                         )}
                                       </div>
                                       <div className="shrink-0 opacity-0 transition-opacity duration-300 group-hover/item:opacity-100">
-                                        <ChevronDown className="h-4 w-4 rotate-[-90deg] text-blue-400" />
+                                        <ChevronDown className="h-4 w-4 rotate-[-90deg] text-stamp-text" />
                                       </div>
                                     </Link>
                                   ))}
@@ -846,22 +829,19 @@ export function SiteHeader() {
               </div>
 
               {/* Mobile Footer */}
-              <div className="relative z-10 border-t border-zinc-800/50 p-4">
+              <div className="relative z-10 border-t border-rule p-4">
                 <Button
-                  className="group/btn relative w-full overflow-hidden border border-blue-500/30 bg-gradient-to-r from-blue-500 to-purple-600 py-3 font-medium text-white shadow-lg shadow-blue-500/20 backdrop-blur-sm transition-all duration-200 hover:from-blue-600 hover:to-purple-700"
+                  className="group/btn relative w-full border border-stamp bg-transparent py-3 font-mono text-xs tracking-[0.08em] text-paper uppercase transition-colors duration-200 hover:bg-stamp hover:text-ink"
                   asChild
                 >
-                  <Link
-                    href="/agendamiento"
-                    onClick={() => {
-                      trackCTAClick("Agéndame", "primary", "mobile-menu-footer")
-                      closeMobileMenu()
-                    }}
+                  <CalPopupButton
+                    source="mobile-menu-footer"
+                    aria-label="Agendar una asesoría"
+                    className="inline-flex w-full items-center justify-center"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 transition-all duration-300 group-hover/btn:via-white/20" />
                     <Calendar className="relative z-10 mr-2 h-4 w-4" aria-hidden="true" />
                     <span className="relative z-10">Agéndame</span>
-                  </Link>
+                  </CalPopupButton>
                 </Button>
               </div>
             </motion.div>

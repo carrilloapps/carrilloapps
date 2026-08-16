@@ -29,8 +29,8 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      color: "hover:bg-black hover:text-white",
-      bgGradient: "from-black to-zinc-800",
+      color: "hover:bg-black hover:text-paper",
+      bgGradient: "",
     },
     {
       name: "Facebook",
@@ -40,7 +40,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      color: "hover:bg-[#1877f2] hover:text-white",
+      color: "hover:bg-[#1877f2] hover:text-paper",
       bgGradient: "from-[#1877f2] to-[#0c63d4]",
     },
     {
@@ -51,7 +51,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      color: "hover:bg-[#0077b5] hover:text-white",
+      color: "hover:bg-[#0077b5] hover:text-paper",
       bgGradient: "from-[#0077b5] to-[#005885]",
     },
     {
@@ -62,7 +62,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://wa.me/?text=${encodeURIComponent(title + " " + url)}`,
-      color: "hover:bg-[#25d366] hover:text-white",
+      color: "hover:bg-[#25d366] hover:text-paper",
       bgGradient: "from-[#25d366] to-[#1da851]",
     },
     {
@@ -73,7 +73,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-      color: "hover:bg-[#0088cc] hover:text-white",
+      color: "hover:bg-[#0088cc] hover:text-paper",
       bgGradient: "from-[#0088cc] to-[#0077b3]",
     },
     {
@@ -84,7 +84,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
-      color: "hover:bg-[#ff4500] hover:text-white",
+      color: "hover:bg-[#ff4500] hover:text-paper",
       bgGradient: "from-[#ff4500] to-[#cc3700]",
     },
     {
@@ -95,7 +95,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(url)}&t=${encodeURIComponent(title)}`,
-      color: "hover:bg-[#ff6600] hover:text-white",
+      color: "hover:bg-[#ff6600] hover:text-paper",
       bgGradient: "from-[#ff6600] to-[#cc5200]",
     },
     {
@@ -106,21 +106,21 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
         </svg>
       ),
       url: `https://dev.to/new?prefill=${encodeURIComponent(`---\ntitle: ${title}\npublished: false\ndescription: ${description}\ntags: \n---\n\n[Leer más](${url})`)}`,
-      color: "hover:bg-black hover:text-white",
-      bgGradient: "from-black to-zinc-800",
+      color: "hover:bg-black hover:text-paper",
+      bgGradient: "",
     },
     {
       name: "Email",
       icon: <Mail className="h-4 w-4" />,
       url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description + "\n\n" + url)}`,
-      color: "hover:bg-zinc-600 hover:text-white",
+      color: "hover:bg-rule hover:text-paper",
       bgGradient: "from-zinc-600 to-zinc-700",
     },
   ]
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold tracking-wider text-zinc-400 uppercase">
+      <h3 className="text-sm font-semibold tracking-wider text-paper-dim uppercase">
         Compartir artículo
       </h3>
 
@@ -136,7 +136,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
               variant="outline"
               size="sm"
               asChild
-              className={`border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm ${social.color} gap-2 transition-all duration-300 hover:scale-105 hover:shadow-lg`}
+              className={`border-rule-strong bg-ink-raised ${social.color} gap-2 transition-all duration-300 hover:scale-105 hover:shadow-lg`}
             >
               <a
                 href={social.url}
@@ -168,7 +168,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
             variant="outline"
             size="sm"
             onClick={handleCopyLink}
-            className="gap-2 border-zinc-700/50 bg-zinc-900/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-blue-500/50 hover:bg-blue-600 hover:text-white hover:shadow-lg"
+            className="gap-2 border-rule-strong bg-ink-raised transition-all duration-300 hover:scale-105 hover:border-rule-strong hover:bg-blue-600 hover:text-paper hover:shadow-lg"
           >
             {copied ? (
               <>
@@ -186,7 +186,7 @@ export function SocialShareButtons({ title, url, description = "" }: SocialShare
       </div>
 
       {/* Descripción */}
-      <p className="text-xs text-zinc-500">
+      <p className="text-xs text-paper-faint">
         Comparte este artículo con la comunidad de desarrolladores
       </p>
     </div>

@@ -1,7 +1,7 @@
 ﻿import type React from "react"
 import "@/app/globals.css"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Archivo, JetBrains_Mono } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { WebsiteJsonLd, OrganizationJsonLd, PersonJsonLd } from "@/components/json-ld"
@@ -17,21 +17,36 @@ import { DeferCSS } from "@/app/defer-css"
 import { GoogleAnalytics, MicrosoftClarity } from "@/components/analytics"
 import { getSiteUrl } from "@/lib/env"
 
-const inter = Inter({
+// The ledger's two voices. Archivo is a press grotesque built for dense,
+// functional setting — it holds a document header at 6rem and a table label at
+// 11px without changing character. JetBrains Mono carries every figure, install
+// command and timestamp; monospace here is measurement, not costume.
+const archivo = Archivo({
   subsets: ["latin"],
   display: "swap",
-  preload: true, // Enable preloading for optimal font loading
+  preload: true,
   adjustFontFallback: true,
-  variable: "--font-inter",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-archivo",
+  axes: ["wdth"],
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
+  variable: "--font-mono-ledger",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 })
 
 const SITE_URL = getSiteUrl()
 const SITE_NAME = "Junior Carrillo"
-const SITE_TITLE = "Junior Carrillo | Senior Software Developer & Tech Leader"
+// Both stay inside what Google renders: ~60 characters of title, ~160 of
+// description. Longer copy is not penalised, it is simply cut mid-sentence.
+const SITE_TITLE = "Junior Carrillo | Tech Leader en pagos y fintech LATAM"
 const SITE_DESCRIPTION =
-  "Senior Software Developer y Tech Leader experto en sistemas de pago y fintech. +10 años construyendo software escalable en LATAM."
+  "Herramientas de código abierto y escritura técnica sobre pagos de alta transaccionalidad y conciliación en LATAM. Librerías en npm que puedes instalar hoy."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -103,7 +118,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "carrillo.app — Junior Carrillo, Senior Software Developer & Tech Leader",
+        alt: "carrillo.app — Junior Carrillo, Tech Leader en pagos e infraestructura financiera",
         type: "image/png",
       },
     ],
@@ -117,7 +132,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${SITE_URL}/opengraph-image`,
-        alt: "carrillo.app — Junior Carrillo, Senior Software Developer & Tech Leader",
+        alt: "carrillo.app — Junior Carrillo, Tech Leader en pagos e infraestructura financiera",
       },
     ],
   },
@@ -130,7 +145,7 @@ export const metadata: Metadata = {
       { url: "/icons/192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: { url: "/icons/192.png", sizes: "192x192" },
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
   },
   manifest: "/manifest.webmanifest",
 }
@@ -156,16 +171,35 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
         {/* Meta tags para PWA */}
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0b0c0e" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="carrillo.app" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="Junior Carrillo" />
-        <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="application-name" content="carrillo.app" />
+        <meta name="msapplication-TileColor" content="#0b0c0e" />
       </head>
-      <body className={inter.className}>
+      <body className={`${archivo.variable} ${jetbrainsMono.variable} font-sans`}>
+        {/*
+          THESIS: This site is a settlement ledger — every repository, post and
+          production figure is an entry with its column, its date and its
+          quantity. It refuses the centered portrait hero with two buttons; a
+          portrait does not open an accounting entry.
+          OWN-WORLD: Ink ground #0B0C0E, inverted-paper text #E8E6E1, 1px
+          hairline rules #2A2D33, one validation-stamp red #C4362F confined to
+          rules and state marks. Archivo for setting, JetBrains Mono for every
+          figure. No cards, no gradients, no glass — rules and columns only.
+          STORY: A developer arriving from a post believes this code is usable
+          today, copies an install command, and subscribes.
+          FIRST VIEWPORT: Document header (name, role, period) over the primary
+          entry — three installable tools, install command left, downloads right
+          in tabular figures, hairline between each. Primary action at the foot,
+          as the total line.
+          FORM: Settlement ledger, candidate 3 of 7 by resonance, seed 50449e74.
+          FINISH: unreviewed and undocumented is unfinished; this build ends with
+          the finish review, the verdict, DESIGN.md, and every shipping raster
+          carrying its provenance.
+        */}
         <Providers>
           <ThemeProvider
             attribute="class"

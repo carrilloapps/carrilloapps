@@ -1,77 +1,64 @@
 "use client"
 
-import { useState, useEffect } from "react"
-
 /**
- * Background atmosphere — restrained palette aligned with the brand:
- *  - Two pulsing orbs (blue / purple) that match the CTA gradient.
- *  - A radial vignette that anchors the eye to the page centre.
- *  - A faint blue grid for technical character.
+ * The page's ground: ledger paper, inverted.
  *
- * Cyan / pink orbs were removed in the design refresh (orphan colours not
- * present anywhere else in the UI).
+ * Accounting paper is ruled, never lit. This replaces the previous four
+ * gradient orbs — a glow field belongs to a different world and would put
+ * colour into the text field, which this one keeps achromatic. What remains is
+ * the column structure the entries sit on and a single stamp-red margin rule.
+ *
+ * Everything here is a 1px hairline at low opacity, painted once with CSS
+ * gradients: no blur, no animation, no paint cost on scroll.
  */
 export function DynamicBackground() {
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  useEffect(() => {
-    const timer = window.requestAnimationFrame(() => {
-      setIsLoaded(true)
-    })
-    return () => cancelAnimationFrame(timer)
-  }, [])
-
   return (
-    <>
-      {/* Base black background — always visible (LCP-safe) */}
-      <div className="fixed inset-0 -z-50 bg-black" />
+    <div aria-hidden="true">
+      {/* Ink ground. */}
+      <div className="fixed inset-0 -z-50 bg-ink" />
 
-      {isLoaded && (
-        <>
-          {/* Brand-aligned orbs only — blue + purple, anchored to opposite corners */}
-          <div
-            className="fixed inset-0 -z-50 animate-in duration-500 fade-in"
-            style={{ contain: "layout style paint" }}
-          >
-            <div
-              className="will-change-opacity absolute top-[-12%] left-[-8%] h-[600px] w-[600px] rounded-full bg-blue-600/12 blur-3xl"
-              style={{ animation: "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite" }}
-            />
-            <div
-              className="will-change-opacity absolute right-[-8%] bottom-[-12%] h-[700px] w-[700px] rounded-full bg-purple-600/12 blur-3xl"
-              style={{
-                animation: "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                animationDelay: "2.5s",
-              }}
-            />
-          </div>
+      {/* Column rules — the ledger's vertical structure. */}
+      <div
+        className="fixed inset-0 -z-40"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to right, var(--ledger-rule) 0 1px, transparent 1px 12.5%)",
+          opacity: 0.28,
+        }}
+      />
 
-          {/* Radial vignette — pulls focus toward the centre */}
-          <div
-            className="fixed inset-0 -z-40 animate-in duration-500 fade-in"
-            style={{ contain: "layout style paint" }}
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900/30 via-zinc-950/60 to-black" />
-          </div>
+      {/* Row rules — wider than the columns, so the grid reads as a ledger
+          rather than as graph paper. */}
+      <div
+        className="fixed inset-0 -z-40"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to bottom, var(--ledger-rule) 0 1px, transparent 1px 8rem)",
+          opacity: 0.16,
+        }}
+      />
 
-          {/* Subtle technical grid — finer (40px), softer (8% opacity) than the previous */}
-          <div
-            className="fixed inset-0 -z-30 animate-in opacity-[0.08] duration-700 fade-in"
-            style={{ contain: "layout style paint" }}
-          >
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(148, 163, 184, 0.5) 1px, transparent 1px),
-                                 linear-gradient(90deg, rgba(148, 163, 184, 0.5) 1px, transparent 1px)`,
-                backgroundSize: "40px 40px",
-                animation: "gridMove 30s linear infinite",
-                willChange: "transform",
-              }}
-            />
-          </div>
-        </>
-      )}
-    </>
+      {/* The margin rule. One stamp-red line, the only colour in the ground.
+          It sits just inside the container gutter so it rules a margin rather
+          than slicing through the writing. */}
+      <div
+        className="fixed inset-y-0 -z-30 hidden w-px xl:block"
+        style={{
+          left: "max(1.25rem, calc((100vw - 1400px) / 2 + 1.25rem))",
+          backgroundColor: "var(--ledger-stamp)",
+          opacity: 0.3,
+        }}
+      />
+
+      {/* Vignette: the sheet falls off at the edges so long pages do not read
+          as an infinite grid. */}
+      <div
+        className="fixed inset-0 -z-30"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 0%, transparent 40%, var(--ledger-ink) 100%)",
+        }}
+      />
+    </div>
   )
 }

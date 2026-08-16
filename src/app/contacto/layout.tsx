@@ -8,25 +8,16 @@ const SITE_URL = getSiteUrl()
 
 export const metadata = {
   ...buildPageMetadata({
-    title: "Contacto — Consultoría Tecnológica",
+    title: "Conversemos sobre tu proyecto",
     description:
-      "Contacto para consultoría tecnológica: hablemos de desarrollo de software, liderazgo técnico, fintech y arquitectura cloud.",
+      "Cuéntame qué estás construyendo y dónde se está atascando: pagos, conciliación o liderazgo técnico. Respondo en menos de 24 horas hábiles.",
     path: "/contacto",
     keywords: [
       "contacto Junior Carrillo",
-      "consultoría tecnológica contacto",
+      "consultoría fintech contacto",
       "tech lead disponible",
-      "desarrollo software consultor",
-      "liderazgo técnico servicios",
-      "sistemas financieros experto",
-      "contactar desarrollador senior",
-      "consultor fintech disponible",
-      "arquitecto software contacto",
-      "freelance tech lead",
-      "consultoría sistemas bancarios",
+      "consultor arquitectura de pagos",
       "contacto desarrollador medellín",
-      "consultor tecnológico colombia",
-      "consultoría cloud aws",
     ],
   }),
   other: {

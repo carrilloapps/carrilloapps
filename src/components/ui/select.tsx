@@ -14,14 +14,14 @@ const SelectGroup = SelectPrimitive.Group
 const SelectValue = SelectPrimitive.Value
 
 const selectTriggerVariants = cva(
-  "flex w-full cursor-pointer items-center justify-between text-sm ring-offset-background transition-all placeholder:text-muted-foreground focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+  "flex w-full cursor-pointer items-center justify-between text-sm transition-all placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
   {
     variants: {
       variant: {
-        default: "h-10 rounded-md border border-input bg-background px-3 py-2 focus:ring-ring",
+        default: "h-10 rounded-md border border-input bg-background px-3 py-2",
         /** Glass — espejo de `<Input variant="glass">`. */
         glass:
-          "h-11 rounded-lg border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-md placeholder:text-zinc-500 hover:border-white/20 focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-blue-500/20",
+          "focus:bg-white/[0.05]500/20 h-11 border border-rule bg-ink-raised px-3.5 py-2.5 text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] placeholder:text-zinc-500 hover:border-white/20 focus:border-blue-500/50",
       },
     },
     defaultVariants: {

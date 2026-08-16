@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { SectionHeader } from "@/components/section-header"
-import { Code2 } from "lucide-react"
+import {} from "lucide-react"
 
 /**
  * Skills section — two contra-rotating infinite marquees.
@@ -62,23 +62,21 @@ const ROW_BOTTOM: Skill[] = [
 ]
 
 const dotByGroup: Record<Skill["group"], string> = {
-  lang: "bg-blue-400",
-  framework: "bg-purple-400",
-  infra: "bg-emerald-400",
-  domain: "bg-amber-400",
+  lang: "bg-paper-dim",
+  framework: "bg-stamp",
+  infra: "bg-settled",
+  domain: "bg-paper-faint",
 }
 
 /**
- * Halo de color (drop-shadow) que envuelve al dot de cada chip — refuerza la
- * categoría sin necesidad de leyenda y le da al chip ese "glow" moderno
- * estilo Vercel/Linear. Definido como utility de Tailwind con valor arbitrario
- * para que la sombra mantenga el mismo color que el dot.
+ * Sin halo: el punto marca la categoría por posición y color de tinta, no por
+ * un glow de neón. Se conserva el mapa para no romper la firma del chip.
  */
 const dotGlowByGroup: Record<Skill["group"], string> = {
-  lang: "shadow-[0_0_10px_rgb(96_165_250_/_0.7)]",
-  framework: "shadow-[0_0_10px_rgb(192_132_252_/_0.7)]",
-  infra: "shadow-[0_0_10px_rgb(52_211_153_/_0.7)]",
-  domain: "shadow-[0_0_10px_rgb(251_191_36_/_0.7)]",
+  lang: "",
+  framework: "",
+  infra: "",
+  domain: "",
 }
 
 const labelByGroup: Record<Skill["group"], string> = {
@@ -143,12 +141,10 @@ export function SkillsHorizontalSection() {
     >
       <div className="relative z-10 container mx-auto px-4">
         <SectionHeader
-          eyebrow="Stack"
-          eyebrowIcon={Code2}
+          columnLabel="Stack"
           title="Habilidades técnicas"
           description="Mi caja de herramientas — lo que uso cada día para construir sistemas financieros, microservicios y experiencias de desarrollador."
           headingId="skills-heading"
-          align="left"
         />
 
         <Legend />
@@ -163,7 +159,7 @@ export function SkillsHorizontalSection() {
 
 function Legend() {
   return (
-    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs tracking-[0.18em] text-zinc-500 uppercase">
+    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs tracking-[0.18em] text-paper-faint uppercase">
       {(Object.entries(dotByGroup) as [Skill["group"], string][]).map(([group, color]) => (
         <span key={group} className="inline-flex items-center gap-2">
           <span className={`h-2 w-2 rounded-full ${color}`} aria-hidden="true" />
@@ -217,7 +213,7 @@ function MarqueeRow({
 
 function SkillChip({ skill }: { skill: Skill }) {
   return (
-    <span className="group/chip relative inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-medium tracking-tight text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] backdrop-blur-md transition-all duration-200 select-none hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_22px_-6px_rgba(59,130,246,0.22)] md:text-[15px]">
+    <span className="group/chip relative inline-flex items-center gap-2.5 border border-rule bg-ink-raised px-4 py-2.5 text-sm font-medium tracking-tight text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] transition-all duration-200 select-none hover:border-rule hover:bg-white/[0.07] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12),0_8px_22px_-6px_rgba(59,130,246,0.22)] md:text-[15px]">
       <span
         className={`h-2 w-2 shrink-0 rounded-full ${dotByGroup[skill.group]} ${dotGlowByGroup[skill.group]}`}
         aria-hidden="true"

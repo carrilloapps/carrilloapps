@@ -1,92 +1,163 @@
 import { ImageResponse } from "next/og"
-import { getSiteUrl } from "./env"
+
+import { getSiteUrl } from "@/lib/env"
 
 export const ogSize = { width: 1200, height: 630 }
 export const ogContentType = "image/png"
 
-const GRADIENT_FROM = "#2563eb"
-const GRADIENT_TO = "#9333ea"
+/* -------------------------------------------------------------------------- */
+/*  The ledger palette, mirrored from globals.css                             */
+/* -------------------------------------------------------------------------- */
 
-function BrandMarkOG({ size = 116 }: { size?: number }) {
+const INK = "#0b0c0e"
+const INK_RAISED = "#101216"
+const PAPER = "#e8e6e1"
+const PAPER_DIM = "#a2a6ad"
+const PAPER_FAINT = "#868b93"
+const RULE = "#2a2d33"
+const RULE_STRONG = "#3d424a"
+const STAMP = "#c4362f"
+
+/* -------------------------------------------------------------------------- */
+/*  Typefaces                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Satori cannot read what `next/font` installs, so the card renderer keeps its
+ * own copy of the same two faces in `src/lib/fonts`.
+ *
+ * These used to be fetched from the Google Fonts API at build time. Then a
+ * build lost the network and shipped every card in a system fallback stack —
+ * no error, no failed deploy, just the wrong typeface on every social preview.
+ * A file on disk cannot fail that way. See `fonts/README.md` for why they are
+ * static TTFs and how to refresh them.
+ */
+async function loadFonts() {
+  const faces: { name: string; file: string; weight: 400 | 600 }[] = [
+    { name: "Archivo", file: "archivo-600.ttf", weight: 600 },
+    { name: "JetBrains Mono", file: "jetbrains-mono-400.ttf", weight: 400 },
+  ]
+
+  try {
+    const { readFile } = await import("node:fs/promises")
+    const { join } = await import("node:path")
+    const dir = join(process.cwd(), "src", "lib", "fonts")
+
+    return await Promise.all(
+      faces.map(async (face) => ({
+        name: face.name,
+        data: await readFile(join(dir, face.file)),
+        weight: face.weight,
+        style: "normal" as const,
+      })),
+    )
+  } catch {
+    // A card in a system face still beats a build that dies over a typeface.
+    return undefined
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Marks                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The prompt mark, at the exact 64-unit geometry `BrandMark` and
+ * `src/app/icon.svg` draw. Satori renders inline SVG, so the paths are the
+ * same ones rather than an approximation in divs.
+ */
+function BrandCell({ size = 72 }: { size?: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient
-          id="og-mark-grad"
-          x1="0"
-          y1="0"
-          x2="64"
-          y2="64"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor={GRADIENT_FROM} />
-          <stop offset="100%" stopColor={GRADIENT_TO} />
-        </linearGradient>
-        <linearGradient
-          id="og-mark-sheen"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="64"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
-          <stop offset="55%" stopColor="#ffffff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <rect width="64" height="64" rx="14" ry="14" fill="url(#og-mark-grad)" />
-      <rect width="64" height="64" rx="14" ry="14" fill="url(#og-mark-sheen)" />
+    <svg width={size} height={size} viewBox="0 0 64 64">
+      <rect width="64" height="64" fill={INK} />
       <path
-        d="M 28 18 L 18 32 L 28 46"
-        stroke="#ffffff"
-        strokeWidth={8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M 16 16 L 28 28 L 16 40"
         fill="none"
+        stroke={PAPER}
+        strokeWidth="8"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
       />
-      <path
-        d="M 36 18 L 46 32 L 36 46"
-        stroke="#ffffff"
-        strokeWidth={8}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
+      <rect x="36" y="32" width="16" height="8" fill={PAPER} />
+      <rect x="0" y="56" width="64" height="8" fill={STAMP} />
     </svg>
   )
 }
 
+/**
+ * The wordmark, split the way `BrandWordmark` splits it: `carrillo` carries the
+ * name in paper, `.app` drops to the faint ink because it is an address, not a
+ * second word in the name.
+ */
+function Wordmark({ size }: { size: number }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        fontFamily: "Archivo",
+        fontSize: size,
+        fontWeight: 600,
+        letterSpacing: "-0.03em",
+        color: PAPER,
+      }}
+    >
+      carrillo
+      <span style={{ color: PAPER_FAINT }}>.app</span>
+    </div>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+/*  The card                                                                  */
+/* -------------------------------------------------------------------------- */
+
+/** One ruled cell of the particulars row: mono term over a set value. */
+interface Particular {
+  term: string
+  value: string
+}
+
 interface OgPageOptions {
-  /** Eyebrow above the page title (e.g. "Servicios", "Sobre mí"). Optional. */
+  /** Section head under the wordmark — the ledger's column label. */
   eyebrow?: string
-  /** Main page title (60-80px display weight). */
+  /** Main page title. */
   title: string
-  /** Subtitle / value prop. */
+  /** Supporting line under the title. */
   subtitle?: string
-  /** Tag chips at the bottom (max 5 recommended). */
-  tags?: string[]
-  /** Right-side accent — defaults to "Disponible para proyectos". */
-  accent?: string
+  /**
+   * The four ruled cells along the foot. This is the same `<dl>` the home page
+   * prints under the name, so a card and the page it links to state their
+   * particulars in one shape.
+   */
+  particulars?: Particular[]
 }
 
 /**
- * Renders a 1200×630 OG image with the carrillo.app branding.
- * Each route can supply its own title/subtitle/tags via this helper.
+ * A 1200×630 statement header — the home page's document header, at card size.
+ *
+ * Everything here has a counterpart in the running site: the identification
+ * cell from `BrandMark`, the wordmark with its faint TLD, the ruled column
+ * grid, the 11px mono section head at 0.14em, the display title at -0.045em
+ * tracking on a 0.88 leading, and the particulars `<dl>` ruled top and bottom.
+ * Nothing is invented for the card, which is the point — someone who has seen
+ * the card recognises the page.
  */
-export function renderPageOg({
-  eyebrow,
-  title,
-  subtitle,
-  tags = [],
-  accent = "Disponible para proyectos",
-}: OgPageOptions) {
+export async function renderPageOg({ eyebrow, title, subtitle, particulars = [] }: OgPageOptions) {
   const host = getSiteUrl().replace(/^https?:\/\//, "")
+  const fonts = await loadFonts()
+  const sans = fonts ? "Archivo" : "system-ui, sans-serif"
+  const mono = fonts ? "JetBrains Mono" : "ui-monospace, monospace"
+  const cells = particulars.slice(0, 4)
+
+  /** The mono voice, used for every label and figure exactly as the site does. */
+  const label = {
+    fontFamily: mono,
+    fontSize: 15,
+    letterSpacing: "0.16em",
+    textTransform: "uppercase" as const,
+    color: PAPER_FAINT,
+  }
+
   return new ImageResponse(
     <div
       style={{
@@ -94,223 +165,145 @@ export function renderPageOg({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        background: "#09090b",
-        color: "#ffffff",
-        fontFamily: "system-ui, -apple-system, Segoe UI, Inter, sans-serif",
+        justifyContent: "space-between",
+        background: INK,
+        color: PAPER,
+        fontFamily: sans,
+        padding: "52px 64px",
         position: "relative",
-        padding: "72px 80px",
-        overflow: "hidden",
       }}
     >
+      {/*
+          Column rules: the sheet this entry is written on. Offsets are spelled
+          out rather than using `inset` — Satori's box model ignores the
+          shorthand, and the container collapses to nothing with it.
+        */}
       <div
         style={{
+          display: "flex",
           position: "absolute",
-          top: -200,
-          left: -200,
-          width: 700,
-          height: 700,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(59, 130, 246, 0) 65%)",
+          top: 0,
+          left: 0,
+          width: ogSize.width,
+          height: ogSize.height,
         }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: -240,
-          right: -240,
-          width: 800,
-          height: 800,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0) 65%)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-          opacity: 0.5,
-        }}
-      />
+      >
+        {[2, 3, 4, 5, 6, 7].map((i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: ogSize.width * i * 0.125,
+              width: 1,
+              height: ogSize.height,
+              background: RULE,
+            }}
+          />
+        ))}
+        {/*
+            The margin rule. It sits at 40px — outside the 64px content column,
+            not through it — so the sheet reads as ruled paper the entry was
+            written on rather than a line struck across the name.
+          */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 40,
+            width: 2,
+            height: ogSize.height,
+            background: STAMP,
+            opacity: 0.55,
+          }}
+        />
+      </div>
 
+      {/* Masthead: the letterhead on the left, its address on the right. */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          position: "relative",
-          paddingRight: 48,
+          justifyContent: "space-between",
+          borderBottom: `1px solid ${RULE}`,
+          paddingBottom: 24,
         }}
       >
-        <BrandMarkOG size={104} />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: 22,
-            fontSize: 60,
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
-            color: "#ffffff",
-            lineHeight: 1,
-            position: "relative",
-          }}
-        >
-          <span style={{ display: "flex" }}>carrill</span>
-          <span style={{ display: "flex", position: "relative" }}>
-            <span style={{ display: "flex" }}>o</span>
-            <span
-              style={{
-                display: "flex",
-                position: "absolute",
-                top: -18,
-                right: -50,
-                fontSize: 22,
-                fontWeight: 600,
-                letterSpacing: "0.04em",
-                color: "#ffffff",
-                background: `linear-gradient(135deg, ${GRADIENT_FROM} 0%, ${GRADIENT_TO} 100%)`,
-                padding: "5px 12px",
-                borderRadius: 9999,
-                lineHeight: 1,
-                boxShadow: "0 4px 14px rgba(37, 99, 235, 0.45)",
-              }}
-            >
-              app
-            </span>
-          </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <BrandCell size={72} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            <Wordmark size={30} />
+            <div style={{ ...label, letterSpacing: "0.14em" }}>
+              {eyebrow ?? "Tech Leader · Pagos e infraestructura"}
+            </div>
+          </div>
         </div>
+
+        <div style={{ ...label, color: PAPER_DIM, letterSpacing: "0.1em" }}>{host}</div>
       </div>
 
-      {eyebrow && (
+      {/* The entry itself. */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: 50,
-            padding: "10px 22px",
-            borderRadius: 9999,
-            background: "rgba(16, 185, 129, 0.12)",
-            border: "1px solid rgba(16, 185, 129, 0.5)",
-            color: "#34d399",
-            fontSize: 22,
+            fontFamily: sans,
+            // The home sets the name at 0.86 leading and -0.045em tracking;
+            // a two-line title needs the same tightness to read as one block.
+            fontSize: title.length > 18 ? 74 : 104,
             fontWeight: 600,
-            alignSelf: "flex-start",
-          }}
-        >
-          <span style={{ display: "flex" }}>{eyebrow}</span>
-        </div>
-      )}
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginTop: eyebrow ? 28 : 56,
-          position: "relative",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 78,
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.05,
-            backgroundImage: `linear-gradient(90deg, #ffffff 0%, #c7d2fe 55%, #e9d5ff 100%)`,
-            backgroundClip: "text",
-            color: "transparent",
-            maxWidth: 1000,
+            lineHeight: 0.88,
+            letterSpacing: "-0.045em",
+            color: PAPER,
+            maxWidth: 1010,
           }}
         >
           {title}
         </div>
-        {subtitle && (
+
+        {subtitle ? (
           <div
             style={{
-              display: "flex",
-              fontSize: 32,
-              fontWeight: 500,
-              color: "#cbd5e1",
-              marginTop: 18,
-              letterSpacing: "-0.01em",
-              maxWidth: 980,
-              lineHeight: 1.3,
+              fontFamily: sans,
+              fontSize: 29,
+              lineHeight: 1.4,
+              color: PAPER_DIM,
+              maxWidth: 890,
             }}
           >
             {subtitle}
           </div>
-        )}
+        ) : null}
       </div>
 
-      {tags.length > 0 && (
+      {/* Particulars: the home page's <dl>, ruled top and bottom. */}
+      {cells.length ? (
         <div
           style={{
             display: "flex",
-            gap: 12,
-            marginTop: 36,
-            flexWrap: "wrap",
+            borderTop: `1px solid ${RULE_STRONG}`,
+            borderBottom: `1px solid ${RULE}`,
           }}
         >
-          {tags.slice(0, 5).map((label) => (
+          {cells.map((cell, i) => (
             <div
-              key={label}
+              key={cell.term}
               style={{
                 display: "flex",
-                padding: "10px 20px",
-                borderRadius: 8,
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.12)",
-                color: "#e2e8f0",
-                fontSize: 22,
-                fontWeight: 600,
+                flexDirection: "column",
+                gap: 9,
+                flexGrow: 1,
+                flexBasis: 0,
+                padding: i === 0 ? "20px 24px 20px 0" : "20px 24px",
+                borderLeft: i > 0 ? `1px solid ${RULE}` : "none",
               }}
             >
-              {label}
+              <div style={label}>{cell.term}</div>
+              <div style={{ fontFamily: sans, fontSize: 27, color: PAPER }}>{cell.value}</div>
             </div>
           ))}
         </div>
-      )}
-
-      <div
-        style={{
-          position: "absolute",
-          bottom: 56,
-          left: 80,
-          right: 80,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          color: "#64748b",
-          fontSize: 22,
-          fontWeight: 500,
-        }}
-      >
-        <span style={{ display: "flex" }}>{host}</span>
-        <span
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            color: "#93c5fd",
-          }}
-        >
-          <span
-            style={{
-              display: "flex",
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "#34d399",
-            }}
-          />
-          <span style={{ display: "flex" }}>{accent}</span>
-        </span>
-      </div>
+      ) : null}
     </div>,
-    { ...ogSize },
+    { ...ogSize, fonts },
   )
 }

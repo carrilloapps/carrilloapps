@@ -1,15 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
-import { ArrowRight, Briefcase } from "lucide-react"
-import { motion } from "@/lib/motion"
-import { Button } from "@/components/ui/button"
-import { SurfaceCard } from "@/components/ui/surface-card"
+import { ArrowRight } from "lucide-react"
 import { Section } from "@/components/ui/section"
-import { Pill } from "@/components/ui/pill"
-import { StatTiles } from "@/components/ui/stat-tiles"
-import { useIsMobile } from "@/hooks/use-media-query"
 import { trackButtonClick } from "@/lib/analytics"
 import type { ProjectMetric } from "@/types/project"
 
@@ -91,176 +84,100 @@ interface ExperienceSectionProps {
 }
 
 /**
- * Línea de tiempo de roles recientes en formato case-study. Cada card lidera
- * con el outcome, soporta tres stat tiles y degrada el stack a una línea
- * sutil. Mismo lenguaje visual que `<ProjectsSection>` para que el home lea
- * como una sola pieza coherente.
+ * Trayectoria como cronología, no como tabla.
+ *
+ * Tres secciones seguidas de filas convierten la página en un solo listado.
+ * Un extracto tampoco imprime así su histórico: lo fecha y lo narra. Aquí cada
+ * rol cuelga de un eje vertical — el año en el margen, un nodo en la regla, y
+ * el cuerpo en prosa con sus métricas inline en vez de en una columna aparte.
+ *
+ * Misma gramática (regla, mono, cifras tabulares), otra estructura.
  */
 export function ExperienceSection({
   entries = DEFAULT_ENTRIES,
   showCta = true,
 }: ExperienceSectionProps) {
-  const isMobile = useIsMobile()
-
   return (
     <Section
       header={{
-        eyebrow: "Trayectoria",
-        eyebrowIcon: Briefcase,
         title: "Roles que dejaron huella",
         description:
-          "Más de una década construyendo plataformas críticas para banca, pagos y fintech — con números reales detrás de cada rol.",
+          "Más de una década construyendo plataformas críticas para banca, pagos y fintech.",
         headingId: "experience-heading",
-        align: "left",
       }}
     >
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-        {entries.map((entry, index) => (
-          <ExperienceCard
-            key={entry.id}
-            entry={entry}
-            index={index}
-            wide={!isMobile && index === 2 && entries.length === 3}
-          />
+      <ol className="relative">
+        {/* El eje. Una sola regla continua sostiene toda la cronología. */}
+        <span
+          className="absolute top-2 bottom-2 left-0 hidden w-px bg-rule md:block"
+          aria-hidden="true"
+        />
+
+        {entries.map((entry) => (
+          <ExperienceEntryBlock key={entry.id} entry={entry} />
         ))}
-      </div>
+      </ol>
 
       {showCta && (
-        <div className="mt-10 text-center">
-          <Button variant="ghostLink" size="lg" asChild>
-            <Link
-              href="/sobre-mi"
-              className="inline-flex min-h-[48px] touch-manipulation items-center gap-2"
-              onClick={() => trackButtonClick("Ver más experiencia", "home-experience-section")}
-            >
-              Ver toda la trayectoria
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              <span className="sr-only">- Navegar a la página completa de experiencia laboral</span>
-            </Link>
-          </Button>
+        <div className="mt-10 flex justify-end border-t border-rule-strong pt-4">
+          <Link
+            href="/sobre-mi"
+            className="cta-quiet"
+            onClick={() => trackButtonClick("Ver más experiencia", "home-experience-section")}
+          >
+            Ver toda la trayectoria
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            <span className="sr-only">Navegar a la página completa de experiencia laboral</span>
+          </Link>
         </div>
       )}
     </Section>
   )
 }
 
-interface ExperienceCardProps {
-  entry: ExperienceEntry
-  /** Stagger index — usado para offsetear el delay de entrada. */
-  index?: number
-  /** Span 2 columnas en sm pero quedarse en 1 col en lg — útil para que la
-   *  3ra card no quede huérfana en tablet. */
-  wide?: boolean
-}
-
-/**
- * Card individual de experiencia. Estructura:
- *
- *   [Período · Empresa]
- *   Outcome headline (protagonista)
- *   Rol — Empresa
- *   Descripción rica
- *   ─────
- *   [Stat tile · Stat tile · Stat tile]
- *   Stack: tech1 · tech2 · tech3
- *
- * Exportada para reusarse standalone (página /sobre-mi) con la misma estética.
- */
-export function ExperienceCard({ entry, index = 0, wide = false }: ExperienceCardProps) {
-  const initials = entry.company
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((word) => word[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase()
+function ExperienceEntryBlock({ entry }: { entry: ExperienceEntry }) {
+  const metrics = (entry.metrics ?? []).slice(0, 3)
 
   return (
-    <motion.div
-      initial={{ y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 + index * 0.1 }}
-      whileHover={{ y: -6 }}
-      className={`group h-full ${wide ? "sm:col-span-2 lg:col-span-1" : ""}`}
-    >
-      <SurfaceCard
-        as="article"
-        className="flex h-full flex-col"
-        aria-labelledby={`exp-${entry.id}-title`}
-      >
-        <div className="flex flex-1 flex-col gap-5 p-6">
-          <div className="flex items-center justify-between gap-3">
-            {entry.logo ? (
-              // Brand logo on a uniform, centered light chip — consistent size
-              // across companies and a soft ring/shadow so it reads as an
-              // intentional lockup, not a stark sticker.
-              <div className="inline-flex h-9 items-center justify-center rounded-xl bg-white px-3.5 shadow-md ring-1 shadow-black/20 ring-black/[0.06] transition-transform duration-300 group-hover:scale-105">
-                <span className="relative block h-5 w-[5.5rem]">
-                  <Image
-                    src={entry.logo}
-                    alt={`Logo de ${entry.company}`}
-                    fill
-                    sizes="150px"
-                    className="object-contain object-center"
-                  />
-                </span>
-              </div>
-            ) : (
-              <div className="inline-flex h-9 items-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.06] px-3 transition-transform duration-300 group-hover:scale-105">
-                <span
-                  className="flex h-6 w-6 items-center justify-center rounded-md border border-white/10 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 text-[11px] font-bold text-white"
-                  aria-hidden="true"
-                >
-                  {initials}
-                </span>
-                <span className="text-sm font-semibold whitespace-nowrap text-white">
-                  {entry.company}
-                </span>
-              </div>
-            )}
-            <Pill variant="accent" size="sm">
-              {entry.period}
-            </Pill>
-          </div>
+    <li className="relative pb-12 md:pl-12 md:last:pb-0">
+      {/* El nodo del año sobre el eje. */}
+      <span
+        className="absolute top-[0.6rem] -left-[3px] hidden h-[7px] w-[7px] bg-stamp md:block"
+        aria-hidden="true"
+      />
 
-          <div className="space-y-2">
-            <h3
-              id={`exp-${entry.id}-title`}
-              className="text-xl leading-tight font-bold tracking-tight text-white md:text-2xl"
-            >
-              {entry.outcome}
-            </h3>
-            <p className="text-sm font-medium text-zinc-400">
-              {entry.role} · {entry.company}
-            </p>
-          </div>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+        {entry.period}
+      </p>
 
-          <p className="text-sm leading-relaxed text-zinc-300 md:text-base">{entry.description}</p>
+      <h3 className="mt-3 max-w-[24ch] font-sans text-2xl leading-[1.1] font-medium tracking-[-0.02em] text-paper md:text-3xl">
+        {entry.outcome}
+      </h3>
 
-          <div className="mt-auto space-y-7 border-t border-white/[0.06] pt-6">
-            {entry.metrics && entry.metrics.length > 0 && (
-              <StatTiles
-                metrics={entry.metrics}
-                size="sm"
-                ariaLabel="Métricas del rol"
-                variant="plain"
-              />
-            )}
+      <p className="mt-2 font-mono text-[11px] tracking-[0.1em] text-paper-dim uppercase">
+        {entry.role} · {entry.company}
+      </p>
 
-            {entry.technologies?.length > 0 && (
-              <div className="mt-6 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                <span className="font-medium tracking-[0.14em] text-zinc-400 uppercase">Stack</span>
-                <span className="text-zinc-700" aria-hidden="true">
-                  ·
-                </span>
-                <span className="font-mono text-zinc-400">
-                  {entry.technologies.slice(0, 6).join(" · ")}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-      </SurfaceCard>
-    </motion.div>
+      <p className="mt-4 max-w-[70ch] font-sans text-base leading-relaxed text-paper-dim">
+        {entry.description}
+      </p>
+
+      {metrics.length > 0 ? (
+        <ul className="mt-5 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+          {metrics.map((metric) => (
+            <li key={metric.label} className="flex items-baseline gap-2">
+              <span className="font-mono text-lg text-paper tabular-nums">{metric.value}</span>
+              <span className="font-mono text-[10px] tracking-[0.1em] text-paper-faint uppercase">
+                {metric.label}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      <p className="mt-4 font-mono text-[11px] text-paper-faint">
+        {entry.technologies.slice(0, 6).join(" · ")}
+      </p>
+    </li>
   )
 }

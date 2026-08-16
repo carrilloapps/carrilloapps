@@ -16,18 +16,15 @@ export function ContactSocialSection() {
     >
       <Card className="surface-card group">
         {/* Card Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         <CardHeader className="relative z-10">
           <div className="mb-2 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/30 bg-gradient-to-r from-purple-600/20 to-pink-600/20">
-              <Globe className="h-5 w-5 text-purple-400" />
+            <div className="flex h-10 w-10 items-center justify-center border border-rule-strong bg-ink-raised">
+              <Globe className="h-5 w-5 text-stamp-text" />
             </div>
-            <CardTitle className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-2xl text-transparent">
-              Mis redes sociales
-            </CardTitle>
+            <CardTitle className="text-2xl text-paper">Mis redes sociales</CardTitle>
           </div>
-          <CardDescription className="text-zinc-300">
+          <CardDescription className="text-paper-dim">
             Conéctate conmigo o explora mi trabajo en línea.
           </CardDescription>
         </CardHeader>
@@ -37,10 +34,10 @@ export function ContactSocialSection() {
               href="https://github.com/carrilloapps"
               icon={Github}
               label="GitHub"
-              iconGradientFrom="from-purple-600/20"
+              iconGradientFrom=""
               iconGradientTo="to-pink-600/20"
-              iconColor="text-purple-400"
-              borderHoverColor="border-purple-500/30"
+              iconColor="text-stamp-text"
+              borderHoverColor="border-stamp"
               delay={0.1}
             />
             <SocialLinkCard
@@ -49,8 +46,8 @@ export function ContactSocialSection() {
               label="LinkedIn"
               iconGradientFrom="from-blue-600/20"
               iconGradientTo="to-cyan-600/20"
-              iconColor="text-blue-400"
-              borderHoverColor="border-blue-500/30"
+              iconColor="text-stamp-text"
+              borderHoverColor="border-rule-strong"
               delay={0.2}
             />
             <SocialLinkCard

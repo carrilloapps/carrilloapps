@@ -1,268 +1,195 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from "react"
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { ArrowUpRight, CalendarDays } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { HomeJsonLd } from "@/components/home-jsonld"
-import { OpenSourceSection } from "@/components/open-source-section"
-import { LatestPostsSection } from "@/components/latest-posts-section"
-import { ParallaxBackdrop } from "@/components/parallax-backdrop"
-import { AuroraBackdrop } from "@/components/aurora-backdrop"
-import { HeroScrollIndicator } from "@/components/hero-scroll-indicator"
+import { LatestPostsAside } from "@/components/latest-posts-section"
 import { HomeHero } from "@/components/home/home-hero"
 import { HomeStats } from "@/components/home/home-stats"
-import { ExperienceSection } from "@/components/home/experience-section"
-import { ProjectsSection } from "@/components/home/projects-section"
 import { CvDownloadModal } from "@/components/cv-download-modal"
-import { DynamicCompactContactSection as CompactContactSection } from "@/components/dynamic-imports"
-import { buildWhatsAppUrl, buildContactWhatsAppMessage } from "@/lib/whatsapp"
+import { CalPopupButton } from "@/components/cal-booking"
 import { AnimatedSection } from "@/components/animated-section"
 import { SectionHeader } from "@/components/section-header"
-import { MessageCircle } from "lucide-react"
-import { trackScrollDepth } from "@/lib/analytics"
-import { toast } from "sonner"
+import { trackScrollDepth, trackCTAClick } from "@/lib/analytics"
 
-// Email/phone obfuscation kept inline for now since it's only used by the
-// contact form that lives on this page.
-const obfuscateEmail = (email: string): string => btoa(email).split("").reverse().join("")
-
-const deobfuscateEmail = (obfuscated: string): string =>
-  atob(obfuscated.split("").reverse().join(""))
-
-const obfuscatePhone = (phone: string): string =>
-  phone
-    .split("")
-    .map((char, index) => (index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) + 1)))
-    .join("")
-
-const deobfuscatePhone = (obfuscated: string): string =>
-  obfuscated
-    .split("")
-    .map((char, index) => (index % 2 === 0 ? char : String.fromCharCode(char.charCodeAt(0) - 1)))
-    .join("")
-
-const useRateLimit = (limit: number = 3, windowMs: number = 60000) => {
-  const [attempts, setAttempts] = useState<number[]>([])
-
-  const isLimited = useCallback(() => {
-    const now = Date.now()
-    return attempts.filter((time) => now - time < windowMs).length >= limit
-  }, [attempts, limit, windowMs])
-
-  const recordAttempt = useCallback(() => {
-    const now = Date.now()
-    setAttempts((prev) => [...prev.filter((time) => now - time < windowMs), now])
-  }, [windowMs])
-
-  return { isLimited: isLimited(), recordAttempt }
-}
-
+/**
+ * The home ledger.
+ *
+ * Three entries, in the order a reader needs them: who is writing and the
+ * three tools that prove it, the numbers behind them, and a closing essay
+ * with the latest writing running alongside it. Depth lives one click away,
+ * never inlined.
+ *
+ * What used to be here and is not any more:
+ *   - A contact form. `/contacto` owns that conversation and the header opens
+ *     the calendar directly; a third copy on the home page split the action
+ *     three ways and carried ~130 lines of rate limiting, honeypot and
+ *     obfuscation logic that now lives in exactly one place.
+ *   - A "Casos de impacto" grid. It proved the same thing as the trajectory
+ *     entries with the same shape; the cases live on `/recursos`.
+ *   - A skills marquee. A scrolling band of logos is not readable content —
+ *     the stack is now written into prose, where a reader and a crawler can
+ *     both use it.
+ *   - The full open-source register and the role history. Both were long
+ *     enough to deserve their own page and short-changed here: the tools now
+ *     live at /herramientas and the roles at /sobre-mi, each reachable from
+ *     the entry that makes their case.
+ */
 export default function Home() {
   const [cvModalOpen, setCvModalOpen] = useState(false)
-
-  const [emailRevealed, setEmailRevealed] = useState(false)
-  const [phoneRevealed, setPhoneRevealed] = useState(false)
-  const [contactFormData, setContactFormData] = useState({
-    name: "",
-    email: "",
-    whatsapp: "",
-    company: "",
-    subject: "",
-    message: "",
-    honeypot: "",
-  })
-
-  const { isLimited: isContactLimited, recordAttempt: recordContactAttempt } = useRateLimit(
-    3,
-    60000,
-  )
-
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [lastSubmission, setLastSubmission] = useState<number>(0)
-
-  const contactFormRef = useRef<HTMLFormElement>(null)
-  const startTime = useRef<number>(0)
-
-  const obfuscatedEmail = obfuscateEmail("m@carrillo.app")
-  const obfuscatedPhone = obfuscatePhone("+57 (300) 332 8389")
-
-  useEffect(() => {
-    startTime.current = Date.now()
-  }, [])
 
   // Scroll depth tracking — fires once per quartile.
   useEffect(() => {
     const scrollDepths = [25, 50, 75, 100] as const
     const tracked = new Set<number>()
 
-    const handleScroll = () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollPercent = (window.scrollY / docHeight) * 100
-
-      scrollDepths.forEach((depth) => {
-        if (scrollPercent >= depth && !tracked.has(depth)) {
-          trackScrollDepth(depth)
+    const onScroll = () => {
+      const scrolled = window.scrollY + window.innerHeight
+      const total = document.documentElement.scrollHeight
+      if (total <= 0) return
+      const pct = Math.round((scrolled / total) * 100)
+      for (const depth of scrollDepths) {
+        if (pct >= depth && !tracked.has(depth)) {
           tracked.add(depth)
+          trackScrollDepth(depth)
         }
-      })
+      }
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  const handleContactInputChange = (field: string, value: string) => {
-    setContactFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (contactFormData.honeypot) return
-    if (isContactLimited) {
-      toast.error("Demasiados intentos", {
-        description: "Espera un momento antes de intentar nuevamente.",
-      })
-      return
-    }
-    if (Date.now() - startTime.current < 1000) return
-    if (Date.now() - lastSubmission < 5000) {
-      toast.warning("Espera un momento", {
-        description: "Por favor, espera antes de enviar otro mensaje.",
-      })
-      return
-    }
-
-    setIsSubmitting(true)
-    recordContactAttempt()
-    setLastSubmission(Date.now())
-
-    try {
-      const whatsappUrl = buildWhatsAppUrl(
-        buildContactWhatsAppMessage({
-          name: contactFormData.name,
-          email: contactFormData.email,
-          whatsapp: contactFormData.whatsapp,
-          company: contactFormData.company,
-          subject: contactFormData.subject,
-          message: contactFormData.message,
-        }),
-      )
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer")
-      setContactFormData({
-        name: "",
-        email: "",
-        whatsapp: "",
-        company: "",
-        subject: contactFormData.subject || "",
-        message: "",
-        honeypot: "",
-      })
-      toast.success("Abriendo WhatsApp…", {
-        description: "Te llevo a la conversación con tu mensaje ya listo.",
-      })
-    } catch (error) {
-      console.error("Error sending message:", error)
-      toast.error("Error al enviar el mensaje", {
-        description: "Por favor, inténtalo nuevamente en un momento.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
+    <div className="relative min-h-screen text-paper">
       <DynamicBackground />
       <SiteHeader />
+
       <main id="main-content" role="main" className="relative z-10">
         <HomeHero onRequestCv={() => setCvModalOpen(true)} />
-        <HeroScrollIndicator />
 
         <HomeStats />
 
-        {/* 01 — Open Source · transparent surface · brackets parallax */}
-        <div className="relative overflow-hidden">
-          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
-          <OpenSourceSection />
-        </div>
-
-        {/* 02 — Blog · aurora mesh (animated) — el segmento "editorial". */}
-        <div className="relative overflow-hidden">
-          <AuroraBackdrop tone="blog" />
-          <LatestPostsSection />
-        </div>
-
-        {/* 03 — Experience · transparent surface · diagonals parallax */}
-        <div className="relative overflow-hidden">
-          <ParallaxBackdrop
-            variant="diagonals"
-            position="top-left"
-            speed={0.14}
-            opacityClass="opacity-[0.05]"
-          />
-          <ExperienceSection />
-        </div>
-
-        {/* 04 — Projects · subtle dark surface · rings parallax */}
-        <div className="relative overflow-hidden border-y border-zinc-900/60 bg-zinc-950/50 backdrop-blur-sm">
-          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
-          <ProjectsSection />
-        </div>
-
-        {/* 05 — Contact · transparent surface · brackets parallax (centred) */}
-        <div className="relative overflow-hidden">
-          <ParallaxBackdrop
-            variant="brackets"
-            position="center"
-            speed={0.12}
-            opacityClass="opacity-[0.04]"
-          />
-          <AnimatedSection
-            id="contact"
-            className="relative py-12 md:py-16"
-            delay={0.4}
-            role="region"
-            aria-labelledby="contact-heading"
-          >
-            <div className="relative z-10 container mx-auto px-4">
-              <SectionHeader
-                eyebrow="Trabajemos juntos"
-                eyebrowIcon={MessageCircle}
-                title="Hablemos de tu proyecto"
-                description="Soluciones de pago, arquitectura de microservicios y liderazgo técnico. Cuéntame qué estás construyendo."
-                headingId="contact-heading"
-                align="left"
-              />
-
-              <CompactContactSection
-                formData={contactFormData}
-                onInputChange={handleContactInputChange}
-                onSubmit={handleContactSubmit}
-                isSubmitting={isSubmitting}
-                isLimited={isContactLimited}
-                formRef={contactFormRef}
-                emailRevealed={emailRevealed}
-                phoneRevealed={phoneRevealed}
-                onRevealEmail={() => setEmailRevealed(true)}
-                onRevealPhone={() => setPhoneRevealed(true)}
-                obfuscatedEmail={obfuscatedEmail}
-                obfuscatedPhone={obfuscatedPhone}
-                deobfuscateEmail={deobfuscateEmail}
-                deobfuscatePhone={deobfuscatePhone}
-              />
-            </div>
-          </AnimatedSection>
-        </div>
+        <ClosingEntry />
       </main>
 
       <CvDownloadModal open={cvModalOpen} onOpenChange={setCvModalOpen} />
 
       <SiteFooter />
-
       <HomeJsonLd />
     </div>
+  )
+}
+
+/**
+ * The closing entry.
+ *
+ * The page ends on a real close rather than a form: what I actually do, in
+ * enough words to be worth reading and to describe the practice to a crawler,
+ * then the two ways to continue — the calendar, and the contact route.
+ */
+function ClosingEntry() {
+  return (
+    <AnimatedSection
+      id="contact"
+      className="relative py-16 md:py-24"
+      role="region"
+      aria-labelledby="closing-heading"
+    >
+      <div className="relative z-10 container mx-auto px-4">
+        <SectionHeader title="Sistemas de pago que no pueden fallar" headingId="closing-heading" />
+
+        <div className="grid gap-x-14 gap-y-10 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
+          <div className="space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+            <p>
+              Diseño y opero la infraestructura financiera que mueve dinero en América Latina:
+              pasarelas de pago, conciliación de alto volumen, core bancario y los servicios que los
+              sostienen cuando el tráfico se multiplica. Es un dominio donde un error no es un bug
+              cosmético — es plata que no llega, una factura que se duplica o una auditoría que no
+              cuadra.
+            </p>
+            <p>
+              Mi trabajo diario combina tres cosas: arquitectura de microservicios y event sourcing
+              para que los sistemas sigan siendo comprensibles cuando crecen; observabilidad y
+              pruebas para que los fallos se detecten antes que el usuario; y liderazgo técnico, que
+              en la práctica significa que otras siete personas puedan tomar buenas decisiones sin
+              esperarme.
+            </p>
+            <p>
+              Trabajo sobre TypeScript y Node.js, con NestJS y React en el día a día, PostgreSQL y
+              MongoDB como almacenamiento, y Kafka o RabbitMQ cuando el flujo lo pide. Despliego en
+              AWS y GCP con Terraform y Docker, bajo requisitos de PCI-DSS e ISO 27001 — porque en
+              pagos el cumplimiento no es una fase final, es una restricción de diseño desde el
+              primer día.
+            </p>
+            <p>
+              Lo que aprendo operando estos sistemas termina publicado: como{" "}
+              <Link
+                href="#open-source-heading"
+                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+              >
+                herramientas de código abierto
+              </Link>{" "}
+              que puedes instalar hoy, o como artículos en Substack donde explico qué se rompió y
+              cómo se arregló.
+            </p>
+          </div>
+
+          {/* The writing rail. The posts used to hold a section of their own,
+              which made a short page carry two consecutive reading blocks. As
+              a margin column they support the essay instead of competing with
+              it — the same relationship a feature has with its "latest" rail. */}
+          <div className="md:border-l md:border-l-rule md:pl-10">
+            <LatestPostsAside />
+          </div>
+        </div>
+
+        {/* The total line: every way to continue, across the full measure. */}
+        <div className="mt-12 grid gap-x-10 gap-y-6 border-t-2 border-rule-strong pt-6 sm:grid-cols-3">
+          <div>
+            <CalPopupButton source="home-closing" aria-label="Agendar una asesoría" className="cta">
+              Agendar una asesoría
+              <CalendarDays className="h-4 w-4" aria-hidden="true" />
+            </CalPopupButton>
+            <p className="mt-2 max-w-[34ch] font-sans text-sm text-paper-dim">
+              30 minutos, sobre tu arquitectura de pagos.
+            </p>
+          </div>
+
+          <div>
+            <Link
+              href="/contacto"
+              onClick={() => trackCTAClick("Contacto", "secondary", "home-closing")}
+              className="cta-quiet"
+            >
+              Escribirme
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+            <p className="mt-2 max-w-[34ch] font-sans text-sm text-paper-dim">
+              Respondo en menos de 24 horas hábiles.
+            </p>
+          </div>
+
+          <div>
+            <Link
+              href="/servicios"
+              onClick={() => trackCTAClick("Servicios", "secondary", "home-closing")}
+              className="cta-quiet"
+            >
+              Ver servicios
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+            <p className="mt-2 max-w-[34ch] font-sans text-sm text-paper-dim">
+              Consultoría, auditoría y liderazgo técnico.
+            </p>
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
   )
 }

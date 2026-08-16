@@ -12,26 +12,17 @@ const SITE_URL = getSiteUrl()
 const KNOWN_LANGUAGES = ["TypeScript", "JavaScript", "Go", "Python", "Java", "Shell", "Kotlin"]
 
 export const metadata = buildPageMetadata({
-  title: "Recursos gratuitos & código abierto",
+  title: "Casos de impacto y repositorios públicos",
   description:
-    "Recursos gratuitos y de código abierto: repositorios destacados de GitHub y GitLab en React, Next.js, Go, TypeScript y Python.",
+    "Sistemas financieros que diseñé y operé, con las métricas reales detrás, más los repositorios públicos de GitHub y GitLab en TypeScript, Go y Python.",
   path: "/recursos",
   keywords: [
-    "recursos gratuitos desarrolladores",
-    "código abierto finanzas",
-    "repositorios github Junior Carrillo",
+    "casos de impacto fintech",
+    "repositorios github carrilloapps",
     "proyectos gitlab carrilloapps",
     "sistemas financieros open source",
-    "medios de pago desarrollo",
-    "react nextjs typescript",
-    "python java javascript",
-    "backoffice sistemas",
-    "contribuciones open source",
-    "proyectos destacados",
-    "desarrollo web moderno",
-    "arquitectura software",
-    "fintech desarrollo",
-    "carrilloapps github",
+    "código abierto typescript go",
+    "Junior Carrillo",
   ],
 })
 

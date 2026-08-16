@@ -55,7 +55,7 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden border-white/10 bg-slate-950/95 p-0 text-white backdrop-blur-xl sm:max-w-[680px] [&>button[type='button']]:z-20 [&>button[type='button']]:rounded-full [&>button[type='button']]:border [&>button[type='button']]:border-white/20 [&>button[type='button']]:bg-black/60 [&>button[type='button']]:p-1.5 [&>button[type='button']]:text-white [&>button[type='button']]:opacity-100 [&>button[type='button']]:backdrop-blur-md [&>button[type='button']]:transition-colors [&>button[type='button']]:hover:bg-black/80">
+      <DialogContent className="[&>button[type='button']]: flex max-h-[92vh] flex-col gap-0 overflow-hidden border-rule-strong bg-ink p-0 text-paper sm:max-w-[680px] [&>button[type='button']]:z-20 [&>button[type='button']]:border [&>button[type='button']]:border-rule [&>button[type='button']]:bg-ink [&>button[type='button']]:p-1.5 [&>button[type='button']]:text-paper [&>button[type='button']]:opacity-100 [&>button[type='button']]:transition-colors [&>button[type='button']]:hover:bg-ink">
         {/* Hero — imagen con gradient overlay + chips encima. */}
         <div className="relative aspect-[16/9] shrink-0 overflow-hidden bg-slate-900">
           {project.image ? (
@@ -81,7 +81,7 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
               {chips.map((chip, idx) => (
                 <span
                   key={`${chip}-${idx}`}
-                  className="inline-flex items-center rounded-full border border-white/15 bg-black/50 px-2.5 py-1 text-[11px] font-medium tracking-[0.14em] text-zinc-100 uppercase backdrop-blur-md"
+                  className="inline-flex items-center border border-rule bg-ink px-2.5 py-1 text-[11px] font-medium tracking-[0.14em] text-zinc-100 uppercase"
                 >
                   {chip}
                 </span>
@@ -93,10 +93,12 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
         {/* Cuerpo scrollable — titular + métricas + resumen + stack + CTAs. */}
         <div className="flex-1 space-y-6 overflow-y-auto p-6 md:p-8">
           <DialogHeader className="space-y-2 text-left">
-            <DialogTitle className="text-2xl leading-tight font-bold tracking-tight text-white md:text-3xl">
+            <DialogTitle className="text-2xl leading-tight font-bold tracking-tight text-paper md:text-3xl">
               {headline}
             </DialogTitle>
-            <DialogDescription className="text-sm text-zinc-400">{project.title}</DialogDescription>
+            <DialogDescription className="text-sm text-paper-dim">
+              {project.title}
+            </DialogDescription>
           </DialogHeader>
 
           {metrics.length > 0 && (
@@ -109,18 +111,18 @@ export function ProjectDialog({ project, children }: ProjectDialogProps) {
           )}
 
           <section className="space-y-2">
-            <h3 className="mt-4 text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
+            <h3 className="mt-4 text-[11px] font-medium tracking-[0.18em] text-paper-faint uppercase">
               Resumen
             </h3>
-            <p className="leading-relaxed text-zinc-300">{project.fullDescription}</p>
+            <p className="leading-relaxed text-paper-dim">{project.fullDescription}</p>
           </section>
 
           {project.technologies?.length > 0 && (
             <section className="space-y-2">
-              <h3 className="text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
+              <h3 className="text-[11px] font-medium tracking-[0.18em] text-paper-faint uppercase">
                 Stack
               </h3>
-              <p className="font-mono text-sm leading-relaxed text-zinc-300">
+              <p className="font-mono text-sm leading-relaxed text-paper-dim">
                 {project.technologies.join(" · ")}
               </p>
             </section>

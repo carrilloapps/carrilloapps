@@ -19,7 +19,7 @@ const STEPS = [
 
 export default function ThankYouPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
+    <div className="relative min-h-screen text-white">
       <DynamicBackground />
       <SiteHeader />
 

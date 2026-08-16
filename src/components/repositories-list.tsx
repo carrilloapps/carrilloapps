@@ -82,19 +82,19 @@ function RepositoryCard({
   isPinned?: boolean
 }) {
   return (
-    <Card className={`surface-card h-full ${isPinned ? "ring-2 ring-emerald-500/30" : ""}`}>
+    <Card className={`surface-card h-full ${isPinned ? "border-rule500/30 border" : ""}`}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <a
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-emerald-400"
+            className="transition-colors hover:text-settled"
           >
             {repo.name}
           </a>
           {isPinned && (
-            <Badge className="ml-2 border border-emerald-500/30 bg-emerald-500/10 font-medium text-emerald-400">
+            <Badge className="ml-2 border border-rule-strong bg-emerald-500/10 font-medium text-settled">
               <Pin className="mr-1 h-3 w-3" />
               Destacado
             </Badge>
@@ -104,11 +104,11 @@ function RepositoryCard({
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm text-zinc-300">
+          <div className="flex items-center gap-2 text-sm text-paper-dim">
             <div className={`h-3 w-3 rounded-full ${getLanguageColor(repo.language)}`} />
             {repo.language}
           </div>
-          <div className="flex items-center gap-4 text-sm text-zinc-500">
+          <div className="flex items-center gap-4 text-sm text-paper-faint">
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               Actualizado el {formatDate(repo.updated_at)}
@@ -117,7 +117,7 @@ function RepositoryCard({
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <div className="flex items-center gap-4 text-sm text-zinc-400">
+        <div className="flex items-center gap-4 text-sm text-paper-dim">
           <div className="flex items-center gap-1">
             <Star className="h-4 w-4" />
             {repo.stars}
@@ -299,7 +299,7 @@ export function RepositoriesList({
             />
             <Button
               variant="ghost"
-              className="absolute top-0 right-0 h-full rounded-r-lg px-3 text-zinc-400 hover:bg-zinc-800/60 hover:text-white"
+              className="absolute top-0 right-0 h-full rounded-r-lg px-3 text-paper-dim hover:bg-rule/40 hover:text-paper"
               onClick={handleSearch}
             >
               Buscar
@@ -314,7 +314,7 @@ export function RepositoriesList({
               >
                 <SelectValue placeholder="Lenguaje" />
               </SelectTrigger>
-              <SelectContent className="border-white/10 bg-slate-950/95 backdrop-blur-xl">
+              <SelectContent className="border-rule bg-slate-950/95">
                 <SelectItem value="all">Todos los lenguajes</SelectItem>
                 {languages.map((lang) => (
                   <SelectItem key={lang} value={lang}>
@@ -330,7 +330,7 @@ export function RepositoriesList({
       {pinnedRepos.length > 0 && (
         <div className="space-y-4">
           <h2 className="flex items-center gap-2 text-xl font-bold">
-            <Pin className="h-4 w-4 text-emerald-400" />
+            <Pin className="h-4 w-4 text-settled" />
             Repositorios destacados
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -358,8 +358,8 @@ export function RepositoriesList({
         ) : repositories.length === 0 ? (
           <Card className="surface-card">
             <CardContent className="p-12 text-center">
-              <p className="mb-2 text-lg text-zinc-300">No se encontraron repositorios</p>
-              <p className="text-sm text-zinc-500">
+              <p className="mb-2 text-lg text-paper-dim">No se encontraron repositorios</p>
+              <p className="text-sm text-paper-faint">
                 Intenta ajustar los filtros de búsqueda o lenguaje
               </p>
             </CardContent>

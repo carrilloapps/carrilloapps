@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap ring-offset-background transition-all focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -15,18 +15,18 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary hover:text-primary/80",
-        /* Brand primary CTA — blue→purple gradient with a soft glow that
+        /* Primary CTA — a stamped rule. This world has no gradient fills; a
            intensifies on hover. Matches the hero CTA, contact-form submit,
            and any "convert" action across the site. */
         gradient:
-          "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/25 hover:-translate-y-0.5 hover:from-blue-500 hover:to-purple-500 hover:shadow-blue-500/40",
+          "border border-stamp bg-transparent font-mono text-xs tracking-[0.08em] text-paper uppercase transition-colors hover:bg-stamp hover:text-ink",
         /* Glass — surface-card-style ghost button, blue accent on hover.
            Use for secondary actions inside dark cards. */
         glass:
-          "border border-white/10 bg-white/[0.03] text-zinc-200 backdrop-blur-md hover:border-blue-500/40 hover:bg-white/[0.06] hover:text-white",
+          "border border-rule bg-transparent text-paper-dim transition-colors hover:border-rule-strong hover:text-paper",
         /* Subtle text link with arrow affordance — replaces the variant=link
            usages scattered across the home. */
-        ghostLink: "text-blue-400 hover:text-blue-300",
+        ghostLink: "text-paper-dim underline-offset-4 hover:text-stamp-text",
       },
       size: {
         default: "h-10 px-4 py-2",

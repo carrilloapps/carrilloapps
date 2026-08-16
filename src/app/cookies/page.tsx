@@ -5,7 +5,7 @@ import { SurfaceCard } from "@/components/ui/surface-card"
 
 export default function CookiePolicyPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
+    <div className="relative min-h-screen text-white">
       <DynamicBackground />
       <SiteHeader />
 

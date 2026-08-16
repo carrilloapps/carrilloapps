@@ -27,8 +27,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ServicesSeo } from "@/components/services-seo"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { ParallaxBackdrop } from "@/components/parallax-backdrop"
-import { AuroraBackdrop } from "@/components/aurora-backdrop"
 import { ServiceGlobe } from "@/components/service-globe"
 import { useIsMobile } from "@/hooks/use-media-query"
 import { trackCTAClick, trackButtonClick } from "@/lib/analytics"
@@ -231,8 +229,7 @@ function ServicesPageContent() {
   // Scroll a la sección que contiene los tabs — NO al TabsContent directo.
   // Si scrolleamos al elemento con id={service.id} (el TabsContent),
   // aterrizamos dentro del cuerpo del case-study y no se ve la barra de
-  // tabs ni el heading "Servicios especializados". Scrollar al `<section>`
-  // ancestro garantiza que el usuario vea el contexto completo.
+  // tabs ni el heading "Servicios especializados". Scrollar al `<section>` // ancestro garantiza que el usuario vea el contexto completo.
   //
   // El offset ~96px compensa el header sticky (~65px) + margen visual.
   const scrollToServicesSection = (hash: string) => {
@@ -285,7 +282,7 @@ function ServicesPageContent() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
+    <div className="relative min-h-screen text-white">
       <DynamicBackground />
       <SiteHeader />
       <ServicesSeo />
@@ -314,7 +311,7 @@ function ServicesPageContent() {
                 <div className="space-y-3">
                   <span className="inline-flex items-center gap-2.5 text-emerald-400">
                     <span
-                      className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20"
+                      className="border-rule400/20 h-1.5 w-1.5 rounded-full border bg-emerald-400"
                       aria-hidden="true"
                     />
                     <span className="text-[11px] font-semibold tracking-[0.18em] uppercase md:text-xs">
@@ -405,7 +402,6 @@ function ServicesPageContent() {
 
         {/* 01 — Servicios · transparente + parallax brackets. */}
         <div className="relative overflow-hidden">
-          <ParallaxBackdrop variant="brackets" position="top-right" speed={0.18} />
           <motion.section
             variants={containerVariants}
             initial="hidden"
@@ -594,7 +590,6 @@ function ServicesPageContent() {
 
         {/* 02 — Metodología · slate dark + parallax rings · bloque "proceso". */}
         <div className="relative overflow-hidden border-y border-zinc-900/60 bg-zinc-950/50 backdrop-blur-sm">
-          <ParallaxBackdrop variant="rings" position="bottom-right" speed={0.16} />
           <motion.section
             variants={containerVariants}
             initial="hidden"
@@ -777,12 +772,6 @@ function ServicesPageContent() {
 
         {/* 03 — Stats · transparente + parallax diagonals · números duros. */}
         <div className="relative overflow-hidden">
-          <ParallaxBackdrop
-            variant="diagonals"
-            position="top-left"
-            speed={0.14}
-            opacityClass="opacity-[0.05]"
-          />
           <motion.section
             variants={containerVariants}
             initial="hidden"
@@ -861,7 +850,6 @@ function ServicesPageContent() {
 
         {/* 04 — Testimonios · aurora studio · zona "editorial / social proof". */}
         <div className="relative overflow-hidden">
-          <AuroraBackdrop tone="studio" intensity={0.6} />
           <motion.section
             variants={containerVariants}
             initial="hidden"
@@ -942,12 +930,6 @@ function ServicesPageContent() {
 
         {/* 05 — CTA final · slate dark + parallax brackets centrado · cierre. */}
         <div className="relative overflow-hidden border-y border-zinc-900/60 bg-zinc-950/50 backdrop-blur-sm">
-          <ParallaxBackdrop
-            variant="brackets"
-            position="center"
-            speed={0.12}
-            opacityClass="opacity-[0.04]"
-          />
           <motion.section
             variants={containerVariants}
             initial="hidden"
