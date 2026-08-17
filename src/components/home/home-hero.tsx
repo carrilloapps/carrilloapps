@@ -105,12 +105,12 @@ export function HomeHero() {
             ))}
           </dl>
 
-          <div className="mt-8 grid gap-x-12 gap-y-6 md:grid-cols-[minmax(0,34rem)_minmax(0,1fr)] md:items-start">
+          <div className="mt-8 grid gap-x-12 gap-y-6 lg:grid-cols-[minmax(0,34rem)_minmax(0,1fr)] lg:items-start">
             <p className="font-sans text-xl leading-[1.45] text-paper md:text-2xl">
               Construyo sistemas de pago de alta transaccionalidad en LATAM. Lo que aprendo
               operándolos lo publico como herramientas instalables y como texto.
             </p>
-            <SocialRow className="md:justify-end" />
+            <SocialRow className="lg:justify-end" />
           </div>
         </header>
 
@@ -233,9 +233,15 @@ function LedgerRow({
         </span>
       </button>
 
-      {/* The figure column: the month's movement over the running total —
-          the pair a statement prints. An unread count is an unlit cell. */}
-      <div className="text-right font-mono tabular-nums">
+      {/*
+        The figure column: the month's movement over the running total — the pair
+        a statement prints. An unread count is an unlit cell.
+
+        Explicitly placed at row 1 / column 2 below `md`. Left to auto-placement
+        it landed in column 1 *under* the full-width command button, right
+        aligned against 240px of empty ink, and the `auto` track collapsed to 0.
+      */}
+      <div className="col-start-2 row-start-1 text-right font-mono tabular-nums md:col-start-auto md:row-start-auto">
         {isPending ? (
           <span
             className="inline-block h-6 w-16 animate-pulse bg-rule align-middle"

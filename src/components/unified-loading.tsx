@@ -74,7 +74,9 @@ function PendingRow() {
         <PendingCell className="h-3.5 w-full max-w-[42ch]" />
       </div>
       <PendingCell className="col-span-2 h-11 w-full md:col-span-1" />
-      <div className="flex flex-col items-end gap-1.5">
+      {/* Placed at row 1 / column 2 below `md`, matching the real row: left to
+          auto-placement the figure landed under the full-width command cell. */}
+      <div className="col-start-2 row-start-1 flex flex-col items-end gap-1.5 md:col-start-auto md:row-start-auto">
         <PendingCell className="h-6 w-14" />
         <PendingCell className="h-2.5 w-20" />
       </div>

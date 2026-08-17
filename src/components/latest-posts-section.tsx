@@ -92,9 +92,9 @@ function LeadPost({ post }: { post: LatestPost }) {
         href={post.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="grid gap-x-10 gap-y-5 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] md:items-start"
+        className="grid gap-x-10 gap-y-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-start"
       >
-        <div className="order-2 md:order-1">
+        <div className="order-2 lg:order-1">
           <div className="flex items-center gap-4 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase">
             <time dateTime={post.pubDate}>{formatDateES(post.pubDate)}</time>
             <span className="h-px w-8 bg-rule" aria-hidden="true" />
@@ -112,7 +112,7 @@ function LeadPost({ post }: { post: LatestPost }) {
         </div>
 
         {post.thumbnail ? (
-          <div className="order-1 aspect-[16/10] w-full overflow-hidden border border-rule bg-ink-raised md:order-2">
+          <div className="order-1 aspect-[16/10] w-full overflow-hidden border border-rule bg-ink-raised lg:order-2">
             <Image
               src={post.thumbnail}
               alt={post.thumbnailAlt}
@@ -130,7 +130,7 @@ function LeadPost({ post }: { post: LatestPost }) {
 
 function LeadSkeleton() {
   return (
-    <div className="grid gap-x-10 gap-y-5 border-t-2 border-rule-strong pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
+    <div className="grid gap-x-10 gap-y-5 border-t-2 border-rule-strong pt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
       <div className="space-y-4">
         <div className="h-3 w-40 animate-pulse bg-rule/60" />
         <div className="h-9 w-4/5 animate-pulse bg-rule/60" />

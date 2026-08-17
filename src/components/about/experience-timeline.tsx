@@ -185,7 +185,7 @@ export function ExperienceTimeline() {
         waits — but a reader who simply wants it still needs a control they can
         find, and a touch reader has no hover at all.
       */}
-      <div className="mb-6 flex items-center justify-between gap-6 border-b border-rule pb-3">
+      <div className="mb-6 flex items-center justify-between gap-2 border-b border-rule pb-3 md:gap-6">
         <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
           {activeIndex + 1} / {ENTRIES.length}
         </p>
@@ -236,7 +236,7 @@ export function ExperienceTimeline() {
         role="tablist"
         aria-label="Trayectoria profesional por período"
         onKeyDown={onKeyDown}
-        className="-mx-4 flex snap-x snap-mandatory gap-0 overflow-x-auto px-4 md:mx-0 md:grid md:snap-none md:overflow-visible md:px-0"
+        className="flex snap-x snap-mandatory gap-0 overflow-x-auto lg:-mx-4 lg:grid lg:snap-none lg:overflow-visible lg:px-4"
         style={{ gridTemplateColumns: `repeat(${ENTRIES.length}, minmax(0, 1fr))` }}
       >
         {ENTRIES.map((entry, i) => {
@@ -254,7 +254,7 @@ export function ExperienceTimeline() {
               aria-controls={`${baseId}-panel-${entry.id}`}
               tabIndex={selected ? 0 : -1}
               onClick={() => select(entry)}
-              className="group relative min-w-[13rem] shrink-0 cursor-pointer snap-start border-t-2 pt-4 pr-6 text-left transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp md:min-w-0"
+              className="group relative min-w-[11rem] shrink-0 cursor-pointer snap-start border-t-2 pt-4 pr-6 text-left transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp lg:min-w-0"
               style={{
                 // While the clock runs, the open stop keeps the neutral rule and
                 // the stamp arrives as the dwell bar filling over it. Stopped,
@@ -319,7 +319,7 @@ export function ExperienceTimeline() {
         {/* Keyed on the entry so the browser treats each as new content and the
             fade replays — one authored moment, not a transition on every child. */}
         <div key={active.id} className="animate-entry">
-          <div className="grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]">
+          <div className="grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,17rem)]">
             <div>
               <h3 className="max-w-[26ch] font-sans text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.08] font-semibold tracking-[-0.03em] text-balance text-paper">
                 {active.outcome}

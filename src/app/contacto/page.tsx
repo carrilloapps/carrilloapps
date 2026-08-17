@@ -130,7 +130,7 @@ function OpeningEntry() {
           Conversemos sobre tu proyecto
         </h1>
 
-        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
           <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
             <p>
               Cuéntame qué estás construyendo y dónde se está atascando. Cuanto más concreto sea el
@@ -172,12 +172,16 @@ function OpeningEntry() {
         </div>
 
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
-          <CalPopupButton source="contact-hero" aria-label="Agendar una asesoría" className="cta">
+          <CalPopupButton
+            source="contact-hero"
+            aria-label="Agendar una asesoría"
+            className="cta min-h-[44px]"
+          >
             Agendar una asesoría
             <CalendarDays className="h-4 w-4" aria-hidden="true" />
           </CalPopupButton>
 
-          <Link href="/servicios" className="cta-quiet">
+          <Link href="/servicios" className="cta-quiet min-h-[44px]">
             Ver servicios
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
@@ -467,7 +471,7 @@ function ContactForm() {
           <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
             <button
               type="submit"
-              className="cta"
+              className="cta min-h-[44px]"
               disabled={isSubmitting || isLimited || !termsAccepted || !phone.isValid}
             >
               {isSubmitting ? "Abriendo WhatsApp…" : "Enviar por WhatsApp"}
@@ -477,7 +481,7 @@ function ContactForm() {
             <CalPopupButton
               source="contact-form"
               aria-label="Agendar una asesoría"
-              className="cta-quiet"
+              className="cta-quiet min-h-[44px]"
             >
               Prefiero agendar una hora
               <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
@@ -636,7 +640,7 @@ function DirectChannels() {
       </dl>
 
       <div className="mt-6 border-t border-rule-strong pt-4">
-        <Link href="/servicios" className="cta-quiet">
+        <Link href="/servicios" className="cta-quiet min-h-[44px]">
           Ver los siete frentes
           <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </Link>
@@ -681,7 +685,7 @@ function ChannelRow({
             {value}
           </a>
         ) : (
-          <button type="button" onClick={onReveal} className="cta-quiet">
+          <button type="button" onClick={onReveal} className="cta-quiet min-h-[44px]">
             Mostrar {term.toLowerCase()}
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
@@ -724,7 +728,7 @@ function Questions() {
           {contactFaq.map((item, i) => (
             <div
               key={`${item.question}-${i}`}
-              className="grid gap-x-12 gap-y-2 border-b border-rule py-6 md:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]"
+              className="grid gap-x-12 gap-y-2 border-b border-rule py-6 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]"
             >
               <dt className="font-sans text-lg leading-snug tracking-[-0.01em] text-paper">
                 {item.question}

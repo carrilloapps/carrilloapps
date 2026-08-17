@@ -80,7 +80,7 @@ function OpeningEntry() {
           Lo que publico, en abierto
         </h1>
 
-        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
           <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
             <p>
               Todo lo que resuelvo dos veces en el trabajo termina siendo un paquete instalable.
@@ -231,7 +231,7 @@ function RepositoryFeed() {
               role="tab"
               aria-selected={selected}
               onClick={() => setTab(id === "github" ? null : id)}
-              className={`-mb-px inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 border-b-2 px-1 pr-8 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp ${
+              className={`-mb-px inline-flex min-h-[48px] cursor-pointer items-center gap-2.5 border-b-2 px-1 pr-5 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp md:pr-8 ${
                 selected
                   ? "border-stamp text-paper"
                   : "border-transparent text-paper-faint hover:text-paper"

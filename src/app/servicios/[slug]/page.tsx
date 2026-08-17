@@ -71,7 +71,7 @@ export default function ServicePage() {
               {service.heading}
             </h1>
 
-            <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
               <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 {service.intro.map((paragraph) => (
                   <p key={paragraph.slice(0, 40)}>{paragraph}</p>
@@ -137,7 +137,7 @@ export default function ServicePage() {
             headingId: "scope-heading",
           }}
         >
-          <div className="grid gap-x-14 gap-y-12 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
+          <div className="grid gap-x-14 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
             <ol className="border-t border-rule-strong">
               {service.benefits.map((benefit, i) => (
                 <li
@@ -228,7 +228,7 @@ export default function ServicePage() {
               headingId: "spotlight-heading",
             }}
           >
-            <div className="grid gap-x-14 gap-y-10 md:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">
+            <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">
               <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 {service.spotlight.body.map((paragraph) => (
                   <p key={paragraph.slice(0, 40)}>{paragraph}</p>
@@ -364,7 +364,7 @@ export default function ServicePage() {
                 <li key={other.slug} className="border-b border-rule">
                   <Link
                     href={`/servicios/${other.slug}`}
-                    className="group flex h-full flex-col gap-2 py-5 pr-6 transition-colors"
+                    className="group flex h-full min-h-[44px] flex-col gap-2 py-5 pr-6 transition-colors"
                   >
                     <span className="font-sans text-lg leading-tight tracking-[-0.02em] text-paper transition-colors group-hover:text-stamp-text">
                       {other.title}

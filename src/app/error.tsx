@@ -54,7 +54,7 @@ export default function GlobalRouteError({
               Algo se rompió de mi lado
             </h1>
 
-            <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
               <div className="max-w-[62ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 <p>
                   No es culpa tuya ni del enlace: esta página lanzó un error al construirse. Suele

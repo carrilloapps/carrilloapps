@@ -154,12 +154,12 @@ function OpeningEntry() {
           rebuilds the identification column on the left with the statement
           spanning both rows beside it.
         */}
-        <div className="grid items-start gap-y-10 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] md:grid-rows-[auto_1fr] md:gap-x-14 md:gap-y-8 lg:gap-x-20">
-          <div className="md:col-start-1 md:row-start-1">
+        <div className="grid items-start gap-y-10 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:gap-x-20 lg:gap-y-8">
+          <div className="lg:col-start-1 lg:row-start-1">
             <PortraitPlate />
           </div>
 
-          <div className="md:col-start-2 md:row-span-2 md:row-start-1">
+          <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <h1
               id="about-heading"
               className="font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
@@ -207,7 +207,7 @@ function OpeningEntry() {
               The wrapper carries the plate's own width cap so the row centres on
               the photograph rather than on the grid column, which is wider than
               the plate on phones. */}
-          <div className="w-full max-w-[16rem] md:col-start-1 md:row-start-2 md:max-w-none">
+          <div className="w-full max-w-[16rem] lg:col-start-1 lg:row-start-2 lg:max-w-none">
             <SocialRow variant="marks" className="justify-center" />
           </div>
         </div>
@@ -305,7 +305,7 @@ function Practice() {
         headingId: "practice-heading",
       }}
     >
-      <div className="grid gap-x-14 gap-y-12 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+      <div className="grid gap-x-14 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
         <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
           <p>
             Empiezo por el dinero, no por el código. Antes de proponer una arquitectura necesito

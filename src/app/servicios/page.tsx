@@ -148,7 +148,7 @@ function OpeningEntry() {
           Arquitectura de pagos que aguanta
         </h1>
 
-        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
           {/*
             Two paragraphs, not four.
 
@@ -278,7 +278,7 @@ function Catalogue() {
 function Discipline() {
   return (
     <Section spacing="compact">
-      <div className="grid gap-x-14 gap-y-8 border-y border-rule py-10 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
+      <div className="grid gap-x-14 gap-y-8 border-y border-rule py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
         <p className="max-w-[46ch] font-sans text-[clamp(1.375rem,2.6vw,1.875rem)] leading-[1.2] tracking-[-0.02em] text-balance text-paper">
           Se especifica antes de construir, y se prueba primero donde el error cuesta dinero.
         </p>
@@ -306,7 +306,7 @@ function Discipline() {
 function Agentic() {
   return (
     <Section spacing="compact">
-      <div className="grid gap-x-14 gap-y-8 border-t-2 border-rule-strong pt-8 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+      <div className="grid gap-x-14 gap-y-8 border-t-2 border-rule-strong pt-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
         <div>
           <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
             IA y finanzas agénticas
@@ -402,7 +402,7 @@ function Questions() {
         {SERVICES_FAQ.map(({ question, answer }) => (
           <div
             key={question}
-            className="grid gap-x-12 gap-y-2 border-b border-rule py-6 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]"
+            className="grid gap-x-12 gap-y-2 border-b border-rule py-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]"
           >
             <dt className="font-sans text-lg leading-snug tracking-[-0.01em] text-paper">
               {question}

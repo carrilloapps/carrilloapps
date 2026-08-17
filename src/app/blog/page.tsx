@@ -50,7 +50,7 @@ export default async function BlogPage() {
               Qué se rompió y cómo se arregló
             </h1>
 
-            <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
               <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 Escribo sobre lo que aprendo operando sistemas de pago: incidentes reales,
                 decisiones de arquitectura que envejecieron bien o mal, y el oficio de liderar
@@ -184,15 +184,15 @@ function LeadEntry({ post }: { post: SubstackPost }) {
         href={post.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group grid gap-x-12 gap-y-6 md:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]"
+        className="group grid gap-x-12 gap-y-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]"
       >
         <div className="min-w-0">
           <Meta post={post} />
-          <h3 className="mt-3 max-w-[22ch] font-sans text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance text-paper transition-colors group-hover:text-stamp-text">
+          <h3 className="mt-3 max-w-[22ch] font-sans text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance break-words text-paper transition-colors group-hover:text-stamp-text">
             {post.title}
           </h3>
           {post.excerpt ? (
-            <p className="mt-3 max-w-[72ch] font-sans text-base leading-relaxed text-paper-dim">
+            <p className="mt-3 max-w-[72ch] font-sans text-base leading-relaxed break-words text-paper-dim">
               {post.excerpt}
             </p>
           ) : null}
@@ -229,7 +229,7 @@ function ArchiveRow({ post }: { post: SubstackPost }) {
         className="group grid items-baseline gap-x-10 gap-y-2 py-4 md:grid-cols-[minmax(0,1fr)_auto]"
       >
         <div className="min-w-0">
-          <span className="inline-flex items-baseline gap-2 font-sans text-lg leading-tight text-paper transition-colors group-hover:text-stamp-text">
+          <span className="inline-flex items-baseline gap-2 font-sans text-lg leading-tight break-words text-paper transition-colors group-hover:text-stamp-text">
             {post.title}
             <ArrowUpRight
               className="h-4 w-4 shrink-0 text-paper-faint transition-colors group-hover:text-stamp-text"
@@ -237,7 +237,7 @@ function ArchiveRow({ post }: { post: SubstackPost }) {
             />
           </span>
           {post.excerpt ? (
-            <p className="mt-1 max-w-[82ch] font-sans text-sm leading-relaxed text-paper-dim">
+            <p className="mt-1 max-w-[82ch] font-sans text-sm leading-relaxed break-words text-paper-dim">
               {post.excerpt}
             </p>
           ) : null}
@@ -252,7 +252,7 @@ function ArchiveRow({ post }: { post: SubstackPost }) {
 function Meta({ post, className = "" }: { post: SubstackPost; className?: string }) {
   return (
     <div
-      className={`flex items-baseline gap-6 font-mono text-[11px] tracking-[0.1em] whitespace-nowrap text-paper-faint uppercase ${className}`.trim()}
+      className={`flex items-baseline gap-6 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase md:whitespace-nowrap ${className}`.trim()}
     >
       <time dateTime={post.pubDate}>{formatDateES(post.pubDate)}</time>
       {post.readingTime ? <span className="tabular-nums">{post.readingTime} min</span> : null}

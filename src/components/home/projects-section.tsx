@@ -72,7 +72,7 @@ function ProjectRow({ project }: { project: Project }) {
     <li className="group">
       <ProjectDialog project={project}>
         <article
-          className="grid w-full cursor-pointer grid-cols-1 items-start gap-x-8 gap-y-4 py-7 text-left md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] md:py-8"
+          className="grid w-full cursor-pointer grid-cols-1 items-start gap-x-8 gap-y-4 py-7 text-left md:py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]"
           aria-labelledby={`project-title-${project.id}`}
           onClick={() => trackProjectView(project.shortTitle, project.category ?? "")}
         >

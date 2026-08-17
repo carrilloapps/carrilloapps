@@ -96,7 +96,7 @@ export function SocialRow({ variant = "inline", className = "" }: SocialRowProps
 
   return (
     <ul
-      className={`flex flex-wrap items-center gap-x-6 gap-y-1 ${className}`.trim()}
+      className={`flex flex-wrap items-center gap-x-5 gap-y-1 lg:gap-x-6 ${className}`.trim()}
       aria-label="Perfiles y contacto"
     >
       {LINKS.map(({ href, label, icon: Icon }) => (
@@ -106,10 +106,18 @@ export function SocialRow({ variant = "inline", className = "" }: SocialRowProps
             target={href.startsWith("http") ? "_blank" : undefined}
             rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             onClick={() => trackSocialClick(label, "profile_visit", href)}
+            aria-label={label}
             className={LINK_CLASS}
           >
             <Icon className={ICON_CLASS} aria-hidden="true" />
-            {label}
+            {/*
+              The label is the first thing to go on a narrow screen. Five of
+              them wrapped onto two ragged lines at 390px and stacked five-tall
+              in the hero's column at 768px. Hidden, not removed: the link keeps
+              its accessible name through `aria-label`, so the row reads the same
+              to a screen reader at every width.
+            */}
+            <span className="hidden lg:inline">{label}</span>
           </Link>
         </li>
       ))}

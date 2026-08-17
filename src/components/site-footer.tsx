@@ -89,7 +89,7 @@ function DesktopColophon() {
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             Medellín, CO · Remoto
           </p>
-          <SocialMarks className="mt-5 -ml-2.5" />
+          <SocialMarks className="mt-5 lg:-ml-2.5" />
         </div>
 
         <FooterIndex id="footer-quick-links" title="Navega" links={QUICK_LINKS} />
@@ -173,7 +173,7 @@ function MobileColophon() {
           <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
           Medellín, CO · Remoto
         </p>
-        <SocialMarks className="mt-2 -ml-2.5" />
+        <SocialMarks className="mt-2 lg:-ml-2.5" />
       </div>
     </div>
   )
@@ -194,7 +194,7 @@ function LegalBand() {
               key={href}
               href={href}
               onClick={() => trackNavigation(label, href, "footer")}
-              className="inline-flex min-h-[44px] items-center font-mono text-[11px] tracking-[0.12em] text-paper-faint uppercase transition-colors hover:text-paper sm:min-h-0"
+              className="inline-flex min-h-[44px] items-center font-mono text-[11px] tracking-[0.12em] text-paper-faint uppercase transition-colors hover:text-paper lg:min-h-0"
             >
               {label}
             </Link>

@@ -136,7 +136,7 @@ function OpeningEntry() {
           Una hora, y sales con un plan
         </h1>
 
-        <div className="mt-8 grid gap-x-14 gap-y-8 md:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
           <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
             <p>
               Casi todo lo que hago empieza igual: una llamada en la que alguien describe una

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ArrowUpRight, GitFork, Star } from "lucide-react"
+import { ArrowUpRight, ChevronLeft, ChevronRight, GitFork, Star } from "lucide-react"
 
 import { useRepositories, type Repository } from "@/lib/queries"
 import { trackProjectView, trackProjectLinkClick } from "@/lib/analytics"
@@ -206,6 +206,12 @@ export function RepositoriesList({ source, username, search, language }: Reposit
  *
  * It does not scroll the window. The old one jumped to the top of the document
  * on every page change, which threw the reader out of the list they were in.
+ *
+ * Five page numbers plus two word-labelled steps measured 414px against a 358px
+ * column at 390px, so the whole list section reported horizontal overflow. On a
+ * phone the labels become chevrons and the number window narrows to three; the
+ * two it drops are `hidden` rather than unrendered, so the row is identical from
+ * `sm` up and nothing about the desktop pager changes.
  */
 function Pager({
   page,
@@ -231,14 +237,16 @@ function Pager({
         type="button"
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
-        className={`${step} -ml-2 cursor-pointer text-paper-faint hover:text-paper`}
+        className={`${step} cursor-pointer text-paper-faint hover:text-paper lg:-ml-2`}
       >
-        Anterior
+        <ChevronLeft className="h-4 w-4 sm:hidden" aria-hidden="true" />
+        <span className="hidden sm:inline">Anterior</span>
+        <span className="sr-only sm:hidden">Anterior</span>
       </button>
 
       <ul className="flex items-center">
-        {pages.map((n) => (
-          <li key={n}>
+        {pages.map((n, i) => (
+          <li key={n} className={i > 2 ? "hidden sm:block" : undefined}>
             <button
               type="button"
               onClick={() => onChange(n)}
@@ -259,9 +267,11 @@ function Pager({
         type="button"
         onClick={() => onChange(page + 1)}
         disabled={page >= totalPages}
-        className={`${step} -mr-2 cursor-pointer text-paper-faint hover:text-paper`}
+        className={`${step} cursor-pointer text-paper-faint hover:text-paper lg:-mr-2`}
       >
-        Siguiente
+        <span className="hidden sm:inline">Siguiente</span>
+        <ChevronRight className="h-4 w-4 sm:hidden" aria-hidden="true" />
+        <span className="sr-only sm:hidden">Siguiente</span>
       </button>
     </nav>
   )

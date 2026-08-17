@@ -105,7 +105,7 @@ function ClosingEntry() {
       <div className="relative z-10 container mx-auto px-4">
         <SectionHeader title="Sistemas de pago que no pueden fallar" headingId="closing-heading" />
 
-        <div className="grid gap-x-14 gap-y-10 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
+        <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
           <div className="space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
             <p>
               Diseño y opero la infraestructura financiera que mueve dinero en América Latina:

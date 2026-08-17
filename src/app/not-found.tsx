@@ -90,7 +90,7 @@ export default function NotFound() {
                     <li key={href} className="border-b border-rule">
                       <Link
                         href={href}
-                        className="group grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 py-4"
+                        className="group grid min-h-[44px] grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 py-4"
                       >
                         <span className="min-w-0">
                           <span className="font-sans text-lg leading-tight text-paper transition-colors group-hover:text-stamp-text">

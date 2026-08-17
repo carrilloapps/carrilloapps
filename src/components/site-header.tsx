@@ -691,7 +691,11 @@ function MobileDrawer({
           </div>
 
           <div className="mt-3 border-t border-rule pt-1">
-            <SocialRow variant="marks" className="-ml-3" />
+            {/* No optical outdent here. The -12px pull put the row at x=4 while the
+                stamp button directly above it starts at x=16 — a visible step in
+                the drawer's own left edge. The 44px touch boxes leave the glyphs
+                slightly inset from the text, which is the lesser of the two. */}
+            <SocialRow variant="marks" />
           </div>
         </div>
       </div>
