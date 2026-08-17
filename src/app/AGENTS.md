@@ -16,11 +16,10 @@ app/
 ├── viewport.ts               # Viewport configuration
 ├── globals.css               # Global styles
 ├── page-metadata.tsx         # Metadata utilities
-├── agendamiento/             # Scheduling page
+├── agendamiento/             # Scheduling page (Cal.com embed)
 │   ├── page.tsx
 │   ├── layout.tsx
-│   ├── loading.tsx
-│   └── gracias/              # Thank you page after scheduling
+│   └── loading.tsx
 ├── api/                      # API routes
 │   ├── github-repositories/
 │   ├── gitlab-repositories/

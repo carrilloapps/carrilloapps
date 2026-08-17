@@ -89,10 +89,16 @@ export default function Home() {
  * then the two ways to continue — the calendar, and the contact route.
  */
 function ClosingEntry() {
+  /*
+    The last section on a page owns the space before the footer. This one had
+    only top padding after the rhythm sweep, so its closing line — "30 minutos,
+    sobre tu arquitectura de pagos." — sat exactly on the footer's rule, with 0px
+    between them.
+  */
   return (
     <AnimatedSection
       id="contact"
-      className="relative pt-10 md:pt-16"
+      className="relative pt-10 pb-16 md:pt-16 md:pb-20"
       role="region"
       aria-labelledby="closing-heading"
     >
