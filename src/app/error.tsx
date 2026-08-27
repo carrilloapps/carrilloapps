@@ -66,7 +66,7 @@ export default function GlobalRouteError({
                 </p>
               </div>
 
-              <dl className="self-start border-y border-rule">
+              <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
                 <div className="flex items-baseline justify-between gap-4 border-b border-rule py-3">
                   <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
                     Identificador

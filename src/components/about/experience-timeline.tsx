@@ -333,7 +333,7 @@ export function ExperienceTimeline() {
             </div>
 
             {active.metrics?.length ? (
-              <dl className="border-t border-rule-strong">
+              <dl className="max-w-[26rem] border-t border-rule-strong lg:max-w-none">
                 {active.metrics.map((metric) => (
                   <div
                     key={metric.label}

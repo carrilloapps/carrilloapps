@@ -150,7 +150,7 @@ function OpeningEntry() {
             </p>
           </div>
 
-          <dl className="self-start border-y border-rule">
+          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
             {PARTICULARS.map(({ term, value }) => (
               <div
                 key={term}
@@ -212,7 +212,7 @@ function Booking() {
               ))}
             </ul>
 
-            <dl className="mt-6 border-t-2 border-rule-strong">
+            <dl className="mt-6 max-w-[26rem] border-t-2 border-rule-strong lg:max-w-none">
               {TAKEAWAY.map(({ term, value }) => (
                 <div
                   key={term}

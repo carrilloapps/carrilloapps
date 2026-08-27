@@ -156,7 +156,7 @@ function OpeningEntry() {
             </p>
           </div>
 
-          <dl className="self-start border-y border-rule">
+          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
             {PARTICULARS.map(({ term, value }) => (
               <div
                 key={term}
@@ -513,12 +513,18 @@ function Field({
     <div className="space-y-2">
       {/* Wraps: the longest hint reaches the right edge on a 390px screen,
           and a hint pinned to the label's line has nowhere to go. */}
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 lg:justify-between">
         <Label htmlFor={id} className={FIELD_LABEL}>
           {label}
           {required ? <span className="ml-1 text-stamp-text">*</span> : null}
         </Label>
-        {hint ? <span className="font-sans text-[11px] text-paper-faint">{hint}</span> : null}
+        {/* Its own line on a phone. Beside the label it fitted — exactly to the
+            16px gutter, 261px of 11px type with nowhere to breathe — and read as
+            crowding rather than as a hint. From `sm` up it goes back on the
+            label's line, where there is room for both. */}
+        {hint ? (
+          <span className="w-full font-sans text-[11px] text-paper-faint sm:w-auto">{hint}</span>
+        ) : null}
       </div>
       {children}
     </div>

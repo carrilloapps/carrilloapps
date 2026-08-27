@@ -59,7 +59,13 @@ export const Logo = memo(function Logo({
     <div className={className}>
       <Link
         href={href}
-        className={`${linkClassName} inline-flex items-center transition-opacity hover:opacity-80 focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp`}
+        /*
+          The wordmark is 26–28px tall, so its tappable box fell short of the
+          48px this project asks for. The padding grows the hit area and the
+          matching negative margin keeps the visual box and every neighbouring
+          measurement exactly where they were.
+        */
+        className={`${linkClassName} -my-2.5 inline-flex items-center py-2.5 transition-opacity hover:opacity-80 focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp`}
       >
         <BrandWordmark
           size={size}

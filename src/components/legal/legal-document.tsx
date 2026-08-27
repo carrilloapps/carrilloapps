@@ -105,7 +105,7 @@ export function LegalDocument({
                   the rail stacks below it — and the particulars (updated, legal
                   framework, contact) are what a reader checks *before* the
                   clauses, not after ten of them. `order` flips only the stack. */}
-              <div className="order-2 lg:order-1">
+              <div className="order-2 min-w-0 lg:order-1">
                 <p className="max-w-[80ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                   {summary}
                 </p>
@@ -129,7 +129,7 @@ export function LegalDocument({
                         </h2>
                       </div>
 
-                      <div className="mt-3 max-w-[86ch] space-y-3.5 md:pl-[calc(1.5rem+8px)]">
+                      <div className="mt-3 max-w-[72ch] space-y-3.5 md:pl-[calc(1.5rem+8px)] lg:max-w-[86ch]">
                         {section.blocks.map((block, j) => (
                           <Block key={j} block={block} />
                         ))}
@@ -146,7 +146,7 @@ export function LegalDocument({
                 you have to go back for.
               */}
               <aside className="order-1 lg:sticky lg:top-24 lg:order-2">
-                <dl className="border-y border-rule">
+                <dl className="max-w-[26rem] border-y border-rule lg:max-w-none">
                   <div className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5">
                     <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
                       Actualizado
@@ -264,7 +264,7 @@ function Block({ block }: { block: LegalBlock }) {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="max-w-full overflow-x-auto">
       <table className="w-full min-w-[34rem] border-collapse text-left">
         <thead>
           <tr className="border-b-2 border-rule-strong">

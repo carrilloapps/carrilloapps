@@ -203,7 +203,7 @@ function LedgerRow({
           href={entry.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-baseline gap-2 font-sans text-xl font-medium text-paper transition-colors group-hover:text-stamp-text focus-visible:text-stamp-text md:text-2xl"
+          className="-my-2.5 inline-flex items-baseline gap-2 py-2.5 font-sans text-xl font-medium text-paper transition-colors group-hover:text-stamp-text focus-visible:text-stamp-text md:my-0 md:py-0 md:text-2xl"
         >
           {entry.name}
           <ArrowUpRight

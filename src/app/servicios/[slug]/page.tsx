@@ -54,7 +54,7 @@ export default function ServicePage() {
             <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
               <Link
                 href="/servicios"
-                className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase transition-colors hover:text-paper"
+                className="-my-4 inline-flex items-center gap-2 py-4 font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase transition-colors hover:text-paper md:my-0 md:py-0"
               >
                 <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                 Servicios
@@ -78,7 +78,7 @@ export default function ServicePage() {
                 ))}
               </div>
 
-              <dl className="self-start border-y border-rule">
+              <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
                 {service.particulars.map(({ term, value }, i) => (
                   <div
                     key={`${term}-${i}`}
@@ -167,7 +167,7 @@ export default function ServicePage() {
                 {service.caseStudy.description}
               </p>
 
-              <dl className="mt-6 border-t border-rule-strong">
+              <dl className="mt-6 max-w-[26rem] border-t border-rule-strong lg:max-w-none">
                 {service.caseStudy.metrics.map((metric, i) => (
                   <div
                     key={`${metric.label}-${i}`}

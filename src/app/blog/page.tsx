@@ -58,7 +58,7 @@ export default async function BlogPage() {
                 el feed.
               </p>
 
-              <dl className="self-start border-y border-rule">
+              <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
                 {[
                   { term: "Publicado en", value: "Substack" },
                   { term: "Entradas", value: posts.length ? `${posts.length}` : "—" },

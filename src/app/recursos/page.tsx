@@ -95,7 +95,7 @@ function OpeningEntry() {
             </p>
           </div>
 
-          <dl className="self-start border-y border-rule">
+          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
             {[
               { term: "Paquetes", value: `${openSourceProjects.length} mantenidos` },
               { term: "Registro", value: "npm · GitHub" },

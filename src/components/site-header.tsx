@@ -630,7 +630,7 @@ function MobileDrawer({
                         aria-controls={sectionId}
                         aria-label={`${isOpen ? "Contraer" : "Desplegar"} ${entry.label}`}
                         onClick={() => setExpanded(isOpen ? null : entry.href)}
-                        className="-mr-3 inline-flex w-12 shrink-0 cursor-pointer items-center justify-center text-paper-faint transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp"
+                        className="inline-flex w-12 shrink-0 cursor-pointer items-center justify-center text-paper-faint transition-colors focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-stamp"
                       >
                         <ChevronDown
                           className={`h-4 w-4 transition-transform duration-200 ${

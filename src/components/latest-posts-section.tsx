@@ -169,7 +169,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
           href="https://carrilloapps.substack.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-stamp-text focus-visible:text-stamp-text"
+          className="-my-4 inline-flex items-center gap-1.5 py-4 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-stamp-text focus-visible:text-stamp-text md:my-0 md:py-0"
         >
           <Substack className="h-3 w-3" aria-hidden="true" />
           Substack
