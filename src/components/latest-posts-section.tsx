@@ -40,7 +40,14 @@ export function LatestPostsSection() {
             <Link
               href="https://blog.carrillo.app/"
               target="_blank"
-              rel="noopener noreferrer"
+              /*
+                `noopener` without `noreferrer`. These point at the newsletter
+                on our own subdomain, and `noreferrer` strips the Referer
+                header — which cost Substack's analytics every referral this
+                site sent it. The security reason for the pair is `noopener`
+                alone; dropping the other half changes nothing about that.
+              */
+              rel="noopener"
               className="cta-quiet"
             >
               <Substack className="h-3.5 w-3.5" aria-hidden="true" />
@@ -59,7 +66,7 @@ export function LatestPostsSection() {
                 <Link
                   href={post.url}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener"
                   className="grid grid-cols-1 items-baseline gap-x-8 gap-y-1 py-4 md:grid-cols-[9rem_1fr_5rem]"
                 >
                   <time
@@ -91,7 +98,7 @@ function LeadPost({ post }: { post: LatestPost }) {
       <Link
         href={post.url}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         className="grid gap-x-10 gap-y-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-start"
       >
         <div className="order-2 lg:order-1">
@@ -168,7 +175,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
         <Link
           href="https://blog.carrillo.app/"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className="-my-4 inline-flex items-center gap-1.5 py-4 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-stamp-text focus-visible:text-stamp-text md:my-0 md:py-0"
         >
           <Substack className="h-3 w-3" aria-hidden="true" />
@@ -189,12 +196,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
         <ul className="divide-y divide-rule">
           {rows.map((post) => (
             <li key={post.url} className="group">
-              <Link
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block py-4"
-              >
+              <Link href={post.url} target="_blank" rel="noopener" className="block py-4">
                 <div className="flex items-baseline gap-3 font-mono text-[10px] tracking-[0.1em] text-paper-faint uppercase">
                   <time dateTime={post.pubDate} className="whitespace-nowrap">
                     {formatDateES(post.pubDate)}
@@ -223,7 +225,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
         <Link
           href="https://blog.carrillo.app/archive"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           onClick={() => trackCTAClick("Ver más artículos", "secondary", "home-posts-aside")}
           className="cta-quiet w-full justify-center"
         >

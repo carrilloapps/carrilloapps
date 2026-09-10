@@ -6,6 +6,7 @@ import { ArrowUpRight, Check, Download, Eye } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ConsentCheck } from "@/components/ui/consent-check"
 import {
   DynamicDialog as Dialog,
   DynamicDialogContent as DialogContent,
@@ -13,7 +14,8 @@ import {
   DynamicDialogHeader as DialogHeader,
   DynamicDialogTitle as DialogTitle,
 } from "@/components/dynamic-imports"
-import { trackButtonClick } from "@/lib/analytics"
+import { trackButtonClick, trackNewsletterSignup } from "@/lib/analytics"
+import { blogSubscribeUrl } from "@/lib/substack-service"
 
 interface CvDownloadModalProps {
   open: boolean
@@ -40,6 +42,10 @@ interface FormErrors {
  * success, told the visitor "se ha enviado también a tu correo" — which was
  * never true, since the form has no backend. A document counter says what it
  * holds, why it needs the detail, and exactly what happens next.
+ *
+ * The newsletter is an opt-in, unchecked, and nothing else here leaves the
+ * browser: the address is used to open Substack's own subscribe page and is
+ * never stored or sent anywhere by this site.
  */
 
 /** What the visitor is actually getting. Stated before they hand over a detail. */
@@ -53,6 +59,14 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
   const [submitted, setSubmitted] = useState(false)
   const [data, setData] = useState<FormState>({ name: "", email: "" })
   const [errors, setErrors] = useState<FormErrors>({ name: "", email: "" })
+  /*
+    Unchecked by default, and it has to stay that way. Someone asking for a CV
+    is asking for a CV; treating that as consent to a newsletter is the pattern
+    this modal was written against — its own copy used to promise "sin lista de
+    correo", which is why the box, the wording and the promise all move
+    together or none of them do.
+  */
+  const [subscribe, setSubscribe] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -66,6 +80,17 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
     if (!validation.name && !validation.email) {
       trackButtonClick("CV solicitado", "cv-modal")
       setSubmitted(true)
+
+      /*
+        Substack's signup endpoint cannot be called from here — it is captcha
+        gated and answers a server call with a 200 that creates nothing — so the
+        address is handed to Substack's own page, already filled in. Opened
+        inside the submit gesture so no popup blocker eats it.
+      */
+      if (subscribe) {
+        trackNewsletterSignup(data.email, "cv-modal", true)
+        window.open(blogSubscribeUrl(data.email), "_blank", "noopener,noreferrer")
+      }
     }
   }
 
@@ -88,7 +113,7 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
           <DialogDescription>
             {submitted
               ? `Gracias, ${data.name.split(" ")[0]}. Puedes abrirlo en el navegador o guardarlo.`
-              : "Te pido nombre y correo para saber quién lo consulta — nada más. Sin lista de correo, sin seguimiento comercial."}
+              : "Te pido nombre y correo para saber quién lo consulta. Al boletín solo entras si lo marcas abajo."}
           </DialogDescription>
         </DialogHeader>
 
@@ -162,6 +187,15 @@ export function CvDownloadModal({ open, onOpenChange, cvUrl = "/cv.pdf" }: CvDow
                 </p>
               )}
             </div>
+
+            <ConsentCheck
+              id="cv-subscribe"
+              checked={subscribe}
+              onChange={setSubscribe}
+              note="Abre Substack en otra pestaña para confirmar. Te das de baja en un clic."
+            >
+              Quiero recibir el boletín
+            </ConsentCheck>
 
             <button type="submit" className="cta w-full justify-center">
               Acceder al CV

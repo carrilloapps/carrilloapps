@@ -1,6 +1,6 @@
 "use client"
 
-import { keepPreviousData, useMutation, useQueries, useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query"
 import type { FeaturedProject } from "@/lib/data/featured-projects"
 
 /* -------------------------------------------------------------------------- */
@@ -168,34 +168,6 @@ export function useLatestPosts() {
         "Failed to fetch latest posts",
       )
       return Array.isArray(data?.posts) ? data.posts : []
-    },
-  })
-}
-
-/** Newsletter subscription mutation. */
-export function useNewsletterSubscribe() {
-  return useMutation({
-    mutationFn: async (email: string) => {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
-      if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as {
-          error?: string
-          subscribeUrl?: string
-        }
-        const error = new Error(
-          data?.error ?? "Por favor intenta nuevamente en un momento.",
-        ) as Error & { status?: number; subscribeUrl?: string }
-        error.status = res.status
-        // Present when the upstream call failed and the reader should be sent
-        // to Substack's own subscribe page instead of hitting a dead end.
-        error.subscribeUrl = data?.subscribeUrl
-        throw error
-      }
-      return true
     },
   })
 }

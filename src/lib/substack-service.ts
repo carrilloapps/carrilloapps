@@ -5,8 +5,39 @@
  */
 export const BLOG_URL = "https://blog.carrillo.app"
 
-/** Substack's hosted subscribe page. The fallback when the API path fails. */
+/** Substack's hosted subscribe page — where every signup on this site finishes. */
 export const BLOG_SUBSCRIBE_URL = `${BLOG_URL}/subscribe`
+
+/**
+ * The subscribe page with the address already in the field.
+ *
+ * Substack's own signup endpoint cannot be called from a server. It sits behind
+ * Cloudflare bot management, which rejects datacenter IPs — Vercel's included —
+ * regardless of headers, and it fails in a way that is worse than an error: a
+ * request it does not trust still answers `200`, just without the
+ * `subscription_id` that proves anything happened. A route that read the status
+ * code reported success to readers who were never subscribed, which is exactly
+ * what this site did.
+ *
+ * Not a captcha, despite appearances: the `captcha_behavior` on a Substack page
+ * belongs to `pub_creation_captcha_behavior`, and their reCAPTCHA is wired only
+ * to login and publication creation. The signup form carries no captcha at all.
+ * Which is why there is no token to go and fetch — the wall is at the transport
+ * layer, and the same request is accepted from curl and dropped from Node's
+ * fetch on the same machine and IP.
+ *
+ * Calling it from a server would also breach Substack's own terms, which forbid
+ * reverse engineering the product and circumventing its restrictions. The risk
+ * of that lands on the publication, which is the whole subscriber list.
+ *
+ * So the form here validates the address and hands it to Substack, which runs
+ * the captcha, takes the signup and sends the confirmation mail. One click on
+ * a page that is already filled in, and no way to claim a subscription that
+ * does not exist.
+ */
+export function blogSubscribeUrl(email?: string): string {
+  return email ? `${BLOG_SUBSCRIBE_URL}?email=${encodeURIComponent(email)}` : BLOG_SUBSCRIBE_URL
+}
 
 const FEED_URL = `${BLOG_URL}/feed`
 

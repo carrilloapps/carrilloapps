@@ -109,52 +109,52 @@ Consumed through TanStack Query (`latestPosts` in `src/lib/queries.ts`), rendere
 
 Returns `{ posts: [] }` on any upstream failure — never an error status.
 
-### `POST /api/newsletter`
+### Newsletter — no route
 
-Substack subscription. Runtime `nodejs`.
+There is no newsletter endpoint. Signups are handed to Substack's own subscribe
+page with the address prefilled (`blogSubscribeUrl` in
+`src/lib/substack-service.ts`), and Substack runs the captcha, records the
+signup and sends the confirmation mail.
 
-```json
-{ "email": "someone@example.com" }
-```
+**Why there is no route, so nobody rebuilds one.** Substack publishes no public
+write API for subscriptions. Its embed form posts to `${BLOG_URL}/api/v1/free`,
+which is reachable — but it is gated by reCAPTCHA (`captcha_behavior:
+risky_pubs_or_rate_limit`) and Cloudflare bot management, and it does not fail
+loudly. A request it does not trust still answers:
 
-| Status | Body                                                                        | Meaning                          |
-| ------ | --------------------------------------------------------------------------- | -------------------------------- |
-| 200    | `{ "ok": true }`                                                            | Subscribed (new or repeat)       |
-| 400    | `{ "error": "Solicitud inválida." }`                                        | Malformed JSON                   |
-| 422    | `{ "error": "Correo electrónico inválido." }`                               | Failed `EMAIL_RE`                |
-| 422    | `{ "error": "Ese correo no es válido o su dominio no existe." }`            | Substack rejected the address    |
-| 502    | `{ "error": "...", "subscribeUrl": "https://blog.carrillo.app/subscribe" }` | Substack rejected or unreachable |
+- `302` to `/` with no body, or
+- `200` with `{ email, prompt_to_login }` and no `subscription_id`
 
-Requires no environment variables. The publication origin is `BLOG_URL` in
-`src/lib/substack-service.ts`, which also derives the feed and subscribe URLs.
+Neither creates a subscriber. A route that treated the status code as the
+answer reported success to readers who were never subscribed, and this site
+shipped that bug.
 
-**The upstream endpoint is undocumented.** Substack publishes no public write
-API for subscriptions; the route posts to `${BLOG_URL}/api/v1/free`, which is
-where Substack's own embed form at `${BLOG_URL}/embed` posts. It can change or
-start demanding a challenge without notice, so the handler treats any 2xx _or_
-3xx as success (the `nojs` path answers with a redirect) and, on any failure,
-returns `subscribeUrl` so the client can send the reader to Substack's hosted
-subscribe page instead of a dead end. The footer form renders that as a toast
-action.
+Measured while removing it: the same request, same machine, same IP, same
+headers and same body is accepted from `curl` and silently dropped from Node's
+`fetch`. The remaining difference is the TLS fingerprint Cloudflare sees, so
+making it work from a server means impersonating a browser at the transport
+level. That is not a thing to build: it is fragile, it breaks without warning,
+and it fails in the one way this feature must never fail — quietly.
 
-Two shapes were observed against the live endpoint and are worth recording,
-because neither is what the JSON-ish name suggests:
+It is worth being precise about the mechanism, because the obvious guess is
+wrong: this is **not** a captcha. The `captcha_behavior` visible on a Substack
+page is `pub_creation_captcha_behavior`, and their reCAPTCHA is wired only to
+login and publication creation. The signup form carries no captcha and no
+`captcha_response` field, so there is no token to go and obtain. Independent
+reports of the same wall run from mid-2024 through 2026, and every integration
+that hit it ended up on the official embed or on a hand-off like this one.
 
-- **An accepted address answers `302` with `location: /`** — not JSON, even
-  when the request sets `Accept: application/json`. It answers the same way for
-  an address already on the list, so the two are indistinguishable from here
-  and the route reports both as plain success — there is no "already
-  subscribed" state to report, and the UI copy is written to be true of both.
-- **A rejected address answers `400`** with
-  `{ "errors": [{ "param": "email", "msg": "..." }] }`, and Substack checks the
-  domain resolves — which `EMAIL_RE` cannot. That is translated to a `422` so
-  the reader fixes the typo rather than being told the service is down.
+Calling it from a server also breaches Substack's terms, which forbid reverse
+engineering the product and circumventing its restrictions. That risk lands on
+the publication — which is the entire subscriber list.
 
-`tests/unit/newsletter-route.test.ts` locks all of it.
+`prompt_to_login: true` is the other silent failure worth naming: it means the
+address already has a Substack account, and it comes back `200` while adding
+nobody.
 
-Nothing is stored on this side — Substack owns the list and sends its own
-confirmation mail, so the site and the publication never hold two diverging
-audiences.
+An accepted signup also comes back `requires_confirmation: true`. Even where it
+works, the subscriber is pending until they click the mail, so "subscribed" is
+never something this site can honestly claim on its own.
 
 ---
 

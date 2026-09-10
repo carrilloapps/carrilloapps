@@ -85,9 +85,11 @@ export default async function BlogPage() {
               This was a link out to Substack's own subscribe page. On the one
               page whose entire purpose is the writing, sending the reader to
               another domain to sign up is a hop that loses most of them — so
-              the form is here, posting to /api/newsletter, which forwards to
-              the same Substack list. The link stays as the secondary path for
-              anyone who would rather see the publication first.
+              the form is here. It validates the address and hands it to
+              Substack's own subscribe page already filled in, because their
+              signup endpoint cannot be called from a server. The link stays as
+              the secondary path for anyone who would rather see the
+              publication first.
             */}
             <div className="mt-8 border-t-2 border-rule-strong pt-5">
               <p
@@ -103,12 +105,7 @@ export default async function BlogPage() {
               <NewsletterForm labelledBy="blog-newsletter" source="blog" inline className="mt-5" />
 
               <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Link
-                  href={SUBSTACK_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-quiet"
-                >
+                <Link href={SUBSTACK_URL} target="_blank" rel="noopener" className="cta-quiet">
                   <Substack className="h-3.5 w-3.5" aria-hidden="true" />
                   Ver en Substack
                 </Link>
@@ -206,7 +203,7 @@ function LeadEntry({ post }: { post: SubstackPost }) {
       <Link
         href={post.url}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         className="group grid gap-x-12 gap-y-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]"
       >
         <div className="min-w-0">
@@ -248,7 +245,7 @@ function ArchiveRow({ post }: { post: SubstackPost }) {
       <Link
         href={post.url}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         className="group grid items-baseline gap-x-10 gap-y-2 py-4 md:grid-cols-[minmax(0,1fr)_auto]"
       >
         <div className="min-w-0">
@@ -298,12 +295,7 @@ function FeedUnavailable() {
           <p className="mt-1 font-sans text-sm text-paper-faint">
             Los artículos siguen publicados; ábrelos directamente.
           </p>
-          <Link
-            href={SUBSTACK_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cta-quiet mt-4"
-          >
+          <Link href={SUBSTACK_URL} target="_blank" rel="noopener" className="cta-quiet mt-4">
             Ir a Substack
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>

@@ -19,8 +19,8 @@ export const privateEnv = {
   DISQUS_API_KEY: process.env.DISQUS_API_KEY,
   DISQUS_API_SECRET: process.env.DISQUS_API_SECRET,
   DISQUS_ACCESS_TOKEN: process.env.DISQUS_ACCESS_TOKEN,
-  // The newsletter needs no credentials: /api/newsletter forwards to Substack,
-  // which owns the list. The Mailchimp keys that used to live here are gone.
+  // The newsletter needs no credentials and no route: signups are handed to
+  // Substack's own subscribe page, which owns the list.
 } as const
 
 // Vercel-specific environment variables

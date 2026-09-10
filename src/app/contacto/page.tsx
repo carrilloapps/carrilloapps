@@ -19,7 +19,7 @@ import { Turnstile, isTurnstileEnabled } from "@/components/turnstile"
 import { CalPopupButton } from "@/components/cal-booking"
 import { contactFaq } from "@/lib/data/contact-faq"
 import { buildContactWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp"
-import { useNewsletterSubscribe } from "@/lib/queries"
+import { blogSubscribeUrl } from "@/lib/substack-service"
 import {
   trackButtonClick,
   trackFormFieldInteraction,
@@ -215,7 +215,6 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [lastSubmission, setLastSubmission] = useState(0)
   const { isLimited, recordAttempt } = useRateLimit()
-  const newsletter = useNewsletterSubscribe()
   const startTime = useRef(0)
 
   useEffect(() => {
@@ -288,24 +287,21 @@ function ContactForm() {
         hand, from a chat message, or not at all. It is checked by default, so
         most people who wrote here believed they had subscribed.
 
-        Fired after `window.open` so the popup stays inside the click gesture,
-        and deliberately not awaited: the message is the errand the person came
-        for, and a slow or failing upstream must not hold it up. A failure is
-        reported quietly, with Substack's own page as the way out.
+        It cannot subscribe them from here either: Substack's signup endpoint is
+        captcha-gated and answers a server call with a 200 that creates nothing.
+        So the toast carries the one honest next step, on a page already filled
+        in with their address. It is an action rather than a second popup
+        because two tabs opening off one submit is how a browser decides you are
+        malware — and because the message is the errand they came for.
       */
       if (subscribe && data.email) {
-        newsletter.mutate(data.email, {
-          onError: (error) => {
-            const { subscribeUrl } = error as Error & { subscribeUrl?: string }
-            toast.error("No pude suscribirte al boletín", {
-              description: "Tu mensaje sí se envió.",
-              ...(subscribeUrl && {
-                action: {
-                  label: "Suscribirme",
-                  onClick: () => window.open(subscribeUrl, "_blank", "noopener,noreferrer"),
-                },
-              }),
-            })
+        const url = blogSubscribeUrl(data.email)
+        toast.info("Falta un paso para el boletín", {
+          duration: 10_000,
+          description: "Substack pide confirmar la suscripción.",
+          action: {
+            label: "Confirmar",
+            onClick: () => window.open(url, "_blank", "noopener,noreferrer"),
           },
         })
       }

@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { trackNewsletterSignup } from "@/lib/analytics"
-import { useNewsletterSubscribe } from "@/lib/queries"
+import { blogSubscribeUrl } from "@/lib/substack-service"
 import { toast } from "sonner"
 
 /** Simple client-side throttle: three attempts a minute, as on /contacto. */
@@ -43,9 +43,14 @@ interface NewsletterFormProps {
  * which was wired to the API but wore the pre-ledger surface and had no call
  * sites at all. One form, one contract.
  *
- * It posts to `/api/newsletter`, which forwards to Substack, so the address
- * lands in the same list that powers blog.carrillo.app and nothing is stored
- * on this side. Substack sends its own confirmation mail.
+ * The address is validated here and handed to Substack, which runs its captcha,
+ * records the signup and sends the confirmation mail. Nothing is stored on this
+ * side and there is one list, the one that powers blog.carrillo.app.
+ *
+ * It used to post to a route that forwarded to Substack's own signup endpoint.
+ * That endpoint answers `200` to a request it does not trust — just without the
+ * `subscription_id` that proves anything happened — so the site told readers
+ * they had subscribed when nobody had. See `blogSubscribeUrl` for the detail.
  *
  * It carries the three defenses docs/API.md asks of every form: a honeypot, a
  * minimum dwell, and a throttle.
@@ -61,12 +66,10 @@ export function NewsletterForm({
   const [honeypot, setHoneypot] = useState("")
   const startTime = useRef(Date.now())
   const { isLimited, recordAttempt } = useRateLimit()
-  const subscribe = useNewsletterSubscribe()
-  const isSubmitting = subscribe.isPending
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!email || isSubmitting) return
+    if (!email) return
 
     // Three cheap filters that stop the bulk of automated submissions without
     // asking a person to prove anything.
@@ -80,32 +83,18 @@ export function NewsletterForm({
     }
     recordAttempt()
 
-    subscribe.mutate(email, {
-      onSuccess: () => {
-        trackNewsletterSignup(email, source, true)
-        setEmail("")
-        // Substack answers a new signup and a repeat one identically, so the
-        // copy has to read as true either way.
-        toast.success("¡Listo, quedaste suscrito!", {
-          description: "Si es tu primera vez, Substack te enviará un correo de bienvenida.",
-        })
-      },
-      onError: (error) => {
-        trackNewsletterSignup(email, source, false)
-        // When the upstream path fails the route hands back Substack's own
-        // subscribe page, so the reader gets somewhere to go instead of a
-        // dead end.
-        const { subscribeUrl } = error as Error & { subscribeUrl?: string }
-        toast.error("Error al suscribirse", {
-          description: error.message,
-          ...(subscribeUrl && {
-            action: {
-              label: "Suscribirme en el blog",
-              onClick: () => window.open(subscribeUrl, "_blank", "noopener,noreferrer"),
-            },
-          }),
-        })
-      },
+    trackNewsletterSignup(email, source, true)
+
+    /*
+      Opened straight out of the submit handler so it stays inside the click
+      gesture and no popup blocker eats it. The address travels in the query
+      string, so the reader lands on a filled-in form and finishes in one click.
+    */
+    window.open(blogSubscribeUrl(email), "_blank", "noopener,noreferrer")
+    setEmail("")
+
+    toast.success("Te llevo a confirmar", {
+      description: "Termina la suscripción en la pestaña que acabo de abrir.",
     })
   }
 
@@ -143,7 +132,6 @@ export function NewsletterForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          disabled={isSubmitting}
           autoComplete="email"
           autoCapitalize="off"
           spellCheck={false}
@@ -155,12 +143,8 @@ export function NewsletterForm({
           the ledger CTA is drawn against — reaching for it here would mean
           fighting both.
         */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`cta ${inline ? "sm:mt-0" : "mt-3"}`}
-        >
-          {isSubmitting ? "Suscribiendo…" : "Suscribirme"}
+        <button type="submit" className={`cta ${inline ? "sm:mt-0" : "mt-3"}`}>
+          Suscribirme
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
