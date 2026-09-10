@@ -38,7 +38,7 @@ export function LatestPostsSection() {
           headingId="latest-posts-heading"
           trailing={
             <Link
-              href="https://carrilloapps.substack.com/"
+              href="https://blog.carrillo.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="cta-quiet"
@@ -166,7 +166,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
           Últimos artículos
         </h3>
         <Link
-          href="https://carrilloapps.substack.com/"
+          href="https://blog.carrillo.app/"
           target="_blank"
           rel="noopener noreferrer"
           className="-my-4 inline-flex items-center gap-1.5 py-4 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-stamp-text focus-visible:text-stamp-text md:my-0 md:py-0"
@@ -221,7 +221,7 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
           stops after four entries, with no way to reach the rest. */}
       <div className="border-t border-rule-strong pt-4">
         <Link
-          href="https://carrilloapps.substack.com/archive"
+          href="https://blog.carrillo.app/archive"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackCTAClick("Ver más artículos", "secondary", "home-posts-aside")}

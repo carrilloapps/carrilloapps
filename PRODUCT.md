@@ -38,9 +38,9 @@ systems at scale, not from someone summarizing them.
 
 ## Operating Context
 
-- Content is published on Substack (`carrilloapps.substack.com`) and surfaced
-  here through `/api/latest-posts` and `app/rss.xml`. There is no blog route on
-  this site; the posts live upstream.
+- Content is published on Substack, served from the `blog.carrillo.app` custom
+  domain, and surfaced here through `/api/latest-posts`, `app/rss.xml` and the
+  `/blog` index. The article bodies live upstream; `/blog` only indexes them.
 - Open source lives on GitHub (`carrilloapps`) and GitLab, surfaced through
   route handlers that proxy both APIs.
 - Newsletter subscription runs through Mailchimp (`/api/newsletter`), and the

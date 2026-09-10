@@ -61,7 +61,7 @@ export function ContactSocialSection() {
               delay={0.3}
             />
             <SocialLinkCard
-              href="https://carrilloapps.substack.com/"
+              href="https://blog.carrillo.app/"
               icon={Substack}
               label="Substack"
               iconGradientFrom="from-orange-600/20"

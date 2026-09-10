@@ -248,13 +248,14 @@ const nextConfig = {
       // a 307 precisely so no browser or crawler cached it.
       //
       // The wildcard stays, but as `:path+` — `:path*` matches zero segments,
-      // so it swallowed /blog itself and the new page 307'd to Substack. There
-      // are no per-post routes here (the articles live on Substack), so an old
-      // deep link like /blog/2024/algo has nowhere to land and Substack is the
+      // so it swallowed /blog itself and the new page 307'd to the newsletter.
+      // There are no per-post routes here (the articles live on Substack, now
+      // served from the blog.carrillo.app custom domain), so an old deep link
+      // like /blog/2024/algo has nowhere to land and the newsletter is the
       // right destination for it.
       {
         source: "/blog/:path+",
-        destination: "https://carrilloapps.substack.com",
+        destination: "https://blog.carrillo.app",
         permanent: false,
       },
     ]

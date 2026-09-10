@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo"
 import { getSubstackPosts } from "@/lib/substack-service"
 
 const SITE_URL = getSiteUrl()
-const SUBSTACK_URL = "https://carrilloapps.substack.com/"
+const SUBSTACK_URL = "https://blog.carrillo.app/"
 
 export const metadata = buildPageMetadata({
   title: "Blog",

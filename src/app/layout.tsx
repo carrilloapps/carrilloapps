@@ -181,7 +181,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
-        <link rel="dns-prefetch" href="https://carrilloapps.substack.com" />
+        <link rel="dns-prefetch" href="https://blog.carrillo.app" />
         <link rel="dns-prefetch" href="https://api.github.com" />
 
         {/* Meta tags para PWA */}

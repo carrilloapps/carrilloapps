@@ -21,7 +21,7 @@ const LINKS = [
     icon: XMark,
   },
   {
-    href: "https://carrilloapps.substack.com/",
+    href: "https://blog.carrillo.app/",
     label: "Substack",
     icon: Substack,
   },

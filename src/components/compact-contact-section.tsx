@@ -362,7 +362,7 @@ export function CompactContactSection({
                 <SocialLink href="https://x.com/carrilloapps" label="X / Twitter">
                   <XIcon className="h-4 w-4" />
                 </SocialLink>
-                <SocialLink href="https://carrilloapps.substack.com/" label="Substack">
+                <SocialLink href="https://blog.carrillo.app/" label="Substack">
                   <Substack className="h-4 w-4" />
                 </SocialLink>
               </div>

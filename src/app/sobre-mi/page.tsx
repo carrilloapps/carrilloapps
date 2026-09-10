@@ -84,7 +84,7 @@ const COMMUNITY: {
       "Escribo sobre qué se rompió en producción y cómo se arregló — el material que me habría servido tener cuando empecé.",
     link: {
       label: "Leer en Substack",
-      href: "https://carrilloapps.substack.com",
+      href: "https://blog.carrillo.app",
       external: true,
     },
   },

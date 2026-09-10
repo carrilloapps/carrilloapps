@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://carrillo.app"><img src="https://img.shields.io/badge/carrillo.app-10b981?style=flat&logo=google-chrome&logoColor=white" alt="Portfolio carrillo.app" /></a>
-  <a href="https://carrilloapps.substack.com"><img src="https://img.shields.io/badge/Substack-FF6719?style=flat&logo=substack&logoColor=white" alt="Substack carrilloapps" /></a>
+  <a href="https://blog.carrillo.app"><img src="https://img.shields.io/badge/Substack-FF6719?style=flat&logo=substack&logoColor=white" alt="Substack carrilloapps" /></a>
   <a href="https://linkedin.com/in/carrilloapps"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn carrilloapps" /></a>
   <a href="https://x.com/carrilloapps"><img src="https://img.shields.io/badge/X-000000?style=flat&logo=x&logoColor=white" alt="X @carrilloapps" /></a>
   <img src="https://komarev.com/ghpvc/?username=carrilloapps&label=Profile+views&color=10b981&style=flat" alt="Profile views" />
@@ -22,7 +22,7 @@ My focus: distributed systems that move real money reliably. From Colombia's fir
 
 Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
 
-📬 [carrilloapps.substack.com](https://carrilloapps.substack.com) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 <m@carrillo.app>
+📬 [blog.carrillo.app](https://blog.carrillo.app) &nbsp;·&nbsp; 🌍 [carrillo.app](https://carrillo.app) &nbsp;·&nbsp; 📫 <m@carrillo.app>
 
 ---
 
@@ -84,12 +84,12 @@ Outside of code: writing about fintech and engineering on Substack, licensed Ham
 
 ## Writing on Substack
 
-- 🏦 [Inicialización de pagos: El nuevo reto de Bre-B en Colombia](https://carrilloapps.substack.com/p/inicializacion-de-pagos-el-nuevo) — _May 2026_
-- 💥 [El día que borré una base de datos sin backup](https://carrilloapps.substack.com/p/el-dia-que-borre-una-base-de-datos) — _May 2026_
-- 🤔 [¿Programador o desarrollador de software?](https://carrilloapps.substack.com/p/programador-o-desarrollador-de-software) — _May 2026_
-- 💸 [Recibe dinero desde Europa fácil, rápido y SIN COSTO (Guía Facebank)](https://carrilloapps.substack.com/p/recibe-dinero-desde-europa-facil) — _May 2026_
+- 🏦 [Inicialización de pagos: El nuevo reto de Bre-B en Colombia](https://blog.carrillo.app/p/inicializacion-de-pagos-el-nuevo) — _May 2026_
+- 💥 [El día que borré una base de datos sin backup](https://blog.carrillo.app/p/el-dia-que-borre-una-base-de-datos) — _May 2026_
+- 🤔 [¿Programador o desarrollador de software?](https://blog.carrillo.app/p/programador-o-desarrollador-de-software) — _May 2026_
+- 💸 [Recibe dinero desde Europa fácil, rápido y SIN COSTO (Guía Facebank)](https://blog.carrillo.app/p/recibe-dinero-desde-europa-facil) — _May 2026_
 
-**→ [Ver todos los artículos en Substack](https://carrilloapps.substack.com)**
+**→ [Ver todos los artículos en Substack](https://blog.carrillo.app)**
 
 ---
 
@@ -111,7 +111,7 @@ Outside of code: writing about fintech and engineering on Substack, licensed Ham
   <a href="https://linkedin.com/in/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
   <a href="https://github.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
   <a href="https://www.skills.sh/carrilloapps/skills" target="_blank"><img src="https://img.shields.io/badge/skills.sh-AI%20Agent%20Rules-10b981?style=for-the-badge" alt="skills.sh" /></a>
-  <a href="https://carrilloapps.substack.com" target="_blank"><img src="https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white" alt="Substack" /></a>
+  <a href="https://blog.carrillo.app" target="_blank"><img src="https://img.shields.io/badge/Substack-FF6719?style=for-the-badge&logo=substack&logoColor=white" alt="Substack" /></a>
   <a href="https://x.com/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white" alt="X (Twitter)" /></a>
   <a href="https://bsky.app/profile/carrilloapps.bsky.social" target="_blank"><img src="https://img.shields.io/badge/Bluesky-0085FF?style=for-the-badge&logo=bluesky&logoColor=white" alt="Bluesky" /></a>
   <a href="https://dev.to/carrilloapps" target="_blank"><img src="https://img.shields.io/badge/Dev.to-0A0A0A?style=for-the-badge&logo=devdotto&logoColor=white" alt="Dev.to" /></a>
