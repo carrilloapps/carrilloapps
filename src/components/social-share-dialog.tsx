@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Dialog,
   DialogContent,
@@ -148,11 +149,12 @@ export function SocialShareDialog({ open, onOpenChange, title, url }: SocialShar
           <div className="border-t border-rule pt-4">
             <p className="mb-2 text-sm text-paper-dim">O copia el enlace</p>
             <div className="flex gap-2">
-              <input
+              <Input
                 type="text"
                 value={url}
                 readOnly
-                className="flex-1 border border-rule-strong bg-rule/40 px-3 py-2 text-sm text-paper-dim focus:outline-none focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-stamp"
+                aria-label="Enlace para copiar"
+                className="min-h-0 flex-1 border-rule-strong bg-rule/40 py-2 text-sm text-paper-dim"
               />
               <Button
                 onClick={handleCopyLink}

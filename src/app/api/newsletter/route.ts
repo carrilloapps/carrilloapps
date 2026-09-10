@@ -21,18 +21,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const SUBSCRIBE_ENDPOINT = `${BLOG_URL}/api/v1/free`
 
 /**
- * Lightweight probe kept for API compatibility with the previous Mailchimp
- * implementation, which needed credentials before the form could be enabled.
- *
- * Substack needs none, so the newsletter is always available. The route still
- * answers the same shape so the client keeps rendering off one flag, and it
- * hands back the hosted subscribe page for the UI to link when a POST fails.
- */
-export async function GET() {
-  return NextResponse.json({ configured: true, subscribeUrl: BLOG_SUBSCRIBE_URL })
-}
-
-/**
  * Newsletter subscription, forwarded to Substack.
  *
  * The subscriber lands in the same list that powers blog.carrillo.app, so the
@@ -85,26 +73,14 @@ export async function POST(request: Request) {
 
     /*
       Observed against the live endpoint: an accepted address answers `302` with
-      `location: /`, and it does so whether the address is new or already on the
-      list — Substack does not distinguish the two here, even when the request
-      asks for JSON. So a redirect is the success path, and `alreadySubscribed`
-      below is unreachable in practice.
+      `location: /`, and it answers that way whether the address is new or
+      already on the list — Substack does not distinguish the two here, even
+      when the request asks for JSON. A 2xx is accepted on the same terms in
+      case the endpoint ever answers in the shape its name suggests; either way
+      the caller learns only that it worked.
     */
-    if (res.status >= 300 && res.status < 400) {
+    if (res.status >= 200 && res.status < 400) {
       return NextResponse.json({ ok: true })
-    }
-
-    /*
-      Not observed in the wild, kept because the endpoint is undocumented and
-      has a JSON-shaped answer in other publications' embeds. If Substack ever
-      starts distinguishing a repeat signup, this is where it lands.
-    */
-    if (res.ok) {
-      const data = (await res.json().catch(() => ({}))) as { didSignup?: boolean }
-
-      return NextResponse.json(
-        data?.didSignup === false ? { ok: true, alreadySubscribed: true } : { ok: true },
-      )
     }
 
     /*

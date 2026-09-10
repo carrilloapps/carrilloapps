@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ArrowRight, ArrowUpRight, CalendarDays, Search, X } from "lucide-react"
 import { Github, GitLabIcon } from "@/components/icons/social-icons"
 import { CountrySelect } from "@/components/ui/country-select"
+import { Input } from "@/components/ui/input"
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -250,7 +251,14 @@ function RepositoryFeed() {
           className="group flex items-center gap-2.5 border border-rule bg-field px-3 transition-colors hover:border-rule-strong"
         >
           <Search className="h-4 w-4 shrink-0 text-paper-faint" aria-hidden="true" />
-          <input
+          {/*
+            `ui/input` with its chrome stripped, not a bare element: the rule
+            and the field ink belong to the wrapper here, because the search
+            icon and the clear button sit inside the same box. Going through the
+            component still buys the shared focus, disabled and placeholder
+            behaviour, so the field cannot drift from the rest of the system.
+          */}
+          <Input
             type="search"
             value={draft}
             onChange={(e) => {
@@ -260,7 +268,7 @@ function RepositoryFeed() {
             placeholder="Buscar por nombre o descripción"
             aria-label="Buscar repositorio"
             data-bare-field
-            className="min-h-[48px] w-full border-0 bg-transparent p-0 font-sans text-base text-paper placeholder:text-paper-faint focus:border-0 focus:ring-0 focus:outline-none"
+            className="min-h-[48px] border-0 bg-transparent p-0 hover:border-0 focus:border-0 focus:ring-0 focus:outline-none"
           />
           {draft ? (
             <button

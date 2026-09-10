@@ -85,7 +85,6 @@ export const queryKeys = {
   repositoryDetails: (platform: string, repository: string) =>
     ["repository-details", platform, repository] as const,
   latestPosts: () => ["latest-posts"] as const,
-  newsletterStatus: () => ["newsletter-status"] as const,
 }
 
 /* -------------------------------------------------------------------------- */
@@ -173,25 +172,6 @@ export function useLatestPosts() {
   })
 }
 
-/**
- * Whether the newsletter endpoint is live.
- *
- * Backed by Substack now, which needs no credentials, so this answers true in
- * every environment. It is kept because the form still renders a disabled
- * state off it, and because a future backend may need configuring again.
- */
-export function useNewsletterStatus() {
-  return useQuery({
-    queryKey: queryKeys.newsletterStatus(),
-    queryFn: async () => {
-      const res = await fetch("/api/newsletter")
-      const data: { configured?: boolean } = res.ok ? await res.json() : { configured: false }
-      return Boolean(data?.configured)
-    },
-    staleTime: Infinity, // config doesn't change within a session
-  })
-}
-
 /** Newsletter subscription mutation. */
 export function useNewsletterSubscribe() {
   return useMutation({
@@ -215,10 +195,7 @@ export function useNewsletterSubscribe() {
         error.subscribeUrl = data?.subscribeUrl
         throw error
       }
-      return (await res.json().catch(() => ({}))) as {
-        ok?: boolean
-        alreadySubscribed?: boolean
-      }
+      return true
     },
   })
 }

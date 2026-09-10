@@ -19,6 +19,7 @@ import { Turnstile, isTurnstileEnabled } from "@/components/turnstile"
 import { CalPopupButton } from "@/components/cal-booking"
 import { contactFaq } from "@/lib/data/contact-faq"
 import { buildContactWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp"
+import { useNewsletterSubscribe } from "@/lib/queries"
 import {
   trackButtonClick,
   trackFormFieldInteraction,
@@ -214,6 +215,7 @@ function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [lastSubmission, setLastSubmission] = useState(0)
   const { isLimited, recordAttempt } = useRateLimit()
+  const newsletter = useNewsletterSubscribe()
   const startTime = useRef(0)
 
   useEffect(() => {
@@ -280,6 +282,34 @@ function ContactForm() {
         "_blank",
         "noopener,noreferrer",
       )
+      /*
+        The box said "quiero suscribirme al boletín" and all it did was append a
+        line to the WhatsApp subject — the reader had to be added to the list by
+        hand, from a chat message, or not at all. It is checked by default, so
+        most people who wrote here believed they had subscribed.
+
+        Fired after `window.open` so the popup stays inside the click gesture,
+        and deliberately not awaited: the message is the errand the person came
+        for, and a slow or failing upstream must not hold it up. A failure is
+        reported quietly, with Substack's own page as the way out.
+      */
+      if (subscribe && data.email) {
+        newsletter.mutate(data.email, {
+          onError: (error) => {
+            const { subscribeUrl } = error as Error & { subscribeUrl?: string }
+            toast.error("No pude suscribirte al boletín", {
+              description: "Tu mensaje sí se envió.",
+              ...(subscribeUrl && {
+                action: {
+                  label: "Suscribirme",
+                  onClick: () => window.open(subscribeUrl, "_blank", "noopener,noreferrer"),
+                },
+              }),
+            })
+          },
+        })
+      }
+
       trackFormSubmit("contact_form", true)
       setData({
         name: "",

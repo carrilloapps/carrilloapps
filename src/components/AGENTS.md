@@ -122,7 +122,6 @@ import {
 ```tsx
 import {
   DynamicDisqusComments, // Third-party script
-  DynamicNewsletterForm, // Form with validation
   DynamicCookieConsent, // Conditional banner
   DynamicProjectDialog, // Modal
 } from "@/components/dynamic-imports"
@@ -564,7 +563,6 @@ Lazy-loaded components for code splitting.
 export const DynamicDisqusComments = dynamic(...)  // Comments
 export const DynamicProjectDialog = dynamic(...)   // Project dialog
 export const DynamicCookieConsent = dynamic(...)   // Cookie banner
-export const DynamicNewsletterForm = dynamic(...) // Newsletter form
 ```
 
 #### Usage

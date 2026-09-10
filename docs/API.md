@@ -35,12 +35,13 @@ selectively — prefer them over a blanket route revalidate when a handler makes
 several upstream calls with different volatility.
 
 **Pick the runtime deliberately.** `newsletter` sets `export const runtime = "nodejs"`
-because Mailchimp needs `crypto` and `Buffer`. Handlers that do not need Node
-APIs should leave the default.
+so the upstream call and its manual redirect handling behave the same locally
+and on Vercel. Handlers that do not need Node APIs should leave the default.
 
 **Degrade instead of failing.** `latest-posts` returns `{ posts: [] }` on error
 so the home page renders without the section rather than exploding.
-`newsletter` returns 503 when unconfigured so the UI can show "coming soon".
+`newsletter` returns `subscribeUrl` on failure so the UI can offer Substack's
+own subscribe page instead of a dead end.
 
 **Respect the Vercel limits.** `vercel.json` caps `src/app/api/**` at
 `maxDuration: 10` seconds and `memory: 512`. A handler that can exceed 10s
@@ -108,15 +109,6 @@ Consumed through TanStack Query (`latestPosts` in `src/lib/queries.ts`), rendere
 
 Returns `{ posts: [] }` on any upstream failure — never an error status.
 
-### `GET /api/newsletter`
-
-Availability probe. Returns
-`{ "configured": true, "subscribeUrl": "https://blog.carrillo.app/subscribe" }`.
-
-Substack needs no credentials, so this is always `true`. The flag is kept
-because the form still renders a disabled state off it, and because a future
-backend may need configuring again.
-
 ### `POST /api/newsletter`
 
 Substack subscription. Runtime `nodejs`.
@@ -128,7 +120,6 @@ Substack subscription. Runtime `nodejs`.
 | Status | Body                                                                        | Meaning                          |
 | ------ | --------------------------------------------------------------------------- | -------------------------------- |
 | 200    | `{ "ok": true }`                                                            | Subscribed (new or repeat)       |
-| 200    | `{ "ok": true, "alreadySubscribed": true }`                                 | Unreachable — see below          |
 | 400    | `{ "error": "Solicitud inválida." }`                                        | Malformed JSON                   |
 | 422    | `{ "error": "Correo electrónico inválido." }`                               | Failed `EMAIL_RE`                |
 | 422    | `{ "error": "Ese correo no es válido o su dominio no existe." }`            | Substack rejected the address    |
@@ -151,9 +142,9 @@ because neither is what the JSON-ish name suggests:
 
 - **An accepted address answers `302` with `location: /`** — not JSON, even
   when the request sets `Accept: application/json`. It answers the same way for
-  an address already on the list, so the two are indistinguishable from here.
-  That is why `alreadySubscribed` never fires: the `didSignup` branch is kept
-  only in case Substack starts distinguishing them.
+  an address already on the list, so the two are indistinguishable from here
+  and the route reports both as plain success — there is no "already
+  subscribed" state to report, and the UI copy is written to be true of both.
 - **A rejected address answers `400`** with
   `{ "errors": [{ "param": "email", "msg": "..." }] }`, and Substack checks the
   domain resolves — which `EMAIL_RE` cannot. That is translated to a `422` so

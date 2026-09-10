@@ -32,16 +32,6 @@ export const DynamicCookieConsent = dynamic(
   },
 )
 
-export const DynamicNewsletterForm = dynamic(
-  () => import("./newsletter-form").then((mod) => ({ default: mod.NewsletterForm })),
-  {
-    loading: () => (
-      <div className="h-12 animate-pulse rounded-sm border border-white/[0.04] bg-white/[0.04]"></div>
-    ),
-    ssr: false,
-  },
-)
-
 // Featured Projects - Heavy component with API calls and animations
 export const DynamicFeaturedProjects = dynamic(
   () => import("./featured-projects").then((mod) => ({ default: mod.FeaturedProjects })),

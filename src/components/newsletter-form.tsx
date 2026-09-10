@@ -2,6 +2,8 @@
 
 import { useCallback, useId, useRef, useState, type FormEvent } from "react"
 import { ArrowRight } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { trackNewsletterSignup } from "@/lib/analytics"
 import { useNewsletterSubscribe } from "@/lib/queries"
 import { toast } from "sonner"
@@ -35,11 +37,11 @@ interface NewsletterFormProps {
 /**
  * The one newsletter form on the site.
  *
- * Every placement renders this: both footer columns, the /blog index, and
- * `DynamicNewsletterForm`. It used to be two components — a live one in
- * site-footer.tsx that resolved a 500ms timer and claimed success without
- * subscribing anybody, and this file, which was wired to the API but wore the
- * pre-ledger surface and had no call sites at all. One form, one contract.
+ * Every placement renders this: both footer colophons and the /blog index. It
+ * used to be two components — a live one in site-footer.tsx that resolved a
+ * 500ms timer and claimed success without subscribing anybody, and this file,
+ * which was wired to the API but wore the pre-ledger surface and had no call
+ * sites at all. One form, one contract.
  *
  * It posts to `/api/newsletter`, which forwards to Substack, so the address
  * lands in the same list that powers blog.carrillo.app and nothing is stored
@@ -79,20 +81,14 @@ export function NewsletterForm({
     recordAttempt()
 
     subscribe.mutate(email, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         trackNewsletterSignup(email, source, true)
         setEmail("")
         // Substack answers a new signup and a repeat one identically, so the
-        // copy has to be true of both: "already on the list" is the one state
-        // the route can never actually report.
-        toast.success(
-          data?.alreadySubscribed ? "Ya estabas suscrito" : "¡Listo, quedaste suscrito!",
-          {
-            description: data?.alreadySubscribed
-              ? "Tu correo ya está en la lista."
-              : "Si es tu primera vez, Substack te enviará un correo de bienvenida.",
-          },
-        )
+        // copy has to read as true either way.
+        toast.success("¡Listo, quedaste suscrito!", {
+          description: "Si es tu primera vez, Substack te enviará un correo de bienvenida.",
+        })
       },
       onError: (error) => {
         trackNewsletterSignup(email, source, false)
@@ -115,10 +111,17 @@ export function NewsletterForm({
 
   return (
     <form className={className} aria-labelledby={labelledBy} onSubmit={handleSubmit}>
-      <label htmlFor={inputId} className="sr-only">
+      <Label htmlFor={inputId} className="sr-only">
         Correo electrónico
-      </label>
-      {/* Bots fill anything with a name field. People never see this one. */}
+      </Label>
+
+      {/*
+        Deliberately a bare input and not `ui/input`: a honeypot is a bot trap,
+        never painted and never read by anyone, so dressing it in the system's
+        field styling would only help a bot reading classes mistake it for a
+        real field. Same shape as the traps on /contacto and the compact
+        contact section.
+      */}
       <input
         type="text"
         name="website"
@@ -131,7 +134,7 @@ export function NewsletterForm({
       />
 
       <div className={inline ? "flex flex-col gap-3 sm:flex-row sm:items-stretch" : ""}>
-        <input
+        <Input
           id={inputId}
           name="email"
           type="email"
@@ -144,10 +147,14 @@ export function NewsletterForm({
           autoComplete="email"
           autoCapitalize="off"
           spellCheck={false}
-          className={`min-h-[52px] w-full border border-rule bg-field px-3 font-sans text-base text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong disabled:opacity-50 ${
-            inline ? "sm:max-w-[22rem]" : ""
-          }`}
+          className={inline ? "sm:max-w-[22rem]" : ""}
         />
+        {/*
+          `.cta` on a real button, the way /contacto, /error and the CV modal
+          submit. The Button component carries its own radius and height, which
+          the ledger CTA is drawn against — reaching for it here would mean
+          fighting both.
+        */}
         <button
           type="submit"
           disabled={isSubmitting}

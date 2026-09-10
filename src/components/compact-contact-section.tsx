@@ -6,6 +6,8 @@ import { motion } from "@/lib/motion"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { ConsentCheck } from "@/components/ui/consent-check"
 import { SurfaceCard } from "@/components/ui/surface-card"
 import { Send, Mail, Phone, MapPin, Clock, Globe, Eye, type LucideIcon } from "lucide-react"
 import { Github, Linkedin, Substack } from "@/components/icons/social-icons"
@@ -227,40 +229,40 @@ export function CompactContactSection({
                 </div>
               )}
 
-              <label className="group/terms flex cursor-pointer items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="terms-accepted"
-                  checked={termsAccepted}
-                  onChange={(e) => setTermsAccepted(e.target.checked)}
-                  disabled={isSubmitting}
-                  required
-                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer border border-rule-strong bg-rule/40 accent-blue-500 disabled:opacity-50"
-                  aria-required="true"
-                />
-                <span className="group/terms-hover:text-paper-dim text-sm leading-snug text-paper-dim transition-colors">
-                  He leído y acepto los{" "}
-                  <Link
-                    href="/terminos"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-stamp-text underline underline-offset-2 hover:text-stamp-text"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Términos y condiciones
-                  </Link>{" "}
-                  y la{" "}
-                  <Link
-                    href="/privacidad"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-stamp-text underline underline-offset-2 hover:text-stamp-text"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Política de privacidad
-                  </Link>
-                </span>
-              </label>
+              {/*
+                `ConsentCheck`, not a hand-drawn row. This was the browser's own
+                checkbox with `accent-blue-500` — a 16px rounded blue box that
+                matched nothing around it and sat well under the 48px target the
+                rest of the site holds to. That is the exact control
+                `ui/consent-check` was written to replace, and /contacto already
+                uses it for this same consent.
+              */}
+              <ConsentCheck
+                id="terms-accepted"
+                checked={termsAccepted}
+                onChange={setTermsAccepted}
+                disabled={isSubmitting}
+                required
+              >
+                He leído y acepto los{" "}
+                <Link
+                  href="/terminos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+                >
+                  Términos y condiciones
+                </Link>{" "}
+                y la{" "}
+                <Link
+                  href="/privacidad"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text"
+                >
+                  Política de privacidad
+                </Link>
+              </ConsentCheck>
 
               <Button
                 type="submit"
@@ -409,14 +411,14 @@ function Field({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-paper-dim">
+      <Label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-paper-dim">
         {label}
         {optional && (
           <span className="text-[11px] font-normal tracking-wide text-paper-faint uppercase">
             opcional
           </span>
         )}
-      </label>
+      </Label>
       {children}
     </div>
   )

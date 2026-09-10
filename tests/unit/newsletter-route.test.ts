@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 
-import { GET, POST } from "@/app/api/newsletter/route"
+import { POST } from "@/app/api/newsletter/route"
 import { BLOG_SUBSCRIBE_URL } from "@/lib/substack-service"
 
 /**
@@ -37,17 +37,6 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe("GET /api/newsletter", () => {
-  it("reports the newsletter as always available and hands back the fallback URL", async () => {
-    const res = await GET()
-    expect(res.status).toBe(200)
-    await expect(res.json()).resolves.toEqual({
-      configured: true,
-      subscribeUrl: BLOG_SUBSCRIBE_URL,
-    })
-  })
-})
-
 describe("POST /api/newsletter — input validation", () => {
   it("rejects a malformed body with 400 and never calls upstream", async () => {
     fetchSpy = upstream(200)
@@ -70,7 +59,7 @@ describe("POST /api/newsletter — input validation", () => {
   })
 
   it("trims and lowercases the address before forwarding it", async () => {
-    fetchSpy = upstream(200, { didSignup: true })
+    fetchSpy = upstream(200)
     vi.stubGlobal("fetch", fetchSpy)
 
     await POST(request({ email: "  Persona@Ejemplo.COM  " }))
@@ -83,8 +72,8 @@ describe("POST /api/newsletter — input validation", () => {
 })
 
 describe("POST /api/newsletter — upstream outcomes", () => {
-  it("treats a 200 with didSignup as a fresh subscription", async () => {
-    vi.stubGlobal("fetch", upstream(200, { didSignup: true }))
+  it("treats a 2xx as an accepted subscription", async () => {
+    vi.stubGlobal("fetch", upstream(200))
 
     const res = await POST(request({ email: "nuevo@ejemplo.com" }))
 
@@ -92,16 +81,7 @@ describe("POST /api/newsletter — upstream outcomes", () => {
     await expect(res.json()).resolves.toEqual({ ok: true })
   })
 
-  it("reports an address already on the list as success, not an error", async () => {
-    vi.stubGlobal("fetch", upstream(200, { didSignup: false }))
-
-    const res = await POST(request({ email: "repetido@ejemplo.com" }))
-
-    expect(res.status).toBe(200)
-    await expect(res.json()).resolves.toEqual({ ok: true, alreadySubscribed: true })
-  })
-
-  it("treats the nojs redirect as the success it is", async () => {
+  it("treats the 302 Substack actually answers with as the success it is", async () => {
     vi.stubGlobal("fetch", upstream(302))
 
     const res = await POST(request({ email: "redirigido@ejemplo.com" }))
