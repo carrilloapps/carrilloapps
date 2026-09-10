@@ -182,7 +182,8 @@ export function UnifiedLoading({
             ))}
           </ul>
         </div>
-        <SiteFooter />
+        {/* Holding space only — see the note on the div above. */}
+        <SiteFooter placeholder />
       </div>
     )
   }

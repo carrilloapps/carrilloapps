@@ -173,7 +173,13 @@ export function useLatestPosts() {
   })
 }
 
-/** Whether the newsletter backend (Mailchimp) is configured. */
+/**
+ * Whether the newsletter endpoint is live.
+ *
+ * Backed by Substack now, which needs no credentials, so this answers true in
+ * every environment. It is kept because the form still renders a disabled
+ * state off it, and because a future backend may need configuring again.
+ */
 export function useNewsletterStatus() {
   return useQuery({
     queryKey: queryKeys.newsletterStatus(),
@@ -196,14 +202,23 @@ export function useNewsletterSubscribe() {
         body: JSON.stringify({ email }),
       })
       if (!res.ok) {
-        const data = (await res.json().catch(() => ({}))) as { error?: string }
+        const data = (await res.json().catch(() => ({}))) as {
+          error?: string
+          subscribeUrl?: string
+        }
         const error = new Error(
           data?.error ?? "Por favor intenta nuevamente en un momento.",
-        ) as Error & { status?: number }
+        ) as Error & { status?: number; subscribeUrl?: string }
         error.status = res.status
+        // Present when the upstream call failed and the reader should be sent
+        // to Substack's own subscribe page instead of hitting a dead end.
+        error.subscribeUrl = data?.subscribeUrl
         throw error
       }
-      return true
+      return (await res.json().catch(() => ({}))) as {
+        ok?: boolean
+        alreadySubscribed?: boolean
+      }
     },
   })
 }

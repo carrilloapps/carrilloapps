@@ -1,13 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { useId, useState, type FormEvent } from "react"
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react"
 import { SERVICES as SERVICE_CATALOGUE } from "@/lib/data/services"
 import { Github, Linkedin, Mail, Substack, XMark } from "@/components/icons/social-icons"
 import { Logo } from "@/components/logo"
-import { trackSocialClick, trackNavigation, trackNewsletterSignup } from "@/lib/analytics"
-import { toast } from "sonner"
+import { trackSocialClick, trackNavigation } from "@/lib/analytics"
+import { NewsletterForm } from "@/components/newsletter-form"
 
 // Computed at module load, safe for both server and client.
 const currentYear = new Date().getFullYear()
@@ -37,7 +36,7 @@ const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/carrilloapps", Icon: Github },
   { label: "LinkedIn", href: "https://linkedin.com/in/carrilloapps", Icon: Linkedin },
   { label: "X (Twitter)", href: "https://x.com/carrilloapps", Icon: XMark },
-  { label: "Substack", href: "https://carrilloapps.substack.com/", Icon: Substack },
+  { label: "Substack", href: "https://blog.carrillo.app/", Icon: Substack },
   { label: "Correo", href: "mailto:m@carrillo.app", Icon: Mail },
 ] as const
 
@@ -60,9 +59,28 @@ const LEGAL_LINKS = [
  *
  * Both share the data above and the form below; only the arrangement differs.
  */
-export function SiteFooter() {
+interface SiteFooterProps {
+  /**
+   * Set by the loading skeleton in `unified-loading.tsx`, which renders a
+   * footer of its own beside the real one — so both land in the same static
+   * HTML. A placeholder does not own the anchor it is holding space for: the
+   * same reasoning that stopped the skeleton claiming `id="main-content"` and
+   * sending the skip link to a stand-in.
+   */
+  placeholder?: boolean
+}
+
+export function SiteFooter({ placeholder = false }: SiteFooterProps = {}) {
   return (
     <footer
+      /*
+        The home hero's primary CTA links to #newsletter. Nothing carried that
+        id, so the button scrolled nowhere at all. It lands here: both colophons
+        lead with the signup, so either breakpoint arrives at the form. The id
+        sits on the one element that renders at every width — putting it on a
+        colophon would mean the same id twice in the document.
+      */
+      id={placeholder ? undefined : "newsletter"}
       className="relative border-t-2 border-rule-strong bg-ink text-paper-dim"
       role="contentinfo"
     >
@@ -304,71 +322,5 @@ function SocialMarks({ className = "" }: { className?: string }) {
         </li>
       ))}
     </ul>
-  )
-}
-
-/**
- * One form, two placements. Each instance mints its own input id so the two
- * copies never collide in the document, and the label stays bound either way.
- */
-function NewsletterForm({
-  labelledBy,
-  className = "",
-}: {
-  labelledBy: string
-  className?: string
-}) {
-  const inputId = useId()
-  const [email, setEmail] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!email || isSubmitting) return
-
-    setIsSubmitting(true)
-    try {
-      trackNewsletterSignup(email, "footer", true)
-      // TODO: integrar con servicio real (Mailchimp / Resend / Buttondown).
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setEmail("")
-      toast.success("¡Gracias por suscribirte!", {
-        description: "Te avisaré cuando publique algo nuevo.",
-      })
-    } catch {
-      trackNewsletterSignup(email, "footer", false)
-      toast.error("Error al suscribirse", {
-        description: "Inténtalo de nuevo en un momento.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  return (
-    <form className={className} aria-labelledby={labelledBy} onSubmit={handleSubmit}>
-      <label htmlFor={inputId} className="sr-only">
-        Correo electrónico
-      </label>
-      <input
-        id={inputId}
-        name="email"
-        type="email"
-        inputMode="email"
-        placeholder="tu@correo.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        disabled={isSubmitting}
-        autoComplete="email"
-        autoCapitalize="off"
-        spellCheck={false}
-        className="min-h-[52px] w-full border border-rule bg-field px-3 font-sans text-base text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong disabled:opacity-50"
-      />
-      <button type="submit" disabled={isSubmitting} className="cta mt-3">
-        {isSubmitting ? "Suscribiendo…" : "Suscribirme"}
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </button>
-    </form>
   )
 }

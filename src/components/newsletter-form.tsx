@@ -1,111 +1,162 @@
 "use client"
 
-import { useState } from "react"
-import { Mail } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { SurfaceCard } from "@/components/ui/surface-card"
-import { SpinnerLoading } from "@/components/unified-loading"
-import { useNewsletterStatus, useNewsletterSubscribe } from "@/lib/queries"
+import { useCallback, useId, useRef, useState, type FormEvent } from "react"
+import { ArrowRight } from "lucide-react"
+import { trackNewsletterSignup } from "@/lib/analytics"
+import { useNewsletterSubscribe } from "@/lib/queries"
 import { toast } from "sonner"
 
+/** Simple client-side throttle: three attempts a minute, as on /contacto. */
+const useRateLimit = (limit = 3, windowMs = 60_000) => {
+  const [attempts, setAttempts] = useState<number[]>([])
+
+  const isLimited = useCallback(
+    () => attempts.filter((t) => Date.now() - t < windowMs).length >= limit,
+    [attempts, limit, windowMs],
+  )
+  const recordAttempt = useCallback(
+    () => setAttempts((prev) => [...prev.filter((t) => Date.now() - t < windowMs), Date.now()]),
+    [windowMs],
+  )
+
+  return { isLimited: isLimited(), recordAttempt }
+}
+
+interface NewsletterFormProps {
+  /** Id of the heading that names this form, for `aria-labelledby`. */
+  labelledBy: string
+  /** Where the signup happened, recorded on the analytics event. */
+  source?: string
+  className?: string
+  /** Lay the field and the button on one row where there is width for it. */
+  inline?: boolean
+}
+
 /**
- * Standalone newsletter capture card. Reusable en cualquier página que quiera
- * el módulo "suscribite al newsletter" con la estética del home (surface-card
- * + glass input + gradient button).
+ * The one newsletter form on the site.
+ *
+ * Every placement renders this: both footer columns, the /blog index, and
+ * `DynamicNewsletterForm`. It used to be two components — a live one in
+ * site-footer.tsx that resolved a 500ms timer and claimed success without
+ * subscribing anybody, and this file, which was wired to the API but wore the
+ * pre-ledger surface and had no call sites at all. One form, one contract.
+ *
+ * It posts to `/api/newsletter`, which forwards to Substack, so the address
+ * lands in the same list that powers blog.carrillo.app and nothing is stored
+ * on this side. Substack sends its own confirmation mail.
+ *
+ * It carries the three defenses docs/API.md asks of every form: a honeypot, a
+ * minimum dwell, and a throttle.
  */
-export function NewsletterForm() {
+export function NewsletterForm({
+  labelledBy,
+  source = "footer",
+  className = "",
+  inline = false,
+}: NewsletterFormProps) {
+  const inputId = useId()
   const [email, setEmail] = useState("")
-  // available: true = Mailchimp wired up, false = not configured yet,
-  // undefined = still checking.
-  const { data: available } = useNewsletterStatus()
+  const [honeypot, setHoneypot] = useState("")
+  const startTime = useRef(Date.now())
+  const { isLimited, recordAttempt } = useRateLimit()
   const subscribe = useNewsletterSubscribe()
   const isSubmitting = subscribe.isPending
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (available === false) return
+    if (!email || isSubmitting) return
+
+    // Three cheap filters that stop the bulk of automated submissions without
+    // asking a person to prove anything.
+    if (honeypot) return
+    if (Date.now() - startTime.current < 1000) return
+    if (isLimited) {
+      toast.error("Demasiados intentos", {
+        description: "Espera un momento antes de volver a intentarlo.",
+      })
+      return
+    }
+    recordAttempt()
+
     subscribe.mutate(email, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        trackNewsletterSignup(email, source, true)
         setEmail("")
-        toast.success("¡Gracias por suscribirte!", {
-          description: "Te avisaré cuando publique algo nuevo.",
-        })
+        // Substack answers a new signup and a repeat one identically, so the
+        // copy has to be true of both: "already on the list" is the one state
+        // the route can never actually report.
+        toast.success(
+          data?.alreadySubscribed ? "Ya estabas suscrito" : "¡Listo, quedaste suscrito!",
+          {
+            description: data?.alreadySubscribed
+              ? "Tu correo ya está en la lista."
+              : "Si es tu primera vez, Substack te enviará un correo de bienvenida.",
+          },
+        )
       },
       onError: (error) => {
-        const status = (error as Error & { status?: number }).status
-        toast.error(status === 503 ? "Newsletter no disponible" : "Error al suscribirse", {
+        trackNewsletterSignup(email, source, false)
+        // When the upstream path fails the route hands back Substack's own
+        // subscribe page, so the reader gets somewhere to go instead of a
+        // dead end.
+        const { subscribeUrl } = error as Error & { subscribeUrl?: string }
+        toast.error("Error al suscribirse", {
           description: error.message,
+          ...(subscribeUrl && {
+            action: {
+              label: "Suscribirme en el blog",
+              onClick: () => window.open(subscribeUrl, "_blank", "noopener,noreferrer"),
+            },
+          }),
         })
       },
     })
   }
 
   return (
-    <SurfaceCard>
-      <div className="space-y-6 p-6 md:p-8">
-        <div className="flex flex-col items-center space-y-3 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-500/30 bg-blue-500/10">
-            <Mail className="h-5 w-5 text-blue-400" aria-hidden="true" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-[11px] font-medium tracking-[0.18em] text-zinc-500 uppercase">
-              Newsletter
-            </p>
-            <h3 className="text-xl font-bold text-white">Suscríbete al newsletter</h3>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-zinc-300">
-            Recibe las últimas notas sobre desarrollo, fintech y liderazgo técnico directamente en
-            tu correo.
-          </p>
-        </div>
+    <form className={className} aria-labelledby={labelledBy} onSubmit={handleSubmit}>
+      <label htmlFor={inputId} className="sr-only">
+        Correo electrónico
+      </label>
+      {/* Bots fill anything with a name field. People never see this one. */}
+      <input
+        type="text"
+        name="website"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="pointer-events-none absolute h-px w-px opacity-0"
+      />
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <label htmlFor="newsletter-email" className="sr-only">
-            Correo electrónico
-          </label>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Input
-              id="newsletter-email"
-              name="email"
-              variant="glass"
-              type="email"
-              inputMode="email"
-              placeholder="tu@correo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-              autoCapitalize="off"
-              spellCheck={false}
-              disabled={isSubmitting || available === false}
-            />
-            <Button
-              type="submit"
-              variant="gradient"
-              size="default"
-              className="touch-manipulation"
-              disabled={isSubmitting || available === false}
-            >
-              {available === false ? (
-                "Muy pronto disponible"
-              ) : isSubmitting ? (
-                <>
-                  <SpinnerLoading className="h-4 w-4" />
-                  Suscribiendo…
-                </>
-              ) : (
-                "Suscribirse"
-              )}
-            </Button>
-          </div>
-          {available === false && (
-            <p className="text-center text-xs text-zinc-400">
-              El newsletter estará disponible muy pronto. ¡Vuelve pronto!
-            </p>
-          )}
-        </form>
+      <div className={inline ? "flex flex-col gap-3 sm:flex-row sm:items-stretch" : ""}>
+        <input
+          id={inputId}
+          name="email"
+          type="email"
+          inputMode="email"
+          placeholder="tu@correo.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={isSubmitting}
+          autoComplete="email"
+          autoCapitalize="off"
+          spellCheck={false}
+          className={`min-h-[52px] w-full border border-rule bg-field px-3 font-sans text-base text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong disabled:opacity-50 ${
+            inline ? "sm:max-w-[22rem]" : ""
+          }`}
+        />
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`cta ${inline ? "sm:mt-0" : "mt-3"}`}
+        >
+          {isSubmitting ? "Suscribiendo…" : "Suscribirme"}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </button>
       </div>
-    </SurfaceCard>
+    </form>
   )
 }

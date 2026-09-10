@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { Substack } from "@/components/icons/social-icons"
+import { NewsletterForm } from "@/components/newsletter-form"
 import { getSubstackPosts, type SubstackPost } from "@/lib/substack-service"
 import { formatDateES } from "@/lib/utils"
 
@@ -25,7 +26,7 @@ import { formatDateES } from "@/lib/utils"
 export const revalidate = 1800
 
 const FEED_LIMIT = 24
-const SUBSTACK_URL = "https://carrilloapps.substack.com/"
+const SUBSTACK_URL = "https://blog.carrillo.app/"
 
 export default async function BlogPage() {
   const posts = await getSubstackPosts(FEED_LIMIT)
@@ -80,21 +81,43 @@ export default async function BlogPage() {
               </dl>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t-2 border-rule-strong pt-5">
-              <Link
-                href={SUBSTACK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cta-stamp"
+            {/*
+              This was a link out to Substack's own subscribe page. On the one
+              page whose entire purpose is the writing, sending the reader to
+              another domain to sign up is a hop that loses most of them — so
+              the form is here, posting to /api/newsletter, which forwards to
+              the same Substack list. The link stays as the secondary path for
+              anyone who would rather see the publication first.
+            */}
+            <div className="mt-8 border-t-2 border-rule-strong pt-5">
+              <p
+                id="blog-newsletter"
+                className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase"
               >
-                <Substack className="h-4 w-4" aria-hidden="true" />
-                Suscribirme en Substack
-              </Link>
+                Suscríbete
+              </p>
+              <p className="mt-3 max-w-[52ch] font-sans text-[15px] leading-relaxed text-paper-dim">
+                Cada entrada al correo cuando se publica. Gratis, sin cadencia forzada.
+              </p>
 
-              <Link href="/rss.xml" className="cta-quiet">
-                Feed RSS
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </Link>
+              <NewsletterForm labelledBy="blog-newsletter" source="blog" inline className="mt-5" />
+
+              <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Link
+                  href={SUBSTACK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-quiet"
+                >
+                  <Substack className="h-3.5 w-3.5" aria-hidden="true" />
+                  Ver en Substack
+                </Link>
+
+                <Link href="/rss.xml" className="cta-quiet">
+                  Feed RSS
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </div>
         </section>

@@ -110,33 +110,60 @@ Returns `{ posts: [] }` on any upstream failure — never an error status.
 
 ### `GET /api/newsletter`
 
-Configuration probe. Returns `{ "configured": true | false }` so the form can
-render a disabled "coming soon" state without leaking whether credentials exist.
+Availability probe. Returns
+`{ "configured": true, "subscribeUrl": "https://blog.carrillo.app/subscribe" }`.
+
+Substack needs no credentials, so this is always `true`. The flag is kept
+because the form still renders a disabled state off it, and because a future
+backend may need configuring again.
 
 ### `POST /api/newsletter`
 
-Mailchimp Marketing API subscription. Runtime `nodejs`.
+Substack subscription. Runtime `nodejs`.
 
 ```json
 { "email": "someone@example.com" }
 ```
 
-| Status | Body                                                    | Meaning                           |
-| ------ | ------------------------------------------------------- | --------------------------------- |
-| 200    | `{ "ok": true }`                                        | Subscribed                        |
-| 200    | `{ "ok": true, "alreadySubscribed": true }`             | Member already existed            |
-| 400    | `{ "error": "Solicitud inválida." }`                    | Malformed JSON                    |
-| 422    | `{ "error": "Correo electrónico inválido." }`           | Failed `EMAIL_RE`                 |
-| 503    | `{ "error": "El newsletter aún no está configurado." }` | Missing credentials               |
-| 502    | `{ "error": "No pudimos completar la suscripción." }`   | Mailchimp rejected or unreachable |
+| Status | Body                                                                        | Meaning                          |
+| ------ | --------------------------------------------------------------------------- | -------------------------------- |
+| 200    | `{ "ok": true }`                                                            | Subscribed (new or repeat)       |
+| 200    | `{ "ok": true, "alreadySubscribed": true }`                                 | Unreachable — see below          |
+| 400    | `{ "error": "Solicitud inválida." }`                                        | Malformed JSON                   |
+| 422    | `{ "error": "Correo electrónico inválido." }`                               | Failed `EMAIL_RE`                |
+| 422    | `{ "error": "Ese correo no es válido o su dominio no existe." }`            | Substack rejected the address    |
+| 502    | `{ "error": "...", "subscribeUrl": "https://blog.carrillo.app/subscribe" }` | Substack rejected or unreachable |
 
-Requires `MAILCHIMP_API_KEY`, `MAILCHIMP_AUDIENCE_ID`, `MAILCHIMP_SERVER_PREFIX`.
+Requires no environment variables. The publication origin is `BLOG_URL` in
+`src/lib/substack-service.ts`, which also derives the feed and subscribe URLs.
 
-Implementation notes worth preserving: Mailchimp addresses members by the MD5
-hash of the lowercased email, and `PUT` on that resource upserts idempotently —
-resubmitting the same address never creates a duplicate. `status_if_new:
-"subscribed"` only affects brand-new members; switch it to `"pending"` for
-double opt-in.
+**The upstream endpoint is undocumented.** Substack publishes no public write
+API for subscriptions; the route posts to `${BLOG_URL}/api/v1/free`, which is
+where Substack's own embed form at `${BLOG_URL}/embed` posts. It can change or
+start demanding a challenge without notice, so the handler treats any 2xx _or_
+3xx as success (the `nojs` path answers with a redirect) and, on any failure,
+returns `subscribeUrl` so the client can send the reader to Substack's hosted
+subscribe page instead of a dead end. The footer form renders that as a toast
+action.
+
+Two shapes were observed against the live endpoint and are worth recording,
+because neither is what the JSON-ish name suggests:
+
+- **An accepted address answers `302` with `location: /`** — not JSON, even
+  when the request sets `Accept: application/json`. It answers the same way for
+  an address already on the list, so the two are indistinguishable from here.
+  That is why `alreadySubscribed` never fires: the `didSignup` branch is kept
+  only in case Substack starts distinguishing them.
+- **A rejected address answers `400`** with
+  `{ "errors": [{ "param": "email", "msg": "..." }] }`, and Substack checks the
+  domain resolves — which `EMAIL_RE` cannot. That is translated to a `422` so
+  the reader fixes the typo rather than being told the service is down.
+
+`tests/unit/newsletter-route.test.ts` locks all of it.
+
+Nothing is stored on this side — Substack owns the list and sends its own
+confirmation mail, so the site and the publication never hold two diverging
+audiences.
 
 ---
 
@@ -154,9 +181,10 @@ Reuse all three on any new form:
 3. **Rate limiting + time-based validation** — `useRateLimit()` plus a minimum
    elapsed time between render and submit, which rejects instant bot posts.
 
-Server-side, `newsletter` validates with `EMAIL_RE` before touching Mailchimp
+Server-side, `newsletter` validates with `EMAIL_RE` before touching Substack
 and never echoes upstream error details to the client — failures are logged
-with `console.error` and returned as a generic message.
+with `console.error` and returned as a generic message. The footer newsletter
+form carries the honeypot, dwell and throttle defenses too.
 
 ---
 

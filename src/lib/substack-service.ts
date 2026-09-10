@@ -1,4 +1,14 @@
-const FEED_URL = "https://carrilloapps.substack.com/feed"
+/**
+ * The publication's own origin. Substack serves it from the blog.carrillo.app
+ * custom domain, so the feed, the subscribe page and the subscription endpoint
+ * all hang off this one constant — change the domain in a single place.
+ */
+export const BLOG_URL = "https://blog.carrillo.app"
+
+/** Substack's hosted subscribe page. The fallback when the API path fails. */
+export const BLOG_SUBSCRIBE_URL = `${BLOG_URL}/subscribe`
+
+const FEED_URL = `${BLOG_URL}/feed`
 
 export interface SubstackPost {
   title: string

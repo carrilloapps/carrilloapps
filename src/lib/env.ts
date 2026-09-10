@@ -19,10 +19,8 @@ export const privateEnv = {
   DISQUS_API_KEY: process.env.DISQUS_API_KEY,
   DISQUS_API_SECRET: process.env.DISQUS_API_SECRET,
   DISQUS_ACCESS_TOKEN: process.env.DISQUS_ACCESS_TOKEN,
-  // Mailchimp Marketing API — drives the newsletter subscription endpoint.
-  MAILCHIMP_API_KEY: process.env.MAILCHIMP_API_KEY,
-  MAILCHIMP_AUDIENCE_ID: process.env.MAILCHIMP_AUDIENCE_ID,
-  MAILCHIMP_SERVER_PREFIX: process.env.MAILCHIMP_SERVER_PREFIX,
+  // The newsletter needs no credentials: /api/newsletter forwards to Substack,
+  // which owns the list. The Mailchimp keys that used to live here are gone.
 } as const
 
 // Vercel-specific environment variables
