@@ -117,6 +117,19 @@ Full list: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and
     webpack-only Next options.
 11. **Update docs in place.** A second file on an existing topic is a violation.
 12. **Commits carry no `Co-authored-by` trailer.**
+13. **One Vercel project: `carrilloapp`** — no trailing `s`, unlike this repo.
+    Link it by name (`vercel link --project carrilloapp`); `vercel link --yes`
+    creates a second project instead of linking, and a new project reports zero
+    environment variables, which reads exactly like a correct one with an empty
+    config. Check `.vercel/project.json` before believing any `vercel env`
+    output. Deploys come from pushing `main`, not from the CLI.
+    [docs/VERCEL.md](docs/VERCEL.md).
+14. **A third-party write is not confirmed by its status code.** Substack's
+    signup endpoint answers `200` to requests it silently drops; the site shipped
+    "¡Gracias por suscribirte!" to people who were never subscribed. Verify
+    against the field that proves the record exists, and when a provider walls
+    server calls, hand off to the provider's own page rather than impersonating a
+    browser. [docs/API.md](docs/API.md).
 
 ### File naming
 

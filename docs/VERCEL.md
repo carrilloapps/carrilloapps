@@ -2,12 +2,53 @@
 
 Deployment pipeline, build configuration and environment variables.
 
+## The project
+
+**There is exactly one Vercel project for this repository: `carrilloapp`** — no
+trailing `s`, unlike the repo and the directory, which are both `carrilloapps`.
+It is the project that owns `carrillo.app` and every environment variable.
+
+### Never run `vercel link` without naming it
+
+```bash
+vercel link --project carrilloapp    # the only correct form
+vercel link --yes                    # NO — see below
+```
+
+`--yes` does not mean "link to the obvious project". It accepts every default,
+and when no project matches the directory name it **creates a new one**. Run
+from this repo it produced a second project called `carrilloapps`, wired to the
+same GitHub repo, which then built on every push and reported its own status on
+every commit. Nothing broke — `carrillo.app` kept serving from `carrilloapp` —
+but builds were spent twice and the dashboard showed two projects for one site.
+
+The failure is quiet in a worse way too: a freshly created project has **no
+environment variables**, so `vercel env ls` against it answers "No Environment
+Variables found". That reads exactly like a correctly-linked project with an
+empty config, and it is how this repo was briefly reported as having none while
+`carrilloapp` had six.
+
+Before trusting anything the CLI says about environments, check what is linked:
+
+```bash
+cat .vercel/project.json    # projectName must read "carrilloapp"
+vercel project ls           # exactly one project should build this repo
+```
+
+`.vercel/` is git-ignored, so a fresh clone starts unlinked and the next person
+hits this same fork. Name the project.
+
 ## Deployment pipeline
 
-- **Production** — push to `main` auto-deploys. Domain: `carrillo.app`.
+- **Production** — push to `main` auto-deploys through the GitHub integration.
+  Domain: `carrillo.app`. The deployment is created by `vercel[bot]`, and the
+  commit carries a `Vercel – carrilloapp` status linking to it; that status, not
+  a local `vercel` command, is the proof a push shipped.
 - **Preview** — every branch and PR gets its own URL.
 - **Rollback** — Deployments → pick a known-good one → `…` → **Promote to
   Production**. Instant, no rebuild.
+
+Deploying from the CLI is not the pipeline. `git push origin main` is.
 
 ### Build configuration (`vercel.json`)
 
@@ -163,6 +204,9 @@ if (!env.NEXT_PUBLIC_DISQUS_SHORTNAME) {
 ### Sync Local Variables
 
 ```bash
+# Always confirm what is linked first — see "The project" above
+cat .vercel/project.json
+
 # Download environment variables from Vercel
 vercel env pull .env.local
 
