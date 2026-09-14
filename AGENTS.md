@@ -55,8 +55,10 @@ Next.js app, no backend database, deployed on Vercel from `main`.
 | Tests                           | Vitest (unit) + Playwright (e2e)          |
 
 Spanish route slugs: `servicios`, `sobre-mi`, `recursos`, `contacto`,
-`agendamiento`, `cookies`, `privacidad`, `terminos`. **There is no `src/app/blog/`
-route** — Substack posts surface on the home page and in `src/app/rss.xml`.
+`agendamiento`, `cookies`, `privacidad`, `terminos`. `src/app/blog/` is the one
+English slug: a server-rendered index of the Substack feed where every title
+links out. Posts also surface on the home page and in `src/app/rss.xml`; no post
+is ever rendered on this domain.
 
 Data comes from three places: static arrays in `src/lib/data/`, route handlers in
 `src/app/api/` that proxy GitHub/GitLab/Substack/Mailchimp, and nothing else.
