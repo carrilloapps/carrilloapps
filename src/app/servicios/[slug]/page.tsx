@@ -184,7 +184,18 @@ export default function ServicePage() {
           </div>
         </Section>
 
-        {/* How the work runs, as dated steps down a rule. */}
+        {/*
+          How the work runs, as dated steps down a rule.
+
+          Each step used to stack its title over its description in one narrow
+          column: a `max-w-[70ch]` paragraph under a `max-w-[26ch]` heading, both
+          pinned left inside a full-measure section. Past ~1100px that left the
+          entire right half of four consecutive steps empty.
+
+          The step now reads across the measure the way this page's own FAQ
+          does — the label and title hold the left column, the description the
+          right — so nothing is capped against empty ink.
+        */}
         <Section
           spacing="compact"
           header={{
@@ -193,24 +204,29 @@ export default function ServicePage() {
             headingId: "approach-heading",
           }}
         >
-          <ol className="relative">
+          <ol className="relative border-t border-rule-strong">
             <span
               className="absolute top-2 bottom-2 left-0 hidden w-px bg-rule md:block"
               aria-hidden="true"
             />
             {service.approach.map((step, i) => (
-              <li key={`${step.title}-${i}`} className="relative pb-10 last:pb-0 md:pl-12">
+              <li
+                key={`${step.title}-${i}`}
+                className="relative grid gap-x-12 gap-y-3 border-b border-rule py-7 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] md:pl-12"
+              >
                 <span
-                  className="absolute top-[0.55rem] -left-[3px] hidden h-[7px] w-[7px] bg-stamp md:block"
+                  className="absolute top-[2.1rem] -left-[3px] hidden h-[7px] w-[7px] bg-stamp md:block"
                   aria-hidden="true"
                 />
-                <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
-                  Paso {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-3 max-w-[26ch] font-sans text-2xl leading-[1.1] tracking-[-0.02em] text-paper">
-                  {step.title}
-                </h3>
-                <p className="mt-3 max-w-[70ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+                <div className="min-w-0">
+                  <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
+                    Paso {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-2 font-sans text-2xl leading-[1.1] tracking-[-0.02em] text-paper">
+                    {step.title}
+                  </h3>
+                </div>
+                <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                   {step.description}
                 </p>
               </li>
