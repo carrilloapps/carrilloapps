@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { Substack } from "@/components/icons/social-icons"
-import { NewsletterForm } from "@/components/newsletter-form"
+import { NewsletterBand } from "@/components/newsletter-form"
 import { getSubstackPosts, type SubstackPost } from "@/lib/substack-service"
 import { formatDateES } from "@/lib/utils"
 
@@ -91,31 +91,22 @@ export default async function BlogPage() {
               the secondary path for anyone who would rather see the
               publication first.
             */}
-            <div className="mt-8 border-t-2 border-rule-strong pt-5">
-              <p
-                id="blog-newsletter"
-                className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase"
-              >
-                Suscríbete
-              </p>
-              <p className="mt-3 max-w-[52ch] font-sans text-[15px] leading-relaxed text-paper-dim">
-                Cada entrada al correo cuando se publica. Gratis, sin cadencia forzada.
-              </p>
+            <NewsletterBand
+              id="blog-newsletter"
+              description="Cada entrada al correo cuando se publica. Gratis, sin cadencia forzada."
+              source="blog"
+              className="mt-8"
+            >
+              <Link href={SUBSTACK_URL} target="_blank" rel="noopener" className="cta-quiet">
+                <Substack className="h-3.5 w-3.5" aria-hidden="true" />
+                Ver en Substack
+              </Link>
 
-              <NewsletterForm labelledBy="blog-newsletter" source="blog" inline className="mt-5" />
-
-              <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Link href={SUBSTACK_URL} target="_blank" rel="noopener" className="cta-quiet">
-                  <Substack className="h-3.5 w-3.5" aria-hidden="true" />
-                  Ver en Substack
-                </Link>
-
-                <Link href="/rss.xml" className="cta-quiet">
-                  Feed RSS
-                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
+              <Link href="/rss.xml" className="cta-quiet">
+                Feed RSS
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
+            </NewsletterBand>
           </div>
         </section>
 

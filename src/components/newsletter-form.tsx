@@ -1,11 +1,12 @@
 "use client"
 
-import { useCallback, useId, useRef, useState, type FormEvent } from "react"
+import { useCallback, useId, useRef, useState, type FormEvent, type ReactNode } from "react"
 import { ArrowRight } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { trackNewsletterSignup } from "@/lib/analytics"
 import { blogSubscribeUrl } from "@/lib/substack-service"
+import { cn } from "@/lib/utils"
 import { toast } from "sonner"
 
 /** Simple client-side throttle: three attempts a minute, as on /contacto. */
@@ -135,7 +136,7 @@ export function NewsletterForm({
           autoComplete="email"
           autoCapitalize="off"
           spellCheck={false}
-          className={inline ? "sm:max-w-[22rem]" : ""}
+          className={inline ? "sm:flex-1" : ""}
         />
         {/*
           `.cta` on a real button, the way /contacto, /error and the CV modal
@@ -143,11 +144,70 @@ export function NewsletterForm({
           the ledger CTA is drawn against — reaching for it here would mean
           fighting both.
         */}
-        <button type="submit" className={`cta ${inline ? "sm:mt-0" : "mt-3"}`}>
+        <button type="submit" className={`cta ${inline ? "sm:mt-0 sm:shrink-0" : "mt-3"}`}>
           Suscribirme
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     </form>
+  )
+}
+
+interface NewsletterBandProps {
+  /** Id of the eyebrow that names the band — the form points `aria-labelledby` at it. */
+  id: string
+  /** Eyebrow above the pitch. */
+  label?: string
+  /** The pitch, one or two lines. */
+  description: string
+  /** Where the signup happened, recorded on the analytics event. */
+  source?: string
+  /** Secondary routes under the form (Substack, RSS…). */
+  children?: ReactNode
+  className?: string
+}
+
+/**
+ * The newsletter as a band, for a placement inside the content measure.
+ *
+ * The footer's form is a column: an eyebrow, a pitch and a stacked field, all
+ * sized for a quarter of the grid. Dropping that same column into a full-width
+ * content block left everything pinned to the left edge with the rest of the
+ * measure empty — the field stopped at 22rem and nothing claimed the rest.
+ *
+ * This is the horizontal composition, not a narrower copy of the column: the
+ * pitch holds the left of the rule and the form the right, so the block reads
+ * across the measure it was given. The footer keeps the column; every in-content
+ * placement uses this.
+ */
+export function NewsletterBand({
+  id,
+  label = "Suscríbete",
+  description,
+  source,
+  children,
+  className,
+}: NewsletterBandProps) {
+  return (
+    <div className={cn("border-t-2 border-rule-strong pt-5", className)}>
+      <div className="grid gap-x-14 gap-y-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:items-start">
+        <div className="min-w-0">
+          <p id={id} className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase">
+            {label}
+          </p>
+          <p className="mt-3 max-w-[52ch] font-sans text-[15px] leading-relaxed text-paper-dim">
+            {description}
+          </p>
+        </div>
+
+        <div className="min-w-0">
+          <NewsletterForm labelledBy={id} source={source} inline />
+
+          {children ? (
+            <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">{children}</div>
+          ) : null}
+        </div>
+      </div>
+    </div>
   )
 }
