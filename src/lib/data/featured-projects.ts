@@ -67,4 +67,21 @@ export const featuredProjects: FeaturedProject[] = [
     customDescription:
       "Scraping resiliente con cache, reintentos y tipado estricto. Publicada en npm (~700 descargas/mes) y disponible como servidor MCP para integraciones con IA.",
   },
+  {
+    id: "rux",
+    name: "rux",
+    description:
+      "Inspector y limpiador de Windows en la terminal: arranque, restos de desinstalación, basura, drivers y WSL.",
+    platform: "github",
+    repository: "carrilloapps/rux",
+    icon: {
+      type: "lucide",
+      name: "Code",
+      color: "text-sky-500",
+      bgColor: "bg-sky-500/10 group-hover:bg-sky-500/20",
+    },
+    tags: ["TypeScript", "Windows", "CLI", "TUI"],
+    customDescription:
+      "Analiza el sistema y propone limpiezas reversibles: cada acción se puede deshacer. TUI bilingüe en Ink sobre PowerShell, distribuida en npm como @carrilloapps/rux.",
+  },
 ]

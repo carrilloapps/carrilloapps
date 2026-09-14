@@ -9,14 +9,15 @@ import { useNpmDownloads, type NpmDownloads } from "@/lib/queries"
 import { CvDownloadButton } from "@/components/cv-download-button"
 import { SocialRow } from "@/components/social-row"
 import { trackButtonClick, trackCTAClick } from "@/lib/analytics"
+import { openSourceProjects } from "@/lib/data/open-source"
 
 /**
  * The ledger's opening entry.
  *
  * A developer arriving from a post is deciding whether this code is worth an
  * install. So the first viewport is not a portrait and a pair of buttons — it
- * is the document header followed immediately by the three installable tools,
- * command on the left, monthly downloads on the right, a hairline between each.
+ * is the document header followed immediately by the installable tools, command
+ * on the left, monthly downloads on the right, a hairline between each.
  */
 
 interface LedgerEntry {
@@ -28,32 +29,27 @@ interface LedgerEntry {
   since: string
 }
 
-const ENTRIES: LedgerEntry[] = [
-  {
-    name: "bcv-exchange-rate",
-    packageName: "bcv-exchange-rate",
-    summary: "Tasas oficiales BCV, TRM y PTAX. Librería Node y servidor MCP.",
-    install: "npm i bcv-exchange-rate",
-    href: "https://www.npmjs.com/package/bcv-exchange-rate",
-    since: "2025",
-  },
-  {
-    name: "zefer",
-    packageName: "zefer-cli",
-    summary: "Cifrado AES-256-GCM zero-knowledge. El servidor nunca ve tus datos.",
-    install: "npm i -g zefer-cli",
-    href: "https://www.npmjs.com/package/zefer-cli",
-    since: "2025",
-  },
-  {
-    name: "skill-rules",
-    packageName: "skill-rules",
-    summary: "Sincroniza skills de agentes IA entre Claude Code, Cursor y Windsurf.",
-    install: "npx skill-rules init",
-    href: "https://www.npmjs.com/package/skill-rules",
-    since: "2026",
-  },
-]
+/*
+  Read off `lib/data/open-source.ts` rather than restated here. This array used
+  to be a hand-written copy of three of those entries, so publishing a tool and
+  adding it to the register left the home page — the first thing anybody sees —
+  still listing the old three. Whichever entries carry a `homeLedger` show up
+  here, in the order the register lists them.
+*/
+const ENTRIES: LedgerEntry[] = openSourceProjects.flatMap((project) =>
+  project.homeLedger
+    ? [
+        {
+          name: project.name,
+          packageName: project.packageName ?? project.name,
+          summary: project.homeLedger.summary,
+          install: project.homeLedger.install,
+          href: project.url,
+          since: project.homeLedger.since,
+        },
+      ]
+    : [],
+)
 
 const PACKAGES = ENTRIES.map((e) => e.packageName)
 
@@ -114,7 +110,7 @@ export function HomeHero() {
           </div>
         </header>
 
-        {/* The primary entry: three tools, ready to install. */}
+        {/* The primary entry: the tools, ready to install. */}
         <section aria-labelledby="tools-heading" className="mt-10 md:mt-14">
           <div className="flex items-baseline justify-between border-b border-rule-strong pb-2">
             <h2

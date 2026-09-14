@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 
+import { openSourceProjects } from "@/lib/data/open-source"
+
 /**
  * Monthly download counts for the packages surfaced on the home ledger.
  *
@@ -10,7 +12,18 @@ import { unstable_cache } from "next/cache"
  * when the figure is stable across a session.
  */
 
-const ALLOWED = new Set(["zefer-cli", "bcv-exchange-rate", "skill-rules", "hfo-cli"])
+/*
+  The allow-list is the register, not a copy of it. Hand-written, it was a
+  fourth place a package name had to be repeated, and a name missing here fails
+  silently: the route drops the package from the request and the home ledger
+  renders an unlit cell, which is indistinguishable from a registry with no data
+  for it yet.
+*/
+const ALLOWED = new Set(
+  openSourceProjects
+    .filter((project) => project.registry === "npm")
+    .map((project) => project.packageName ?? project.name),
+)
 
 interface PackageDownloads {
   /** Last 30 days. */

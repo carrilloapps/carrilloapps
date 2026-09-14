@@ -27,6 +27,27 @@ export interface OpenSourceProject {
   url: string
   /** Optional GitHub repo URL when the primary link is npm. */
   repoUrl?: string
+  /**
+   * Present when this tool is also an entry in the home page's opening ledger.
+   *
+   * The home hero used to carry its own hard-coded array of three tools and the
+   * downloads route a hard-coded allow-list of package names, so this file, the
+   * hero and the route were three registers of the same thing — and adding a
+   * tool here left it off the home page silently. The hero now reads whichever
+   * entries carry this, so one edit is enough.
+   *
+   * The `summary` is not the card `description`: the ledger row runs alongside
+   * an install command and a figure column, so it has to hold on one or two
+   * short lines.
+   */
+  homeLedger?: {
+    /** Exact command a reader can paste. */
+    install: string
+    /** Short line for the ledger row (≤ ~62 chars). */
+    summary: string
+    /** Year first published — the "desde" cell. */
+    since: string
+  }
 }
 
 export const openSourceProjects: OpenSourceProject[] = [
@@ -41,6 +62,11 @@ export const openSourceProjects: OpenSourceProject[] = [
     tags: ["Encryption", "Web", "CLI"],
     url: "https://www.npmjs.com/package/zefer-cli",
     repoUrl: "https://github.com/carrilloapps/zefer",
+    homeLedger: {
+      install: "npm i -g zefer-cli",
+      summary: "Cifrado AES-256-GCM zero-knowledge. El servidor nunca ve tus datos.",
+      since: "2025",
+    },
   },
   {
     name: "bcv-exchange-rate",
@@ -52,6 +78,11 @@ export const openSourceProjects: OpenSourceProject[] = [
     tags: ["Fintech", "Forex", "MCP"],
     url: "https://www.npmjs.com/package/bcv-exchange-rate",
     repoUrl: "https://github.com/carrilloapps/bcv-exchange-rate",
+    homeLedger: {
+      install: "npm i bcv-exchange-rate",
+      summary: "Tasas oficiales BCV, TRM y PTAX. Librería Node y servidor MCP.",
+      since: "2025",
+    },
   },
   {
     name: "skill-rules",
@@ -63,6 +94,11 @@ export const openSourceProjects: OpenSourceProject[] = [
     tags: ["AI", "CLI", "DX"],
     url: "https://www.npmjs.com/package/skill-rules",
     repoUrl: "https://github.com/carrilloapps/skill-rules",
+    homeLedger: {
+      install: "npx skill-rules init",
+      summary: "Sincroniza skills de agentes IA entre Claude Code, Cursor y Windsurf.",
+      since: "2026",
+    },
   },
   {
     name: "ai-sync-cli",
@@ -95,5 +131,22 @@ export const openSourceProjects: OpenSourceProject[] = [
     tags: ["LLM", "TUI", "Ollama"],
     url: "https://www.npmjs.com/package/hfo-cli",
     repoUrl: "https://github.com/carrilloapps/hfo",
+  },
+  {
+    name: "rux",
+    packageName: "@carrilloapps/rux",
+    description:
+      "Inspector y limpiador de Windows en tu terminal: arranque, restos de desinstalación, basura, drivers y WSL.",
+    registry: "npm",
+    language: "TypeScript",
+    languageColor: "#3178c6",
+    tags: ["Windows", "CLI", "TUI"],
+    url: "https://www.npmjs.com/package/@carrilloapps/rux",
+    repoUrl: "https://github.com/carrilloapps/rux",
+    homeLedger: {
+      install: "npx @carrilloapps/rux",
+      summary: "Inspector y limpiador de Windows en la terminal. Todo reversible.",
+      since: "2026",
+    },
   },
 ]

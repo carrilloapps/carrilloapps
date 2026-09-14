@@ -38,6 +38,10 @@ import { trackScrollDepth, trackCTAClick } from "@/lib/analytics"
  *     enough to deserve their own page and short-changed here: the tools now
  *     live at /recursos and the roles at /sobre-mi, each reachable from
  *     the entry that makes their case.
+ *
+ * The hero still opens with the installable tools, so the closing essay points
+ * there — at `#tools-heading`. It used to link `#open-source-heading`, an id
+ * that left with the register and resolved to nothing.
  */
 export default function Home() {
   // Scroll depth tracking — fires once per quartile.
@@ -131,7 +135,7 @@ function ClosingEntry() {
             <p>
               Lo que aprendo operando estos sistemas termina publicado: como{" "}
               <Link
-                href="#open-source-heading"
+                href="#tools-heading"
                 className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
               >
                 herramientas de código abierto
