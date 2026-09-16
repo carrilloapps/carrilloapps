@@ -73,6 +73,7 @@ export function PersonJsonLd() {
             "@type": "Organization",
             name: "Wenia Ltd",
             url: "https://www.wenia.com",
+            parentOrganization: { "@type": "Organization", name: "Grupo Cibest" },
           },
           alumniOf: [
             {

@@ -23,8 +23,8 @@ import { CalPopupButton } from "@/components/cal-booking"
 const FIGURES = [
   { term: "Años escribiendo código", value: "10+", note: "Desde 2015" },
   { term: "Transacciones", value: "2M", note: "Por día, en producción" },
-  { term: "Rol actual", value: "IC", note: "Senior Software Engineer" },
-  { term: "Roles de liderazgo", value: "3", note: "Tech Lead y Dev Lead" },
+  { term: "Facturas conciliadas", value: "12M", note: "Por trimestre, en Yummy" },
+  { term: "Roles de liderazgo", value: "3", note: "Tech Leader y Developer Lead" },
 ]
 
 /**
@@ -175,12 +175,17 @@ function OpeningEntry() {
               </p>
               <p>
                 Hoy soy Senior Software Engineer en <span className="text-paper">Wenia</span>, la
-                compañía de criptoactivos del Grupo Bancolombia: individual contributor, con las
-                manos en el código. Antes dirigí Pagos y Finanzas en{" "}
-                <span className="text-paper">Yummy (YC S21)</span>, y pasé por conciliación contable
-                a escala en <span className="text-paper">Cencosud</span>, microservicios de
-                aerolínea en <span className="text-paper">Sky Airline</span> y pasarelas de pago en{" "}
-                <span className="text-paper">Wompi</span>. Son contextos distintos con el mismo
+                compañía de criptoactivos del <span className="text-paper">Grupo Cibest</span> — la
+                matriz de Bancolombia, Nequi y Wompi.
+              </p>
+              <p>
+                Antes fui <span className="text-paper">Tech Leader</span> del equipo de Pagos y
+                Finanzas de <span className="text-paper">Yummy (YC S21)</span>, donde el ciclo de
+                facturación pasó de cuatro días a quince minutos y la conciliación llegó a doce
+                millones de facturas por trimestre. Y antes: conciliación contable a escala en{" "}
+                <span className="text-paper">Cencosud</span>, microservicios de aerolínea en{" "}
+                <span className="text-paper">Sky Airline</span> y el primer Open Banking de Colombia
+                en <span className="text-paper">Wompi</span>. Son contextos distintos con el mismo
                 problema de fondo: sistemas que no pueden fallar, operados por equipos que tienen
                 que poder dormir.
               </p>
@@ -328,11 +333,10 @@ function Practice() {
             sistemas.
           </p>
           <p>
-            Dirigí un equipo y volví a ser individual contributor a propósito: el trabajo que quiero
-            hacer es el que se mide en código en producción, no en reuniones. Eso no cambia lo que
-            aprendí dirigiendo. Documento lo que decido y por qué, reviso código a fondo, y trato de
-            que el criterio quede en el equipo y no en mi cabeza. Si el equipo depende de mí para
-            avanzar, hice mal mi trabajo.
+            Dirigí equipos durante años, y eso no se va cuando cambia el cargo en la firma del
+            correo. Documento lo que decido y por qué, reviso código a fondo, y trato de que el
+            criterio quede en el equipo y no en mi cabeza. Si el equipo depende de mí para avanzar,
+            hice mal mi trabajo.
           </p>
         </div>
 

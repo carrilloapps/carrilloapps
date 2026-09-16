@@ -95,9 +95,9 @@ export const SERVICES: Service[] = [
     summary:
       "Liderazgo técnico desde el código: revisión de pull requests a fondo, especificación antes que código y mentoría a desarrolladores.",
     metaDescription:
-      "Liderazgo técnico de un programador senior: revisión de código en profundidad, ADRs, Spec-Driven Development y capacidad estimada contra el histórico real de git.",
+      "Liderazgo técnico ejercido desde el código por un Senior Software Engineer: revisión de pull requests, ADRs, Spec-Driven Development y capacidad estimada contra el histórico real de git.",
     keywords: [
-      "programador senior externo",
+      "senior software engineer externo",
       "liderazgo técnico",
       "tech lead fraccional",
       "mentoría técnica para desarrolladores",
@@ -108,7 +108,7 @@ export const SERVICES: Service[] = [
     ],
     intro: [
       "La mayoría de los equipos que encuentro no tienen un problema de talento: tienen un problema de criterio compartido. Cada persona decide bien por su cuenta y el conjunto avanza en direcciones ligeramente distintas, hasta que integrar cuesta más que construir. Eso no se arregla con una herramienta nueva ni con más reuniones; se arregla haciendo explícito lo que hasta ahora vivía en la cabeza de dos o tres personas.",
-      "Entro como programador senior, no como una capa de gestión encima del equipo. Abro el repositorio, escribo código en él y reviso pull requests con el mismo detalle con el que reviso los míos — y cuando hace falta asumo el liderazgo técnico del frente, que es un rol que ya ejercí dirigiendo pagos en Yummy. El criterio queda escrito —especificaciones, ADRs, estándares que se pueden discutir y cambiar— y practicado, en revisiones donde se explica el porqué y no solo el qué. El objetivo declarado de cada acompañamiento es volverse innecesario: si a los seis meses el equipo sigue dependiendo de mí para avanzar, hice mal el trabajo.",
+      "Entro al código, no como una capa de gestión encima del equipo. Abro el repositorio, escribo en él y reviso pull requests con el mismo detalle con el que reviso los míos; y cuando hace falta asumo el liderazgo técnico del frente, que es exactamente lo que hice dirigiendo Pagos y Finanzas en Yummy. El criterio queda escrito —especificaciones, ADRs, estándares que se pueden discutir y cambiar— y practicado, en revisiones donde se explica el porqué y no solo el qué. El objetivo declarado de cada acompañamiento es volverse innecesario: si a los seis meses el equipo sigue dependiendo de mí para avanzar, hice mal el trabajo.",
       "Trabajo especialmente bien con equipos de plataforma y de pagos, donde una decisión de diseño equivocada no produce un bug visible sino una discrepancia contable que aparece un trimestre después. En esos contextos el liderazgo técnico no es motivacional: es la disciplina de escribir lo que se va a construir antes de construirlo.",
     ],
     spotlight: {
@@ -214,7 +214,7 @@ export const SERVICES: Service[] = [
       {
         question: "¿Esto es un Tech Lead fraccional?",
         answer:
-          "Puede serlo. Dirigí el equipo de Pagos y Finanzas de Yummy, así que el rol no me es ajeno; hoy mi puesto de planta es de individual contributor por elección, porque el trabajo que quiero hacer se mide en código. En la práctica eso te conviene: el liderazgo técnico lo ejerzo desde el repositorio, revisando pull requests, no desde una reunión de seguimiento. Cuando ya existe un Tech Lead interno, trabajo con él; cuando no, ayudo a identificar a quien pueda serlo.",
+          "Puede serlo. Dirigí el equipo de Pagos y Finanzas de Yummy y antes lideré desarrollo en Cencosud, así que el rol no me es ajeno. Hoy soy Senior Software Engineer en Wenia, y en la práctica eso te conviene: el liderazgo técnico lo ejerzo desde el repositorio, revisando pull requests y escribiendo especificaciones, no desde una reunión de seguimiento. Cuando ya existe un Tech Lead interno, trabajo con él; cuando no, ayudo a identificar a quien pueda serlo.",
       },
       {
         question: "¿Cuánto dura un acompañamiento?",

@@ -1,7 +1,7 @@
 <h1 align="center">Junior Carrillo</h1>
 <p align="center">
   <strong>Senior Software Engineer · Open Finance, Payments &amp; Digital Assets</strong><br/>
-  Wenia (Grupo Bancolombia) &nbsp;·&nbsp; Ex Yummy (YC S21) &nbsp;·&nbsp; Ex Wompi (Bancolombia) &nbsp;·&nbsp; Medellín, Colombia
+  Wenia (Grupo Cibest) &nbsp;·&nbsp; Ex Tech Leader @ Yummy (YC S21) &nbsp;·&nbsp; Ex Wompi (Bancolombia) &nbsp;·&nbsp; Medellín, Colombia
 </p>
 
 <p align="center">
@@ -16,9 +16,11 @@
 
 ## About
 
-Senior Software Engineer at **[Wenia](https://www.wenia.com)** (Grupo Bancolombia) — individual contributor on digital-asset infrastructure: the exchange, the COPW peso-backed stablecoin on Polygon, and the card that spends it. 10+ years shipping payment systems at scale across banking, retail, aviation and crypto in Colombia and Chile.
+Senior Software Engineer at **[Wenia](https://www.wenia.com)** — the digital-asset company of **Grupo Cibest**, parent of Bancolombia, Nequi and Wompi. The ground here is the exchange, the COPW peso-backed stablecoin on Polygon, and the card that spends it: payment infrastructure carrying a bank's compliance obligations and settling on a public chain, distributed through Colombia's largest bank.
 
-I lead from inside the code. I ran the Payments and Finance team at Yummy, and chose the IC track afterwards on purpose — the work I want to do is measured in production code, not in status meetings. My focus is distributed systems that move real money reliably: Colombia's first Open Banking service at Wompi, CQRS architectures over +150M records at Yummy, and autonomous AI agents applied to financial operations. At Wenia the same problem arrives on-chain, under a Bermuda Monetary Authority licence. I care about systems design, architecture decisions written down, code review that explains the why, and mentoring engineers who build for scale.
+Before that I was **Tech Leader** of Payments and Finance at Yummy (YC S21), and Developer Leader at Cencosud. 10+ years shipping payment systems at scale across banking, retail, aviation and crypto in Colombia and Chile.
+
+What I have actually shipped: Colombia's first Open Banking service at Wompi (13M payers, $50B COP/year), a billing cycle cut from 4 days to 15 minutes at Yummy with 12M invoices reconciled per quarter, CQRS architectures over +150M records with reports under 3s, and SAP-integrated reconciliation moving 2M transactions a week at Cencosud. My focus is distributed systems that move real money reliably, and autonomous AI agents applied to financial operations. I care about systems design, architecture decisions written down, code review that explains the why, and mentoring engineers who build for scale.
 
 Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
 

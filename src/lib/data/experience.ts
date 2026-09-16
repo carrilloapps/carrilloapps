@@ -33,15 +33,17 @@ export interface ExperienceEntry {
  */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
-    // Wenia Ltd is Grupo Bancolombia's digital-asset company: registered in
-    // Bermuda under a BMA class F licence, operated out of Medellín, and
-    // distributed through Bancolombia and Nequi. The figures below are
-    // properties of the platform, not of a team — this stop is an individual
-    // contributor role and the entry is written as one.
+    // Wenia Ltd is the digital-asset company of Grupo Cibest — the holding that
+    // has been the parent of Bancolombia, Nequi, Wompi, Banistmo and Bam since
+    // 19 May 2025, and which replaced "Grupo Bancolombia" as the corporate
+    // name. Wenia is registered in Bermuda under a BMA class F licence,
+    // operated out of Medellín, and distributed through Bancolombia and Nequi.
     //
-    // Started 15 September 2026. Until there is shipped work to point at, this
-    // entry states the mandate and never an outcome: no delivery claim here can
-    // be true yet, and /servicios carries no Wenia evidence for the same reason.
+    // Started 15 September 2026, so the entry describes the ground and what it
+    // makes possible, never a result: no delivery claim here can be true yet,
+    // and /servicios carries no Wenia evidence for the same reason. The figures
+    // are properties of the platform and are labelled as such. The proof of what
+    // this person has actually done sits in the four stops below it.
     id: "wenia",
     period: "2026 — Presente",
     since: "2026",
@@ -51,13 +53,13 @@ export const EXPERIENCE: ExperienceEntry[] = [
     // at 1.17:1 against the sheet's ground and would be invisible; every other
     // mark on this site is set in paper, so the wordmark follows.
     logo: "/brands/wenia.png",
-    outcome: "Criptoactivos con exigencias de banco",
+    outcome: "Criptoactivos con las garantías de un banco",
     description:
-      "Individual contributor en la compañía de criptoactivos del Grupo Bancolombia. Mi frente son los servicios detrás del exchange, de COPW —la stablecoin respaldada 1:1 en pesos sobre Polygon— y de la tarjeta que permite gastarla: custodia, liquidación on-chain y cumplimiento, sobre un producto que se distribuye por Bancolombia y Nequi.",
+      "Senior Software Engineer en la compañía de criptoactivos del Grupo Cibest, la matriz de Bancolombia, Nequi y Wompi. El frente son los servicios detrás del exchange, de COPW —la stablecoin respaldada 1:1 en pesos sobre Polygon— y de la tarjeta que permite gastarla. Es infraestructura de pagos con el cumplimiento que exige una licencia bancaria y la liquidación de una cadena pública, distribuida por la banca más grande de Colombia: el mismo problema de los diez años anteriores sobre un riel nuevo.",
     metrics: [
       { value: "COPW", label: "Stablecoin en COP" },
       { value: "Polygon", label: "Liquidación on-chain" },
-      { value: "24/7", label: "Ventana de operación" },
+      { value: "Cibest", label: "Grupo financiero" },
     ],
     technologies: ["TypeScript", "Node.js", "Blockchain", "Stablecoins", "AWS"],
   },

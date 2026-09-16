@@ -8,12 +8,12 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Diez años en dinero que se mueve",
   description:
-    "Programador senior en Medellín: pasarelas de pago, conciliación y core bancario. Hoy en Wenia (Grupo Bancolombia); antes en Yummy (YC S21) y Wompi.",
+    "Senior Software Engineer en Medellín: pasarelas de pago, conciliación y core bancario. Hoy en Wenia (Grupo Cibest); antes Tech Leader en Yummy (YC S21) y Wompi.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [
     "senior software engineer colombia",
-    "programador senior medellín",
+    "senior software engineer medellín",
     "open banking developer",
     "microservicios fintech",
     "arquitecto de pagos",
@@ -40,7 +40,7 @@ const personProfileSchema = {
     familyName: "Carrillo",
     jobTitle: "Senior Software Engineer",
     description:
-      "Programador senior con 10 años construyendo sistemas de pago en LATAM. Individual contributor en Wenia Ltd, del Grupo Bancolombia.",
+      "Senior Software Engineer en Wenia Ltd, del Grupo Cibest, con 10 años construyendo sistemas de pago en LATAM y experiencia dirigiendo equipos como Tech Leader.",
     url: `${SITE_URL}/sobre-mi`,
     mainEntityOfPage: `${SITE_URL}/sobre-mi`,
     image: `${SITE_URL}/profile.jpg`,
@@ -68,6 +68,13 @@ const personProfileSchema = {
       "@type": "Organization",
       name: "Wenia Ltd",
       url: "https://www.wenia.com",
+      description:
+        "Compañía de criptoactivos del Grupo Cibest: exchange, la stablecoin COPW respaldada 1:1 por el peso colombiano sobre Polygon, y una tarjeta de gasto en criptoactivos.",
+      // Grupo Cibest has been the parent of Bancolombia, Nequi, Wompi, Banistmo
+      // and Bam since 19 May 2025, replacing the "Grupo Bancolombia" corporate
+      // name. Naming it lets an engine resolve the affiliation to the right
+      // entity instead of one that no longer exists.
+      parentOrganization: { "@type": "Organization", name: "Grupo Cibest" },
     },
     alumniOf: [
       {
@@ -86,7 +93,7 @@ const personProfileSchema = {
         "@type": "Occupation",
         name: "Senior Software Engineer",
         description:
-          "Individual contributor en Wenia Ltd, la compañía de criptoactivos del Grupo Bancolombia — exchange, stablecoin COPW sobre Polygon y tarjeta de gasto.",
+          "Senior Software Engineer en Wenia Ltd, la compañía de criptoactivos del Grupo Cibest — exchange, stablecoin COPW sobre Polygon y tarjeta de gasto.",
         occupationLocation: {
           "@type": "City",
           name: "Medellín, Colombia",

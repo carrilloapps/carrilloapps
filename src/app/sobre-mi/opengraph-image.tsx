@@ -9,7 +9,7 @@ export default async function OpenGraphImage() {
     eyebrow: "Trayectoria",
     title: "Una década en dinero que se mueve",
     subtitle:
-      "Diez años escribiendo pasarelas de pago, conciliación de alto volumen y core bancario en producción. Hoy como individual contributor en criptoactivos.",
+      "Diez años escribiendo pasarelas de pago, conciliación de alto volumen y core bancario en producción. Tech Leader en Yummy; hoy en criptoactivos con Wenia.",
     particulars: [
       { term: "Hoy", value: "Wenia" },
       { term: "Antes", value: "Yummy · Wompi" },

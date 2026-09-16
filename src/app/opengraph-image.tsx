@@ -9,9 +9,9 @@ export default async function OpenGraphImage() {
     eyebrow: "Senior Software Engineer · Pagos e infraestructura",
     title: "Junior Carrillo",
     subtitle:
-      "Escribo sistemas de pago de alta transaccionalidad en LATAM — hoy en Wenia (Grupo Bancolombia), antes en Yummy (YC S21). Lo que aprendo operándolos lo publico como herramientas instalables y como texto.",
+      "Escribo sistemas de pago de alta transaccionalidad en LATAM — hoy en Wenia (Grupo Cibest), antes Tech Leader en Yummy (YC S21). Lo que aprendo operándolos lo publico como herramientas instalables y como texto.",
     particulars: [
-      { term: "Rol", value: "Programador senior" },
+      { term: "Rol", value: "Senior Software Engineer" },
       { term: "Base", value: "Medellín, CO" },
       { term: "Trayectoria", value: "10+ años" },
       { term: "Enfoque", value: "Pagos y fintech" },

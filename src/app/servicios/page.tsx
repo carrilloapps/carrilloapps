@@ -35,7 +35,7 @@ export const metadata: Metadata = buildPageMetadata({
   keywords: [
     "consultoría arquitectura de pagos",
     "auditoría sistemas financieros",
-    "programador senior fintech",
+    "senior software engineer fintech",
     "liderazgo técnico fintech",
     "conciliación alto volumen",
     "microservicios pagos",

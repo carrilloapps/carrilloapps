@@ -48,7 +48,7 @@ const SITE_NAME = "Junior Carrillo"
 // 1024px and gets cut mid-sentence. Measure, do not count. See docs/SEO.md.
 const SITE_TITLE = "Junior Carrillo | Senior Software Engineer en fintech"
 const SITE_DESCRIPTION =
-  "Programador senior en pagos de alta transaccionalidad en LATAM. Hoy en Wenia (Grupo Bancolombia), ex Yummy (YC S21)."
+  "Senior Software Engineer en pagos de alta transaccionalidad en LATAM. Hoy en Wenia (Grupo Cibest); antes Tech Leader en Yummy (YC S21)."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -66,13 +66,16 @@ export const metadata: Metadata = {
   // Bing/DuckDuckGo y para que el documento HTML refleje los términos
   // por los que queremos rankear. Mantener bajo 10 términos.
   keywords: [
+    // One job title, one spelling. These are search phrases, not alternative
+    // titles: every one of them resolves to the same person and the same role,
+    // so nothing here competes with "Senior Software Engineer" as the claim.
     "senior software engineer colombia",
-    "programador senior medellín",
-    "desarrollador senior fintech",
+    "senior software engineer medellín",
+    "arquitectura de pagos latam",
     "consultor sistemas de pago",
     "arquitecto microservicios",
     "open banking developer",
-    "ingeniero de software latam",
+    "desarrollo stablecoin colombia",
     "liderazgo técnico medellín",
     "Junior Carrillo",
   ],

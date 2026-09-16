@@ -26,7 +26,7 @@ const schedulingJsonLd = {
   "@type": "ContactPage",
   name: "Agenda una Consulta — Junior Carrillo",
   description:
-    "Reserva una sesión de consultoría personalizada con Junior Carrillo, programador senior especializado en sistemas de pago e infraestructura financiera.",
+    "Reserva una sesión de consultoría personalizada con Junior Carrillo, Senior Software Engineer especializado en sistemas de pago e infraestructura financiera.",
   url: `${SITE_URL}/agendamiento`,
   mainEntity: {
     "@type": "Person",

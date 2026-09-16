@@ -100,7 +100,7 @@ function DesktopColophon() {
         <div>
           <Logo showMark />
           <p className="mt-4 max-w-[34ch] font-sans text-[15px] leading-relaxed text-paper-dim">
-            Programador senior con recorrido como tech lead. Sistemas de pago, arquitectura
+            Senior Software Engineer en Wenia. Tech Leader en Yummy: sistemas de pago, arquitectura
             distribuida y equipos que entregan sin heroísmos.
           </p>
           <p className="mt-4 flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">

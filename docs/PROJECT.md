@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-carrillo.app is a personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Senior Software Engineer (individual contributor) at Wenia Ltd — Grupo Bancolombia's digital-asset company — and formerly Tech Lead of the Financial Backoffice team at Yummy Inc. (YC S21). The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
+carrillo.app is a personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Senior Software Engineer at Wenia Ltd — the digital-asset company of Grupo Cibest, parent of Bancolombia, Nequi and Wompi — and formerly Tech Leader of the Payments and Finance team at Yummy Inc. (YC S21). His job title is written "Senior Software Engineer" in English on every surface, with no translated variant. The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
 
 ## Technology Stack
 

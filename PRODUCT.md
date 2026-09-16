@@ -35,10 +35,20 @@ Ten-plus years building payment systems and high-transaction financial
 infrastructure in LATAM — now extended to regulated digital assets — with
 production numbers a generalist portfolio cannot claim. The writing and the open
 source come from someone who has written and run these systems at scale, not
-from someone summarizing them. Seniority leads as depth in the code — "programador
-senior" is the term that ranks and the term he is — while the Tech Leader record
-stays on the page as a credential and stays in the service catalogue as an
-offering. Depth first, headcount second; never headcount instead of depth.
+from someone summarizing them.
+
+**One job title, one spelling: "Senior Software Engineer", in English, on every
+surface — visible copy, `jobTitle`, social cards, manifest, llms.txt.** Never a
+translation, never a second title beside it. Two spellings of the same role
+split the entity a search engine or an LLM is trying to resolve, and that costs
+more than any phrasing gains. Spanish still carries the descriptions and the
+search phrases; it does not carry the title.
+
+The Tech Leader record is a credential to lead with, not a phase to explain.
+Yummy, Cencosud and Sky Airline are named as leadership roles and stay in the
+service catalogue as an offering. Nothing on this site narrates a move between
+tracks or justifies one: the site states the current role, states the record,
+and lets both stand.
 
 ## Operating Context
 
@@ -82,14 +92,16 @@ offering. Depth first, headcount second; never headcount instead of depth.
 
 Real, publishable, attributable to the named companies:
 
-- **Wenia Ltd (Grupo Bancolombia)** — Senior Software Engineer, current role,
-  started 15 September 2026. **No delivered work to cite yet**: the site states
-  the mandate and must not claim an outcome here until there is one.
-  Individual contributor on the digital-asset platform: exchange, the COPW
-  stablecoin backed 1:1 by the Colombian peso on Polygon, and the spend card.
-  Registered in Bermuda under a BMA class F licence; distributed through
-  Bancolombia and Nequi. Platform facts are public; personal figures do not
-  exist yet and must not be invented.
+- **Wenia Ltd (Grupo Cibest)** — Senior Software Engineer, current role,
+  started 15 September 2026. **No delivered work to cite yet**: write the ground
+  and what it makes possible, never an outcome. The platform is the exchange,
+  the COPW stablecoin backed 1:1 by the Colombian peso on Polygon, and the spend
+  card; registered in Bermuda under a BMA class F licence and distributed
+  through Bancolombia and Nequi. Those are public platform facts, labelled as
+  such. Personal figures do not exist yet and must not be invented — the proof
+  of what this person has done sits in the stops below.
+  Grupo Cibest has been the parent of Bancolombia, Nequi, Wompi, Banistmo and
+  Bam since 19 May 2025; "Grupo Bancolombia" as a parent company is stale.
 - **Yummy (YC S21)** — Tech Leader, Financial Backoffice, 2024–2026. Billing
   cycle cut from 4 days to 15 minutes; 12M invoices per quarter. CQRS over 150M+
   records with reports under 3s. AI agents. PCI-DSS.

@@ -31,7 +31,7 @@ const webPageSchema = {
   url: SITE_URL,
   name: "Junior Carrillo — Senior Software Engineer",
   description:
-    "Programador senior basado en Medellín con +10 años construyendo sistemas de pago, fintech y backoffice para LATAM. Hoy en Wenia Ltd (Grupo Bancolombia); antes Yummy (YC S21), Wompi, Cencosud y Sky Airline.",
+    "Senior Software Engineer basado en Medellín con +10 años construyendo sistemas de pago, fintech y backoffice para LATAM. Hoy en Wenia Ltd (Grupo Cibest); antes Tech Leader en Yummy (YC S21), y Wompi, Cencosud y Sky Airline.",
   inLanguage: "es-CO",
   isPartOf: {
     "@type": "WebSite",
@@ -47,7 +47,7 @@ const webPageSchema = {
   mainEntity: personRef,
   about: personRef,
   datePublished: "2024-01-01",
-  dateModified: "2026-04-29",
+  dateModified: "2026-09-15",
 }
 
 const professionalServiceSchema = {

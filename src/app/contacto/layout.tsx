@@ -15,7 +15,7 @@ export const metadata = {
     keywords: [
       "contacto Junior Carrillo",
       "consultoría fintech contacto",
-      "programador senior disponible",
+      "senior software engineer disponible",
       "tech lead disponible",
       "consultor arquitectura de pagos",
       "contacto desarrollador medellín",
@@ -129,7 +129,7 @@ const contactJsonLd = {
   inLanguage: "es-CO",
   dateModified: new Date("2026-05-16").toISOString(),
   keywords:
-    "contacto profesional, consultoría tecnológica, programador senior, desarrollo software, liderazgo técnico",
+    "contacto profesional, consultoría tecnológica, senior software engineer, desarrollo software, liderazgo técnico",
   // Security measures implemented:
   // 1. No direct email/phone in JSON-LD to prevent automated scraping
   // 2. Generic contact types instead of specific personal details
