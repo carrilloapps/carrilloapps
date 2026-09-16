@@ -33,15 +33,44 @@ export interface ExperienceEntry {
  */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
+    // Wenia Ltd is Grupo Bancolombia's digital-asset company: registered in
+    // Bermuda under a BMA class F licence, operated out of Medellín, and
+    // distributed through Bancolombia and Nequi. The figures below are
+    // properties of the platform, not of a team — this stop is an individual
+    // contributor role and the entry is written as one.
+    //
+    // Started 15 September 2026. Until there is shipped work to point at, this
+    // entry states the mandate and never an outcome: no delivery claim here can
+    // be true yet, and /servicios carries no Wenia evidence for the same reason.
+    id: "wenia",
+    period: "2026 — Presente",
+    since: "2026",
+    role: "Senior Software Engineer",
+    company: "Wenia Ltd",
+    // Knocked out in --ledger-paper (#e8e6e1). The brand navy (#030370) reads
+    // at 1.17:1 against the sheet's ground and would be invisible; every other
+    // mark on this site is set in paper, so the wordmark follows.
+    logo: "/brands/wenia.png",
+    outcome: "Criptoactivos con exigencias de banco",
+    description:
+      "Individual contributor en la compañía de criptoactivos del Grupo Bancolombia. Mi frente son los servicios detrás del exchange, de COPW —la stablecoin respaldada 1:1 en pesos sobre Polygon— y de la tarjeta que permite gastarla: custodia, liquidación on-chain y cumplimiento, sobre un producto que se distribuye por Bancolombia y Nequi.",
+    metrics: [
+      { value: "COPW", label: "Stablecoin en COP" },
+      { value: "Polygon", label: "Liquidación on-chain" },
+      { value: "24/7", label: "Ventana de operación" },
+    ],
+    technologies: ["TypeScript", "Node.js", "Blockchain", "Stablecoins", "AWS"],
+  },
+  {
     id: "yummy",
-    period: "2024 — Presente",
+    period: "2024 — 2026",
     since: "2024",
     role: "Tech Leader",
-    company: "Yummy Inc.",
+    company: "Yummy Inc. (YC S21)",
     logo: "/brands/yummy.png",
-    outcome: "Liderando pagos para una super-app de LATAM",
+    outcome: "Pagos de una super-app de LATAM a 2M tx/día",
     description:
-      "Conduzco un equipo de 7 desarrolladores en el diseño e implementación de herramientas de Pagos y Finanzas. Implementación de medios de pago y arquitectura de microservicios que mejoraron la confiabilidad del sistema en un 40%.",
+      "Conduje un equipo de 7 desarrolladores en el diseño e implementación de herramientas de Pagos y Finanzas, escribiendo código con ellos. Medios de pago y arquitectura de microservicios que mejoraron la confiabilidad del sistema en un 40%.",
     metrics: [
       { value: "7", label: "Team players" },
       { value: "+40%", label: "Confiabilidad" },

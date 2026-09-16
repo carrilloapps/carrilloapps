@@ -50,7 +50,7 @@ const TILES: Tile[] = [
     icon: Users,
     label: "Liderazgo",
     description:
-      "Mentoría de equipos, planes de carrera técnica y dirección estratégica para áreas de ingeniería en crecimiento.",
+      "Liderazgo técnico desde el código: revisión de pull requests, estándares de ingeniería y mentoría uno a uno.",
     lng: 0,
     lat: 24,
   },

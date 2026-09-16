@@ -85,25 +85,30 @@ export interface Service {
 export const SERVICES: Service[] = [
   /* ------------------------------------------------------------------ */
   {
+    // The slug stays `liderazgo-tecnico` — it is indexed and linked from the
+    // nav, the footer and two JSON-LD graphs. What changed is the position
+    // behind it: this is sold as senior engineering applied from inside the
+    // code, not as fractional people management.
     slug: "liderazgo-tecnico",
-    title: "Liderazgo técnico",
+    title: "Liderazgo e ingeniería senior",
     heading: "Equipos que sostienen lo que construyen",
     summary:
-      "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos.",
+      "Liderazgo técnico desde el código: revisión de pull requests a fondo, especificación antes que código y mentoría a desarrolladores.",
     metaDescription:
-      "Liderazgo técnico y agilidad con IA: del kickoff transcrito a la especificación, de la especificación a SDD, y de git a la capacidad estimada.",
+      "Liderazgo técnico de un programador senior: revisión de código en profundidad, ADRs, Spec-Driven Development y capacidad estimada contra el histórico real de git.",
     keywords: [
+      "programador senior externo",
       "liderazgo técnico",
-      "agilidad y procesos de entrega",
+      "tech lead fraccional",
+      "mentoría técnica para desarrolladores",
+      "revisión de código en profundidad",
       "spec driven development",
       "estimación por capacidad",
-      "ceremonias de refinamiento",
       "métricas DORA",
-      "tech lead externo",
     ],
     intro: [
       "La mayoría de los equipos que encuentro no tienen un problema de talento: tienen un problema de criterio compartido. Cada persona decide bien por su cuenta y el conjunto avanza en direcciones ligeramente distintas, hasta que integrar cuesta más que construir. Eso no se arregla con una herramienta nueva ni con más reuniones; se arregla haciendo explícito lo que hasta ahora vivía en la cabeza de dos o tres personas.",
-      "Mi trabajo aquí es dejar el criterio escrito y practicado. Escrito, en forma de especificaciones, ADRs y estándares que se pueden discutir y cambiar. Practicado, en revisiones de código donde se explica el porqué y no solo el qué. El objetivo declarado de cada acompañamiento es volverse innecesario: si a los seis meses el equipo sigue dependiendo de mí para avanzar, hice mal el trabajo.",
+      "Entro como programador senior, no como una capa de gestión encima del equipo. Abro el repositorio, escribo código en él y reviso pull requests con el mismo detalle con el que reviso los míos — y cuando hace falta asumo el liderazgo técnico del frente, que es un rol que ya ejercí dirigiendo pagos en Yummy. El criterio queda escrito —especificaciones, ADRs, estándares que se pueden discutir y cambiar— y practicado, en revisiones donde se explica el porqué y no solo el qué. El objetivo declarado de cada acompañamiento es volverse innecesario: si a los seis meses el equipo sigue dependiendo de mí para avanzar, hice mal el trabajo.",
       "Trabajo especialmente bien con equipos de plataforma y de pagos, donde una decisión de diseño equivocada no produce un bug visible sino una discrepancia contable que aparece un trimestre después. En esos contextos el liderazgo técnico no es motivacional: es la disciplina de escribir lo que se va a construir antes de construirlo.",
     ],
     spotlight: {
@@ -143,11 +148,11 @@ export const SERVICES: Service[] = [
       },
     ],
     benefits: [
-      "Mentorización de equipos de desarrollo",
-      "Establecimiento de estándares técnicos",
-      "Planificación estratégica de tecnología",
-      "Gestión de equipos multidisciplinarios",
-      "Optimización de procesos de desarrollo",
+      "Revisión de código en profundidad, con el porqué escrito",
+      "Mentoría uno a uno a desarrolladores junior y semi-senior",
+      "Establecimiento de estándares técnicos y guía de estilo",
+      "Especificación y ADRs antes de escribir código",
+      "Optimización de procesos de desarrollo y entrega",
     ],
     approach: [
       {
@@ -196,9 +201,9 @@ export const SERVICES: Service[] = [
     ],
     stack: ["TypeScript", "Node.js", "React", "GitHub Actions", "spec-kit"],
     caseStudy: {
-      title: "Transformación de equipo técnico",
+      title: "De monolito a microservicios",
       description:
-        "Lideré un equipo de 15 desarrolladores en la transformación de un sistema monolítico a una arquitectura de microservicios, mejorando la eficiencia del equipo en un 40% y reduciendo el tiempo de entrega en un 60%.",
+        "Acompañé a un equipo de 15 desarrolladores en la migración de un sistema monolítico a una arquitectura de microservicios: partición de dominios, contratos entre servicios y revisión de cada pull request de la migración. La eficiencia del equipo subió un 40% y el tiempo de entrega bajó un 60%.",
       metrics: [
         { value: "15", label: "Desarrolladores" },
         { value: "+40%", label: "Eficiencia" },
@@ -207,9 +212,9 @@ export const SERVICES: Service[] = [
     },
     faq: [
       {
-        question: "¿Reemplazas a un Tech Lead interno?",
+        question: "¿Esto es un Tech Lead fraccional?",
         answer:
-          "No, lo formo. Cuando ya existe la persona, trabajo con ella; cuando no, ayudo a identificarla dentro del equipo y a que asuma el rol. Contratar liderazgo externo permanente es un síntoma, no una solución.",
+          "Puede serlo. Dirigí el equipo de Pagos y Finanzas de Yummy, así que el rol no me es ajeno; hoy mi puesto de planta es de individual contributor por elección, porque el trabajo que quiero hacer se mide en código. En la práctica eso te conviene: el liderazgo técnico lo ejerzo desde el repositorio, revisando pull requests, no desde una reunión de seguimiento. Cuando ya existe un Tech Lead interno, trabajo con él; cuando no, ayudo a identificar a quien pueda serlo.",
       },
       {
         question: "¿Cuánto dura un acompañamiento?",
@@ -234,7 +239,7 @@ export const SERVICES: Service[] = [
     ],
     particulars: [
       { term: "Formato", value: "Acompañamiento" },
-      { term: "Equipo", value: "15 personas" },
+      { term: "Alcance", value: "15 personas" },
       { term: "Eficiencia", value: "+40%" },
       { term: "Entrega", value: "−60%" },
     ],
@@ -999,7 +1004,7 @@ export const SERVICES: Service[] = [
       body: [
         "Durante toda la historia de los sistemas de pago, del otro lado hubo una persona. Eso está dejando de ser cierto: cada vez más un agente inicia la compra, contrata el servicio o paga el consumo de una API. Y casi ninguna plataforma financiera está construida para eso.",
         "Las preguntas que aparecen no son teóricas. ¿Quién es el agente ante el sistema, y cómo se distingue del humano que lo desplegó? ¿Cuánto puede gastar, en qué y hasta cuándo? Cuando algo sale mal, ¿la traza permite decir qué instrucción originó el movimiento y quién autorizó el mandato?",
-        "Puedo integrarlo porque vengo del otro lado. En Yummy opero pagos de alta transaccionalidad —2 millones de transacciones diarias, medios de pago, conciliación— y ese es exactamente el conocimiento que esto exige: identidad, mandatos revocables, idempotencia, partida doble y auditoría. Que el iniciador sea una máquina no relaja ninguna garantía; la aumenta, porque una máquina reintenta más rápido y más veces que una persona.",
+        "Puedo integrarlo porque vengo del otro lado. En Yummy operé pagos de alta transaccionalidad —2 millones de transacciones diarias, medios de pago, conciliación— y ese es exactamente el conocimiento que esto exige: identidad, mandatos revocables, idempotencia, partida doble y auditoría. Que el iniciador sea una máquina no relaja ninguna garantía; la aumenta, porque una máquina reintenta más rápido y más veces que una persona.",
       ],
       items: [
         "Identidad y credenciales propias del agente, separadas de las del humano que lo desplegó",

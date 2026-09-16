@@ -8,12 +8,12 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Diez años en dinero que se mueve",
   description:
-    "De programador a Tech Leader en Medellín: pasarelas de pago, conciliación y core bancario. Hoy en Yummy; antes en Wompi.",
+    "Programador senior en Medellín: pasarelas de pago, conciliación y core bancario. Hoy en Wenia (Grupo Bancolombia); antes en Yummy (YC S21) y Wompi.",
   path: "/sobre-mi",
   ogType: "profile",
   keywords: [
-    "tech leader colombia",
-    "desarrollador senior medellín",
+    "senior software engineer colombia",
+    "programador senior medellín",
     "open banking developer",
     "microservicios fintech",
     "arquitecto de pagos",
@@ -38,9 +38,9 @@ const personProfileSchema = {
     name: "Junior Carrillo",
     givenName: "José",
     familyName: "Carrillo",
-    jobTitle: "Tech Leader & Senior Software Developer",
+    jobTitle: "Senior Software Engineer",
     description:
-      "Tech Leader y Senior Software Developer con 10 años construyendo sistemas de pago en LATAM.",
+      "Programador senior con 10 años construyendo sistemas de pago en LATAM. Individual contributor en Wenia Ltd, del Grupo Bancolombia.",
     url: `${SITE_URL}/sobre-mi`,
     mainEntityOfPage: `${SITE_URL}/sobre-mi`,
     image: `${SITE_URL}/profile.jpg`,
@@ -55,8 +55,9 @@ const personProfileSchema = {
     knowsLanguage: ["es", "en"],
     knowsAbout: [
       "Software Development",
-      "Technical Leadership",
       "Payment Systems",
+      "Stablecoins and Digital Assets",
+      "Technical Leadership",
       "Open Banking",
       "Financial Systems",
       "Microservices Architecture",
@@ -65,10 +66,15 @@ const personProfileSchema = {
     ],
     worksFor: {
       "@type": "Organization",
-      name: "Yummy Inc.",
-      url: "https://yummysuperapp.com",
+      name: "Wenia Ltd",
+      url: "https://www.wenia.com",
     },
     alumniOf: [
+      {
+        "@type": "Organization",
+        name: "Yummy Inc. (YC S21)",
+        url: "https://yummysuperapp.com",
+      },
       { "@type": "Organization", name: "Wompi", url: "https://wompi.co" },
       { "@type": "Organization", name: "Falabella", url: "https://www.falabella.com" },
       { "@type": "Organization", name: "Cencosud S.A.", url: "https://www.cencosud.com" },
@@ -78,9 +84,19 @@ const personProfileSchema = {
     hasOccupation: [
       {
         "@type": "Occupation",
+        name: "Senior Software Engineer",
+        description:
+          "Individual contributor en Wenia Ltd, la compañía de criptoactivos del Grupo Bancolombia — exchange, stablecoin COPW sobre Polygon y tarjeta de gasto.",
+        occupationLocation: {
+          "@type": "City",
+          name: "Medellín, Colombia",
+        },
+      },
+      {
+        "@type": "Occupation",
         name: "Tech Leader",
         description:
-          "Lidero el equipo de pagos en Yummy Inc. — diseño e implementación de medios de pago y arquitectura de microservicios.",
+          "Dirigí el equipo de pagos de Yummy Inc. — diseño e implementación de medios de pago y arquitectura de microservicios.",
         occupationLocation: {
           "@type": "City",
           name: "Medellín, Colombia",

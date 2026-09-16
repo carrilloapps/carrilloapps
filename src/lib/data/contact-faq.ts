@@ -19,15 +19,15 @@ export interface ContactFaqItem {
 
 export const contactFaq: ContactFaqItem[] = [
   {
-    question: "¿Qué servicios de desarrollo y liderazgo técnico ofreces?",
+    question: "¿Qué servicios de desarrollo e ingeniería ofreces?",
     answer:
-      "Ofrezco liderazgo técnico (Tech Lead y CTO fraccional), arquitectura de software, desarrollo full-stack y consultoría en sistemas financieros y de pago. Acompaño desde la estrategia técnica hasta la implementación y el mentoring de equipos de ingeniería.",
+      "Desarrollo full-stack, arquitectura de software, auditoría y consultoría en sistemas financieros y de pago. Trabajo como programador senior: entro al código, reviso pull requests y dejo escrito el criterio. También acompaño equipos con mentoría técnica, sin sustituir a quien dirige.",
     icon: "services",
   },
   {
     question: "¿Tienes experiencia en sistemas de pago, fintech y Open Banking?",
     answer:
-      "Sí. Llevo más de 10 años construyendo sistemas de pago en LATAM: lideré la pasarela de pagos a terceros de Wompi (Bancolombia) y el primer Open Banking de Colombia, y hoy dirijo el equipo de pagos en Yummy. Domino arquitecturas de alta transaccionalidad, microservicios y cumplimiento PCI-DSS.",
+      "Sí. Llevo más de 10 años escribiendo sistemas de pago en LATAM: trabajé en la pasarela de pagos a terceros de Wompi (Bancolombia) y en el primer Open Banking de Colombia, dirigí pagos en Yummy (YC S21) y hoy soy Senior Software Engineer en Wenia, la compañía de criptoactivos del Grupo Bancolombia. Domino arquitecturas de alta transaccionalidad, microservicios y cumplimiento PCI-DSS.",
     icon: "payments",
   },
   {

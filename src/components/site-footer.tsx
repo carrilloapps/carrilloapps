@@ -100,8 +100,8 @@ function DesktopColophon() {
         <div>
           <Logo showMark />
           <p className="mt-4 max-w-[34ch] font-sans text-[15px] leading-relaxed text-paper-dim">
-            Tech Lead y full stack senior. Sistemas de pago, arquitectura distribuida y equipos que
-            entregan sin heroísmos.
+            Programador senior con recorrido como tech lead. Sistemas de pago, arquitectura
+            distribuida y equipos que entregan sin heroísmos.
           </p>
           <p className="mt-4 flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />

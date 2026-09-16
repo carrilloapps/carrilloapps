@@ -38,10 +38,10 @@ const resourcesJsonLd = {
     "@type": "Person",
     name: "Junior Carrillo",
     url: SITE_URL,
-    jobTitle: "Tech Lead & Full Stack Developer",
+    jobTitle: "Senior Software Engineer",
     worksFor: {
       "@type": "Organization",
-      name: "Yummy Inc.",
+      name: "Wenia Ltd",
     },
     sameAs: [
       "https://github.com/carrilloapps",
@@ -105,7 +105,7 @@ const resourcesJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
+    name: "Junior Carrillo | Senior Software Engineer",
     url: SITE_URL,
   },
   inLanguage: "es-CO",

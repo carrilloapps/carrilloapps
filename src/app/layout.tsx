@@ -46,9 +46,9 @@ const SITE_NAME = "Junior Carrillo"
 // bold 20 and ~920px of description in Arial 13. Spanish runs wide — accents,
 // long words — so a 155-character description that looks safe by count lands at
 // 1024px and gets cut mid-sentence. Measure, do not count. See docs/SEO.md.
-const SITE_TITLE = "Junior Carrillo | Tech Leader en pagos y fintech"
+const SITE_TITLE = "Junior Carrillo | Senior Software Engineer en fintech"
 const SITE_DESCRIPTION =
-  "Tech Leader en pagos de alta transaccionalidad en LATAM. Herramientas de código abierto en npm y escritura técnica."
+  "Programador senior en pagos de alta transaccionalidad en LATAM. Hoy en Wenia (Grupo Bancolombia), ex Yummy (YC S21)."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -66,14 +66,14 @@ export const metadata: Metadata = {
   // Bing/DuckDuckGo y para que el documento HTML refleje los términos
   // por los que queremos rankear. Mantener bajo 10 términos.
   keywords: [
-    "tech leader colombia",
-    "senior software developer",
+    "senior software engineer colombia",
+    "programador senior medellín",
+    "desarrollador senior fintech",
     "consultor sistemas de pago",
-    "desarrollador fintech latam",
     "arquitecto microservicios",
     "open banking developer",
-    "líder técnico medellín",
-    "consultoría backoffice",
+    "ingeniero de software latam",
+    "liderazgo técnico medellín",
     "Junior Carrillo",
   ],
   formatDetection: {
@@ -120,7 +120,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "carrillo.app — Junior Carrillo, Tech Leader en pagos e infraestructura financiera",
+        alt: "carrillo.app — Junior Carrillo, Senior Software Engineer en pagos e infraestructura financiera",
         type: "image/png",
       },
     ],
@@ -134,7 +134,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${SITE_URL}/opengraph-image`,
-        alt: "carrillo.app — Junior Carrillo, Tech Leader en pagos e infraestructura financiera",
+        alt: "carrillo.app — Junior Carrillo, Senior Software Engineer en pagos e infraestructura financiera",
       },
     ],
   },

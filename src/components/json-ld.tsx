@@ -61,7 +61,7 @@ export function PersonJsonLd() {
           name: "Junior Carrillo",
           givenName: "José",
           familyName: "Carrillo",
-          jobTitle: "Senior Software Developer & Tech Leader",
+          jobTitle: "Senior Software Engineer",
           url,
           image: `${url}/profile.jpg`,
           sameAs: [
@@ -71,10 +71,15 @@ export function PersonJsonLd() {
           ],
           worksFor: {
             "@type": "Organization",
-            name: "Yummy Inc",
-            url: "https://yummysuperapp.com",
+            name: "Wenia Ltd",
+            url: "https://www.wenia.com",
           },
           alumniOf: [
+            {
+              "@type": "Organization",
+              name: "Yummy Inc. (YC S21)",
+              url: "https://yummysuperapp.com",
+            },
             { "@type": "Organization", name: "Wompi", url: "https://wompi.co" },
             { "@type": "Organization", name: "Falabella", url: "https://www.falabella.com" },
             { "@type": "Organization", name: "Cencosud S.A.", url: "https://www.cencosud.com" },
@@ -83,6 +88,7 @@ export function PersonJsonLd() {
           ],
           knowsAbout: [
             "Software Development",
+            "Payment Infrastructure",
             "Technical Leadership",
             "Financial Systems",
             "Backoffice Solutions",
@@ -101,9 +107,9 @@ export function ServiceJsonLd({ service }: { service: string }) {
   const url = getSiteUrl()
   const services = {
     "technical-leadership": {
-      name: "Liderazgo Técnico",
+      name: "Liderazgo e ingeniería senior",
       description:
-        "Dirección estratégica y liderazgo para equipos de desarrollo y proyectos tecnológicos.",
+        "Liderazgo técnico desde el código: revisión de pull requests, estándares y mentoría a equipos de desarrollo.",
     },
     "financial-systems": {
       name: "Sistemas Financieros",
@@ -176,7 +182,7 @@ export function WebsiteJsonLd() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Junior Carrillo | Senior Software Developer & Tech Leader",
+          name: "Junior Carrillo | Senior Software Engineer",
           alternateName: "Junior Carrillo",
           url,
           inLanguage: "es-CO",

@@ -28,14 +28,15 @@ const SITE_URL = getSiteUrl()
  * page needs a hook to render.
  */
 export const metadata: Metadata = buildPageMetadata({
-  title: "Arquitectura de pagos y liderazgo",
+  title: "Arquitectura de pagos y liderazgo técnico",
   description:
     "Consultoría y auditoría de arquitectura de pagos: microservicios, conciliación, observabilidad y cumplimiento desde el diseño.",
   path: "/servicios",
   keywords: [
     "consultoría arquitectura de pagos",
     "auditoría sistemas financieros",
-    "tech lead fintech",
+    "programador senior fintech",
+    "liderazgo técnico fintech",
     "conciliación alto volumen",
     "microservicios pagos",
     "compliance PCI DSS",
@@ -75,7 +76,7 @@ const catalogueJsonLd = {
     "@type": "Person",
     name: "Junior Carrillo",
     url: SITE_URL,
-    jobTitle: "Tech Leader & Senior Software Developer",
+    jobTitle: "Senior Software Engineer",
   },
   isPartOf: { "@type": "WebSite", name: "carrillo.app", url: SITE_URL },
 }
@@ -169,8 +170,8 @@ function OpeningEntry() {
             <p>
               Entro de tres maneras, según lo que haga falta: como consultor que diseña la
               arquitectura, como auditor que revisa la que ya existe, o como liderazgo técnico
-              acompañando al equipo que la va a mantener. Casi siempre empieza por un diagnóstico de
-              una hora.
+              acompañando al equipo que la va a mantener —ejercido dentro del repositorio, no por
+              encima de él—. Casi siempre empieza por un diagnóstico de una hora.
             </p>
           </div>
 

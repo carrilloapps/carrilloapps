@@ -21,9 +21,9 @@ import { CalPopupButton } from "@/components/cal-booking"
 
 /** The particulars of the career, in the shape the ledger states particulars. */
 const FIGURES = [
-  { term: "Años de carrera", value: "10+", note: "Desde 2015" },
+  { term: "Años escribiendo código", value: "10+", note: "Desde 2015" },
   { term: "Transacciones", value: "2M", note: "Por día, en producción" },
-  { term: "Equipo actual", value: "7", note: "Personas a cargo" },
+  { term: "Rol actual", value: "IC", note: "Senior Software Engineer" },
   { term: "Roles de liderazgo", value: "3", note: "Tech Lead y Dev Lead" },
 ]
 
@@ -174,13 +174,15 @@ function OpeningEntry() {
                 no se puede maquillar: el que mueve plata de una cuenta a otra.
               </p>
               <p>
-                Hoy lidero el equipo de Pagos y Finanzas de{" "}
-                <span className="text-paper">Yummy</span>, la super-app de LATAM. Antes pasé por
-                conciliación contable a escala en <span className="text-paper">Cencosud</span>,
-                microservicios de aerolínea en <span className="text-paper">Sky Airline</span> y
-                pasarelas de pago en <span className="text-paper">Wompi</span>. Son contextos
-                distintos con el mismo problema de fondo: sistemas que no pueden fallar, operados
-                por equipos que tienen que poder dormir.
+                Hoy soy Senior Software Engineer en <span className="text-paper">Wenia</span>, la
+                compañía de criptoactivos del Grupo Bancolombia: individual contributor, con las
+                manos en el código. Antes dirigí Pagos y Finanzas en{" "}
+                <span className="text-paper">Yummy (YC S21)</span>, y pasé por conciliación contable
+                a escala en <span className="text-paper">Cencosud</span>, microservicios de
+                aerolínea en <span className="text-paper">Sky Airline</span> y pasarelas de pago en{" "}
+                <span className="text-paper">Wompi</span>. Son contextos distintos con el mismo
+                problema de fondo: sistemas que no pueden fallar, operados por equipos que tienen
+                que poder dormir.
               </p>
               <p>
                 Trabajo desde Medellín. Fuera del teclado eso significa caminar la ciudad y tiempo
@@ -326,10 +328,11 @@ function Practice() {
             sistemas.
           </p>
           <p>
-            Liderar, en la práctica, significa que otras siete personas puedan tomar buenas
-            decisiones sin esperarme. Documento lo que decido y por qué, reviso código a fondo, y
-            trato de que el criterio quede en el equipo y no en mi cabeza. Si el equipo depende de
-            mí para avanzar, hice mal mi trabajo.
+            Dirigí un equipo y volví a ser individual contributor a propósito: el trabajo que quiero
+            hacer es el que se mide en código en producción, no en reuniones. Eso no cambia lo que
+            aprendí dirigiendo. Documento lo que decido y por qué, reviso código a fondo, y trato de
+            que el criterio quede en el equipo y no en mi cabeza. Si el equipo depende de mí para
+            avanzar, hice mal mi trabajo.
           </p>
         </div>
 

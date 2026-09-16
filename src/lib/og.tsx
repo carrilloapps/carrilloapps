@@ -233,7 +233,7 @@ export async function renderPageOg({ eyebrow, title, subtitle, particulars = [] 
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             <Wordmark size={30} />
             <div style={{ ...label, letterSpacing: "0.14em" }}>
-              {eyebrow ?? "Tech Leader · Pagos e infraestructura"}
+              {eyebrow ?? "Senior Software Engineer · Pagos e infraestructura"}
             </div>
           </div>
         </div>

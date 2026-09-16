@@ -121,9 +121,9 @@ function ClosingEntry() {
             <p>
               Mi trabajo diario combina tres cosas: arquitectura de microservicios y event sourcing
               para que los sistemas sigan siendo comprensibles cuando crecen; observabilidad y
-              pruebas para que los fallos se detecten antes que el usuario; y liderazgo técnico, que
-              en la práctica significa que otras siete personas puedan tomar buenas decisiones sin
-              esperarme.
+              pruebas para que los fallos se detecten antes que el usuario; y liderazgo técnico
+              ejercido desde el repositorio —revisión de código a fondo, decisiones fechadas—, que
+              en la práctica significa que el criterio quede escrito y no en mi cabeza.
             </p>
             <p>
               Trabajo sobre TypeScript y Node.js, con NestJS y React en el día a día, PostgreSQL y

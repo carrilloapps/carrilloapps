@@ -54,9 +54,9 @@ export default async function BlogPage() {
             <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
               <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 Escribo sobre lo que aprendo operando sistemas de pago: incidentes reales,
-                decisiones de arquitectura que envejecieron bien o mal, y el oficio de liderar
-                equipos técnicos. Publico en Substack; aquí está el índice completo, en vivo desde
-                el feed.
+                decisiones de arquitectura que envejecieron bien o mal, y el oficio de programar y
+                dirigir cosas que no se pueden caer. Publico en Substack; aquí está el índice
+                completo, en vivo desde el feed.
               </p>
 
               <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">

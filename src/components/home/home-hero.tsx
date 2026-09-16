@@ -80,7 +80,7 @@ export function HomeHero() {
           {/* Particulars: four ruled cells across the full measure. */}
           <dl className="mt-8 grid grid-cols-2 border-y border-rule md:grid-cols-4">
             {[
-              { term: "Rol", value: "Tech Leader" },
+              { term: "Rol", value: "Programador senior" },
               { term: "Base", value: "Medellín, CO" },
               { term: "Trayectoria", value: "10+ años" },
               { term: "Enfoque", value: "Pagos y fintech" },
@@ -103,8 +103,9 @@ export function HomeHero() {
 
           <div className="mt-8 grid gap-x-12 gap-y-6 lg:grid-cols-[minmax(0,34rem)_minmax(0,1fr)] lg:items-start">
             <p className="font-sans text-xl leading-[1.45] text-paper md:text-2xl">
-              Construyo sistemas de pago de alta transaccionalidad en LATAM. Lo que aprendo
-              operándolos lo publico como herramientas instalables y como texto.
+              Escribo sistemas de pago de alta transaccionalidad en LATAM — hoy en Wenia, del Grupo
+              Bancolombia; antes en Yummy (YC S21). Lo que aprendo operándolos lo publico como
+              herramientas instalables y como texto.
             </p>
             <SocialRow className="lg:justify-end" />
           </div>

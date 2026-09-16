@@ -16,6 +16,7 @@ export const metadata = buildPageMetadata({
   keywords: [
     "blog arquitectura de software",
     "artículos sistemas de pago",
+    "blog ingeniería de software",
     "liderazgo técnico blog",
     "Junior Carrillo Substack",
     "ingeniería fintech LATAM",

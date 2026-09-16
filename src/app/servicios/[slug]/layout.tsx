@@ -77,7 +77,7 @@ export default async function ServiceLayout({
       "@type": "Person",
       name: "Junior Carrillo",
       url: SITE_URL,
-      jobTitle: "Tech Leader & Senior Software Developer",
+      jobTitle: "Senior Software Engineer",
     },
     areaServed: { "@type": "Place", name: "LATAM" },
     availableLanguage: ["es", "en"],

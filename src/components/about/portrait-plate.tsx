@@ -51,7 +51,7 @@ export function PortraitPlate() {
         >
           <Image
             src="/profile.jpg"
-            alt="Junior Carrillo, Tech Leader en pagos e infraestructura financiera, en Medellín"
+            alt="Junior Carrillo, Senior Software Engineer en pagos e infraestructura financiera, en Medellín"
             fill
             sizes="(max-width: 768px) 80vw, 26rem"
             priority

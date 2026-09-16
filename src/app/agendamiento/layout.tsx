@@ -26,13 +26,13 @@ const schedulingJsonLd = {
   "@type": "ContactPage",
   name: "Agenda una Consulta — Junior Carrillo",
   description:
-    "Reserva una sesión de consultoría personalizada con Junior Carrillo, Tech Leader especializado en sistemas de pago y liderazgo técnico.",
+    "Reserva una sesión de consultoría personalizada con Junior Carrillo, programador senior especializado en sistemas de pago e infraestructura financiera.",
   url: `${SITE_URL}/agendamiento`,
   mainEntity: {
     "@type": "Person",
     name: "Junior Carrillo",
-    jobTitle: "Tech Leader & Senior Software Developer",
-    worksFor: { "@type": "Organization", name: "Yummy Inc." },
+    jobTitle: "Senior Software Engineer",
+    worksFor: { "@type": "Organization", name: "Wenia Ltd" },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Support",
@@ -49,7 +49,7 @@ const schedulingJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "Junior Carrillo | Senior Software Developer & Tech Leader",
+    name: "Junior Carrillo | Senior Software Engineer",
     url: SITE_URL,
   },
   inLanguage: "es-CO",

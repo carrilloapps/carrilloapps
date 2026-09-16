@@ -15,6 +15,7 @@ export const metadata = {
     keywords: [
       "contacto Junior Carrillo",
       "consultoría fintech contacto",
+      "programador senior disponible",
       "tech lead disponible",
       "consultor arquitectura de pagos",
       "contacto desarrollador medellín",
@@ -38,10 +39,10 @@ const contactJsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Junior Carrillo",
-    jobTitle: "Tech Lead & Full Stack Developer",
+    jobTitle: "Senior Software Engineer",
     worksFor: {
       "@type": "Organization",
-      name: "Yummy Inc.",
+      name: "Wenia Ltd",
     },
     contactPoint: [
       {
@@ -73,6 +74,7 @@ const contactJsonLd = {
     ],
     knowsAbout: [
       "Software Development",
+      "Payment Infrastructure",
       "Technical Leadership",
       "Financial Systems",
       "Fintech Solutions",
@@ -83,7 +85,7 @@ const contactJsonLd = {
     ],
     hasOccupation: {
       "@type": "Occupation",
-      name: "Tech Lead & Software Consultant",
+      name: "Senior Software Engineer & Software Consultant",
       occupationLocation: {
         "@type": "City",
         name: "Medellín, Colombia",
@@ -121,13 +123,13 @@ const contactJsonLd = {
   },
   isPartOf: {
     "@type": "WebSite",
-    name: "Junior Carrillo - Tech Lead & Full Stack Developer",
+    name: "Junior Carrillo | Senior Software Engineer",
     url: SITE_URL,
   },
   inLanguage: "es-CO",
   dateModified: new Date("2026-05-16").toISOString(),
   keywords:
-    "contacto profesional, consultoría tecnológica, tech lead, desarrollo software, liderazgo técnico",
+    "contacto profesional, consultoría tecnológica, programador senior, desarrollo software, liderazgo técnico",
   // Security measures implemented:
   // 1. No direct email/phone in JSON-LD to prevent automated scraping
   // 2. Generic contact types instead of specific personal details

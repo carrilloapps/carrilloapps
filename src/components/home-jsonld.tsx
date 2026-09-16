@@ -29,9 +29,9 @@ const webPageSchema = {
   "@type": "WebPage",
   "@id": `${SITE_URL}#webpage`,
   url: SITE_URL,
-  name: "Junior Carrillo — Tech Leader & Senior Software Developer",
+  name: "Junior Carrillo — Senior Software Engineer",
   description:
-    "Tech Leader basado en Medellín con +10 años construyendo sistemas de pago, fintech y backoffice para LATAM. Hoy en Yummy Inc.; antes Wompi (Bancolombia), Cencosud y Sky Airline.",
+    "Programador senior basado en Medellín con +10 años construyendo sistemas de pago, fintech y backoffice para LATAM. Hoy en Wenia Ltd (Grupo Bancolombia); antes Yummy (YC S21), Wompi, Cencosud y Sky Airline.",
   inLanguage: "es-CO",
   isPartOf: {
     "@type": "WebSite",
@@ -56,7 +56,7 @@ const professionalServiceSchema = {
   "@id": `${SITE_URL}#consultancy`,
   name: "Junior Carrillo — Consultoría técnica",
   description:
-    "Consultoría y liderazgo técnico para sistemas de pago, banking, fintech y backoffice. +10 años en producción con Yummy, Wompi, Cencosud y Sky Airline.",
+    "Consultoría, liderazgo técnico e ingeniería senior para sistemas de pago, banking, fintech y backoffice. +10 años en producción con Wenia, Yummy, Wompi, Cencosud y Sky Airline.",
   url: SITE_URL,
   image: `${SITE_URL}/profile.jpg`,
   telephone: "+57-300-332-8389",
@@ -86,6 +86,7 @@ const professionalServiceSchema = {
     "Fintech Architecture",
     "Microservices",
     "Backoffice Automation",
+    "Stablecoins and Digital Assets",
     "Technical Leadership",
     "SAP Integration",
     "PCI DSS Compliance",
@@ -99,7 +100,7 @@ const professionalServiceSchema = {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Liderazgo técnico",
+          name: "Liderazgo e ingeniería senior",
           url: `${SITE_URL}/servicios/liderazgo-tecnico`,
         },
       },
@@ -157,7 +158,7 @@ const servicesItemList = {
     {
       "@type": "ListItem",
       position: 1,
-      name: "Liderazgo técnico",
+      name: "Liderazgo e ingeniería senior",
       url: `${SITE_URL}/servicios/liderazgo-tecnico`,
     },
     {

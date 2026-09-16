@@ -2,10 +2,10 @@
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "carrillo.app — Junior Carrillo, Tech Leader en pagos",
+    name: "carrillo.app — Junior Carrillo, Senior Software Engineer en pagos",
     short_name: "carrillo.app",
     description:
-      "Herramientas de código abierto y escritura técnica de Junior Carrillo, Tech Leader en pagos e infraestructura financiera en LATAM.",
+      "Herramientas de código abierto y escritura técnica de Junior Carrillo, programador senior en pagos e infraestructura financiera en LATAM.",
     start_url: "/",
     display: "standalone",
     background_color: "#0b0c0e",
