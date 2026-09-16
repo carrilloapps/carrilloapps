@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { Substack } from "@/components/icons/social-icons"
 import { NewsletterBand } from "@/components/newsletter-form"
-import { getSubstackPosts, type SubstackPost } from "@/lib/substack-service"
+import { getSubstackPosts, SUBSTACK_FEED_MAX, type SubstackPost } from "@/lib/substack-service"
 import { formatDateES } from "@/lib/utils"
 
 /**
@@ -25,12 +25,29 @@ import { formatDateES } from "@/lib/utils"
  */
 export const revalidate = 1800
 
-const FEED_LIMIT = 24
 const SUBSTACK_URL = "https://blog.carrillo.app/"
+const SUBSTACK_ARCHIVE_URL = "https://blog.carrillo.app/archive"
 
 export default async function BlogPage() {
-  const posts = await getSubstackPosts(FEED_LIMIT)
+  /*
+    There is no page two, and building one would be pretending.
+
+    This asked for 24 items from a feed that serves at most 20 and accepts no
+    paging parameter, so the extra four were never coming and the register
+    called itself "el índice completo" regardless. Today the publication has
+    fewer posts than the ceiling, so the claim happens to be true; on the
+    twenty-first post it would quietly become false, which is the worst kind of
+    wrong — nothing breaks, the page just starts omitting work while still
+    saying it omits nothing.
+
+    So the register asks for exactly what the source can give and then says
+    which of the two situations it is in. When the feed comes back full, the
+    older entries are reachable at the publication's own archive, and the page
+    hands the reader there instead of inventing a second page it cannot fill.
+  */
+  const posts = await getSubstackPosts(SUBSTACK_FEED_MAX)
   const [lead, ...rest] = posts
+  const feedIsFull = posts.length >= SUBSTACK_FEED_MAX
 
   return (
     <div className="relative min-h-screen text-paper">
@@ -55,14 +72,19 @@ export default async function BlogPage() {
               <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
                 Escribo sobre lo que aprendo operando sistemas de pago: incidentes reales,
                 decisiones de arquitectura que envejecieron bien o mal, y el oficio de programar y
-                dirigir cosas que no se pueden caer. Publico en Substack; aquí está el índice
-                completo, en vivo desde el feed.
+                dirigir cosas que no se pueden caer. Publico en Substack
+                {feedIsFull
+                  ? `; aquí están las ${SUBSTACK_FEED_MAX} entradas más recientes, en vivo desde el feed.`
+                  : "; aquí está el índice completo, en vivo desde el feed."}
               </p>
 
               <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
                 {[
                   { term: "Publicado en", value: "Substack" },
-                  { term: "Entradas", value: posts.length ? `${posts.length}` : "—" },
+                  {
+                    term: feedIsFull ? "Entradas recientes" : "Entradas",
+                    value: posts.length ? `${posts.length}` : "—",
+                  },
                   { term: "Idioma", value: "Español" },
                   { term: "Suscripción", value: "Gratuita" },
                 ].map(({ term, value }) => (
@@ -146,6 +168,29 @@ export default async function BlogPage() {
                   <ArchiveRow key={post.url} post={post} />
                 ))}
               </ul>
+
+              {/* The overflow line. It appears only when the feed came back
+                  full, because only then is there anything this page cannot
+                  show — a permanent "ver más" on a complete register would be
+                  a lie in the other direction. */}
+              {feedIsFull ? (
+                <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 border-b border-rule py-4">
+                  <p className="max-w-[62ch] font-sans text-sm leading-relaxed text-paper-dim">
+                    El feed de Substack entrega las {SUBSTACK_FEED_MAX} entradas más recientes y no
+                    admite paginación. Las anteriores siguen publicadas en el archivo de la
+                    publicación.
+                  </p>
+                  <Link
+                    href={SUBSTACK_ARCHIVE_URL}
+                    target="_blank"
+                    rel="noopener"
+                    className="cta-quiet"
+                  >
+                    Ver archivo completo
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Link>
+                </div>
+              ) : null}
             </div>
           </section>
         ) : null}

@@ -41,6 +41,27 @@ export function blogSubscribeUrl(email?: string): string {
 
 const FEED_URL = `${BLOG_URL}/feed`
 
+/**
+ * What Substack's RSS actually serves — the ceiling on every register here.
+ *
+ * `/feed` returns the twenty most recent posts and nothing else, and it takes
+ * no paging parameter: `?limit=`, `?page=` and `?offset=` are ignored or 404,
+ * and the same twenty items come back whatever the query string says. Verified
+ * against this publication and against two large ones (newsletter.pragmatic
+ * engineer.com, noahpinion.blog), both of which answer with exactly twenty.
+ *
+ * So there is no page two to build: the source cannot be paged, and asking for
+ * more than this silently returns less than requested. The archive beyond the
+ * twentieth post lives on the publication itself, which is where /blog sends a
+ * reader once the feed is full.
+ *
+ * Substack's own archive endpoint does return everything, and it is not an
+ * option: it is a private API, and their terms forbid crawling a page and
+ * storing a significant portion of its content. The register indexes the feed
+ * and links out — nothing here copies a post.
+ */
+export const SUBSTACK_FEED_MAX = 20
+
 export interface SubstackPost {
   title: string
   url: string
@@ -129,6 +150,13 @@ function estimateReadingTime(html: string): number {
   return Math.max(1, Math.round(words / 200))
 }
 
+/**
+ * The most recent posts, newest first, capped by what the feed can serve.
+ *
+ * A `limit` above `SUBSTACK_FEED_MAX` is not an error but it is a lie: the loop
+ * simply runs out of items. Callers that mean "everything available" should
+ * pass `SUBSTACK_FEED_MAX` and check whether the result came back full.
+ */
 export async function getSubstackPosts(limit = 4): Promise<SubstackPost[]> {
   try {
     const res = await fetch(FEED_URL, { next: { revalidate: 1800 } })

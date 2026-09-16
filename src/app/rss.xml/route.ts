@@ -1,4 +1,4 @@
-import { getSubstackPosts } from "@/lib/substack-service"
+import { getSubstackPosts, SUBSTACK_FEED_MAX } from "@/lib/substack-service"
 import { getSiteUrl } from "@/lib/env"
 
 // Regenerated every 30 min, mirroring the Substack fetch cadence.
@@ -20,7 +20,10 @@ function esc(value: string): string {
  */
 export async function GET() {
   const site = getSiteUrl()
-  const posts = await getSubstackPosts(20)
+  // The whole feed, which is twenty items — see SUBSTACK_FEED_MAX. Mirroring
+  // Substack's own ceiling keeps this channel a faithful copy of the source
+  // rather than a window onto part of it.
+  const posts = await getSubstackPosts(SUBSTACK_FEED_MAX)
 
   const items = posts
     .map(
