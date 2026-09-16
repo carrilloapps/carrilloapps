@@ -7,6 +7,7 @@ import { Github, Linkedin, Mail, Substack, XMark } from "@/components/icons/soci
 import { Logo } from "@/components/logo"
 import { trackSocialClick, trackNavigation } from "@/lib/analytics"
 import { NewsletterForm } from "@/components/newsletter-form"
+import { openCookiePreferences } from "@/lib/cookie-consent"
 
 // Computed at module load, safe for both server and client.
 const currentYear = new Date().getFullYear()
@@ -45,6 +46,29 @@ const LEGAL_LINKS = [
   { label: "Términos", href: "/terminos" },
   { label: "Cookies", href: "/cookies" },
 ] as const
+
+/**
+ * The way back to a decision already made.
+ *
+ * Storing a refusal is what stops the banner from asking again, and it is also
+ * what would otherwise make the answer permanent: once the bar never shows,
+ * there is nowhere to change your mind. A withdrawal has to be as reachable as
+ * the consent was, so it sits in the legal row on every page.
+ */
+function CookiePreferencesButton() {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        trackNavigation("Preferencias de cookies", "/cookies#control", "footer")
+        openCookiePreferences()
+      }}
+      className="inline-flex min-h-[44px] items-center font-mono text-[11px] tracking-[0.12em] text-paper-faint uppercase transition-colors hover:text-paper lg:min-h-0"
+    >
+      Preferencias
+    </button>
+  )
+}
 
 /**
  * The colophon.
@@ -217,6 +241,7 @@ function LegalBand() {
               {label}
             </Link>
           ))}
+          <CookiePreferencesButton />
         </nav>
       </div>
     </div>

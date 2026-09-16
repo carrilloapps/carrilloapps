@@ -3,6 +3,8 @@
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState, Suspense, useCallback } from "react"
 
+import { CONSENT_CHANGED_EVENT, hasAnalyticsConsent } from "@/lib/cookie-consent"
+
 /**
  * Google Analytics 4 (GA4) Component
  *
@@ -71,34 +73,49 @@ function GoogleAnalyticsContent() {
   // Check for user consent and load scripts dynamically
   useEffect(() => {
     const checkConsent = () => {
-      const consent = localStorage.getItem("cookieConsent")
-      if (consent) {
-        try {
-          const parsed = JSON.parse(consent)
-          if (parsed.analytics === true) {
-            setHasConsent(true)
-            // Load scripts immediately when consent is given
-            if (!scriptsLoaded) {
-              loadGoogleAnalytics()
-              setScriptsLoaded(true)
-            }
-          }
-        } catch {
-          setHasConsent(false)
+      const granted = hasAnalyticsConsent()
+
+      if (granted) {
+        // `ga-disable-<id>` survives from an earlier refusal in this tab, and
+        // gtag honours it on every hit — clear it before loading, or consent
+        // given after a refusal would collect nothing.
+        if (gaId) {
+          ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = false
         }
+        setHasConsent(true)
+        if (!scriptsLoaded) {
+          loadGoogleAnalytics()
+          setScriptsLoaded(true)
+        }
+        return
       }
+
+      /*
+        Refused, or the decision was withdrawn from the footer.
+
+        A script already in the document cannot be taken back out, so stopping
+        it is the job of the opt-out switch Google documents: with
+        `ga-disable-<measurement id>` true, gtag drops every subsequent hit.
+        Setting it unconditionally also covers the case where nothing was ever
+        loaded, which costs one property on window and removes a branch.
+      */
+      if (gaId) {
+        ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = true
+      }
+      setHasConsent(false)
     }
 
     checkConsent()
 
-    // Listen for consent changes (when user accepts cookies)
+    // Re-run on every decision, in both directions: granting loads, and
+    // withdrawing disables what is already there.
     const handleConsentChange = () => checkConsent()
-    window.addEventListener("cookieConsentChange", handleConsentChange)
+    window.addEventListener(CONSENT_CHANGED_EVENT, handleConsentChange)
 
     return () => {
-      window.removeEventListener("cookieConsentChange", handleConsentChange)
+      window.removeEventListener(CONSENT_CHANGED_EVENT, handleConsentChange)
     }
-  }, [scriptsLoaded, loadGoogleAnalytics])
+  }, [scriptsLoaded, loadGoogleAnalytics, gaId])
 
   // Track page views on route change
   useEffect(() => {

@@ -600,11 +600,19 @@ export const COOKIE_POLICY: LegalDocumentProps = {
       blocks: [
         {
           type: "p",
-          text: "Tienes derecho a decidir si aceptas o rechazas las cookies. Al entrar por primera vez aparece un aviso al pie de la página con dos opciones, y conviene describirlas sin adornos: aceptar activa la analítica —Google Analytics y Microsoft Clarity a la vez— y guarda esa decisión; rechazar cierra el aviso sin activar nada y sin guardar la decisión, de modo que el aviso vuelve a mostrarse en la siguiente visita o recarga.",
+          text: "Tienes derecho a decidir si aceptas o rechazas las cookies. Al entrar por primera vez aparece un aviso al pie de la página con dos botones del mismo tamaño y el mismo peso visual: aceptar activa la analítica —Google Analytics y Microsoft Clarity a la vez—, rechazar no activa nada. Ninguno de los dos es la opción por defecto.",
         },
         {
           type: "p",
-          text: "Hoy el aviso no ofrece selección por categorías: acepta la analítica completa o no acepta ninguna. Mientras no aceptes, ningún script de medición se carga. Si aceptaste y quieres revertirlo, borra la entrada cookieConsent del almacenamiento local de tu navegador —Herramientas de desarrollo › Aplicación › Almacenamiento local, o el borrado de datos de sitio— y la analítica dejará de cargarse.",
+          text: "Las dos respuestas se guardan igual y duran lo mismo. Si rechazas, el aviso no vuelve a preguntarte: un rechazo es una decisión, no un aplazamiento, y volver a mostrar el aviso en cada recarga hasta obtener un sí sería presionarte, no consultarte.",
+        },
+        {
+          type: "p",
+          text: "Puedes cambiar de opinión cuando quieras desde el enlace «Preferencias» del pie de página, presente en todas las páginas del sitio. El aviso vuelve a abrirse indicando qué tienes activado en ese momento. Si retiras un consentimiento ya dado, la medición se detiene de inmediato: se activa el interruptor de exclusión de Google Analytics y se retira el consentimiento en Clarity, sin necesidad de recargar. Las cookies que ya se hubieran colocado antes de ese momento se borran desde tu navegador, con el borrado de datos del sitio.",
+        },
+        {
+          type: "p",
+          text: "Hoy el aviso no ofrece selección por categorías: acepta la analítica completa o no acepta ninguna. Mientras no respondas, ningún script de medición se carga.",
         },
         {
           type: "p",
@@ -662,7 +670,7 @@ export const COOKIE_POLICY: LegalDocumentProps = {
         },
         {
           type: "p",
-          text: "Dos precisiones que la versión anterior de este documento no daba. La primera: tu decisión sobre las cookies no se guarda en una cookie, sino en el almacenamiento local del navegador, bajo la clave cookieConsent; no viaja en ninguna petición y no sale de tu equipo. La segunda: Clarity no solo cuenta, graba — reconstruye clics, desplazamiento y movimiento del cursor para producir mapas de calor y repeticiones de sesión.",
+          text: "Dos precisiones que la versión anterior de este documento no daba. La primera: tu decisión sobre las cookies no se guarda en una cookie, sino en el almacenamiento local del navegador, bajo la clave cookieConsent, junto con la fecha y la versión del aviso que respondiste; no viaja en ninguna petición y no sale de tu equipo. La segunda: Clarity no solo cuenta, graba — reconstruye clics, desplazamiento y movimiento del cursor para producir mapas de calor y repeticiones de sesión.",
         },
         {
           type: "p",
@@ -731,7 +739,7 @@ export const COOKIE_POLICY: LegalDocumentProps = {
         },
         {
           type: "p",
-          text: "La fecha en la parte superior indica cuándo fue actualizada por última vez, y cambia solo cuando cambia el texto: no se mueve por retoques de maquetación. Si en el futuro incorporo una cookie nueva o cambia el propósito de una existente, aparecerá primero en las tablas de arriba, y el aviso de consentimiento volverá a solicitarse cuando el cambio afecte a lo que ya habías aceptado.",
+          text: "La fecha en la parte superior indica cuándo fue actualizada por última vez, y cambia solo cuando cambia el texto: no se mueve por retoques de maquetación. Si en el futuro incorporo una cookie nueva o cambia el propósito de una existente, aparecerá primero en las tablas de arriba. Y no es solo una promesa: tu decisión se guarda con el número de versión del aviso que respondiste, de modo que cuando el cambio afecte a lo que aceptaste, el aviso vuelve a preguntártelo automáticamente en lugar de dar por válida una respuesta a otra pregunta.",
         },
       ],
     },

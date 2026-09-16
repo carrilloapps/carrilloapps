@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useCallback } from "react"
 
+import { CONSENT_CHANGED_EVENT, hasAnalyticsConsent } from "@/lib/cookie-consent"
+
 /**
  * Microsoft Clarity Analytics Component
  *
@@ -56,31 +58,35 @@ export function MicrosoftClarity() {
   // Check for user consent and load scripts dynamically
   useEffect(() => {
     const checkConsent = () => {
-      const consent = localStorage.getItem("cookieConsent")
-      if (consent) {
-        try {
-          const parsed = JSON.parse(consent)
-          if (parsed.analytics === true) {
-            // Load scripts immediately when consent is given
-            if (!scriptsLoaded && clarityId) {
-              loadMicrosoftClarity()
-              setScriptsLoaded(true)
-            }
-          }
-        } catch {
-          // Invalid consent format
+      const granted = hasAnalyticsConsent()
+      const clarity = (window as unknown as { clarity?: (...args: unknown[]) => void }).clarity
+
+      if (granted) {
+        if (!scriptsLoaded && clarityId) {
+          loadMicrosoftClarity()
+          setScriptsLoaded(true)
         }
+        clarity?.("consent")
+        return
       }
+
+      /*
+        Refused, or withdrawn from the footer. Clarity's own consent API is the
+        only way to stop a tag that is already running: `clarity("consent",
+        false)` halts collection for the session. When nothing was loaded there
+        is no global to call and the optional chain simply does nothing.
+      */
+      clarity?.("consent", false)
     }
 
     checkConsent()
 
-    // Listen for consent changes (when user accepts cookies)
+    // Re-run on every decision, in both directions.
     const handleConsentChange = () => checkConsent()
-    window.addEventListener("cookieConsentChange", handleConsentChange)
+    window.addEventListener(CONSENT_CHANGED_EVENT, handleConsentChange)
 
     return () => {
-      window.removeEventListener("cookieConsentChange", handleConsentChange)
+      window.removeEventListener(CONSENT_CHANGED_EVENT, handleConsentChange)
     }
   }, [scriptsLoaded, clarityId, loadMicrosoftClarity])
 
