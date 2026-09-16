@@ -24,17 +24,21 @@ the home page hierarchy:
 
 ## Product Purpose
 
-Personal site of José "Junior" Carrillo, Tech Leader and senior software
-developer. It exists to publish his writing and open source work, and to make
-the depth behind them verifiable. Success is a reader who stays, reads, and
-subscribes.
+Personal site of José "Junior" Carrillo, senior software engineer working as an
+individual contributor. It exists to publish his writing and open source work,
+and to make the depth behind them verifiable. Success is a reader who stays,
+reads, and subscribes.
 
 ## Positioning
 
 Ten-plus years building payment systems and high-transaction financial
-infrastructure in LATAM, with production numbers a generalist portfolio cannot
-claim. The writing and the open source come from someone who has run these
-systems at scale, not from someone summarizing them.
+infrastructure in LATAM — now extended to regulated digital assets — with
+production numbers a generalist portfolio cannot claim. The writing and the open
+source come from someone who has written and run these systems at scale, not
+from someone summarizing them. Seniority leads as depth in the code — "programador
+senior" is the term that ranks and the term he is — while the Tech Leader record
+stays on the page as a credential and stays in the service catalogue as an
+offering. Depth first, headcount second; never headcount instead of depth.
 
 ## Operating Context
 
@@ -75,9 +79,17 @@ systems at scale, not from someone summarizing them.
 
 Real, publishable, attributable to the named companies:
 
-- **Yummy (YC S21)** — Tech Leader, Financial Backoffice. Billing cycle cut from
-  4 days to 15 minutes; 12M invoices per quarter. CQRS over 150M+ records with
-  reports under 3s. AI agents. PCI-DSS.
+- **Wenia Ltd (Grupo Bancolombia)** — Senior Software Engineer, current role,
+  started 15 September 2026. **No delivered work to cite yet**: the site states
+  the mandate and must not claim an outcome here until there is one.
+  Individual contributor on the digital-asset platform: exchange, the COPW
+  stablecoin backed 1:1 by the Colombian peso on Polygon, and the spend card.
+  Registered in Bermuda under a BMA class F licence; distributed through
+  Bancolombia and Nequi. Platform facts are public; personal figures do not
+  exist yet and must not be invented.
+- **Yummy (YC S21)** — Tech Leader, Financial Backoffice, 2024–2026. Billing
+  cycle cut from 4 days to 15 minutes; 12M invoices per quarter. CQRS over 150M+
+  records with reports under 3s. AI agents. PCI-DSS.
 - **Wompi (Bancolombia)** — Senior Full Stack. First Open Banking implementation
   in Colombia (Bre-B). 13M payers, 40K merchants, $50B COP/year processed.
 - 10+ years of trajectory; 40% reliability improvement (currently on the home).

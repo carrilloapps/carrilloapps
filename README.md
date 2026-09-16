@@ -1,7 +1,7 @@
 <h1 align="center">Junior Carrillo</h1>
 <p align="center">
-  <strong>Tech Lead · Open Finance &amp; Payments Expert · AI-Driven Architect</strong><br/>
-  Yummy (YC S21) &nbsp;·&nbsp; Ex Wompi (Bancolombia) &nbsp;·&nbsp; Medellín, Colombia
+  <strong>Senior Software Engineer · Open Finance, Payments &amp; Digital Assets</strong><br/>
+  Wenia (Grupo Bancolombia) &nbsp;·&nbsp; Ex Yummy (YC S21) &nbsp;·&nbsp; Ex Wompi (Bancolombia) &nbsp;·&nbsp; Medellín, Colombia
 </p>
 
 <p align="center">
@@ -16,9 +16,9 @@
 
 ## About
 
-Tech Lead at **[Yummy (YC S21)](https://yummysuperapp.com)** — building Open Finance and Core Payments infrastructure for LATAM. 10+ years shipping payment systems at scale across banking, retail, and aviation in Colombia and Chile.
+Senior Software Engineer at **[Wenia](https://www.wenia.com)** (Grupo Bancolombia) — individual contributor on digital-asset infrastructure: the exchange, the COPW peso-backed stablecoin on Polygon, and the card that spends it. 10+ years shipping payment systems at scale across banking, retail, aviation and crypto in Colombia and Chile.
 
-My focus: distributed systems that move real money reliably. From Colombia's first Open Banking service at Wompi, to CQRS architectures processing +150M records at Yummy, to autonomous AI agents applied to financial operations. I care about systems design, clear architecture decisions, and mentoring engineers who build for scale.
+I lead from inside the code. I ran the Payments and Finance team at Yummy, and chose the IC track afterwards on purpose — the work I want to do is measured in production code, not in status meetings. My focus is distributed systems that move real money reliably: Colombia's first Open Banking service at Wompi, CQRS architectures over +150M records at Yummy, and autonomous AI agents applied to financial operations. At Wenia the same problem arrives on-chain, under a Bermuda Monetary Authority licence. I care about systems design, architecture decisions written down, code review that explains the why, and mentoring engineers who build for scale.
 
 Outside of code: writing about fintech and engineering on Substack, licensed Ham Radio operator **HJ4JPC**, and occasional outdoors.
 
@@ -30,6 +30,7 @@ Outside of code: writing about fintech and engineering on Substack, licensed Ham
 
 | Company                                           | Role                     | Impact                                                                                   |
 | ------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------- |
+| **[Wenia](https://www.wenia.com)** (Bancolombia)  | Senior Software Engineer | Current since Sep 2026. Exchange, COPW stablecoin on Polygon, spend card, BMA custody.   |
 | **[Yummy (YC S21)](https://yummysuperapp.com)**   | Tech Leader              | Billing 4d→15min (+12M invoices/Q). CQRS +150M records, reports <3s. AI agents. PCI-DSS. |
 | **[Wompi](https://wompi.com)** (Bancolombia)      | Senior Full Stack        | First Open Banking in Colombia (Bre-B). 13M payers, 40K merchants, $50B COP/year.        |
 | **[Cencosud](https://cencosud.com)** ($17.4B NRF) | Developer Leader         | Payments & Fraud: event-driven architecture + SAP integration.                           |
@@ -42,6 +43,7 @@ Outside of code: writing about fintech and engineering on Substack, licensed Ham
 ## Featured projects
 
 - [**hfo**](https://github.com/carrilloapps/hfo) — Fullscreen TUI and headless CLI for Hugging Face GGUF models on Ollama &nbsp; ![npm](https://img.shields.io/npm/v/hfo-cli?style=flat&logo=npm&color=10b981&label=) ![Stars](https://img.shields.io/github/stars/carrilloapps/hfo?style=flat&color=10b981)
+- [**rux**](https://github.com/carrilloapps/rux) — Windows inspector and cleaner in your terminal: startup, uninstall leftovers, junk, drivers and WSL. Every action reversible &nbsp; ![npm](https://img.shields.io/npm/v/%40carrilloapps%2Frux?style=flat&logo=npm&color=10b981&label=) ![Stars](https://img.shields.io/github/stars/carrilloapps/rux?style=flat&color=10b981)
 - [**zefer**](https://github.com/carrilloapps/zefer) — E2E encrypted, zero-knowledge encryption tool that runs entirely in your browser &nbsp; ![Stars](https://img.shields.io/github/stars/carrilloapps/zefer?style=flat&color=10b981) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 - [**skill-rules**](https://github.com/carrilloapps/skill-rules) — Sync AI agent skills across Claude Code, Cursor and more with one command &nbsp; ![npm](https://img.shields.io/npm/v/skill-rules?style=flat&logo=npm&color=10b981&label=) ![Stars](https://img.shields.io/github/stars/carrilloapps/skill-rules?style=flat&color=10b981)
 - [**bcv-exchange-rate**](https://github.com/carrilloapps/bcv-exchange-rate) — Node.js library + MCP server for official BCV, TRM and PTAX rates &nbsp; ![npm](https://img.shields.io/npm/v/bcv-exchange-rate?style=flat&logo=npm&color=10b981&label=) ![Stars](https://img.shields.io/github/stars/carrilloapps/bcv-exchange-rate?style=flat&color=10b981)

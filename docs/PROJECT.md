@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-carrillo.app is a personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Tech Lead of the Financial Backoffice team at Yummy Inc. The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
+carrillo.app is a personal portfolio and professional website for José Porfirio Carrillo Echenique, who operates publicly as Junior Carrillo, Senior Software Engineer (individual contributor) at Wenia Ltd — Grupo Bancolombia's digital-asset company — and formerly Tech Lead of the Financial Backoffice team at Yummy Inc. (YC S21). The site showcases skills, projects, blog content, professional services, and provides contact and appointment scheduling functionality.
 
 ## Technology Stack
 
