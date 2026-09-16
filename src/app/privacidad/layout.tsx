@@ -8,7 +8,7 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Política de Privacidad",
   description:
-    "Cómo se recopila, utiliza y protege tu información en carrillo.app: derechos GDPR, datos analíticos y tratamiento de información personal.",
+    "Qué datos recoge carrillo.app, qué proveedores los procesan, qué implica suscribirse al blog en Substack y cómo ejerces tus derechos.",
   path: "/privacidad",
   keywords: [
     "política de privacidad",

@@ -61,7 +61,8 @@ links out. Posts also surface on the home page and in `src/app/rss.xml`; no post
 is ever rendered on this domain.
 
 Data comes from three places: static arrays in `src/lib/data/`, route handlers in
-`src/app/api/` that proxy GitHub/GitLab/Substack/Mailchimp, and nothing else.
+`src/app/api/` that proxy GitHub/GitLab/Substack, and nothing else. There is no
+Mailchimp route and no `/api/newsletter`; the newsletter hands off to Substack.
 `src/lib/wordpress-service.ts`, `src/lib/woocommerce-service.ts` and the Medium
 `src/lib/rss-service.ts` no longer exist — do not reference them.
 

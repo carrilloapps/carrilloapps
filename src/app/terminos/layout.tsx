@@ -10,7 +10,7 @@ export const metadata = buildPageMetadata({
   // "| Junior Carrillo" too, which put it 108px past what Google renders.
   title: "Términos y condiciones de uso",
   description:
-    "Condiciones de uso de carrillo.app y los servicios de consultoría: propiedad intelectual, limitaciones y acuerdos legales.",
+    "Condiciones de uso de carrillo.app: propiedad intelectual, limitaciones, y qué rige cuando el enlace te lleva al blog en Substack.",
   path: "/terminos",
   keywords: [
     "términos y condiciones",

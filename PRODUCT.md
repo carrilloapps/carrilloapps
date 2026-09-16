@@ -47,8 +47,11 @@ offering. Depth first, headcount second; never headcount instead of depth.
   `/blog` index. The article bodies live upstream; `/blog` only indexes them.
 - Open source lives on GitHub (`carrilloapps`) and GitLab, surfaced through
   route handlers that proxy both APIs.
-- Newsletter subscription runs through Mailchimp (`/api/newsletter`), and the
-  form self-disables when credentials are absent.
+- Newsletter subscription hands off to Substack. There is no `/api/newsletter`
+  and no Mailchimp: the form validates the address and opens Substack's own
+  subscribe page with it prefilled, because Substack's signup endpoint answers
+  `200` to server requests it silently drops. The confirmation the reader can
+  trust is Substack's, not this site's.
 - Readers arrive predominantly on mobile from social links.
 
 ## Capabilities and Constraints

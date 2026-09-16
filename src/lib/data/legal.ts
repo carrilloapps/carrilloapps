@@ -12,9 +12,33 @@ import type { LegalDocumentProps } from "@/components/legal/legal-document"
  *
  * `updated` is the real date of the last substantive edit. Do not bump it for
  * layout work: a legal document's date is a claim about the text.
+ *
+ * The 2026-09-15 revision is substantive. It was written against what the site
+ * actually loads, verified in the code and against live response headers, not
+ * against what the previous text assumed:
+ *
+ *  - Analytics is Google Analytics 4 *and* Microsoft Clarity. Clarity records
+ *    sessions and draws heatmaps, which is a materially different thing from
+ *    counting page views and was documented nowhere.
+ *  - The cookie table listed `_gid` and `_gat`, which belong to Universal
+ *    Analytics and have not been set since GA4 replaced it, and a
+ *    `cookie_consent` cookie that does not exist — the decision is kept in
+ *    `localStorage` under `cookieConsent`.
+ *  - Cal.com is embedded behind every "Agendar" button, which is in the site
+ *    header, so it is reachable from every page. It was named nowhere.
+ *  - The newsletter form hands the reader's address to Substack; the previous
+ *    text still described a Mailchimp path that no longer exists.
+ *  - blog.carrillo.app is a domain of mine served entirely by Substack behind
+ *    Cloudflare. It sets `ab_testing_id`, `ab_experiment_sampled` and `__cf_bm`
+ *    on the first request, before any consent, and none of that was disclosed.
+ *
+ * Disqus is deliberately absent. The component and its environment variables
+ * still exist in the repository but nothing renders it, and a policy that
+ * declares a tracker the site does not run is as wrong as one that hides a
+ * tracker it does.
  */
 
-const UPDATED = "2025-05-15"
+const UPDATED = "2026-09-15"
 const CONTACT_EMAIL = "legal@carrillo.app"
 
 export const PRIVACY_POLICY: LegalDocumentProps = {
@@ -65,6 +89,12 @@ export const PRIVACY_POLICY: LegalDocumentProps = {
             },
             {
               text: "Datos sobre tu perfil profesional si decides compartirlos para consultas relacionadas con servicios de desarrollo de software, arquitectura técnica o mentoría.",
+            },
+            {
+              text: "La dirección de correo que escribes en el formulario del boletín. No la almaceno: se usa únicamente para abrir la página de suscripción de Substack con el campo ya diligenciado, y es Substack quien recibe el alta y envía el correo de confirmación.",
+            },
+            {
+              text: "Los datos que introduces al reservar una asesoría —nombre, correo, zona horaria y lo que escribas en el campo de notas—, que se procesan en Cal.com y llegan a mí desde allí.",
             },
           ],
         },
@@ -134,11 +164,87 @@ export const PRIVACY_POLICY: LegalDocumentProps = {
     },
     {
       id: "terceros",
-      heading: "Enlaces a terceros",
+      heading: "Terceros que intervienen",
       blocks: [
         {
           type: "p",
-          text: "Mi sitio web puede contener enlaces a sitios web, plugins y aplicaciones de terceros, como GitHub, GitLab, Substack o plataformas de redes sociales donde comparto mi trabajo profesional. Hacer clic en esos enlaces o habilitar esas conexiones puede permitir que terceros recopilen o compartan datos sobre ti. No controlo estos sitios web de terceros y no soy responsable de sus declaraciones de privacidad. Te recomiendo leer la política de privacidad de cada sitio que visites, incluidos aquellos a los que accedas a través de enlaces en mi sitio web.",
+          text: "No vendo ni cedo tus datos. Sí uso proveedores que los procesan por cuenta mía para que el sitio funcione y para entender cómo se usa. Estos son todos, sin excepción, con lo que hace cada uno:",
+        },
+        {
+          type: "table",
+          head: ["Proveedor", "Para qué", "Qué recibe", "Dónde"],
+          rows: [
+            [
+              "Vercel Inc.",
+              "Alojamiento y entrega del sitio",
+              "Dirección IP, cabeceras de la petición y registros técnicos de acceso",
+              "Estados Unidos y red global",
+            ],
+            [
+              "Google (Analytics 4)",
+              "Medición de audiencia",
+              "Identificador de cookie, páginas vistas, eventos de interacción, IP truncada",
+              "Estados Unidos",
+            ],
+            [
+              "Microsoft (Clarity)",
+              "Mapas de calor y grabación de sesión",
+              "Identificador de cookie y una reconstrucción de tu recorrido: clics, desplazamiento y movimiento del cursor",
+              "Estados Unidos",
+            ],
+            [
+              "Cal.com, Inc.",
+              "Agendamiento de asesorías",
+              "Nombre, correo, zona horaria y las notas que escribas al reservar",
+              "Estados Unidos",
+            ],
+            [
+              "Substack Inc.",
+              "Publicación del blog y gestión del boletín",
+              "Tu correo al suscribirte, y los datos de navegación propios de blog.carrillo.app",
+              "Estados Unidos",
+            ],
+          ],
+        },
+        {
+          type: "p",
+          text: "Google Analytics y Microsoft Clarity solo se cargan si aceptas las cookies; hasta entonces no se descarga ninguno de sus scripts. Cal.com se carga cuando abres el agendador, y Substack cuando pulsas suscribirte o visitas el blog. El detalle de cada cookie está en la",
+          link: { href: "/cookies", label: "Política de Cookies", tail: "." },
+        },
+        {
+          type: "p",
+          text: "Ten presente qué implica la grabación de sesión de Clarity: reconstruye el recorrido de tu visita, no solo la cuenta. Clarity enmascara por defecto el texto que escribes en los campos de formulario, pero si aceptas las cookies y prefieres no ser grabado, puedes borrar la decisión desde tu navegador y rechazar el aviso, o activar la opción de exclusión global de Clarity.",
+        },
+        {
+          type: "p",
+          text: "Mi sitio también enlaza a GitHub, GitLab, npm, Substack y redes sociales donde publico. Esos son destinos, no proveedores: al seguir un enlace sales de carrillo.app y pasas a regirte por la política de quien opere el sitio de destino. No los controlo ni respondo por ellos.",
+        },
+      ],
+    },
+    {
+      id: "blog-y-substack",
+      heading: "El blog y Substack",
+      blocks: [
+        {
+          type: "p",
+          text: "Escribo en Substack, y esa publicación se sirve bajo un dominio mío: blog.carrillo.app. Que el dominio sea mío no cambia quién opera la plataforma. Todo lo que ocurre en ese subdominio —páginas, suscripciones, comentarios, correos— sucede en la infraestructura de Substack Inc., detrás de Cloudflare, y no en la mía. Ningún artículo se renderiza en carrillo.app: esta página es un índice que enlaza hacia allá.",
+        },
+        {
+          type: "p",
+          text: "El índice se construye leyendo el feed RSS público de la publicación desde mi servidor. Esa lectura no involucra dato alguno tuyo: ocurre en el servidor, cada media hora, y tu navegador no contacta a Substack por el hecho de mirar la lista.",
+        },
+        {
+          type: "p",
+          text: "Al suscribirte cambia la cosa. El formulario valida tu correo y abre la página de suscripción de Substack con el campo ya diligenciado; el alta la toma Substack, no yo. A partir de ahí eres un suscriptor de esa plataforma: Substack me entrega tu nombre y tu correo como responsable de la publicación, y es quien conserva el registro, envía los correos y procesa cualquier pago si alguna vez existiera contenido de pago.",
+        },
+        {
+          type: "p",
+          text: "Puedes darte de baja desde el pie de cualquier correo o desde tu cuenta de Substack, sin pasar por mí. Para ejercer tus derechos sobre los datos que Substack trata como responsable —y no por cuenta mía— su política de privacidad indica el canal privacy@substackinc.com; Substack declara adherirse al EU-U.S. Data Privacy Framework y sus extensiones de Reino Unido y Suiza.",
+        },
+        {
+          type: "p",
+          text: "Las cookies que Substack y Cloudflare colocan al visitar blog.carrillo.app están descritas, con nombre y caducidad, en la",
+          link: { href: "/cookies", label: "Política de Cookies", tail: "." },
         },
       ],
     },
@@ -181,7 +287,11 @@ export const PRIVACY_POLICY: LegalDocumentProps = {
       blocks: [
         {
           type: "p",
-          text: "Como desarrollador especializado en sistemas financieros y tecnológicos que trabaja con clientes internacionales, en ocasiones puede ser necesario transferir datos a países fuera de Colombia. En tales casos, me aseguro de que existan garantías adecuadas para proteger tu información, cumpliendo con los principios establecidos en la Ley 1581 de 2012 y garantizando un nivel adecuado de protección de datos comparable al requerido por la legislación colombiana.",
+          text: "Tus datos salen de Colombia. Todos los proveedores enumerados arriba —Vercel, Google, Microsoft, Cal.com y Substack— están constituidos en Estados Unidos y procesan la información allí o en su red global. No hay forma de usar este sitio sin esa transferencia, y decirlo de otro modo sería inexacto.",
+        },
+        {
+          type: "p",
+          text: "Para esas transferencias me apoyo en las garantías que cada proveedor ofrece: cláusulas contractuales tipo y, en el caso de Substack, adhesión declarada al EU-U.S. Data Privacy Framework. Ello cumple los principios de la Ley 1581 de 2012, que admite la transferencia a países sin nivel adecuado cuando media el consentimiento del titular o garantías contractuales suficientes, y mantiene un nivel de protección comparable al exigido por la legislación colombiana.",
         },
       ],
     },
@@ -221,7 +331,7 @@ export const TERMS: LegalDocumentProps = {
   path: "/terminos",
   updated: UPDATED,
   summary:
-    "Las reglas de uso de carrillo.app: qué puedes hacer con el contenido, qué no garantizo y bajo qué jurisdicción se resuelve cualquier disputa.",
+    "Las reglas de uso de carrillo.app: qué puedes hacer con el contenido, qué ocurre cuando el enlace te lleva al blog en Substack, qué no garantizo y bajo qué jurisdicción se resuelve cualquier disputa.",
   particulars: [
     { term: "Titular", value: "José P. Carrillo E." },
     { term: "Jurisdicción", value: "Colombia" },
@@ -359,6 +469,36 @@ export const TERMS: LegalDocumentProps = {
       ],
     },
     {
+      id: "el-blog",
+      heading: "El blog y la plataforma que lo aloja",
+      blocks: [
+        {
+          type: "p",
+          text: "Escribo en Substack. La publicación se sirve bajo blog.carrillo.app, un subdominio mío apuntando a la infraestructura de Substack Inc., y ningún artículo se renderiza en carrillo.app. La sección /blog de este sitio es un registro de lo que existe: cada título abre la entrada en la publicación.",
+        },
+        {
+          type: "p",
+          text: "La consecuencia es la que importa: cuando sigues un enlace del índice, dejas de estar bajo estos términos. A partir de ahí rigen los términos de uso y la política de privacidad de Substack, tanto para leer como para comentar, suscribirte o gestionar tu cuenta. No controlo esa plataforma, sus condiciones ni sus cambios.",
+        },
+        {
+          type: "p",
+          text: "El índice se construye a partir del feed RSS público de la publicación, que es el mecanismo que la propia plataforma ofrece para sindicar. Se leen título, fecha, subtítulo e imagen de portada, y siempre se enlaza al original: no se copia ni se reproduce aquí el cuerpo de ningún artículo. Ese límite es deliberado — los términos de Substack prohíben rastrear sus páginas y almacenar porciones significativas de su contenido, y respetarlo protege a la publicación y a su lista de suscriptores.",
+        },
+        {
+          type: "p",
+          text: "El feed entrega las veinte entradas más recientes y no admite paginación. Cuando la publicación supera esa cifra, el índice lo declara y remite al archivo completo en la propia publicación. Si el feed no responde, la página lo dice en lugar de aparentar que no hay nada escrito.",
+        },
+        {
+          type: "p",
+          text: "Sobre la autoría: conservo la titularidad de lo que escribo, y al publicarlo en Substack le concedo la licencia que sus términos requieren para operar el servicio. Lo que aparece en este sitio son títulos y enlaces, que puedes citar y compartir libremente. Reproducir un artículo completo requiere mi autorización, en los mismos términos que el resto del contenido de este sitio.",
+        },
+        {
+          type: "p",
+          text: "El formulario del boletín no crea la suscripción: valida tu correo y te lleva a la página de suscripción de Substack con el campo diligenciado, para que el alta la tome la plataforma. Hasta que completes ese paso allí, no estás suscrito. Ninguna confirmación en este sitio sustituye a la que envía Substack.",
+        },
+      ],
+    },
+    {
       id: "proteccion-de-datos",
       heading: "Protección de datos",
       blocks: [
@@ -391,10 +531,11 @@ export const COOKIE_POLICY: LegalDocumentProps = {
   path: "/cookies",
   updated: UPDATED,
   summary:
-    "Qué cookies usa carrillo.app, para qué sirve cada una y cómo aceptarlas o rechazarlas. Las esenciales no se pueden desactivar; el resto depende de tu consentimiento.",
+    "Qué cookies coloca carrillo.app, cuáles coloca el blog en Substack, para qué sirve cada una y cómo aceptarlas o rechazarlas. Las analíticas no se cargan hasta que aceptas.",
   particulars: [
-    { term: "Esenciales", value: "Siempre activas" },
     { term: "Analíticas", value: "Con consentimiento" },
+    { term: "Decisión", value: "En localStorage" },
+    { term: "Blog", value: "Cookies de Substack" },
     { term: "Contacto", value: CONTACT_EMAIL },
   ],
   sections: [
@@ -434,12 +575,12 @@ export const COOKIE_POLICY: LegalDocumentProps = {
           type: "list",
           items: [
             {
-              term: "Cookies esenciales del sitio web:",
-              text: "estrictamente necesarias para proporcionarte los servicios disponibles a través de mi sitio web y para utilizar algunas de sus características, como el acceso a áreas seguras o la funcionalidad del formulario de contacto.",
+              term: "Cookies estrictamente necesarias:",
+              text: "ninguna. Conviene decirlo, porque casi toda política declara unas: carrillo.app no tiene cuentas, sesiones ni carrito, así que no necesita colocar nada para funcionar. Tu decisión sobre las cookies tampoco es una cookie — vive en el almacenamiento local del navegador.",
             },
             {
-              term: "Cookies de rendimiento y funcionalidad:",
-              text: "se utilizan para mejorar el rendimiento y la funcionalidad de mi sitio web, pero no son esenciales para su uso. Sin embargo, sin estas cookies, ciertas funcionalidades pueden no estar disponibles.",
+              term: "Cookies de funcionalidad:",
+              text: "las que coloca el widget de Cal.com cuando abres el agendador, para sostener la reserva mientras la completas. Solo aparecen si usas esa función.",
             },
             {
               term: "Cookies de análisis y personalización:",
@@ -449,7 +590,7 @@ export const COOKIE_POLICY: LegalDocumentProps = {
         },
         {
           type: "p",
-          text: "Conforme a las disposiciones de la Ley 1581 de 2012 y demás normativa colombiana aplicable, solicito tu consentimiento expreso antes de utilizar cookies no esenciales. Puedes modificar o retirar este consentimiento en cualquier momento utilizando el gestor de consentimiento de cookies.",
+          text: "Conforme a las disposiciones de la Ley 1581 de 2012 y demás normativa colombiana aplicable, solicito tu consentimiento expreso antes de cargar cookies no esenciales. Ni Google Analytics ni Microsoft Clarity se descargan mientras no aceptes: los scripts se insertan en la página en el momento en que pulsas aceptar, no antes.",
         },
       ],
     },
@@ -459,11 +600,15 @@ export const COOKIE_POLICY: LegalDocumentProps = {
       blocks: [
         {
           type: "p",
-          text: "Tienes derecho a decidir si aceptas o rechazas las cookies. Puedes ejercer tus derechos relacionados con las cookies configurando tus preferencias en el gestor de consentimiento que aparece cuando visitas mi sitio por primera vez. El gestor te permite seleccionar qué categorías de cookies aceptas o rechazas. Las cookies esenciales no pueden ser rechazadas, ya que son estrictamente necesarias para proporcionarte los servicios básicos.",
+          text: "Tienes derecho a decidir si aceptas o rechazas las cookies. Al entrar por primera vez aparece un aviso al pie de la página con dos opciones, y conviene describirlas sin adornos: aceptar activa la analítica —Google Analytics y Microsoft Clarity a la vez— y guarda esa decisión; rechazar cierra el aviso sin activar nada y sin guardar la decisión, de modo que el aviso vuelve a mostrarse en la siguiente visita o recarga.",
         },
         {
           type: "p",
-          text: "Si eliges rechazar las cookies, aún podrás usar mi sitio web, aunque tu acceso a algunas funcionalidades y áreas puede estar restringido. También puedes configurar o modificar los controles de tu navegador web para aceptar o rechazar cookies. La forma de hacerlo depende de tu navegador:",
+          text: "Hoy el aviso no ofrece selección por categorías: acepta la analítica completa o no acepta ninguna. Mientras no aceptes, ningún script de medición se carga. Si aceptaste y quieres revertirlo, borra la entrada cookieConsent del almacenamiento local de tu navegador —Herramientas de desarrollo › Aplicación › Almacenamiento local, o el borrado de datos de sitio— y la analítica dejará de cargarse.",
+        },
+        {
+          type: "p",
+          text: "Rechazar no limita nada: el sitio no tiene áreas reservadas, cuentas ni funcionalidad que dependa de cookies de analítica. También puedes configurar los controles de tu navegador para aceptar o rechazar cookies. La forma de hacerlo depende de cuál uses:",
         },
         {
           type: "list",
@@ -488,25 +633,91 @@ export const COOKIE_POLICY: LegalDocumentProps = {
       blocks: [
         {
           type: "p",
-          text: "Los tipos específicos de cookies propias y de terceros que se utilizan en mi sitio web y los fines que cumplen se describen en la tabla siguiente:",
+          text: "Estas son las que se colocan en carrillo.app, todas de terceros y ninguna antes de que aceptes:",
         },
         {
           type: "table",
-          head: ["Nombre", "Propósito", "Caducidad"],
+          head: ["Nombre", "Quién la coloca", "Para qué", "Caducidad"],
           rows: [
-            ["_ga", "Cookie de Google Analytics utilizada para distinguir usuarios.", "2 años"],
-            ["_gid", "Cookie de Google Analytics utilizada para distinguir usuarios.", "24 horas"],
+            ["_ga", "Google Analytics 4", "Distingue visitantes entre sesiones.", "2 años"],
             [
-              "_gat",
-              "Cookie de Google Analytics utilizada para limitar la frecuencia de solicitudes.",
-              "1 minuto",
+              "_ga_<ID>",
+              "Google Analytics 4",
+              "Mantiene el estado de la sesión de la propiedad de medición.",
+              "2 años",
             ],
             [
-              "cookie_consent",
-              "Almacena tus preferencias de consentimiento de cookies.",
-              "6 meses",
+              "_clck",
+              "Microsoft Clarity",
+              "Asocia tus visitas a un mismo identificador de Clarity.",
+              "1 año",
+            ],
+            [
+              "_clsk",
+              "Microsoft Clarity",
+              "Agrupa en una sola grabación las páginas de una misma visita.",
+              "1 día",
             ],
           ],
+        },
+        {
+          type: "p",
+          text: "Dos precisiones que la versión anterior de este documento no daba. La primera: tu decisión sobre las cookies no se guarda en una cookie, sino en el almacenamiento local del navegador, bajo la clave cookieConsent; no viaja en ninguna petición y no sale de tu equipo. La segunda: Clarity no solo cuenta, graba — reconstruye clics, desplazamiento y movimiento del cursor para producir mapas de calor y repeticiones de sesión.",
+        },
+        {
+          type: "p",
+          text: "Al abrir el agendador de asesorías se carga además el widget de Cal.com, que coloca sus propias cookies para sostener la reserva. Solo ocurre si abres ese agendador, y se rige por la política de Cal.com.",
+        },
+      ],
+    },
+    {
+      id: "cookies-del-blog",
+      heading: "Cookies del blog (blog.carrillo.app)",
+      blocks: [
+        {
+          type: "p",
+          text: "El blog vive en blog.carrillo.app. El dominio es mío; la plataforma no. Ese subdominio lo sirve Substack Inc. detrás de Cloudflare, así que las cookies que encuentres allí las pone Substack, no yo, y no dependen del aviso de consentimiento de este sitio: se colocan en la primera petición, antes de cualquier interacción.",
+        },
+        {
+          type: "p",
+          text: "Lo digo explícitamente porque la apariencia engaña: al leerse bajo un dominio mío, esas cookies parecen propias. Verificadas sobre las cabeceras de respuesta reales, son estas:",
+        },
+        {
+          type: "table",
+          head: ["Nombre", "Quién la coloca", "Para qué", "Caducidad"],
+          rows: [
+            [
+              "ab_testing_id",
+              "Substack",
+              "Identificador que asigna tu navegador a un grupo de pruebas A/B.",
+              "1 año",
+            ],
+            [
+              "ab_experiment_sampled",
+              "Substack",
+              "Marca si tu visita entró en la muestra de un experimento.",
+              "1 año",
+            ],
+            [
+              "__cf_bm",
+              "Cloudflare",
+              "Distingue tráfico humano de automatizado para proteger la publicación.",
+              "30 minutos",
+            ],
+          ],
+        },
+        {
+          type: "p",
+          text: "Si abres sesión en Substack o te suscribes, la plataforma añadirá además sus cookies de sesión y de analítica. El detalle completo está en la política de privacidad de Substack, que es quien responde por ellas; sobre lo que implica suscribirte, la",
+          link: {
+            href: "/privacidad",
+            label: "Política de Privacidad",
+            tail: " lo explica en la sección del blog.",
+          },
+        },
+        {
+          type: "p",
+          text: "El índice de artículos que ves en carrillo.app/blog no activa nada de lo anterior: se construye en mi servidor leyendo el feed RSS público, y tu navegador no contacta a Substack hasta que abres un artículo.",
         },
       ],
     },
@@ -520,7 +731,7 @@ export const COOKIE_POLICY: LegalDocumentProps = {
         },
         {
           type: "p",
-          text: "La fecha en la parte superior indica cuándo fue actualizada por última vez. Cualquier cambio en la forma en que utilizo las cookies será reflejado en este documento y comunicado mediante el gestor de consentimiento.",
+          text: "La fecha en la parte superior indica cuándo fue actualizada por última vez, y cambia solo cuando cambia el texto: no se mueve por retoques de maquetación. Si en el futuro incorporo una cookie nueva o cambia el propósito de una existente, aparecerá primero en las tablas de arriba, y el aviso de consentimiento volverá a solicitarse cuando el cambio afecte a lo que ya habías aceptado.",
         },
       ],
     },

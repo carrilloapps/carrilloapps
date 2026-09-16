@@ -8,14 +8,14 @@ const SITE_URL = getSiteUrl()
 export const metadata = buildPageMetadata({
   title: "Política de Cookies",
   description:
-    "Cómo se utilizan las cookies en carrillo.app: cookies analíticas, técnicas y de terceros, y cómo gestionar tu consentimiento.",
+    "Qué cookies coloca carrillo.app y cuáles coloca el blog en Substack, con nombre y caducidad, y cómo aceptarlas o revocarlas.",
   path: "/cookies",
   keywords: [
     "política de cookies",
     "uso de cookies",
     "Junior Carrillo cookies",
     "cookies analíticas",
-    "cookies esenciales",
+    "cookies de terceros",
   ],
   robots: {
     index: false,
