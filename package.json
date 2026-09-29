@@ -130,7 +130,7 @@
     "husky": "~9.1.7",
     "jsdom": "~30.0.1",
     "lint-staged": "~17.3.0",
-    "markdownlint-cli2": "~0.23.2",
+    "markdownlint-cli2": "~0.23.3",
     "opengraph-mcp": "~1.0.0",
     "postcss": "~8.5.26",
     "prettier": "~3.9.6",
