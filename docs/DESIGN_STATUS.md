@@ -81,6 +81,34 @@ that number is not meant to reach 150.
 
 ---
 
+## 1b. Componentisation — 14 October 2026
+
+The palette migration exposed how much markup was being written by hand. Three
+components were extracted **from the pages that existed**, not designed ahead of
+them, and the variants are the combinations that were already in use:
+
+| Component    | Where                             | Replaced                     | Variants                                                                     |
+| ------------ | --------------------------------- | ---------------------------- | ---------------------------------------------------------------------------- |
+| `<PageHero>` | `components/layout/page-hero.tsx` | 9 hand-written heroes        | `titleScale`, `titleWidth`, `asideWidth`, `eyebrowTone`, `topBar`, `actions` |
+| `<Eyebrow>`  | `components/ui/eyebrow.tsx`       | 47 copies across 15 files    | `size`, `tracking`, `tone`, `numeric`                                        |
+| `<SpecList>` | `components/ui/spec-list.tsx`     | 6 hand-written `<dl>` blocks | `variant`, `layout`, `numeric`                                               |
+
+Seven pages now compose their hero; `/sobre-mi` deliberately does not, because
+its two-row portrait grid shares no structure with the other nine. Forcing it
+would mean props only one caller passes — which is exactly how the previous
+`PageHero` ended up with zero importers.
+
+32 components also moved out of a flat `src/components/` root into folders named
+for what they do (`layout/`, `content/`, `forms/`, `feedback/`, `seo/`,
+`brand/`, `providers/`), and the shared repository types moved to
+`src/types/repository.ts` — `RepositoryDetails` had been declared twice, 25
+identical lines, with a route handler importing its type from a `"use client"`
+module. The inventory lives in
+[`src/components/AGENTS.md`](../src/components/AGENTS.md), which was rewritten
+in the same change: it had been listing thirty files that no longer existed.
+
+---
+
 ## 2. The one sanctioned exception
 
 `getLanguageColor()` in `featured-projects.tsx` and `featured-repositories.tsx`,

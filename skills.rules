@@ -1,6 +1,9 @@
 {
   "version": 1,
   "stages": {
+    "baseline": ["ai-rules"],
+    "gate": ["devils-advocate"],
+    "spec": ["agentic-agile", "brainstorming", "impeccable"],
     "design": [
       "apple-design",
       "design-taste-frontend",
@@ -32,34 +35,8 @@
       "vercel-react-best-practices",
       "impeccable"
     ],
-    "brand": [
-      "brandkit",
-      "imagegen-frontend-web",
-      "imagegen-frontend-mobile",
-      "impeccable"
-    ],
-    "marketing": [
-      "seo-audit",
-      "competitor-alternatives",
-      "changelog-generator"
-    ],
-    "review": [
-      "devils-advocate",
-      "sar-cybersecurity",
-      "brainstorming"
-    ],
-    "spec": [
-      "speckit-constitution",
-      "speckit-specify",
-      "speckit-clarify",
-      "speckit-plan",
-      "speckit-tasks",
-      "speckit-analyze",
-      "speckit-checklist",
-      "speckit-implement",
-      "speckit-converge",
-      "speckit-taskstoissues",
-      "impeccable"
-    ]
+    "brand": ["brandkit", "imagegen-frontend-web", "imagegen-frontend-mobile", "impeccable"],
+    "marketing": ["seo-audit", "competitor-alternatives", "changelog-generator"],
+    "review": ["sar-cybersecurity", "devils-advocate", "postmortem-writing"]
   }
 }

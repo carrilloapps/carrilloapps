@@ -67,7 +67,7 @@ Deploying from the CLI is not the pipeline. `git push origin main` is.
 ### What is excluded from the build (`.vercelignore`)
 
 Agent tooling directories — `.agents`, `.claude`, `.opencode`, `.codegraph`,
-`.docgraph`, `.specify`, `.skill-rules`, `.impeccable` — plus `.github` and
+`.docgraph`, `.skill-rules`, `.impeccable` — plus `.github` and
 `docs`. None of them are part of the app, and uploading them has crashed
 `next build` tracing before. Do not remove those entries.
 

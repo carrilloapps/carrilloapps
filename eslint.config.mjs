@@ -18,7 +18,6 @@ export default [
       ".opencode/**",
       ".docgraph/**",
       ".codegraph/**",
-      ".specify/**",
       "next-env.d.ts",
     ],
   },

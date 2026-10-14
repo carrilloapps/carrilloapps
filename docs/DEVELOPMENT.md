@@ -122,12 +122,17 @@ this repository is public.
 ```bash
 DK="/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe"   # WSL; plain `docker` elsewhere
 
-# SonarQube CE. Needs vm.max_map_count >= 524288 on the host, which is YOUR
-# command to run, not an agent's:  sudo sysctl -w vm.max_map_count=524288
-# The env var below skips the Elasticsearch bootstrap check instead, which is
-# fine for a local lab and leaves the host alone.
-"$DK" run -d --name sar-sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true \
-  -p 9000:9000 sonarqube:26.9.0.129388-community
+# SonarQube CE. Elasticsearch needs vm.max_map_count >= 524288 on the host.
+# That is a host change, so it is the maintainer's command, never an agent's:
+#
+#   sudo sysctl -w vm.max_map_count=524288           # until the next WSL restart
+#   echo 'vm.max_map_count=524288' | sudo tee -a /etc/sysctl.conf   # persistent
+#
+# It was raised on this machine on 14 October 2026 and SonarQube now starts
+# clean. Without it, add -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true: the analysis
+# is identical, the check is just skipped.
+"$DK" run -d --name sar-sonarqube -p 9000:9000 \
+  sonarqube:26.9.0.129388-community
 
 # The scanner needs the source. With Docker Desktop's WSL integration off there
 # are no bind mounts, so the code goes into a throwaway image instead:
@@ -181,7 +186,7 @@ boundary recovery.
 - Node.js 22.x or later (24.x in use locally; `skills:sync` needs ≥ 22)
 - npm — this project uses `package-lock.json`, not pnpm
 - Git
-- `uv` / `uvx` — only for `npm run skills:speckit`
+- `uv` / `uvx` — no longer needed; it was only used by the removed `skills:speckit`
 - Visual Studio Code (recommended)
 
 ### Recommended VS Code Extensions

@@ -198,56 +198,6 @@
       "path": "skills/seo-audit",
       "computedHash": "38b0a8a95b2e41dc360dc44bbe89700750ed8cac41d290160054cab842dab432"
     },
-    "speckit-analyze": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-analyze"
-    },
-    "speckit-checklist": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-checklist"
-    },
-    "speckit-clarify": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-clarify"
-    },
-    "speckit-constitution": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-constitution"
-    },
-    "speckit-converge": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-converge"
-    },
-    "speckit-implement": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-implement"
-    },
-    "speckit-plan": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-plan"
-    },
-    "speckit-specify": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-specify"
-    },
-    "speckit-tasks": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-tasks"
-    },
-    "speckit-taskstoissues": {
-      "source": "./github/spec-kit:specify-cli",
-      "sourceType": "local",
-      "path": ".claude/skills/speckit-taskstoissues"
-    },
     "stitch-design-taste": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",

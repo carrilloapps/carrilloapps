@@ -3,7 +3,7 @@
 Everything an AI agent needs to work in this repository: MCP servers, skills,
 spec-kit, and the local state each of them generates.
 
-> Governing rules live in [`.specify/memory/constitution.md`](../.specify/memory/constitution.md).
+> Governing rules live in [`plans/agile/constitution.md`](../plans/agile/constitution.md).
 > Principle I makes `codegraph` and `docgraph` mandatory, not optional.
 
 ---
@@ -123,26 +123,28 @@ until OAuth completes — that is expected, not a failure.
 
 ## 3. Skills
 
-42 skills declared in `skills-lock.json`, installed into both `.claude/skills/`
+35 skills declared in `skills-lock.json`, installed into both `.claude/skills/`
 and `.agents/skills/`. Both directories are gitignored: the lock is the source
 of truth, the payload is regenerated.
 
-- **31 come from GitHub** — fully reproducible with `npm run skills:sync`.
-- **11 are `sourceType: "local"`** — `impeccable` plus the ten `speckit-*`
-  skills. They have their own installers.
+- **34 come from GitHub** — fully reproducible with `npm run skills:sync`.
+- **1 is `sourceType: "local"`** — `impeccable`, which has its own installer.
+
+The eleven `speckit-*` skills were removed on 14 October 2026 along with
+spec-kit itself; `agentic-agile` replaces them, and it is a plain GitHub skill
+like the rest.
 
 ```bash
-npm run skills:all         # full bootstrap: sync + impeccable + speckit + ide
-npm run skills:sync        # the 31 GitHub skills
+npm run skills:all         # full bootstrap: sync + impeccable + ide
+npm run skills:sync        # the 34 GitHub skills
 npm run skills:update      # same, refreshing every recorded hash
 npm run skills:verify      # check installed skills against the lock, writes nothing
 npm run skills:impeccable  # install/update impeccable
-npm run skills:speckit     # regenerate the speckit-* skills
 npm run skills:ide         # propagate skills between .claude/skills and .agents/skills
 ```
 
-`skills:ide` exists because installers are inconsistent: spec-kit writes only
-into `.claude/skills/`, so without it `.agents/skills/` silently falls behind.
+`skills:ide` exists because installers are inconsistent: some write only into
+`.claude/skills/`, so without it `.agents/skills/` silently falls behind.
 
 Prerequisites: `git` and Node ≥ 22 for `skills:sync`; `uv`/`uvx` for
 `skills:speckit`. Everything else is fetched on demand through `npx`.

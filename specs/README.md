@@ -1,18 +1,58 @@
-# specs/
+# `specs/`
 
-Feature specifications produced by the `speckit-*` skills. One directory per
-feature, created by `.specify/scripts/bash/create-new-feature.sh` (invoked by
-`/speckit-specify`), numbered sequentially:
+Feature specifications, one directory per initiative, produced by the
+[`agentic-agile`](../.claude/skills/agentic-agile/SKILL.md) skill.
+
+Spec-kit was removed on 14 October 2026. It had been installed since August and
+never used: this directory held only a README, and `import-speckit` found no
+features to migrate. Its constitution moved to
+[`plans/agile/constitution.md`](../plans/agile/constitution.md), which is where
+`agentic-agile` expects it.
+
+---
+
+## Layout
+
+`<initiative>` is kebab-case and identical here and in
+`plans/initiatives/<initiative>/`.
 
 ```text
-specs/001-<feature-slug>/
-  spec.md        # /speckit-specify  — what and why, no implementation detail
-  plan.md        # /speckit-plan     — technical approach and design artifacts
-  tasks.md       # /speckit-tasks    — dependency-ordered, actionable work items
-  checklists/    # /speckit-checklist (optional)
+specs/<initiative>/
+├── spec.md                     problem, FR-### with P1/P2/P3, Gherkin scenarios
+│                               tagged @FR-### @P#, out of scope, SC-### mapped
+│                               to scenarios, constraints, attributed
+│                               clarifications, open questions
+├── requirements-checklist.md   every FR/SC accounted for
+├── design.md                   including the Constitution check
+├── domain-model.md
+├── contracts/                  public surfaces, defined before implementation
+├── process.md
+├── tasks.md
+├── implementation.md           optional
+├── verification.md             evidence that each FR has a passing test
+└── dispatch.md + dispatch/<D###>-<slug>.md    fan-out briefs
 ```
 
-Every artifact here is checked against `.specify/memory/constitution.md`.
-The toolchain that generates them lives in `.specify/` and is regenerated with
-`npm run skills:speckit`; only this directory and the constitution are
-versioned.
+## Before writing anything here
+
+The Phase 0 gate must pass:
+
+```bash
+bash .claude/skills/agentic-agile/scripts/check-structure.sh --root .
+```
+
+It checks that `plans/agile/` is complete — methodology, definition of ready,
+definition of done, ceremonies, team with capacity, capabilities, KPI
+directives, language, autonomy, constitution, hooks — with no `<placeholders>`
+and no `TBD`. While the gate is closed, nothing is created under `specs/` or
+`plans/` except `plans/agile/` itself.
+
+That is deliberate: a spec written against an undefined definition of done is a
+document nobody can check.
+
+## Versioning
+
+`specs/` and `plans/` are **versioned**. They are reviewed in pull requests and
+keep their history — and this repository is public, so a roadmap written here is
+a roadmap published. Transcripts and anything personal go to
+`.memory/local/agentic-agile/`, which is not versioned.

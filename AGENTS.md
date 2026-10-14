@@ -41,9 +41,10 @@ docgraph's `index_project`.
 
 ### Read the constitution
 
-[`.specify/memory/constitution.md`](.specify/memory/constitution.md) — five
-binding principles. It supersedes this file and everything in `docs/`.
-`/speckit-analyze` and `/speckit-implement` check work against it.
+[`plans/agile/constitution.md`](plans/agile/constitution.md) — eleven binding
+articles. It supersedes this file and everything in `docs/`. The `agentic-agile`
+skill checks work against it at its Phase 0 gate and in each `design.md`
+_Constitution check_.
 
 ### Then load only the doc your task needs
 
@@ -157,6 +158,42 @@ Full list: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and
     server calls, hand off to the provider's own page rather than impersonating a
     browser. [docs/API.md](docs/API.md).
 
+### Where a file goes
+
+Everything the project produces lives in a directory that names its role:
+
+| Directory            | Holds                                                                     |
+| -------------------- | ------------------------------------------------------------------------- |
+| `src/`               | Application code — `app`, `components`, `hooks`, `lib`, `types`           |
+| `tests/`             | `unit/`, `e2e/`, and `config/` (the Vitest and Playwright configs)        |
+| `docs/`              | Team documentation                                                        |
+| `specs/`             | Feature specifications, one directory per initiative                      |
+| `plans/agile/`       | The operating system: methodology, DoR, DoD, ceremonies, **constitution** |
+| `plans/sprints/`     | Monthly reports (Kanban), `<YYYY>-M<NN>/`                                 |
+| `plans/initiatives/` | Initiative overviews and tickets, linked to `specs/<initiative>/`         |
+| `plans/decisions/`   | Decision records and postmortems                                          |
+| `plans/drafts/`      | Pre-refinement drafts                                                     |
+| `.memory/`           | Shared skill state (versioned) and `local/` (never versioned)             |
+| `public/`            | Static assets                                                             |
+
+**The root is for configuration that cannot live anywhere else**, and that is
+the only reason anything is there. Eighteen of those files are resolved from the
+working directory by the tool that reads them — `package.json`, `tsconfig.json`,
+`.prettierrc.json`, `.browserslistrc`, `.npmrc`, `.gitignore`, `.dockerignore`,
+`.vercelignore`, `.mcp.json`, `opencode.json`, `skills.rules`,
+`skills-lock.json`, `components.json` — or required there by the framework:
+`next.config.mjs`, `postcss.config.mjs`, `eslint.config.mjs`, `vercel.json`,
+`sonar-project.properties`. Moving one does not tidy the root, it breaks the
+tool.
+
+What _could_ move, did: the Vitest and Playwright configs take `--config`, so
+they live in `tests/config/` with the tests they run. `Dockerfile.validate`
+stays because its `.dockerignore` must sit at the context root, and splitting a
+pair across two directories is worse than leaving both.
+
+The rest are documents by convention: `README.md`, `LICENSE.md`, `CHANGELOG.md`,
+`AGENTS.md`, `CLAUDE.md`, `DESIGN.md`, `PRODUCT.md`.
+
 ### File naming
 
 Pages `page.tsx`, layouts `layout.tsx`, handlers `route.ts`, components and
@@ -260,23 +297,104 @@ Adopting them is a decision for the maintainer, not a side effect of a task.
 
 ---
 
+### The 35 installed skills, and what each is for
+
+Declared in `skills-lock.json`, assigned to a stage in `skills.rules`, installed
+into `.claude/skills/` and `.agents/skills/` by `npm run skills:all`. Both
+payload directories are gitignored — the lock is the source of truth.
+
+Reach for a skill **before** improvising the same work by hand; that is the
+whole reason they are pinned here.
+
+**Always on — these two frame everything else**
+
+| Skill             | For                                                                                                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ai-rules`        | The behavioural baseline: how work is done here — documentation discipline, secrets handling, SOLID/KISS/DRY, `en_US` identifiers, git authorisation. Loads before every other skill. |
+| `devils-advocate` | The gate before acting: classifies an action by risk (tiers 0–3) and demands evidence and a specific fix per risk. Decides _whether_ something happens.                               |
+
+**Process — work items, specs, incidents**
+
+| Skill                 | For                                                                                                                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agentic-agile`       | Kanban + Spec-Driven Development: the Phase 0 structure gate, `plans/agile/`, specs with `FR-###` traced to tests, autonomy levels. Replaced spec-kit on 14 Oct 2026. |
+| `brainstorming`       | Required before creative work — explores intent and requirements before anything is built.                                                                            |
+| `postmortem-writing`  | After an incident or near miss: blameless timeline, severity rubric, action items with owner and date. Not for a sprint retro.                                        |
+| `changelog-generator` | Turns commit history into user-facing release notes.                                                                                                                  |
+
+**Security and quality**
+
+| Skill                         | For                                                                                                                                           |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sar-cybersecurity`           | Security Assessment Report: scored findings with CWE, CVSS vector, fix diff and verification. Owns `.memory/local/sar/`. Read-only on source. |
+| `vercel-react-best-practices` | React/Next performance review — bundle, data fetching, rendering patterns.                                                                    |
+| `full-output-enforcement`     | Bans placeholder and truncated output when a task needs complete code.                                                                        |
+
+**Design system and interface**
+
+| Skill                                                     | For                                                                                                                                                              |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `impeccable`                                              | The broad frontend design pass: hierarchy, accessibility, responsive behaviour, tokens. Owns `PRODUCT.md`.                                                       |
+| `interface-design`                                        | Craft for product UI — dashboards, admin, settings, data views.                                                                                                  |
+| `design-taste-frontend`                                   | Anti-template landing pages and portfolios; audit-first on redesigns.                                                                                            |
+| `redesign-existing-projects`                              | Upgrading an existing site without breaking it.                                                                                                                  |
+| `apple-design`                                            | Gesture-driven UI, springs, materials, optical typography.                                                                                                       |
+| `emil-design-eng`                                         | UI polish and the invisible details — component states, timing.                                                                                                  |
+| `high-end-visual-design`                                  | The specifics that make a page read as expensive: type, spacing, shadow, card structure.                                                                         |
+| `minimalist-ui` · `industrial-brutalist-ui` · `gpt-taste` | Three opinionated visual directions. This site is none of them — it is the ledger in [DESIGN.md](DESIGN.md). Consult for technique, never to replace the system. |
+| `stitch-design-taste`                                     | Generates `DESIGN.md`-style system files for Google Stitch.                                                                                                      |
+| `pick-ui-library`                                         | Choosing a library for a given frontend problem.                                                                                                                 |
+| `ask-sonner`                                              | Sonner toasts specifically — the library this project uses.                                                                                                      |
+
+**Motion**
+
+| Skill                          | For                                                                   |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `animate`                      | Builds an animation from scratch, deciding in the order that matters. |
+| `motion-framer`                | Framer Motion API: variants, gestures, layout, `AnimatePresence`.     |
+| `review-animations`            | Critiques existing motion against a craft bar.                        |
+| `improve-animations`           | Audits a whole codebase's motion and plans fixes; read-only.          |
+| `find-animation-opportunities` | Finds places that should animate and rejects those that should not.   |
+| `animation-vocabulary`         | Turns "the bouncy thing when a popover opens" into its real name.     |
+
+**Imagery and brand**
+
+| Skill                                                | For                                                                  |
+| ---------------------------------------------------- | -------------------------------------------------------------------- |
+| `brandkit`                                           | Brand-guideline boards, logo systems, identity decks.                |
+| `imagegen-frontend-web` · `imagegen-frontend-mobile` | Design references for web and mobile screens — images only, no code. |
+| `image-to-code`                                      | Generates the design image first, then implements against it.        |
+| `prototype`                                          | Several genuinely different versions of one UI piece, side by side.  |
+
+**Marketing**
+
+| Skill                     | For                                                               |
+| ------------------------- | ----------------------------------------------------------------- |
+| `seo-audit`               | Technical and on-page SEO diagnosis. Start here for anything SEO. |
+| `competitor-alternatives` | Comparison and alternative pages.                                 |
+
+Full tooling notes — MCP servers, how the lock and the payloads relate — in
+[docs/AGENT_TOOLING.md](docs/AGENT_TOOLING.md).
+
+---
+
 ## 5. Where things are
 
-| Looking for                              | Go to                                                              |
-| ---------------------------------------- | ------------------------------------------------------------------ |
-| Colour, radius, elevation, type, motion  | [DESIGN.md](DESIGN.md)                                             |
-| Palette migration status                 | [docs/DESIGN_STATUS.md](docs/DESIGN_STATUS.md)                     |
-| Page shell, hero pattern, spacing, a11y  | [docs/PAGE_CONSISTENCY.md](docs/PAGE_CONSISTENCY.md)               |
-| Metadata, OG, JSON-LD, sitemap           | [docs/SEO.md](docs/SEO.md)                                         |
-| Route handlers, caching, form security   | [docs/API.md](docs/API.md)                                         |
-| Analytics helpers                        | [docs/ANALYTICS.md](docs/ANALYTICS.md)                             |
-| Performance and LCP                      | [docs/PERFORMANCE.md](docs/PERFORMANCE.md)                         |
-| Commands, quality gate, testing          | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)                         |
-| Deploy, env vars, rollback, build errors | [docs/VERCEL.md](docs/VERCEL.md)                                   |
-| MCP servers, skills, spec-kit            | [docs/AGENT_TOOLING.md](docs/AGENT_TOOLING.md)                     |
-| Binding principles                       | [.specify/memory/constitution.md](.specify/memory/constitution.md) |
-| Feature specs                            | [specs/README.md](specs/README.md)                                 |
-| Everything else                          | [docs/README.md](docs/README.md)                                   |
+| Looking for                              | Go to                                                      |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| Colour, radius, elevation, type, motion  | [DESIGN.md](DESIGN.md)                                     |
+| Palette migration status                 | [docs/DESIGN_STATUS.md](docs/DESIGN_STATUS.md)             |
+| Page shell, hero pattern, spacing, a11y  | [docs/PAGE_CONSISTENCY.md](docs/PAGE_CONSISTENCY.md)       |
+| Metadata, OG, JSON-LD, sitemap           | [docs/SEO.md](docs/SEO.md)                                 |
+| Route handlers, caching, form security   | [docs/API.md](docs/API.md)                                 |
+| Analytics helpers                        | [docs/ANALYTICS.md](docs/ANALYTICS.md)                     |
+| Performance and LCP                      | [docs/PERFORMANCE.md](docs/PERFORMANCE.md)                 |
+| Commands, quality gate, testing          | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)                 |
+| Deploy, env vars, rollback, build errors | [docs/VERCEL.md](docs/VERCEL.md)                           |
+| MCP servers, skills, spec-kit            | [docs/AGENT_TOOLING.md](docs/AGENT_TOOLING.md)             |
+| Binding principles                       | [plans/agile/constitution.md](plans/agile/constitution.md) |
+| Feature specs                            | [specs/README.md](specs/README.md)                         |
+| Everything else                          | [docs/README.md](docs/README.md)                           |
 
 Directory-scoped rules: `src/app/AGENTS.md`, `src/components/AGENTS.md`,
 `src/lib/AGENTS.md`, `src/lib/data/AGENTS.md`, `src/hooks/AGENTS.md`, `src/types/AGENTS.md`.

@@ -29,9 +29,9 @@ Setup and full tool list: [AGENT_TOOLING.md](AGENT_TOOLING.md).
 
 ### 2. Read the constitution
 
-[`.specify/memory/constitution.md`](../.specify/memory/constitution.md) defines
+[`plans/agile/constitution.md`](../plans/agile/constitution.md) defines
 the five non-negotiable principles and supersedes every other document,
-including this one. `/speckit-analyze` and `/speckit-implement` check work
+including this one. The `agentic-agile` skill checks work
 against it. Read it before planning, not after being told a plan violates it.
 
 ---
@@ -76,6 +76,8 @@ Directory-scoped rules live next to the code: `src/app/AGENTS.md`,
 | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) | Page shell, hero components, page spacing, accessibility |
 | [DESIGN.md](../DESIGN.md)                  | The visual system: colour, geometry, elevation, type     |
 | [DESIGN_STATUS.md](DESIGN_STATUS.md)       | Palette migration ledger — what moved, what is open      |
+| [PRODUCT.md](../PRODUCT.md)                | Platform, audience, product intent (impeccable skill)    |
+| [CHANGELOG.md](../CHANGELOG.md)            | Release history                                          |
 | [AGENT_TOOLING.md](AGENT_TOOLING.md)       | MCP servers, skills, spec-kit, generated state           |
 
 ### Integrations
