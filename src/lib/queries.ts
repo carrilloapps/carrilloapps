@@ -7,52 +7,19 @@ import type { FeaturedProject } from "@/lib/data/featured-projects"
 /*  Shared types                                                              */
 /* -------------------------------------------------------------------------- */
 
-export type Repository = {
-  id: number
-  name: string
-  description: string
-  language: string
-  stars: number
-  forks: number
-  updated_at: string
-  html_url: string
-  pinned?: boolean
-}
+/*
+  The repository contract lives in `@/types/repository`, not here: this module
+  is `"use client"`, and route handlers were importing their types from it.
+  Re-exported so existing call sites keep working.
+*/
+import type { RepositoriesResponse, RepositoryDetails, SourcedRepository } from "@/types/repository"
 
-export type SourcedRepository = Repository & { source: "github" | "gitlab" }
-
-export type RepositoriesResponse = {
-  repositories: Repository[]
-  pinnedRepos: Repository[]
-  /** Matches after filtering, across every page. Both handlers already send it. */
-  totalCount: number
-  totalPages: number
-}
-
-export type RepositoryDetails = {
-  id: number
-  name: string
-  description: string | null
-  language: string | null
-  stars: number
-  forks: number
-  watchers: number
-  updated_at: string
-  html_url: string
-  commits_count: number
-  latest_release?: {
-    tag_name: string
-    name: string
-    published_at: string
-    html_url: string
-  }
-  latest_commit?: {
-    sha: string
-    message: string
-    date: string
-    html_url: string
-  }
-}
+export type {
+  Repository,
+  SourcedRepository,
+  RepositoriesResponse,
+  RepositoryDetails,
+} from "@/types/repository"
 
 export type LatestPost = {
   title: string
@@ -184,7 +151,11 @@ export interface NpmDownloads {
 }
 
 export function useNpmDownloads(packages: string[]) {
-  const key = [...packages].sort().join(",")
+  // `sort()` with no comparator sorts by UTF-16 code unit, which is not a
+  // stable alphabetical order once a name carries a non-ASCII character — and
+  // this string is the React Query cache key, so two orderings of the same set
+  // would be two cache entries for one request. (SonarQube typescript:S2871.)
+  const key = [...packages].sort((a, b) => a.localeCompare(b)).join(",")
   return useQuery({
     queryKey: ["npm-downloads", key],
     queryFn: async (): Promise<Record<string, NpmDownloads>> => {

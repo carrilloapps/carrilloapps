@@ -1,30 +1,9 @@
 import { NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 
-interface RepositoryDetails {
-  id: number
-  name: string
-  description: string | null
-  language: string | null
-  stars: number
-  forks: number
-  watchers: number
-  updated_at: string
-  html_url: string
-  commits_count: number
-  latest_release?: {
-    tag_name: string
-    name: string
-    published_at: string
-    html_url: string
-  }
-  latest_commit?: {
-    sha: string
-    message: string
-    date: string
-    html_url: string
-  }
-}
+import type { RepositoryDetails } from "@/types/repository"
+
+import { isValidRepository } from "@/lib/api-params"
 
 // Cache function for GitHub repository details
 const getCachedGitHubRepoDetails = unstable_cache(
@@ -256,6 +235,12 @@ export async function GET(request: Request) {
       { error: "Platform and repository parameters are required" },
       { status: 400 },
     )
+  }
+
+  // SAR F-004: `repository` is split and interpolated into an upstream API
+  // path, so its shape is checked before it gets there — not after.
+  if (!isValidRepository(repository)) {
+    return NextResponse.json({ error: "Invalid repository." }, { status: 422 })
   }
 
   try {

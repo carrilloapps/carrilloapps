@@ -3,17 +3,18 @@
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, CalendarDays } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
-import { SectionHeader } from "@/components/section-header"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
+import { SectionHeader } from "@/components/layout/section-header"
 import { Section } from "@/components/ui/section"
 import { ExperienceTimeline } from "@/components/about/experience-timeline"
 import { PortraitPlate } from "@/components/about/portrait-plate"
-import { CvDownloadButton } from "@/components/cv-download-button"
-import { SocialRow } from "@/components/social-row"
-import { CalPopupButton } from "@/components/cal-booking"
+import { CvDownloadButton } from "@/components/forms/cv-download-button"
+import { SocialRow } from "@/components/brand/social-row"
+import { CalPopupButton } from "@/components/forms/cal-booking"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /* -------------------------------------------------------------------------- */
 /*  Data                                                                      */
@@ -238,12 +239,12 @@ function FiguresRow() {
         {/* Naming the band is what stops it reading as four stray numbers: a
             balance strip has a heading and a period, like any other total. */}
         <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
-          <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+          <Eyebrow size="md" tracking="wide">
             Balance
-          </span>
-          <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
+          </Eyebrow>
+          <Eyebrow size="md" tracking="wide" numeric>
             2015 — 2026
-          </span>
+          </Eyebrow>
         </div>
 
         <dl className="grid grid-cols-2 border-b border-rule md:grid-cols-4">
@@ -254,9 +255,7 @@ function FiguresRow() {
                 i % 2 === 1 ? "border-l border-rule pl-5 md:pl-6" : ""
               } ${i < 2 ? "border-b border-rule md:border-b-0" : ""}`}
             >
-              <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                {term}
-              </dt>
+              <Eyebrow as="dt">{term}</Eyebrow>
               <dd className="mt-2 font-mono text-3xl leading-none text-paper tabular-nums md:text-4xl">
                 {value}
               </dd>

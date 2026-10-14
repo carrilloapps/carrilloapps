@@ -1,0 +1,43 @@
+{
+  // Rule config for `markdownlint-cli`. Everything here is either auto-fixable
+  // or genuinely worth failing on, so `npm run lint:md` and the pre-commit hook
+  // can repair issues instead of just reporting them.
+  //
+  // This replaced `.markdownlint-cli2.jsonc` on 14 October 2026. `markdownlint-cli2`
+  // pulled in `globby → fast-glob → micromatch → braces`, and `braces` carries
+  // GHSA-vfj7-8cjw-p6xm with no patched release in any version — five high
+  // advisories that `npm audit` could never clear. The classic CLI runs the same
+  // `markdownlint@0.41` engine over `tinyglobby` instead, so the rules below are
+  // unchanged and the advisories are gone.
+  //
+  // Globs and ignores moved to the `lint:md` script and `.markdownlintignore`,
+  // because this CLI takes them as arguments rather than from the config file.
+  "default": true,
+
+  // Prettier owns wrapping (printWidth 100) and cannot reflow tables or long
+  // URLs. Enforcing a second, conflicting width here just fights the formatter.
+  "MD013": false,
+
+  // Inline HTML is deliberate: JSX samples, <!-- BEGIN --> markers, and the
+  // Next.js agent-rules block injected by `next dev`.
+  "MD033": false,
+
+  // Repeated headings are fine under different parents ("### Rules" appears in
+  // several sections); duplicated siblings are still an error.
+  "MD024": { "siblings_only": true },
+
+  // Some files legitimately carry more than one top-level heading — AGENTS.md
+  // ends with the injected "# This is NOT the Next.js you know" block.
+  "MD025": false,
+
+  // Ordered lists are written 1./2./3. in some docs and 1./1./1. in others;
+  // both render identically and the fixer rewrites whichever style is used.
+  "MD029": { "style": "ordered" },
+
+  // Emphasis-as-heading is used for short callouts inside tables and lists.
+  "MD036": false,
+
+  // Prettier reformats every table on write; its alignment and this rule's
+  // disagree, so the two would undo each other on every commit.
+  "MD060": false,
+}

@@ -1,31 +1,35 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, CalendarDays, Check, Send } from "lucide-react"
 import { toast } from "sonner"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
 import { Section } from "@/components/ui/section"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { EMPTY_PHONE, PhoneField, type PhoneValue } from "@/components/ui/phone-field"
 import { ConsentCheck } from "@/components/ui/consent-check"
-import { Turnstile, isTurnstileEnabled } from "@/components/turnstile"
-import { CalPopupButton } from "@/components/cal-booking"
+import { Turnstile, isTurnstileEnabled } from "@/components/forms/turnstile"
+import { CalPopupButton } from "@/components/forms/cal-booking"
 import { contactFaq } from "@/lib/data/contact-faq"
 import { buildContactWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp"
 import { blogSubscribeUrl } from "@/lib/substack-service"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
 import {
   trackButtonClick,
   trackFormFieldInteraction,
   trackFormStart,
   trackFormSubmit,
 } from "@/lib/analytics"
+import { useRateLimit } from "@/hooks/use-rate-limit"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /* -------------------------------------------------------------------------- */
 /*  Contact details, obfuscated at rest                                       */
@@ -68,22 +72,6 @@ const PARTICULARS = [
   { term: "Idiomas", value: "Español · Inglés" },
 ]
 
-/** Simple client-side throttle: three attempts a minute. */
-const useRateLimit = (limit = 3, windowMs = 60_000) => {
-  const [attempts, setAttempts] = useState<number[]>([])
-
-  const isLimited = useCallback(
-    () => attempts.filter((t) => Date.now() - t < windowMs).length >= limit,
-    [attempts, limit, windowMs],
-  )
-  const recordAttempt = useCallback(
-    () => setAttempts((prev) => [...prev.filter((t) => Date.now() - t < windowMs), Date.now()]),
-    [windowMs],
-  )
-
-  return { isLimited: isLimited(), recordAttempt }
-}
-
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -118,61 +106,13 @@ export default function ContactPage() {
 
 function OpeningEntry() {
   return (
-    <AnimatedSection
-      className="relative w-full pt-6 md:pt-10"
-      role="region"
-      aria-labelledby="contact-heading"
-    >
-      <div className="container mx-auto px-4">
-        <h1
-          id="contact-heading"
-          className="max-w-[16ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-        >
-          Conversemos sobre tu proyecto
-        </h1>
-
-        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-            <p>
-              Cuéntame qué estás construyendo y dónde se está atascando. Cuanto más concreto sea el
-              problema —el volumen que manejas, qué se rompe, qué fecha tienes encima— más útil será
-              la primera respuesta.
-            </p>
-            <p>
-              Si prefieres hablarlo directamente,{" "}
-              <Link
-                href="/agendamiento"
-                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
-              >
-                agenda una hora
-              </Link>{" "}
-              y lo revisamos en vivo. Y si aún estás mirando qué necesitas, el{" "}
-              <Link
-                href="/servicios"
-                className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
-              >
-                catálogo de servicios
-              </Link>{" "}
-              lo detalla frente por frente.
-            </p>
-          </div>
-
-          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
-            {PARTICULARS.map(({ term, value }) => (
-              <div
-                key={term}
-                className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-              >
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  {term}
-                </dt>
-                <dd className="text-right font-sans text-base text-paper">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+    <PageHero
+      title="Conversemos sobre tu proyecto"
+      headingId="contact-heading"
+      titleWidth="tight"
+      aside={<SpecList items={PARTICULARS} />}
+      actions={
+        <>
           <CalPopupButton
             source="contact-hero"
             aria-label="Agendar una asesoría"
@@ -186,9 +126,32 @@ function OpeningEntry() {
             Ver servicios
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
-        </div>
-      </div>
-    </AnimatedSection>
+        </>
+      }
+    >
+      <p>
+        Cuéntame qué estás construyendo y dónde se está atascando. Cuanto más concreto sea el
+        problema —el volumen que manejas, qué se rompe, qué fecha tienes encima— más útil será la
+        primera respuesta.
+      </p>
+      <p>
+        Si prefieres hablarlo directamente,{" "}
+        <Link
+          href="/agendamiento"
+          className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+        >
+          agenda una hora
+        </Link>{" "}
+        y lo revisamos en vivo. Y si aún estás mirando qué necesitas, el{" "}
+        <Link
+          href="/servicios"
+          className="text-paper underline decoration-rule underline-offset-4 transition-colors hover:text-stamp-text hover:decoration-stamp"
+        >
+          catálogo de servicios
+        </Link>{" "}
+        lo detalla frente por frente.
+      </p>
+    </PageHero>
   )
 }
 
@@ -603,9 +566,7 @@ function DirectChannels() {
         >
           Línea directa
         </h3>
-        <span className="font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase">
-          24 h
-        </span>
+        <Eyebrow tracking="wide">24 h</Eyebrow>
       </div>
 
       <p className="mt-4 font-sans text-sm leading-relaxed text-paper-faint">
@@ -638,9 +599,7 @@ function DirectChannels() {
         />
 
         <div className="border-b border-rule py-4">
-          <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-            Ubicación
-          </dt>
+          <Eyebrow as="dt">Ubicación</Eyebrow>
           <dd className="mt-2 font-sans text-base text-paper">Medellín, Colombia</dd>
           <dd className="mt-1 font-sans text-sm text-paper-faint">
             Remoto, con clientes en LATAM y EE. UU.
@@ -648,9 +607,7 @@ function DirectChannels() {
         </div>
 
         <div className="border-b border-rule py-4">
-          <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-            ¿Qué ayuda a responder rápido?
-          </dt>
+          <Eyebrow as="dt">¿Qué ayuda a responder rápido?</Eyebrow>
           <dd className="mt-2">
             <ul className="space-y-1.5 font-sans text-sm leading-relaxed text-paper-dim">
               {[
@@ -706,7 +663,7 @@ function ChannelRow({
 }) {
   return (
     <div className="border-b border-rule py-4">
-      <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">{term}</dt>
+      <Eyebrow as="dt">{term}</Eyebrow>
       <dd className="mt-2">
         {shown ? (
           <a
@@ -741,9 +698,9 @@ function Questions() {
       <div className="container mx-auto px-4">
         <div className="mb-8 md:mb-10">
           <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
-            <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+            <Eyebrow size="md" tracking="wide">
               Preguntas
-            </span>
+            </Eyebrow>
             <span className="font-mono text-[11px] text-paper-faint tabular-nums">
               {contactFaq.length}
             </span>

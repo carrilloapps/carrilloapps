@@ -1,4 +1,4 @@
-import { PageLoading } from "@/components/unified-loading"
+import { PageLoading } from "@/components/feedback/unified-loading"
 
 /**
  * The Suspense fallback for /servicios and everything under it.

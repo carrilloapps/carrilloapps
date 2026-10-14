@@ -342,7 +342,11 @@ export function detectLanguage(code: string): string {
   if (
     /defmodule\s+\w+/.test(code) ||
     (/def\s+\w+\(.*\)\s+do/.test(code) && code.includes("end")) ||
-    (/|>/.test(code) && /def\s+/.test(code))
+    // `/|>/` — the pipe was unescaped, making this an alternation with an empty
+    // left branch, which matches *every* string. The whole condition therefore
+    // collapsed to "contains def", so any Python or Ruby snippet with a function
+    // was reported as Elixir. (SonarQube typescript:S6323.)
+    (/\|>/.test(code) && /def\s+/.test(code))
   ) {
     return "elixir"
   }

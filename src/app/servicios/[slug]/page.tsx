@@ -4,14 +4,17 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, CalendarDays } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
 import { Section } from "@/components/ui/section"
-import { SectionHeader } from "@/components/section-header"
-import { CalPopupButton } from "@/components/cal-booking"
+import { SectionHeader } from "@/components/layout/section-header"
+import { CalPopupButton } from "@/components/forms/cal-booking"
 import { SERVICES, getService } from "@/lib/data/services"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /**
  * One service, one page.
@@ -45,13 +48,13 @@ export default function ServicePage() {
 
       <main id="main-content" role="main" className="relative z-10">
         {/* Opening entry: where this sits in the schedule, then the claim. */}
-        <AnimatedSection
-          className="relative w-full pt-6 md:pt-10"
-          role="region"
-          aria-labelledby="service-heading"
-        >
-          <div className="container mx-auto px-4">
-            <div className="flex items-baseline justify-between gap-6 border-b border-rule-strong pb-2">
+        <PageHero
+          title={service.heading}
+          headingId="service-heading"
+          titleScale="page"
+          titleWidth="roomy"
+          topBar={
+            <>
               <Link
                 href="/servicios"
                 className="-my-4 inline-flex items-center gap-2 py-4 font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase transition-colors hover:text-paper md:my-0 md:py-0"
@@ -59,58 +62,14 @@ export default function ServicePage() {
                 <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                 Servicios
               </Link>
-              <span className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
+              <Eyebrow size="md" tracking="wide" numeric>
                 {String(index + 1).padStart(2, "0")} / {String(SERVICES.length).padStart(2, "0")}
-              </span>
-            </div>
-
-            <h1
-              id="service-heading"
-              className="mt-8 max-w-[20ch] font-sans text-[clamp(2.25rem,5.5vw,4rem)] leading-[0.96] font-semibold tracking-[-0.04em] text-balance text-paper"
-            >
-              {service.heading}
-            </h1>
-
-            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-              <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-                {service.intro.map((paragraph) => (
-                  <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-                ))}
-              </div>
-
-              <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
-                {service.particulars.map(({ term, value }, i) => (
-                  <div
-                    key={`${term}-${i}`}
-                    className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-                  >
-                    <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                      {term}
-                    </dt>
-                    <dd className="text-right font-sans text-base text-paper">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            {service.credentials?.length ? (
-              <dl className="mt-8 flex flex-wrap items-baseline gap-x-10 gap-y-3 border-t border-rule pt-4">
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  Certificaciones
-                </dt>
-                {service.credentials.map((credential) => (
-                  <dd
-                    key={credential}
-                    className="inline-flex items-baseline gap-2.5 font-mono text-[12px] tracking-[0.1em] text-paper uppercase"
-                  >
-                    <span aria-hidden="true" className="inline-block h-1.5 w-1.5 bg-stamp" />
-                    {credential}
-                  </dd>
-                ))}
-              </dl>
-            ) : null}
-
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+              </Eyebrow>
+            </>
+          }
+          aside={<SpecList items={service.particulars} />}
+          actions={
+            <>
               <CalPopupButton
                 source={`service-${service.slug}`}
                 aria-label="Agendar un diagnóstico"
@@ -124,9 +83,30 @@ export default function ServicePage() {
                 Escribirme
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
-            </div>
+            </>
+          }
+        >
+          {service.intro.map((paragraph) => (
+            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+          ))}
+        </PageHero>
+
+        {service.credentials?.length ? (
+          <div className="container mx-auto px-4">
+            <dl className="mt-8 flex flex-wrap items-baseline gap-x-10 gap-y-3 border-t border-rule pt-4">
+              <Eyebrow as="dt">Certificaciones</Eyebrow>
+              {service.credentials.map((credential) => (
+                <dd
+                  key={credential}
+                  className="inline-flex items-baseline gap-2.5 font-mono text-[12px] tracking-[0.1em] text-paper uppercase"
+                >
+                  <span aria-hidden="true" className="inline-block h-1.5 w-1.5 bg-stamp" />
+                  {credential}
+                </dd>
+              ))}
+            </dl>
           </div>
-        </AnimatedSection>
+        ) : null}
 
         {/* Scope, with the case alongside. */}
         <Section
@@ -173,9 +153,9 @@ export default function ServicePage() {
                     key={`${metric.label}-${i}`}
                     className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5"
                   >
-                    <dt className="font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase">
+                    <Eyebrow as="dt" tracking="wide">
                       {metric.label}
-                    </dt>
+                    </Eyebrow>
                     <dd className="font-mono text-lg text-paper tabular-nums">{metric.value}</dd>
                   </div>
                 ))}
@@ -219,9 +199,9 @@ export default function ServicePage() {
                   aria-hidden="true"
                 />
                 <div className="min-w-0">
-                  <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
+                  <Eyebrow as="p" size="md" tracking="wide" numeric>
                     Paso {String(i + 1).padStart(2, "0")}
-                  </p>
+                  </Eyebrow>
                   <h3 className="mt-2 font-sans text-2xl leading-[1.1] tracking-[-0.02em] text-paper">
                     {step.title}
                   </h3>

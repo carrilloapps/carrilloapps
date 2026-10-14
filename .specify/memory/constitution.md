@@ -26,12 +26,25 @@ large refactors.
 ### II. The shared shell is the product
 
 Every page is the same composition: `PageLoadingProvider` → `DynamicBackground`
-→ `SiteHeader` → `main.container.py-12.space-y-24` → `PageHero`/`PageHeroSplit`
-→ sections → `SiteFooter`. A page that rolls its own hero, background, or
-loading state is a defect regardless of how it looks in isolation.
+→ `SiteHeader` → `main.container` → hero → sections → `SiteFooter`. A page that
+rolls its own background or loading state is a defect regardless of how it
+looks in isolation.
 
-Consistency beats local cleverness. Reuse the component; if it cannot express
-what you need, extend the component — do not fork it inline.
+**The hero is the exception, and it is deliberate.** This principle used to
+name `PageHero` and `PageHeroSplit` as mandatory. It was amended in v1.1.0
+because the code had disagreed with it for a long time: all eleven pages built
+their hero inline, both components had zero importers, and the rule was
+enforcing a shell nothing used. A principle no one follows does not protect
+consistency, it only makes every honest reading of the codebase a violation.
+
+What binds instead is the **heading pattern** in [DESIGN.md §7](../../DESIGN.md#7-type)
+— one `clamp()`, one weight, solid `text-paper`, negative tracking, no
+gradient-clipped text — plus the surrounding shell above. Pages compose their
+own hero from that pattern, as `src/app/blog/page.tsx` does.
+
+Everything else in the shell is unchanged: consistency beats local cleverness,
+reuse the component, and if it cannot express what you need, extend it — do not
+fork it inline.
 
 ### III. Accessibility is a gate, not a polish pass
 
@@ -104,4 +117,4 @@ Runtime guidance for day-to-day work lives in `AGENTS.md`, which routes to
 `docs/`. Those documents explain _how_; this one defines _what is not
 negotiable_.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-15 | **Last Amended**: 2026-08-15
+**Version**: 1.1.0 | **Ratified**: 2026-08-15 | **Last Amended**: 2026-10-14

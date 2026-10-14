@@ -1,6 +1,18 @@
 {
   "version": 1,
   "skills": {
+    "agentic-agile": {
+      "source": "carrilloapps/skills",
+      "sourceType": "github",
+      "skillPath": "skills/agentic-agile/SKILL.md",
+      "computedHash": "55ca29840436345b8ab9ab31f6455ca42a0a86548c4947593b7b5fda850750c6"
+    },
+    "ai-rules": {
+      "source": "carrilloapps/skills",
+      "sourceType": "github",
+      "skillPath": "skills/ai-rules/SKILL.md",
+      "computedHash": "6aa60d144c792935783482d8937b58404db1ba4b13e334a490c6da2f16505d3b"
+    },
     "animate": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
@@ -58,8 +70,8 @@
     "devils-advocate": {
       "source": "carrilloapps/skills",
       "sourceType": "github",
-      "path": "skills/devils-advocate",
-      "computedHash": "bd13be26471c6098d1c122d9f15887af5f144b6bba7356b3bcfbeb08643239ec"
+      "skillPath": "skills/devils-advocate/SKILL.md",
+      "computedHash": "721c8f0225ba767c77ab8d4014b8659c55863fc9bd467c534930e469f88701de"
     },
     "emil-design-eng": {
       "source": "emilkowalski/skills",
@@ -110,7 +122,7 @@
       "computedHash": "d5215faecc59120b499726e2c0d6fd802d47f7f69c9243e328120b4759ed8f60"
     },
     "impeccable": {
-      "source": "claude-code-plugin:impeccable",
+      "source": "./claude-code-plugin:impeccable",
       "sourceType": "local",
       "path": ".claude/skills/impeccable"
     },
@@ -150,6 +162,12 @@
       "path": "skills/pick-ui-library",
       "computedHash": "033f55aab3e6495ccb703f043215910c043415cd7889ada884e993f7aedaa061"
     },
+    "postmortem-writing": {
+      "source": "carrilloapps/skills",
+      "sourceType": "github",
+      "skillPath": "skills/postmortem-writing/SKILL.md",
+      "computedHash": "59ab9b10aac7bce14dbdefa130fac5607b9297270423a566cc8bec8a58193ec0"
+    },
     "prototype": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
@@ -171,8 +189,8 @@
     "sar-cybersecurity": {
       "source": "carrilloapps/skills",
       "sourceType": "github",
-      "path": "skills/sar-cybersecurity",
-      "computedHash": "03b767eaf60fedf6310f0bfcfb8d34310ce468d805765ac9bc4455e214992153"
+      "skillPath": "skills/sar-cybersecurity/SKILL.md",
+      "computedHash": "c56ab1f5a33f5a87f50c72586ad11cffae0a956d3632bba3d9c1d5e008974af6"
     },
     "seo-audit": {
       "source": "coreyhaines31/marketingskills",
@@ -181,52 +199,52 @@
       "computedHash": "38b0a8a95b2e41dc360dc44bbe89700750ed8cac41d290160054cab842dab432"
     },
     "speckit-analyze": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-analyze"
     },
     "speckit-checklist": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-checklist"
     },
     "speckit-clarify": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-clarify"
     },
     "speckit-constitution": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-constitution"
     },
     "speckit-converge": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-converge"
     },
     "speckit-implement": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-implement"
     },
     "speckit-plan": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-plan"
     },
     "speckit-specify": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-specify"
     },
     "speckit-tasks": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-tasks"
     },
     "speckit-taskstoissues": {
-      "source": "github/spec-kit:specify-cli",
+      "source": "./github/spec-kit:specify-cli",
       "sourceType": "local",
       "path": ".claude/skills/speckit-taskstoissues"
     },

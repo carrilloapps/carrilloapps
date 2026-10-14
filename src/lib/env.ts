@@ -12,6 +12,15 @@ export const publicEnv = {
   // Destination number for all lead forms (WhatsApp deep links). Digits only;
   // the whatsapp helper sanitizes any formatting. Defaults to the test number.
   WHATSAPP_PHONE: process.env.NEXT_PUBLIC_WHATSAPP_PHONE || "573003328389",
+  // Cloudflare Turnstile site key for the contact form. Empty disables the
+  // widget, which is the default: `src/components/turnstile.tsx` only mounts
+  // when this is set, and `/contacto` only requires a token when it is.
+  //
+  // It used to be read as `process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY` inside
+  // the component, which is the one thing AGENTS.md §1 says not to do — env
+  // access goes through this file so there is a single place to see what the
+  // app actually reads.
+  TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "",
 } as const
 
 // Private environment variables (server-side only)

@@ -60,6 +60,104 @@ rejected.
 Lighthouse can be driven headlessly through the `chrome-devtools` MCP
 (`lighthouse_audit`) instead of opening DevTools by hand.
 
+### Running the whole gate in Docker
+
+`Dockerfile.validate` runs every check on a clean machine, installed from the
+lockfile — which is what makes "it passes here" mean something. Two targets:
+`validate` (Node 24: lint, format, markdown, typecheck, unit tests, build,
+audit, MCP parity) and `e2e` (the Playwright image, pinned to the same version
+as `package.json`, with the browsers already in it).
+
+On WSL with Docker Desktop, the Linux socket is usually not exposed to the
+distro, so the Windows CLI talks to the engine and the build context goes in
+over **stdin** as a tar — no `\\wsl.localhost` path ever reaches the daemon:
+
+```bash
+DK="/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe"
+
+tar --exclude=./node_modules --exclude=./.next --exclude=./.git \
+    --exclude=./.env --exclude='./.env.*' --exclude=./.vercel \
+    --exclude=./.insforge --exclude=./.memory -czf - . \
+  | "$DK" build --target validate -f Dockerfile.validate -t carrilloapps-validate:local -
+
+"$DK" run --rm carrilloapps-validate:local sh -lc "npm run lint && npx tsc --noEmit && npm test"
+```
+
+On a machine with a working Linux socket the plain `docker build .` form works
+and this is unnecessary.
+
+`.dockerignore` keeps `.env*`, `.vercel` and `.insforge` out of the context: a
+build context is not a mount, so anything in it is baked into a layer and
+survives there even if a later step deletes it. It deliberately **keeps**
+`docs/` and the Markdown, because `prettier --check` and `markdownlint-cli2`
+lint them — excluding them would make two gates pass by having nothing to look
+at.
+
+All ten gates pass as of 14 October 2026, `npm audit` included.
+
+Clearing audit took a tool swap rather than a version bump: `markdownlint-cli2`
+depends on `globby → fast-glob → micromatch → braces`, and `braces` carries
+GHSA-vfj7-8cjw-p6xm in **every** published version, so no upgrade could ever fix
+it. The classic `markdownlint-cli` runs the same `markdownlint@0.41` engine over
+`tinyglobby`, so the rules are unchanged and the chain is gone; its own
+`markdown-it` and `minimatch` are pinned forward through `overrides`. The rule
+config moved from `.markdownlint-cli2.jsonc` to `.markdownlint.jsonc`, and the
+globs and ignores moved to the `lint:md` script and `.markdownlintignore`,
+because this CLI takes them as arguments rather than from the config file.
+
+### Static analysis: SonarQube CE and the scanners
+
+Four tools cover what `lint` and `tsc` cannot. All of them run in containers, so
+nothing is installed on the machine. The scan results live in
+`.memory/local/devsecops/results/<YYYY-MM-DD>/`, which is **not versioned** —
+this repository is public.
+
+| Tool              | Finds                                       | Last run (14 Oct 2026)                           |
+| ----------------- | ------------------------------------------- | ------------------------------------------------ |
+| SonarQube CE 26.9 | Bugs, smells, complexity, duplication       | Gate **OK** — 0 bugs, 0 vulns, 0 hotspots, A/A/A |
+| Gitleaks          | Secrets in the working tree and git history | 0 leaks across 47 commits                        |
+| OSV-Scanner       | Known advisories in the lockfile            | 0 issues across 678 packages                     |
+| jscpd             | Copy-paste between files                    | 0.17% duplicated lines                           |
+
+```bash
+DK="/mnt/c/Program Files/Docker/Docker/resources/bin/docker.exe"   # WSL; plain `docker` elsewhere
+
+# SonarQube CE. Needs vm.max_map_count >= 524288 on the host, which is YOUR
+# command to run, not an agent's:  sudo sysctl -w vm.max_map_count=524288
+# The env var below skips the Elasticsearch bootstrap check instead, which is
+# fine for a local lab and leaves the host alone.
+"$DK" run -d --name sar-sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true \
+  -p 9000:9000 sonarqube:26.9.0.129388-community
+
+# The scanner needs the source. With Docker Desktop's WSL integration off there
+# are no bind mounts, so the code goes into a throwaway image instead:
+#   FROM sonarsource/sonar-scanner-cli:12.2.0.4256_8.1.0
+#   COPY . /usr/src
+# then run it with SONAR_HOST_URL=http://host.docker.internal:9000 and a token
+# from /api/user_tokens/generate.
+
+"$DK" stop sar-sonarqube    # one dashboard at a time; it wants several GB
+```
+
+`sonar-project.properties` at the root is the scanner's config and is
+versioned: `sonar.sources=src`, `sonar.tests=tests`, and exclusions for
+`.memory`, `node_modules`, `.next` and `public`.
+
+Two findings worth recording, because both were real and neither was caught by
+ESLint or the type checker:
+
+- `src/lib/language-detector.ts` had `/|>/` — an alternation with an empty left
+  branch, so it matched **every** string. Any Python or Ruby function was
+  reported as Elixir. Fixed, with regression tests.
+- `src/lib/queries.ts` sorted a cache key with `sort()` and no comparator.
+
+One SonarQube bug is marked **Accepted** rather than fixed: `typescript:S1082`
+on `country-select.tsx`. It asks for a keyboard listener on each `<li
+role="option">`, which would be wrong for the ARIA combobox pattern — the input
+owns the keyboard through `aria-activedescendant`, and giving every option its
+own handler would put the list in the tab order. The reasoning is at the call
+site and in the issue's comment.
+
 ### Accessibility testing
 
 The rules themselves are in [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md#5-accessibility-floor).

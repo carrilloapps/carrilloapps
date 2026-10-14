@@ -1,4 +1,4 @@
-import { PageLoading } from "@/components/unified-loading"
+import { PageLoading } from "@/components/feedback/unified-loading"
 
 /**
  * Suspense fallback for this route.

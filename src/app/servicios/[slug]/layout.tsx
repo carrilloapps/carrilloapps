@@ -2,7 +2,7 @@ import type { ReactNode } from "react"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { BreadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
 import { SERVICES, getService } from "@/lib/data/services"

@@ -9,14 +9,19 @@ const inputVariants = cva(
     variants: {
       variant: {
         /**
-         * Ledger — the field as this system draws one: square, a hairline rule,
-         * raised ink, and 48px tall so it meets the touch target the rest of
-         * the site holds to. It is the default because every form on this site
-         * is on the ledger; `default` below was shadcn's light-surface field at
-         * 40px, which was neither.
+         * Ledger — the field as this system draws one: a hairline rule, raised
+         * ink, an 8px corner, and 48px tall so it meets the touch target the
+         * rest of the site holds to. It is the default because every form on
+         * this site is on the ledger; `default` below was shadcn's
+         * light-surface field at 40px, which was neither.
+         *
+         * The corner is the one thing that changed with Graphite & Signal: a
+         * square field on a ruled ground read as a spreadsheet cell, which is
+         * also how people treated it — as a thing to tab past rather than a
+         * thing to type in.
          */
         ledger:
-          "min-h-[48px] border border-rule bg-field px-3 py-2.5 font-sans text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong",
+          "min-h-[48px] rounded-md border border-rule bg-field px-3 py-2.5 font-sans text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong",
         /** @deprecated shadcn classic, light surface — not this design. */
         default: "h-10 rounded-md border border-input bg-background px-3 py-2",
         /**
@@ -26,7 +31,7 @@ const inputVariants = cva(
          * parte del sistema de glass cards y no como objetos extraños.
          */
         glass:
-          "h-11 border border-rule bg-ink-raised px-3.5 py-2.5 text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] placeholder:text-zinc-500 hover:border-white/20 focus-visible:border-stamp focus-visible:bg-white/[0.05]",
+          "h-11 rounded-md border border-rule bg-ink-raised px-3.5 py-2.5 font-sans text-paper shadow-raised placeholder:text-paper-faint hover:border-rule-strong focus-visible:border-stamp focus-visible:bg-field-focus",
       },
     },
     defaultVariants: {

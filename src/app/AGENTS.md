@@ -46,12 +46,12 @@ All pages in this directory MUST follow this structure:
 ```tsx
 "use client"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
-import { PageHero } from "@/components/page-hero"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { PageLoadingProvider, usePageLoading } from "@/components/feedback/page-loading-context"
+import { OverlayLoading as PageLoadingOverlay } from "@/components/feedback/unified-loading"
+import { PageHero } from "@/components/layout/page-hero"
 
 function PageContent() {
   const { isLoading } = usePageLoading()
@@ -105,8 +105,8 @@ Most pages are client components due to:
 ### 2. Page Loading System
 
 ```tsx
-import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
-import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
+import { PageLoadingProvider, usePageLoading } from "@/components/feedback/page-loading-context"
+import { OverlayLoading as PageLoadingOverlay } from "@/components/feedback/unified-loading"
 
 // Use in component
 const { isLoading } = usePageLoading()

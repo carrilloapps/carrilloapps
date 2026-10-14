@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 
 import { EXPERIENCE, type ExperienceEntry } from "@/lib/data/experience"
 import { trackButtonClick } from "@/lib/analytics"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /** Oldest first, so the axis runs left to right the way a period does. */
 const ENTRIES = [...EXPERIENCE].reverse()
@@ -186,9 +187,9 @@ export function ExperienceTimeline() {
         find, and a touch reader has no hover at all.
       */}
       <div className="mb-6 flex items-center justify-between gap-2 border-b border-rule pb-3 md:gap-6">
-        <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase tabular-nums">
+        <Eyebrow as="p" size="md" tracking="wide" numeric>
           {activeIndex + 1} / {ENTRIES.length}
-        </p>
+        </Eyebrow>
 
         <div className="flex items-center gap-1">
           <button
@@ -339,9 +340,9 @@ export function ExperienceTimeline() {
                     key={metric.label}
                     className="flex items-baseline justify-between gap-4 border-b border-rule py-3"
                   >
-                    <dt className="font-mono text-[10px] tracking-[0.14em] text-paper-faint uppercase">
+                    <Eyebrow as="dt" tracking="wide">
                       {metric.label}
-                    </dt>
+                    </Eyebrow>
                     <dd className="font-mono text-2xl leading-none text-paper tabular-nums">
                       {metric.value}
                     </dd>

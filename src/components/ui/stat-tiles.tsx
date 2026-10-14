@@ -60,7 +60,7 @@ export function StatTiles({
         // Hairline dividers between columns on the single-row (sm+) layout, so
         // the strip reads as one connected set of figures rather than chips.
         plain &&
-          "gap-y-6 [&>li:not(:first-child)]:sm:border-l [&>li:not(:first-child)]:sm:border-white/10",
+          "gap-y-6 [&>li:not(:first-child)]:sm:border-l [&>li:not(:first-child)]:sm:border-rule",
         className,
       )}
       aria-label={ariaLabel}
@@ -77,16 +77,17 @@ export function StatTiles({
             className={cn(
               "leading-none font-extrabold tracking-tight tabular-nums",
               s.value,
-              plain
-                ? "bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-transparent"
-                : "text-white",
+              // A figure is the one thing on the page that must be read
+              // exactly, so it is set in solid paper. The white→zinc gradient
+              // this replaced faded the bottom of every digit.
+              "text-paper",
             )}
           >
             {metric.value}
           </span>
           <span
             className={cn(
-              "leading-tight text-zinc-300",
+              "leading-tight text-paper-dim",
               s.label,
               plain && "tracking-wide uppercase",
             )}

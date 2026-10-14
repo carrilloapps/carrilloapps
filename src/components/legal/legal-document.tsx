@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 export type LegalBlock =
   | {
@@ -45,7 +46,7 @@ const RELATED = [
  * The shell every legal document shares.
  *
  * The three policies were three copies of the same page: a rounded
- * `SurfaceCard`, an emerald pill, `text-zinc-300` prose and no way to reach a
+ * `SurfaceCard`, an emerald pill, `text-paper-dim` prose and no way to reach a
  * clause without scrolling the whole thing. They are now one component fed by
  * data, in the ledger's language — a document masthead, a numbered index that
  * follows you down the page, and clauses separated by rules instead of stacked
@@ -89,9 +90,9 @@ export function LegalDocument({
           aria-labelledby="legal-heading"
         >
           <div className="container mx-auto px-4">
-            <p className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase">
+            <Eyebrow as="p" size="md" tracking="wider">
               Legal
-            </p>
+            </Eyebrow>
 
             <h1
               id="legal-heading"
@@ -148,9 +149,7 @@ export function LegalDocument({
               <aside className="order-1 lg:sticky lg:top-24 lg:order-2">
                 <dl className="max-w-[26rem] border-y border-rule lg:max-w-none">
                   <div className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5">
-                    <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                      Actualizado
-                    </dt>
+                    <Eyebrow as="dt">Actualizado</Eyebrow>
                     <dd className="text-right font-sans text-[15px] text-paper">
                       <time dateTime={updated}>{updatedLabel}</time>
                     </dd>
@@ -160,9 +159,7 @@ export function LegalDocument({
                       key={term}
                       className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5 last:border-b-0"
                     >
-                      <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                        {term}
-                      </dt>
+                      <Eyebrow as="dt">{term}</Eyebrow>
                       <dd className="text-right font-sans text-[15px] text-paper">{value}</dd>
                     </div>
                   ))}

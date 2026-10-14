@@ -10,3 +10,7 @@ test-results
 package-lock.json
 public
 *.lock
+
+# Agent-private state, never versioned (see .memory/.gitignore)
+.memory
+sonar-project.properties

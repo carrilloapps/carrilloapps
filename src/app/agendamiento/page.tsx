@@ -3,13 +3,16 @@
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
-import { SectionHeader } from "@/components/section-header"
-import { CalInline } from "@/components/cal-booking"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
+import { SectionHeader } from "@/components/layout/section-header"
+import { CalInline } from "@/components/forms/cal-booking"
 import { trackCTAClick } from "@/lib/analytics"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /**
  * Scheduling, on the real calendar.
@@ -119,53 +122,24 @@ export default function AgendamientoPage() {
 
 function OpeningEntry() {
   return (
-    <AnimatedSection
-      className="relative w-full pt-6 md:pt-10"
-      role="region"
-      aria-labelledby="booking-heading"
+    <PageHero
+      eyebrow="Agendamiento"
+      title="Una hora, y sales con un plan"
+      headingId="booking-heading"
+      titleWidth="tight"
+      aside={<SpecList items={PARTICULARS} />}
     >
-      <div className="container mx-auto px-4">
-        <p className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase">
-          Agendamiento
-        </p>
-
-        <h1
-          id="booking-heading"
-          className="mt-3 max-w-[16ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-        >
-          Una hora, y sales con un plan
-        </h1>
-
-        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-            <p>
-              Casi todo lo que hago empieza igual: una llamada en la que alguien describe una
-              plataforma que funciona pero ya no aguanta lo que le viene encima. Sistemas de pago
-              que concilian a mano, arquitecturas que crecieron por acumulación, equipos que
-              entregan pero no saben cuánto pueden comprometer.
-            </p>
-            <p>
-              La sesión es de diagnóstico, no de venta. Al final tienes los riesgos priorizados y
-              qué hacer con ellos, por escrito, tanto si seguimos trabajando juntos como si no.
-            </p>
-          </div>
-
-          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
-            {PARTICULARS.map(({ term, value }) => (
-              <div
-                key={term}
-                className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-              >
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  {term}
-                </dt>
-                <dd className="text-right font-sans text-base text-paper">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-    </AnimatedSection>
+      <p>
+        Casi todo lo que hago empieza igual: una llamada en la que alguien describe una plataforma
+        que funciona pero ya no aguanta lo que le viene encima. Sistemas de pago que concilian a
+        mano, arquitecturas que crecieron por acumulación, equipos que entregan pero no saben cuánto
+        pueden comprometer.
+      </p>
+      <p>
+        La sesión es de diagnóstico, no de venta. Al final tienes los riesgos priorizados y qué
+        hacer con ellos, por escrito, tanto si seguimos trabajando juntos como si no.
+      </p>
+    </PageHero>
   )
 }
 
@@ -218,9 +192,7 @@ function Booking() {
                   key={term}
                   className="flex items-baseline justify-between gap-4 border-b border-rule py-2.5"
                 >
-                  <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                    {term}
-                  </dt>
+                  <Eyebrow as="dt">{term}</Eyebrow>
                   <dd className="text-right font-sans text-sm text-paper">{value}</dd>
                 </div>
               ))}
@@ -297,9 +269,9 @@ function Fit() {
           </div>
 
           <div>
-            <p className="font-mono text-[10px] tracking-[0.16em] text-stamp-text uppercase">
+            <Eyebrow as="p" tone="stamp">
               No encaja
-            </p>
+            </Eyebrow>
             <ul className="mt-2">
               {FIT.no.map((item) => (
                 <li

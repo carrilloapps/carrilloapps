@@ -1,5 +1,12 @@
-import { NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
+
+import {
+  matchesSearch,
+  parseRepositoryQuery,
+  pinnedOnlyResponse,
+  repositoriesResponse,
+  upstreamUnavailable,
+} from "@/lib/repository-api"
 
 // GitHub API types
 interface GitHubRepo {
@@ -66,13 +73,9 @@ const getCachedGitHubUserInfo = unstable_cache(
 )
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const username = searchParams.get("username") || "carrilloapps"
-  const page = Number.parseInt(searchParams.get("page") || "1")
-  const language = searchParams.get("language") || "all"
-  const search = searchParams.get("search") || ""
-  const pinnedOnly = searchParams.get("pinned_only") === "true"
-  const perPage = 6
+  const parsed = parseRepositoryQuery(new URL(request.url).searchParams)
+  if (!parsed.ok) return parsed.response
+  const { username, page, language, search, pinnedOnly, perPage } = parsed.query
 
   try {
     // Get cached data
@@ -93,13 +96,9 @@ export async function GET(request: Request) {
       )
     }
 
-    if (search) {
-      filteredData = filteredData.filter(
-        (repo: GitHubRepo) =>
-          repo.name.toLowerCase().includes(search.toLowerCase()) ||
-          (repo.description && repo.description.toLowerCase().includes(search.toLowerCase())),
-      )
-    }
+    filteredData = filteredData.filter((repo: GitHubRepo) =>
+      matchesSearch(repo.name, repo.description, search),
+    )
 
     // "Pinned" is simulated by top-starred, since the REST API does not expose
     // the profile pins.
@@ -142,23 +141,16 @@ export async function GET(request: Request) {
     }))
 
     // If pinned_only is true, only return pinned repositories
-    if (pinnedOnly) {
-      return NextResponse.json({
-        repositories: [],
-        totalCount: 0,
-        totalPages: 0,
-        pinnedRepos: pinnedRepositories,
-      })
-    }
+    if (pinnedOnly) return pinnedOnlyResponse(pinnedRepositories)
 
-    return NextResponse.json({
+    return repositoriesResponse({
       repositories,
+      pinnedRepos: pinnedRepositories,
       totalCount,
       totalPages,
-      pinnedRepos: pinnedRepositories,
     })
   } catch (error) {
     console.error("Error fetching GitHub repositories:", error)
-    return NextResponse.json({ error: "Failed to fetch repositories" }, { status: 500 })
+    return upstreamUnavailable("GitHub")
   }
 }

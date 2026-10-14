@@ -7,49 +7,51 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ---------------------------------------------------------------------------
+   shadcn's variable contract, answered in ledger values.
+
+   These are not a second palette. The 48 primitives in `src/components/ui/`
+   are written against `--primary`, `--card`, `--muted` and friends, so while
+   this block held shadcn's defaults every one of them painted a blue that
+   exists nowhere in the design: a `<Badge>` came out `#2563eb`, a `<Card>`
+   came out white. Pointing the contract at the ledger means a primitive
+   dropped in without a single utility class is already in the system.
+
+   Values are the HSL of the hex tokens below — the hex is the source of
+   truth, this is the same colour spelled the way Tailwind's `hsl(var(--x))`
+   wrapper needs. Light and dark resolve identically because the ledger is a
+   single world: ink is the ground, there is no paper mode.
+   --------------------------------------------------------------------------- */
 :root {
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
+  --background: 210 33.3% 9.4%; /* ink */
+  --foreground: 60 3.8% 84.5%; /* paper */
+  --card: 213 30.3% 12.9%; /* ink-raised */
+  --card-foreground: 60 3.8% 84.5%;
+  --popover: 216 31.6% 15.5%; /* ink-overlay */
+  --popover-foreground: 60 3.8% 84.5%;
+  --primary: 4.1 100% 62.9%; /* stamp */
+  --primary-foreground: 210 33.3% 9.4%; /* ink on stamp — 5.50:1 */
+  --secondary: 213.9 29.1% 15.5%; /* field */
+  --secondary-foreground: 60 3.8% 84.5%;
+  --muted: 213 19.6% 20%; /* rule */
+  --muted-foreground: 213.3 8.6% 58.8%; /* paper-faint — 5.91:1 on ink */
+  --accent: 186.8 69% 54.5%; /* support */
+  --accent-foreground: 210 33.3% 9.4%; /* ink on support — 9.00:1 */
+  --destructive: 4.1 100% 62.9%;
+  --destructive-foreground: 210 33.3% 9.4%;
+  --border: 213 19.6% 20%; /* rule */
+  --input: 213.9 29.1% 15.5%; /* field */
+  --ring: 5 100% 71.6%; /* stamp-text */
+
+  /* Geometry. The ledger used to be square everywhere — a deliberate stamp
+     reading that also made every surface look like a table cell. A 4/8/12/16
+     scale softens the plates without touching the hairlines: rules stay 1px
+     and straight, only the things that are objects get a corner. */
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: 220 11% 4%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 217.2 91.2% 59.8%;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -75,9 +77,15 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  /* 4 / 8 / 12 / 16 / 24. One step per level of object: a chip, a control, a
+     plate, an overlay, a figure. `--radius` is the plate, so shadcn's own
+     `rounded-lg` lands on 12px and the rest derive from it. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: var(--radius); /* 12px */
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
 
   --tw-prose-body: hsl(var(--foreground));
   --tw-prose-headings: hsl(var(--foreground));
@@ -118,31 +126,86 @@
 }
 
 /* ---------------------------------------------------------------------------
-   The settlement ledger
+   The settlement ledger — Graphite & Signal
    Ink ground, inverted-paper text, hairline rules, one validation-stamp red.
    Color lives only in rules and state marks; the text field stays achromatic.
+
+   The grounds carry a measured blue cast (every ink step sits at ~213° hue,
+   29–33% saturation) rather than the near-neutral #0b0c0e they replaced. A
+   flat near-black reads as absence; a blue-black reads as a material, and it
+   is what lets a 1px hairline at 20% lightness stay visible without being
+   lifted to grey. Pantone references are the print anchors for the three
+   signal colours — the hex is what ships.
+
+   Every value here is measured against the ground it is used on; the ratios in
+   the comments are real and come from `prefers` checks, not from taste:
+     paper #d9d9d6 on ink      12.65:1
+     paper-dim                  7.91:1
+     paper-faint                5.91:1   (the floor for body copy)
+     stamp #ff4f42              5.50:1
+     support #3bc9db            9.00:1
+     settled #00b188            6.51:1
+   The one direction that fails is paper ON stamp (2.30:1) — Pantone 2035 is
+   too luminous to carry light type. A filled stamp therefore prints ink, not
+   paper, which is also how a real rubber stamp lands on a page.
    --------------------------------------------------------------------------- */
 :root {
-  --ledger-ink: #0b0c0e;
-  --ledger-ink-raised: #101216;
+  /* Grounds, in four steps. The step is the elevation: a thing one level up
+     from its parent sits one token up. Nothing skips a step. */
+  --ledger-ink: #101820; /* Pantone Black 6 C — the page */
+  --ledger-ink-raised: #17202b; /* plates, cards */
+  --ledger-ink-overlay: #1b2534; /* dialogs, popovers, menus */
   /* Field surfaces. A focused field lifts instead of growing a ring. */
-  --ledger-field: #14171c;
-  --ledger-field-focus: #1c2027;
-  --ledger-paper: #e8e6e1;
-  --ledger-paper-dim: #a2a6ad;
-  --ledger-paper-faint: #868b93;
-  --ledger-rule: #2a2d33;
-  --ledger-rule-strong: #3d424a;
-  --ledger-stamp: #c4362f;
-  /* The stamp at text size: the seal red is a 3.65:1 mark, fine for a rule or
-     an icon but below the 4.5:1 floor for small copy, so type gets this one. */
-  --ledger-stamp-text: #e0574e;
-  --ledger-stamp-dim: #7a2420;
-  --ledger-settled: #3f8f6f;
+  --ledger-field: #1c2633;
+  --ledger-field-focus: #233040;
+
+  /* Paper. Three weights, all of them above the 4.5:1 floor on every ground. */
+  --ledger-paper: #d9d9d6; /* Pantone Cool Gray 1 C */
+  --ledger-paper-dim: #a7adb5;
+  --ledger-paper-faint: #8d959f;
+
+  /* Rules. Decorative by definition — never put type in these. */
+  --ledger-rule: #29323d;
+  --ledger-rule-strong: #3b4654;
+
+  /* Signal. The stamp is the one loud colour; support and settled are states,
+     not decoration. Three signals is the ceiling — a fourth and none of them
+     signals anything. */
+  --ledger-stamp: #ff4f42; /* Pantone 2035 C */
+  --ledger-stamp-text: #ff7a6e; /* the hover/active step, 7.04:1 */
+  --ledger-stamp-dim: #8c2a22; /* a stamp that has already been used */
+  --ledger-support: #3bc9db; /* Pantone 3252 C — information, links out */
+  --ledger-support-dim: #1d6f7c;
+  --ledger-settled: #00b188; /* Pantone 2255 C — reconciled, done */
+  --ledger-settled-dim: #0a5f4c;
 
   /* One column rhythm for every entry across the site. */
   --ledger-gutter: 1.5rem;
   --ledger-rule-width: 1px;
+
+  /* ── Elevation ────────────────────────────────────────────────────────
+     Depth on an ink ground cannot come from a black shadow alone — black on
+     near-black is invisible. Each step pairs a real cast shadow (the object
+     occludes light below it) with a 1px inset highlight on the top edge (the
+     object catches light from above). That pair is what reads as a physical
+     plate instead of a lighter rectangle.
+
+     None of these is a focus ring: every layer carries blur and offset, and
+     none uses the `0 0 0 Npx` spread form the system bans. Focus is an
+     outline, always. */
+  --elevation-1: 0 1px 2px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(217 217 214 / 0.045);
+  --elevation-2:
+    0 2px 4px -1px rgb(0 0 0 / 0.5), 0 6px 16px -6px rgb(0 0 0 / 0.45),
+    inset 0 1px 0 rgb(217 217 214 / 0.06);
+  --elevation-3:
+    0 4px 8px -2px rgb(0 0 0 / 0.5), 0 16px 40px -12px rgb(0 0 0 / 0.55),
+    inset 0 1px 0 rgb(217 217 214 / 0.08);
+  --elevation-overlay:
+    0 8px 16px -4px rgb(0 0 0 / 0.55), 0 32px 72px -16px rgb(0 0 0 / 0.65),
+    inset 0 1px 0 rgb(217 217 214 / 0.09);
+  /* The lift a stamped action gets on hover: the shadow takes the stamp's own
+     hue so the colour appears to come off the object. */
+  --elevation-stamp: 0 4px 12px -2px rgb(255 79 66 / 0.35);
 }
 
 @theme inline {
@@ -151,6 +214,7 @@
 
   --color-ink: var(--ledger-ink);
   --color-ink-raised: var(--ledger-ink-raised);
+  --color-ink-overlay: var(--ledger-ink-overlay);
   --color-field: var(--ledger-field);
   --color-field-focus: var(--ledger-field-focus);
   --color-paper: var(--ledger-paper);
@@ -160,7 +224,20 @@
   --color-rule-strong: var(--ledger-rule-strong);
   --color-stamp: var(--ledger-stamp);
   --color-stamp-text: var(--ledger-stamp-text);
+  --color-stamp-dim: var(--ledger-stamp-dim);
+  --color-support: var(--ledger-support);
+  --color-support-dim: var(--ledger-support-dim);
   --color-settled: var(--ledger-settled);
+  --color-settled-dim: var(--ledger-settled-dim);
+
+  /* Elevation as utilities, so a component asks for a level rather than
+     hand-rolling a box-shadow: `shadow-raised`, `shadow-plate`,
+     `shadow-floating`, `shadow-overlay`, `shadow-stamp`. */
+  --shadow-raised: var(--elevation-1);
+  --shadow-plate: var(--elevation-2);
+  --shadow-floating: var(--elevation-3);
+  --shadow-overlay: var(--elevation-overlay);
+  --shadow-stamp: var(--elevation-stamp);
 }
 
 @layer base {
@@ -275,24 +352,36 @@
     gap: 0.5rem;
     min-height: 44px;
     padding-inline: 1rem;
+    /* The one piece of geometry the stamp gets. A filled block with a corner
+       still reads as a stamp; it stops reading as a table cell. */
+    border-radius: var(--radius-md);
     border: 1px solid var(--ledger-stamp);
     background-color: var(--ledger-stamp);
+    box-shadow: var(--elevation-1);
     font-family: var(--font-archivo), system-ui, sans-serif;
     font-size: 0.9375rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--ledger-paper);
+    /* Ink, not paper. Pantone 2035 is a 5.50:1 ground for ink and a 2.30:1
+       ground for paper — the light label this used to print was unreadable
+       the moment the seal red was swapped for the signal red. */
+    color: var(--ledger-ink);
     touch-action: manipulation;
     transition:
       background-color 150ms ease,
       color 150ms ease,
-      border-color 150ms ease;
+      border-color 150ms ease,
+      box-shadow 150ms ease,
+      transform 150ms ease;
   }
   .cta-stamp:hover,
   .cta-stamp:focus-visible {
     background-color: transparent;
     border-color: var(--ledger-stamp-text);
     color: var(--ledger-stamp-text);
+    /* The stamp lifting off the paper: the halo takes the stamp's own hue. */
+    box-shadow: var(--elevation-stamp);
+    transform: translateY(-1px);
   }
   .cta-stamp:focus-visible {
     outline: 1px solid var(--ledger-stamp-text);
@@ -303,7 +392,18 @@
     border-color: var(--ledger-rule);
     background-color: transparent;
     color: var(--ledger-paper-faint);
+    box-shadow: none;
+    transform: none;
     cursor: not-allowed;
+  }
+  /* A disabled stamp does not answer the pointer — not with colour, not with
+     height. Without this the hover rule above still lifted it. */
+  .cta-stamp:disabled:hover,
+  .cta-stamp[aria-disabled="true"]:hover {
+    border-color: var(--ledger-rule);
+    color: var(--ledger-paper-faint);
+    box-shadow: none;
+    transform: none;
   }
 
   /* The secondary action. Not a box: boxing every link turned the page into
@@ -362,8 +462,8 @@
   }
 
   .prose :where(code):not(:where([class~="not-prose"] *)) {
-    background-color: hsl(var(--muted));
-    border-radius: 0.25rem;
+    background-color: var(--ledger-field);
+    border-radius: var(--radius-sm);
     padding: 0.25rem;
   }
   .prose :where(code):not(:where([class~="not-prose"] *))::before,
@@ -371,7 +471,7 @@
     content: "";
   }
   .prose :where(pre):not(:where([class~="not-prose"] *)) {
-    border-radius: 0.5rem;
+    border-radius: var(--radius-md);
   }
   .prose {
     max-width: 100%;
@@ -458,7 +558,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgb(24 24 27);
+  background-color: var(--ledger-ink);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -582,39 +682,45 @@ html {
 }
 
 /**
- * Surface card — the canonical modern card surface used across the home.
+ * Surface card — the canonical plate.
  *
- * Aesthetic: glassy slate body with a faint blue undertone (matches the page's
- * blue/purple parallax theme rather than reading as flat neutral grey). Layers:
+ * A plate is an object sitting on the ledger, and it is the one place the
+ * design admits depth. Four things carry that, and all four move together:
  *
- *   1. Body — two stacked gradients:
- *      a) light wash over the top 40% (white/4%) — simulates ambient light
- *      b) slate-800 → slate-900 at 0.55–0.7 alpha — the actual card colour
- *      Sitting under `backdrop-filter: blur(20px) saturate(140%)` so whatever
- *      is behind the card (parallax SVGs, alternating bg) bleeds through
- *      subtly, giving each card a unique tint depending on its surroundings.
- *   2. Border — `rgb(255 255 255 / 0.08)` (alpha white) reads more refined
- *      than a flat zinc border.
- *   3. Inset top highlight (`shadow inset 0 1px 0 0 white/7%`) — the bevel
- *      that makes the top edge catch light.
- *   4. Drop shadow — soft, low-contrast lift.
- *   5. ::after — 1px hairline near the top edge, fading from sides to middle
- *      (the "Linear" effect signalling glass).
- *   6. ::before — dual radial glow (blue top + purple bottom) at z:-1, only
- *      on hover. Adds dynamism that picks up the brand colours.
+ *   1. Ground   — `--ledger-ink-raised`, exactly one elevation step above the
+ *                 page. Not a gradient and not translucent: a plate is opaque
+ *                 stock, and glass over a ruled ground made the rules read as
+ *                 dirt under the card.
+ *   2. Rule     — a 1px `--ledger-rule` hairline, the same hairline the rest
+ *                 of the world is drawn with, so the plate belongs to it.
+ *   3. Corner   — `--radius-lg` (12px). This is the change that stopped the
+ *                 page reading as a spreadsheet: the hairlines stayed
+ *                 straight, the objects got a corner.
+ *   4. Shadow   — `--elevation-2`: a cast shadow plus a 1px inset highlight
+ *                 along the top edge. The highlight is what makes it a plate
+ *                 instead of a lighter rectangle, because a black shadow on
+ *                 an ink ground is nearly invisible on its own.
  *
- * Hover / focus-within (or via parent .group): the top wash shifts from white
- * to blue, the slate body deepens, the border tightens to blue/45%, and the
- * drop shadow promotes to a coloured halo.
+ * Hover (directly, via `:focus-within`, or through a parent `.group`): the
+ * rule strengthens, the shadow promotes one step, and the plate rises 1px.
+ * Nothing changes hue — colour on this site means state, and "the pointer is
+ * here" is not a state.
+ *
+ * `::after` keeps the top-edge hairline inset from the corners so it stops
+ * before the radius starts and never crosses the curve.
  */
 .surface-card {
   position: relative;
   isolation: isolate;
+  border-radius: var(--radius-lg);
   background-color: var(--ledger-ink-raised);
   border: 1px solid var(--ledger-rule);
+  box-shadow: var(--elevation-2);
   transition:
     border-color 200ms ease,
-    background-color 200ms ease;
+    background-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
 }
 
 .surface-card:hover,
@@ -622,6 +728,8 @@ html {
 .group:hover .surface-card,
 .group:focus-within .surface-card {
   border-color: var(--ledger-rule-strong);
+  box-shadow: var(--elevation-3);
+  transform: translateY(-2px);
 }
 
 .surface-card::before {
@@ -635,28 +743,41 @@ html {
   left: 10%;
   right: 10%;
   height: 1px;
-  background-color: var(--ledger-rule);
+  background-color: var(--ledger-rule-strong);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Subtle nested surface — for chips / rows inside a surface-card. Same
-   colour family, lower contrast, no hover halo. Use when a parent is already
-   surface-card and you need a subordinate pill. */
+/* Subordinate surface — chips and rows that sit INSIDE a plate. One step up
+   from the plate (`--ledger-field`, not another `ink-raised`, or it
+   disappeared into its own parent), the smaller corner, and the flattest
+   elevation. It never lifts: two things rising under one pointer is one thing
+   too many. */
 .surface-card-subtle {
   position: relative;
-  border-radius: 0.75rem;
-  background-color: var(--ledger-ink-raised);
-  border: 1px solid rgb(255 255 255 / 0.06);
+  border-radius: var(--radius-md);
+  background-color: var(--ledger-field);
+  border: 1px solid var(--ledger-rule);
+  box-shadow: var(--elevation-1);
   transition:
     border-color 200ms ease,
-    background 200ms ease;
+    background-color 200ms ease;
 }
 
 .surface-card-subtle:hover,
 .surface-card-subtle:focus-within {
-  border-color: rgb(96 165 250 / 0.3);
-  background-color: var(--ledger-ink-raised);
+  border-color: var(--ledger-rule-strong);
+  background-color: var(--ledger-field-focus);
+}
+
+/* An overlay is the top of the stack: dialogs, popovers, menus, the command
+   palette. One ground above a plate, the largest corner, and the deepest
+   shadow, because it has to separate from content that may itself be plated. */
+.surface-overlay {
+  border-radius: var(--radius-xl);
+  background-color: var(--ledger-ink-overlay);
+  border: 1px solid var(--ledger-rule-strong);
+  box-shadow: var(--elevation-overlay);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -664,6 +785,18 @@ html {
   .surface-card::before,
   .surface-card-subtle {
     transition: none;
+  }
+  /* The lift is the part a vestibular reader feels. The rule and the shadow
+     still answer the pointer; the movement does not. */
+  .surface-card:hover,
+  .surface-card:focus-within,
+  .group:hover .surface-card,
+  .group:focus-within .surface-card {
+    transform: none;
+  }
+  .cta-stamp:hover,
+  .cta-stamp:focus-visible {
+    transform: none;
   }
 }
 

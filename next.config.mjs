@@ -19,9 +19,23 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // Allow images from any host so badges (shields.io), CDNs and external
     // sources all flow through next/image optimization without per-host config.
+    // SAR F-001. This was `hostname: "**"` for both https and http, which is a
+    // wildcard over the entire internet — and `remotePatterns` is the ONLY
+    // control deciding what `/_next/image` will fetch and re-serve under this
+    // domain. With it open, anyone could use carrillo.app as an image proxy:
+    // their bandwidth bill paid by this Vercel account, their content served
+    // from this certificate, and an `http://` fetch reachable from the
+    // function toward any host.
+    //
+    // These are the hosts that actually reach `next/image` on a live route:
+    // Substack's CDN serves every post thumbnail (`src/app/blog/page.tsx:264`,
+    // `src/components/latest-posts-section.tsx:124`). Nothing else does.
+    // `src/lib/data/projects.ts` holds two more image hosts but no route
+    // mounts that file — add them here on the same commit that mounts it.
     remotePatterns: [
-      { protocol: "https", hostname: "**" },
-      { protocol: "http", hostname: "**" },
+      { protocol: "https", hostname: "substackcdn.com" },
+      { protocol: "https", hostname: "*.substackcdn.com" },
+      { protocol: "https", hostname: "substack-post-media.s3.amazonaws.com" },
     ],
   },
 
@@ -38,8 +52,11 @@ const nextConfig = {
       "@radix-ui/react-select",
       "@radix-ui/react-tabs",
     ],
-    // Web Vitals attribution for debugging (Vercel Analytics compatible)
-    webVitalsAttribution: ["CLS", "LCP", "FCP", "FID", "TTFB", "INP"],
+    // Web Vitals attribution for debugging (Vercel Analytics compatible).
+    // FID is gone: Google retired it as a Core Web Vital in March 2024 and INP
+    // replaced it, so Next 16 rejects the literal outright rather than ignoring
+    // it. Nothing read it — the metric is already covered by INP below.
+    webVitalsAttribution: ["CLS", "LCP", "FCP", "TTFB", "INP"],
     // Aggressive CSS optimization - inline critical CSS
     optimizeCss: true, // Enable automatic CSS optimization
     // NOTE: `cssChunking` was removed here — since Next.js 16.3 it is a
@@ -103,16 +120,35 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://js.hs-scripts.com https://js.hsforms.net https://js.hscollectedforms.net https://js.hs-analytics.net https://js.usemessages.com https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://connect.facebook.net https://apis.google.com https://www.google.com https://www.gstatic.com https://app.cal.com",
+              // SAR F-003. Every origin listed here can execute script on this
+              // page, so the list is only as safe as its least careful member.
+              // Removed because `grep -rli` found zero uses in `src/`: the five
+              // HubSpot hosts, `connect.facebook.net` (the only "facebook" hits
+              // are `sharer.php` links, not the SDK), `apis.google.com`,
+              // `www.google.com`, `www.gstatic.com`, and — worst of the set —
+              // `cdnjs.cloudflare.com`, a general-purpose CDN whose presence
+              // lets an injected tag pull in any library it likes.
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-scripts.com https://*.vercel-insights.com https://va.vercel-scripts.com https://static.cloudflareinsights.com https://challenges.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://app.cal.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.disquscdn.com",
-              "img-src 'self' data: blob: https: http: https://substack.com https://*.substack.com https://www.google-analytics.com https://www.googletagmanager.com https://*.disqus.com https://*.disquscdn.com https://referrer.disqus.com",
+              // `http:` dropped: `upgrade-insecure-requests` below rewrites
+              // those anyway, so allowing it only widened the policy on paper.
+              "img-src 'self' data: blob: https: https://substack.com https://*.substack.com https://www.google-analytics.com https://www.googletagmanager.com https://*.disqus.com https://*.disquscdn.com https://referrer.disqus.com",
               "font-src 'self' data: https://fonts.gstatic.com https://*.disquscdn.com",
-              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://substack.com https://*.substack.com https://api.github.com https://gitlab.com https://www.googleapis.com https://forms.hsforms.com https://*.cloudflareinsights.com https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://app.cal.com https://api.cal.com",
-              "frame-src 'self' https://forms.hsforms.com https://www.youtube.com https://www.youtube-nocookie.com https://disqus.com https://*.disqus.com https://app.cal.com https://cal.com",
+              "connect-src 'self' https://*.vercel.app https://*.vercel-insights.com https://vitals.vercel-insights.com https://substack.com https://*.substack.com https://api.github.com https://gitlab.com https://*.cloudflareinsights.com https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://*.disqus.com https://*.disquscdn.com https://app.cal.com https://api.cal.com",
+              // YouTube goes back in the day something is embedded, not before.
+              // `challenges.cloudflare.com` is required by the Turnstile widget
+              // on /contacto — its own source comments say so
+              // (`src/components/turnstile.tsx:42`) and the host was missing
+              // from this policy, so the anti-bot control could never load even
+              // with NEXT_PUBLIC_TURNSTILE_SITE_KEY set.
+              "frame-src 'self' https://challenges.cloudflare.com https://disqus.com https://*.disqus.com https://app.cal.com https://cal.com",
               "media-src 'self' https:",
               "object-src 'none'",
               "base-uri 'self'",
-              "form-action 'self' https://forms.hsforms.com",
+              // SAR F-003. This authorised posting any form on the site to a
+              // third party the site no longer uses. The live forms hand off to
+              // WhatsApp and Substack by navigation, not by form POST.
+              "form-action 'self'",
               "frame-ancestors 'none'",
               "upgrade-insecure-requests",
             ].join("; "),
@@ -140,8 +176,12 @@ const nextConfig = {
               "camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=(), payment=(), usb=(), serial=(), bluetooth=()",
           },
           {
+            // SAR W-006. The XSS auditor this enabled is gone from every
+            // browser in this project's browserslist, and on the versions that
+            // shipped it, it introduced vulnerabilities of its own. `0` is the
+            // current recommendation; the real protection is the CSP above.
             key: "X-XSS-Protection",
-            value: "1; mode=block",
+            value: "0",
           },
         ],
       },

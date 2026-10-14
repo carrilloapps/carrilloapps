@@ -1,8 +1,12 @@
 # Page Consistency Guide
 
-The shared page shell, the hero components, the design tokens and the
+The shared page shell, the hero components, page-level spacing and the
 accessibility floor. Constitution Principle II — "the shared shell is the
 product" — is enforced here.
+
+The **visual system** — colour, geometry, elevation, type, motion — lives in
+[`DESIGN.md`](../DESIGN.md) at the repo root. This page covers composition and
+points there rather than repeating it.
 
 Read this before creating or restructuring any page.
 
@@ -20,7 +24,6 @@ import { SiteFooter } from "@/components/site-footer"
 import { DynamicBackground } from "@/components/dynamic-background"
 import { PageLoadingProvider, usePageLoading } from "@/components/page-loading-context"
 import { OverlayLoading as PageLoadingOverlay } from "@/components/unified-loading"
-import { PageHero } from "@/components/page-hero"
 
 function PageContent() {
   const { isLoading } = usePageLoading()
@@ -33,11 +36,12 @@ function PageContent() {
         <SiteHeader />
 
         <main className="relative z-10 container space-y-24 py-12" id="main-content">
-          <PageHero
-            badge={{ text: "Page Name" }}
-            title="Main Title"
-            description="Page description."
-          />
+          {/* Hero: composed inline from the shared heading pattern — see §2 */}
+          <section aria-labelledby="page-heading">
+            <h1 id="page-heading" className="…">
+              Main Title
+            </h1>
+          </section>
 
           <motion.section
             className="space-y-8 pt-6 pb-12" // first section after hero: pt-6, not py-12
@@ -72,8 +76,8 @@ Metadata and JSON-LD do **not** go here — pages are `"use client"`. See
 
 - [ ] `PageLoadingProvider` + `PageLoadingOverlay`
 - [ ] `DynamicBackground` (never `ParticleHeroBackground` — removed)
-- [ ] Container: `relative min-h-screen overflow-hidden text-white`
-- [ ] `PageHero` or `PageHeroSplit` — never a hand-rolled hero
+- [ ] Container: `relative min-h-screen overflow-hidden text-paper`
+- [ ] Hero follows the shared heading pattern ([DESIGN.md §7](../DESIGN.md#7-type))
 - [ ] `main` uses `container py-12 space-y-24` and keeps `id="main-content"`
 - [ ] First section after hero uses `pt-6 pb-12`
 - [ ] Sections animate with `whileInView` + the standard variants
@@ -83,84 +87,40 @@ Metadata and JSON-LD do **not** go here — pages are `"use client"`. See
 
 ---
 
-## 2. Hero components
+## 2. The hero
 
-### PageHero — centered, the default
+There is no `PageHero` component. There were two — `PageHero` and
+`PageHeroSplit` — and they were deleted on 14 October 2026 with zero importers:
+every page had been building its hero inline for a long time, so the components
+documented here were describing a shell nothing used. Constitution Principle II
+was amended to v1.1.0 in the same change.
 
-`src/components/page-hero.tsx`
-
-```tsx
-<PageHero
-  badge={{ text: "Available for new projects", icon: Mail }}
-  title="Let's Talk"
-  description="Do you have a project in mind?"
->
-  {/* optional children, rendered after an h-6 spacer */}
-</PageHero>
-```
-
-```typescript
-interface PageHeroProps {
-  badge: {
-    text: string
-    icon?: LucideIcon
-    gradientFrom?: string // default "from-emerald-600/20"
-    gradientTo?: string // default "to-teal-600/20"
-    borderColor?: string // default "border-emerald-500/30"
-    textColor?: string // default "text-emerald-400"
-    shadowColor?: string // default "shadow-emerald-600/10"
-  }
-  title: string
-  description: string
-  children?: React.ReactNode
-}
-```
-
-Spacing: section `py-8 md:py-16`, internal `space-y-6`, `h-6` spacer before
-children.
-
-### PageHeroSplit — content left, visual right
-
-`src/components/page-hero-split.tsx`
-
-```typescript
-interface PageHeroSplitProps {
-  badge: {/* same shape as PageHero */}
-  title: string | ReactNode // ReactNode enables partial gradients
-  subtitle?: string
-  description: string | ReactNode
-  image?: {
-    src: string
-    alt: string
-    width?: number // default 600
-    height?: number // default 600
-    priority?: boolean // default true
-  }
-  rightContent?: ReactNode // alternative to `image` (icons, stats)
-  actions?: ReactNode // buttons under the description
-  additionalContent?: ReactNode
-}
-```
-
-- Desktop: 2-column grid, `gap-12`, content left / visual right.
-- Mobile: visual first, then content.
-- Alignment is always `items-start`; badge margin `mt-4 md:mt-28`.
-- Images get `absolute inset-0 object-cover w-full h-full`, `rounded-2xl`,
-  `border border-zinc-800/50`, gradient overlays, glassmorphism.
-- Section padding `py-12 md:py-0`.
-
-A title built from `ReactNode` is how partial gradients are done:
+What a hero must share is the **type**, not a component:
 
 ```tsx
-title={
-  <>
-    <span className="text-white">Soluciones tecnológicas </span>
-    <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-      de alto impacto
-    </span>
-  </>
-}
+<section className="relative w-full pt-6 md:pt-10" aria-labelledby="page-heading">
+  <div className="container mx-auto px-4">
+    <p className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase">Eyebrow</p>
+    <h1
+      id="page-heading"
+      className="mt-3 max-w-[18ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
+    >
+      The heading
+    </h1>
+    <p className="mt-8 max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
+      One paragraph that says what the page is for.
+    </p>
+  </div>
+</section>
 ```
+
+`src/app/blog/page.tsx` is the reference implementation. The rules behind those
+values are in [DESIGN.md §7](../DESIGN.md#7-type); the one that is not
+negotiable is that a heading is solid `text-paper` — no `bg-clip-text`
+gradients.
+
+A page that needs a two-column hero puts the visual in a sibling column of the
+same grid, with `rounded-xl border border-rule shadow-plate` on the figure.
 
 ---
 
@@ -168,38 +128,59 @@ title={
 
 `src/components/dynamic-background.tsx` — required on every page.
 
-- Four animated gradient orbs — blue top-left, purple bottom-right, cyan-blue
-  center at 2s delay, purple-pink bottom-center at 0.5s delay. Layer `-z-50`.
-- Radial overlay `zinc-900/30 → zinc-950/60 → black`. Layer `-z-40`.
-- Animated 50×50px grid, `rgba(59,130,246,0.1)`,
-  `gridMove 20s linear infinite` (keyframes in `src/app/globals.css`). Layer `-z-30`.
+Ledger paper, inverted. Accounting paper is ruled, never lit:
 
-Why it is built this way: CSS animations are GPU-accelerated, `fixed`
-positioning avoids re-render on scroll, low opacity keeps content readable, and
-`blur-3xl` is cheaper than a larger blur radius.
+- Ink ground, `bg-ink`. Layer `-z-50`.
+- Column rules — a repeating 1px `--ledger-rule` gradient every 12.5%, at 0.28
+  opacity. Layer `-z-40`.
+- Row rules — the same hairline every 8rem, at 0.16, so the grid reads as a
+  ledger rather than as graph paper. Layer `-z-40`.
+- The margin rule — one stamp-red 1px line just inside the container gutter,
+  `xl:` and up, at 0.3. The only colour in the ground. Layer `-z-30`.
+- A radial vignette so a long page does not read as an infinite grid.
 
-Do not stack extra gradient overlays on top — this component owns the
-background. The old `ParticleHeroBackground` and its manual
-`bg-gradient-to-br` overlay are gone; if you find that pattern in old code,
-replace the whole block with `<DynamicBackground />`.
+Everything is a flat CSS gradient: no blur, no animation, no paint cost on
+scroll. The four animated gradient orbs this replaced belonged to a different
+visual world and put colour into the text field, which this design keeps
+achromatic.
+
+Do not stack extra overlays on top — this component owns the background. The
+old `ParticleHeroBackground` and its manual `bg-gradient-to-br` overlay are
+gone; if you find that pattern in old code, replace the whole block with
+`<DynamicBackground />`.
 
 ---
 
 ## 4. Design tokens
 
+**The visual system lives in [`DESIGN.md`](../DESIGN.md)** — colour, geometry,
+elevation, surfaces, actions, type and motion, with the measured contrast
+ratios. It is the single source; this section covers only what is specific to
+laying out a page and points there for the rest.
+
+This used to hold a colour table of its own (emerald badge gradients, a
+white→blue→purple title gradient). It had been wrong for a while: the code had
+moved to the ledger and the table still described the palette before it. Two
+documents on one topic is how that happens, which is why there is now one.
+
 ### Colors
 
-| Element             | Value                                   |
-| ------------------- | --------------------------------------- |
-| Hero badge gradient | `from-emerald-600/20 to-teal-600/20`    |
-| Hero badge border   | `border-emerald-500/30`                 |
-| Hero badge text     | `text-emerald-400`                      |
-| Hero badge shadow   | `shadow-emerald-600/10`                 |
-| Main title          | `from-white via-blue-100 to-purple-200` |
-| Section titles      | `from-white via-blue-100 to-blue-300`   |
+See [DESIGN.md §2](../DESIGN.md#2-colour). The short version, for page work:
 
-**Why emerald badges?** Active nav items use blue/purple. A blue or purple badge
-reads as navigation.
+| Need                   | Use                                 |
+| ---------------------- | ----------------------------------- |
+| Page ground            | `bg-ink` (via `DynamicBackground`)  |
+| A plate                | `.surface-card` / `<SurfaceCard>`   |
+| Headings, figures      | `text-paper`                        |
+| Body copy              | `text-paper-dim`                    |
+| Labels, metadata       | `text-paper-faint` — the floor      |
+| Any border             | `border-rule`, `border-rule-strong` |
+| The one action         | `.cta-stamp` (prints `text-ink`)    |
+| Information / outbound | `text-support`                      |
+| Shipped, reconciled    | `text-settled`                      |
+
+Never introduce a Tailwind palette colour (`blue-500`, `emerald-400`, …). The
+one sanctioned exception is documented in [DESIGN.md §2](../DESIGN.md#2-colour).
 
 ### Spacing
 
@@ -213,13 +194,20 @@ reads as navigation.
 
 ### Typography
 
-- Hero title: `text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter`
-- Hero description: `text-xl text-zinc-400 max-w-2xl mx-auto`
-- Section titles: `text-2xl md:text-3xl font-bold`
+Full rules in [DESIGN.md §7](../DESIGN.md#7-type). For a page:
+
+- Hero title, the shared clamp:
+  `font-sans text-[clamp(2.25rem,5.5vw,4rem)] leading-[0.96] font-semibold tracking-[-0.04em] text-balance text-paper`
+- Hero description: `text-lg text-paper-dim max-w-[62ch]`
+- Section titles: `text-2xl md:text-3xl font-semibold tracking-[-0.02em] text-paper`
+- Column labels: `font-mono text-[11px] tracking-[0.14em] uppercase text-paper-faint`
+
+No gradient-clipped headings.
 
 ### Motion
 
-Copy these variants; do not invent new ones.
+Copy these variants; do not invent new ones. Durations, easing and the
+reduced-motion contract are in [DESIGN.md §8](../DESIGN.md#8-motion).
 
 ```tsx
 const containerVariants: Variants = {
@@ -278,8 +266,8 @@ The ledger focuses with the browser's own outline, themed once in
 `src/app/globals.css`:
 
 ```css
-:focus-visible {
-  outline: 1px solid var(--ledger-stamp-text);
+html :focus-visible {
+  outline: 2px solid var(--ledger-stamp-text);
   outline-offset: 3px;
 }
 ```
@@ -329,9 +317,13 @@ grep -rnE ":focus[^-]" src --include="*.css"            # prefer :focus-visible
 ## 5. Form fields
 
 One surface, one rule, one focus treatment. `Input` and `Textarea` default to
-the `ledger` variant: 48px minimum, square, `border-rule` on `bg-field`. The
-older `default` (shadcn's light 40px field) and `glass` variants are deprecated
+the `ledger` variant: 48px minimum, an 8px corner, `border-rule` on `bg-field`.
+The older `default` (shadcn's 40px field) and `glass` variants are deprecated
 and only still exist so old call sites compile.
+
+The corner is new with Graphite & Signal. A square field on a ruled ground read
+as a spreadsheet cell, which is also how people treated it — a thing to tab
+past rather than a thing to type in.
 
 **Focus is not a ring.** The site-wide `:focus-visible` outline is deliberately
 turned off for fields, because an offset outline around a field reads as a
@@ -357,8 +349,11 @@ label, so the hit area is the sentence.
 Constitution Principle III. These are gates, not polish.
 
 - Touch targets ≥ 48×48px — `min-h-[48px]` + `touch-manipulation`.
-- Body text no lighter than `text-zinc-300`. Avoid `zinc-400`/`zinc-500` for
-  primary text.
+- Body copy is `text-paper-dim` (7.91:1) or heavier. `text-paper-faint`
+  (5.91:1) is the floor and belongs to labels, not paragraphs. The ledger has
+  no lighter token, which is what keeps this from being a thing to remember.
+- A filled signal colour carries `text-ink`, never `text-paper` — paper on the
+  stamp is 2.30:1.
 - Form inputs: `htmlFor` on `<label>` paired with `id` on the input;
   `aria-label` on every `SelectTrigger`.
 - **Never** put `role="listitem"` on `<a>`, `<button>`, `<Card>` or `<Badge>` —
@@ -373,22 +368,29 @@ Testing tools and the pre-merge bar are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## 7. Component inventory
 
-Layout and chrome: `site-header`, `site-footer`, `skip-link`, `scroll-to-top`,
-`section-divider`, `section-header`.
+Rebuilt on 14 October 2026, when 57 unreachable files were deleted. Everything
+listed here is reached from a route; if you add a component, add it here.
 
-Page-level: `page-hero`, `page-hero-split`, `dynamic-background`,
-`unified-loading`, `page-loading-context`, `global-page-loader`.
+Layout and chrome: `site-header`, `site-footer`, `skip-link`, `scroll-to-top`,
+`section-header`.
+
+Page-level: `dynamic-background`, `unified-loading`, `page-loading-context`,
+`global-page-loader`, `animated-section`.
 
 Content: `featured-projects`, `featured-repositories`, `repositories-list`,
-`latest-posts-section`, `open-source-section`, `stats-section`,
-`skills-horizontal-section`, `service-globe`, `project-dialog`.
+`latest-posts-section`, `open-source-section`, `project-dialog`,
+`legal/legal-document`, `about/experience-timeline`.
 
-Interaction: `newsletter-form`, `cv-download-modal`, `cookie-consent`,
-`social-share-dialog`, `social-share-buttons`, `compact-contact-section`.
+Interaction: `newsletter-form`, `cv-download-button`, `cv-download-modal`,
+`cookie-consent`, `compact-contact-section`, `turnstile`, `cal-booking`.
 
 Infrastructure: `providers`, `theme-provider`, `motion-preferences-provider`,
 `json-ld`, `dynamic-imports`, `src/components/analytics/` (GA4 + Clarity),
-`src/components/ui/` (48 shadcn/Radix primitives).
+`src/components/ui/` (16 remaining primitives: `badge`, `button`, `card`,
+`consent-check`, `country-select`, `dialog`, `input`, `label`, `phone-field`,
+`section`, `select`, `sonner`, `stat-tiles`, `surface-card`, `tabs`,
+`textarea`).
 
-Reference pages: `src/app/sobre-mi/page.tsx` uses `PageHeroSplit`;
-`src/app/recursos/page.tsx` and `src/app/contacto/page.tsx` use `PageHero`.
+Reference pages: `src/app/blog/page.tsx` is the clearest hero (eyebrow,
+`clamp()` heading, lead paragraph); `src/app/sobre-mi/page.tsx` shows the
+two-column variant.

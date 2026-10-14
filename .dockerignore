@@ -1,0 +1,54 @@
+# Build context for the validation image (Dockerfile.validate).
+#
+# Two jobs here, and the second one matters more than the first.
+#
+# 1. Keep the context small — node_modules and .next are the bulk of the tree
+#    and both are rebuilt inside the image anyway.
+# 2. Keep secrets out of it. A build context is not a mount: everything listed
+#    below would be baked into an image layer and would survive in that layer
+#    even if a later step deleted it. `.env.local` holds the InsForge keys and
+#    `.vercel`/`.insforge` hold project credentials, so none of them cross this
+#    line.
+#
+# Note what is deliberately NOT excluded: `docs/`, `*.md` and every config file
+# at the root. The image runs `prettier --check` and `markdownlint-cli2`, and
+# those lint the documentation — excluding it would make two of the gates pass
+# by having nothing to look at.
+
+# Dependencies and build output — reinstalled and rebuilt in the image
+node_modules
+.next
+out
+dist
+build
+coverage
+playwright-report
+test-results
+.turbo
+.swc
+
+# Secrets and provider state — never in a layer
+.env
+.env.*
+!.env.example
+.vercel
+.insforge
+*.pem
+*.key
+
+# Local-only tooling and VCS
+.git
+.husky
+.vscode
+.idea
+.claude
+.agents
+.codegraph
+.docgraph
+*.log
+npm-debug.log*
+.DS_Store
+
+# The image's own definition
+Dockerfile*
+.dockerignore

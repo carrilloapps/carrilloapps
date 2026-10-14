@@ -1,6 +1,6 @@
 ﻿import type React from "react"
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { BreadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
 import { featuredProjects } from "@/lib/data/featured-projects"

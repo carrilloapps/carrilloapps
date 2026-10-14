@@ -186,7 +186,7 @@ export function CountrySelect({
              threshold there is no filter to hang it on, and the arrows still
              have to walk the list. */
           onKeyDown={onKeyDown}
-          className="absolute top-full left-0 z-50 mt-1.5 w-[20rem] max-w-[calc(100vw-2rem)] border border-rule-strong bg-ink shadow-[0_24px_48px_-16px_rgba(0,0,0,0.95)]"
+          className="absolute top-full left-0 z-50 mt-1.5 w-[20rem] max-w-[calc(100vw-2rem)] border border-rule-strong bg-ink shadow-overlay"
         >
           {searchable ? (
             <div className="flex items-center gap-2.5 border-b border-rule px-3">
@@ -235,6 +235,18 @@ export function CountrySelect({
                 const isActive = i === activeIndex
                 const isSelected = option.code === value
                 return (
+                  /*
+                    SonarQube typescript:S1082 flags the click handler without a
+                    keyboard listener here. It is a false positive for this
+                    pattern and the handler must not be added: in the ARIA
+                    combobox pattern the *input* owns the keyboard — it holds
+                    `aria-activedescendant` and handles Up/Down/Enter/Escape, so
+                    each option is reachable by keyboard through the input, and
+                    the option itself stays out of the tab order. Giving every
+                    `<li>` its own key handler would put the list in the tab
+                    sequence and break exactly the navigation the rule is asking
+                    for. Keyboard handling lives in the popup's `onKeyDown`.
+                  */
                   <li
                     key={option.code}
                     id={`${baseId}-opt-${option.code}`}

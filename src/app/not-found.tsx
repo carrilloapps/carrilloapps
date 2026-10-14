@@ -2,10 +2,11 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
 import { SERVICES } from "@/lib/data/services"
+import { PageHero } from "@/components/layout/page-hero"
 
 /**
  * 404, as a returned entry rather than an apology.
@@ -40,26 +41,14 @@ export default function NotFound() {
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
-        <section className="relative w-full pt-6 md:pt-10" aria-labelledby="notfound-heading">
-          <div className="container mx-auto px-4">
-            <p className="font-mono text-[11px] tracking-[0.16em] text-stamp-text uppercase">
-              Error 404 · Sin registro
-            </p>
-
-            <h1
-              id="notfound-heading"
-              className="mt-3 max-w-[16ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-            >
-              Esta página no existe
-            </h1>
-
-            <p className="mt-6 max-w-[60ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-              O nunca existió, o se movió y el enlace que seguiste quedó apuntando al hueco. Abajo
-              está todo lo que sí hay; si llegaste desde un enlace mío que ya no funciona, avísame y
-              lo arreglo.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t-2 border-rule-strong pt-5">
+        <PageHero
+          eyebrow="Error 404 · Sin registro"
+          eyebrowTone="stamp"
+          title="Esta página no existe"
+          headingId="notfound-heading"
+          titleWidth="tight"
+          actions={
+            <>
               <Link href="/" className="cta">
                 Volver al inicio
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -68,9 +57,15 @@ export default function NotFound() {
                 Reportar el enlace roto
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
-            </div>
-          </div>
-        </section>
+            </>
+          }
+        >
+          <p>
+            O nunca existió, o se movió y el enlace que seguiste quedó apuntando al hueco. Abajo
+            está todo lo que sí hay; si llegaste desde un enlace mío que ya no funciona, avísame y
+            lo arreglo.
+          </p>
+        </PageHero>
 
         <section
           className="relative pt-10 pb-16 md:pt-16 md:pb-20"

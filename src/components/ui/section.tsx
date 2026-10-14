@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from "react"
 
-import { AnimatedSection } from "@/components/animated-section"
-import { SectionHeader } from "@/components/section-header"
+import { AnimatedSection } from "@/components/content/animated-section"
+import { SectionHeader } from "@/components/layout/section-header"
 import { cn } from "@/lib/utils"
 
 /**

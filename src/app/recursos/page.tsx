@@ -8,17 +8,19 @@ import { Github, GitLabIcon } from "@/components/icons/social-icons"
 import { CountrySelect } from "@/components/ui/country-select"
 import { Input } from "@/components/ui/input"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
 import { Section } from "@/components/ui/section"
-import { SectionHeader } from "@/components/section-header"
-import { OpenSourceSection } from "@/components/open-source-section"
-import { RepositoriesList } from "@/components/repositories-list"
-import { RepositoriesLoading } from "@/components/unified-loading"
-import { CalPopupButton } from "@/components/cal-booking"
+import { SectionHeader } from "@/components/layout/section-header"
+import { OpenSourceSection } from "@/components/content/open-source-section"
+import { RepositoriesList } from "@/components/content/repositories-list"
+import { RepositoriesLoading } from "@/components/feedback/unified-loading"
+import { CalPopupButton } from "@/components/forms/cal-booking"
 import { openSourceProjects } from "@/lib/data/open-source"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
 
 /**
  * Everything published, on one page.
@@ -68,55 +70,22 @@ export default function ResourcesPage() {
 
 function OpeningEntry() {
   return (
-    <AnimatedSection
-      className="relative w-full pt-6 md:pt-10"
-      role="region"
-      aria-labelledby="resources-heading"
-    >
-      <div className="container mx-auto px-4">
-        <h1
-          id="resources-heading"
-          className="max-w-[17ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-        >
-          Lo que publico, en abierto
-        </h1>
-
-        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-            <p>
-              Todo lo que resuelvo dos veces en el trabajo termina siendo un paquete instalable.
-              Tasas oficiales de banca central, cifrado que el servidor no puede leer, compuertas de
-              aprobación para agentes de IA: herramientas que uso a diario y que están publicadas
-              para que cualquiera las audite.
-            </p>
-            <p>
-              Debajo está el resto — los repositorios públicos de GitHub y GitLab, traídos en vivo
-              desde sus APIs. Lo primero lo mantengo; lo segundo simplemente está ahí, y esa
-              distinción importa lo suficiente como para no mezclarlos.
-            </p>
-          </div>
-
-          <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
-            {[
-              { term: "Paquetes", value: `${openSourceProjects.length} mantenidos` },
-              { term: "Registro", value: "npm · GitHub" },
-              { term: "Licencia", value: "MIT" },
-              { term: "Repositorios", value: "En vivo" },
-            ].map(({ term, value }) => (
-              <div
-                key={term}
-                className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-              >
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  {term}
-                </dt>
-                <dd className="text-right font-sans text-base text-paper">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+    <PageHero
+      title="Lo que publico, en abierto"
+      headingId="resources-heading"
+      titleWidth="snug"
+      aside={
+        <SpecList
+          items={[
+            { term: "Paquetes", value: `${openSourceProjects.length} mantenidos` },
+            { term: "Registro", value: "npm · GitHub" },
+            { term: "Licencia", value: "MIT" },
+            { term: "Repositorios", value: "En vivo" },
+          ]}
+        />
+      }
+      actions={
+        <>
           <Link
             href="https://github.com/carrilloapps"
             target="_blank"
@@ -131,9 +100,21 @@ function OpeningEntry() {
             Ver servicios
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
-        </div>
-      </div>
-    </AnimatedSection>
+        </>
+      }
+    >
+      <p>
+        Todo lo que resuelvo dos veces en el trabajo termina siendo un paquete instalable. Tasas
+        oficiales de banca central, cifrado que el servidor no puede leer, compuertas de aprobación
+        para agentes de IA: herramientas que uso a diario y que están publicadas para que cualquiera
+        las audite.
+      </p>
+      <p>
+        Debajo está el resto — los repositorios públicos de GitHub y GitLab, traídos en vivo desde
+        sus APIs. Lo primero lo mantengo; lo segundo simplemente está ahí, y esa distinción importa
+        lo suficiente como para no mezclarlos.
+      </p>
+    </PageHero>
   )
 }
 

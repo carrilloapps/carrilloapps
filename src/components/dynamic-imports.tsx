@@ -1,11 +1,12 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { SpinnerLoading } from "./unified-loading"
+import { SpinnerLoading } from "@/components/feedback/unified-loading"
 
 // Heavy components that should be lazy loaded
 export const DynamicDisqusComments = dynamic(
-  () => import("./disqus-comments").then((mod) => ({ default: mod.DisqusComments })),
+  () =>
+    import("@/components/content/disqus-comments").then((mod) => ({ default: mod.DisqusComments })),
   {
     loading: () => (
       <div className="flex items-center justify-center py-12">
@@ -17,7 +18,8 @@ export const DynamicDisqusComments = dynamic(
 )
 
 export const DynamicProjectDialog = dynamic(
-  () => import("./project-dialog").then((mod) => ({ default: mod.ProjectDialog })),
+  () =>
+    import("@/components/content/project-dialog").then((mod) => ({ default: mod.ProjectDialog })),
   {
     loading: () => null,
     ssr: false,
@@ -25,7 +27,8 @@ export const DynamicProjectDialog = dynamic(
 )
 
 export const DynamicCookieConsent = dynamic(
-  () => import("./cookie-consent").then((mod) => ({ default: mod.CookieConsent })),
+  () =>
+    import("@/components/feedback/cookie-consent").then((mod) => ({ default: mod.CookieConsent })),
   {
     loading: () => null,
     ssr: false,
@@ -34,7 +37,10 @@ export const DynamicCookieConsent = dynamic(
 
 // Featured Projects - Heavy component with API calls and animations
 export const DynamicFeaturedProjects = dynamic(
-  () => import("./featured-projects").then((mod) => ({ default: mod.FeaturedProjects })),
+  () =>
+    import("@/components/content/featured-projects").then((mod) => ({
+      default: mod.FeaturedProjects,
+    })),
   {
     loading: () => (
       <div className="flex items-center justify-center py-12">
@@ -47,7 +53,10 @@ export const DynamicFeaturedProjects = dynamic(
 
 // Featured Repositories - Heavy component with API calls
 export const DynamicFeaturedRepositories = dynamic(
-  () => import("./featured-repositories").then((mod) => ({ default: mod.FeaturedRepositories })),
+  () =>
+    import("@/components/content/featured-repositories").then((mod) => ({
+      default: mod.FeaturedRepositories,
+    })),
   {
     loading: () => (
       <div className="flex items-center justify-center py-12">
@@ -60,9 +69,12 @@ export const DynamicFeaturedRepositories = dynamic(
 
 // Compact Contact Section - Heavy form with validation and animations
 export const DynamicCompactContactSection = dynamic(
-  () => import("./compact-contact-section").then((mod) => ({ default: mod.CompactContactSection })),
+  () =>
+    import("@/components/forms/compact-contact-section").then((mod) => ({
+      default: mod.CompactContactSection,
+    })),
   {
-    loading: () => <div className="h-96 animate-pulse rounded-lg bg-zinc-900/50"></div>,
+    loading: () => <div className="h-96 animate-pulse rounded-lg bg-ink-raised"></div>,
     ssr: false,
   },
 )
@@ -74,7 +86,7 @@ export const DynamicTabs = dynamic(
       default: mod.Tabs,
     })),
   {
-    loading: () => <div className="h-48 animate-pulse rounded-lg bg-zinc-900/50"></div>,
+    loading: () => <div className="h-48 animate-pulse rounded-lg bg-ink-raised"></div>,
     ssr: false,
   },
 )

@@ -4,12 +4,13 @@ import { useCallback, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight, Check, Copy } from "lucide-react"
 
-import { AnimatedSection } from "@/components/animated-section"
+import { AnimatedSection } from "@/components/content/animated-section"
 import { useNpmDownloads, type NpmDownloads } from "@/lib/queries"
-import { CvDownloadButton } from "@/components/cv-download-button"
-import { SocialRow } from "@/components/social-row"
+import { CvDownloadButton } from "@/components/forms/cv-download-button"
+import { SocialRow } from "@/components/brand/social-row"
 import { trackButtonClick, trackCTAClick } from "@/lib/analytics"
 import { openSourceProjects } from "@/lib/data/open-source"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /**
  * The ledger's opening entry.
@@ -93,9 +94,7 @@ export function HomeHero() {
                   i < 2 ? "border-b border-rule md:border-b-0" : ""
                 }`}
               >
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  {term}
-                </dt>
+                <Eyebrow as="dt">{term}</Eyebrow>
                 <dd className="mt-1.5 font-sans text-base text-paper md:text-lg">{value}</dd>
               </div>
             ))}

@@ -2,18 +2,21 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, CalendarDays } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
-import { AnimatedSection } from "@/components/animated-section"
-import { SectionHeader } from "@/components/section-header"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
+import { AnimatedSection } from "@/components/content/animated-section"
+import { SectionHeader } from "@/components/layout/section-header"
 import { Section } from "@/components/ui/section"
-import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
-import { CalPopupButton } from "@/components/cal-booking"
-import { CvDownloadButton } from "@/components/cv-download-button"
+import { BreadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld"
+import { CalPopupButton } from "@/components/forms/cal-booking"
+import { CvDownloadButton } from "@/components/forms/cv-download-button"
 import { METHOD, SERVICES, SERVICES_FAQ } from "@/lib/data/services"
 import { buildPageMetadata } from "@/lib/seo"
 import { getSiteUrl } from "@/lib/env"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 const SITE_URL = getSiteUrl()
 
@@ -136,62 +139,22 @@ export default function ServicesPage() {
 
 function OpeningEntry() {
   return (
-    <AnimatedSection
-      className="relative w-full pt-6 md:pt-10"
-      role="region"
-      aria-labelledby="services-heading"
-    >
-      <div className="container mx-auto px-4">
-        <h1
-          id="services-heading"
-          className="max-w-[18ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-        >
-          Arquitectura de pagos que aguanta
-        </h1>
-
-        <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
-          {/*
-            Two paragraphs, not four.
-
-            The opening used to carry the whole argument — the domain, the three
-            ways in, the method, and the AI stance — in one 300-word column, and
-            it read like the first page of a book. The rest now lives where it
-            belongs: the method under its own heading, the AI stance in its own
-            band before the catalogue. Same words for a crawler, four places to
-            meet them instead of one wall.
-          */}
-          <div className="max-w-[68ch] space-y-5 font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-            <p>
-              Trabajo con equipos que operan dinero: pasarelas de pago, conciliación de alto
-              volumen, core bancario y el backoffice que los sostiene. Son sistemas donde un fallo
-              no es un bug cosmético — es plata que no llega, una factura duplicada o una auditoría
-              que no cuadra tres meses después.
-            </p>
-            <p>
-              Entro de tres maneras, según lo que haga falta: como consultor que diseña la
-              arquitectura, como auditor que revisa la que ya existe, o como liderazgo técnico
-              acompañando al equipo que la va a mantener —ejercido dentro del repositorio, no por
-              encima de él—. Casi siempre empieza por un diagnóstico de una hora.
-            </p>
-          </div>
-
-          <dl className="grid grid-cols-2 gap-y-6 self-start border-y border-rule py-6 md:grid-cols-1 md:gap-y-5">
-            {[
-              { term: "Frentes", value: `${SERVICES.length} servicios` },
-              { term: "Modalidad", value: "Remoto · LATAM" },
-              { term: "Idiomas", value: "Español · Inglés" },
-            ].map(({ term, value }) => (
-              <div key={term} className="flex flex-col gap-1.5 md:flex-row md:justify-between">
-                <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                  {term}
-                </dt>
-                <dd className="font-sans text-base text-paper">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-rule-strong pt-5">
+    <PageHero
+      title="Arquitectura de pagos que aguanta"
+      headingId="services-heading"
+      asideWidth="lg"
+      aside={
+        <SpecList
+          layout="grid"
+          items={[
+            { term: "Frentes", value: `${SERVICES.length} servicios` },
+            { term: "Modalidad", value: "Remoto · LATAM" },
+            { term: "Idiomas", value: "Español · Inglés" },
+          ]}
+        />
+      }
+      actions={
+        <>
           <CalPopupButton
             source="services-hero"
             aria-label="Agendar un diagnóstico"
@@ -207,9 +170,32 @@ function OpeningEntry() {
           </Link>
 
           <CvDownloadButton source="services-hero" />
-        </div>
-      </div>
-    </AnimatedSection>
+        </>
+      }
+    >
+      {/*
+        Two paragraphs, not four.
+
+        The opening used to carry the whole argument — the domain, the three
+        ways in, the method, and the AI stance — in one 300-word column, and it
+        read like the first page of a book. The rest now lives where it belongs:
+        the method under its own heading, the AI stance in its own band before
+        the catalogue. Same words for a crawler, four places to meet them
+        instead of one wall.
+      */}
+      <p>
+        Trabajo con equipos que operan dinero: pasarelas de pago, conciliación de alto volumen, core
+        bancario y el backoffice que los sostiene. Son sistemas donde un fallo no es un bug
+        cosmético — es plata que no llega, una factura duplicada o una auditoría que no cuadra tres
+        meses después.
+      </p>
+      <p>
+        Entro de tres maneras, según lo que haga falta: como consultor que diseña la arquitectura,
+        como auditor que revisa la que ya existe, o como liderazgo técnico acompañando al equipo que
+        la va a mantener —ejercido dentro del repositorio, no por encima de él—. Casi siempre
+        empieza por un diagnóstico de una hora.
+      </p>
+    </PageHero>
   )
 }
 
@@ -309,9 +295,9 @@ function Agentic() {
     <Section spacing="compact">
       <div className="grid gap-x-14 gap-y-8 border-t-2 border-rule-strong pt-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
         <div>
-          <p className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase">
+          <Eyebrow as="p" size="md" tracking="wide">
             IA y finanzas agénticas
-          </p>
+          </Eyebrow>
           <p className="mt-4 max-w-[22ch] font-sans text-2xl leading-[1.15] tracking-[-0.02em] text-paper">
             Un agente en producción es una integración crítica más.
           </p>
@@ -362,9 +348,7 @@ function Method() {
               i === 0 ? "md:pl-0" : "md:border-l md:border-rule"
             }`}
           >
-            <p className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-              {step.term}
-            </p>
+            <Eyebrow as="p">{step.term}</Eyebrow>
             <h3 className="mt-3 font-sans text-xl leading-tight tracking-[-0.02em] text-paper">
               {step.title}
             </h3>

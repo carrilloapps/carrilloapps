@@ -8,12 +8,16 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        /** The stamp, filled. Ink on stamp — paper on stamp is 2.30:1. */
+        default: "border-transparent bg-stamp text-ink hover:bg-stamp/85",
+        secondary: "border-rule bg-field text-paper-dim hover:border-rule-strong",
+        destructive: "border-transparent bg-stamp text-ink hover:bg-stamp/85",
+        /** Information, a link that leaves, a count. */
+        support: "border-support/35 bg-support/10 text-support",
+        /** Reconciled, shipped, closed. */
+        settled: "border-settled/35 bg-settled/10 text-settled",
+        /** A label with a rule around it and nothing else. */
+        outline: "border-rule text-paper-dim",
       },
     },
     defaultVariants: {

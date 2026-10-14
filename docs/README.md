@@ -43,8 +43,10 @@ Pull the page that matches what you are doing. Do not preload the set.
 | Task                                     | Read                                                                           |
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
 | Create or restructure a page             | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md)                                     |
-| Style, spacing, colors, motion           | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) §4                                  |
-| Accessibility rules                      | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) §5                                  |
+| Colour, radius, elevation, type, motion  | [DESIGN.md](../DESIGN.md)                                                      |
+| Page spacing and section rhythm          | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) §4                                  |
+| What has been migrated to the palette    | [DESIGN_STATUS.md](DESIGN_STATUS.md)                                           |
+| Accessibility rules                      | [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) §6                                  |
 | Metadata, OG images, JSON-LD             | [SEO.md](SEO.md)                                                               |
 | Route handlers, caching, form security   | [API.md](API.md)                                                               |
 | Analytics events                         | [ANALYTICS.md](ANALYTICS.md)                                                   |
@@ -67,12 +69,14 @@ Directory-scoped rules live next to the code: `src/app/AGENTS.md`,
 
 ### Core
 
-| File                                       | Owns                                                      |
-| ------------------------------------------ | --------------------------------------------------------- |
-| [PROJECT.md](PROJECT.md)                   | Stack, structure, features, architecture decisions        |
-| [DEVELOPMENT.md](DEVELOPMENT.md)           | Setup, commands, quality gate, testing, git workflow      |
-| [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) | Page shell, hero components, design tokens, accessibility |
-| [AGENT_TOOLING.md](AGENT_TOOLING.md)       | MCP servers, skills, spec-kit, generated state            |
+| File                                       | Owns                                                     |
+| ------------------------------------------ | -------------------------------------------------------- |
+| [PROJECT.md](PROJECT.md)                   | Stack, structure, features, architecture decisions       |
+| [DEVELOPMENT.md](DEVELOPMENT.md)           | Setup, commands, quality gate, testing, git workflow     |
+| [PAGE_CONSISTENCY.md](PAGE_CONSISTENCY.md) | Page shell, hero components, page spacing, accessibility |
+| [DESIGN.md](../DESIGN.md)                  | The visual system: colour, geometry, elevation, type     |
+| [DESIGN_STATUS.md](DESIGN_STATUS.md)       | Palette migration ledger — what moved, what is open      |
+| [AGENT_TOOLING.md](AGENT_TOOLING.md)       | MCP servers, skills, spec-kit, generated state           |
 
 ### Integrations
 
@@ -113,5 +117,9 @@ Before writing any new doc:
 ```
 
 A new file is justified only when the topic is genuinely new, or an existing
-file would exceed ~1000 lines. When you add one, add it to this index in the
+file would exceed ~1000 lines. When one is split out, the old location must
+**stop** describing the topic and point at the new file instead — that is what
+`PAGE_CONSISTENCY.md` §4 does now that `DESIGN.md` owns the visual system.
+Leaving both is how §4 ended up describing an emerald palette months after the
+emerald was gone. When you add one, add it to this index in the
 same commit, and reindex docgraph so the next agent can find it.

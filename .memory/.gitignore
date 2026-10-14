@@ -1,0 +1,9 @@
+# Agent-private state. Nothing under local/ is ever versioned.
+#
+# This repository is PUBLIC (github.com/carrilloapps/carrilloapps), so the SAR
+# findings registry and its reports live here rather than in docs/: an open
+# vulnerability that has not been fixed yet must not be published with a map of
+# where it is.
+local/
+*.local.*
+*.recovered.json

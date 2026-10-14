@@ -1,4 +1,10 @@
-import { NextResponse } from "next/server"
+import {
+  matchesSearch,
+  parseRepositoryQuery,
+  pinnedOnlyResponse,
+  repositoriesResponse,
+  upstreamUnavailable,
+} from "@/lib/repository-api"
 
 // GitLab API types
 interface GitLabProject {
@@ -14,13 +20,9 @@ interface GitLabProject {
 }
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const username = searchParams.get("username") || "carrilloapps"
-  const page = Number.parseInt(searchParams.get("page") || "1")
-  const language = searchParams.get("language") || "all"
-  const search = searchParams.get("search") || ""
-  const pinnedOnly = searchParams.get("pinned_only") === "true"
-  const perPage = 6
+  const parsed = parseRepositoryQuery(new URL(request.url).searchParams)
+  if (!parsed.ok) return parsed.response
+  const { username, page, language, search, pinnedOnly, perPage } = parsed.query
 
   try {
     // Fetch repositories from GitLab's public API
@@ -80,13 +82,9 @@ export async function GET(request: Request) {
       filteredData = []
     }
 
-    if (search) {
-      filteredData = filteredData.filter(
-        (repo: GitLabProject) =>
-          repo.name.toLowerCase().includes(search.toLowerCase()) ||
-          (repo.description && repo.description.toLowerCase().includes(search.toLowerCase())),
-      )
-    }
+    filteredData = filteredData.filter((repo: GitLabProject) =>
+      matchesSearch(repo.name, repo.description, search),
+    )
 
     const pinnedRepos = filteredData
       .filter((repo: GitLabProject) => repo.star_count > 0)
@@ -129,65 +127,16 @@ export async function GET(request: Request) {
       pinned: true,
     }))
 
-    // If pinned_only is true, only return pinned repositories
-    if (pinnedOnly) {
-      return NextResponse.json({
-        repositories: [],
-        totalCount: 0,
-        totalPages: 0,
-        pinnedRepos: pinnedRepositories,
-      })
-    }
+    if (pinnedOnly) return pinnedOnlyResponse(pinnedRepositories)
 
-    return NextResponse.json({
+    return repositoriesResponse({
       repositories,
+      pinnedRepos: pinnedRepositories,
       totalCount,
       totalPages,
-      pinnedRepos: pinnedRepositories,
     })
   } catch (error) {
     console.error("Error fetching GitLab repositories:", error)
-
-    // If the real API fails, return mock data for demonstration
-    const mockData = [
-      {
-        id: 101,
-        name: "backoffice-toolkit",
-        description: "A collection of tools for automating backoffice operations",
-        language: "JavaScript",
-        stars: 95,
-        forks: 31,
-        updated_at: "2023-12-12T08:45:30Z",
-        html_url: "https://gitlab.com/carrilloapps/backoffice-toolkit",
-        pinned: true,
-      },
-      {
-        id: 102,
-        name: "financial-reporting",
-        description: "Automated financial reporting system with customizable templates",
-        language: "Python",
-        stars: 87,
-        forks: 29,
-        updated_at: "2023-11-05T16:20:15Z",
-        html_url: "https://gitlab.com/carrilloapps/financial-reporting",
-        pinned: true,
-      },
-    ]
-
-    if (pinnedOnly) {
-      return NextResponse.json({
-        repositories: [],
-        totalCount: 0,
-        totalPages: 0,
-        pinnedRepos: mockData,
-      })
-    }
-
-    return NextResponse.json({
-      repositories: mockData,
-      totalCount: 24,
-      totalPages: 4,
-      pinnedRepos: mockData,
-    })
+    return upstreamUnavailable("GitLab")
   }
 }

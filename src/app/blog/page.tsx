@@ -2,13 +2,16 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import { DynamicBackground } from "@/components/dynamic-background"
+import { SiteHeader } from "@/components/layout/site-header"
+import { SiteFooter } from "@/components/layout/site-footer"
+import { DynamicBackground } from "@/components/layout/dynamic-background"
 import { Substack } from "@/components/icons/social-icons"
-import { NewsletterBand } from "@/components/newsletter-form"
+import { NewsletterBand } from "@/components/forms/newsletter-form"
 import { getSubstackPosts, SUBSTACK_FEED_MAX, type SubstackPost } from "@/lib/substack-service"
 import { formatDateES } from "@/lib/utils"
+import { PageHero } from "@/components/layout/page-hero"
+import { SpecList } from "@/components/ui/spec-list"
+import { Eyebrow } from "@/components/ui/eyebrow"
 
 /**
  * The writing index.
@@ -55,54 +58,37 @@ export default async function BlogPage() {
       <SiteHeader />
 
       <main id="main-content" role="main" className="relative z-10">
-        <section className="relative w-full pt-6 md:pt-10" aria-labelledby="blog-heading">
+        <PageHero
+          eyebrow="Escritura"
+          title="Qué se rompió y cómo se arregló"
+          headingId="blog-heading"
+          aside={
+            <SpecList
+              numeric
+              items={[
+                { term: "Publicado en", value: "Substack", numeric: false },
+                {
+                  term: feedIsFull ? "Entradas recientes" : "Entradas",
+                  value: posts.length ? `${posts.length}` : "—",
+                },
+                { term: "Idioma", value: "Español", numeric: false },
+                { term: "Suscripción", value: "Gratuita", numeric: false },
+              ]}
+            />
+          }
+        >
+          <p>
+            Escribo sobre lo que aprendo operando sistemas de pago: incidentes reales, decisiones de
+            arquitectura que envejecieron bien o mal, y el oficio de programar y dirigir cosas que
+            no se pueden caer. Publico en Substack
+            {feedIsFull
+              ? `; aquí están las ${SUBSTACK_FEED_MAX} entradas más recientes, en vivo desde el feed.`
+              : "; aquí está el índice completo, en vivo desde el feed."}
+          </p>
+        </PageHero>
+
+        <section className="relative w-full" aria-label="Suscripción">
           <div className="container mx-auto px-4">
-            <p className="font-mono text-[11px] tracking-[0.16em] text-paper-faint uppercase">
-              Escritura
-            </p>
-
-            <h1
-              id="blog-heading"
-              className="mt-3 max-w-[18ch] font-sans text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-balance text-paper"
-            >
-              Qué se rompió y cómo se arregló
-            </h1>
-
-            <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
-              <p className="max-w-[68ch] font-sans text-base leading-relaxed text-paper-dim md:text-lg">
-                Escribo sobre lo que aprendo operando sistemas de pago: incidentes reales,
-                decisiones de arquitectura que envejecieron bien o mal, y el oficio de programar y
-                dirigir cosas que no se pueden caer. Publico en Substack
-                {feedIsFull
-                  ? `; aquí están las ${SUBSTACK_FEED_MAX} entradas más recientes, en vivo desde el feed.`
-                  : "; aquí está el índice completo, en vivo desde el feed."}
-              </p>
-
-              <dl className="max-w-[26rem] self-start border-y border-rule lg:max-w-none">
-                {[
-                  { term: "Publicado en", value: "Substack" },
-                  {
-                    term: feedIsFull ? "Entradas recientes" : "Entradas",
-                    value: posts.length ? `${posts.length}` : "—",
-                  },
-                  { term: "Idioma", value: "Español" },
-                  { term: "Suscripción", value: "Gratuita" },
-                ].map(({ term, value }) => (
-                  <div
-                    key={term}
-                    className="flex items-baseline justify-between gap-4 border-b border-rule py-3 last:border-b-0"
-                  >
-                    <dt className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-                      {term}
-                    </dt>
-                    <dd className="text-right font-sans text-base text-paper tabular-nums">
-                      {value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
             {/*
               This was a link out to Substack's own subscribe page. On the one
               page whose entire purpose is the writing, sending the reader to
@@ -197,9 +183,7 @@ export default async function BlogPage() {
 
         <section className="relative pt-10 pb-16 md:pt-16 md:pb-20" aria-labelledby="blog-closing">
           <div className="container mx-auto px-4">
-            <p className="font-mono text-[10px] tracking-[0.16em] text-paper-faint uppercase">
-              Siguiente paso
-            </p>
+            <Eyebrow as="p">Siguiente paso</Eyebrow>
             <h2
               id="blog-closing"
               className="mt-4 max-w-[24ch] font-sans text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance text-paper"

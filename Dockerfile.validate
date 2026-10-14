@@ -1,0 +1,69 @@
+# Validation image for carrillo.app.
+#
+# This is NOT a deployment artifact. The site ships to Vercel from `main`; this
+# image exists so the quality gate can be run on a clean machine, from the
+# lockfile, with no dependency on what happens to be installed on a laptop.
+# Constitution Principle V — "a contributor with a fresh clone reaches a
+# working environment" — is the thing it proves.
+#
+# Two targets, because one base cannot honestly serve both:
+#
+#   validate  node:24 — lint, format, markdown, typecheck, unit tests, build,
+#             audit. Matches the Node major the project is developed on.
+#   e2e       mcr.microsoft.com/playwright — the browsers and every system
+#             library they need, pinned to the same Playwright version as
+#             package.json. Installing Chromium into a slim image by hand is
+#             how that pin silently drifts.
+#
+# Build (from WSL, where the Linux docker socket is not exposed, the context
+# goes in over stdin so no Windows UNC path is involved):
+#
+#   tar -czf - . | docker.exe build --target validate -t carrilloapps-validate:local -
+#
+# Then run one gate per container, so a failure reports which gate failed
+# instead of collapsing the whole run into one exit code.
+
+# ---------------------------------------------------------------------------
+# deps — install once from the lockfile, cached on package*.json alone
+# ---------------------------------------------------------------------------
+FROM node:24-bookworm-slim AS deps
+WORKDIR /app
+
+# `npm ci` is deliberate: it installs exactly the lockfile and fails if
+# package.json and package-lock.json disagree, which is itself a check worth
+# having. `npm install` would quietly reconcile them and hide the drift.
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+# ---------------------------------------------------------------------------
+# validate — everything that does not need a browser
+# ---------------------------------------------------------------------------
+FROM node:24-bookworm-slim AS validate
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    CI=true
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# No CMD that runs a gate. The image is a prepared workspace; the caller picks
+# the gate. Baking one in would mean rebuilding the image to run a different
+# check.
+CMD ["node", "--version"]
+
+# ---------------------------------------------------------------------------
+# e2e — Playwright, pinned to the version in package.json (~1.64.1)
+# ---------------------------------------------------------------------------
+FROM mcr.microsoft.com/playwright:v1.64.1-noble AS e2e
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    CI=true
+
+# This image ships its own Node. Reinstalling node_modules rather than copying
+# them from `deps` is on purpose: native bindings compiled against the other
+# image's Node would be the kind of failure that looks like a flaky test.
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY . .
+
+CMD ["npx", "playwright", "test"]

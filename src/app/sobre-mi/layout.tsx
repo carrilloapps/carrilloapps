@@ -1,5 +1,5 @@
 ﻿import type React from "react"
-import { BreadcrumbJsonLd, JsonLd } from "@/components/json-ld"
+import { BreadcrumbJsonLd, JsonLd } from "@/components/seo/json-ld"
 import { getSiteUrl } from "@/lib/env"
 import { buildPageMetadata } from "@/lib/seo"
 

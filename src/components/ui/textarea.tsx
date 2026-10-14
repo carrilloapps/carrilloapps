@@ -16,11 +16,11 @@ const textareaVariants = cva(
          * 40px, which was neither.
          */
         ledger:
-          "min-h-[7rem] border border-rule bg-field px-3 py-2.5 font-sans text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong",
+          "min-h-[7rem] rounded-md border border-rule bg-field px-3 py-2.5 font-sans text-paper transition-colors placeholder:text-paper-faint hover:border-rule-strong",
         default: "min-h-[80px] rounded-md border border-input bg-background px-3 py-2",
         /** Glass — espejo del `<Input variant="glass">`. */
         glass:
-          "min-h-[120px] resize-y border border-rule bg-ink-raised px-3.5 py-2.5 text-zinc-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] placeholder:text-zinc-500 hover:border-white/20 focus-visible:border-stamp focus-visible:bg-white/[0.05]",
+          "min-h-[120px] resize-y rounded-md border border-rule bg-ink-raised px-3.5 py-2.5 font-sans text-paper shadow-raised placeholder:text-paper-faint hover:border-rule-strong focus-visible:border-stamp focus-visible:bg-field-focus",
       },
     },
     defaultVariants: {

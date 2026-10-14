@@ -26,8 +26,8 @@ export const featuredProjects: FeaturedProject[] = [
     icon: {
       type: "lucide",
       name: "Code",
-      color: "text-cyan-500",
-      bgColor: "bg-cyan-500/10 group-hover:bg-cyan-500/20",
+      color: "text-support",
+      bgColor: "bg-support/10 group-hover:bg-support/20",
     },
     tags: ["TypeScript", "LLM", "Ollama", "TUI"],
     customDescription:
@@ -43,8 +43,8 @@ export const featuredProjects: FeaturedProject[] = [
     icon: {
       type: "lucide",
       name: "Code",
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-500/10 group-hover:bg-emerald-500/20",
+      color: "text-settled",
+      bgColor: "bg-settled/10 group-hover:bg-settled/20",
     },
     tags: ["TypeScript", "Next.js", "Web Crypto", "PWA"],
     customDescription:
@@ -60,8 +60,8 @@ export const featuredProjects: FeaturedProject[] = [
     icon: {
       type: "lucide",
       name: "Code",
-      color: "text-amber-500",
-      bgColor: "bg-amber-500/10 group-hover:bg-amber-500/20",
+      color: "text-stamp-text",
+      bgColor: "bg-stamp/10 group-hover:bg-stamp/20",
     },
     tags: ["TypeScript", "Fintech", "MCP", "Node.js"],
     customDescription:
