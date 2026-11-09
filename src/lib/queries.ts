@@ -28,6 +28,8 @@ export type LatestPost = {
   readingTime: number | null
   thumbnail: string | null
   thumbnailAlt: string
+  isPodcast?: boolean
+  audioUrl?: string | null
 }
 
 /* -------------------------------------------------------------------------- */

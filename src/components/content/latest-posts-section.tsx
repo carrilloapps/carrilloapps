@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Radio } from "lucide-react"
 
 import { formatDateES } from "@/lib/utils"
 import { SectionHeader } from "@/components/layout/section-header"
@@ -105,7 +105,13 @@ function LeadPost({ post }: { post: LatestPost }) {
           <div className="flex items-center gap-4 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase">
             <time dateTime={post.pubDate}>{formatDateES(post.pubDate)}</time>
             <span className="h-px w-8 bg-rule" aria-hidden="true" />
-            <span>{post.readingTime ? `${post.readingTime} min de lectura` : "Substack"}</span>
+            <span>
+              {post.isPodcast
+                ? "Episodio de podcast"
+                : post.readingTime
+                  ? `${post.readingTime} min de lectura`
+                  : "Substack"}
+            </span>
           </div>
 
           <h3 className="mt-4 max-w-[26ch] font-sans text-[clamp(1.75rem,3.2vw,2.75rem)] leading-[1.05] font-medium tracking-[-0.02em] text-paper transition-colors group-hover:text-stamp-text">
@@ -113,7 +119,7 @@ function LeadPost({ post }: { post: LatestPost }) {
           </h3>
 
           <span className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-paper-dim uppercase">
-            Leer el artículo
+            {post.isPodcast ? "Escuchar episodio" : "Leer el artículo"}
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </span>
         </div>
@@ -165,12 +171,49 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
 
   return (
     <aside aria-labelledby="aside-posts-heading">
+      {/* Podcast CTA Box */}
+      <div className="mb-8 border border-rule bg-ink-raised p-5 transition-colors hover:border-stamp/60">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.14em] text-stamp-text uppercase">
+            <Radio className="h-3.5 w-3.5 animate-pulse" aria-hidden="true" />
+            Podcast · Vía La Web
+          </span>
+          <span className="font-mono text-[10px] tracking-[0.1em] text-paper-faint uppercase">
+            Semanal
+          </span>
+        </div>
+        <p className="mt-2 font-sans text-sm leading-snug font-medium text-paper">
+          Nuevo episodio cada semana sobre arquitectura de software, fintech y sistemas críticos.
+        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <Link
+            href="https://blog.carrillo.app/podcast"
+            target="_blank"
+            rel="noopener"
+            onClick={() => trackCTAClick("Escuchar podcast", "primary", "home-posts-aside")}
+            className="cta px-3 py-1.5 text-xs"
+          >
+            Escuchar podcast
+            <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+          </Link>
+          <a
+            href="https://api.carrillo.app/podcast.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors hover:text-stamp-text"
+            title="Feed RSS para Apple Podcasts, Spotify, Pocket Casts"
+          >
+            Feed RSS
+          </a>
+        </div>
+      </div>
+
       <div className="flex items-baseline justify-between border-b border-rule-strong pb-2">
         <h3
           id="aside-posts-heading"
           className="font-mono text-[11px] tracking-[0.14em] text-paper-faint uppercase"
         >
-          Últimos artículos
+          Últimas publicaciones
         </h3>
         <Link
           href="https://blog.carrillo.app/"
@@ -201,7 +244,12 @@ export function LatestPostsAside({ limit = 4 }: { limit?: number }) {
                   <time dateTime={post.pubDate} className="whitespace-nowrap">
                     {formatDateES(post.pubDate)}
                   </time>
-                  {post.readingTime ? (
+                  {post.isPodcast ? (
+                    <>
+                      <span className="h-px w-4 bg-rule" aria-hidden="true" />
+                      <span className="text-stamp-text">Podcast</span>
+                    </>
+                  ) : post.readingTime ? (
                     <>
                       <span className="h-px w-4 bg-rule" aria-hidden="true" />
                       <span className="whitespace-nowrap">{post.readingTime} min</span>

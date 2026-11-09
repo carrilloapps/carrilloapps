@@ -143,16 +143,27 @@ export function HomeHero() {
         {/* The total line: the action this page exists to produce. */}
         <div className="mt-10 flex flex-col gap-x-8 gap-y-4 border-t-2 border-rule-strong pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-[46ch] font-sans text-base text-paper-dim">
-            Escribo sobre lo que rompe en producción y cómo se arregla.
+            Escribo sobre lo que rompe en producción y publico el podcast semanal{" "}
+            <strong className="font-medium text-paper">Vía La Web</strong>.
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <Link
-              href="#newsletter"
-              onClick={() => trackCTAClick("Suscribirse", "primary", "home-hero")}
+              href="https://blog.carrillo.app/podcast"
+              target="_blank"
+              rel="noopener"
+              onClick={() => trackCTAClick("Podcast", "secondary", "home-hero")}
               className="cta"
             >
-              Suscribirse al boletín
+              Escuchar podcast
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link
+              href="#newsletter"
+              onClick={() => trackCTAClick("Suscribirse", "primary", "home-hero")}
+              className="cta-quiet"
+            >
+              Boletín
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
             <CvDownloadButton source="home-hero" />
             <Link

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "carrillo-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-09",
+  "routes": [
+    {
+      "pattern": "api.carrillo.app",
+      "custom_domain": true
+    }
+  ]
+}

@@ -24,6 +24,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare wrangler
+.wrangler
+
 # testing
 /coverage
 /playwright-report

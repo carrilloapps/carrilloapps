@@ -41,6 +41,13 @@ export function blogSubscribeUrl(email?: string): string {
 
 const FEED_URL = `${BLOG_URL}/feed`
 
+/** Dedicated podcast feed URL */
+export const PODCAST_FEED_URL = "https://api.substack.com/feed/podcast/8955345.rss"
+
+/** Channel fallback artwork when an episode doesn't declare a specific plate */
+export const PODCAST_CHANNEL_IMAGE =
+  "https://substackcdn.com/feed/podcast/8955345/55c8501107b158e43ffbaf5f14b43c92.jpg"
+
 /**
  * What Substack's RSS actually serves — the ceiling on every register here.
  *
@@ -71,6 +78,59 @@ export interface SubstackPost {
   readingTime: number | null
   /** First couple of sentences, tags stripped. Empty when the feed has none. */
   excerpt: string
+  isPodcast?: boolean
+  audioUrl?: string | null
+}
+
+interface PodcastEpisodeMeta {
+  image: string
+  audioUrl: string | null
+}
+
+/**
+ * Extracts podcast episode artworks from the dedicated podcast RSS feed.
+ * Substack's general blog feed omits the episode cover image and uses `<enclosure>`
+ * for the .mp3 audio file, so matching `<enclosure>` directly resulted in setting
+ * an audio file as an <img> source. This map resolves the real artwork per episode.
+ */
+async function getPodcastMetadataMap(): Promise<Map<string, PodcastEpisodeMeta>> {
+  const map = new Map<string, PodcastEpisodeMeta>()
+  try {
+    const res = await fetch(PODCAST_FEED_URL, { next: { revalidate: 1800 } })
+    if (!res.ok) return map
+
+    const xml = await res.text()
+    let cursor = 0
+    while (true) {
+      const start = xml.indexOf("<item>", cursor)
+      if (start === -1) break
+      const end = xml.indexOf("</item>", start)
+      if (end === -1) break
+      const item = xml.slice(start + 6, end)
+      cursor = end + 7
+
+      const guidMatch = item.match(/<guid[^>]*>(.*?)<\/guid>/)
+      const itunesImgMatch = item.match(/<itunes:image\s+href="([^"]+)"/)
+      const titleMatch = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)
+      const enclosureMatch = item.match(/<enclosure\s[^>]*url="([^"]+)"[^>]*type="audio\/[^"]*"/)
+
+      const image = itunesImgMatch?.[1] || PODCAST_CHANNEL_IMAGE
+      const audioUrl = enclosureMatch?.[1] || null
+
+      const meta: PodcastEpisodeMeta = { image, audioUrl }
+
+      if (guidMatch) {
+        const postId = guidMatch[1].replace(/.*:/, "").trim()
+        map.set(postId, meta)
+      }
+      if (titleMatch) {
+        map.set(titleMatch[1].trim(), meta)
+      }
+    }
+  } catch {
+    // If podcast feed is temporarily unreachable, returns empty map and falls back gracefully
+  }
+  return map
 }
 
 function between(str: string, open: string, close: string): string {
@@ -159,7 +219,10 @@ function estimateReadingTime(html: string): number {
  */
 export async function getSubstackPosts(limit = 4): Promise<SubstackPost[]> {
   try {
-    const res = await fetch(FEED_URL, { next: { revalidate: 1800 } })
+    const [res, podcastMap] = await Promise.all([
+      fetch(FEED_URL, { next: { revalidate: 1800 } }),
+      getPodcastMetadataMap(),
+    ])
     if (!res.ok) return []
 
     const xml = await res.text()
@@ -182,10 +245,30 @@ export async function getSubstackPosts(limit = 4): Promise<SubstackPost[]> {
       const pubDateRaw = between(item, "<pubDate>", "</pubDate>")
 
       const enclosureMatch = item.match(/<enclosure\s[^>]*>/) ?? item.match(/<enclosure\s[^>]*\/>/)
+      const enclosureTag = enclosureMatch?.[0] ?? ""
+      const enclosureType = extractAttr(enclosureTag, "type")
+      const enclosureUrl = extractAttr(enclosureTag, "url")
+      const isAudio = enclosureType.startsWith("audio/")
+
       const mediaMatch =
         item.match(/<media:content\s[^>]*>/) ?? item.match(/<media:content\s[^>]*\/>/)
-      const imgTag = enclosureMatch?.[0] ?? mediaMatch?.[0] ?? ""
-      const thumbnail = imgTag ? extractAttr(imgTag, "url") || null : null
+      const mediaTag = mediaMatch?.[0] ?? ""
+      const imgTag = !isAudio && enclosureTag ? enclosureTag : mediaTag
+
+      // Check if this item is a podcast episode
+      const postIdMatch =
+        (enclosureUrl || url).match(/post\/(\d+)/) ||
+        (enclosureUrl || url).match(/\/(\d+)\/[a-f0-9]+/)
+      const postId = postIdMatch?.[1]
+      const podcastMeta = (postId ? podcastMap.get(postId) : null) || podcastMap.get(title.trim())
+      const isPodcast = isAudio || !!podcastMeta
+
+      let thumbnail: string | null = null
+      if (isPodcast) {
+        thumbnail = podcastMeta?.image || PODCAST_CHANNEL_IMAGE
+      } else {
+        thumbnail = imgTag ? extractAttr(imgTag, "url") || null : null
+      }
 
       const content = stripCdata(
         between(item, "<content:encoded>", "</content:encoded>") ||
@@ -206,9 +289,11 @@ export async function getSubstackPosts(limit = 4): Promise<SubstackPost[]> {
         url: url || FEED_URL,
         pubDate: pubDateRaw ? new Date(pubDateRaw).toISOString() : new Date().toISOString(),
         thumbnail: thumbnail || null,
-        thumbnailAlt: title || "Artículo",
+        thumbnailAlt: title || (isPodcast ? "Episodio de podcast" : "Artículo"),
         readingTime: content ? estimateReadingTime(content) : null,
         excerpt: summary ? toExcerpt(summary) : "",
+        isPodcast,
+        audioUrl: isPodcast ? enclosureUrl || podcastMeta?.audioUrl || null : null,
       })
     }
 

@@ -237,7 +237,7 @@ function LeadEntry({ post }: { post: SubstackPost }) {
             </p>
           ) : null}
           <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase transition-colors group-hover:text-stamp-text">
-            Leer en Substack
+            {post.isPodcast ? "Escuchar episodio" : "Leer en Substack"}
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </span>
         </div>
@@ -295,7 +295,11 @@ function Meta({ post, className = "" }: { post: SubstackPost; className?: string
       className={`flex items-baseline gap-6 font-mono text-[11px] tracking-[0.1em] text-paper-faint uppercase md:whitespace-nowrap ${className}`.trim()}
     >
       <time dateTime={post.pubDate}>{formatDateES(post.pubDate)}</time>
-      {post.readingTime ? <span className="tabular-nums">{post.readingTime} min</span> : null}
+      {post.isPodcast ? (
+        <span className="text-stamp-text">Podcast</span>
+      ) : post.readingTime ? (
+        <span className="tabular-nums">{post.readingTime} min</span>
+      ) : null}
     </div>
   )
 }
